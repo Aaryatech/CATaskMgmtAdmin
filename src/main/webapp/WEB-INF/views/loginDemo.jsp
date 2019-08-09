@@ -39,31 +39,34 @@
 
 		<div class="white-panel">
 			<div class="login-show">
-				<h2>LOGIN</h2>
-				<input type="text" placeholder="Email" style="border-radius: 5px">
-				<input type="password" placeholder="Password" id="password" name="password"
-					style="border-radius: 5px">  <input type="checkbox" 
-					onclick="myFunction()"><font color="white">Show Password</font> 
-					<br><br>
-					<input type="button"
-					value="Login">
-					<a href="">Forgot
-					password?</a>
+
+				<form action="${pageContext.request.contextPath}/dashboard">
+
+					<h2>LOGIN</h2>
+					<input type="text" placeholder="Email" style="border-radius: 5px">
+					<input type="password" placeholder="Password" id="password"
+						name="password" style="border-radius: 5px"> <input
+						type="checkbox" onclick="myFunction()"><font color="white">Show
+						Password</font> <br> <br> <input type="submit" value="Login"
+						> <a
+						href="">Forgot password?</a>
+
+				</form>
 			</div>
-			
+
 		</div>
 	</div>
 
 
-<script>
-function myFunction() {
-	  var x = document.getElementById("password");
-	  if (x.type === "password") {
-	    x.type = "text";
-	  } else {
-	    x.type = "password";
-	  }
-	} 
+	<script>
+		function myFunction() {
+			var x = document.getElementById("password");
+			if (x.type === "password") {
+				x.type = "text";
+			} else {
+				x.type = "password";
+			}
+		}
 	</script>
 
 	<script type="text/javascript"
