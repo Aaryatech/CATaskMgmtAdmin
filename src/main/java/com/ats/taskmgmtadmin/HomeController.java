@@ -128,13 +128,24 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/taskPeriodicityAdd", method = RequestMethod.GET)
-	public ModelAndView taskPeriodicityAddForm(Locale locale, Model model) {
+	@RequestMapping(value = "/taskPeriodicityList", method = RequestMethod.GET)
+	public ModelAndView taskPeriodicityListForm(Locale locale, Model model) {
 
-		ModelAndView mav = new ModelAndView("master/taskPeriodicityAdd");
+		ModelAndView mav = new ModelAndView("task/taskPeriodicityList");
 
 		return mav;
 	}
+
+	@RequestMapping(value = "/taskPeriodicityAdd", method = RequestMethod.GET)
+	public ModelAndView taskPeriodicityAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("task/taskPeriodicityAdd");
+
+		return mav;
+	}
+
+	
+	
 	
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
 	public ModelAndView employeeListForm(Locale locale, Model model) {
@@ -148,6 +159,32 @@ public class HomeController {
 	public ModelAndView employeeAddForm(Locale locale, Model model) {
 
 		ModelAndView mav = new ModelAndView("master/employeeAdd");
+
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
+	public ModelAndView customerGroupListForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("master/customerGroupList");
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
+	public ModelAndView customerGroupAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("master/customerGroupAdd");
+
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/customerActivityAddMap", method = RequestMethod.GET)
+	public ModelAndView customerActivityAddMapForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("master/customerActivityAddMap");
 
 		return mav;
 	}

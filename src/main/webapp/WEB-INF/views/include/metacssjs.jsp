@@ -92,11 +92,24 @@
 <script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/form_dual_listboxes.js"></script>
 	<!-- /theme JS files -->
 	
+	
+	
 	<script>
 	 // Export options - column selector
     
 	 
 	</script> 
 	<!-- /theme JS files -->
+	
+	
+	<script src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/extra_sweetalert.js"></script>
+	
+	
+	
+	
+
+	
+	
+	
 
  

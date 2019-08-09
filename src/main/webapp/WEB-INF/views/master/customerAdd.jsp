@@ -115,6 +115,7 @@
 								<form action="${pageContext.request.contextPath}/customerList"
 									id="submitInsertClient">
 
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
 											Name <span style="color: red">* </span>:
@@ -122,7 +123,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Firm Name" id="firmName" name="firmName"
-												autocomplete="off" onchange="trim(this)">
+												autocomplete="off" onchange="trim(this)" required>
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_firmName"
@@ -141,7 +142,7 @@
 												placeholder="Enter Assessee Name" id="assesseeName"
 												name="assesseeName" autocomplete="off" onchange="trim(this)">
 										</div>
-
+										<div class="col-lg-3"></div>
 
 									</div>
 
@@ -200,6 +201,7 @@
 												</c:forEach> --%>
 											</select>
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 									<div class="form-group row">
@@ -211,16 +213,16 @@
 												name="clientGroup" autocomplete="off" onchange="trim(this)">
 
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="dob">Date of Birth
-										 <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-3" for="dob">Date
+											of Birth <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
-												name="dob" id="dob"
-												placeholder="Date of Birth">
+												name="dob" id="dob" placeholder="Date of Birth">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
@@ -283,6 +285,7 @@
 												placeholder="Enter Address" id="address2" name="address2"
 												autocomplete="off" onchange="trim(this)">
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 									<div class="form-group row">
@@ -325,6 +328,7 @@
 												placeholder="Enter Nature of Business" id="business"
 												name="business" autocomplete="off" onchange="trim(this)">
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 
@@ -356,6 +360,7 @@
 												placeholder="Enter File Path" id="filePath" name="filePath"
 												autocomplete="off" onchange="trim(this)">
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 
@@ -367,6 +372,7 @@
 												placeholder="Enter File No." id="fileNo" name="fileNo"
 												autocomplete="off" onchange="trim(this)">
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 									<div class="form-group row">
@@ -394,6 +400,7 @@
 											</select>
 
 										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 
@@ -542,8 +549,8 @@
 						});
 		//
 	</script>
-	
-	
+
+
 	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({

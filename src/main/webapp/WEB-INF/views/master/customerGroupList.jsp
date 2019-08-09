@@ -65,12 +65,12 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee</h5></td>
+								<td width="60%"><h5 class="card-title">Customer Group</h5></td>
 								<td width="40%" align="right"><a
-									href="${pageContext.request.contextPath}/employeeAdd"
+									href="${pageContext.request.contextPath}/customerGroupAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
-											Employee</button>
+											Group</button>
 								</a></td>
 							</tr>
 						</table>
@@ -119,28 +119,14 @@
 							<thead>
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Image</th>
 									<th>Name</th>
-									<th>Type</th>
-									<th>Date of Birth</th>
-									<th>Email</th>
-									<th>Password</th>
-									<th>Contact No.</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
 
 							<tr>
 								<td>1</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
 								<td>ABC</td>
-								<td>Owner</td>
-								<td>15/08/1990</td>
-								<td>abc@gmail.com</td>
-								<td>abc123</td>
-								<td>9898989898</td>
 
 								<td class="text-center">
 									<div class="list-icons">
@@ -164,15 +150,7 @@
 
 							<tr>
 								<td>2</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
 								<td>XYZ</td>
-								<td>Manager</td>
-								<td>10/05/1988</td>
-								<td>xyz@gmail.com</td>
-								<td>xyz123</td>
-								<td>9898989898</td>
 
 								<td class="text-center">
 									<div class="list-icons">
@@ -196,15 +174,8 @@
 
 							<tr>
 								<td>3</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
 								<td>PQR</td>
-								<td>Employee</td>
-								<td>25/12/1988</td>
-								<td>pqr@gmail.com</td>
-								<td>pqr123</td>
-								<td>9898989898</td>
+
 
 								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> <a href=""

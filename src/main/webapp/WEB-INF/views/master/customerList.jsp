@@ -6,6 +6,8 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+
+
 </head>
 
 <body>
@@ -34,9 +36,9 @@
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="index.html" class="breadcrumb-item"><i
+							<a href="#" class="breadcrumb-item"><i
 								class="icon-home2 mr-2"></i> Home</a> <span
-								class="breadcrumb-item active">Dashboard</span>
+								class="breadcrumb-item active"></span>
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i
@@ -153,7 +155,7 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
 												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
 												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
 											</div>
@@ -183,7 +185,7 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
 												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
 												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
 											</div>
@@ -219,7 +221,7 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
 												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
 												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
 											</div>

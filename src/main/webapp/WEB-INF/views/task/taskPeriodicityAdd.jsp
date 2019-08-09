@@ -5,6 +5,7 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+
 </head>
 
 <body>
@@ -35,7 +36,7 @@
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="#" class="breadcrumb-item"><i
+							<a href="index.html" class="breadcrumb-item"><i
 								class="icon-home2 mr-2"></i> Home</a> <span
 								class="breadcrumb-item active"></span>
 						</div>
@@ -66,7 +67,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Employee</h6>
+								<h6 class="card-title">Add Task Periodicity</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -112,56 +113,50 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/employeeList"
-									id="submitInsertClient">
+								<form action="#" id="submitInsertClient">
+
+									<legend
+										class="font-weight-semibold text-uppercase font-size-sm">Excel
+										Upload </legend>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="profilePic">
-											Profile Pic :</label>
-										<div class="col-lg-6">
-											<div class="input-group-btn  ">
-
-												<span class="filename" style="user-select: none1;"><img
-													id="temppreviewimageki1" name="image1"
-													class="temppreviewimageki1" alt="l"
-													style="width: 200px; height: auto; display: none"> </span>
-												<!-- image-preview-clear button -->
-												<button type="button" title="Clear selected files"
-													class="btn btn-default btn-secondary fileinput-remove fileinput-remove-button legitRipple image-preview-clear image-preview-clear1"
-													id="1" style="display: none;">
-													<i class="icon-cross2 font-size-base mr-2"></i> Clear
-												</button>
-
-												<div class="btn btn-primary btn-file legitRipple">
-													<i class="icon-file-plus"></i> <span class="hidden-xs">Browse</span><input
-														type="file" class="file-input browseimage browseimage1"
-														data-fouc="" id="1" name="profilePic"
-														accept=".jpg,.png,.gif">
-												</div>
-											</div>
-
-
-										</div>
-
-										<div class="col-lg-3"></div>
-									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="empType">Type
-											<span style="color: red">* </span>:
+										<label class="col-form-label col-lg-3"> Excel Upload <span
+											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<select name="empType"
-												data-placeholder="Select Employee Type" id="empType"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
+											<input type="file" class="btn  legitRipple">
+										</div>
+										<div class="col-lg-3">
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn">
+												Upload <i class="icon-upload ml-2"></i>
+											</button>
+										</div>
 
-												<option value="1">Select Employee Type</option>
-												<option value="2">Admin</option>
-												<option value="3">Partner</option>
-												<option value="4">Manager</option>
-												<option value="4">Team Lead</option>
-												<option value="4">Employee</option>
+
+									</div>
+
+
+									<legend
+										class="font-weight-semibold text-uppercase font-size-sm">Generate Excel
+										 </legend>
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="finYear">Financial
+											Year <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<select name="assesseeType"
+												data-placeholder="Select Financial Year" id="finYear"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												aria-hidden="true">
+
+												<option value="1">Select Financial Year</option>
+												<option value="2">2018-2019</option>
+												<option value="3">2019-2020</option>
+												<option value="4">2020-2021</option>
+												<option value="5">2021-2022</option>
 
 
 												<%-- <c:forEach items="${locationList}" var="locationList">
@@ -170,7 +165,35 @@
 											</select>
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_empType"
+											<span class="validation-invalid-label" id="error_finYear"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="service">
+											Service : </label>
+										<div class="col-lg-6">
+											<select name="service" data-placeholder="Select Service"
+												id="service"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select Service</option>
+												<option value="2">Income Tax</option>
+												<option value="3">TDS</option>
+												<option value="4">GST</option>
+
+
+												<c:forEach items="${locationList}" var="locationList">
+													<option value="${locationList.locId}">${locationList.locName}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_service"
 												style="display: none;">This field is required.</span>
 										</div>
 
@@ -179,16 +202,26 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="empName">
-											Name <span style="color: red">* </span>:
-										</label>
+										<label class="col-form-label col-lg-3" for="activity">
+											Activity : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Name" id="empName" name="empName"
-												autocomplete="off" onchange="trim(this)">
+											<select name="activity" data-placeholder="Select Activity"
+												id="activity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select Activity</option>
+												<option value="2">Return Filing</option>
+												<option value="3">Revised Return Filing</option>
+												<option value="4">Tax Payment</option>
+
+												<c:forEach items="${locationList}" var="locationList">
+													<option value="${locationList.locId}">${locationList.locName}</option>
+												</c:forEach>
+											</select>
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_empName"
+											<span class="validation-invalid-label" id="error_activity"
 												style="display: none;">This field is required.</span>
 										</div>
 
@@ -196,81 +229,41 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="dob">Date
-											of Birth <span style="color: red">* </span>:
-										</label>
+
+										<label class="col-form-label col-lg-3" for="periodicity">
+											Periodicity : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												placeholder="Enter Date of Birth" id="dob" name="dob"
-												autocomplete="off" onchange="trim(this)">
+											<select name="periodicity"
+												data-placeholder="Select Periodicity" id="periodicity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select Periodicity</option>
+												<option value="2">Yearly</option>
+												<option value="3">Monthly</option>
+												<option value="4">Weekly</option>
+
+												<c:forEach items="${locationList}" var="locationList">
+													<option value="${locationList.locId}">${locationList.locName}</option>
+												</c:forEach>
+											</select>
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_dob"
+											<span class="validation-invalid-label" id="error_periodicity"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
 
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="phone">Contact
-											Number <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Contact Number" id="phone" name="phone"
-												autocomplete="off"
-												oninput="validateMobileEnterOnlyDigits(this)" maxlength="10">
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_phone"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="email">Email
-											<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Email Address" id="email" name="email"
-												autocomplete="off" onchange="trim(this)">
-
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_email"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="pwd">Password
-											<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control" name="pwd" id="pwd"
-												placeholder="Enter Password">
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_pwd"
-												style="display: none;">This field is required.</span>
-										</div>
 									</div>
 
 
 									<div class="form-group row mb-0">
-										<div class="col-lg-10 ml-lg-auto">
+										<div class="col-lg-12 ml-lg-auto" align="center">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
+												Generate Excel <i class="icon-file-excel ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showCompanyList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
+											
 										</div>
 									</div>
 								</form>
@@ -307,54 +300,44 @@
 				var isError = false;
 				var errMsg = "";
 
-				if ($("#empType").val() == 1) {
+				if ($("#finYear").val() == 1) {
 
 					isError = true;
 
-					$("#error_empType").show()
+					$("#error_finYear").show()
 					//return false;
 				} else {
-					$("#error_empType").hide()
+					$("#error_finYear").hide()
 				}
 
-				if (!$("#empName").val()) {
+				if ($("#service").val() == 1) {
 
 					isError = true;
 
-					$("#error_empName").show()
+					$("#error_service").show()
 
 				} else {
-					$("#error_empName").hide()
+					$("#error_service").hide()
 				}
 
-				if (!$("#email").val() || !validateEmail($("#email").val())) {
+				if ($("#activity").val() == 1) {
 
 					isError = true;
 
-					$("#error_email").show()
+					$("#error_activity").show()
 
 				} else {
-					$("#error_email").hide()
+					$("#error_activity").hide()
 				}
 
-				if (!$("#phone").val() || !validateMobile($("#phone").val())) {
+				if ($("#periodicity").val() == 1) {
 
 					isError = true;
 
-					$("#error_phone").show()
+					$("#error_periodicity").show()
 
 				} else {
-					$("#error_phone").hide()
-				}
-
-				if (!$("#pwd").val()) {
-
-					isError = true;
-
-					$("#error_pwd").show()
-
-				} else {
-					$("#error_pwd").hide()
+					$("#error_periodicity").hide()
 				}
 
 				if (!isError) {
