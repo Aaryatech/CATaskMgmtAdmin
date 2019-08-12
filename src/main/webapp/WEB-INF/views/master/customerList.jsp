@@ -68,7 +68,8 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Customer And Activity Mapping</h5></td>
+								<td width="60%"><h5 class="card-title">Customer And
+										Activity Mapping</h5></td>
 								<td width="40%" align="right"><a
 									href="${pageContext.request.contextPath}/customerAdd"
 									class="breadcrumb-elements-item">
@@ -124,12 +125,10 @@
 									<th width="10%">Sr.no</th>
 									<th>Firm Name</th>
 									<th>Customer Group</th>
-									<th>Assesse Type</th>
 									<th>Assesse Name</th>
 									<th>PAN No.</th>
 									<th>Email</th>
 									<th>Contact</th>
-									<th>Address</th>
 									<th>Owner Partner</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
@@ -139,14 +138,12 @@
 								<td>1</td>
 								<td>ABC</td>
 								<td>ABC group</td>
-								<td>Individual</td>
 								<td>AAA</td>
 								<td>ABCDE1234T</td>
 								<td>abc@gmail.com</td>
 								<td>9898989898</td>
-								<td>Nashik</td>
 								<td>Prakash</td>
-								
+
 								<td class="text-center">
 									<div class="list-icons">
 										<div class="dropdown">
@@ -155,26 +152,29 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
-												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
+												<a
+													href="${pageContext.request.contextPath}/customerActivityAddMap"
+													class="dropdown-item"><i class="icon-add"></i> Map
+													Activity</a> <a href="#" class="dropdown-item"><i
+													class="icon-database-edit2"></i> Edit</a> <a href="#"
+													class="dropdown-item"
+													onClick="return confirm('Are you sure want to delete this record');"><i
+													class="icon-trash"></i> Delete</a>
 											</div>
 										</div>
 									</div>
 								</td>
-								
+
 							</tr>
 
 							<tr>
 								<td>2</td>
 								<td>PQR</td>
 								<td>PQR group</td>
-								<td>Individual</td>
 								<td>AAA</td>
 								<td>ABCDE1234T</td>
 								<td>abc@gmail.com</td>
 								<td>9898989898</td>
-								<td>Nashik</td>
 								<td>Prakash</td>
 
 								<td class="text-center">
@@ -185,26 +185,29 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
-												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
+												<a
+													href="${pageContext.request.contextPath}/customerActivityAddMap"
+													class="dropdown-item"><i class="icon-add"></i> Map
+													Activity</a> <a href="#" class="dropdown-item"><i
+													class="icon-database-edit2"></i> Edit</a> <a href="#"
+													class="dropdown-item"
+													onClick="return confirm('Are you sure want to delete this record');"><i
+													class="icon-trash"></i> Delete</a>
 											</div>
 										</div>
 									</div>
 								</td>
-								
+
 							</tr>
 
 							<tr>
 								<td>3</td>
 								<td>XYZ</td>
 								<td>XYZ group</td>
-								<td>Individual</td>
 								<td>AAA</td>
 								<td>ABCDE1234T</td>
 								<td>abc@gmail.com</td>
 								<td>9898989898</td>
-								<td>Nashik</td>
 								<td>Prakash</td>
 
 								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
@@ -212,7 +215,7 @@
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td> -->
-								
+
 								<td class="text-center">
 									<div class="list-icons">
 										<div class="dropdown">
@@ -221,14 +224,19 @@
 											</a>
 
 											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/customerActivityAddMap" class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-												<a href="#" class="dropdown-item"><i class="icon-database-edit2"></i> Edit</a>
-												<a href="#" class="dropdown-item" onClick="return confirm('Are you sure want to delete this record');"><i class="icon-trash"></i> Delete</a>
+												<a
+													href="${pageContext.request.contextPath}/customerActivityAddMap"
+													class="dropdown-item"><i class="icon-add"></i> Map
+													Activity</a> <a href="#" class="dropdown-item"><i
+													class="icon-database-edit2"></i> Edit</a> <a href="#"
+													class="dropdown-item"
+													onClick="return confirm('Are you sure want to delete this record');"><i
+													class="icon-trash"></i> Delete</a>
 											</div>
 										</div>
 									</div>
 								</td>
-								
+
 							</tr>
 
 							<tbody>

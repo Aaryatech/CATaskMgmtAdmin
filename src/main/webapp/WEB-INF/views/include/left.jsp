@@ -100,38 +100,60 @@
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
 
 						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/employeeList"
-							class="nav-link">Employee</a></li>
+							href="${pageContext.request.contextPath}/serviceList"
+							class="nav-link">Service Master</a></li>
 
 						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/serviceList"
-							class="nav-link">Service</a></li>
-						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/activity"
-							class="nav-link">Activity</a></li>
+							class="nav-link">Activity Master</a></li>
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/employeeList"
+							class="nav-link">Employee Master</a></li>
 
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/customerGroupList"
-							class="nav-link">Customer Group</a></li>
+							class="nav-link">Customer Group Master</a></li>
 
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/customerList"
-							class="nav-link">Customer And Activity Mapping</a></li>
+							class="nav-link">Customer - Activity Mapping</a></li>
 
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/customerDetailList"
-							class="nav-link">Customer Detail Information</a></li>
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/assignTask"
-							class="nav-link">Assign Task</a></li>
+							class="nav-link">Customer Login & Signatory</a></li>
+
 
 					</ul></li>
 
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Task
+							Allotment</span></a>
 
-				<li class="nav-item"><a
+					<ul class="nav nav-group-sub" data-submenu-title="Master">
+
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/assignTask"
+							class="nav-link">Assign Task</a></li>
+					</ul></li>
+
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>
+							Leave Management </span></a>
+
+					<ul class="nav nav-group-sub" data-submenu-title="Master">
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showEmpListForLeave"
+							class="nav-link">Apply Leave</a></li>
+
+					</ul></li>
+
+				<%-- 	<li class="nav-item"><a
 					href="${pageContext.request.contextPath}/taskPeriodicityList"
 					class="nav-link"><i class="icon-file-text2"></i> <span>
-							Task Periodicity </span></a></li>
+							Task Periodicity </span></a></li> --%>
 
 
 				<%-- <li class="nav-item nav-item-submenu"><a href="#"

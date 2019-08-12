@@ -227,6 +227,23 @@
 										</div>
 									</div>
 
+									<div class="form-group row">
+
+										<label class="col-form-label col-lg-3" for="empName">
+											Salary Per Month <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												placeholder="Salary Per Month" id="empName" name="empName"
+												autocomplete="off" onchange="trim(this)">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_empName"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
+
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="email">Email

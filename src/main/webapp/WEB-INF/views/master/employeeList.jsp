@@ -119,12 +119,11 @@
 							<thead>
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Image</th>
-									<th>Name</th>
-									<th>Type</th>
+									<th>Profile Pic</th>
+									<th>Employee Name</th>
+									<th>Employee Type</th>
 									<th>Date of Birth</th>
-									<th>Email</th>
-									<th>Password</th>
+									<th>Official Email Id</th>
 									<th>Contact No.</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
@@ -139,26 +138,13 @@
 								<td>Owner</td>
 								<td>15/08/1990</td>
 								<td>abc@gmail.com</td>
-								<td>abc123</td>
 								<td>9898989898</td>
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
@@ -171,26 +157,13 @@
 								<td>Manager</td>
 								<td>10/05/1988</td>
 								<td>xyz@gmail.com</td>
-								<td>xyz123</td>
 								<td>9898989898</td>
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
@@ -203,7 +176,6 @@
 								<td>Employee</td>
 								<td>25/12/1988</td>
 								<td>pqr@gmail.com</td>
-								<td>pqr123</td>
 								<td>9898989898</td>
 
 								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
@@ -212,23 +184,11 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td> -->
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
@@ -275,18 +235,18 @@
 
 		</div>
 		<!-- /main content -->
-		
-		
-		
+
+
+
 		<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
+			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
-		
-		
-		
-		
-		
+
+
+
+
+
 
 	</div>
 	<!-- /page content -->

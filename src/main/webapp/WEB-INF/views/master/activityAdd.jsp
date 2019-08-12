@@ -120,17 +120,9 @@
 										<label class="col-form-label col-lg-3" for="service">
 											Service : </label>
 										<div class="col-lg-6">
-											<select name="service" data-placeholder="Select Service"
-												id="service"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true" disabled="disabled">
-
-												<option value="">Select Service</option>
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
-											</select>
+											<input type="text" class="form-control"
+												placeholder="Service Name" id="serviceName"
+												name="serviceName" autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
 
@@ -163,12 +155,31 @@
 										</div>
 									</div>
 
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="serviceDesc">
+											Periodicity : </label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												placeholder="Periodicity" id="activityDesc"
+												name="activityDesc" autocomplete="off" onchange="trim(this)">
+										</div>
+									</div>
+
 
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
-											<button type="button" class="btn btn-primary">Add</button>
-
+											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn">
+												Submit <i class="icon-paperplane ml-2"></i>
+											</button>
+											&nbsp; <a
+												href="${pageContext.request.contextPath}/showCompanyList"><button
+													type="button" class="btn btn-primary">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Cancel
+												</button></a>
 										</div>
 									</div>
 
@@ -182,14 +193,16 @@
 													<th width="10%">Sr.no</th>
 													<th>Activity Name</th>
 													<th>Description</th>
+													<th>Periodicity</th>
 													<th class="text-center" width="10%">Actions</th>
 												</tr>
 											</thead>
 
 											<tr>
 												<td>1</td>
-												<td>Return Filing </td>
-												<td>Return Filing </td>
+												<td>Return Filing</td>
+												<td>Return Filing</td>
+												<td>Return Filing</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -201,6 +214,7 @@
 												<td>2</td>
 												<td>Revised Return Filing</td>
 												<td>Revised Return Filing</td>
+												<td>Return Filing</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -212,6 +226,7 @@
 												<td>3</td>
 												<td>Tax Payment</td>
 												<td>Tax Payment</td>
+												<td>Return Filing</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -243,25 +258,6 @@
 							</tbody> --%>
 										</table>
 									</div>
-
-
-									<div class="form-group row mb-0">
-										<div class="col-lg-12" align="center">
-											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
-											&nbsp; <a
-												href="${pageContext.request.contextPath}/showCompanyList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
-										</div>
-									</div>
-
-
 
 								</form>
 							</div>

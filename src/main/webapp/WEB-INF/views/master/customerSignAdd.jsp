@@ -221,8 +221,17 @@
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
-											<button type="button" class="btn btn-primary">Add</button>
-
+											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn">
+												Submit <i class="icon-paperplane ml-2"></i>
+											</button>
+											&nbsp; <a
+												href="${pageContext.request.contextPath}/showCompanyList"><button
+													type="button" class="btn btn-primary">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Cancel
+												</button></a>
 										</div>
 									</div>
 
@@ -270,7 +279,9 @@
 											<td>123123</td>
 											<td>Head</td>
 											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile : 8585858585</td>
+											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
+												: 8585858585
+											</td>
 
 											<td class="text-center">
 												<div class="list-icons">
@@ -297,7 +308,9 @@
 											<td>123123</td>
 											<td>Head</td>
 											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile : 8585858585</td>
+											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
+												: 8585858585
+											</td>
 
 
 
@@ -327,7 +340,9 @@
 											<td>123123</td>
 											<td>Head</td>
 											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile : 8585858585</td>
+											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
+												: 8585858585
+											</td>
 
 
 											<td class="text-center">
@@ -359,27 +374,6 @@
 
 										</tbody>
 									</table>
-
-
-
-
-									<div class="form-group row mb-0">
-										<div class="col-lg-12" align="center">
-											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
-											&nbsp; <a
-												href="${pageContext.request.contextPath}/showCompanyList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
-										</div>
-									</div>
-
-
 
 
 								</form>

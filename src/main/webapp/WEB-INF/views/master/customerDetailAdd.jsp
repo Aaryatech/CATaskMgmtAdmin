@@ -224,13 +224,20 @@
 												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
-
-
-
+ 
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
-											<button type="button" class="btn btn-primary">Add</button>
-
+											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn">
+												Submit <i class="icon-paperplane ml-2"></i>
+											</button>
+											&nbsp; <a
+												href="${pageContext.request.contextPath}/showCompanyList"><button
+													type="button" class="btn btn-primary">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Cancel
+												</button></a>
 										</div>
 									</div>
 
@@ -370,27 +377,6 @@
 
 										</tbody>
 									</table>
-
-
-
-
-									<div class="form-group row mb-0">
-										<div class="col-lg-12" align="center">
-											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
-											&nbsp; <a
-												href="${pageContext.request.contextPath}/showCompanyList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
-										</div>
-									</div>
-
-
 
 
 								</form>

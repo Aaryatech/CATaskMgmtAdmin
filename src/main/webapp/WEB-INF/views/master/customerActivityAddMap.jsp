@@ -258,29 +258,14 @@
 									</div>
 
 
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="startDays">Start
-											Days <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-3" for="startDays">
+											Statutory End Days <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Start Days" id="startDays"
-												name="startDays" autocomplete="off" onchange="trim(this)">
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_startDays"
-												style="display: none;">This field is required.</span>
-										</div>
-
-									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="startDays">End
-											Days <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter End Days" id="endDays" name="endDays"
+												placeholder="Statutory End Days" id="endDays" name="endDays"
 												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -383,133 +368,125 @@
 
 
 	<script>
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitInsertClient")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#submitInsertClient").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												if ($("#service").val() == 1) {
+				if ($("#service").val() == 1) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_service").show()
-													//return false;
-												} else {
-													$("#error_service").hide()
-												}
+					$("#error_service").show()
+					//return false;
+				} else {
+					$("#error_service").hide()
+				}
 
-												if ($("#activity").val() == "") {
+				if ($("#activity").val() == "") {
 
-													isError = true;
+					isError = true;
 
-													$("#error_activity").show()
+					$("#error_activity").show()
 
-												} else {
-													$("#error_activity").hide()
-												}
+				} else {
+					$("#error_activity").hide()
+				}
 
-												if ($("#periodicity").val()==1
-														) {
+				if ($("#periodicity").val() == 1) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_periodicity").show()
+					$("#error_periodicity").show()
 
-												} else {
-													$("#error_periodicity").hide()
-												}
+				} else {
+					$("#error_periodicity").hide()
+				}
 
-												if (!$("#startDate").val()
-														) {
+				if (!$("#startDate").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_startDate").show()
+					$("#error_startDate").show()
 
-												} else {
-													$("#error_startDate").hide()
-												}
+				} else {
+					$("#error_startDate").hide()
+				}
 
-												if (!$("#endDate").val()) {
+				if (!$("#endDate").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_endDate").show()
+					$("#error_endDate").show()
 
-												} else {
-													$("#error_endDate").hide()
-												}
+				} else {
+					$("#error_endDate").hide()
+				}
 
-												if (!$("#startDays").val()) {
+				if (!$("#startDays").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_startDays").show()
+					$("#error_startDays").show()
 
-												} else {
-													$("#error_startDays").hide()
-												}
+				} else {
+					$("#error_startDays").hide()
+				}
 
-												if (!$("#endDays").val()) {
+				if (!$("#endDays").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_endDays").show()
+					$("#error_endDays").show()
 
-												} else {
-													$("#error_endDays").hide()
-												}
-												
-												if (!$("#mgBudgetHr").val()) {
+				} else {
+					$("#error_endDays").hide()
+				}
 
-													isError = true;
+				if (!$("#mgBudgetHr").val()) {
 
-													$("#error_mgBudgetHr").show()
+					isError = true;
 
-												} else {
-													$("#error_mgBudgetHr").hide()
-												}
-												
-												
-												if (!$("#empBudgetHr").val()) {
+					$("#error_mgBudgetHr").show()
 
-													isError = true;
+				} else {
+					$("#error_mgBudgetHr").hide()
+				}
 
-													$("#error_empBudgetHr").show()
+				if (!$("#empBudgetHr").val()) {
 
-												} else {
-													$("#error_empBudgetHr").hide()
-												}
-												
-												if (!$("#billAmt").val()) {
+					isError = true;
 
-													isError = true;
+					$("#error_empBudgetHr").show()
 
-													$("#error_billAmt").show()
+				} else {
+					$("#error_empBudgetHr").hide()
+				}
 
-												} else {
-													$("#error_billAmt").hide()
-												}
+				if (!$("#billAmt").val()) {
 
-												if (!isError) {
+					isError = true;
 
-													var x = true;
-													if (x == true) {
+					$("#error_billAmt").show()
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+				} else {
+					$("#error_billAmt").hide()
+				}
+
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
 	</script>
 

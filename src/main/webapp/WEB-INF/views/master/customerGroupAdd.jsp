@@ -112,7 +112,8 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/customerGroupList"
+								<form
+									action="${pageContext.request.contextPath}/customerGroupList"
 									id="submitInsertClient">
 
 
@@ -126,6 +127,19 @@
 											<input type="text" class="form-control"
 												placeholder="Enter Name" id="grpName" name="grpName"
 												autocomplete="off" onchange="trim(this)">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_grpName"
+												style="display: none;">This field is required.</span>
+										</div>
+
+										<label class="col-form-label col-lg-3" for="grpName">
+											Remark <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" placeholder="Remark"
+												id="grpName" name="grpName" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_grpName"
@@ -185,7 +199,6 @@
 				var isError = false;
 				var errMsg = "";
 
-
 				if (!$("#grpName").val()) {
 
 					isError = true;
@@ -195,8 +208,6 @@
 				} else {
 					$("#error_grpName").hide()
 				}
-
-				
 
 				if (!isError) {
 

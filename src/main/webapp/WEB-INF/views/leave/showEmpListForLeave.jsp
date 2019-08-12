@@ -28,8 +28,6 @@
 
 			<!-- Page header -->
 			<jsp:include page="/WEB-INF/views/include/breadcrum.jsp"></jsp:include>
-
-
 			<!-- /page header -->
 
 
@@ -40,13 +38,12 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-
-						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Assign Task</h5></td>
-								<td width="40%" align="right"></td>
-							</tr>
-						</table>
+						<h5 class="card-title">Employee List</h5>
+						<!-- <div class="header-elements">
+							<div class="list-icons">
+								<a class="list-icons-item" data-action="collapse"></a>
+							</div>
+						</div> -->
 					</div>
 
 					<div class="card-body">
@@ -87,43 +84,39 @@
 							}
 						%>
 						<table
-							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-							id="printtable">
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable1">
 							<thead>
 								<tr class="bg-blue">
-									<th width="10%">Sr.no</th>
-									<th>Customer Name</th>
-									<th>Activity Name</th>
-									<th>Year</th>
-									<th>Start Date</th>
-									<th>End Date</th>
+									<th width="5%">Sr.no</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Mobile</th>
+									<th>Rate Per Hour</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								<tr>
-									<td>1&nbsp;<input type="checkbox" id="taskcheck"
-										name="taskcheck"></td>
-									<td>ABC</td>
-									<td>GST</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>11-03-2019</td>
-									<td class="text-center"><a href="#" class="dropdown-item"
-										title="Task detail"><i class="fa fa-list-alt"></i> </a></td>
+									<td>1</td>
+									<td>akshay kasar</td>
+
+									<td>akshaykasar72@gmail.com</td>
+									<td>7588519473</td>
+									<td>44</td>
+
+									<td class="text-center"><a
+										href="${pageContext.request.contextPath}/leaveApply?empId=1"
+										title="Add Leave" class=" "><i class="fas fa-walking"
+											style="color: black;"></i></a> <a
+										href="${pageContext.request.contextPath}/showLeaveHistList?empId=1"
+										title="Leave History"><i class="icon-history"
+											style="color: black;"></i></a></td>
 
 								</tr>
+
 							</tbody>
 						</table>
-						<br>
-						<div style="text-align: center;">
-							<a
-								href="${pageContext.request.contextPath}/selectEmployeeToAssigTask"><button
-									type="button" class="btn btn-primary">Assign To
-									Employee</button></a>
-						</div>
-
 					</div>
 
 				</div>
