@@ -64,7 +64,7 @@
 				<div class="card">
 					<div class="card-header header-elements-inline">
 
-						<h5 class="card-title">Service Wise Activity List</h5>
+						<h5 class="card-title">Service - Activity Mapping</h5>
 					</div>
 
 					<div class="card-body">
@@ -118,22 +118,25 @@
 							<tr>
 								<td>1</td>
 								<td>Income Tax</td>
-								<td><a href="${pageContext.request.contextPath}/activityAdd" title="Edit"><i class="icon-add"
-										style="color: black;"></i></a></td>
+								<td><a
+									href="${pageContext.request.contextPath}/activityAdd"
+									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
 							</tr>
 
 							<tr>
 								<td>2</td>
 								<td>TDS</td>
-								<td><a href="${pageContext.request.contextPath}/activityAdd" title="Edit"><i class="icon-add"
-										style="color: black;"></i></a></td>
+								<td><a
+									href="${pageContext.request.contextPath}/activityAdd"
+									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
 							</tr>
 
 							<tr>
 								<td>3</td>
 								<td>GST</td>
-								<td><a href="${pageContext.request.contextPath}/activityAdd" title="Edit"><i class="icon-add"
-										style="color: black;"></i></a></td>
+								<td><a
+									href="${pageContext.request.contextPath}/activityAdd"
+									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
 							</tr>
 
 							<tbody>

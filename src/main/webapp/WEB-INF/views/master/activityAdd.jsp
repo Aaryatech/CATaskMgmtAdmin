@@ -143,7 +143,18 @@
 												field is required.</span>
 										</div>
 									</div>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="serviceDesc">
+											Periodicity : </label>
+										<div class="col-lg-6">
+											<select id="periodicity" name="periodicity"
+												class="form-control">
+												<option value="">select</option>
+											</select>
 
+
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="serviceDesc">Activity
@@ -154,17 +165,6 @@
 												name="activityDesc" autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="serviceDesc">
-											Periodicity : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Periodicity" id="activityDesc"
-												name="activityDesc" autocomplete="off" onchange="trim(this)">
-										</div>
-									</div>
-
 
 
 									<div class="form-group row mb-0">

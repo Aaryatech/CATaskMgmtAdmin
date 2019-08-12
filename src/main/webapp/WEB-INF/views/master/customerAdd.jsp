@@ -208,9 +208,14 @@
 										<label class="col-form-label col-lg-3" for="clientGroup">Client
 											Group : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Client Group" id="clientGroup"
-												name="clientGroup" autocomplete="off" onchange="trim(this)">
+											<select name="clientGrp"
+												data-placeholder="Select Client Group" id="clientGrp"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select</option>
+
+											</select>
 
 										</div>
 										<div class="col-lg-3"></div>

@@ -117,13 +117,11 @@
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
 									<th>Firm Name</th>
-									<th>Customer Group</th>
-									<th>Assesse Type</th>
+									<th>Customer Group</th> 
 									<th>Assesse Name</th>
 									<th>PAN No.</th>
 									<th>Email</th>
-									<th>Contact</th>
-									<th>Address</th>
+									<th>Contact</th> 
 									<th>Owner Partner</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
@@ -133,13 +131,11 @@
 								<tr class=parent id="row123">
 									<td class="detail-control">1</td>
 									<td>ABC</td>
-									<td>ABC group</td>
-									<td>Individual</td>
+									<td>ABC group</td> 
 									<td>AAA</td>
 									<td>ABCDE1234T</td>
 									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Nashik</td>
+									<td>9898989898</td> 
 									<td>Prakash</td>
 
 									<td class="text-center">
@@ -197,13 +193,11 @@
 								<tr class="parent">
 									<td>2</td>
 									<td>PQR</td>
-									<td>PQR group</td>
-									<td>Individual</td>
+									<td>PQR group</td> 
 									<td>AAA</td>
 									<td>ABCDE1234T</td>
 									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Nashik</td>
+									<td>9898989898</td> 
 									<td>Prakash</td>
 
 									<td class="text-center">
@@ -232,13 +226,11 @@
 								<tr class="parent">
 									<td>3</td>
 									<td>XYZ</td>
-									<td>XYZ group</td>
-									<td>Individual</td>
+									<td>XYZ group</td> 
 									<td>AAA</td>
 									<td>ABCDE1234T</td>
 									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Nashik</td>
+									<td>9898989898</td> 
 									<td>Prakash</td>
 
 									<!-- <td><a href="" title="Edit"><i class="icon-pencil7"

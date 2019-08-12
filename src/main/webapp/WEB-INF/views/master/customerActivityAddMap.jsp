@@ -163,7 +163,33 @@
 
 									</div>
 
+									<div class="form-group row">
 
+										<label class="col-form-label col-lg-3" for="periodicity">
+											Periodicity <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<select name="periodicity"
+												data-placeholder="Select Periodicity" id="periodicity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select Periodicity</option>
+												<option value="2">Yearly</option>
+												<option value="3">Monthly</option>
+												<option value="4">Weekly</option>
+
+												<c:forEach items="${locationList}" var="locationList">
+													<option value="${locationList.locId}">${locationList.locName}</option>
+												</c:forEach>
+											</select>
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_periodicity"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="activity">
@@ -195,37 +221,6 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="periodicity">
-											Periodicity <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<select name="periodicity"
-												data-placeholder="Select Periodicity" id="periodicity"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-
-												<option value="1">Select Periodicity</option>
-												<option value="2">Yearly</option>
-												<option value="3">Monthly</option>
-												<option value="4">Weekly</option>
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
-											</select>
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_periodicity"
-												style="display: none;">This field is required.</span>
-										</div>
-
-									</div>
-
-
-
-
-									<div class="form-group row">
-
 										<label class="col-form-label col-lg-3" for="startDate">Start
 											Date <span style="color: red">* </span>:
 										</label>
@@ -244,8 +239,7 @@
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="endDate">End
-											Date <span style="color: red">* </span>:
-										</label>
+											Date : </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
 												name="endDate" id="endDate" placeholder="End Date">

@@ -144,26 +144,14 @@
 								<td>9898989898</td>
 								<td>Prakash</td>
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a
-													href="${pageContext.request.contextPath}/customerActivityAddMap"
-													class="dropdown-item"><i class="icon-add"></i> Map
-													Activity</a> <a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a
+									href="${pageContext.request.contextPath}/customerActivityAddMap"
+									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+									<a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
@@ -177,26 +165,14 @@
 								<td>9898989898</td>
 								<td>Prakash</td>
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a
-													href="${pageContext.request.contextPath}/customerActivityAddMap"
-													class="dropdown-item"><i class="icon-add"></i> Map
-													Activity</a> <a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a
+									href="${pageContext.request.contextPath}/customerActivityAddMap"
+									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+									<a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
@@ -216,26 +192,14 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td> -->
 
-								<td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a
-													href="${pageContext.request.contextPath}/customerActivityAddMap"
-													class="dropdown-item"><i class="icon-add"></i> Map
-													Activity</a> <a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td>
+								<td class="text-center"><a
+									href="${pageContext.request.contextPath}/customerActivityAddMap"
+									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
+									<a href="#" class="dropdown-item"><i
+										class="icon-database-edit2"></i> Edit</a> <a href="#"
+									class="dropdown-item"
+									onClick="return confirm('Are you sure want to delete this record');"><i
+										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 
