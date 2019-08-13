@@ -103,13 +103,13 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model) {
 
 		ModelAndView mav = new ModelAndView("master/serviceList");
 
 		return mav;
-	}
+	}*/
 
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public ModelAndView activityForm(Locale locale, Model model) {

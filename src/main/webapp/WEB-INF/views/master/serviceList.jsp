@@ -123,43 +123,19 @@
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-
+							<c:forEach items="${serviceList}" var="serviceList" varStatus="count">
 							<tr>
-								<td>1</td>
-								<td>Income Tax</td>
-								<td><a href="" title="Edit"><i class="icon-pencil7"
+								<td>${count.index+1}</td>
+								<td>${serviceList.servName}</td>
+								<td><a href="#" onclick="editService(${serviceList.servId}) title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> 
 										<a
 									href=""
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
-							</tr>
-							
-							<tr>
-								<td>2</td>
-								<td>TDS</td>
-								<td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> 
-										<a
-									href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-							</tr>
-							
-							<tr>
-								<td>3</td>
-								<td>GST</td>
-								<td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> 
-										<a
-									href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-							</tr>
-
+							</tr>							
+							</c:forEach>
 							<tbody>
 
 
@@ -203,6 +179,17 @@
 
 	</div>
 	<!-- /page content -->
+	
+	<script type="text/javascript">
+	function showEditDept(deptId){
+		document.getElementById("edit_dept_id").value=deptId;//create this 
+		var form=document.getElementById("insListForm");
+	    form.setAttribute("method", "post");
 
+		form.action=("showEditDept");
+		form.submit();
+		
+	}
+	</script>
 </body>
 </html>
