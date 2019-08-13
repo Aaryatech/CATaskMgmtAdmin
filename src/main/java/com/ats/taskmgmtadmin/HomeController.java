@@ -190,5 +190,31 @@ public class HomeController {
 	}
 	
 	
+	@RequestMapping(value = "/communication", method = RequestMethod.GET)
+	public ModelAndView communicationForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("task/communication");
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
+	public ModelAndView manualTaskAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("task/manualTaskAdd");
+
+		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
+	public ModelAndView taskListForEmpForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("task/homeTaskList");
+
+		return mav;
+	}
+
+	
 
 }
