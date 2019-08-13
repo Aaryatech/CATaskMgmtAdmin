@@ -47,6 +47,23 @@ public class AccessRightController {
 	/*
 	 * <dependency> <groupId>com.google.code.gson</groupId>
 	 * <artifactId>gson</artifactId> <version>2.3.1</version> </dependency>
+	 * 
+	 * <dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
 	 */
 
 	RestTemplate rest = new RestTemplate();
