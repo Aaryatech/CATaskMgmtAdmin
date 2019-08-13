@@ -44,11 +44,11 @@
 							class="icon-more"></i></a>
 					</div>
 
-					<div class="breadcrumb justify-content-center">
+					<%-- <div class="breadcrumb justify-content-center">
 						<a href="${pageContext.request.contextPath}/showEmpTypeList"
 							class="breadcrumb-elements-item"> Employee Type List</a>
 
-					</div>
+					</div> --%>
 
 
 				</div>
