@@ -38,4 +38,12 @@ public class LeaveController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/showLeaveHistListBetweenDate", method = RequestMethod.GET)
+	public String showLeaveHistListBetweenDate(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav =  "leave/showLeaveHistListBetweenDate" ;
+
+		return mav;
+	}
 }

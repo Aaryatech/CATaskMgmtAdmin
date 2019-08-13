@@ -27,9 +27,24 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<jsp:include page="/WEB-INF/views/include/breadcrum.jsp"></jsp:include>
+			<div class="page-header page-header-light">
 
+				<div
+					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+					<div class="d-flex">
+						<div class="breadcrumb">
+							<a href="index.html" class="breadcrumb-item"><i
+								class="icon-home2 mr-2"></i> Home</a> <span
+								class="breadcrumb-item active">Dashboard</span>
 
+						</div>
+
+						<a href="#" class="header-elements-toggle text-default d-md-none"><i
+							class="icon-more"></i></a>
+					</div>
+
+				</div>
+			</div>
 			<!-- /page header -->
 
 
@@ -40,13 +55,12 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-
-						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Assign Task</h5></td>
-								<td width="40%" align="right"></td>
-							</tr>
-						</table>
+						<h5 class="card-title">Employee Leave Record</h5>
+						<!-- <div class="header-elements">
+							<div class="list-icons">
+								<a class="list-icons-item" data-action="collapse"></a>
+							</div>
+						</div> -->
 					</div>
 
 					<div class="card-body">
@@ -61,7 +75,7 @@
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
 							<%
-								session.removeAttribute("errorMsg");
+								out.println(session.getAttribute("errorMsg"));
 							%>
 						</div>
 
@@ -79,13 +93,14 @@
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
 							<%
-								session.removeAttribute("successMsg");
+								out.println(session.getAttribute("successMsg"));
 							%>
 						</div>
 						<%
 							session.removeAttribute("successMsg");
 							}
 						%>
+
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2" for="fromDate">From
 								Date <span style="color: red">* </span>:
@@ -106,94 +121,42 @@
 							</div>
 
 						</div>
-
-						<div class="form-group row">
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Customer <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="custId" data-placeholder="Select Customer"
-									id="custId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Service <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="serviceId" data-placeholder="Select Service"
-									id="serviceId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-						</div>
-
-						<div class="form-group row">
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Status <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="sts" data-placeholder="Select Status" id="sts"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-						</div>
-
-
 						<div class="col-lg-12" align="center">
 							<button type="submit" class="btn bg-blue ml-3 legitRipple"
 								id="submtbtn">Search</button>
 						</div>
-						<br>
+
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="fromDate">Total
+								Available Hours : </label>
+							<div class="col-lg-3">
+								<input type="text" class="form-control  "
+									placeholder="Total Available Hours" id="fromDate"
+									name="fromDate" autocomplete="off" onchange="trim(this)"
+									readonly="readonly">
+							</div>
+
+						</div>
 
 						<table
-							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-							id="printtable">
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable1">
 							<thead>
 								<tr class="bg-blue">
-									<th width="10%">Sr.no</th>
-									<th>Customer Name</th>
-									<th>Activity Name</th>
-									<th>Year</th>
-									<th>Start Date</th>
-									<th>End Date</th>
-									<th class="text-center" width="10%">Actions</th>
+
+									<th width="10%">Sr. No.</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>No. of Days</th>
+									<th>Reason</th>
+									<th>Status</th>
+									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
-
 							<tbody>
-								<tr>
-									<td>1&nbsp;<input type="checkbox" id="taskcheck"
-										name="taskcheck"></td>
-									<td>ABC</td>
-									<td>GST</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>11-03-2019</td>
-									<td class="text-center"><a href="#" class="dropdown-item"
-										title="Task detail"><i class="fa fa-list-alt"></i> </a></td>
 
-								</tr>
 							</tbody>
 						</table>
-						<br>
-						<div style="text-align: center;">
-							<a
-								href="${pageContext.request.contextPath}/selectEmployeeToAssigTask"><button
-									type="button" class="btn btn-primary">Assign To
-									Employee</button></a>
-						</div>
 
 					</div>
 
@@ -212,7 +175,6 @@
 		<!-- /main content -->
 
 	</div>
-	<!-- /page content -->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->

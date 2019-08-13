@@ -25,10 +25,18 @@ public class TaskController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/selectEmployeeToAssigTask", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/selectEmployeeToAssigTask", method = RequestMethod.GET)
 	public String selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		String mav =  "task/empListToAssignTask" ;
+
+		return mav;
+	}*/
+	
+	@RequestMapping(value = "/selectEmployeeToAssigTask", method = RequestMethod.GET)
+	public String selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav =  "task/showEmpListForAssignTask" ;
 
 		return mav;
 	}

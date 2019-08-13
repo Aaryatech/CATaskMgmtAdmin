@@ -18,66 +18,7 @@
 
 	<!-- Sidebar content -->
 	<div class="sidebar-content">
-
-		<%--  <!-- User menu -->
-		<div class="sidebar-user-material">
-			<div class="sidebar-user-material-body">
-				<div class="card-body text-center">
-					<c:choose>
-						<c:when test="${not empty sessionScope.UserDetail.empPhoto}">
-
-							<a
-								href="${sessionScope.logoUrl}${sessionScope.UserDetail.empPhoto}"
-								target="_blank"> <img
-								src="${sessionScope.logoUrl}${sessionScope.UserDetail.empPhoto}"
-								class="img-fluid rounded-circle shadow-1 mb-3" width="80"
-								height="80" alt="">
-							</a>
-						</c:when>
-						<c:otherwise>
-
-							<a href="#"> <img
-								src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
-								class="img-fluid rounded-circle shadow-1 mb-3" width="80"
-								height="80" alt="">
-							</a>
-						</c:otherwise>
-					</c:choose>
-
-					<h6 class="mb-0 text-white text-shadow-dark">${sessionScope.UserDetail.empSname}
-						${sessionScope.UserDetail.empFname}</h6>
-					<!-- <span class="font-size-sm text-white text-shadow-dark">Santa
-						Ana, CA</span> -->
-				</div>
-			</div>
-		</div>
-		<!-- /user menu --> --%>
-
-
-		<%-- <!-- User menu -->
-				<div class="sidebar-user">
-					<div class="card-body">
-						<div class="media">
-							<div class="mr-3">
-								<a href="#"><img src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg" width="38" height="38" class="rounded-circle" alt=""></a>
-							</div>
-
-							<div class="media-body">
-								<div class="media-title font-weight-semibold">Victoria Baker</div>
-								<div class="font-size-xs opacity-50">
-									<i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
-								</div>
-							</div>
-
-							<div class="ml-3 align-self-center">
-								<a href="#" class="text-white"><i class="icon-cog3"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- /user menu --> --%>
-
-
+  
 		<!-- Main navigation -->
 		<div class="card card-sidebar-mobile">
 
@@ -148,45 +89,12 @@
 							href="${pageContext.request.contextPath}/showEmpListForLeave"
 							class="nav-link">Apply Leave</a></li>
 
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showLeaveHistListBetweenDate"
+							class="nav-link">Leave History</a></li>
+
 					</ul></li>
-
-				<%-- 	<li class="nav-item"><a
-					href="${pageContext.request.contextPath}/taskPeriodicityList"
-					class="nav-link"><i class="icon-file-text2"></i> <span>
-							Task Periodicity </span></a></li> --%>
-
-
-				<%-- <li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Leave</span></a>
-
-					<ul class="nav nav-group-sub" data-submenu-title="Layouts">
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showHolidayList"
-							class="nav-link">Holiday List</a></li>
-
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showLeaveTypeList"
-							class="nav-link">Leave Type List</a></li>
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showLeaveStructureList"
-							class="nav-link">Leave Structure List</a></li>
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/leaveStructureAllotment"
-							class="nav-link">Leave Allotment</a></li>
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/addLeaveAuthority"
-							class="nav-link">Leave Authority</a></li>
-
-						<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/showApplyForLeave"
-							class="nav-link">Apply For Leave</a></li>
-
-					</ul></li>  --%>
+ 
 
 
 				<c:forEach items="${sessionScope.moduleJsonList}"
