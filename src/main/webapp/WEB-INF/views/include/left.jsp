@@ -21,7 +21,7 @@
 
 	<!-- Sidebar content -->
 	<div class="sidebar-content">
-  
+
 		<!-- Main navigation -->
 		<div class="card card-sidebar-mobile">
 
@@ -69,23 +69,21 @@
 
 
 					</ul></li>
-					
-					
-					<li class="nav-item"><a
-							href="${pageContext.request.contextPath}/manualTaskAdd"
-							class="nav-link"><i class="icon-folder-plus"></i><span>Add Task</span></a></li>
-
+ 
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Task
 							Allotment</span></a>
 
-					<ul class="nav nav-group-sub" data-submenu-title="Task
+					<ul class="nav nav-group-sub"
+						data-submenu-title="Task
 							Allotment">
-
-
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/manualTaskAdd"
+							class="nav-link">Add Manual Task</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/assignTask"
 							class="nav-link">Assign Task</a></li>
+
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
@@ -103,8 +101,18 @@
 							class="nav-link">Leave History</a></li>
 
 					</ul></li>
- 
 
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>
+							Daily Work Log </span></a>
+
+					<ul class="nav nav-group-sub" data-submenu-title="Master">
+
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showDailyWorkLog"
+							class="nav-link">Daily Work Log</a></li>
+
+					</ul></li>
 
 				<c:forEach items="${sessionScope.moduleJsonList}"
 					var="moduleJsonList" varStatus="count">
@@ -181,5 +189,5 @@
 
 			}
 		</script>
-		
-		</html>
+
+</html>

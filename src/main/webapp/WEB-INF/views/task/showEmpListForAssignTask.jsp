@@ -107,7 +107,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Project Allotment</h6>
+								<h6 class="card-title">Task Allotment</h6>
 								<!-- 	<div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -177,19 +177,7 @@
 										</div>
 									</div>
 
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2">Date Range:</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control daterange-basic_new "
-												name="leaveDateRange" data-placeholder="Select Date"
-												id="leaveDateRange" autocomplete="off"> <span
-												class="validation-invalid-label" id="error_Range"
-												style="display: none;">This field is required.</span>
-
-										</div>
-									</div>
-
-									<div class="form-group row">
+									<!-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="fullHalfwork">Select
 											<span style="color: red">* </span>:
 										</label>
@@ -205,7 +193,7 @@
 												id="fullHalfwork" value="1"> Partial Time
 											</label>
 										</div>
-									</div>
+									</div> -->
 
 
 
@@ -239,7 +227,7 @@
 															<th width="20%">Sr. No. <input type="checkbox"
 																name="selAll" id="selAll" /></th>
 															<th>Employee Name</th>
-															<th>Available</th>
+
 															<th width="15%" style="text-align: center;">Action</th>
 														</tr>
 													</thead>
@@ -265,41 +253,13 @@
 													<thead>
 														<tr class="bg-blue">
 															<th width="10%">Sr. No.</th>
-															<th width="30%">Employee Name</th>
-															<th width="20%">From Date</th>
-															<th width="20%">To Date</th>
-															<th width="10%">Partial/Full</th>
-															<th width="10%">Hours</th>
+															<th>Employee Name</th>
+
 															<th width="10%" style="text-align: center;">Action</th>
 														</tr>
 													</thead>
 													<tbody>
-														<c:forEach items="${bsyList}" var="bsyList"
-															varStatus="count">
 
-															<tr>
-																<td>${count.index+1}</td>
-
-
-																<td>${bsyList.empFname}&nbsp;${bsyList.empSname}</td>
-																<td>${bsyList.pallotFromdt}</td>
-																<td>${bsyList.pallotTodt}</td>
-																<td><c:choose>
-																		<c:when test="${bsyList.exInt1==1}">
-																Partial
-																</c:when>
-																		<c:otherwise>
-																Full
-																</c:otherwise>
-																	</c:choose></td>
-																<td>${bsyList.pallotDailyHrs}</td>
-																<td>
-																	<%-- <a onclick="deleteEmp(${count.index})"><i
-																	class="icon-trash"></i></a> --%>
-																</td>
-															</tr>
-
-														</c:forEach>
 
 													</tbody>
 												</table>

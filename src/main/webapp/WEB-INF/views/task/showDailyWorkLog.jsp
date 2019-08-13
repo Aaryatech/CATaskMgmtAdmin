@@ -43,7 +43,7 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Assign Task</h5></td>
+								<td width="60%"><h5 class="card-title">Daily Work Log</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -87,8 +87,8 @@
 							}
 						%>
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="fromDate">From
-								Date <span style="color: red">* </span>:
+							<label class="col-form-label col-lg-2" for="fromDate">
+								Select Date <span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-3">
 								<input type="text" class="form-control datepickerclass"
@@ -96,70 +96,8 @@
 									autocomplete="off" onchange="trim(this)">
 							</div>
 
-							<label class="col-form-label col-lg-2" for="toDate">To
-								Date <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<input type="text" class="form-control datepickerclass"
-									placeholder="To Date" id="toDate" name="toDate"
-									autocomplete="off" onchange="trim(this)">
-							</div>
-
 						</div>
 
-						<div class="form-group row">
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Service <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="serviceId" data-placeholder="Select Service"
-									id="serviceId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Activity <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="serviceId" data-placeholder="Select Activity"
-									id="serviceId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-						</div>
-
-						<div class="form-group row">
-
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Customer <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="custId" data-placeholder="Select Customer"
-									id="custId"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-							<label class="col-form-label col-lg-2" for="periodicity">
-								Select Status <span style="color: red">* </span>:
-							</label>
-							<div class="col-lg-3">
-								<select name="sts" data-placeholder="Select Status" id="sts"
-									class="form-control form-control-select2 select2-hidden-accessible"
-									data-fouc="" aria-hidden="true">
-
-								</select>
-							</div>
-
-						</div>
 
 
 						<div class="col-lg-12" align="center">
@@ -179,32 +117,29 @@
 									<th>Year</th>
 									<th>Start Date</th>
 									<th>End Date</th>
+									<th>Actual Hours</th>
+									<th>Remark</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
 
 							<tbody>
 								<tr>
-									<td>1&nbsp;<input type="checkbox" id="taskcheck"
-										name="taskcheck"></td>
+									<td>1</td>
 									<td>ABC</td>
 									<td>GST</td>
 									<td>2018-19</td>
 									<td>11-01-2019</td>
 									<td>11-03-2019</td>
+									<td><input id="hours" name="hours" value="30"
+										style="text-align: right;" class="form-control"></td>
+									<td><input id="remark" name="remark" class="form-control"></td>
 									<td class="text-center"><a href="#" class="dropdown-item"
-										title="Task detail"><i class="fa fa-list-alt"></i> </a></td>
+										title="Task detail">Update</a></td>
 
 								</tr>
 							</tbody>
 						</table>
-						<br>
-						<div style="text-align: center;">
-							<a
-								href="${pageContext.request.contextPath}/selectEmployeeToAssigTask"><button
-									type="button" class="btn btn-primary">Assign To
-									Employee</button></a>
-						</div>
 
 					</div>
 

@@ -40,5 +40,13 @@ public class TaskController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/showDailyWorkLog", method = RequestMethod.GET)
+	public String showDailyWorkLog(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav =  "task/showDailyWorkLog" ;
+
+		return mav;
+	}
 
 }
