@@ -140,11 +140,11 @@
 								<td>abc@gmail.com</td>
 								<td>9898989898</td>
 
-								<td class="text-center"><a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
+								<td><a href="" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> <a href=""
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
 							</tr>
 
@@ -159,11 +159,11 @@
 								<td>xyz@gmail.com</td>
 								<td>9898989898</td>
 
-								<td class="text-center"><a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
+								<td><a href="" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> <a href=""
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
 							</tr>
 
@@ -178,17 +178,12 @@
 								<td>pqr@gmail.com</td>
 								<td>9898989898</td>
 
-								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
+								<td><a href="" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> <a href=""
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td> -->
+								</a></td>
 
-								<td class="text-center"><a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
 
 							</tr>
 

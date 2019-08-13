@@ -224,7 +224,7 @@
 												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
- 
+
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
@@ -233,7 +233,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											&nbsp; <a
-												href="${pageContext.request.contextPath}/showCompanyList"><button
+												href="${pageContext.request.contextPath}/customerDetailList"><button
 													type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
@@ -287,23 +287,12 @@
 												: Answer
 											</td>
 
-											<td class="text-center">
-												<div class="list-icons">
-													<div class="dropdown">
-														<a href="#" class="list-icons-item" data-toggle="dropdown">
-															<i class="icon-menu9"></i>
-														</a>
+											<td class="text-center"><a href="" title="Edit"><i
+													class="icon-pencil7" style="color: black;"></i></a> <a href=""
+												onClick="return confirm('Are you sure want to delete this record');"
+												title="Delete"><i class="icon-trash"
+													style="color: black;"></i> </a></td>
 
-														<div class="dropdown-menu dropdown-menu-right">
-															<a href="#" class="dropdown-item"><i
-																class="icon-database-edit2"></i> Edit</a> <a href="#"
-																class="dropdown-item"
-																onClick="return confirm('Are you sure want to delete this record');"><i
-																class="icon-trash"></i> Delete</a>
-														</div>
-													</div>
-												</div>
-											</td>
 
 										</tr>
 
@@ -317,23 +306,11 @@
 											</td>
 
 
-											<td class="text-center">
-												<div class="list-icons">
-													<div class="dropdown">
-														<a href="#" class="list-icons-item" data-toggle="dropdown">
-															<i class="icon-menu9"></i>
-														</a>
-
-														<div class="dropdown-menu dropdown-menu-right">
-															<a href="#" class="dropdown-item"><i
-																class="icon-database-edit2"></i> Edit</a> <a href="#"
-																class="dropdown-item"
-																onClick="return confirm('Are you sure want to delete this record');"><i
-																class="icon-trash"></i> Delete</a>
-														</div>
-													</div>
-												</div>
-											</td>
+											<td class="text-center"><a href="" title="Edit"><i
+													class="icon-pencil7" style="color: black;"></i></a> <a href=""
+												onClick="return confirm('Are you sure want to delete this record');"
+												title="Delete"><i class="icon-trash"
+													style="color: black;"></i> </a></td>
 
 										</tr>
 
@@ -348,23 +325,11 @@
 											</td>
 
 
-											<td class="text-center">
-												<div class="list-icons">
-													<div class="dropdown">
-														<a href="#" class="list-icons-item" data-toggle="dropdown">
-															<i class="icon-menu9"></i>
-														</a>
-
-														<div class="dropdown-menu dropdown-menu-right">
-															<a href="#" class="dropdown-item"><i
-																class="icon-database-edit2"></i> Edit</a> <a href="#"
-																class="dropdown-item"
-																onClick="return confirm('Are you sure want to delete this record');"><i
-																class="icon-trash"></i> Delete</a>
-														</div>
-													</div>
-												</div>
-											</td>
+											<td class="text-center"><a href="" title="Edit"><i
+													class="icon-pencil7" style="color: black;"></i></a> <a href=""
+												onClick="return confirm('Are you sure want to delete this record');"
+												title="Delete"><i class="icon-trash"
+													style="color: black;"></i> </a></td>
 
 										</tr>
 

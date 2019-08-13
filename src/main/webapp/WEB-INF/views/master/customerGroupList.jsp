@@ -127,8 +127,14 @@
 							<tr>
 								<td>1</td>
 								<td>ABC</td>
+								
+								<td class="text-center"><a href="#" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> <a href="#"
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
-								<td class="text-center">
+								<!-- <td class="text-center">
 									<div class="list-icons">
 										<div class="dropdown">
 											<a href="#" class="list-icons-item" data-toggle="dropdown">
@@ -144,15 +150,21 @@
 											</div>
 										</div>
 									</div>
-								</td>
+								</td> -->
 
 							</tr>
 
 							<tr>
 								<td>2</td>
 								<td>XYZ</td>
+								
+								<td class="text-center"><a href="#" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> <a href="#"
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
-								<td class="text-center">
+								<!-- <td class="text-center">
 									<div class="list-icons">
 										<div class="dropdown">
 											<a href="#" class="list-icons-item" data-toggle="dropdown">
@@ -168,7 +180,7 @@
 											</div>
 										</div>
 									</div>
-								</td>
+								</td> -->
 
 							</tr>
 
@@ -177,13 +189,13 @@
 								<td>PQR</td>
 
 
-								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
+								 <td class="text-center"><a href="" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> <a href=""
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td> -->
+								</a></td> 
 
-								<td class="text-center">
+								<!-- <td class="text-center">
 									<div class="list-icons">
 										<div class="dropdown">
 											<a href="#" class="list-icons-item" data-toggle="dropdown">
@@ -199,7 +211,7 @@
 											</div>
 										</div>
 									</div>
-								</td>
+								</td> -->
 
 							</tr>
 

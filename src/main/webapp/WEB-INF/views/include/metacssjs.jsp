@@ -10,9 +10,13 @@
 	href="${pageContext.request.contextPath}/resources/global_assets/images/kppm.png"
 	type="image/x-icon" />
 <!-- Global stylesheets -->
-<link
+<!-- <link
 	href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900"
-	rel="stylesheet" type="text/css">
+	rel="stylesheet" type="text/css"> -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Roboto&display=swap" rel="stylesheet"> -->
+	
+	<link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+	
 <link
 	href="${pageContext.request.contextPath}/resources/global_assets/css/icons/icomoon/styles.min.css"
 	rel="stylesheet" type="text/css">

@@ -112,9 +112,9 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/submitInsertActivity"
-									id="submitInsertActivity" method="post"
-									enctype="multipart/form-data">
+									action="${pageContext.request.contextPath}/activity"
+									id="submitInsertActivity" 
+									>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
@@ -122,7 +122,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Service Name" id="serviceName"
-												name="serviceName" autocomplete="off" onchange="trim(this)">
+												name="serviceName" autocomplete="off" onchange="trim(this)" readonly="readonly">
 										</div>
 									</div>
 
@@ -147,12 +147,27 @@
 										<label class="col-form-label col-lg-3" for="serviceDesc">
 											Periodicity : </label>
 										<div class="col-lg-6">
-											<select id="periodicity" name="periodicity"
-												class="form-control">
-												<option value="">select</option>
+											<select name="periodicity"
+												data-placeholder="Select Periodicity" id="periodicity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="1">Select Periodicity</option>
+												<option value="2">Yearly</option>
+												<option value="3">Monthly</option>
+												<option value="4">Weekly</option>
+
+												<c:forEach items="${locationList}" var="locationList">
+													<option value="${locationList.locId}">${locationList.locName}</option>
+												</c:forEach>
 											</select>
 
 
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label"
+												id="error_periodicity" style="display: none;">This
+												field is required.</span>
 										</div>
 									</div>
 
@@ -175,7 +190,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											&nbsp; <a
-												href="${pageContext.request.contextPath}/showCompanyList"><button
+												href="${pageContext.request.contextPath}/activity"><button
 													type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
@@ -202,7 +217,7 @@
 												<td>1</td>
 												<td>Return Filing</td>
 												<td>Return Filing</td>
-												<td>Return Filing</td>
+												<td>Yearly</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -214,7 +229,7 @@
 												<td>2</td>
 												<td>Revised Return Filing</td>
 												<td>Revised Return Filing</td>
-												<td>Return Filing</td>
+												<td>Monthly</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -226,7 +241,7 @@
 												<td>3</td>
 												<td>Tax Payment</td>
 												<td>Tax Payment</td>
-												<td>Return Filing</td>
+												<td>Weekly</td>
 												<td><a href="" title="Edit"><i class="icon-pencil7"
 														style="color: black;"></i></a> <a href=""
 													onClick="return confirm('Are you sure want to delete this record');"
@@ -309,73 +324,17 @@
 															.hide()
 												}
 
-												if (!$("#panNo").val()
-														|| !validatePAN($(
-																"#panNo").val())) {
+												if ($("#periodicity").val()==1) {
 
 													isError = true;
 
-													$("#error_panNo").show()
+													$("#error_periodicity").show()
 
 												} else {
-													$("#error_panNo").hide()
+													$("#error_periodicity").hide()
 												}
 
-												if (!$("#emailId").val()
-														|| !validateEmail($(
-																"#emailId")
-																.val())) {
-
-													isError = true;
-
-													$("#error_emailId").show()
-
-												} else {
-													$("#error_emailId").hide()
-												}
-
-												if (!$("#phone").val()
-														|| !validateMobile($(
-																"#phone").val())) {
-
-													isError = true;
-
-													$("#error_phone").show()
-
-												} else {
-													$("#error_phone").hide()
-												}
-
-												if (!$("#address1").val()) {
-
-													isError = true;
-
-													$("#error_address1").show()
-
-												} else {
-													$("#error_address1").hide()
-												}
-
-												if (!$("#city").val()) {
-
-													isError = true;
-
-													$("#error_city").show()
-
-												} else {
-													$("#error_city").hide()
-												}
-
-												if (!$("#pincode").val()) {
-
-													isError = true;
-
-													$("#error_pincode").show()
-
-												} else {
-													$("#error_pincode").hide()
-												}
-
+												
 												if (!isError) {
 
 													var x = true;

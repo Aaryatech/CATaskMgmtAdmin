@@ -6,11 +6,9 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 
-
-
 </head>
 
-<body>
+<body >
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -38,7 +36,7 @@
 						<div class="breadcrumb">
 							<a href="index.html" class="breadcrumb-item"><i
 								class="icon-home2 mr-2"></i> Home</a> <span
-								class="breadcrumb-item active">Dashboard</span>
+								class="breadcrumb-item active" >Dashboard</span>
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i

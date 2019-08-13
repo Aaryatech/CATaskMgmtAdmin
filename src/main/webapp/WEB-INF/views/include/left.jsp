@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<html>
+
+
 <div class="sidebar sidebar-dark sidebar-main sidebar-expand-md">
 	<c:url var="setSubModId" value="/setSubModId" />
 	<!-- Sidebar mobile toggler -->
@@ -66,12 +69,18 @@
 
 
 					</ul></li>
+					
+					
+					<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/manualTaskAdd"
+							class="nav-link"><i class="icon-folder-plus"></i><span>Add Task</span></a></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Task
 							Allotment</span></a>
 
-					<ul class="nav nav-group-sub" data-submenu-title="Master">
+					<ul class="nav nav-group-sub" data-submenu-title="Task
+							Allotment">
 
 
 						<li class="nav-item"><a
@@ -172,3 +181,5 @@
 
 			}
 		</script>
+		
+		</html>

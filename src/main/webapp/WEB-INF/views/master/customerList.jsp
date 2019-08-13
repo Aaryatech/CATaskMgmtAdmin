@@ -144,14 +144,15 @@
 								<td>9898989898</td>
 								<td>Prakash</td>
 
-								<td class="text-center"><a
+
+								<td><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap"
-									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-									<a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
+									title="Map Activity"><i class="icon-add"
+										style="color: black;"></i></a> <a href="" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a> <a href=""
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
 							</tr>
 
@@ -165,14 +166,14 @@
 								<td>9898989898</td>
 								<td>Prakash</td>
 
-								<td class="text-center"><a
+								<td><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap"
-									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-									<a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
+									title="Map Activity"><i class="icon-add"
+										style="color: black;"></i></a> <a href="" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a> <a href=""
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
 							</tr>
 
@@ -192,14 +193,14 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td> -->
 
-								<td class="text-center"><a
+								<td><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap"
-									class="dropdown-item"><i class="icon-add"></i> Map Activity</a>
-									<a href="#" class="dropdown-item"><i
-										class="icon-database-edit2"></i> Edit</a> <a href="#"
-									class="dropdown-item"
-									onClick="return confirm('Are you sure want to delete this record');"><i
-										class="icon-trash"></i> Delete</a></td>
+									title="Map Activity"><i class="icon-add"
+										style="color: black;"></i></a> <a href="" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a> <a href=""
+									onClick="return confirm('Are you sure want to delete this record');"
+									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a></td>
 
 							</tr>
 

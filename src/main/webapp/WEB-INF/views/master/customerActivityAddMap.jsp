@@ -117,7 +117,7 @@
 									}
 								%>
 
-								<form action="#" id="submitInsertClient">
+								<form action="${pageContext.request.contextPath}/customerList" id="submitInsertClient">
 
 
 									<div class="form-group row">
@@ -327,7 +327,7 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/showCompanyList"><button
+											<a href="${pageContext.request.contextPath}/customerList"><button
 													type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
