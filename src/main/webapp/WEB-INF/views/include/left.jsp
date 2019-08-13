@@ -38,6 +38,27 @@
 					class="nav-link active"> <i class="icon-home4"></i> <span>
 							Dashboard </span>
 				</a></li>
+				
+				
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-list-unordered"></i><span>Access Rights
+							</span></a>
+
+					<ul class="nav nav-group-sub"
+						data-submenu-title="Access Rights">
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showCreateRole"
+							class="nav-link">Create Role</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showRoleList"
+							class="nav-link">Role List</a></li>
+							<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showAssignRole"
+							class="nav-link">Assign Role</a></li>
+
+					</ul></li>
+				
+				
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
 
