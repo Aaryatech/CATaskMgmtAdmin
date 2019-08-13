@@ -118,25 +118,25 @@ public class AccessRightController {
 	@RequestMapping(value = "/showCreateRole", method = RequestMethod.GET)
 	public ModelAndView showAccessRight(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("accessRight/createRole");
+		ModelAndView model = new ModelAndView("acc_right/createRole");
 
 		// Constants.mainAct = 22;
 		// Constants.subAct = 106;
 		try {
-			HttpSession session = request.getSession();
+			/*HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info info = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0", "0", newModuleList);
 
-			if (info.isError() == false) {
+			if (info.isError() == true) {*/
 				accessRightModuleList = rest.getForObject(Constants.url + "getAllModuleAndSubModule",
 						AccessRightModuleList.class);
-				// System.out.println("Access List " + accessRightModuleList.toString());
-				model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
+				 System.out.println("Access List " + accessRightModuleList.toString());
+				model.addObject("moduleList", accessRightModuleList.getAccessRightModuleList());
 				model.addObject("title", "Create Role");
 				isError = 0;
-			} else {
-				model = new ModelAndView("accessDenied");
-			}
+			/*
+			 * } else { model = new ModelAndView("accessDenied"); }
+			 */
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -176,14 +176,17 @@ public class AccessRightController {
 	@RequestMapping(value = "/showRoleList", method = RequestMethod.GET)
 	public ModelAndView showRoleList(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("accessRight/roleList");
+		ModelAndView model = new ModelAndView("acc_right/showRoleList");
 
 		try {
 
-			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0", "0", newModuleList);
-
+			/*
+			 * HttpSession session = request.getSession(); List<ModuleJson> newModuleList =
+			 * (List<ModuleJson>) session.getAttribute("newModuleList"); Info info =
+			 * AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",
+			 * "0", newModuleList);
+			 */
+			Info info =new Info();
 			if (info.isError() == false) {
 				CreatedRoleList createdRoleList = rest.getForObject(Constants.url + "getAllAccessRole",
 						CreatedRoleList.class);
@@ -454,7 +457,7 @@ public class AccessRightController {
 	public ModelAndView editAccessRole(@PathVariable("roleId") int roleId, HttpServletRequest request,
 			HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("accessRight/editAccessRole");
+		ModelAndView model = new ModelAndView("acc_right/editRole");
 
 		// Constants.mainAct = 22;
 		// Constants.subAct = 106;
@@ -468,12 +471,12 @@ public class AccessRightController {
 			AssignRoleDetailList editRole = rest.postForObject(Constants.url + "getRoleByRoleId", map,
 					AssignRoleDetailList.class);
 			// System.out.println("Access List " + accessRightModuleList.toString());
-			model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
+			//model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
 			model.addObject("editRole", editRole);
 			ModuleJson[] moduleJson = new Gson().fromJson(editRole.getRoleJson(), ModuleJson[].class);
 			List<ModuleJson> moduleJsonList = new ArrayList<ModuleJson>(Arrays.asList(moduleJson));
 
-			System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
+		//	System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
 
 			for (int i = 0; i < accessRightModuleList.getAccessRightModuleList().size(); i++) {
 
@@ -526,13 +529,15 @@ public class AccessRightController {
 				}
 
 			}
+			System.err.println("Hello");
 
-			System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
+			//System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
 			model.addObject("title", "Edit Access Role");
-			model.addObject("moduleJsonList", moduleJsonList);
+			model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
 			isError = 0;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return model;
