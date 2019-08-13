@@ -75,7 +75,8 @@
 						 </tr>
 						 </table>	
 					</div>
-
+					
+					<form method="post" id="service_list">
 					<div class="card-body">
 
 						<%
@@ -127,10 +128,10 @@
 							<tr>
 								<td>${count.index+1}</td>
 								<td>${serviceList.servName}</td>
-								<td><a href="#" onclick="editService(${serviceList.servId}) title="Edit"><i class="icon-pencil7"
+								<td><a href="#" onclick="editService(${serviceList.servId})" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> 
 										<a
-									href=""
+									href="${pageContext.request.contextPath}/deleteService/${serviceList.servId}" 
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
@@ -139,7 +140,7 @@
 							<tbody>
 
 
-								<c:forEach items="${compList}" var="compList" varStatus="count">
+								<%-- <c:forEach items="${compList}" var="compList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${compList.companyName}</td>
@@ -156,13 +157,16 @@
 													style="color: black;"></i> </a>
 											</c:if></td>
 									</tr>
-								</c:forEach>
-
+								</c:forEach> --%>
+										
 							</tbody>
+							
 						</table>
-
+						<input type="hidden" id="edit_service_id" name="edit_service_id" value="0">
 					</div>
-
+					
+					</form>
+					
 				</div>
 				<!-- /highlighting rows and columns -->
 
@@ -181,12 +185,12 @@
 	<!-- /page content -->
 	
 	<script type="text/javascript">
-	function showEditDept(deptId){
-		document.getElementById("edit_dept_id").value=deptId;//create this 
-		var form=document.getElementById("insListForm");
+	function editService(serviceId){
+		document.getElementById("edit_service_id").value=serviceId;//create this 
+		var form=document.getElementById("service_list");
 	    form.setAttribute("method", "post");
 
-		form.action=("showEditDept");
+		form.action=("editService");
 		form.submit();
 		
 	}

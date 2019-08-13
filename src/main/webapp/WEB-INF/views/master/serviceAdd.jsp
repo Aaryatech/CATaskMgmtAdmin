@@ -112,16 +112,18 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/service"
+									action="${pageContext.request.contextPath}/addService"
 									id="submitInsertService" 
 									>
+									<input type="hidden" id="service_id" name="service_id"
+											value="${service.servId}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Service
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${service.servName}"
 												placeholder="Enter Service Name" id="serviceName"
 												name="serviceName" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -136,7 +138,7 @@
 										<label class="col-form-label col-lg-3" for="serviceDesc">Service
 											Description : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${service.servDesc}"
 												placeholder="Enter Service Description" id="serviceDesc"
 												name="serviceDesc" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -161,6 +163,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields
+										are mandatory.</p>
 							</div>
 						</div>
 

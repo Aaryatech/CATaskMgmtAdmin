@@ -95,13 +95,13 @@ public class HomeController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/service", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/service", method = RequestMethod.GET)
 	public ModelAndView serviceForm(Locale locale, Model model) {
 
 		ModelAndView mav = new ModelAndView("master/serviceAdd");
 
 		return mav;
-	}
+	}*/
 	
 	/*@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model) {
@@ -111,21 +111,21 @@ public class HomeController {
 		return mav;
 	}*/
 
-	@RequestMapping(value = "/activity", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public ModelAndView activityForm(Locale locale, Model model) {
 
 		ModelAndView mav = new ModelAndView("master/activityList");
 
 		return mav;
-	}
+	}*/
 	
-	@RequestMapping(value = "/activityAdd", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/activityAdd", method = RequestMethod.GET)
 	public ModelAndView activityAddForm(Locale locale, Model model) {
 
 		ModelAndView mav = new ModelAndView("master/activityAdd");
 
 		return mav;
-	}
+	}*/
 	
 	
 	@RequestMapping(value = "/taskPeriodicityList", method = RequestMethod.GET)

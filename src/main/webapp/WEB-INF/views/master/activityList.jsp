@@ -66,7 +66,7 @@
 
 						<h5 class="card-title">Service - Activity Mapping</h5>
 					</div>
-
+<form method="post" id="service_list">
 					<div class="card-body">
 
 						<%
@@ -114,34 +114,20 @@
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-
+							<c:forEach items="${serviceList}" var="serviceList" varStatus="count">
 							<tr>
-								<td>1</td>
-								<td>Income Tax</td>
+								<td>${count.index+1}</td>
+								<td>${serviceList.servName}</td>
 								<td><a
-									href="${pageContext.request.contextPath}/activityAdd"
+									href="#" onclick="activityAdd(${serviceList.servId})"
 									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
 							</tr>
-
-							<tr>
-								<td>2</td>
-								<td>TDS</td>
-								<td><a
-									href="${pageContext.request.contextPath}/activityAdd"
-									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
-							</tr>
-
-							<tr>
-								<td>3</td>
-								<td>GST</td>
-								<td><a
-									href="${pageContext.request.contextPath}/activityAdd"
-									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
-							</tr>
+							</c:forEach>
+							
 
 							<tbody>
 
-								<c:forEach items="${compList}" var="compList" varStatus="count">
+								<%-- <c:forEach items="${compList}" var="compList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${compList.companyName}</td>
@@ -159,12 +145,12 @@
 											</c:if></td>
 									</tr>
 								</c:forEach>
-
+ --%>
 							</tbody>
 						</table>
-
+						<input type="hidden" id="map_service_id" name="map_service_id" value="0">
 					</div>
-
+</form>
 				</div>
 				<!-- /highlighting rows and columns -->
 
@@ -181,6 +167,16 @@
 
 	</div>
 	<!-- /page content -->
+<script type="text/javascript">
+	function activityAdd(serviceId){
+		document.getElementById("map_service_id").value=serviceId;//create this 
+		var form=document.getElementById("service_list");
+	    form.setAttribute("method", "post");
 
+		form.action=("activityAdd");
+		form.submit();
+		
+	}
+	</script>
 </body>
 </html>
