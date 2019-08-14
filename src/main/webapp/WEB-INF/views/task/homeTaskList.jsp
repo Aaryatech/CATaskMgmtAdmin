@@ -243,14 +243,14 @@
 						<table class="table datatable-basic table-hover">
 							<thead>
 								<tr>
-									<th style="color: white;">Customer</th>
-									<th style="color: white;">Activity</th>
-									<th style="color: white;">Year</th>
-									<th style="color: white;">Date</th>
-									<th style="color: white;">Alloted Hrs</th>
-									<th style="color: white;">Actual Hrs</th>
-									<th style="color: white;">Status</th>
-									<th class="text-center" style="color: white;">Actions</th>
+									<th style="background-color: white;">Customer</th>
+									<th style="background-color: white;">Activity</th>
+									<th style="background-color: white;">Year</th>
+									<th style="background-color: white;">Date</th>
+									<th style="background-color: white;">Alloted Hrs</th>
+									<th style="background-color: white;">Actual Hrs</th>
+									<th style="background-color: white;">Status</th>
+									<th class="text-center" style="background-color: white;">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
