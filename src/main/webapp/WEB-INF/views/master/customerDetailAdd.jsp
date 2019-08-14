@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+	<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,10 +75,6 @@
 							</div>
 
 							<div class="card-body">
-
-
-
-
 								<form
 									action="${pageContext.request.contextPath}/customerDetailList"
 									id="submitInsertActivity" enctype="multipart/form-data">
@@ -84,7 +84,7 @@
 											Customer : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Customer Name" id="customer" name="customer"
+												placeholder="Customer Name" id="customer" value="${custDetailList[0].custFirmName}" name="customer"
 												autocomplete="off" onchange="trim(this)" readonly="readonly">
 										</div>
 									</div>
@@ -277,14 +277,17 @@
 												<th class="text-center" width="10%">Actions</th>
 											</tr>
 										</thead>
-
+											<tbody>
+											
+												<c:forEach items="${custDetailList}" var="custDetail">
+										
 										<tr>
-											<td>Return Filing</td>
-											<td>Username : abc<br>Password : 123
+											<td>${custDetail.actiName}</td>
+											<td>Username : ${custDetail.loginId}<br>Password : ${custDetail.loginPass}
 											</td>
-											<td>Que 1 : Your Security Question?<br>Ans 1 :
-												Answer<br>Que 2 : Your Security Question?<br>Ans 2
-												: Answer
+											<td>Que 1 : ${custDetail.loginQue1}<br>Ans 1 : ${custDetail.loginAns1}
+												<br>Que 2 : ${custDetail.loginQue2}<br>Ans 2
+												: ${custDetail.loginAns2}
 											</td>
 
 											<td class="text-center"><a href="" title="Edit"><i
@@ -295,52 +298,10 @@
 
 
 										</tr>
-
-										<tr>
-											<td>Revised Return Filing</td>
-											<td>Username : abc<br>Password : 123
-											</td>
-											<td>Que 1 : Your Security Question?<br>Ans 1 :
-												Answer<br>Que 2 : Your Security Question?<br>Ans 2
-												: Answer
-											</td>
-
-
-											<td class="text-center"><a href="" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
-
-										</tr>
-
-
-										<tr>
-											<td>Tax Payment</td>
-											<td>Username : abc<br>Password : 123
-											</td>
-											<td>Que 1 : Your Security Question?<br>Ans 1 :
-												Answer<br>Que 2 : Your Security Question?<br>Ans 2
-												: Answer
-											</td>
-
-
-											<td class="text-center"><a href="" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
-
-										</tr>
-
-
-
-										<tbody>
-
-
-
-
-										</tbody>
+										</c:forEach>
+										
+</tbody>
+										
 									</table>
 
 
