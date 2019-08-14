@@ -38,6 +38,7 @@ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.acsrights.SubModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.google.gson.Gson;
 
 @Controller
@@ -48,22 +49,14 @@ public class AccessRightController {
 	 * <dependency> <groupId>com.google.code.gson</groupId>
 	 * <artifactId>gson</artifactId> <version>2.3.1</version> </dependency>
 	 * 
-	 * <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-
+	 * <dependency> <groupId>org.codehaus.jackson</groupId>
+	 * <artifactId>jackson-mapper-asl</artifactId> <version>1.7.1</version>
+	 * </dependency> <dependency> <groupId>com.fasterxml.jackson.core</groupId>
+	 * <artifactId>jackson-databind</artifactId> <version>2.9.4</version>
+	 * </dependency> <dependency> <groupId>commons-fileupload</groupId>
+	 * <artifactId>commons-fileupload</artifactId> <version>1.3.2</version>
+	 * </dependency>
+	 * 
 	 */
 
 	RestTemplate rest = new RestTemplate();
@@ -123,17 +116,20 @@ public class AccessRightController {
 		// Constants.mainAct = 22;
 		// Constants.subAct = 106;
 		try {
-			/*HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0", "0", newModuleList);
-
-			if (info.isError() == true) {*/
-				accessRightModuleList = rest.getForObject(Constants.url + "getAllModuleAndSubModule",
-						AccessRightModuleList.class);
-				 System.out.println("Access List " + accessRightModuleList.toString());
-				model.addObject("moduleList", accessRightModuleList.getAccessRightModuleList());
-				model.addObject("title", "Create Role");
-				isError = 0;
+			/*
+			 * HttpSession session = request.getSession(); List<ModuleJson> newModuleList =
+			 * (List<ModuleJson>) session.getAttribute("newModuleList"); Info info =
+			 * AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",
+			 * "0", newModuleList);
+			 * 
+			 * if (info.isError() == true) {
+			 */
+			accessRightModuleList = rest.getForObject(Constants.url + "getAllModuleAndSubModule",
+					AccessRightModuleList.class);
+			System.out.println("Access List " + accessRightModuleList.toString());
+			model.addObject("moduleList", accessRightModuleList.getAccessRightModuleList());
+			model.addObject("title", "Create Role");
+			isError = 0;
 			/*
 			 * } else { model = new ModelAndView("accessDenied"); }
 			 */
@@ -186,7 +182,7 @@ public class AccessRightController {
 			 * AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",
 			 * "0", newModuleList);
 			 */
-			Info info =new Info();
+			Info info = new Info();
 			if (info.isError() == false) {
 				CreatedRoleList createdRoleList = rest.getForObject(Constants.url + "getAllAccessRole",
 						CreatedRoleList.class);
@@ -471,12 +467,14 @@ public class AccessRightController {
 			AssignRoleDetailList editRole = rest.postForObject(Constants.url + "getRoleByRoleId", map,
 					AssignRoleDetailList.class);
 			// System.out.println("Access List " + accessRightModuleList.toString());
-			//model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
+			// model.addObject("allModuleList",
+			// accessRightModuleList.getAccessRightModuleList());
 			model.addObject("editRole", editRole);
 			ModuleJson[] moduleJson = new Gson().fromJson(editRole.getRoleJson(), ModuleJson[].class);
 			List<ModuleJson> moduleJsonList = new ArrayList<ModuleJson>(Arrays.asList(moduleJson));
 
-		//	System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
+			// System.out.println("List" +
+			// accessRightModuleList.getAccessRightModuleList());
 
 			for (int i = 0; i < accessRightModuleList.getAccessRightModuleList().size(); i++) {
 
@@ -531,7 +529,8 @@ public class AccessRightController {
 			}
 			System.err.println("Hello");
 
-			//System.out.println("List" + accessRightModuleList.getAccessRightModuleList());
+			// System.out.println("List" +
+			// accessRightModuleList.getAccessRightModuleList());
 			model.addObject("title", "Edit Access Role");
 			model.addObject("allModuleList", accessRightModuleList.getAccessRightModuleList());
 			isError = 0;
@@ -543,49 +542,71 @@ public class AccessRightController {
 		return model;
 	}
 
-	/* Need to use Sachin 13-08-19
-	 * @RequestMapping(value = "/showAssignRole", method = RequestMethod.GET) public
-	 * ModelAndView showAssignRloe(HttpServletRequest request, HttpServletResponse
-	 * response) {
-	 * 
-	 * ModelAndView model = new ModelAndView("accessRight/assignAccessRole1");
-	 * 
-	 * try { model.addObject("title", "Assign Role");
-	 * 
-	 * accessRightModuleList = rest.getForObject(Constants.url +
-	 * "getAllModuleAndSubModule", AccessRightModuleList.class);
-	 * 
-	 * HttpSession session = request.getSession(); LoginResponse userDetail =
-	 * (LoginResponse) session.getAttribute("userObj");
-	 * 
-	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
-	 * Object>(); map.add("instituteId", userDetail.getExInt2());
-	 * 
-	 * UserList[] user = rest.postForObject(Constants.url + "/getAllUserList", map,
-	 * UserList[].class); List<UserList> userList = new
-	 * ArrayList<>(Arrays.asList(user));
-	 * 
-	 * 
-	 * CreatedRoleList createdRoleList = rest.getForObject(Constants.url +
-	 * "getAllAccessRole", CreatedRoleList.class);
-	 * 
-	 * System.out.println("userList List " + userList.toString());
-	 * model.addObject("userList", userList); model.addObject("createdRoleList",
-	 * createdRoleList.getAssignRoleDetailList());
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } return model; }
-	 */
+	// Need to use Sachin 13-08-19
+	@RequestMapping(value = "/showAssignRole", method = RequestMethod.GET)
+	public ModelAndView showAssignRloe(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("acc_right/assignRole");
+
+		try {
+			model.addObject("title", "Assign Role");
+
+			accessRightModuleList = rest.getForObject(Constants.url + "getAllModuleAndSubModule",
+					AccessRightModuleList.class);
+
+			/*
+			 * HttpSession session = request.getSession(); LoginResponse userDetail =
+			 * (LoginResponse) session.getAttribute("userObj");
+			 * 
+			 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+			 * Object>(); map.add("instituteId", userDetail.getExInt2());
+			 * 
+			 * UserList[] user = rest.postForObject(Constants.url + "/getAllUserList", map,
+			 * UserList[].class); List<UserList> userList = new
+			 * ArrayList<>(Arrays.asList(user));
+			 */
+
+			
+			
+			EmployeeMaster[] empArray = rest.getForObject(Constants.url + "/getAllEmployees", 
+					EmployeeMaster[].class);
+			List<EmployeeMaster> empList = new
+					  ArrayList<>(Arrays.asList(empArray));
+			
+			CreatedRoleList createdRoleList = rest.getForObject(Constants.url + "getAllAccessRole",
+					CreatedRoleList.class);
+
+			// System.out.println("userList List " + userList.toString());
+			 model.addObject("empList", empList);
+			model.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
 
 	@RequestMapping(value = "/submitAssignedRole", method = RequestMethod.POST)
 	public String submitAssignedRole(HttpServletRequest request, HttpServletResponse response) {
 
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
-		int userId = Integer.parseInt(request.getParameter("userId"));
+		String[] empIds = request.getParameterValues("empIds");
 
 		try {
+			
+			
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < empIds.length; i++) {
+				sb = sb.append(empIds[i] + ",");
+			}
+			
+			String empIdList = sb.toString();
+			empIdList = empIdList.substring(0, empIdList.length() - 1);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("id", userId);
+			map.add("userIdList", empIdList);
+			// userIdList of List<Integer> Type
 			map.add("roleId", roleId);
 
 			Info info = rest.postForObject(Constants.url + "/updateRoleOfUser", map, Info.class);
