@@ -28,6 +28,7 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
+import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
@@ -359,6 +360,36 @@ public class MasterMVCController {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
 		}
+		return mav;
+	}
+	
+	
+	/***********************Employee Master*************************/
+	
+	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
+	public ModelAndView employeeListForm(Locale locale, Model model) {
+System.out.println("In EmployeeList");
+		ModelAndView mav = null;
+		try {
+				mav = new ModelAndView("master/employeeList");
+				
+				EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in employeeList " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
+	public ModelAndView employeeAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("master/employeeAdd");
+
 		return mav;
 	}
 }

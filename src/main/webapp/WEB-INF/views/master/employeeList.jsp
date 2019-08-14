@@ -119,7 +119,7 @@
 							<thead>
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Profile Pic</th>
+									<th>Profile Pic</th> 
 									<th>Employee Name</th>
 									<th>Employee Type</th>
 									<th>Date of Birth</th>
@@ -129,16 +129,17 @@
 								</tr>
 							</thead>
 
+							<c:forEach items="${epmList}" var="epmList" varStatus="count">
 							<tr>
-								<td>1</td>
+								<td>${count.index+1}</td>
 								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
-								<td>ABC</td>
-								<td>Owner</td>
-								<td>15/08/1990</td>
-								<td>abc@gmail.com</td>
-								<td>9898989898</td>
+									src="${pageContext.request.contextPath}/${epmList.empPic}"
+									class="rounded-circle" width="36" height="36" alt=""></td> 
+								<td>${epmList.empName}</td>
+								 <td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
+								<td>${epmList.empDob}</td>
+								<td>${epmList.empEmail}</td>
+								<td>${epmList.empMob}</td>
 
 								<td><a href="" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> <a href=""
@@ -146,47 +147,8 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
 
-							</tr>
-
-							<tr>
-								<td>2</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
-								<td>XYZ</td>
-								<td>Manager</td>
-								<td>10/05/1988</td>
-								<td>xyz@gmail.com</td>
-								<td>9898989898</td>
-
-								<td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-							</tr>
-
-							<tr>
-								<td>3</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-									class="rounded-circle" width="36" height="36" alt=""></td>
-								<td>PQR</td>
-								<td>Employee</td>
-								<td>25/12/1988</td>
-								<td>pqr@gmail.com</td>
-								<td>9898989898</td>
-
-								<td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-
-							</tr>
-
+							</tr>					
+							</c:forEach>
 							<tbody>
 
 

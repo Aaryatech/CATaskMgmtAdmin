@@ -144,13 +144,14 @@ public class HomeController {
 	 * return mav; }
 	 */
 	
-	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
-	public ModelAndView employeeAddForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/employeeAdd");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/employeeAdd", method = RequestMethod.GET) public
+	 * ModelAndView employeeAddForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/employeeAdd");
+	 * 
+	 * return mav; }
+	 */
 	
 	
 	@RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
