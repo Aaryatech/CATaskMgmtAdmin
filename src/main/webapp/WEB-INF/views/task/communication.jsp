@@ -35,7 +35,7 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<div class="page-header page-header-dark">
+						<div class="page-header page-header-dark" style="background-color:info;">
 							<div class="page-header-content header-elements-inline">
 								<div class="page-title">
 									<h5>
@@ -48,7 +48,7 @@
 
 								<div class="header-elements d-flex align-items-center">
 
-									<div class="btn btn-primary">Pending</div>
+									<div class="btn" style="background-color:white;">Pending</div>
 								</div>
 							</div>
 

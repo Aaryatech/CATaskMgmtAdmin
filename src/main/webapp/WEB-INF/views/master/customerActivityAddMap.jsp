@@ -117,7 +117,8 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/customerList" id="submitInsertClient">
+								<form action="${pageContext.request.contextPath}/customerList"
+									id="submitInsertClient">
 
 
 									<div class="form-group row">
@@ -323,8 +324,9 @@
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
+											<button type="button" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn" data-toggle="modal"
+												data-target="#modal_remote">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/customerList"><button
@@ -342,174 +344,287 @@
 					</div>
 				</div>
 
+
+
+
+				<!-- Remote source -->
+				<div id="modal_remote" class="modal" tabindex="-1">
+					<div class="modal-dialog modal-full">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Generate Task</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+
+
+								<div class=table-responsive>
+									<table class="table datatable-basic table-hover">
+										<thead>
+											<tr>
+												<th style="color: white;">Customer</th>
+												<th style="color: white;">Activity</th>
+												<th style="color: white;">Year</th>
+												<th style="color: white;">Periodicity</th>
+												<th style="color: white;">Start Date</th>
+												<th style="color: white;">End Date</th>
+												<th style="color: white;">Alloted Hrs</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>ABC</td>
+												<td>GST</td>
+												<td>2018-19</td>
+												<td>Yearly</td>
+												<td>11-01-2019</td>
+												<td>11-01-2019</td>
+												<td>52</td>
+												
+											</tr>
+
+
+											<tr>
+												<td>ABC</td>
+												<td>GST</td>
+												<td>2018-19</td>
+												<td>Yearly</td>
+												<td>11-01-2019</td>
+												<td>11-01-2019</td>
+												<td>52</td>
+											</tr>
+
+
+											<tr>
+												<td>ABC</td>
+												<td>GST</td>
+												<td>2018-19</td>
+												<td>Yearly</td>
+												<td>11-01-2019</td>
+												<td>11-01-2019</td>
+												<td>52</td>
+											</tr>
+
+
+
+										</tbody>
+									</table>
+								</div>
+								<br>
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+									<button type="button" class="btn bg-primary">Save</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /remote source -->
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+				<!-- /content area -->
+
+
+				<!-- Footer -->
+				<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+				<!-- /footer -->
+
+
 			</div>
-			<!-- /content area -->
-
-
-			<!-- Footer -->
-			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
-			<!-- /footer -->
-
+			<!-- /main content -->
 
 		</div>
-		<!-- /main content -->
+		<!-- /page content -->
 
-	</div>
-	<!-- /page content -->
-
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
+		<script type="text/javascript"
+			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
-	<script>
-		$(document).ready(function($) {
+		<script>
+			$(document)
+					.ready(
+							function($) {
 
-			$("#submitInsertClient").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
+								$("#submitInsertClient")
+										.submit(
+												function(e) {
+													var isError = false;
+													var errMsg = "";
 
-				if ($("#service").val() == 1) {
+													if ($("#service").val() == 1) {
 
-					isError = true;
+														isError = true;
 
-					$("#error_service").show()
-					//return false;
-				} else {
-					$("#error_service").hide()
+														$("#error_service")
+																.show()
+														//return false;
+													} else {
+														$("#error_service")
+																.hide()
+													}
+
+													if ($("#activity").val() == "") {
+
+														isError = true;
+
+														$("#error_activity")
+																.show()
+
+													} else {
+														$("#error_activity")
+																.hide()
+													}
+
+													if ($("#periodicity").val() == 1) {
+
+														isError = true;
+
+														$("#error_periodicity")
+																.show()
+
+													} else {
+														$("#error_periodicity")
+																.hide()
+													}
+
+													if (!$("#startDate").val()) {
+
+														isError = true;
+
+														$("#error_startDate")
+																.show()
+
+													} else {
+														$("#error_startDate")
+																.hide()
+													}
+
+													if (!$("#endDate").val()) {
+
+														isError = true;
+
+														$("#error_endDate")
+																.show()
+
+													} else {
+														$("#error_endDate")
+																.hide()
+													}
+
+													if (!$("#startDays").val()) {
+
+														isError = true;
+
+														$("#error_startDays")
+																.show()
+
+													} else {
+														$("#error_startDays")
+																.hide()
+													}
+
+													if (!$("#endDays").val()) {
+
+														isError = true;
+
+														$("#error_endDays")
+																.show()
+
+													} else {
+														$("#error_endDays")
+																.hide()
+													}
+
+													if (!$("#mgBudgetHr").val()) {
+
+														isError = true;
+
+														$("#error_mgBudgetHr")
+																.show()
+
+													} else {
+														$("#error_mgBudgetHr")
+																.hide()
+													}
+
+													if (!$("#empBudgetHr")
+															.val()) {
+
+														isError = true;
+
+														$("#error_empBudgetHr")
+																.show()
+
+													} else {
+														$("#error_empBudgetHr")
+																.hide()
+													}
+
+													if (!$("#billAmt").val()) {
+
+														isError = true;
+
+														$("#error_billAmt")
+																.show()
+
+													} else {
+														$("#error_billAmt")
+																.hide()
+													}
+
+													if (!isError) {
+
+														var x = true;
+														if (x == true) {
+
+															document
+																	.getElementById("submtbtn").disabled = true;
+															return true;
+														}
+														//end ajax send this to php page
+													}
+													return false;
+												});
+							});
+			//
+		</script>
+
+
+		<script type="text/javascript">
+			// Single picker
+			$('.datepickerclass').daterangepicker({
+				singleDatePicker : true,
+				selectMonths : true,
+				selectYears : true,
+				locale : {
+					format : 'DD-MM-YYYY'
 				}
-
-				if ($("#activity").val() == "") {
-
-					isError = true;
-
-					$("#error_activity").show()
-
-				} else {
-					$("#error_activity").hide()
-				}
-
-				if ($("#periodicity").val() == 1) {
-
-					isError = true;
-
-					$("#error_periodicity").show()
-
-				} else {
-					$("#error_periodicity").hide()
-				}
-
-				if (!$("#startDate").val()) {
-
-					isError = true;
-
-					$("#error_startDate").show()
-
-				} else {
-					$("#error_startDate").hide()
-				}
-
-				if (!$("#endDate").val()) {
-
-					isError = true;
-
-					$("#error_endDate").show()
-
-				} else {
-					$("#error_endDate").hide()
-				}
-
-				if (!$("#startDays").val()) {
-
-					isError = true;
-
-					$("#error_startDays").show()
-
-				} else {
-					$("#error_startDays").hide()
-				}
-
-				if (!$("#endDays").val()) {
-
-					isError = true;
-
-					$("#error_endDays").show()
-
-				} else {
-					$("#error_endDays").hide()
-				}
-
-				if (!$("#mgBudgetHr").val()) {
-
-					isError = true;
-
-					$("#error_mgBudgetHr").show()
-
-				} else {
-					$("#error_mgBudgetHr").hide()
-				}
-
-				if (!$("#empBudgetHr").val()) {
-
-					isError = true;
-
-					$("#error_empBudgetHr").show()
-
-				} else {
-					$("#error_empBudgetHr").hide()
-				}
-
-				if (!$("#billAmt").val()) {
-
-					isError = true;
-
-					$("#error_billAmt").show()
-
-				} else {
-					$("#error_billAmt").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
 			});
-		});
-		//
-	</script>
 
+			//daterange-basic_new
+			// Basic initialization
+			$('.daterange-basic_new').daterangepicker({
+				applyClass : 'bg-slate-600',
 
-	<script type="text/javascript">
-		// Single picker
-		$('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
-		});
-
-		//daterange-basic_new
-		// Basic initialization
-		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
-			cancelClass : 'btn-light',
-			locale : {
-				format : 'DD-MM-YYYY',
-				separator : ' to '
-			}
-		});
-	</script>
-
-
-
+				cancelClass : 'btn-light',
+				locale : {
+					format : 'DD-MM-YYYY',
+					separator : ' to '
+				}
+			});
+		</script>
 </body>
 </html>

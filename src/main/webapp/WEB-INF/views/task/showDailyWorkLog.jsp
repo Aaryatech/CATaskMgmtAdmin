@@ -51,41 +51,7 @@
 
 					<div class="card-body">
 
-						<%
-							if (session.getAttribute("errorMsg") != null) {
-						%>
-						<div
-							class="alert bg-danger text-white alert-styled-left alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert">
-								<span>×</span>
-							</button>
-							<span class="font-weight-semibold">Oh snap!</span>
-							<%
-								session.removeAttribute("errorMsg");
-							%>
-						</div>
 
-						<%
-							session.removeAttribute("errorMsg");
-							}
-						%>
-						<%
-							if (session.getAttribute("successMsg") != null) {
-						%>
-						<div
-							class="alert bg-success text-white alert-styled-left alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert">
-								<span>×</span>
-							</button>
-							<span class="font-weight-semibold">Well done!</span>
-							<%
-								session.removeAttribute("successMsg");
-							%>
-						</div>
-						<%
-							session.removeAttribute("successMsg");
-							}
-						%>
 						<div class="form-group row">
 							<label class="col-form-label col-lg-2" for="fromDate">
 								Select Date <span style="color: red">* </span>:
@@ -96,55 +62,134 @@
 									autocomplete="off" onchange="trim(this)">
 							</div>
 
+							<div class="col-lg-3" align="center">
+								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn">Search</button>
+							</div>
 						</div>
 
-
-
-						<div class="col-lg-12" align="center">
-							<button type="submit" class="btn bg-blue ml-3 legitRipple"
-								id="submtbtn">Search</button>
-						</div>
 						<br>
 
-						<table
-							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-							id="printtable">
-							<thead>
-								<tr class="bg-blue">
-									<th width="10%">Sr.no</th>
-									<th>Customer Name</th>
-									<th>Activity Name</th>
-									<th>Year</th>
-									<th>Start Date</th>
-									<th>End Date</th>
-									<th>Actual Hours</th>
-									<th>Remark</th>
-									<th class="text-center" width="10%">Actions</th>
-								</tr>
-							</thead>
+						<div class="table-responsive">
+							<table
+								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+								id="printtable">
+								<thead>
+									<tr class="bg-blue">
+										<th>Customer Name</th>
+										<th>Activity Name</th>
+										<th>Year</th>
+										<th>Date</th>
+										<th>Alloted Hours</th>
+										<th>Actual Hrs</th>
+										<th>Remark</th>
+										<th class="text-center" width="10%">Actions</th>
+									</tr>
+								</thead>
 
-							<tbody>
-								<tr>
-									<td>1</td>
-									<td>ABC</td>
-									<td>GST</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>11-03-2019</td>
-									<td><input id="hours" name="hours" value="30"
-										style="text-align: right;" class="form-control"></td>
-									<td><input id="remark" name="remark" class="form-control"></td>
-									<td class="text-center"><a href="#" class="dropdown-item"
-										title="Task detail">Update</a></td>
+								<tbody>
+									<tr>
+										<td>ABC</td>
+										<td>GST</td>
+										<td>2018-19</td>
+										<td>11-01-2019</td>
+										<td>45</td>
+										<td><input id="hours" name="hours" value="30"
+											style="text-align: right;" class="form-control"></td>
+										<td><input id="remark" name="remark" class="form-control"></td>
+										<td class="text-center"><a href="#" title="Update"><i
+												class="icon-checkmark" style="color: black;"></i></a>&nbsp;&nbsp;<a
+											href="#" title="Detail" data-toggle="modal"
+									data-target="#modal_remote"><i class="fa fa-list-alt"
+												style="color: black;"></i> </a></td>
 
-								</tr>
-							</tbody>
-						</table>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
 					</div>
 
 				</div>
 				<!-- /highlighting rows and columns -->
+
+
+
+
+				<!-- Remote source -->
+				<div id="modal_remote" class="modal" tabindex="-1">
+					<div class="modal-dialog modal-full">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Daily Work Log Details</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+
+								<table
+									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+									id="printtable1">
+									<thead>
+										<tr class="bg-blue">
+											<th>Customer Name</th>
+											<th>Activity Name</th>
+											<th>Year</th>
+											<th>Date</th>
+											<th>Alloted Hours</th>
+											<th>Actual Hrs</th>
+											<th>Remark</th>
+										</tr>
+									</thead>
+
+									<tr>
+										<td>ABC</td>
+										<td>GST</td>
+										<td>2018-19</td>
+										<td>11-01-2019</td>
+										<td>45</td>
+										<td>50</td>
+										<td>Remark</td>
+
+									</tr>
+
+									<tr>
+										<td>ABC</td>
+										<td>GST</td>
+										<td>2018-19</td>
+										<td>11-01-2019</td>
+										<td>45</td>
+										<td>50</td>
+										<td>Remark</td>
+
+									</tr>
+
+									<tr>
+										<td>ABC</td>
+										<td>GST</td>
+										<td>2018-19</td>
+										<td>11-01-2019</td>
+										<td>45</td>
+										<td>50</td>
+										<td>Remark</td>
+
+									</tr>
+
+
+								</table>
+
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /remote source -->
+
+
+
 
 			</div>
 			<!-- /content area -->
