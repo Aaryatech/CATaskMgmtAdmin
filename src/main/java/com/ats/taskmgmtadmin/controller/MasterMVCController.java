@@ -25,8 +25,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.model.ActivityMaster;
+import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
+import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
 
 @Controller
 public class MasterMVCController {
@@ -181,14 +185,175 @@ public class MasterMVCController {
 	}
 	
 	
-	@RequestMapping(value = "/activityAdd", method = RequestMethod.GET)
+	@RequestMapping(value = "/activityAdd", method = RequestMethod.POST)
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
+			mav = new ModelAndView("master/activityAdd");
+			ActivityMaster activity = new ActivityMaster();
+			mav.addObject("activity", activity);
+			MultiValueMap<String, Object> map = null;
+				
 			int serviceId = Integer.parseInt(request.getParameter("map_service_id"));
 			System.out.println("Mapping Service Id = "+serviceId);
-				mav = new ModelAndView("master/activityAdd");
 			
+			map = new LinkedMultiValueMap<>();			
+			map.add("serviceId", serviceId);
+			
+			ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);
+			
+			mav.addObject("service", servicemMap);	
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+			
+			ActivityPeriodDetails[] activityArr = rest.postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
+			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			System.out.println("Act List:"+activityList);
+			mav.addObject("actList", activityList);	
+			
+			DevPeriodicityMaster[] priodArr = rest.getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+			mav.addObject("periodList", periodList);	
+			
+		}catch (Exception e) {
+			System.err.println("Exce in activityAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/addNewActivity", method = RequestMethod.POST)
+	public String addServcActvtMaping(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			int user = 111;
+			ActivityMaster activity = new ActivityMaster();
+			
+			int actId = 0;
+			try {
+				actId = Integer.parseInt(request.getParameter("activity_id"));
+			}catch(Exception e) {
+				actId = 0;
+				e.getMessage();
+			}
+			
+			activity.setActiId(actId);
+			activity.setActiName(request.getParameter("activityName"));
+			activity.setPeriodicityId(Integer.parseInt(request.getParameter("periodicity")));
+			activity.setActiDesc(request.getParameter("activityDesc"));
+			activity.setServId(Integer.parseInt(request.getParameter("service_id")));
+			activity.setDelStatus(1);
+			activity.setUpdateDatetime(curDateTime);
+			activity.setUpdateUsername(user);
+			activity.setExInt1(0);
+			activity.setExInt2(0);
+			activity.setExVar1("NA");
+			activity.setExVar2("NA");
+			
+			ActivityMaster actMastr = rest.postForObject(Constants.url+"/saveActivity", activity, ActivityMaster.class);
+		}catch (Exception e) {
+			System.err.println("Exce in addNewActivity " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "redirect:/activity";
+		
+	}
+	
+	
+	@RequestMapping(value = "/editActivity", method = RequestMethod.POST)
+	public ModelAndView editActivity(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		try {
+					mav = new ModelAndView("master/activityAdd");
+					
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					
+					int activityId = Integer.parseInt(request.getParameter("edit_activity_id"));
+								
+					map.add("activityId", activityId);
+					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
+					System.out.println("Ativity="+activity);
+					
+					mav.addObject("activity", activity);
+					
+					map = new LinkedMultiValueMap<>();			
+					map.add("serviceId", activity.getServId());
+					
+					ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
+					mav.addObject("service", servicemMap);		
+					
+					map = new LinkedMultiValueMap<>();
+					map.add("serviceId", activity.getServId());
+					
+					ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
+					List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+					System.out.println("Act List:"+activityList);
+					mav.addObject("actList", activityList);		
+			
+			
+		}catch (Exception e) {
+					System.err.println("Exce in editActivity " + e.getMessage());
+					e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteActivity/{activityId}", method = RequestMethod.GET)
+	public String deleteActivity(HttpServletRequest request, HttpServletResponse response, 
+			@PathVariable int activityId) {
+				
+				int serviceId = 0;
+		try {
+					MultiValueMap<String, Object> map = null;
+					int userId = 222;
+					System.out.println("Delete:"+activityId);
+					
+					map = new LinkedMultiValueMap<>();				
+					map.add("activityId", activityId);
+					
+					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
+					
+					serviceId = activity.getServId();
+					System.out.println("In Act Del="+activity+"  "+serviceId);
+					
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("activityId", activityId);
+					
+					Info info = rest.postForObject(Constants.url+"/deleteActivity", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deleteActivity " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/activityAdd/"+serviceId;		
+	}
+	
+	@RequestMapping(value = "/activityAdd/{serviceId}", method = RequestMethod.GET)
+	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response, @PathVariable int serviceId) {
+		ModelAndView mav = null;
+		try {
+			mav = new ModelAndView("master/activityAdd");
+			ActivityMaster activity = new ActivityMaster();
+			mav.addObject("activity", activity);
+			MultiValueMap<String, Object> map = null;
+				
+			System.out.println("Mapping Service Id = "+serviceId);
+			
+			map = new LinkedMultiValueMap<>();			
+			map.add("serviceId", serviceId);
+			
+			ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
+			mav.addObject("service", servicemMap);	
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+			
+			ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
+			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			System.out.println("Act List:"+activityList);
+			mav.addObject("actList", activityList);				
 					
 		}catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());

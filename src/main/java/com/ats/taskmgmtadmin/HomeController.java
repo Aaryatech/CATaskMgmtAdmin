@@ -135,13 +135,14 @@ public class HomeController {
 	
 	
 	
-	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
-	public ModelAndView employeeListForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/employeeList");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/employeeList", method = RequestMethod.GET) public
+	 * ModelAndView employeeListForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/employeeList");
+	 * 
+	 * return mav; }
+	 */
 	
 	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
 	public ModelAndView employeeAddForm(Locale locale, Model model) {

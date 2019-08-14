@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,17 +113,24 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/activity"
-									id="submitInsertActivity" 
-									>
+									action="${pageContext.request.contextPath}/addNewActivity"
+									id="submitInsertActivity" method="post">
 
+								 <input type="hidden" id="activity_id" name="activity_id"
+											value="${activity.actiId}"> 
+											
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
 											Service : </label>
 										<div class="col-lg-6">
+										
 											<input type="text" class="form-control"
-												placeholder="Service Name" id="serviceName"
+												placeholder="Service Name" id="serviceName" value="${service.servName}"
 												name="serviceName" autocomplete="off" onchange="trim(this)" readonly="readonly">
+									
+											<input type="hidden" id="service_id" name="service_id"
+												value="${service.servId}">
+										
 										</div>
 									</div>
 
@@ -133,7 +141,7 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${activity.actiName}"
 												placeholder="Enter Activity Name" id="activityName"
 												name="activityName" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -144,7 +152,7 @@
 										</div>
 									</div>
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="serviceDesc">
+										<label class="col-form-label col-lg-3" for="periodicity">
 											Periodicity : </label>
 										<div class="col-lg-6">
 											<select name="periodicity"
@@ -153,13 +161,15 @@
 												data-fouc="" aria-hidden="true">
 
 												<option value="1">Select Periodicity</option>
-												<option value="2">Yearly</option>
-												<option value="3">Monthly</option>
-												<option value="4">Weekly</option>
+													<c:forEach items="${periodList}" var="List">														
+														<option value="${List.periodicityId}">${List.periodicityName}</option>
+													</c:forEach>
+												<!-- <option value="3">Monthly</option>
+												<option value="4">Weekly</option> -->
 
-												<c:forEach items="${locationList}" var="locationList">
+												<%-- <c:forEach items="${locationList}" var="locationList">
 													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
+												</c:forEach> --%>
 											</select>
 
 
@@ -175,7 +185,7 @@
 										<label class="col-form-label col-lg-3" for="serviceDesc">Activity
 											Description : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${activity.actiDesc}"
 												placeholder="Enter Activity Description" id="activityDesc"
 												name="activityDesc" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -204,6 +214,7 @@
 											class="table table-bordered table-hover datatable-highlight1 "
 											id="printtable1">
 											<thead>
+											
 												<tr class="bg-blue">
 													<th width="10%">Sr.no</th>
 													<th>Activity Name</th>
@@ -212,42 +223,21 @@
 													<th class="text-center" width="10%">Actions</th>
 												</tr>
 											</thead>
-
-											<tr>
-												<td>1</td>
-												<td>Return Filing</td>
-												<td>Return Filing</td>
-												<td>Yearly</td>
-												<td><a href="" title="Edit"><i class="icon-pencil7"
-														style="color: black;"></i></a> <a href=""
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-														style="color: black;"></i> </a></td>
-											</tr>
-
-											<tr>
-												<td>2</td>
-												<td>Revised Return Filing</td>
-												<td>Revised Return Filing</td>
-												<td>Monthly</td>
-												<td><a href="" title="Edit"><i class="icon-pencil7"
-														style="color: black;"></i></a> <a href=""
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-														style="color: black;"></i> </a></td>
-											</tr>
-
-											<tr>
-												<td>3</td>
-												<td>Tax Payment</td>
-												<td>Tax Payment</td>
-												<td>Weekly</td>
-												<td><a href="" title="Edit"><i class="icon-pencil7"
-														style="color: black;"></i></a> <a href=""
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-														style="color: black;"></i> </a></td>
-											</tr>
+											<tbody>
+											 	 <c:forEach items="${actList}" var="List" varStatus="count">
+													<tr>
+														<td>${count.index+1}</td>
+														<td>${List.actiName}</td>
+														<td>${List.actiDesc}</td>
+														<td>${List.periodicityName}</td>
+														<td><a href="#" onclick="editActivity(${List.actiId})" title="Edit"><i class="icon-pencil7"
+																style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteActivity/${List.actiId}"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash"
+																style="color: black;"></i> </a></td>
+													</tr>
+												</c:forEach> 
+ 									</tbody>
 
 											<%-- <tbody>
 
@@ -272,9 +262,12 @@
 
 							</tbody> --%>
 										</table>
+										<input type="hidden" id="edit_activity_id" name="edit_activity_id" value="0">
 									</div>
 
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields
+										are mandatory.</p>
 							</div>
 						</div>
 
@@ -295,7 +288,18 @@
 
 	</div>
 	<!-- /page content -->
+<script type="text/javascript">
+	function editActivity(activityId){
+		//alert(activityId);
+		document.getElementById("edit_activity_id").value=activityId;//create this 
+		var form=document.getElementById("submitInsertActivity");
+	    form.setAttribute("method", "post");
 
+		form.action=("editActivity");
+		form.submit();
+		
+	}
+	</script>
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
