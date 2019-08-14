@@ -136,8 +136,8 @@
 						</div>
 
 						<div class="form-group row">
-						
-						<label class="col-form-label col-lg-2" for="periodicity">
+
+							<label class="col-form-label col-lg-2" for="periodicity">
 								Select Activity <span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-3">
@@ -192,18 +192,11 @@
 									<td>2018-19</td>
 									<td>11-01-2019</td>
 									<td>11-03-2019</td>
-									<td class="text-center"><a href="#" class="dropdown-item"
-										title="Task detail"><i class="fa fa-list-alt"></i> </a>
-										<a href="#" class="dropdown-item"
-										title="Task detail"><i class="fa fa-list-alt"></i> </a></td>
-										
-										<td><a href="#" onclick="editService(${serviceList.servId}) title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> 
-										<a
-									href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
+
+									<td><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
 
 								</tr>
 							</tbody>

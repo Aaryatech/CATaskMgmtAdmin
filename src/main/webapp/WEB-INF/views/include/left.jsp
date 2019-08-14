@@ -39,6 +39,12 @@
 							Dashboard </span>
 				</a></li>
 				
+				<li class="nav-item"><a
+					href="${pageContext.request.contextPath}/taskListForEmp"
+					class="nav-link active"> <i class="icon-home4"></i> <span>
+							Home </span>
+				</a></li>
+				
 				
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-list-unordered"></i><span>Access Rights
