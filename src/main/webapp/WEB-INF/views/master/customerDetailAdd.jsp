@@ -12,8 +12,7 @@
 </head>
 
 <body>
-
-
+<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -75,9 +74,12 @@
 							</div>
 
 							<div class="card-body">
-								<form
-									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity" enctype="multipart/form-data">
+								<form method="post"
+									action="${pageContext.request.contextPath}/addCustLoginDetail"
+									id="submitInsertActivity">
+									
+									<input type="hidden" id="custId" name="custId" value="${custDetailList[0].custId}">
+									<input type="hidden" id="custDetailId" name="custDetailId" value="0">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">
@@ -97,17 +99,12 @@
 											<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
+												data-fouc="" aria-hidden="true" onchange="getActivities(this.value)">
 
-												<option value="1">Select Service</option>
-												<option value="2">Income Tax</option>
-												<option value="3">TDS</option>
-												<option value="4">GST</option>
-
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
+												<c:forEach items="${serviceList}" var="serv">
+													<option value="${serv.servId}">${serv.servName}</option>
 												</c:forEach>
+												
 											</select>
 										</div>
 
@@ -119,14 +116,14 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1">Select Activity</option>
+												<%-- <option value="1">Select Activity</option>
 												<option value="2">Return Filing</option>
 												<option value="3">Revised Return Filing</option>
 												<option value="4">Tax Payment</option>
 
 												<c:forEach items="${locationList}" var="locationList">
 													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
+												</c:forEach> --%>
 											</select>
 										</div>
 
@@ -261,9 +258,8 @@
 							<div class="card-body">
 
 								<form
-									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity" enctype="multipart/form-data">
-
+									action="${pageContext.request.contextPath}/"
+									id="submitInsertActivity"  method="post">
 
 
 									<table
@@ -312,14 +308,7 @@
 
 					</div>
 
-
-
-
 				</div>
-
-
-
-
 			</div>
 			<!-- /content area -->
 
@@ -333,7 +322,6 @@
 
 	</div>
 	<!-- /page content -->
-
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
@@ -350,7 +338,7 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#activityName").val()) {
+												/* if (!$("#activityName").val()) {
 
 													isError = true;
 
@@ -427,7 +415,7 @@
 
 												} else {
 													$("#error_pincode").hide()
-												}
+												} */
 
 												if (!isError) {
 
@@ -444,6 +432,72 @@
 											});
 						});
 		//
+		
+		function getActivities(servId){
+			//alert("servId " +servId)
+			if (servId>0) {
+
+                $.getJSON('${getActivityByService}', {
+                	servId : servId,
+                    ajax : 'true',
+                },
+
+                function(data) {
+                    var html;
+                    var p=-1;
+                    var q="Select Activity";
+                    html += '<option disabled value="'+p+'">'
+                    +q+'</option>';
+                    html += '</option>';
+                    
+                    var temp=0;
+                    //temp=document.getElementById("temp").value;
+                    //alert("temp");
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {	
+                    	
+                    /* 	if(temp==data[i].infraAreaId){
+                    		 html += '<option selected value="' + data[i].infraAreaId + '">'
+                             + data[i].infraAreaName + '</option>';
+                    	}
+                    		
+                    		else{ */
+                    
+
+                        html += '<option value="' + data[i].actiId + '">'
+                                + data[i].actiName + '</option>';
+                    	//}
+
+                    }
+                    
+                                      
+             /*        if(temp==0){
+                    	//alert("If temp==0");
+                    	  var x=0;
+                          var y="Any Other";
+                          html += '<option selected value="'+x+'">'
+                          +y+'</option>';
+                          html += '</option>';
+                          //document.getElementById("other_area").show();
+          				$("#area_name_div").show();
+
+                         
+                    }else{
+                    	  /* var x=0;
+                          var y="Any Other";
+                          html += '<option value="'+x+'">'
+                          +y+'</option>';
+                          html += '</option>'; */
+                          
+                   // } 
+
+                    $('#activity').html(html);
+                    $("#activity").trigger("chosen:updated");
+                  
+                });
+              
+            }//end of if
+		}
 	</script>
 
 </body>

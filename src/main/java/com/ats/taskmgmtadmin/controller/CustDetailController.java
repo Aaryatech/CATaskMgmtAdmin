@@ -14,12 +14,18 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
-import com.ats.taskmgmtadmin.model.custlogindetail.GetCustLoginDetail;
+import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.custdetail.CustSignatoryMaster;
+import com.ats.taskmgmtadmin.model.custdetail.CustomerDetailMaster;
+import com.ats.taskmgmtadmin.model.custdetail.GetCustLoginDetail;
+import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 
 @Controller
 public class CustDetailController {
@@ -54,15 +60,183 @@ public class CustDetailController {
 
 			map.add("custId", custId);
 
-			GetCustLoginDetail[] custDetArray = restTemplate.postForObject(Constants.url + "/getCustLoginDetailByCustId", map,
-					GetCustLoginDetail[].class);
+			GetCustLoginDetail[] custDetArray = restTemplate
+					.postForObject(Constants.url + "/getCustLoginDetailByCustId", map, GetCustLoginDetail[].class);
 			List<GetCustLoginDetail> custDetailList = new ArrayList<>(Arrays.asList(custDetArray));
 
 			mav.addObject("custDetailList", custDetailList);
+
+			ServiceMaster[] srvsMstr = restTemplate.getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+
+			mav.addObject("serviceList", srvcMstrList);
+
 		} catch (Exception e) {
 			System.err.println("Exce in show customerDetailAdd " + e.getMessage());
 			e.printStackTrace();
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/getActivityByService", method = RequestMethod.GET)
+	public @ResponseBody List<ActivityMaster> getActivityByService(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map = new LinkedMultiValueMap<>();
+		map.add("serviceId", Integer.parseInt(request.getParameter("servId")));
+
+		ActivityMaster[] activityArr = restTemplate.postForObject(Constants.url + "/getAllActivitesByServiceId", map,
+				ActivityMaster[].class);
+		List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+
+		return activityList;
+	}
+
+	// addCustLoginDetail
+	@RequestMapping(value = "/addCustLoginDetail", method = RequestMethod.POST)
+	public ModelAndView addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
+
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			int custDetailId = Integer.parseInt(request.getParameter("custDetailId"));
+
+			int servId = Integer.parseInt(request.getParameter("service"));
+			int actvId = Integer.parseInt(request.getParameter("activity"));
+
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String que1 = request.getParameter("que1");
+			String ans1 = request.getParameter("ans1");
+			String que2 = request.getParameter("que2");
+			String ans2 = request.getParameter("ans2");
+			String remark = request.getParameter("remark");
+			
+			CustomerDetailMaster custDetail=new CustomerDetailMaster();
+			
+			custDetail.setActvId(actvId);
+			custDetail.setCustDetailId(custDetailId);
+			custDetail.setCustId(custId);
+			custDetail.setDelStatus(1);
+			custDetail.setExInt1(1);
+			custDetail.setExInt2(1);
+			custDetail.setExVar1("A");
+			custDetail.setExVar2("A");
+			custDetail.setLoginAns1(ans1);
+			custDetail.setLoginAns2(ans2);
+			custDetail.setLoginId(username);
+			
+			custDetail.setLoginPass(password);
+			custDetail.setLoginQue1(que1);
+			custDetail.setLoginQue2(que2);
+			custDetail.setLoginRemark(remark);
+			
+			custDetail.setUpdateDatetime(Constants.getCurDateTime());
+			
+			custDetail.setUpdateUsername(1);
+			
+			CustomerDetailMaster custDetailSaveRes = restTemplate.postForObject(Constants.url+"/saveNewCustomerDetail", custDetail, CustomerDetailMaster.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return mav;
+	}
+
+	
+	@RequestMapping(value = "/customerSignAdd", method = RequestMethod.POST)
+	public ModelAndView clientSignAddForm(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("master/customerSignAdd");
+
+		try {
+			
+			int custId = Integer.parseInt(request.getParameter("custId"));
+
+			RestTemplate restTemplate = new RestTemplate();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("custId", custId);
+
+			GetCustSignatory[] custSignArray = restTemplate
+					.postForObject(Constants.url + "/getCustSignatoryByCustId", map, GetCustSignatory[].class);
+			List<GetCustSignatory> custSignList = new ArrayList<>(Arrays.asList(custSignArray));
+			System.err.println("custSignList" +custSignList.toString());
+			mav.addObject("custSignList", custSignList);
+
+
+		} catch (Exception e) {
+			
+			System.err.println("Exce in show customerDetailAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	
+
+	@RequestMapping(value = "/addCustSignatory", method = RequestMethod.POST)
+	public ModelAndView addCustSignatory(HttpServletRequest request, HttpServletResponse response) {
+
+		RestTemplate restTemplate = new RestTemplate();
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			
+			CustSignatoryMaster custSign=new CustSignatoryMaster();
+			
+			String contactEmail=request.getParameter("");
+			custSign.setContactEmail(contactEmail);
+			String contactName=request.getParameter("");
+			custSign.setContactName(contactName);
+			String contactPhno=request.getParameter("");
+			custSign.setContactPhno(contactPhno);
+			String custRemark=request.getParameter("");
+			custSign.setCustRemark(custRemark);
+			String signDesign=request.getParameter("");
+			custSign.setSignDesign(signDesign);
+			String signfName=request.getParameter("");
+			custSign.setSignfName(signfName);
+			int signId=Integer.parseInt(request.getParameter(""));
+			custSign.setSignId(signId);
+			String signlName=request.getParameter("");
+			custSign.setSignlName(signlName);
+			String signPhno=request.getParameter("");
+			custSign.setSignPhno(signPhno);
+			String signRegNo=request.getParameter("");
+			custSign.setSignRegNo(signRegNo);
+			
+			custSign.setCustId(custId);
+			custSign.setDelStatus(1);
+			custSign.setExInt1(1);
+			custSign.setExInt2(1);
+			custSign.setExVar1("A");
+			custSign.setExVar2("A");
+			
+			custSign.setUpdateDatetime(Constants.getCurDateTime());
+			
+			custSign.setUpdateUsername(1);
+			
+			CustSignatoryMaster custDetailSaveRes = restTemplate.postForObject(Constants.url+"/saveCustSignatory", custSign, CustSignatoryMaster.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
+			e.printStackTrace();
+		}
+		
 		return mav;
 	}
 

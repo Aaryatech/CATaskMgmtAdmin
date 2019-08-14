@@ -1,4 +1,4 @@
-package com.ats.taskmgmtadmin.model.custlogindetail;
+package com.ats.taskmgmtadmin.model.custdetail;
 
 public class GetCustLoginDetail {
 

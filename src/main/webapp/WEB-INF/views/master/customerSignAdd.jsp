@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +78,8 @@
 
 								<form
 									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity" enctype="multipart/form-data">
+									id="submitInsertActivity">
+									<input type="hidden" id="custId" name="custId" value="${custSignList[0].custId}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">
@@ -84,7 +87,7 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Customer Name" id="customer" name="customer"
-												autocomplete="off" onchange="trim(this)" readonly="readonly">
+												autocomplete="off" value="${custSignList[0].custFirmName}" onchange="trim(this)" readonly="readonly">
 										</div>
 									</div>
 
@@ -256,9 +259,7 @@
 
 								<form
 									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity" enctype="multipart/form-data">
-
-
+									id="submitInsertActivity">
 
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
@@ -273,7 +274,7 @@
 												<th class="text-center" width="10%">Actions</th>
 											</tr>
 										</thead>
-
+		<tbody>
 										<tr>
 											<td>ABC</td>
 											<td>123123</td>
@@ -291,50 +292,25 @@
 
 										</tr>
 
+										<c:forEach items="${custSignList}" var="sign">
+										
 										<tr>
-											<td>ABC</td>
-											<td>123123</td>
-											<td>Head</td>
-											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
-												: 8585858585
+										<td>${sign.signfName} ${sign.signlName}</td>
+											<td>${sign.signRegNo}</td>
+											<td>${sign.signDesign}</td>
+											<td>${sign.signPhno}</td>
+											<td>Name : ${sign.contactName}<br>Email : ${sign.contactEmail}<br>Mobile
+												: ${sign.contactPhno}
 											</td>
-
-
-
 											<td class="text-center"><a href="" title="Edit"><i
 													class="icon-pencil7" style="color: black;"></i></a> <a href=""
 												onClick="return confirm('Are you sure want to delete this record');"
 												title="Delete"><i class="icon-trash"
 													style="color: black;"></i> </a></td>
-
+										
+										
 										</tr>
-
-
-										<tr>
-											<td>ABC</td>
-											<td>123123</td>
-											<td>Head</td>
-											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
-												: 8585858585
-											</td>
-
-
-											<td class="text-center"><a href="" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
-
-										</tr>
-
-
-
-										<tbody>
-
-
-
+										</c:forEach>
 
 										</tbody>
 									</table>
