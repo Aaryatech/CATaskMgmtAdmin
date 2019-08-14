@@ -71,21 +71,9 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/customerDetailList", method = RequestMethod.GET)
-	public ModelAndView clientDetailListForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerDetailList");
-
-		return mav;
-	}
 	
-	@RequestMapping(value = "/customerDetailAdd", method = RequestMethod.GET)
-	public ModelAndView clientDetailAddForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
-
-		return mav;
-	}
+	
+	
 	
 	@RequestMapping(value = "/customerSignAdd", method = RequestMethod.GET)
 	public ModelAndView clientSignAddForm(Locale locale, Model model) {
