@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,9 +113,10 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/employeeList"
-									id="submitInsertClient">
+								<form action="${pageContext.request.contextPath}/addNewEmployee"
+									id="submitInsertClient" method="post">
 
+									<input type="hidden" value="${employee.empId}" name="employee_id">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="profilePic">
 											Profile Pic :</label>
@@ -156,17 +158,48 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1">Select Employee Type</option>
-												<option value="2">Admin</option>
-												<option value="3">Partner</option>
-												<option value="4">Manager</option>
-												<option value="4">Team Lead</option>
-												<option value="4">Employee</option>
+												<option value="">Select Employee Type</option>
+												<option value="1" ${employee.empType == 1 ? 'selected' : ''}>Admin</option>
+												<option value="2" ${employee.empType == 2 ? 'selected' : ''}>Partner</option>
+												<option value="3" ${employee.empType == 3 ? 'selected' : ''}>Manager</option>
+												<option value="4" ${employee.empType == 4 ? 'selected' : ''}>Team Leader</option>
+												<option value="5" ${employee.empType == 5 ? 'selected' : ''}>Employee</option>
 
 
 												<%-- <c:forEach items="${locationList}" var="locationList">
 													<option value="${locationList.locId}">${locationList.locName}</option>
 												</c:forEach> --%>
+											</select>
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_empType"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
+									
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="empService">Service
+											<span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<select name="empService" multiple="multiple" 
+												data-placeholder="Select Employee Service" id="empService"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="">Select Employee Type</option>
+												<c:forEach items="${serviceList}" var="serviceList">
+													<c:choose>
+														<c:when test=""><!--${serviceList.servId==employee.empDesc}  Multiple Options issue-->
+															<option Selected value="${serviceList.servId}">${serviceList.servName}</option>												
+														</c:when>
+														<c:otherwise>
+															<option value="${serviceList.servId}">${serviceList.servName}</option>
+														</c:otherwise>														
+											</c:choose>
+											</c:forEach>
+												
 											</select>
 										</div>
 										<div class="col-lg-3">
@@ -183,7 +216,7 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${employee.empName}"
 												placeholder="Enter Name" id="empName" name="empName"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -200,7 +233,7 @@
 											of Birth <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
+											<input type="text" class="form-control datepickerclass" value="${employee.empDob}"
 												placeholder="Enter Date of Birth" id="dob" name="dob"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -216,7 +249,7 @@
 											Number <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${employee.empMob}"
 												placeholder="Enter Contact Number" id="phone" name="phone"
 												autocomplete="off"
 												oninput="validateMobileEnterOnlyDigits(this)" maxlength="10">
@@ -233,12 +266,12 @@
 											Salary Per Month <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Salary Per Month" id="empName" name="empName"
+											<input type="text" class="form-control" value="${employee.empSalary}"
+												placeholder="Salary Per Month" id="empSal" name="empSal"
 												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_empName"
+											<span class="validation-invalid-label" id="error_empSal"
 												style="display: none;">This field is required.</span>
 										</div>
 
@@ -250,7 +283,7 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${employee.empEmail}"
 												placeholder="Enter Email Address" id="email" name="email"
 												autocomplete="off" onchange="trim(this)">
 
@@ -267,10 +300,10 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" name="pwd" id="pwd"
-												placeholder="Enter Password">
+												placeholder="Enter Password" value="${employee.empPass}">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_pwd"
+											<span class="validation-invalid-label" id="error_pwd" 
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
@@ -334,14 +367,14 @@
 					$("#error_empType").hide()
 				}
 
-				if (!$("#empName").val()) {
+				if (!$("#empSal").val()) {
 
 					isError = true;
 
-					$("#error_empName").show()
+					$("#error_empSal").show()
 
 				} else {
-					$("#error_empName").hide()
+					$("#error_empSal").hide()
 				}
 
 				if (!$("#email").val() || !validateEmail($("#email").val())) {

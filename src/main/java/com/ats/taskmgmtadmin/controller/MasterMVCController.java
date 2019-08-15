@@ -27,6 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
+import com.ats.taskmgmtadmin.model.CustomerDetails;
+import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
+import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
@@ -46,6 +49,7 @@ public class MasterMVCController {
 	
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 	
+	int user = 111;
 	/**********************Service Master**********************/
 	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model) {
@@ -119,14 +123,14 @@ public class MasterMVCController {
 	}
 	
 	
-	@RequestMapping(value = "/editService", method = RequestMethod.POST)
+	@RequestMapping(value = "/editService", method = RequestMethod.GET)
 	public ModelAndView editService(HttpServletRequest request, HttpServletResponse response) {
 	
 		ModelAndView mav=null;
 		try {
 			 mav = new ModelAndView("master/serviceAdd");
 			 
-			int serviceId = Integer.parseInt(request.getParameter("edit_service_id"));
+			int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 						
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
@@ -145,10 +149,10 @@ public class MasterMVCController {
 		
 	}
 	
-	@RequestMapping(value = "/deleteService/{serviceId}", method = RequestMethod.GET)
-	public String deleteService(HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable int serviceId) {
+	@RequestMapping(value = "/deleteService", method = RequestMethod.GET)
+	public String deleteService(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 		int userId = 222;
 		System.out.println("Delete:"+serviceId);
 		
@@ -368,7 +372,7 @@ public class MasterMVCController {
 	
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
 	public ModelAndView employeeListForm(Locale locale, Model model) {
-System.out.println("In EmployeeList");
+
 		ModelAndView mav = null;
 		try {
 				mav = new ModelAndView("master/employeeList");
@@ -388,8 +392,402 @@ System.out.println("In EmployeeList");
 	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
 	public ModelAndView employeeAddForm(Locale locale, Model model) {
 
-		ModelAndView mav = new ModelAndView("master/employeeAdd");
+		ModelAndView mav = null;
+		try {
+				mav = new ModelAndView("master/employeeAdd");
+				
+				EmployeeMaster employee  = new EmployeeMaster();
+				mav.addObject("employee", employee);				
+				
+				ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				
+				mav.addObject("serviceList", srvcMstrList);
+		}catch (Exception e) {
+			System.err.println("Exce in employeeAdd " + e.getMessage());
+			e.printStackTrace();
+		}
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/addNewEmployee", method=RequestMethod.POST)
+	public String  addNwEmployee(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+				EmployeeMaster employee = new EmployeeMaster();
+				int empId = 0;
+				try {
+					empId = Integer.parseInt(request.getParameter("employee_id"));
+				}catch(Exception e) {
+					e.getMessage();
+				}
+				String[] services = request.getParameterValues("empService");
+				
+				StringBuilder sb = new StringBuilder();
+
+				for (int i = 0; i < services.length; i++) {
+					sb = sb.append(services[i] + ",");
+
+				}
+				String servicesList = sb.toString();
+				System.out.println("Serviceas:"+servicesList);
+							
+				employee.setEmpId(empId);
+				employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
+				employee.setEmpName(request.getParameter("empName"));
+				employee.setEmpDob(request.getParameter("dob"));
+				employee.setEmpRoleId(1);
+				employee.setEmpMob(request.getParameter("phone"));
+				employee.setEmpEmail(request.getParameter("email"));
+				employee.setEmpPass(request.getParameter("pwd"));
+				employee.setEmpDesc(servicesList);
+				employee.setEmpPic("NA");
+				employee.setEmpSalary(request.getParameter("empSal"));
+				employee.setDelStatus(1);
+				employee.setUpdateDatetime(curDateTime);
+				employee.setUpdateUsername(user);
+				employee.setExInt1(0);
+				employee.setExInt2(0);
+				employee.setExVar1("NA");
+				employee.setExVar2("NA");
+				
+				EmployeeMaster emp = rest.postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
+		}catch (Exception e) {
+			System.err.println("Exce in addNwEmployee " + e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:/employeeList";
+	}
+	
+	@RequestMapping(value = "/editEmployee", method=RequestMethod.GET)
+	public ModelAndView editEmployee(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		MultiValueMap<String, Object> map = null;
+		try {
+			mav = new ModelAndView("master/employeeAdd");
+			
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			System.out.println("Emp Id:"+empId);
+			
+			map = new LinkedMultiValueMap<>();
+			
+			map.add("empId", empId);
+			EmployeeMaster employee = rest.postForObject(Constants.url+"/getEmployeeById", map, EmployeeMaster.class);			
+			mav.addObject("employee", employee);
+			
+			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
+			mav.addObject("serviceList", srvcMstrList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in editEmployee " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping(value = "/deleteEmployee/{employeeId}", method = RequestMethod.GET)
+	public String deleteEmployee(HttpServletRequest request, HttpServletResponse response, 
+			@PathVariable int employeeId) {
+				
+				int serviceId = 0;
+		try {
+					MultiValueMap<String, Object> map = null;
+					int userId = 222;
+					System.out.println("Delete:"+employeeId);
+					
+					map = new LinkedMultiValueMap<>();				
+					map.add("employeeId", employeeId);
+										
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("empId", employeeId);
+					
+					Info info = rest.postForObject(Constants.url+"/deleteEmployee", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deleteEmployee " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/employeeList";
+	}
+	
+	/**********************Customer Group Master**************************/
+	
+	@RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
+	public ModelAndView customerGroupListForm(Locale locale, Model model) {
+		ModelAndView mav = null;
+		try {
+			mav = new ModelAndView("master/customerGroupList");
+			
+			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			
+			mav.addObject("custGrpList", custGrpList);
+		return mav;
+		}catch (Exception e) {
+			System.err.println("Exce in customerGroupList " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
+	public ModelAndView customerGroupAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = null;
+		try {
+				mav = new ModelAndView("master/customerGroupAdd");
+				
+				CustomerGroupMaster cust = new CustomerGroupMaster();				
+				mav.addObject("cust", cust);
+				
+				
+				
+		}catch (Exception e) {
+			
+			System.err.println("Exce in customerGroupAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/newCustomerGroup", method = RequestMethod.POST)
+	public String  newCustomerGroup(HttpServletRequest request, HttpServletResponse response) {
+		try{
+			CustomerGroupMaster cust = new CustomerGroupMaster();
+			
+			int cusrGrpId = 0;
+			try {
+				cusrGrpId = Integer.parseInt(request.getParameter("cust_group_id"));
+			}catch (Exception e) {
+				e.getMessage();
+				cusrGrpId=0;
+			}
+			
+			cust.setCustGroupId(cusrGrpId);
+			cust.setCustGroupName(request.getParameter("grpName"));
+			cust.setCustGroupRemark(request.getParameter("remark"));
+			cust.setDelStatus(1);
+			cust.setUpdateDatetime(curDateTime);
+			cust.setUpdateUsername(user);
+			cust.setExInt1(0);
+			cust.setExInt2(0);
+			cust.setExVar1("NA");
+			cust.setExVar2("NA");
+			
+			CustomerGroupMaster custGrp = rest.postForObject(Constants.url+"/saveNewCustomerGroup", cust, CustomerGroupMaster.class);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in newCustomerGroup " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "redirect:/customerGroupList";
+		
+	}
+	
+	@RequestMapping(value = "/editCustGrp", method=RequestMethod.GET)
+	public ModelAndView editCustGrp(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = null;
+		try {
+			int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
+			
+				mav = new ModelAndView("master/customerGroupAdd");
+				
+				CustomerGroupMaster cust = new CustomerGroupMaster();				
+				mav.addObject("cust", cust);
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("custGrpId", custGrpId);
+				CustomerGroupMaster custGrp = rest.postForObject(Constants.url+"/getCustomerGroupById", map, CustomerGroupMaster.class);
+				
+				mav.addObject("cust", custGrp);
+		}catch (Exception e) {
+			
+			System.err.println("Exce in customerGroupAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteCustGrp", method = RequestMethod.GET)
+	public String deleteCustGrp(HttpServletRequest request, HttpServletResponse response) {
+				
+		try {
+					MultiValueMap<String, Object> map = null;
+					
+					int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
+					System.out.println("ID:"+custGrpId);
+					
+					int userId = 222;			
+										
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("custGrpId", custGrpId);
+					
+					Info info = rest.postForObject(Constants.url+"/deleteCustomerGroup", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deleteCustGrp " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/customerGroupList";
+	}
+	
+	/********************Customer Header Master*************************/
+	
+	@RequestMapping(value = "/customerAdd", method = RequestMethod.GET)
+	public ModelAndView clientForm(Locale locale, Model model) {
+		ModelAndView mav = null;
+		try {
+			
+				mav = new ModelAndView("master/customerAdd");
+				
+				CustomerHeaderMaster custHead = new CustomerHeaderMaster();
+				mav.addObject("custHead", custHead);
+				
+						
+				CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+				mav.addObject("custGrpList", custGrpList);
+				
+				EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+				
+				
+		}catch (Exception e) {
+			System.err.println("Exce in customerAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/customerList", method = RequestMethod.GET)
+	public ModelAndView clientListForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("master/customerList");
+		try {
+			
+				CustomerDetails[] custHeadArr = rest.getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+				mav.addObject("custHeadList", custHeadList);
+				
+		}catch (Exception e) {
+			System.err.println("Exce in customerList " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/addCustomerHeader", method=RequestMethod.POST)
+	public String addCustomerHeader(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+				CustomerHeaderMaster cust = new CustomerHeaderMaster();
+				int custHeadId = 0; 
+				try {
+					custHeadId = Integer.parseInt(request.getParameter("cust_head_id"));
+				}catch (Exception e) {
+					e.getMessage();
+					custHeadId = 0;
+				}
+				cust.setCustId(custHeadId);
+				cust.setOwnerEmpId(Integer.parseInt(request.getParameter("ownerPartner")));
+				cust.setCustFirmName(request.getParameter("firmName"));
+				cust.setCustFirmType(0);	//		cust.setCustFirmType(Integer.parseInt(request.getParameter("firmType")));
+				cust.setCustType(0);		//cust.setCustType(Integer.parseInt(request.getParameter("0")));	
+				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));				
+				cust.setCustAssesseeTypeId(Integer.parseInt(request.getParameter("assesseeType")));
+				cust.setCustAssesseeName(request.getParameter("assesseeName"));
+				cust.setCustPanNo(request.getParameter("panNo"));
+				cust.setCustEmailId(request.getParameter("emailId"));
+				cust.setCustPhoneNo(request.getParameter("phone"));
+				cust.setCustAddr1(request.getParameter("address1"));
+				cust.setCustAddr2(request.getParameter("address2"));
+				cust.setCustCity(request.getParameter("city"));
+				cust.setCustPinCode(Integer.parseInt(request.getParameter("pincode")));
+				cust.setCustBusinNatute(request.getParameter("business"));
+				cust.setCustIsDscAvail(Integer.parseInt(request.getParameter("dsc")));
+				cust.setCustFolderId(request.getParameter("filePath"));
+				cust.setCustFileNo(request.getParameter("fileNo"));				
+				cust.setCustAadhar(request.getParameter("aadhar"));
+				cust.setCustDob(request.getParameter("dob"));
+				cust.setDelStatus(1);
+				cust.setIsActive(1);
+				cust.setUpdateDatetime(curDateTime);
+				cust.setUpdateUsername(user);
+				cust.setExInt1(0);
+				cust.setExInt2(0);
+				cust.setExVar1("NA");
+				cust.setExVar2("NA");
+				System.out.println("Customer:"+cust);
+		 CustomerHeaderMaster  custHead = rest.postForObject(Constants.url+"/saveNewCustomerHeader", cust, CustomerHeaderMaster.class);
+				
+		}catch (Exception e) {
+			System.err.println("Exce in addCustomerHeader " + e.getMessage());
+			e.printStackTrace();
+		}
+		return "redirect:/customerList";
+	}
+	
+		
+	@RequestMapping(value="/editCust" , method = RequestMethod.GET)
+	public ModelAndView editCust(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		try {
+			MultiValueMap<String, Object> map = null;
+			mav = new ModelAndView("master/customerAdd");
+			
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("custHeadId", custId);
+			
+			CustomerHeaderMaster custHead = rest.postForObject(Constants.url+"/getCustomerHeadById", map, CustomerHeaderMaster.class);
+			mav.addObject("custHead", custHead);
+			
+			EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+			mav.addObject("epmList", epmList);
+			
+			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			mav.addObject("custGrpList", custGrpList);
+			
+			
+		}catch (Exception e) {
+			System.err.println("Exce in editCust " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deletCust", method = RequestMethod.GET)
+	public String deletCustcustId(HttpServletRequest request, HttpServletResponse response) {
+				
+		try {
+					MultiValueMap<String, Object> map = null;
+					
+					int custId = Integer.parseInt(request.getParameter("custId"));
+										
+					int userId = 222;			
+										
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("custHeadId", custId);
+					
+					Info info = rest.postForObject(Constants.url+"/deleteCustomerHeader", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deletCust " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/customerList";
+	}
+	
 }

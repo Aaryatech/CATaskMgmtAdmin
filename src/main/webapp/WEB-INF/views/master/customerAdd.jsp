@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,24 +113,50 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/customerList"
-									id="submitInsertClient">
+								<form action="${pageContext.request.contextPath}/addCustomerHeader"
+									id="submitInsertClient" method="post">
 
-
+									<input type="text" value="${custHead.custId}" name="cust_head_id">
+									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custFirmName}"
 												placeholder="Enter Firm Name" id="firmName" name="firmName"
-												autocomplete="off" onchange="trim(this)" required>
+												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_firmName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter firm name.</span>
 										</div>
 
+									</div>
+									
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="clientGroup">Firm
+											Type : </label>
+										<div class="col-lg-6">
+											<select name="firmType"
+												data-placeholder="Select Client Group" id="firmType"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+												
+												<option value="1">Select</option>
+												<c:forEach items="${custGrpList}" var="custGrpList">
+													<c:choose>
+														<c:when test="">
+														<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														</c:when>
+														<c:otherwise></c:otherwise>
+													</c:choose>
+												</c:forEach>
+
+											</select>
+
+										</div>
+										<div class="col-lg-3"></div>
 									</div>
 
 
@@ -138,7 +165,7 @@
 										<label class="col-form-label col-lg-3" for="assesseeName">Assessee
 											Name : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custAssesseeName}"
 												placeholder="Enter Assessee Name" id="assesseeName"
 												name="assesseeName" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -152,30 +179,30 @@
 											No. <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control"  value="${custHead.custPanNo}"
 												placeholder="Enter Permanent Account Number (PAN)"
 												id="panNo" name="panNo" autocomplete="off"
 												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_panNo"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter PAN No.</span>
 										</div>
 									</div>
 
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="aadhar">Aadhar
-											Card No. <span style="color: red">* </span>:
+											Card No. <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custAadhar}"
 												placeholder="Enter Aadhar Card Number" id="aadhar"
 												name="aadhar" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_aadhar"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter Aadhar Card No.</span>
 										</div>
 									</div>
 
@@ -189,11 +216,11 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1">Select Assessee Type</option>
-												<option value="2">Individual</option>
-												<option value="3">Partnership Firm</option>
-												<option value="4">Pvt Ltd</option>
-												<option value="5">Public Limited</option>
+												<option value="">Select Assessee Type</option>
+												<option value="1" ${custHead. custAssesseeTypeId == 1 ? 'selected' : ''}>Individual</option>
+												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
+												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
+												<option value="4" ${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public Limited</option>
 
 
 												<%-- <c:forEach items="${locationList}" var="locationList">
@@ -212,8 +239,18 @@
 												data-placeholder="Select Client Group" id="clientGrp"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
-
+												
 												<option value="1">Select</option>
+												<c:forEach items="${custGrpList}" var="custGrpList">
+													<c:choose>
+														<c:when test="${custGrpList.custGroupId==custHead.custGroupId}">
+															<option selected value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
 
 											</select>
 
@@ -226,7 +263,7 @@
 											of Birth <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
+											<input type="text" class="form-control datepickerclass" value="${custHead.custDob}"
 												name="dob" id="dob" placeholder="Date of Birth">
 										</div>
 										<div class="col-lg-3">
@@ -241,7 +278,7 @@
 											Id <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custEmailId}"
 												placeholder="Enter Email Id" id="emailId" name="emailId"
 												autocomplete="off" oninput="trim(this)">
 										</div>
@@ -258,7 +295,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Phone Number" id="phone" name="phone"
-												autocomplete="off"
+												autocomplete="off" value="${custHead.custPhoneNo}"
 												oninput="validateMobileEnterOnlyDigits(this)" maxlength="10">
 										</div>
 										<div class="col-lg-3">
@@ -272,7 +309,7 @@
 											1 <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custAddr1}"
 												placeholder="Enter Address" id="address1" name="address1"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -286,7 +323,7 @@
 										<label class="col-form-label col-lg-3" for="address2">Address
 											2 : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custAddr2}"
 												placeholder="Enter Address" id="address2" name="address2"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -298,7 +335,7 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custCity}"
 												placeholder="Enter City" id="city" name="city"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -314,7 +351,7 @@
 											code <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custPinCode}"
 												placeholder="Enter Pin Code" id="pincode" name="pincode"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -329,7 +366,7 @@
 										<label class="col-form-label col-lg-3" for="city">Nature
 											of Business : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custBusinNatute}"
 												placeholder="Enter Nature of Business" id="business"
 												name="business" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -342,14 +379,14 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio"
+											<label class="form-check-label"> <input type="radio" ${custHead.custIsDscAvail == 1 ? 'checked' : ''}
 												class="form-check-input" name="dsc" id="dsc" checked
 												value="1"> Available
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-												class="form-check-input" name="dsc" id="dsc" value="2">
+											<label class="form-check-label"> <input type="radio" ${custHead.custIsDscAvail == 0 ? 'checked' : ''}
+												class="form-check-input" name="dsc" id="dsc" value="0">
 												Not Available
 											</label>
 										</div>
@@ -361,7 +398,7 @@
 										<label class="col-form-label col-lg-3" for="city">File
 											Path : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${custHead.custFolderId}"
 												placeholder="Enter File Path" id="filePath" name="filePath"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -372,8 +409,8 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">File
 											No. : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
+										<div class="col-lg-6"> 
+											<input type="text" class="form-control" value="${custHead.custFileNo}"
 												placeholder="Enter File No." id="fileNo" name="fileNo"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -382,7 +419,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">Owner
-											Partner : </label>
+											Partner :</label>
 										<div class="col-lg-6">
 											<!-- <input type="text" class="form-control"
 												placeholder="Enter Owner Partner" id="ownerPartner"
@@ -393,15 +430,19 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1">Select Owner Partner</option>
-												<option value="2">Prakash</option>
-												<option value="3">Avinash</option>
-												<option value="4">Umesh</option>
-
-
-												<%-- <c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach> --%>
+												<option value="">Select Owner Partner</option>
+												<c:forEach items="${epmList}" var="epmList">
+													< <c:choose>
+														<c:when test="${epmList.empId==custHead.ownerEmpId}">
+															<option selected value="${epmList.empId}">${epmList.empName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${epmList.empId}">${epmList.empName}</option>
+														</c:otherwise>
+													</c:choose> 
+													
+												</c:forEach>
+												
 											</select>
 
 										</div>

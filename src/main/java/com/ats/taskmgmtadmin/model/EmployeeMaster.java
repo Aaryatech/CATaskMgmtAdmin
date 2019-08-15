@@ -1,15 +1,11 @@
 package com.ats.taskmgmtadmin.model;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class EmployeeMaster {
 
 	private int empId;
 	private int empType;
 	private String empName;
-	private Date empDob;
+	private String empDob;
 	private int empRoleId;
 	private String empMob;
 	private String empEmail;
@@ -23,7 +19,15 @@ public class EmployeeMaster {
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;
+	private String empSalary;
 	
+	
+	public String getEmpSalary() {
+		return empSalary;
+	}
+	public void setEmpSalary(String empSalary) {
+		this.empSalary = empSalary;
+	}
 	public int getEmpId() {
 		return empId;
 	}
@@ -43,11 +47,10 @@ public class EmployeeMaster {
 		this.empName = empName;
 	}
 	
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getEmpDob() {
+	public String getEmpDob() {
 		return empDob;
 	}
-	public void setEmpDob(Date empDob) {
+	public void setEmpDob(String empDob) {
 		this.empDob = empDob;
 	}
 	public int getEmpRoleId() {
@@ -129,14 +132,13 @@ public class EmployeeMaster {
 	public void setExVar2(String exVar2) {
 		this.exVar2 = exVar2;
 	}
-	
 	@Override
 	public String toString() {
 		return "EmployeeMaster [empId=" + empId + ", empType=" + empType + ", empName=" + empName + ", empDob=" + empDob
 				+ ", empRoleId=" + empRoleId + ", empMob=" + empMob + ", empEmail=" + empEmail + ", empPass=" + empPass
 				+ ", empDesc=" + empDesc + ", empPic=" + empPic + ", delStatus=" + delStatus + ", updateDatetime="
 				+ updateDatetime + ", updateUsername=" + updateUsername + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", empSalary=" + empSalary + "]";
 	}
 	
 }

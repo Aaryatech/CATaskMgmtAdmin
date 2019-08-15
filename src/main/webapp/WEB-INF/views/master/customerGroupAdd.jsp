@@ -113,10 +113,10 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/customerGroupList"
-									id="submitInsertClient">
+									action="${pageContext.request.contextPath}/newCustomerGroup"
+									id="submitInsertClient" method="post"> 
 
-
+								<input type="hidden" value="${cust.custGroupId}" name="cust_group_id">
 
 									<div class="form-group row">
 
@@ -124,7 +124,7 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${cust.custGroupName}"
 												placeholder="Enter Name" id="grpName" name="grpName"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -134,11 +134,11 @@
 										</div>
 
 										<label class="col-form-label col-lg-3" for="grpName">
-											Remark <span style="color: red">* </span>:
+											Remark <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" placeholder="Remark"
-												id="grpName" name="grpName" autocomplete="off"
+												id="remark" name="remark" autocomplete="off" ${cust.custGroupRemark}
 												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -166,6 +166,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields
+										are mandatory.</p>
 							</div>
 						</div>
 

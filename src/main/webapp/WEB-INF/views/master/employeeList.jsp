@@ -75,7 +75,7 @@
 							</tr>
 						</table>
 					</div>
-
+					<form method="post" id="employee_list">
 					<div class="card-body">
 
 						<%
@@ -136,20 +136,21 @@
 									src="${pageContext.request.contextPath}/${epmList.empPic}"
 									class="rounded-circle" width="36" height="36" alt=""></td> 
 								<td>${epmList.empName}</td>
-								 <td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
+								<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
 								<td>${epmList.empDob}</td>
 								<td>${epmList.empEmail}</td>
 								<td>${epmList.empMob}</td>
 
-								<td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
+								<td><a href="${pageContext.request.contextPath}/editEmployee?empId=${epmList.empId}" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> 
+									<a href="${pageContext.request.contextPath}/deleteEmployee?empId=${epmList.empId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
 
 							</tr>					
 							</c:forEach>
-							<tbody>
+						<%-- 	<tbody>
 
 
 								<c:forEach items="${compList}" var="compList" varStatus="count">
@@ -175,11 +176,11 @@
 									</tr>
 								</c:forEach>
 
-							</tbody>
+							</tbody> --%>
 						</table>
-
+					<input type="hidden" id="edit_employee_id" name="edit_employee_id" value="0">
 					</div>
-
+					</form>
 				</div>
 				<!-- /highlighting rows and columns -->
 
@@ -198,15 +199,20 @@
 		<script type="text/javascript"
 			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
-
-
-
-
-
-
-
 	</div>
 	<!-- /page content -->
-
+	
+<script type="text/javascript">
+	function editEmployee(employeeId){
+	//	alert(employeeId);
+		document.getElementById("edit_employee_id").value=employeeId; 	//create this 
+		var form=document.getElementById("employee_list");
+	    form.setAttribute("method", "post");
+	    
+		form.action=("editEmployee");
+		form.submit();
+		
+	}
+	</script>
 </body>
 </html>

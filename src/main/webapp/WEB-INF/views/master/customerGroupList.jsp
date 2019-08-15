@@ -123,99 +123,22 @@
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-
+							<c:forEach items="${custGrpList}" var="custGrpList" varStatus="count">
 							<tr>
-								<td>1</td>
-								<td>ABC</td>
+								<td>${count.index+1}</td>
+								<td>${custGrpList.custGroupName}</td>
 								
-								<td class="text-center"><a href="#" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href="#"
+								<td class="text-center"><a href="${pageContext.request.contextPath}/editCustGrp?custGrpId=${custGrpList.custGroupId}" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteCustGrp?custGrpId=${custGrpList.custGroupId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-								<!-- <td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td> -->
+								</a></td>				
 
 							</tr>
+							</c:forEach>
+							
 
-							<tr>
-								<td>2</td>
-								<td>XYZ</td>
-								
-								<td class="text-center"><a href="#" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href="#"
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-								<!-- <td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td> -->
-
-							</tr>
-
-							<tr>
-								<td>3</td>
-								<td>PQR</td>
-
-
-								 <td class="text-center"><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td> 
-
-								<!-- <td class="text-center">
-									<div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item"><i
-													class="icon-database-edit2"></i> Edit</a> <a href="#"
-													class="dropdown-item"
-													onClick="return confirm('Are you sure want to delete this record');"><i
-													class="icon-trash"></i> Delete</a>
-											</div>
-										</div>
-									</div>
-								</td> -->
-
-							</tr>
-
-							<tbody>
+							<%-- <tbody>
 
 
 								<c:forEach items="${compList}" var="compList" varStatus="count">
@@ -241,7 +164,7 @@
 									</tr>
 								</c:forEach>
 
-							</tbody>
+							</tbody> --%>
 						</table>
 
 					</div>

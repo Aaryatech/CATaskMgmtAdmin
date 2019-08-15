@@ -121,6 +121,7 @@
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
 							<thead>
+							
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
 									<th>Firm Name</th>
@@ -133,78 +134,32 @@
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-
+							<c:forEach items="${custHeadList}" var="custHeadList" varStatus="count">
 							<tr>
-								<td>1</td>
-								<td>ABC</td>
-								<td>ABC group</td>
-								<td>AAA</td>
-								<td>ABCDE1234T</td>
-								<td>abc@gmail.com</td>
-								<td>9898989898</td>
-								<td>Prakash</td>
+								<td>${count.index+1}</td>
+								<td>${custHeadList.custFirmName}</td>
+								<td>${custHeadList.custGroupName}</td>
+								<td>${custHeadList.custAssesseeName}</td>
+								<td>${custHeadList.custPanNo}</td>
+								<td>${custHeadList.custEmailId}</td>
+								<td>${custHeadList.custPhoneNo}</td>
+								<td>${custHeadList.empName}</td>
 
 
 								<td><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap"
 									title="Map Activity"><i class="icon-add"
-										style="color: black;"></i></a> <a href="" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href=""
+										style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.custId}" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.custId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
 
 							</tr>
+							</c:forEach>
+						
 
-							<tr>
-								<td>2</td>
-								<td>PQR</td>
-								<td>PQR group</td>
-								<td>AAA</td>
-								<td>ABCDE1234T</td>
-								<td>abc@gmail.com</td>
-								<td>9898989898</td>
-								<td>Prakash</td>
-
-								<td><a
-									href="${pageContext.request.contextPath}/customerActivityAddMap"
-									title="Map Activity"><i class="icon-add"
-										style="color: black;"></i></a> <a href="" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-							</tr>
-
-							<tr>
-								<td>3</td>
-								<td>XYZ</td>
-								<td>XYZ group</td>
-								<td>AAA</td>
-								<td>ABCDE1234T</td>
-								<td>abc@gmail.com</td>
-								<td>9898989898</td>
-								<td>Prakash</td>
-
-								<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td> -->
-
-								<td><a
-									href="${pageContext.request.contextPath}/customerActivityAddMap"
-									title="Map Activity"><i class="icon-add"
-										style="color: black;"></i></a> <a href="" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
-
-							</tr>
-
-							<tbody>
+							<%-- <tbody>
 
 
 								<c:forEach items="${compList}" var="compList" varStatus="count">
@@ -230,7 +185,7 @@
 									</tr>
 								</c:forEach>
 
-							</tbody>
+							</tbody> --%>
 						</table>
 
 					</div>

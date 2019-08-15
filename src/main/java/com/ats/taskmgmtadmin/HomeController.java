@@ -55,21 +55,21 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/customerAdd", method = RequestMethod.GET)
-	public ModelAndView clientForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerAdd");
-
-		return mav;
-	}
-	
-	@RequestMapping(value = "/customerList", method = RequestMethod.GET)
-	public ModelAndView clientListForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerList");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/customerAdd", method = RequestMethod.GET) public
+	 * ModelAndView clientForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/customerAdd");
+	 * 
+	 * return mav; }
+	 * 
+	 * @RequestMapping(value = "/customerList", method = RequestMethod.GET) public
+	 * ModelAndView clientListForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/customerList");
+	 * 
+	 * return mav; }
+	 */
 	
 	
 	
@@ -154,21 +154,23 @@ public class HomeController {
 	 */
 	
 	
-	@RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
-	public ModelAndView customerGroupListForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerGroupList");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
+	 * public ModelAndView customerGroupListForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/customerGroupList");
+	 * 
+	 * return mav; }
+	 */
 	
-	@RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
-	public ModelAndView customerGroupAddForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerGroupAdd");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
+	 * public ModelAndView customerGroupAddForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/customerGroupAdd");
+	 * 
+	 * return mav; }
+	 */
 	
 	
 	@RequestMapping(value = "/customerActivityAddMap", method = RequestMethod.GET)
