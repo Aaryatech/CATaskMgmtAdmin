@@ -61,7 +61,10 @@
 
 
 				<!-- Highlighting rows and columns -->
-				<div class="card">
+				<form id="custHeaderForm" >
+				<input type="hidden"  id="custId" name="custId" value="0">
+				
+								<div class="card">
 					<div class="card-header header-elements-inline">
 
 						<table width="100%">
@@ -139,9 +142,9 @@
 									<td>Prakash</td>
 
 									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/customerDetailAdd"
+										href="#" onclick="addDetail(1)"
 										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
-										<a href="${pageContext.request.contextPath}/customerSignAdd"
+										<a href="#" onclick="addSignatory(1)"
 										class="dropdown-item"><i class="icon-add"></i> Add
 											Signatory</a></td>
 
@@ -255,6 +258,7 @@
 					</div>
 
 				</div>
+				</form>
 				<!-- /highlighting rows and columns -->
 
 			</div>
@@ -285,8 +289,33 @@
                  $('tr[@class^=child-]').hide().children('td');   
         });  
         </script>   -->
+<script type="text/javascript">
 
+function addDetail(custId) {
+	
+	//alert("Hi");
+	document.getElementById("custId").value=custId;//create this 
+	var form=document.getElementById("custHeaderForm");
+    form.setAttribute("method", "post");
 
+	form.action=("customerDetailAdd");
+	form.submit();
+	
+}
+
+function addSignatory(custId) {
+	
+	//alert("Hi");
+	document.getElementById("custId").value=custId;//create this 
+	var form=document.getElementById("custHeaderForm");
+    form.setAttribute("method", "post");
+
+	form.action=("customerSignAdd");
+	form.submit();
+	
+}
+
+</script>
 
 </body>
 </html>

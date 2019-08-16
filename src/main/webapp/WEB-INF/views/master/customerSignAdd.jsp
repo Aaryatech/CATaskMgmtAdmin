@@ -80,6 +80,7 @@
 									action="${pageContext.request.contextPath}/customerDetailList"
 									id="submitInsertActivity">
 									<input type="hidden" id="custId" name="custId" value="${custSignList[0].custId}">
+									<input type="hidden" id="signId" name="signId" value="0">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">

@@ -198,25 +198,25 @@ public class CustDetailController {
 			
 			CustSignatoryMaster custSign=new CustSignatoryMaster();
 			
-			String contactEmail=request.getParameter("");
+			String contactEmail=request.getParameter("contPerEmail");
 			custSign.setContactEmail(contactEmail);
-			String contactName=request.getParameter("");
+			String contactName=request.getParameter("contPerName");
 			custSign.setContactName(contactName);
-			String contactPhno=request.getParameter("");
+			String contactPhno=request.getParameter("contPerNo");
 			custSign.setContactPhno(contactPhno);
-			String custRemark=request.getParameter("");
+			String custRemark=request.getParameter("remark");
 			custSign.setCustRemark(custRemark);
-			String signDesign=request.getParameter("");
+			String signDesign=request.getParameter("desg");
 			custSign.setSignDesign(signDesign);
-			String signfName=request.getParameter("");
+			String signfName=request.getParameter("signFName");
 			custSign.setSignfName(signfName);
-			int signId=Integer.parseInt(request.getParameter(""));
+			int signId=Integer.parseInt(request.getParameter("signId"));
 			custSign.setSignId(signId);
-			String signlName=request.getParameter("");
+			String signlName=request.getParameter("signLName");
 			custSign.setSignlName(signlName);
-			String signPhno=request.getParameter("");
+			String signPhno=request.getParameter("signMobile");
 			custSign.setSignPhno(signPhno);
-			String signRegNo=request.getParameter("");
+			String signRegNo=request.getParameter("regNo");
 			custSign.setSignRegNo(signRegNo);
 			
 			custSign.setCustId(custId);
