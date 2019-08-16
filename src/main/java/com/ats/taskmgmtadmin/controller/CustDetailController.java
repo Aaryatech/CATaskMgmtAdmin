@@ -200,22 +200,31 @@ public class CustDetailController {
 			
 			String contactEmail=request.getParameter("contPerEmail");
 			custSign.setContactEmail(contactEmail);
+			
 			String contactName=request.getParameter("contPerName");
 			custSign.setContactName(contactName);
+			
 			String contactPhno=request.getParameter("contPerNo");
 			custSign.setContactPhno(contactPhno);
+			
 			String custRemark=request.getParameter("remark");
 			custSign.setCustRemark(custRemark);
+			
 			String signDesign=request.getParameter("desg");
 			custSign.setSignDesign(signDesign);
+			
 			String signfName=request.getParameter("signFName");
 			custSign.setSignfName(signfName);
+			
 			int signId=Integer.parseInt(request.getParameter("signId"));
 			custSign.setSignId(signId);
+			
 			String signlName=request.getParameter("signLName");
 			custSign.setSignlName(signlName);
+			
 			String signPhno=request.getParameter("signMobile");
 			custSign.setSignPhno(signPhno);
+			
 			String signRegNo=request.getParameter("regNo");
 			custSign.setSignRegNo(signRegNo);
 			
