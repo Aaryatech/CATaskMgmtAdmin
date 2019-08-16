@@ -46,9 +46,9 @@
 					</div>
 
 					<div class="breadcrumb justify-content-center">
-					<c:if test="${addAccess == 0}">
+
 						<a href="${pageContext.request.contextPath}/addWeeklyOff"
-							class="breadcrumb-elements-item"> Add Weekly Off </a></c:if>
+							class="breadcrumb-elements-item"> Add Weekly Off </a>
 
 					</div>
 
@@ -66,7 +66,7 @@
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Weekly Off List</h5>
-					<!-- 	<div class="header-elements">
+						<!-- 	<div class="header-elements">
 							<div class="list-icons">
 								<a class="list-icons-item" data-action="collapse"></a>
 							</div>
@@ -117,9 +117,8 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Location Name</th>
 									<th>Weekly Off Type</th>
-								<!-- 	<th>Weekly Off Presently</th> -->
+									<!-- 	<th>Weekly Off Presently</th> -->
 									<th>Day</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
@@ -130,7 +129,6 @@
 								<c:forEach items="${weekOffList}" var="week" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${week.locName}</td>
 										<td><c:choose>
 												<c:when test="${week.woType==1}">
 												
@@ -166,7 +164,7 @@
 												All
 												</c:otherwise>
 											</c:choose></td>
-									<%-- 	<td>${week.woPresently}</td> --%>
+										<%-- 	<td>${week.woPresently}</td> --%>
 										<td><c:choose>
 												<c:when test="${week.woDay==1}">
 												
@@ -203,21 +201,14 @@
 												</c:otherwise>
 											</c:choose></td>
 
-										<td class="text-center">
-										
-														<c:if test="${editAccess == 0}">
-														<a
-															href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"
-															title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if>
-															<c:if
-																test="${deleteAccess == 0}">
-														<a
-															href="${pageContext.request.contextPath}/deleteWeeklyOff?woId=${week.exVar1}"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash" style="color: black;"></i>
-															</a></c:if>
-											
-										</td>
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"
+											title="Edit"><i class="icon-pencil7"
+												style="color: black;"></i></a> <a
+											href="${pageContext.request.contextPath}/deleteWeeklyOff?woId=${week.exVar1}"
+											onClick="return confirm('Are you sure want to delete this record');"
+											title="Delete"><i class="icon-trash"
+												style="color: black;"></i> </a></td>
 									</tr>
 								</c:forEach>
 

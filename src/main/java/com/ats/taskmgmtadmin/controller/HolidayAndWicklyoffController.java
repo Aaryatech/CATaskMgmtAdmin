@@ -20,16 +20,17 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.client.RestTemplate; 
  
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CalenderYear;
 import com.ats.taskmgmtadmin.model.GetHoliday;
+import com.ats.taskmgmtadmin.model.GetWeeklyOff;
 import com.ats.taskmgmtadmin.model.Holiday;
 import com.ats.taskmgmtadmin.model.Info;
+import com.ats.taskmgmtadmin.model.WeeklyOff;
 
 @Controller
 @Scope("session")
@@ -41,6 +42,7 @@ public class HolidayAndWicklyoffController {
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
 	Holiday editHoliday = new Holiday();
+	WeeklyOff editWeeklyOff = new WeeklyOff();
 
 	@RequestMapping(value = "/showHolidayList", method = RequestMethod.GET)
 	public String showHolidayList(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -238,7 +240,7 @@ public class HolidayAndWicklyoffController {
 	public String deleteHoliday(HttpServletRequest request, HttpServletResponse response) {
 
 		HttpSession session = request.getSession();
-		  
+
 		try {
 
 			String base64encodedString = request.getParameter("holidayId");
@@ -259,6 +261,204 @@ public class HolidayAndWicklyoffController {
 			session.setAttribute("errorMsg", "Failed to Delete");
 		}
 		return "redirect:/showHolidayList";
+	}
+
+	@RequestMapping(value = "/showWeeklyOffList", method = RequestMethod.GET)
+	public String showWeeklyOffList(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+
+		String mav = "master/weekly_off_list";
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("companyId", 0);
+			map.add("locIdList", 0);
+
+			GetWeeklyOff[] holListArray = rest.postForObject(Constants.url + "/getWeeklyOffList", map,
+					GetWeeklyOff[].class);
+
+			List<GetWeeklyOff> weekOffList = new ArrayList<>(Arrays.asList(holListArray));
+
+			for (int i = 0; i < weekOffList.size(); i++) {
+
+				weekOffList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(weekOffList.get(i).getWoId())));
+			}
+
+			model.addAttribute("weekOffList", weekOffList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/addWeeklyOff", method = RequestMethod.GET)
+	public String addWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
+
+		String mav = "master/weekly_off_add";
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/submitInsertWeeklyOff", method = RequestMethod.POST)
+	public String submitInsertWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			HttpSession session = request.getSession();
+
+			String woDay = request.getParameter("woDay");
+			String woPresently = request.getParameter("woPresently");
+			String woRemarks = null;
+			woRemarks = request.getParameter("woRemarks");
+			String woType = request.getParameter("woType");
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(woDay, "") == true) {
+
+				ret = true;
+			}
+
+			if (FormValidation.Validaton(woPresently, "") == true) {
+
+				ret = true;
+			}
+
+			if (ret == false) {
+
+				WeeklyOff save = new WeeklyOff();
+				save.setDelStatus(1);
+				save.setIsActive(1);
+				save.setWoType(woType);
+				save.setWoRemarks(woRemarks);
+				save.setWoIsUsed(1);
+				save.setWoDay(woDay);
+				save.setWoPresently(woPresently);
+				save.setMakerEnterDatetime(dateTime);
+
+				WeeklyOff res = rest.postForObject(Constants.url + "/saveWeeklyOff", save, WeeklyOff.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Record Inserted Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Insert Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/showWeeklyOffList";
+	}
+
+	@RequestMapping(value = "/editWeeklyOff", method = RequestMethod.GET)
+	public String editWeeklyOff(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+		String mav = "master/weekly_off_edit";
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			String base64encodedString = request.getParameter("woId");
+			String woId = FormValidation.DecodeKey(base64encodedString);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("woId", woId);
+			editWeeklyOff = rest.postForObject(Constants.url + "/getWeeklyOffById", map, WeeklyOff.class);
+			model.addAttribute("editWeeklyOff", editWeeklyOff);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "/submitEditInsertWeeklyOff", method = RequestMethod.POST)
+	public String submitEditInsertWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+
+		try {
+
+			String woDay = request.getParameter("woDay");
+			String woPresently = request.getParameter("woPresently");
+			String woRemarks = request.getParameter("woRemarks");
+			
+			String woType = request.getParameter("woType");
+
+			Boolean ret = false;
+
+			if (FormValidation.Validaton(woDay, "") == true) {
+
+				ret = true;
+			}
+
+			if (FormValidation.Validaton(woPresently, "") == true) {
+
+				ret = true;
+			}
+
+			if (ret == false) {
+
+				editWeeklyOff.setWoDay(woDay);
+				editWeeklyOff.setWoPresently(woPresently);
+				editWeeklyOff.setWoRemarks(woRemarks);
+				editWeeklyOff.setWoType(woType);
+
+				WeeklyOff res = rest.postForObject(Constants.url + "/saveWeeklyOff", editWeeklyOff, WeeklyOff.class);
+
+				if (res != null) {
+					session.setAttribute("successMsg", "Record Updated Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Update Record");
+				}
+
+			} else {
+				session.setAttribute("errorMsg", "Failed to Update Record");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Update Record");
+		}
+
+		return "redirect:/showWeeklyOffList";
+	}
+
+	@RequestMapping(value = "/deleteWeeklyOff", method = RequestMethod.GET)
+	public String deleteWeeklyOff(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+		  
+		try {
+
+			String base64encodedString = request.getParameter("woId");
+			String woId = FormValidation.DecodeKey(base64encodedString);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("woId", woId);
+			Info info = rest.postForObject(Constants.url + "/deleteWeeklyOff", map, Info.class);
+
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", "Deleted Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Delete");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("errorMsg", "Failed to Delete");
+		}
+		return "redirect:/showWeeklyOffList";
 	}
 
 }
