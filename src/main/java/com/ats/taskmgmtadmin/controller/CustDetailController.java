@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
+import com.ats.taskmgmtadmin.model.CustomerDetails;
+import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.custdetail.CustSignatoryMaster;
@@ -37,8 +39,24 @@ public class CustDetailController {
 	// Sachin
 	@RequestMapping(value = "/customerDetailList", method = RequestMethod.GET)
 	public ModelAndView clientDetailListForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerDetailList");
+		
+		ModelAndView mav = null;
+		
+		try {
+			mav = new ModelAndView("master/customerDetailList");
+			
+			RestTemplate restTemplate = new RestTemplate();
+			
+			CustomerDetails[] custHeadArr = restTemplate.getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
+			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+			mav.addObject("custHeadList", custHeadList);
+				
+				
+			}catch (Exception e) {
+				e.getMessage();
+			}
+		
+		
 
 		return mav;
 	}

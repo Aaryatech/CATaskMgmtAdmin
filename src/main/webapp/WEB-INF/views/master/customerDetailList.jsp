@@ -131,17 +131,19 @@
 							</thead>
 
 							<tbody>
-								<tr class=parent id="row123">
-									<td class="detail-control">1</td>
-									<td>ABC</td>
-									<td>ABC group</td>
-									<td>AAA</td>
-									<td>ABCDE1234T</td>
-									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Prakash</td>
+						<c:forEach items="${custHeadList}" var="custHeadList" varStatus="count">
+							<tr>
+								<td>${count.index+1}</td>
+								<td>${custHeadList.custFirmName}</td>
+								<td>${custHeadList.custGroupName}</td>
+								<td>${custHeadList.custAssesseeName}</td>
+								<td>${custHeadList.custPanNo}</td>
+								<td>${custHeadList.custEmailId}</td>
+								<td>${custHeadList.custPhoneNo}</td>
+								<td>${custHeadList.empName}</td>
 
-									<td class="text-center"><a
+
+								<td class="text-center"><a
 										href="#" onclick="addDetail(1)"
 										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
 										<a href="#" onclick="addSignatory(1)"
@@ -149,81 +151,13 @@
 											Signatory</a></td>
 
 								</tr>
+							</c:forEach>
 
-								<!-- 	<tr class="child-row123">
-									<th width="10%">Sr.no</th>
-									<th>Firm Name</th>
-									<th>Customer Group</th>
-									<th>Assesse Type</th>
-									<th>Assesse Name</th>
-									<th>PAN No.</th>
-									<th>Email</th>
-									<th>Contact</th>
-									<th>Address</th>
-									<th>Owner Partner</th>
-									<th class="text-center" width="10%">Actions</th>
-								</tr>
-								
-								<tr class="child-row123">
-									<th width="10%">Sr.no</th>
-									<th>Firm Name</th>
-									<th>Customer Group</th>
-									<th>Assesse Type</th>
-									<th>Assesse Name</th>
-									<th>PAN No.</th>
-									<th>Email</th>
-									<th>Contact</th>
-									<th>Address</th>
-									<th>Owner Partner</th>
-									<th class="text-center" width="10%">Actions</th>
-								</tr>
-								 -->
+									
+							
 
 
-								<tr class="parent">
-									<td>2</td>
-									<td>PQR</td>
-									<td>PQR group</td>
-									<td>AAA</td>
-									<td>ABCDE1234T</td>
-									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Prakash</td>
-
-									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/customerDetailAdd"
-										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
-										<a href="${pageContext.request.contextPath}/customerSignAdd"
-										class="dropdown-item"><i class="icon-add"></i> Add
-											Signatory</a></td>
-
-								</tr>
-
-
-								<tr class="parent">
-									<td>3</td>
-									<td>XYZ</td>
-									<td>XYZ group</td>
-									<td>AAA</td>
-									<td>ABCDE1234T</td>
-									<td>abc@gmail.com</td>
-									<td>9898989898</td>
-									<td>Prakash</td>
-
-									<!-- <td><a href="" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href=""
-									onClick="return confirm('Are you sure want to delete this record');"
-									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td> -->
-
-									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/customerDetailAdd"
-										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
-										<a href="${pageContext.request.contextPath}/customerSignAdd"
-										class="dropdown-item"><i class="icon-add"></i> Add
-											Signatory</a></td>
-
-								</tr>
+							
 							</tbody>
 
 							<%-- <tbody>
