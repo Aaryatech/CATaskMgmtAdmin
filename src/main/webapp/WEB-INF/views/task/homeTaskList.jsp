@@ -240,104 +240,192 @@
 					</div>
 
 					<div class=table-responsive>
-						<table class="table datatable-basic table-hover">
+						<table class="table datatable-scroller" width="100%">
 							<thead>
 								<tr>
-									<th style="background-color: white;">Customer</th>
-									<th style="background-color: white;">Activity</th>
-									<th style="background-color: white;">Year</th>
-									<th style="background-color: white;">Date</th>
-									<th style="background-color: white;">Alloted Hrs</th>
-									<th style="background-color: white;">Actual Hrs</th>
-									<th style="background-color: white;">Status</th>
-									<th class="text-center" style="background-color: white;">Actions</th>
+									<th width="100" style="background-color: white;">Customer</th>
+									<th width="500" style="background-color: white;">Service -
+										Activity</th>
+									<th width="30" style="background-color: white;">Narration</th>
+									<th width="100" style="background-color: white;">Due Date</th>
+									<th width="5" style="background-color: white;">Alloted Hrs</th>
+									<th width="5" style="background-color: white;">Actual Hrs</th>
+									<th width="5" style="background-color: white;">Status</th>
+									<th width="5" class="text-center"
+										style="background-color: white;">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>ABC</td>
-									<td>GST</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td>52</td>
-									<td><span class="badge badge-info">Pending</span></td>
-									<td class="text-center">
-										<%-- <div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/communication" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-											</div>
-										</div>
-									</div> --%> <a
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
 										href="${pageContext.request.contextPath}/communication"
 										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a>
-									</td>
+											style="color: black;"></i></a></td>
 								</tr>
 
 
 								<tr>
-									<td>PQR</td>
-									<td>Return Filling</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td>52</td>
-									<td><span class="badge badge-success">Completed</span></td>
-									<td class="text-center">
-										<%-- <div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/communication" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-											</div>
-										</div>
-									</div> --%> <a
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
 										href="${pageContext.request.contextPath}/communication"
 										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a>
-									</td>
+											style="color: black;"></i></a></td>
 								</tr>
 
 
 								<tr>
-									<td>PQR</td>
-									<td>Return Filling</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td>52</td>
-									<td><span class="badge badge-danger">Critical</span></td>
-									<td class="text-center">
-										<%-- <div class="list-icons">
-										<div class="dropdown">
-											<a href="#" class="list-icons-item" data-toggle="dropdown">
-												<i class="icon-menu9"></i>
-											</a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="${pageContext.request.contextPath}/communication" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-												<a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-											</div>
-										</div>
-									</div> --%> <a
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
 										href="${pageContext.request.contextPath}/communication"
 										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a>
-									</td>
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+
+<tr>
+									<td width="100">A B Shinde</td>
+									<td width="500">Income Tax-Revised Return Filling-Oct-2019</td>
+									<td width="30">Oct-2019</td>
+									<td width="100">11-01-2019</td>
+									<td width="5">45</td>
+									<td width="5">52</td>
+									<td width="5"><span class="badge badge-info">Pending</span></td>
+									<td width="5" class="text-center"><a
+										href="${pageContext.request.contextPath}/communication"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
 								</tr>
 
 
