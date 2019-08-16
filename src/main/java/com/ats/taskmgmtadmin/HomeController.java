@@ -26,6 +26,25 @@ import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 /**
  * Handles requests for the application home page.
  */
+
+//for session
+/*	In servlet context.xml add this
+ * xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ * after beans
+ * 		<mvc:interceptors><beans:bean class="com.ats.taskmgmtadmin.CheckUserInterceptor"/></mvc:interceptors>
+
+ * 
+ * in web.xml 
+ * <filter>
+		<filter-name>noBrowserCacheFilter</filter-name>
+		<filter-class>com.ats.taskmgmtadmin.NoBrowserCacheFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>noBrowserCacheFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ */
+
 @Controller
 public class HomeController {
 	
