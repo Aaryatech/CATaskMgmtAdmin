@@ -27,7 +27,33 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<jsp:include page="/WEB-INF/views/include/breadcrum.jsp"></jsp:include>
+			<div class="page-header page-header-light">
+
+
+				<div
+					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+					<div class="d-flex">
+						<div class="breadcrumb">
+							<a href="index.html" class="breadcrumb-item"><i
+								class="icon-home2 mr-2"></i> Home</a> <span
+								class="breadcrumb-item active">Dashboard</span>
+
+						</div>
+
+
+						<a href="#" class="header-elements-toggle text-default d-md-none"><i
+							class="icon-more"></i></a>
+					</div>
+
+					<div class="breadcrumb justify-content-center">
+						<a href="${pageContext.request.contextPath}/holidayAdd"
+							class="breadcrumb-elements-item"> Add Holiday </a>
+
+					</div>
+
+
+				</div>
+			</div>
 			<!-- /page header -->
 
 
@@ -38,7 +64,7 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee List</h5>
+						<h5 class="card-title">Holiday List</h5>
 						<!-- <div class="header-elements">
 							<div class="list-icons">
 								<a class="list-icons-item" data-action="collapse"></a>
@@ -58,7 +84,7 @@
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
 							<%
-								session.removeAttribute("errorMsg");
+								out.println(session.getAttribute("errorMsg"));
 							%>
 						</div>
 
@@ -76,7 +102,7 @@
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
 							<%
-								session.removeAttribute("successMsg");
+								out.println(session.getAttribute("successMsg"));
 							%>
 						</div>
 						<%
@@ -88,34 +114,46 @@
 							id="printtable1">
 							<thead>
 								<tr class="bg-blue">
-									<th width="5%">Sr.no</th>
-									<th>Name</th>
-									<th>Email</th>
-									<th>Mobile</th>
-									<th class="text-center" width="10%">Actions</th>
+
+									<th width="10%">Sr. No.</th>
+									<th>Holiday Title</th> 
+									<th>Calendar</th>
+									<th>From Date</th>
+									<th>To Date</th>
+
+
+									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
-								<c:forEach items="${empList}" var="empList" varStatus="count">
+
+								<c:forEach items="${holList}" var="holiday" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${empList.empName}</td>
-										<td>${empList.empEmail}</td>
-										<td>${empList.empMob}</td>
-										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/leaveApply?empId=${empList.empId}"
-											title="Add Leave" class=" "><i class="fas fa-walking"
-												style="color: black;"></i></a> <a
-											href="${pageContext.request.contextPath}/showLeaveHistList?empId=${empList.empId}"
-											title="Leave History"><i class="icon-history"
-												style="color: black;"></i></a></td>
+										<td>${holiday.exVar2}</td> 
+										<td>${holiday.calYrFromDate}_${holiday.calYrToDate}</td>
+										<td>${holiday.holidayFromdt}</td>
+										<td>${holiday.holidayTodt}</td>
+
+										<td class="text-center">
+											
+														<a
+															href="${pageContext.request.contextPath}/editHoliday?holidayId=${holiday.exVar1}"
+															><i class="icon-pencil7" style="color: black;"></i></a>
+														<a
+															href="${pageContext.request.contextPath}/deleteHoliday?holidayId=${holiday.exVar1}"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash" style="color: black;"></i>
+															</a>
+												
+										</td>
 									</tr>
 								</c:forEach>
 
-
 							</tbody>
 						</table>
+
 					</div>
 
 				</div>
