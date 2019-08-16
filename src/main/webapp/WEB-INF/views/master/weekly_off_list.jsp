@@ -46,8 +46,9 @@
 					</div>
 
 					<div class="breadcrumb justify-content-center">
-						<a href="${pageContext.request.contextPath}/holidayAdd"
-							class="breadcrumb-elements-item"> Add Holiday </a>
+					<c:if test="${addAccess == 0}">
+						<a href="${pageContext.request.contextPath}/addWeeklyOff"
+							class="breadcrumb-elements-item"> Add Weekly Off </a></c:if>
 
 					</div>
 
@@ -64,8 +65,8 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Holiday List</h5>
-						<!-- <div class="header-elements">
+						<h5 class="card-title">Weekly Off List</h5>
+					<!-- 	<div class="header-elements">
 							<div class="list-icons">
 								<a class="list-icons-item" data-action="collapse"></a>
 							</div>
@@ -116,33 +117,107 @@
 								<tr class="bg-blue">
 
 									<th width="10%">Sr. No.</th>
-									<th>Holiday Title</th>
-									<th>Calendar</th>
-									<th>From Date</th>
-									<th>To Date</th>
-
-
+									<th>Location Name</th>
+									<th>Weekly Off Type</th>
+								<!-- 	<th>Weekly Off Presently</th> -->
+									<th>Day</th>
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 
 
-								<c:forEach items="${holList}" var="holiday" varStatus="count">
+								<c:forEach items="${weekOffList}" var="week" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${holiday.exVar2}</td>
-										<td>${holiday.calYrFromDate}&nbsp;-&nbsp;${holiday.calYrToDate}</td>
-										<td>${holiday.holidayFromdt}</td>
-										<td>${holiday.holidayTodt}</td>
+										<td>${week.locName}</td>
+										<td><c:choose>
+												<c:when test="${week.woType==1}">
+												
+												Even
 
-										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/editHoliday?holidayId=${holiday.exVar1}"><i
-												class="icon-pencil7" style="color: black;"></i></a> <a
-											href="${pageContext.request.contextPath}/deleteHoliday?holidayId=${holiday.exVar1}"
-											onClick="return confirm('Are you sure want to delete this record');"
-											title="Delete"><i class="icon-trash"
-												style="color: black;"></i> </a></td>
+												</c:when>
+												<c:when test="${week.woType==2}">
+												
+												Odd
+
+												</c:when>
+												<c:when test="${week.woType==3}">
+												
+												1st
+
+												</c:when>
+												<c:when test="${week.woType==4}">
+												
+												2nd
+
+												</c:when>
+												<c:when test="${week.woType==5}">
+												
+												3rd
+
+												</c:when>
+												<c:when test="${week.woType==6}">
+												
+												4th
+
+												</c:when>
+												<c:otherwise>
+												All
+												</c:otherwise>
+											</c:choose></td>
+									<%-- 	<td>${week.woPresently}</td> --%>
+										<td><c:choose>
+												<c:when test="${week.woDay==1}">
+												
+												MONDAY
+
+												</c:when>
+												<c:when test="${week.woDay==2}">
+												
+												TUESDAY
+
+												</c:when>
+												<c:when test="${week.woDay==3}">
+												
+												WEDNESDAY
+
+												</c:when>
+												<c:when test="${week.woDay==4}">
+												
+												THURSDAY
+
+												</c:when>
+												<c:when test="${week.woDay==5}">
+												
+												FRIDAY
+
+												</c:when>
+												<c:when test="${week.woDay==6}">
+												
+												SATURDAY
+
+												</c:when>
+												<c:otherwise>
+												SUNDAY
+												</c:otherwise>
+											</c:choose></td>
+
+										<td class="text-center">
+										
+														<c:if test="${editAccess == 0}">
+														<a
+															href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"
+															title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if>
+															<c:if
+																test="${deleteAccess == 0}">
+														<a
+															href="${pageContext.request.contextPath}/deleteWeeklyOff?woId=${week.exVar1}"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash" style="color: black;"></i>
+															</a></c:if>
+											
+										</td>
 									</tr>
 								</c:forEach>
 
