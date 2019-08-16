@@ -1,5 +1,6 @@
 package com.ats.taskmgmtadmin.controller;
 
+import java.text.Collator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,6 +8,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +36,7 @@ import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.FirmType;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
@@ -58,10 +63,11 @@ public class MasterMVCController {
 		try {
 			
 		ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
-		List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-		
+		List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));		
 		mav.addObject("serviceList", srvcMstrList);
-		logger.info("Service List"+srvcMstrList);
+		
+		//logger.info("Service List"+srvcMstrList);
+		
 		}catch (Exception e) {
 			System.err.println("Exce in serviceList " + e.getMessage());
 			e.printStackTrace();
@@ -436,6 +442,7 @@ public class MasterMVCController {
 				employee.setEmpId(empId);
 				employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
 				employee.setEmpName(request.getParameter("empName"));
+				employee.setEmpNickname(request.getParameter("empNickname"));
 				employee.setEmpDob(request.getParameter("dob"));
 				employee.setEmpRoleId(1);
 				employee.setEmpMob(request.getParameter("phone"));
@@ -465,6 +472,9 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		MultiValueMap<String, Object> map = null;
 		try {
+			
+			List empEditSrvcs=new ArrayList();
+			
 			mav = new ModelAndView("master/employeeAdd");
 			
 			int empId = Integer.parseInt(request.getParameter("empId"));
@@ -474,11 +484,39 @@ public class MasterMVCController {
 			
 			map.add("empId", empId);
 			EmployeeMaster employee = rest.postForObject(Constants.url+"/getEmployeeById", map, EmployeeMaster.class);			
+			System.err.println("EmpSrvcList-------"+employee.getEmpDesc());
 			mav.addObject("employee", employee);
+			
+			
+			List<Integer> empSrvc =Stream.of(employee.getEmpDesc().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+			
+			
+			System.out.println("Res------------"+empSrvc);
+			
+			mav.addObject("empSrvcIds", empSrvc);
 			
 			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
+			System.out.println("srvcMstrList------------"+srvcMstrList);
 			mav.addObject("serviceList", srvcMstrList);
+			
+			/*
+			 * for (int i = 0; i < empSrvc.size(); i++) {
+			 * 
+			 * for (int j = 0; j < srvcMstrList.size(); j++) {
+			 * 
+			 * if(Integer.parseInt(empSrvc.get(i))==srvcMstrList.get(j).getServId()) {
+			 * System.out.println("List Found-------------"+empSrvc.get(i));
+			 * 
+			 * empEditSrvcs.add(empSrvc.get(i)); }
+			 * 
+			 * }
+			 * 
+			 * }
+			 */
+			
+			///mav.addObject("empServcId", empEditSrvcs);
+			
 			
 		}catch (Exception e) {
 			System.err.println("Exce in editEmployee " + e.getMessage());
@@ -651,7 +689,10 @@ public class MasterMVCController {
 				CustomerHeaderMaster custHead = new CustomerHeaderMaster();
 				mav.addObject("custHead", custHead);
 				
-						
+				FirmType[] firmArr = rest.getForObject(Constants.url+"/getAllFirms", FirmType[].class);
+				List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
+				mav.addObject("firmList", firmList);
+				
 				CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 				mav.addObject("custGrpList", custGrpList);
@@ -691,19 +732,29 @@ public class MasterMVCController {
 			
 				CustomerHeaderMaster cust = new CustomerHeaderMaster();
 				int custHeadId = 0; 
+				int ownerPartId = 0;
+				int asseseeType = 0;
+				int firmType = 0;
 				try {
+					asseseeType = Integer.parseInt(request.getParameter("assesseeType"));
 					custHeadId = Integer.parseInt(request.getParameter("cust_head_id"));
+					ownerPartId = Integer.parseInt(request.getParameter("ownerPartner"));
+					firmType = Integer.parseInt(request.getParameter("firmType"));
 				}catch (Exception e) {
 					e.getMessage();
 					custHeadId = 0;
+					ownerPartId = 0;
+					asseseeType = 0;
+					firmType = 0;
 				}
+				
 				cust.setCustId(custHeadId);
-				cust.setOwnerEmpId(Integer.parseInt(request.getParameter("ownerPartner")));
+				cust.setOwnerEmpId(ownerPartId);
 				cust.setCustFirmName(request.getParameter("firmName"));
-				cust.setCustFirmType(0);	//		cust.setCustFirmType(Integer.parseInt(request.getParameter("firmType")));
-				cust.setCustType(0);		//cust.setCustType(Integer.parseInt(request.getParameter("0")));	
+				cust.setCustFirmType(firmType);
+				cust.setCustType(Integer.parseInt(request.getParameter("custType")));	
 				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));				
-				cust.setCustAssesseeTypeId(Integer.parseInt(request.getParameter("assesseeType")));
+				cust.setCustAssesseeTypeId(asseseeType);
 				cust.setCustAssesseeName(request.getParameter("assesseeName"));
 				cust.setCustPanNo(request.getParameter("panNo"));
 				cust.setCustEmailId(request.getParameter("emailId"));
@@ -752,6 +803,10 @@ public class MasterMVCController {
 			CustomerHeaderMaster custHead = rest.postForObject(Constants.url+"/getCustomerHeadById", map, CustomerHeaderMaster.class);
 			mav.addObject("custHead", custHead);
 			
+			FirmType[] firmArr = rest.getForObject(Constants.url+"/getAllFirms", FirmType[].class);
+			List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
+			mav.addObject("firmList", firmList);
+			
 			EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			mav.addObject("epmList", epmList);
@@ -789,5 +844,37 @@ public class MasterMVCController {
 		}
 		return "redirect:/customerList";
 	}
+	
+	/*****************Customer Activity Mapping Master****************/
+	
+	@RequestMapping(value = "/customerActivityAddMap", method = RequestMethod.GET)
+	public ModelAndView customerActivityAddMapForm(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = null;
+		MultiValueMap<String, Object> map = null;
+		try {			
+			mav = new ModelAndView("master/customerActivityAddMap");
+			
+			
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("custId", custId);
+			
+			CustomerDetails cust = rest.postForObject(Constants.url+"/getcustById", map, CustomerDetails.class);
+			mav.addObject("cust", cust);
+			
+			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
+			mav.addObject("serviceList", srvcMstrList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in customerActivityAddMap " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
 	
 }

@@ -261,13 +261,15 @@ public class HomeController {
 	 */
 	
 	
-	@RequestMapping(value = "/customerActivityAddMap", method = RequestMethod.GET)
-	public ModelAndView customerActivityAddMapForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("master/customerActivityAddMap");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/customerActivityAddMap", method =
+	 * RequestMethod.GET) public ModelAndView customerActivityAddMapForm(Locale
+	 * locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("master/customerActivityAddMap");
+	 * 
+	 * return mav; }
+	 */
 	
 	
 	@RequestMapping(value = "/communication", method = RequestMethod.GET)
