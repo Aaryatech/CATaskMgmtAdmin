@@ -18,6 +18,10 @@ public class GetCustLoginDetail {
 	private String loginQue2;
 	private String loginAns2;
 	private String loginRemark;
+
+	private int servId;
+	private int actvId;
+	
 	public int getCustDetailId() {
 		return custDetailId;
 	}
@@ -90,14 +94,29 @@ public class GetCustLoginDetail {
 	public void setLoginRemark(String loginRemark) {
 		this.loginRemark = loginRemark;
 	}
+	
+	
+	public int getActvId() {
+		return actvId;
+	}
+
+	public void setActvId(int actvId) {
+		this.actvId = actvId;
+	}
+
+	public int getServId() {
+		return servId;
+	}
+
+	public void setServId(int servId) {
+		this.servId = servId;
+	}
 	@Override
 	public String toString() {
 		return "GetCustLoginDetail [custDetailId=" + custDetailId + ", custId=" + custId + ", custFirmName="
 				+ custFirmName + ", servName=" + servName + ", actiName=" + actiName + ", loginId=" + loginId
 				+ ", loginPass=" + loginPass + ", loginQue1=" + loginQue1 + ", loginAns1=" + loginAns1 + ", loginQue2="
-				+ loginQue2 + ", loginAns2=" + loginAns2 + ", loginRemark=" + loginRemark + "]";
+				+ loginQue2 + ", loginAns2=" + loginAns2 + ", loginRemark=" + loginRemark + ", servId=" + servId
+				+ ", actvId=" + actvId + "]";
 	}
-	
-	
-	
 }

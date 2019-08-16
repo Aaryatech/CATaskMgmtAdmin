@@ -63,6 +63,7 @@
 				<!-- Highlighting rows and columns -->
 				<form id="custHeaderForm" >
 				<input type="hidden"  id="custId" name="custId" value="0">
+				<input type="hidden"  id="custName" name="custName" value="0">
 				
 								<div class="card">
 					<div class="card-header header-elements-inline">
@@ -144,9 +145,9 @@
 
 
 								<td class="text-center"><a
-										href="#" onclick="addDetail(1)"
+										href="#" onclick="addDetail(${custHeadList.custId},'${custHeadList.custFirmName}')"
 										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
-										<a href="#" onclick="addSignatory(1)"
+										<a href="#" onclick="addSignatory(${custHeadList.custId},'${custHeadList.custFirmName}')"
 										class="dropdown-item"><i class="icon-add"></i> Add
 											Signatory</a></td>
 
@@ -225,10 +226,11 @@
         </script>   -->
 <script type="text/javascript">
 
-function addDetail(custId) {
+function addDetail(custId,custName) {
 	
 	//alert("Hi");
-	document.getElementById("custId").value=custId;//create this 
+	document.getElementById("custId").value=custId;//create this
+	document.getElementById("custName").value=custName;//create this
 	var form=document.getElementById("custHeaderForm");
     form.setAttribute("method", "post");
 
@@ -237,10 +239,12 @@ function addDetail(custId) {
 	
 }
 
-function addSignatory(custId) {
+function addSignatory(custId,custName) {
 	
 	//alert("Hi");
-	document.getElementById("custId").value=custId;//create this 
+	document.getElementById("custId").value=custId;//create this
+	document.getElementById("custName").value=custName;//create this
+
 	var form=document.getElementById("custHeaderForm");
     form.setAttribute("method", "post");
 

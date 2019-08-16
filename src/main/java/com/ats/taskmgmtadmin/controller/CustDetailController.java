@@ -89,6 +89,10 @@ public class CustDetailController {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
 			mav.addObject("serviceList", srvcMstrList);
+			
+			String custName = request.getParameter("custName");
+			mav.addObject("custName", custName);
+			mav.addObject("custId", custId);
 
 		} catch (Exception e) {
 			System.err.println("Exce in show customerDetailAdd " + e.getMessage());
@@ -193,6 +197,9 @@ public class CustDetailController {
 			System.err.println("custSignList" +custSignList.toString());
 			mav.addObject("custSignList", custSignList);
 
+			String custName = request.getParameter("custName");
+			mav.addObject("custName", custName);
+			mav.addObject("custId", custId);
 
 		} catch (Exception e) {
 			
@@ -265,6 +272,41 @@ public class CustDetailController {
 		}
 		
 		return mav;
+	}
+	
+	
+	@RequestMapping(value = "/getCustSignatoryBySignId", method = RequestMethod.GET)
+	public @ResponseBody GetCustSignatory getCustSignatoryBySignId(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map = new LinkedMultiValueMap<>();
+		map.add("signId", Integer.parseInt(request.getParameter("signId")));
+
+		GetCustSignatory custSignatory = restTemplate.postForObject(Constants.url + "/getCustSignatoryBySignId", map,
+				GetCustSignatory.class);
+
+		return custSignatory;
+	}
+
+	@RequestMapping(value = "/getCustLoginDetailByCustDetailId", method = RequestMethod.GET)
+	public @ResponseBody GetCustLoginDetail getCustLoginDetailByCustDetailId(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map = new LinkedMultiValueMap<>();
+		map.add("custDetailId", Integer.parseInt(request.getParameter("custDetailId")));
+
+		GetCustLoginDetail  custLogin = restTemplate.postForObject(Constants.url + "/getCustLoginDetailByCustDetailId", map,
+				GetCustLoginDetail.class);
+
+		return custLogin;
 	}
 
 }

@@ -4,13 +4,24 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 
 /**
  * Handles requests for the application home page.
@@ -117,7 +128,8 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "/taskPeriodicityList", method = RequestMethod.GET)
-	public ModelAndView taskPeriodicityListForm(Locale locale, Model model) {
+	public ModelAndView taskPeriodicityListForm(Locale locale, Model model
+			) {
 
 		ModelAndView mav = new ModelAndView("task/taskPeriodicityList");
 
@@ -132,6 +144,63 @@ public class HomeController {
 		return mav;
 	}
 
+	
+	
+	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
+	public String loginProcess(Locale locale, Model model,
+			HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) {
+		String mav = null;
+		try {
+			
+			RestTemplate restTemplate = new RestTemplate();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map = new LinkedMultiValueMap<>();
+			map.add("userName",  request.getParameter("username"));
+			map.add("password", request.getParameter("password"));
+
+			EmployeeMaster empLogin = restTemplate.postForObject(Constants.url + "/loginCheck", map,
+					EmployeeMaster.class);
+			
+			if(empLogin==null) {
+				mav =  "loginDemo";
+				System.err.println("Login failed");
+				model.addAttribute("errorPassMsg", "Invalid Login Credentials");
+			}else {
+				mav =  "redirect:/dashboard";
+				System.err.println("Successful Login");
+				
+				 session=request.getSession();
+			
+				session.setAttribute("empLogin", empLogin);
+				
+			}
+		}catch (Exception e) {
+			
+			System.err.println("Exception in Login Process  " +e.getMessage());
+			e.printStackTrace();
+			
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(Locale locale, Model model,HttpSession session) {
+
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
+	public String sessionTimeOut(Locale locale, Model model,HttpSession session) {
+
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 	
 	
 	

@@ -112,7 +112,7 @@ body {
 
 				<!-- Login form -->
 				<form class="login-form"
-					action="${pageContext.request.contextPath}/dashboard"
+					action="${pageContext.request.contextPath}/loginProcess"
 					id="submitInsertEmpType" method="post">
 					<div class="card mb-0">
 						<div class="card-body">

@@ -40,17 +40,17 @@
 		<div class="white-panel">
 			<div class="login-show">
 
-				<form action="${pageContext.request.contextPath}/dashboard">
+				<form method="post" action="${pageContext.request.contextPath}/loginProcess">
 
 					<h2>LOGIN</h2>
-					<input type="text" placeholder="Email" style="border-radius: 5px">
+					<input type="text" placeholder="Email" name="username" id="username" style="border-radius: 5px">
 					<input type="password" placeholder="Password" id="password"
 						name="password" style="border-radius: 5px"> <input
 						type="checkbox" onclick="myFunction()"><font color="white">Show
 						Password</font> <br> <br> <input type="submit" value="Login"
-						> <a
+						> <!-- <a
 						href="">Forgot password?</a>
-
+ -->
 				</form>
 			</div>
 

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-
+	<c:url value="/getCustSignatoryBySignId" var="getCustSignatoryBySignId"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -76,10 +76,10 @@
 							<div class="card-body">
 
 
-								<form
-									action="${pageContext.request.contextPath}/customerDetailList"
+								<form method="post"
+									action="${pageContext.request.contextPath}/addCustSignatory"
 									id="submitInsertActivity">
-									<input type="hidden" id="custId" name="custId" value="${custSignList[0].custId}">
+									<input type="hidden" id="custId" name="custId" value="${custId}">
 									<input type="hidden" id="signId" name="signId" value="0">
 
 									<div class="form-group row">
@@ -88,7 +88,7 @@
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
 												placeholder="Customer Name" id="customer" name="customer"
-												autocomplete="off" value="${custSignList[0].custFirmName}" onchange="trim(this)" readonly="readonly">
+												autocomplete="off" value="${custName}" onchange="trim(this)" readonly="readonly">
 										</div>
 									</div>
 
@@ -260,7 +260,7 @@
 
 								<form
 									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity">
+									id="submitInsertActivity1">
 
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
@@ -276,7 +276,7 @@
 											</tr>
 										</thead>
 		<tbody>
-										<tr>
+										<!-- <tr>
 											<td>ABC</td>
 											<td>123123</td>
 											<td>Head</td>
@@ -292,7 +292,7 @@
 													style="color: black;"></i> </a></td>
 
 										</tr>
-
+ -->
 										<c:forEach items="${custSignList}" var="sign">
 										
 										<tr>
@@ -303,7 +303,7 @@
 											<td>Name : ${sign.contactName}<br>Email : ${sign.contactEmail}<br>Mobile
 												: ${sign.contactPhno}
 											</td>
-											<td class="text-center"><a href="" title="Edit"><i
+											<td class="text-center"><a href="#" onclick="showEdit(${sign.signId})" title="Edit"><i
 													class="icon-pencil7" style="color: black;"></i></a> <a href=""
 												onClick="return confirm('Are you sure want to delete this record');"
 												title="Delete"><i class="icon-trash"
@@ -362,7 +362,7 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#activityName").val()) {
+												/* if (!$("#activityName").val()) {
 
 													isError = true;
 
@@ -439,7 +439,7 @@
 
 												} else {
 													$("#error_pincode").hide()
-												}
+												} */
 
 												if (!isError) {
 
@@ -456,6 +456,33 @@
 											});
 						});
 		//
+		
+		function showEdit(signId){
+			 document.getElementById("signId").value="0";
+			$
+			.getJSON(
+					'${getCustSignatoryBySignId}',
+					{
+						signId : signId,
+						ajax : 'true',
+					},
+
+					function(data) {
+						
+						//alert(JSON.stringify(data));
+						 document.getElementById("signId").value=data.signId;
+						 document.getElementById("contPerEmail").value=data.contactEmail;
+						 document.getElementById("contPerName").value=data.contactName;
+						 document.getElementById("contPerNo").value=data.contactPhno;
+						 document.getElementById("remark").value=data.custRemark;
+						 document.getElementById("desg").value=data.signDesign;
+						 document.getElementById("signFName").value=data.signfName;
+						 document.getElementById("signLName").value=data.signlName;
+						 document.getElementById("signMobile").value=data.signPhno;
+						 document.getElementById("regNo").value=data.signRegNo;
+					}
+					)
+		}
 	</script>
 
 </body>

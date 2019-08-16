@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-	<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-	
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +11,11 @@
 </head>
 
 <body>
-<c:url value="/getActivityByService" var="getActivityByService"></c:url>
+	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
+	
+		<c:url value="/getCustLoginDetailByCustDetailId" var="getCustLoginDetailByCustDetailId"></c:url>
+	
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -77,17 +80,19 @@
 								<form method="post"
 									action="${pageContext.request.contextPath}/addCustLoginDetail"
 									id="submitInsertActivity">
-									
-									<input type="hidden" id="custId" name="custId" value="${custDetailList[0].custId}">
-									<input type="hidden" id="custDetailId" name="custDetailId" value="0">
+
+									<input type="hidden" id="custId" name="custId"
+										value="${custId}"> <input type="hidden"
+										id="custDetailId" name="custDetailId" value="0">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">
 											Customer : </label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Customer Name" id="customer" value="${custDetailList[0].custFirmName}" name="customer"
-												autocomplete="off" onchange="trim(this)" readonly="readonly">
+												placeholder="Customer Name" id="customer"
+												value="${custName}" name="customer" autocomplete="off"
+												onchange="trim(this)" readonly="readonly">
 										</div>
 									</div>
 
@@ -99,12 +104,13 @@
 											<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true" onchange="getActivities(this.value)">
+												data-fouc="" aria-hidden="true"
+												onchange="getActivities(this.value)">
 
 												<c:forEach items="${serviceList}" var="serv">
 													<option value="${serv.servId}">${serv.servName}</option>
 												</c:forEach>
-												
+
 											</select>
 										</div>
 
@@ -115,15 +121,6 @@
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
-
-												<%-- <option value="1">Select Activity</option>
-												<option value="2">Return Filing</option>
-												<option value="3">Revised Return Filing</option>
-												<option value="4">Tax Payment</option>
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach> --%>
 											</select>
 										</div>
 
@@ -247,20 +244,14 @@
 
 					</div>
 
-
-
-
 					<div class="col-md-12">
 
 						<div class="card">
 
-
 							<div class="card-body">
 
-								<form
-									action="${pageContext.request.contextPath}/"
-									id="submitInsertActivity"  method="post">
-
+								<form action="${pageContext.request.contextPath}/"
+									id="submitInsertActivity" method="post">
 
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
@@ -273,45 +264,45 @@
 												<th class="text-center" width="10%">Actions</th>
 											</tr>
 										</thead>
-											<tbody>
-											
-												<c:forEach items="${custDetailList}" var="custDetail">
-										
-										<tr>
-											<td>${custDetail.actiName}</td>
-											<td>Username : ${custDetail.loginId}<br>Password : ${custDetail.loginPass}
-											</td>
-											<td>Que 1 : ${custDetail.loginQue1}<br>Ans 1 : ${custDetail.loginAns1}
-												<br>Que 2 : ${custDetail.loginQue2}<br>Ans 2
-												: ${custDetail.loginAns2}
-											</td>
+										<tbody>
 
-											<td class="text-center"><a href="" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
+											<c:forEach items="${custDetailList}" var="custDetail">
+
+												<tr>
+													<td>${custDetail.actiName}</td>
+													<td>Username : ${custDetail.loginId}<br>Password
+														: ${custDetail.loginPass}
+													</td>
+													<td>Que 1 : ${custDetail.loginQue1}<br>Ans 1 :
+														${custDetail.loginAns1} <br>Que 2 :
+														${custDetail.loginQue2}<br>Ans 2 :
+														${custDetail.loginAns2}
+													</td>
+
+													<td class="text-center"><a href="#"  onclick="showEdit(${custDetail.custDetailId})" title="Edit"><i
+															class="icon-pencil7" style="color: black;"></i></a> <a
+														href=""
+														onClick="return confirm('Are you sure want to delete this record');"
+														title="Delete"><i class="icon-trash"
+															style="color: black;"></i> </a></td>
 
 
-										</tr>
-										</c:forEach>
-										
-</tbody>
-										
+												</tr>
+											</c:forEach>
+
+										</tbody>
+
 									</table>
-
 
 								</form>
 							</div>
 						</div>
-
 
 					</div>
 
 				</div>
 			</div>
 			<!-- /content area -->
-
 
 			<!-- Footer -->
 			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
@@ -326,177 +317,216 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
-
 	<script>
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitInsertActivity")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#submitInsertActivity").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												/* if (!$("#activityName").val()) {
+				/* if (!$("#activityName").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_activityName")
-															.show()
-													//return false;
-												} else {
-													$("#error_activityName")
-															.hide()
-												}
+					$("#error_activityName")
+							.show()
+					//return false;
+				} else {
+					$("#error_activityName")
+							.hide()
+				}
 
-												if (!$("#panNo").val()
-														|| !validatePAN($(
-																"#panNo").val())) {
+				if (!$("#panNo").val()
+						|| !validatePAN($(
+								"#panNo").val())) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_panNo").show()
+					$("#error_panNo").show()
 
-												} else {
-													$("#error_panNo").hide()
-												}
+				} else {
+					$("#error_panNo").hide()
+				}
 
-												if (!$("#emailId").val()
-														|| !validateEmail($(
-																"#emailId")
-																.val())) {
+				if (!$("#emailId").val()
+						|| !validateEmail($(
+								"#emailId")
+								.val())) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_emailId").show()
+					$("#error_emailId").show()
 
-												} else {
-													$("#error_emailId").hide()
-												}
+				} else {
+					$("#error_emailId").hide()
+				}
 
-												if (!$("#phone").val()
-														|| !validateMobile($(
-																"#phone").val())) {
+				if (!$("#phone").val()
+						|| !validateMobile($(
+								"#phone").val())) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_phone").show()
+					$("#error_phone").show()
 
-												} else {
-													$("#error_phone").hide()
-												}
+				} else {
+					$("#error_phone").hide()
+				}
 
-												if (!$("#address1").val()) {
+				if (!$("#address1").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_address1").show()
+					$("#error_address1").show()
 
-												} else {
-													$("#error_address1").hide()
-												}
+				} else {
+					$("#error_address1").hide()
+				}
 
-												if (!$("#city").val()) {
+				if (!$("#city").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_city").show()
+					$("#error_city").show()
 
-												} else {
-													$("#error_city").hide()
-												}
+				} else {
+					$("#error_city").hide()
+				}
 
-												if (!$("#pincode").val()) {
+				if (!$("#pincode").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_pincode").show()
+					$("#error_pincode").show()
 
-												} else {
-													$("#error_pincode").hide()
-												} */
+				} else {
+					$("#error_pincode").hide()
+				} */
 
-												if (!isError) {
+				if (!isError) {
 
-													var x = true;
-													if (x == true) {
+					var x = true;
+					if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
-		
-		function getActivities(servId){
+
+		function getActivities(servId) {
 			//alert("servId " +servId)
-			if (servId>0) {
+			if (servId > 0) {
 
-                $.getJSON('${getActivityByService}', {
-                	servId : servId,
-                    ajax : 'true',
-                },
+				$
+						.getJSON(
+								'${getActivityByService}',
+								{
+									servId : servId,
+									ajax : 'true',
+								},
 
-                function(data) {
-                    var html;
-                    var p=-1;
-                    var q="Select Activity";
-                    html += '<option disabled value="'+p+'">'
-                    +q+'</option>';
-                    html += '</option>';
-                    
-                    var temp=0;
-                    //temp=document.getElementById("temp").value;
-                    //alert("temp");
-                    var len = data.length;
-                    for (var i = 0; i < len; i++) {	
-                    	
-                    /* 	if(temp==data[i].infraAreaId){
-                    		 html += '<option selected value="' + data[i].infraAreaId + '">'
-                             + data[i].infraAreaName + '</option>';
-                    	}
-                    		
-                    		else{ */
-                    
+								function(data) {
+									var html;
+									var p = -1;
+									var q = "Select Activity";
+									html += '<option disabled value="'+p+'">'
+											+ q + '</option>';
+									html += '</option>';
 
-                        html += '<option value="' + data[i].actiId + '">'
-                                + data[i].actiName + '</option>';
-                    	//}
+									var temp = 0;
+									//temp=document.getElementById("temp").value;
+									//alert("temp");
+									var len = data.length;
+									for (var i = 0; i < len; i++) {
 
-                    }
-                    
-                                      
-             /*        if(temp==0){
-                    	//alert("If temp==0");
-                    	  var x=0;
-                          var y="Any Other";
-                          html += '<option selected value="'+x+'">'
-                          +y+'</option>';
-                          html += '</option>';
-                          //document.getElementById("other_area").show();
-          				$("#area_name_div").show();
+										/* 	if(temp==data[i].infraAreaId){
+												 html += '<option selected value="' + data[i].infraAreaId + '">'
+										         + data[i].infraAreaName + '</option>';
+											}
+												
+												else{ */
 
-                         
-                    }else{
-                    	  /* var x=0;
-                          var y="Any Other";
-                          html += '<option value="'+x+'">'
-                          +y+'</option>';
-                          html += '</option>'; */
-                          
-                   // } 
+										html += '<option value="' + data[i].actiId + '">'
+												+ data[i].actiName
+												+ '</option>';
+										//}
 
-                    $('#activity').html(html);
-                    $("#activity").trigger("chosen:updated");
-                  
-                });
-              
-            }//end of if
+									}
+
+									/*        if(temp==0){
+									       	//alert("If temp==0");
+									       	  var x=0;
+									             var y="Any Other";
+									             html += '<option selected value="'+x+'">'
+									             +y+'</option>';
+									             html += '</option>';
+									             //document.getElementById("other_area").show();
+												$("#area_name_div").show();
+
+									            
+									       }else{
+									       	  /* var x=0;
+									             var y="Any Other";
+									             html += '<option value="'+x+'">'
+									             +y+'</option>';
+									             html += '</option>'; */
+
+									// } 
+									$('#activity').html(html);
+									$("#activity").trigger("chosen:updated");
+
+								});
+
+			}//end of if
+		}
+		
+		function showEdit(custDetailId){
+			 document.getElementById("custDetailId").value="0";
+			$
+			.getJSON(
+					'${getCustLoginDetailByCustDetailId}',
+					{
+						custDetailId : custDetailId,
+						ajax : 'true',
+					},
+
+					function(data) {
+						
+						//alert(JSON.stringify(data));
+						 document.getElementById("custDetailId").value=data.custDetailId;
+						// document.getElementById("service").value=data.servId;
+						// document.getElementById("activity").value=data.actiId;
+						 document.getElementById("username").value=data.loginId;
+						 document.getElementById("password").value=data.loginPass;
+						 document.getElementById("que1").value=data.loginQue1;
+						 document.getElementById("que2").value=data.loginQue2;
+						 document.getElementById("ans1").value=data.loginAns1;
+						 document.getElementById("ans2").value=data.loginAns2;
+						 document.getElementById("remark").value=data.loginRemark;
+						 var x=data.servId;
+						 
+						 $("#service").select2("val", x).trigger('change');
+						// $('#service').val(x).trigger('change');
+						 //document.getElementById("service").selectedIndex = "4";
+						// $("#service").trigger("chosen:updated");
+//						    $('#country').select2("val", "Pakistan").trigger('change');
+
+						 //document.getElementById("service").value = data.servId;
+						 //$("#service").trigger("chosen:updated");
+							//multiple select
+						//	$('#service').val(''+data.servId).trigger('change');
+						/* 	var temp = new Array();
+							temp = (data.deptId).split(",");
+							$('#dept_id').val(temp);
+							$('#dept_id').trigger('change');
+ */
+					}
+					)
 		}
 	</script>
 

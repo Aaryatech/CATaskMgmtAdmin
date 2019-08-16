@@ -13,6 +13,9 @@ public class GetCustSignatory {
 	private String contactName;
 	private String contactEmail;
 	private String contactPhno;
+	
+	private String custRemark;
+	
 	private int custId;
 	
 	public int getSignId() {
@@ -76,6 +79,15 @@ public class GetCustSignatory {
 	public void setContactPhno(String contactPhno) {
 		this.contactPhno = contactPhno;
 	}
+	
+	
+	
+	public String getCustRemark() {
+		return custRemark;
+	}
+	public void setCustRemark(String custRemark) {
+		this.custRemark = custRemark;
+	}
 	public int getCustId() {
 		return custId;
 	}
@@ -87,7 +99,7 @@ public class GetCustSignatory {
 		return "GetCustSignatory [signId=" + signId + ", custFirmName=" + custFirmName + ", signfName=" + signfName
 				+ ", signlName=" + signlName + ", signRegNo=" + signRegNo + ", signDesign=" + signDesign + ", signPhno="
 				+ signPhno + ", contactName=" + contactName + ", contactEmail=" + contactEmail + ", contactPhno="
-				+ contactPhno + ", custId=" + custId + "]";
+				+ contactPhno + ", custRemark=" + custRemark + ", custId=" + custId + "]";
 	}
 	
 
