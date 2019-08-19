@@ -116,7 +116,8 @@
 								<form action="${pageContext.request.contextPath}/addNewEmployee"
 									id="submitInsertClient" method="post">
 
-									<input type="hidden" value="${employee.empId}" name="employee_id">
+									<input type="hidden" value="${employee.empId}"
+										name="employee_id">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="profilePic">
 											Profile Pic :</label>
@@ -162,7 +163,8 @@
 												<option value="1" ${employee.empType == 1 ? 'selected' : ''}>Admin</option>
 												<option value="2" ${employee.empType == 2 ? 'selected' : ''}>Partner</option>
 												<option value="3" ${employee.empType == 3 ? 'selected' : ''}>Manager</option>
-												<option value="4" ${employee.empType == 4 ? 'selected' : ''}>Team Leader</option>
+												<option value="4" ${employee.empType == 4 ? 'selected' : ''}>Team
+													Leader</option>
 												<option value="5" ${employee.empType == 5 ? 'selected' : ''}>Employee</option>
 
 
@@ -173,38 +175,44 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empType"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please select employee type.</span>
 										</div>
 
 									</div>
-									
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="empService">Service
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<select name="empService" multiple="multiple" 
+											<select name="empService" multiple="multiple"
 												data-placeholder="Select Employee Service" id="empService"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="">Select Employee Type</option>
-												<c:forEach items="${serviceList}" var="serviceList">
-													<c:choose>
-														<c:when test=""><!--${serviceList.servId==employee.empDesc}  Multiple Options issue-->
-															<option Selected value="${serviceList.servId}">${serviceList.servName}</option>												
-														</c:when>
-														<c:otherwise>
-															<option value="${serviceList.servId}">${serviceList.servName}</option>
-														</c:otherwise>														
-											</c:choose>
-											</c:forEach>
-												
+																					  
+												<c:forEach items="${serviceList}" var="serviceId">
+													<c:set var="find" value="0"></c:set>
+													<c:forEach items="${empSrvcIds}" var="empSrvcIds">
+														<c:choose>
+															<c:when test="${serviceId.servId==empSrvcIds}">
+																<option Selected value="${serviceId.servId}">${serviceId.servName}</option>
+																<c:set var="find" value="1"></c:set>
+
+															</c:when>
+														</c:choose>
+													</c:forEach>
+													<c:if test="${find==0}">
+														<option value="${serviceId.servId}">${serviceId.servName}</option>
+													</c:if>
+												</c:forEach>
+
+
 											</select>
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_empType"
-												style="display: none;">This field is required.</span>
+											<span class="validation-invalid-label" id="error_empService"
+												style="display: none;">Please select service.</span>
 										</div>
 
 									</div>
@@ -216,13 +224,32 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${employee.empName}"
-												placeholder="Enter Name" id="empName" name="empName"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${employee.empName}" placeholder="Enter Name"
+												id="empName" name="empName" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter name.</span>
+										</div>
+
+									</div>
+									
+										<div class="form-group row">
+
+										<label class="col-form-label col-lg-3" for="empNickname">Nick
+											Name <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												value="${employee.empNickname}" placeholder="Enter Nick Name"
+												id="empNickname" name="empNickname" autocomplete="off"
+												onchange="trim(this)">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_empNickname"
+												style="display: none;">Please enter nick name.</span>
 										</div>
 
 									</div>
@@ -233,13 +260,13 @@
 											of Birth <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass" value="${employee.empDob}"
-												placeholder="Enter Date of Birth" id="dob" name="dob"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control datepickerclass"
+												value="${employee.empDob}" placeholder="Enter Date of Birth"
+												id="dob" name="dob" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter date of birth.</span>
 										</div>
 									</div>
 
@@ -249,30 +276,32 @@
 											Number <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${employee.empMob}"
+											<input type="text" class="form-control"
+												value="${employee.empMob}"
 												placeholder="Enter Contact Number" id="phone" name="phone"
 												autocomplete="off"
 												oninput="validateMobileEnterOnlyDigits(this)" maxlength="10">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_phone"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter contact number.</span>
 										</div>
 									</div>
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="empName">
+										<label class="col-form-label col-lg-3" for="empSal">
 											Salary Per Month <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${employee.empSalary}"
-												placeholder="Salary Per Month" id="empSal" name="empSal"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${employee.empSalary}" placeholder="Salary Per Month"
+												id="empSal" name="empSal" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empSal"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter salary per month.</span>
 										</div>
 
 									</div>
@@ -283,14 +312,15 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${employee.empEmail}"
+											<input type="text" class="form-control"
+												value="${employee.empEmail}"
 												placeholder="Enter Email Address" id="email" name="email"
 												autocomplete="off" onchange="trim(this)">
 
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_email"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter email.</span>
 										</div>
 									</div>
 
@@ -303,8 +333,8 @@
 												placeholder="Enter Password" value="${employee.empPass}">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_pwd" 
-												style="display: none;">This field is required.</span>
+											<span class="validation-invalid-label" id="error_pwd"
+												style="display: none;">Please enter password.</span>
 										</div>
 									</div>
 
@@ -352,12 +382,12 @@
 
 	<script>
 		$(document).ready(function($) {
-
+			
 			$("#submitInsertClient").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
 
-				if ($("#empType").val() == 1) {
+				if ($("#empType").val() == "") {
 
 					isError = true;
 
@@ -365,6 +395,36 @@
 					//return false;
 				} else {
 					$("#error_empType").hide()
+				}
+				
+				/* if (!$("#empService").val()=="") {
+
+					isError = true;
+
+					$("#error_empService").show()
+
+				} else {
+					$("#error_empService").hide()
+				} */
+				
+				if (!$("#empNickname").val()) {
+
+					isError = true;
+
+					$("#error_empNickname").show()
+
+				} else {
+					$("#error_empNickname").hide()
+				}
+				
+				if (!$("#empName").val()) {
+
+					isError = true;
+
+					$("#error_empName").show()
+
+				} else {
+					$("#error_empName").hide()
 				}
 
 				if (!$("#empSal").val()) {

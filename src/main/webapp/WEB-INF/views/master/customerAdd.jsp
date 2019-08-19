@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="showDiv(${custHead.custType})">
 
 
 
@@ -116,11 +116,11 @@
 								<form action="${pageContext.request.contextPath}/addCustomerHeader"
 									id="submitInsertClient" method="post">
 
-									<input type="text" value="${custHead.custId}" name="cust_head_id">
+									<input type="hidden" value="${custHead.custId}" name="cust_head_id">
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
-											Name <span style="color: red">* </span>:
+											Name <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custFirmName}"
@@ -136,20 +136,21 @@
 									
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="clientGroup">Firm
-											Type : </label>
+											Type<span style="color: red">* </span> : </label>
 										<div class="col-lg-6">
 											<select name="firmType"
 												data-placeholder="Select Client Group" id="firmType"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-												
-												<option value="1">Select</option>
-												<c:forEach items="${custGrpList}" var="custGrpList">
+												data-fouc="" aria-hidden="true"> 												
+												<!-- <option value="">Select Firm Type</option> -->
+												<c:forEach items="${firmList}" var="firm" >
 													<c:choose>
-														<c:when test="">
-														<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														<c:when test="${firm.firmId==custHead.custFirmType}">
+															<option selected value="${firm.firmId}">${firm.firmTypeName}</option>
 														</c:when>
-														<c:otherwise></c:otherwise>
+														<c:otherwise>
+															<option selected value="${firm.firmId}">${firm.firmTypeName}</option>
+														</c:otherwise>
 													</c:choose>
 												</c:forEach>
 
@@ -163,13 +164,16 @@
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="assesseeName">Assessee
-											Name : </label>
+											Name <span style="color: red">* </span>: </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custAssesseeName}"
 												placeholder="Enter Assessee Name" id="assesseeName"
 												name="assesseeName" autocomplete="off" onchange="trim(this)">
 										</div>
-										<div class="col-lg-3"></div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_assesseName"
+												style="display: none;">Please enter assessee name.</span>
+										</div>
 
 									</div>
 
@@ -209,14 +213,14 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="assesseeType">
-											Type of Assessee : </label>
+											Type of Assessee <span style="color: red">* </span>: </label>
 										<div class="col-lg-6">
 											<select name="assesseeType"
 												data-placeholder="Select Assessee Type" id="assesseeType"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="">Select Assessee Type</option>
+												<!-- <option value="">Select Assessee Type</option> -->
 												<option value="1" ${custHead. custAssesseeTypeId == 1 ? 'selected' : ''}>Individual</option>
 												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
 												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
@@ -230,8 +234,28 @@
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
-
+									
+									
 									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="custType">Customer 
+											Type <span style="color: red">*</span>:
+										</label>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
+												class="form-check-input" name="custType" id="custType" checked
+												value="0" onclick="showDiv(this.value)"> Individual
+											</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio" ${custHead.custType == 1 ? 'checked' : ''}
+												class="form-check-input" name="custType" id="custType" value="1" onclick="showDiv(this.value)">Client
+												 Group
+											</label>
+										</div>
+									</div>
+
+
+									<div class="form-group row" style="display: none" id="ihide">
 										<label class="col-form-label col-lg-3" for="clientGroup">Client
 											Group : </label>
 										<div class="col-lg-6">
@@ -240,7 +264,7 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 												
-												<option value="1">Select</option>
+											<!-- 	<option value="1">Select</option> -->
 												<c:forEach items="${custGrpList}" var="custGrpList">
 													<c:choose>
 														<c:when test="${custGrpList.custGroupId==custHead.custGroupId}">
@@ -430,9 +454,9 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="">Select Owner Partner</option>
+											<!-- 	<option value="">Select Owner Partner</option> -->
 												<c:forEach items="${epmList}" var="epmList">
-													< <c:choose>
+												 <c:choose>
 														<c:when test="${epmList.empId==custHead.ownerEmpId}">
 															<option selected value="${epmList.empId}">${epmList.empName}</option>
 														</c:when>
@@ -511,6 +535,16 @@
 												} else {
 													$("#error_firmName").hide()
 												}
+												
+												if (!$("#assesseeName").val()) {
+
+													isError = true;
+
+													$("#assesseeName").show()
+													//return false;
+												} else {
+													$("#error_assesseName").hide()
+												}
 
 												if (!$("#panNo").val()
 														|| !validatePAN($(
@@ -559,7 +593,7 @@
 													$("#error_address1").hide()
 												}
 
-												if (!$("#city").val()) {
+												if (!C) {
 
 													isError = true;
 
@@ -595,7 +629,22 @@
 						});
 		//
 	</script>
+<script type="text/javascript">
+function showDiv(typdId){
+	//alert("Id="+typdId);
+		if (typdId == 1) {
+			
+			document.getElementById("ihide").style = "visible"
+			
+		
+		} else if (typdId == 0) {
+			document.getElementById("ihide").style = "display:none"
+			
+	}
+}
 
+	
+</script>
 
 	<script type="text/javascript">
 		// Single picker

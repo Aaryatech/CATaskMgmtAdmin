@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +23,25 @@ import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
+import com.ats.taskmgmtadmin.model.CustmrActivityMap;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.FirmType;
+import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
@@ -868,6 +873,13 @@ public class MasterMVCController {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
 			mav.addObject("serviceList", srvcMstrList);
 			
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", srvcMstrList.get(0).getServId());
+			
+			ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
+			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));			
+			mav.addObject("actList", activityList);	
+			
 		}catch (Exception e) {
 			System.err.println("Exce in customerActivityAddMap " + e.getMessage());
 			e.printStackTrace();
@@ -876,5 +888,71 @@ public class MasterMVCController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
+	public String addCustomerActMap(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			
+			int userId = emp.getEmpId();
+						
+			CustmrActivityMap activityMap = new CustmrActivityMap();
+			
+			activityMap.setMappingId(0);
+			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
+			activityMap.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+			activityMap.setActvStartDate(request.getParameter("startDate"));
+			activityMap.setActvEndDate(request.getParameter("endDate"));
+			activityMap.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("endDays")));
+			activityMap.setCustId(Integer.parseInt(request.getParameter("custId")));
+			activityMap.setDelStatus(1);
+			activityMap.setExInt1(0);
+			activityMap.setExInt2(0);
+			activityMap.setExVar1("NA");
+			activityMap.setExVar2("NA");			
+			activityMap.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
+			activityMap.setUpdateDatetime(curDateTime);
+			activityMap.setUpdateUsername(userId);
+			activityMap.setActvId(Integer.parseInt(request.getParameter("activity")));
+			
+			System.out.println("Activity Map---------"+activityMap.toString());
+			CustmrActivityMap map = rest.postForObject(Constants.url+"/addNewMappedActivities", activityMap, CustmrActivityMap.class);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "redirect:/customerList";
+		
+	}
 	
+	/**********************************************************************/
+	
+	@RequestMapping(value = "/getPeridicityByActivity", method = RequestMethod.GET)
+	public @ResponseBody GetActivityPeriodicity getPeridicityByActivity(HttpServletRequest request, HttpServletResponse response){
+		GetActivityPeriodicity period = null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();			 
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			int activityId = Integer.parseInt(request.getParameter("actvityId"));
+			System.err.println("Id Found--------------"+activityId);
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("activityId", activityId);
+			
+			 period = restTemplate.postForObject(Constants.url+"/getPeriodicityByActivityId", map, GetActivityPeriodicity.class);
+			System.out.println("Periodicity-------------"+period);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in customerActivityAddMap " + e.getMessage());
+			e.printStackTrace();
+		}
+		return period;
+		
+	}
 }

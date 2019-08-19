@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,9 @@
 </head>
 
 <body>
+<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
-
+<c:url value="/getPeridicityByActivity" var="getPeridicityByActivity"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -117,16 +119,17 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/customerList"
-									id="submitInsertClient">
-
+								<form action="${pageContext.request.contextPath}/addCustomerActMap"
+									id="submitInsertClient" method="post">
+								
+									<input type="text" id="custId" name="custId" value="${cust.custId}"> 	
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="custName">Customer
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
+											<input type="text" class="form-control" value="${cust.custGroupName}"
 												placeholder="Customer Name" id="custName" name="custName"
 												autocomplete="off" onchange="trim(this)" readonly="readonly">
 										</div>
@@ -134,7 +137,7 @@
 
 									</div>
 
-
+						
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
@@ -142,20 +145,17 @@
 										</label>
 										<div class="col-lg-6">
 											<select name="service" data-placeholder="Select Service"
-												id="service"
+												id="service" 
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-
-												<option value="1">Select Service</option>
-												<option value="2">Income Tax</option>
-												<option value="3">TDS</option>
-												<option value="4">GST</option>
-
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
+												data-fouc="" aria-hidden="true" onchange="getActivities(this.value)">
+<option value="" selected>Select Service</option>
+												<c:forEach items="${serviceList}" var="service">
+												
+														<option value="${service. servId}">${service. servName}</option>
+												
 												</c:forEach>
-											</select>
+
+									</select>
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_service"
@@ -163,34 +163,7 @@
 										</div>
 
 									</div>
-
-									<div class="form-group row">
-
-										<label class="col-form-label col-lg-3" for="periodicity">
-											Periodicity <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<select name="periodicity"
-												data-placeholder="Select Periodicity" id="periodicity"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-
-												<option value="1">Select Periodicity</option>
-												<option value="2">Yearly</option>
-												<option value="3">Monthly</option>
-												<option value="4">Weekly</option>
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
-											</select>
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_periodicity"
-												style="display: none;">This field is required.</span>
-										</div>
-
-									</div>
+									
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="activity">
@@ -198,18 +171,9 @@
 										</label>
 										<div class="col-lg-6">
 											<select name="activity" data-placeholder="Select Activity"
-												id="activity" multiple="multiple"
-												class="form-control form-control-lg select"
-												aria-hidden="true" data-container-css-class="select-lg"
-												data-fouc>
-
-												<option value="2">Return Filing</option>
-												<option value="3">Revised Return Filing</option>
-												<option value="4">Tax Payment</option>
-
-												<c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach>
+												id="activity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true" onchange="getPeriodicity(this.value)">
 											</select>
 										</div>
 										<div class="col-lg-3">
@@ -218,6 +182,24 @@
 										</div>
 
 									</div>
+
+									<input type="text" id="periodicityId" name="periodicityId"> 	
+									<div class="form-group row">
+
+										<label class="col-form-label col-lg-3" for="periodicity">
+											Periodicity <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" readonly="readonly"
+												name="periodicity" id="periodicity" placeholder="Periodicity">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_periodicity"
+												style="display: none;">This field is required.</span>
+										</div>
+
+									</div>
+									
 
 
 									<div class="form-group row">
@@ -324,9 +306,9 @@
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="button" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn" data-toggle="modal"
-												data-target="#modal_remote">
+											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+												id="submtbtn" 
+												><!--data-toggle="modal" data-target="#modal_remote" -->
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/customerList"><button
@@ -423,17 +405,6 @@
 					</div>
 					<!-- /remote source -->
 
-
-
-
-
-
-
-
-
-
-
-
 				</div>
 				<!-- /content area -->
 
@@ -445,12 +416,10 @@
 
 			</div>
 			<!-- /main content -->
-			
-			
 
 		</div>
 		<!-- /page content -->
-
+</div>
 		<script type="text/javascript"
 			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
@@ -466,7 +435,7 @@
 													var isError = false;
 													var errMsg = "";
 
-													if ($("#service").val() == 1) {
+													if ($("#service").val() == "") {
 
 														isError = true;
 
@@ -490,7 +459,7 @@
 																.hide()
 													}
 
-													if ($("#periodicity").val() == 1) {
+													if ($("#periodicity").val() == "") {
 
 														isError = true;
 
@@ -602,8 +571,72 @@
 												});
 							});
 			//
+			
+			function getActivities(servId) {
+			//alert("servId " +servId)
+			if (servId > 0) {
+
+				$
+						.getJSON(
+								'${getActivityByService}',
+								{
+									servId : servId,
+									ajax : 'true',
+								},
+
+								function(data) {
+									var html;
+									var p = "";
+									var q = "Select Activity";
+									html += '<option disabled value="'+p+'" selected>'
+											+ q + '</option>';
+									html += '</option>';
+
+									var temp = 0;
+
+									var len = data.length;
+									for (var i = 0; i < len; i++) {												
+
+										html += '<option value="' + data[i].actiId + '">'
+												+ data[i].actiName
+												+ '</option>';	
+									}
+
+									 
+									$('#activity').html(html);
+									$("#activity").trigger("chosen:updated");
+
+								});
+
+			}//end of if
+		}
+			
 		</script>
 
+
+<script>
+function getPeriodicity(actvityId){
+	//alert("Activity---"+actvityId);
+	
+	if (actvityId > 0) {
+
+		$
+				.getJSON(
+						'${getPeridicityByActivity}',
+						{
+							actvityId : actvityId,
+							ajax : 'true',
+						},
+
+						function(data) {
+							alert(JSON.stringify(data));
+							document.getElementById("periodicity").value = data.periodicityName;
+							document.getElementById("periodicityId").value = data.periodicityId;
+						});
+
+	}//end of if
+}
+</script>
 
 		<script type="text/javascript">
 			// Single picker

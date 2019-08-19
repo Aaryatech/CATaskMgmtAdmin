@@ -147,7 +147,7 @@
 
 
 								<td><a
-									href="${pageContext.request.contextPath}/customerActivityAddMap"
+									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.custId}"
 									title="Map Activity"><i class="icon-add"
 										style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.custId}" title="Edit"><i
 										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.custId}"
