@@ -397,7 +397,7 @@
 					$("#error_empType").hide()
 				}
 				
-				/* if (!$("#empService").val()=="") {
+				if (!$("#empService").val() || $("#empService").val()=="") {
 
 					isError = true;
 
@@ -405,7 +405,7 @@
 
 				} else {
 					$("#error_empService").hide()
-				} */
+				} 
 				
 				if (!$("#empNickname").val()) {
 

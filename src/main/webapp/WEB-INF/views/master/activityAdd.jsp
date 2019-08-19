@@ -147,8 +147,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label"
-												id="error_activityName" style="display: none;">This
-												field is required.</span>
+												id="error_activityName" style="display: none;">Please enter activity name.</span>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -176,8 +175,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label"
-												id="error_periodicity" style="display: none;">This
-												field is required.</span>
+												id="error_periodicity" style="display: none;">Please select periodicity.</span>
 										</div>
 									</div>
 

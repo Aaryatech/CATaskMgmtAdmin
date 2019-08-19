@@ -129,7 +129,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_serviceName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter service.</span>
 										</div>
 									</div>
 

@@ -58,8 +58,8 @@ public class MasterMVCController {
 	RestTemplate rest = new RestTemplate();
 	
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-	
-	int user = 111;
+	HttpSession session = null;
+
 	/**********************Service Master**********************/
 	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model) {
@@ -100,10 +100,14 @@ public class MasterMVCController {
 	@RequestMapping(value = "/addService", method = RequestMethod.GET)
 	public String addService(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			 session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
 			
 			ServiceMaster service = new ServiceMaster();
 			int servcId = 0;
-			int user = 111;
+			
 			try {
 				servcId = Integer.parseInt(request.getParameter("service_id"));
 			}catch(Exception e){
@@ -117,7 +121,7 @@ public class MasterMVCController {
 			service.setServDesc(request.getParameter("serviceDesc"));
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
-			service.setUpdateUsername(user);
+			service.setUpdateUsername(userId);
 			service.setExInt1(0);
 			service.setExInt2(0);
 			service.setExInt1(0);
@@ -163,8 +167,13 @@ public class MasterMVCController {
 	@RequestMapping(value = "/deleteService", method = RequestMethod.GET)
 	public String deleteService(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
 			int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-		int userId = 222;
+			
 		System.out.println("Delete:"+serviceId);
 		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -243,7 +252,11 @@ public class MasterMVCController {
 	public String addServcActvtMaping(HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			int user = 111;
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
 			ActivityMaster activity = new ActivityMaster();
 			
 			int actId = 0;
@@ -261,7 +274,7 @@ public class MasterMVCController {
 			activity.setServId(Integer.parseInt(request.getParameter("service_id")));
 			activity.setDelStatus(1);
 			activity.setUpdateDatetime(curDateTime);
-			activity.setUpdateUsername(user);
+			activity.setUpdateUsername(userId);
 			activity.setExInt1(0);
 			activity.setExInt2(0);
 			activity.setExVar1("NA");
@@ -323,7 +336,11 @@ public class MasterMVCController {
 				int serviceId = 0;
 		try {
 					MultiValueMap<String, Object> map = null;
-					int userId = 222;
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();
+					
 					System.out.println("Delete:"+activityId);
 					
 					map = new LinkedMultiValueMap<>();				
@@ -332,7 +349,7 @@ public class MasterMVCController {
 					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
 					
 					serviceId = activity.getServId();
-					System.out.println("In Act Del="+activity+"  "+serviceId);
+					//System.out.println("In Act Del="+activity+"  "+serviceId);
 					
 					map = new LinkedMultiValueMap<>();
 					map.add("userId", userId);
@@ -425,8 +442,14 @@ public class MasterMVCController {
 	@RequestMapping(value = "/addNewEmployee", method=RequestMethod.POST)
 	public String  addNwEmployee(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
 			
 				EmployeeMaster employee = new EmployeeMaster();
+				
 				int empId = 0;
 				try {
 					empId = Integer.parseInt(request.getParameter("employee_id"));
@@ -458,13 +481,13 @@ public class MasterMVCController {
 				employee.setEmpSalary(request.getParameter("empSal"));
 				employee.setDelStatus(1);
 				employee.setUpdateDatetime(curDateTime);
-				employee.setUpdateUsername(user);
+				employee.setUpdateUsername(userId);
 				employee.setExInt1(0);
 				employee.setExInt2(0);
 				employee.setExVar1("NA");
 				employee.setExVar2("NA");
 				
-				EmployeeMaster emp = rest.postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
+				EmployeeMaster empl = rest.postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
 		}catch (Exception e) {
 			System.err.println("Exce in addNwEmployee " + e.getMessage());
 			e.printStackTrace();
@@ -539,7 +562,11 @@ public class MasterMVCController {
 				int serviceId = 0;
 		try {
 					MultiValueMap<String, Object> map = null;
-					int userId = 222;
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();
+					
 					System.out.println("Delete:"+employeeId);
 					
 					map = new LinkedMultiValueMap<>();				
@@ -601,6 +628,13 @@ public class MasterMVCController {
 	@RequestMapping(value = "/newCustomerGroup", method = RequestMethod.POST)
 	public String  newCustomerGroup(HttpServletRequest request, HttpServletResponse response) {
 		try{
+			
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
+			
 			CustomerGroupMaster cust = new CustomerGroupMaster();
 			
 			int cusrGrpId = 0;
@@ -616,7 +650,7 @@ public class MasterMVCController {
 			cust.setCustGroupRemark(request.getParameter("remark"));
 			cust.setDelStatus(1);
 			cust.setUpdateDatetime(curDateTime);
-			cust.setUpdateUsername(user);
+			cust.setUpdateUsername(userId);
 			cust.setExInt1(0);
 			cust.setExInt2(0);
 			cust.setExVar1("NA");
@@ -668,7 +702,10 @@ public class MasterMVCController {
 					int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
 					System.out.println("ID:"+custGrpId);
 					
-					int userId = 222;			
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();		
 										
 					map = new LinkedMultiValueMap<>();
 					map.add("userId", userId);
@@ -734,6 +771,10 @@ public class MasterMVCController {
 	@RequestMapping(value = "/addCustomerHeader", method=RequestMethod.POST)
 	public String addCustomerHeader(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
 			
 				CustomerHeaderMaster cust = new CustomerHeaderMaster();
 				int custHeadId = 0; 
@@ -777,7 +818,7 @@ public class MasterMVCController {
 				cust.setDelStatus(1);
 				cust.setIsActive(1);
 				cust.setUpdateDatetime(curDateTime);
-				cust.setUpdateUsername(user);
+				cust.setUpdateUsername(userId);
 				cust.setExInt1(0);
 				cust.setExInt2(0);
 				cust.setExVar1("NA");
@@ -834,9 +875,12 @@ public class MasterMVCController {
 		try {
 					MultiValueMap<String, Object> map = null;
 					
-					int custId = Integer.parseInt(request.getParameter("custId"));
-										
-					int userId = 222;			
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();
+					
+					int custId = Integer.parseInt(request.getParameter("custId"));						
 										
 					map = new LinkedMultiValueMap<>();
 					map.add("userId", userId);
@@ -905,7 +949,7 @@ public class MasterMVCController {
 			activityMap.setActvStartDate(request.getParameter("startDate"));
 			activityMap.setActvEndDate(request.getParameter("endDate"));
 			activityMap.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
-			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("endDays")));
+			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
 			activityMap.setCustId(Integer.parseInt(request.getParameter("custId")));
 			activityMap.setDelStatus(1);
 			activityMap.setExInt1(0);
@@ -918,7 +962,7 @@ public class MasterMVCController {
 			activityMap.setActvId(Integer.parseInt(request.getParameter("activity")));
 			
 			System.out.println("Activity Map---------"+activityMap.toString());
-			CustmrActivityMap map = rest.postForObject(Constants.url+"/addNewMappedActivities", activityMap, CustmrActivityMap.class);
+			CustmrActivityMap map = rest.postForObject(Constants.url+"/saveTask1", activityMap, CustmrActivityMap.class);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());

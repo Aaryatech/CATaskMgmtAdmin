@@ -138,7 +138,7 @@
 												placeholder="Enter Login Username" id="username"
 												name="username" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_username"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter login username.</span>
 										</div>
 
 
@@ -150,7 +150,7 @@
 												placeholder="Enter Login Password" id="password"
 												name="password" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_password"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter login password.</span>
 										</div>
 
 									</div>
@@ -165,7 +165,7 @@
 												placeholder="Enter Security Question 1" id="que1"
 												name="que1" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_que1"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter security question 1.</span>
 										</div>
 
 
@@ -177,7 +177,7 @@
 												placeholder="Enter Answer" id="ans1" name="ans1"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_ans1"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter answer.</span>
 										</div>
 
 									</div>
@@ -191,7 +191,7 @@
 												placeholder="Enter Security Question 2" id="que2"
 												name="que2" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_que2"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter security question 2.</span>
 										</div>
 
 
@@ -203,7 +203,7 @@
 												placeholder="Enter Answer" id="ans2" name="ans2"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_ans2"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter answer.</span>
 										</div>
 
 									</div>
@@ -324,7 +324,7 @@
 				var isError = false;
 				var errMsg = "";
 
-				/* if (!$("#activityName").val()) {
+				if (!$("#activityName").val()) {
 
 					isError = true;
 
@@ -335,73 +335,66 @@
 					$("#error_activityName")
 							.hide()
 				}
-
-				if (!$("#panNo").val()
-						|| !validatePAN($(
-								"#panNo").val())) {
+ 
+				if (!$("#username").val()) {
 
 					isError = true;
 
-					$("#error_panNo").show()
+					$("#error_username").show()
 
 				} else {
-					$("#error_panNo").hide()
+					$("#error_username").hide()
 				}
 
-				if (!$("#emailId").val()
-						|| !validateEmail($(
-								"#emailId")
-								.val())) {
+				if (!$("#password").val()) {
 
 					isError = true;
 
-					$("#error_emailId").show()
+					$("#error_password").show()
 
 				} else {
-					$("#error_emailId").hide()
+					$("#error_password").hide()
 				}
 
-				if (!$("#phone").val()
-						|| !validateMobile($(
-								"#phone").val())) {
+				if (!$("#que1").val()) {
 
 					isError = true;
 
-					$("#error_phone").show()
+					$("#error_que1").show()
 
 				} else {
-					$("#error_phone").hide()
+					$("#error_que1").hide()
 				}
 
-				if (!$("#address1").val()) {
+				if (!$("#ans1").val()) {
 
 					isError = true;
 
-					$("#error_address1").show()
+					$("#error_ans1").show()
 
 				} else {
-					$("#error_address1").hide()
+					$("#error_ans1").hide()
 				}
 
-				if (!$("#city").val()) {
+				if (!$("#que2").val()) {
 
 					isError = true;
 
-					$("#error_city").show()
+					$("#error_que2").show()
 
 				} else {
-					$("#error_city").hide()
+					$("#error_que2").hide()
 				}
 
-				if (!$("#pincode").val()) {
+				if (!$("#ans2").val()) {
 
 					isError = true;
 
-					$("#error_pincode").show()
+					$("#error_ans2").show()
 
 				} else {
-					$("#error_pincode").hide()
-				} */
+					$("#error_ans2").hide()
+				} 
 
 				if (!isError) {
 

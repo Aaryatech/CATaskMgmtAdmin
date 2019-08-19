@@ -122,7 +122,7 @@
 								<form action="${pageContext.request.contextPath}/addCustomerActMap"
 									id="submitInsertClient" method="post">
 								
-									<input type="text" id="custId" name="custId" value="${cust.custId}"> 	
+									<input type="hidden" id="custId" name="custId" value="${cust.custId}"> 	
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="custName">Customer
@@ -148,7 +148,7 @@
 												id="service" 
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true" onchange="getActivities(this.value)">
-<option value="" selected>Select Service</option>
+												<option value="" selected>Select Service</option>
 												<c:forEach items="${serviceList}" var="service">
 												
 														<option value="${service. servId}">${service. servName}</option>
@@ -159,7 +159,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_service"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please select service.</span>
 										</div>
 
 									</div>
@@ -178,12 +178,12 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_activity"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please select above service for corresponding activity.</span>
 										</div>
 
 									</div>
 
-									<input type="text" id="periodicityId" name="periodicityId"> 	
+									<input type="hidden" id="periodicityId" name="periodicityId"> 	
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="periodicity">
@@ -195,7 +195,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_periodicity"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please select above activity for corresponding periodicity.</span>
 										</div>
 
 									</div>
@@ -213,7 +213,10 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_startDate"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter start date.</span>
+												
+											<span class="validation-invalid-label" id="error_start_date"
+												style="display: none;">Start date must be greater than end date.</span>
 										</div>
 
 									</div>
@@ -229,7 +232,10 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_endDate"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter end date.</span>
+												
+											<span class="validation-invalid-label" id="error_end_date"
+												style="display: none;">Snd date must be smaller than start date.</span>
 										</div>
 
 									</div>
@@ -237,17 +243,17 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="startDays">
+										<label class="col-form-label col-lg-3" for="statutary_endDays">
 											Statutory End Days <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Statutory End Days" id="endDays" name="endDays"
+												placeholder="Statutory End Days" id="statutary_endDays" name="statutary_endDays"
 												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_endDays"
-												style="display: none;">This field is required.</span>
+											<span class="validation-invalid-label" id="error_stat_endDays"
+												style="display: none;">Please enter statutory end days.</span>
 										</div>
 
 									</div>
@@ -263,7 +269,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter manager budget hours.</span>
 										</div>
 
 									</div>
@@ -280,7 +286,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empBudgetHr"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter employee budget hours amount.</span>
 										</div>
 
 									</div>
@@ -296,7 +302,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_billAmt"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter billing amount.</span>
 										</div>
 
 									</div>
@@ -434,103 +440,116 @@
 												function(e) {
 													var isError = false;
 													var errMsg = "";
+													
+													 if ($("#service").val() == "") {
 
-													if ($("#service").val() == "") {
+															isError = true;
 
-														isError = true;
+															$("#error_service")
+																	.show()
+															
+														} else {
+															$("#error_service")
+																	.hide()
+														}
+													 
+													 if (!$("#periodicity").val() || $("#activity").val() == "") {
 
-														$("#error_service")
-																.show()
-														//return false;
-													} else {
-														$("#error_service")
-																.hide()
-													}
+															isError = true;
 
-													if ($("#activity").val() == "") {
+															$("#error_activity")
+																	.show()
 
-														isError = true;
+														} else {
+															$("#error_activity")
+																	.hide()
+														}
+													 
+													 if (!$("#periodicity").val()) {
 
-														$("#error_activity")
-																.show()
+															isError = true;
 
-													} else {
-														$("#error_activity")
-																.hide()
-													}
+															$("#error_periodicity")
+																	.show()
 
-													if ($("#periodicity").val() == "") {
+														} else {
+															$("#error_periodicity")
+																	.hide()
+														}
 
-														isError = true;
+													 if (!$("#startDate").val()) {
 
-														$("#error_periodicity")
-																.show()
+															isError = true;
 
-													} else {
-														$("#error_periodicity")
-																.hide()
-													}
+															$("#error_startDate")
+																	.show()
 
-													if (!$("#startDate").val()) {
+														} else {
+															$("#error_startDate")
+																	.hide()
+														}											 
+													 
 
-														isError = true;
+														if (!$("#endDate").val()) {
 
-														$("#error_startDate")
-																.show()
+															isError = true;
 
-													} else {
-														$("#error_startDate")
-																.hide()
-													}
+															$("#error_endDate")
+																	.show()
 
-													if (!$("#endDate").val()) {
+														} else {
+															$("#error_endDate")
+																	.hide()
+														}
+														
+														var from_date = document.getElementById("startDate").value;
+										 				var to_date = document.getElementById("endDate").value;
+										 				
+										 		        var fromdate = from_date.split('-');
+										 		        from_date = new Date();
+										 		        from_date.setFullYear(fromdate[2],fromdate[1]-1,fromdate[0]);
+										 		        var todate = to_date.split('-');
+										 		        to_date = new Date();
+										 		        to_date.setFullYear(todate[2],todate[1]-1,todate[0]);
+										 		        if (from_date > to_date ) 
+										 		        {										 		           
+															$("#error_start_date").show();
+														 	$("#error_end_date").show();
+														 	$("#error_startDate").hide();
+														 	$("#error_endDate").hide();
+										 		            return false;
+										 		           
+										 		        }else {
+										 					$("#error_start_date").hide();
+										 					$("#error_end_date").hide();
+										 				}
+														////////
+														
+														if (!$("#statutary_endDays").val()) {
 
-														isError = true;
+															isError = true;
 
-														$("#error_endDate")
-																.show()
+															$("#error_stat_endDays")
+																	.show()
 
-													} else {
-														$("#error_endDate")
-																.hide()
-													}
+														} else {
+															$("#error_stat_endDays")
+																	.hide()
+														}
+														
+																												
+														if (!$("#mgBudgetHr").val()) {
 
-													if (!$("#startDays").val()) {
+															isError = true;
 
-														isError = true;
+															$("#error_mgBudgetHr")
+																	.show()
 
-														$("#error_startDays")
-																.show()
-
-													} else {
-														$("#error_startDays")
-																.hide()
-													}
-
-													if (!$("#endDays").val()) {
-
-														isError = true;
-
-														$("#error_endDays")
-																.show()
-
-													} else {
-														$("#error_endDays")
-																.hide()
-													}
-
-													if (!$("#mgBudgetHr").val()) {
-
-														isError = true;
-
-														$("#error_mgBudgetHr")
-																.show()
-
-													} else {
-														$("#error_mgBudgetHr")
-																.hide()
-													}
-
+														} else {
+															$("#error_mgBudgetHr")
+																	.hide()
+														}	
+													
 													if (!$("#empBudgetHr")
 															.val()) {
 
@@ -554,7 +573,7 @@
 													} else {
 														$("#error_billAmt")
 																.hide()
-													}
+													}  
 
 													if (!isError) {
 
@@ -568,53 +587,56 @@
 														//end ajax send this to php page
 													}
 													return false;
-												});
-							});
+									});
+			});
 			//
 			
-			function getActivities(servId) {
-			//alert("servId " +servId)
-			if (servId > 0) {
-
-				$
-						.getJSON(
-								'${getActivityByService}',
-								{
-									servId : servId,
-									ajax : 'true',
-								},
-
-								function(data) {
-									var html;
-									var p = "";
-									var q = "Select Activity";
-									html += '<option disabled value="'+p+'" selected>'
-											+ q + '</option>';
-									html += '</option>';
-
-									var temp = 0;
-
-									var len = data.length;
-									for (var i = 0; i < len; i++) {												
-
-										html += '<option value="' + data[i].actiId + '">'
-												+ data[i].actiName
-												+ '</option>';	
-									}
-
-									 
-									$('#activity').html(html);
-									$("#activity").trigger("chosen:updated");
-
-								});
-
-			}//end of if
-		}
+			
 			
 		</script>
 
 
 <script>
+function getActivities(servId) {
+	//alert("servId " +servId)
+	if (servId > 0) {
+
+		$
+				.getJSON(
+						'${getActivityByService}',
+						{
+							servId : servId,
+							ajax : 'true',
+						},
+
+						function(data) {
+							var html;
+							var p = "";
+							var q = "Select Activity";
+							html += '<option disabled value="'+p+'" selected>'
+									+ q + '</option>';
+							html += '</option>';
+
+							var temp = 0;
+
+							var len = data.length;
+							for (var i = 0; i < len; i++) {												
+
+								html += '<option value="' + data[i].actiId + '">'
+										+ data[i].actiName
+										+ '</option>';	
+							}
+
+							 
+							$('#activity').html(html);
+							$("#activity").trigger("chosen:updated");
+
+						});
+
+	}//end of if
+}
+
+//
 function getPeriodicity(actvityId){
 	//alert("Activity---"+actvityId);
 	
@@ -629,7 +651,7 @@ function getPeriodicity(actvityId){
 						},
 
 						function(data) {
-							alert(JSON.stringify(data));
+							//alert(JSON.stringify(data));
 							document.getElementById("periodicity").value = data.periodicityName;
 							document.getElementById("periodicityId").value = data.periodicityId;
 						});

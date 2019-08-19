@@ -130,7 +130,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_grpName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter group name.</span>
 										</div>
 
 										<label class="col-form-label col-lg-3" for="grpName">
@@ -143,7 +143,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_grpName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">.</span>
 										</div>
 
 									</div>

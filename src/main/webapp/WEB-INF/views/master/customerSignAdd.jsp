@@ -106,7 +106,7 @@
 												placeholder="Enter First Name" id="signFName"
 												name="signFName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_signFName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter first name.</span>
 										</div>
 
 
@@ -118,7 +118,7 @@
 												placeholder="Enter Last Name" id="signLName"
 												name="signLName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_signLName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter last name.</span>
 										</div>
 
 									</div>
@@ -133,7 +133,7 @@
 												placeholder="Enter Registration Number" id="regNo"
 												name="regNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_regNo"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter register No.</span>
 										</div>
 
 
@@ -145,7 +145,7 @@
 												placeholder="Enter Designation" id="desg" name="desg"
 												autocomplete="off" onchange="trim(this)"> <span
 												class="validation-invalid-label" id="error_desg"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter designation.</span>
 										</div>
 
 									</div>
@@ -159,7 +159,7 @@
 												placeholder="Enter Signatory Contact Number" id="signMobile"
 												name="signMobile" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_signMobile"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter contact No.</span>
 										</div>
 
 									</div>
@@ -177,7 +177,7 @@
 												placeholder="Enter Contact Person Name" id="contPerName"
 												name="contPerName" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_contPerName"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter name.</span>
 										</div>
 
 									</div>
@@ -192,8 +192,7 @@
 												placeholder="Enter Email Address" id="contPerEmail"
 												name="contPerEmail" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label"
-												id="error_contPerEmail" style="display: none;">This
-												field is required.</span>
+												id="error_contPerEmail" style="display: none;">Please enter email.</span>
 										</div>
 
 
@@ -205,7 +204,7 @@
 												placeholder="Enter Contact Number" id="contPerNo"
 												name="contPerNo" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_contPerNo"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter contact No.</span>
 										</div>
 
 									</div>
@@ -362,84 +361,87 @@
 												var isError = false;
 												var errMsg = "";
 
-												/* if (!$("#activityName").val()) {
+												 if (!$("#signFName").val()) {
 
 													isError = true;
 
-													$("#error_activityName")
+													$("#error_signFName")
 															.show()
 													//return false;
 												} else {
-													$("#error_activityName")
+													$("#error_signFName")
 															.hide()
 												}
 
-												if (!$("#panNo").val()
-														|| !validatePAN($(
-																"#panNo").val())) {
+												if (!$("#signLName").val()) {
 
 													isError = true;
 
-													$("#error_panNo").show()
+													$("#error_signLName").show()
 
 												} else {
-													$("#error_panNo").hide()
+													$("#error_signLName").hide()
 												}
 
-												if (!$("#emailId").val()
-														|| !validateEmail($(
-																"#emailId")
-																.val())) {
+												if (!$("#regNo").val()) {
 
 													isError = true;
 
-													$("#error_emailId").show()
+													$("#error_regNo").show()
 
 												} else {
-													$("#error_emailId").hide()
+													$("#error_regNo").hide()
 												}
 
-												if (!$("#phone").val()
-														|| !validateMobile($(
-																"#phone").val())) {
+												if (!$("#desg").val()) {
 
 													isError = true;
 
-													$("#error_phone").show()
+													$("#error_desg").show()
 
 												} else {
-													$("#error_phone").hide()
+													$("#error_desg").hide()
 												}
 
-												if (!$("#address1").val()) {
+												if (!$("#signMobile").val()) {
 
 													isError = true;
 
-													$("#error_address1").show()
+													$("#error_signMobile").show()
 
 												} else {
-													$("#error_address1").hide()
+													$("#error_signMobile").hide()
 												}
 
-												if (!$("#city").val()) {
+												if (!$("#contPerName").val()) {
 
 													isError = true;
 
-													$("#error_city").show()
+													$("#error_contPerName").show()
 
 												} else {
-													$("#error_city").hide()
+													$("#error_contPerName").hide()
 												}
 
-												if (!$("#pincode").val()) {
+												if (!$("#contPerEmail").val()) {
 
 													isError = true;
 
-													$("#error_pincode").show()
+													$("#error_contPerEmail").show()
 
 												} else {
-													$("#error_pincode").hide()
-												} */
+													$("#error_contPerEmail").hide()
+												} 
+												
+												if (!$("#contPerNo").val()) {
+
+													isError = true;
+
+													$("#error_contPerNo").show()
+
+												} else {
+													$("#error_contPerNo").hide()
+												} 
 
 												if (!isError) {
 
