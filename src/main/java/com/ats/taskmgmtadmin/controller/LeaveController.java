@@ -28,6 +28,7 @@ import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CalenderYear;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.LeaveApply;
 import com.ats.taskmgmtadmin.model.LeaveCount;
 import com.ats.taskmgmtadmin.model.LeaveDetail;
@@ -246,12 +247,32 @@ public class LeaveController {
 			LeaveDetail[] res = rest.postForObject(Constants.url + "/getLeaveListByEmp",map, LeaveDetail[].class);
 			List<LeaveDetail> list = new ArrayList<>(Arrays.asList(res));
 			model.addAttribute("list", list);
+			model.addAttribute("empId1", empId1);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteLeave", method = RequestMethod.GET)
+	public String deleteLeave(HttpServletRequest request, HttpServletResponse response, Model model) {
+ 
+		String empId1 = request.getParameter("emp");
+		try {
+			 
+			 
+			int leaveId=Integer.parseInt(request.getParameter("leaveId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("leaveId", leaveId);
+			Info res = rest.postForObject(Constants.url + "/deleteLeaveApply",map, Info.class); 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/showLeaveHistList?empId="+empId1;
 	}
 
 	@RequestMapping(value = "/showLeaveHistListBetweenDate", method = RequestMethod.GET)
