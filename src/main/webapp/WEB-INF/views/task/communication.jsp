@@ -35,7 +35,33 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<div class="page-header page-header-dark" style="background-color:info;">
+						<table style="background-color: #4CAF50;" width="100%">
+
+							<tr>
+								<td style="color: white; padding: .8rem 1rem;" align="left"
+									width="80%">
+									<h5>
+										Task ID -<span class="font-weight-semibold"> 1 </span>
+										&nbsp;&nbsp; Name - <span class="font-weight-semibold">
+											GST </span> <small class="d-block opacity-75">Owner Partner
+											- Prakash</small>
+									</h5>
+								</td>
+								<td style="color: white; padding: .8rem 1rem;">
+									<div align="center">
+										<div class="btn" style="background-color: white;">Pending</div>
+										<normal class="d-block opacity-75" style="color: white;">Current
+										Status</normal>
+									</div>
+								</td>
+							</tr>
+
+						</table>
+
+						<br>
+
+
+						<!-- <div class="page-header page-header-dark" style="height: 6rem;">
 							<div class="page-header-content header-elements-inline">
 								<div class="page-title">
 									<h5>
@@ -47,8 +73,11 @@
 								</div>
 
 								<div class="header-elements d-flex align-items-center">
+									<div align="center">
+										<div class="btn" style="background-color: white;">Pending</div>
+										<normal class="d-block opacity-75">Current Status</normal>
+									</div>
 
-									<div class="btn" style="background-color:white;">Pending</div>
 								</div>
 							</div>
 
@@ -58,7 +87,7 @@
 
 							</div>
 
-						</div>
+						</div> -->
 
 					</div>
 				</div>
@@ -80,49 +109,26 @@
 							<div class="card-body">
 
 
+<style type="text/css">
+.media-chat-scrollable {
+	max-height: 209px;
+	overflow: auto;
+}
+
+</style>
+
 
 
 								<ul class="media-list media-chat media-chat-scrollable mb-3">
 
-									<li
-										class="media content-divider justify-content-center text-muted mx-0" >
 
-										<div class="media-body" >
-
-											<div align="center">
-
-												<div class="media-chat-item" style="background-color:#CD5C5C; color:white;">Task Generated<br>- ABC</div>
-												<div class="font-size-sm text-muted mt-2">
-													 5/8/2018 6:22 pm <a href="#"><i
-														class="icon-pin-alt ml-2 text-muted"></i></a>
-												</div>
-											</div>
-
-										</div>
-									</li>
-
-									
-
-
-
+								<!-- 	<li
+										class="media content-divider justify-content-center text-muted mx-0">Task
+										Generated - ABC - 5/8/2018 6:22 pm</li> -->
 
 									<li
-										class="media content-divider justify-content-center text-muted mx-0">
-
-										<div class="media-body">
-
-											<div align="center">
-
-												<div class="media-chat-item" style="background-color:#CD5C5C; color:white;">Employee Assigned<br>- ABC</div>
-												<div class="font-size-sm text-muted mt-2">
-													 6/8/2018 6:22 pm <a href="#"><i
-														class="icon-pin-alt ml-2 text-muted"></i></a>
-												</div>
-											</div>
-
-										</div>
-									</li>
-
+										class="media content-divider justify-content-center text-muted mx-0">Employee
+										Assigned - ABC - 5/8/2018 6:22 pm</li>
 
 
 									<li class="media">
@@ -137,7 +143,7 @@
 
 										<div class="media-body">
 											<div class="media-chat-item">Hello, Please take follow
-												up.</div>
+												up. <br>- A B Shinde</div>
 											<div class="font-size-sm text-muted mt-2">
 												9/8/2018 6:22 pm <a href="#"><i
 													class="icon-pin-alt ml-2 text-muted"></i></a>
@@ -155,7 +161,7 @@
 										</div>
 
 										<div class="ml-3">
-											<a href="../../../../global_assets/images/demo/images/3.png">
+											<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
 												<img
 												src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
 												class="rounded-circle" width="40" height="40" alt="">
@@ -166,27 +172,33 @@
 
 								</ul>
 
-								<textarea name="enter-message" class="form-control mb-3"
+								<!-- <textarea name="enter-message" class="form-control mb-3"
 									rows="3" cols="1" placeholder="Enter your message..."></textarea>
 
 								<div class="d-flex align-items-center">
-									<!-- <div class="list-icons list-icons-extended">
-												<a href="#" class="list-icons-item" data-popup="tooltip"
-													data-container="body" title="Send photo"><i
-													class="icon-file-picture"></i></a> <a href="#"
-													class="list-icons-item" data-popup="tooltip"
-													data-container="body" title="Send video"><i
-													class="icon-file-video"></i></a> <a href="#"
-													class="list-icons-item" data-popup="tooltip"
-													data-container="body" title="Send file"><i
-													class="icon-file-plus"></i></a>
-											</div> -->
+							
 
 									<button type="button"
 										class="btn bg-teal-400 btn-labeled btn-labeled-right ml-auto">
 										<b><i class="icon-paperplane"></i></b> Send
 									</button>
-								</div>
+								</div> -->
+								
+								
+								<table width="100%">
+									<tr>
+										<td width="89%" ><textarea name="enter-message"
+												class="form-control mb-3" rows="1" cols="1"
+												placeholder="Enter your message..."></textarea></td>
+										<td width="1%"></td>
+										<td width="10%" align="right">
+											<button type="button"
+												class="btn bg-teal-400">
+												<b><i class="icon-paperplane"></i></b>
+											</button>
+										</td>
+									</tr>
+								</table>
 
 
 
@@ -220,6 +232,15 @@
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 
+											<option value="4">Select Status</option>
+											<option value="4">Pending for Manager</option>
+											<option value="4">Pending for Partner</option>
+											<option value="4">Pending for Team Lead</option>
+											<option value="4">Pending for Client</option>
+											<option value="4">Completed</option>
+											<option value="4">Inactive</option>
+											<option value="4">Other</option>
+
 										</select>
 									</div>
 								</div>
@@ -235,12 +256,15 @@
 											autocomplete="off" onchange="trim(this)">
 									</div>
 								</div>
+								
+								
 
 								<div class="form-group row">
 									<button class="btn btn-primary">Update</button>
 									<div class="form-group row"></div>
 
 								</div>
+								<br><br>
 							</div>
 
 						</div>
@@ -268,124 +292,7 @@
 			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
-		<script>
-			$(document)
-					.ready(
-							function($) {
-
-								$("#submitInsertClient")
-										.submit(
-												function(e) {
-													var isError = false;
-													var errMsg = "";
-
-													if (!$("#firmName").val()) {
-
-														isError = true;
-
-														$("#error_firmName")
-																.show()
-														//return false;
-													} else {
-														$("#error_firmName")
-																.hide()
-													}
-
-													if (!$("#panNo").val()
-															|| !validatePAN($(
-																	"#panNo")
-																	.val())) {
-
-														isError = true;
-
-														$("#error_panNo")
-																.show()
-
-													} else {
-														$("#error_panNo")
-																.hide()
-													}
-
-													if (!$("#emailId").val()
-															|| !validateEmail($(
-																	"#emailId")
-																	.val())) {
-
-														isError = true;
-
-														$("#error_emailId")
-																.show()
-
-													} else {
-														$("#error_emailId")
-																.hide()
-													}
-
-													if (!$("#phone").val()
-															|| !validateMobile($(
-																	"#phone")
-																	.val())) {
-
-														isError = true;
-
-														$("#error_phone")
-																.show()
-
-													} else {
-														$("#error_phone")
-																.hide()
-													}
-
-													if (!$("#address1").val()) {
-
-														isError = true;
-
-														$("#error_address1")
-																.show()
-
-													} else {
-														$("#error_address1")
-																.hide()
-													}
-
-													if (!$("#city").val()) {
-
-														isError = true;
-
-														$("#error_city").show()
-
-													} else {
-														$("#error_city").hide()
-													}
-
-													if (!$("#pincode").val()) {
-
-														isError = true;
-
-														$("#error_pincode")
-																.show()
-
-													} else {
-														$("#error_pincode")
-																.hide()
-													}
-
-													if (!isError) {
-
-														var x = true;
-														if (x == true) {
-
-															document
-																	.getElementById("submtbtn").disabled = true;
-															return true;
-														}
-														//end ajax send this to php page
-													}
-													return false;
-												});
-							});
-			//
-		</script>
+		
 
 
 		<script type="text/javascript">

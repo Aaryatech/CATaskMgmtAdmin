@@ -47,7 +47,7 @@
 				
 				
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Access Rights
+					class="nav-link"><i class="icon-file-locked"></i><span>Access Rights
 							</span></a>
 
 					<ul class="nav nav-group-sub"
@@ -66,7 +66,7 @@
 				
 				
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Master</span></a>
+					class="nav-link"><i class="icon-file-plus"></i><span>Master</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
 
@@ -98,7 +98,7 @@
 					</ul></li>
  
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>Task
+					class="nav-link"><i class="icon-file-check"></i><span>Task
 							Allotment</span></a>
 
 					<ul class="nav nav-group-sub"
@@ -114,7 +114,7 @@
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>
+					class="nav-link"><i class="icon-exit3"></i><span>
 							Leave Management </span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
@@ -130,7 +130,7 @@
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-list-unordered"></i><span>
+					class="nav-link"><i class="icon-stack"></i><span>
 							Daily Work Log </span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
