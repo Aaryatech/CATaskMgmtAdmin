@@ -46,7 +46,7 @@
 					</div>
 
 					<div class="breadcrumb justify-content-center">
-						<a href="${pageContext.request.contextPath}/showApplyForLeave"
+						<a href="${pageContext.request.contextPath}/showEmpListForLeave"
 							class="breadcrumb-elements-item">Employee List</a>
 
 					</div>
@@ -119,12 +119,35 @@
 									<th>From Date</th>
 									<th>To Date</th>
 									<th>No. of Days</th>
+									<th>Type</th>
 									<th>Reason</th>
-									<th>Status</th> 
 									<th width="10%" class="text-center">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
+
+								<c:forEach items="${list}" var="list" varStatus="count">
+									<tr>
+										<td>${count.index+1}</td>
+										<td>${list.leaveFromdt}</td>
+										<td>${list.leaveTodt}</td>
+										<td>${list.leaveNumDays}</td>
+										<c:choose>
+											<c:when test="${list.leaveDuration==0}">
+												<td>Half Day</td>
+											</c:when>
+											<c:otherwise>
+												<td>Full Day</td>
+											</c:otherwise>
+										</c:choose>
+										<td>${list.leaveEmpReason}</td>
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/deleteHoliday?holidayId=${holiday.exVar1}"
+											onClick="return confirm('Are you sure want to delete this record');"
+											title="Delete"><i class="icon-trash"
+												style="color: black;"></i> </a></td>
+									</tr>
+								</c:forEach>
 
 							</tbody>
 						</table>

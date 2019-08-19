@@ -104,10 +104,10 @@
 										<td>${empList.empEmail}</td>
 										<td>${empList.empMob}</td>
 										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/leaveApply?empId=${empList.empId}"
+											href="${pageContext.request.contextPath}/leaveApply?empId=${empList.exVar1}"
 											title="Add Leave" class=" "><i class="fas fa-walking"
 												style="color: black;"></i></a> <a
-											href="${pageContext.request.contextPath}/showLeaveHistList?empId=${empList.empId}"
+											href="${pageContext.request.contextPath}/showLeaveHistList?empId=${empList.exVar1}"
 											title="Leave History"><i class="icon-history"
 												style="color: black;"></i></a></td>
 									</tr>

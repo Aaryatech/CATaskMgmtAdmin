@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 
-<c:url var="calholidayWebservice" value="/calculateHolidayBetweenDate" />
+<c:url var="calholidayWebservice" value="/calholidayWebservice" />
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -48,7 +48,7 @@
 					</div>
 
 					<div class="breadcrumb justify-content-center">
-						<a href="${pageContext.request.contextPath}/showApplyForLeave"
+						<a href="${pageContext.request.contextPath}/showEmpListForLeave"
 							class="breadcrumb-elements-item">Employee List</a>
 
 					</div>
@@ -317,25 +317,29 @@
 			var res = daterange.split(" to ");
 
 			document.getElementById("submtbtn").disabled = true;
-			$.getJSON('${calholidayWebservice}', {
+			$
+					.getJSON(
+							'${calholidayWebservice}',
+							{
 
-				fromDate : res[0],
-				toDate : res[1],
-				ajax : 'true',
+								fromDate : res[0],
+								toDate : res[1],
+								ajax : 'true',
 
-			}, function(data) {
+							},
+							function(data) {
 
-				//document.getElementById("noOfDaysExclude").value = data.holidaycount;
-				//alert(data)
-				if (dayTypeName == "" || dayTypeName == 1) {
-					document.getElementById("noOfDays").value = data;
-				} else {
-					document.getElementById("noOfDays").value = data / 2;
-				}
-				document.getElementById("submtbtn").disabled = false;
-				//checkDays(data.leavecount);
+								//document.getElementById("noOfDaysExclude").value = data.holidaycount;
+								//alert(data)
+								if (dayTypeName == "" || dayTypeName == 1) {
+									document.getElementById("noOfDays").value = data.leavecount;
+								} else {
+									document.getElementById("noOfDays").value = data.leavecount / 2;
+								}
+								document.getElementById("submtbtn").disabled = false;
+								//checkDays(data.leavecount);
 
-			});
+							});
 
 		}
 
@@ -399,20 +403,12 @@
 												}
 
 												if (!isError) {
-													var option = $(
-															"#leaveTypeId option:selected")
-															.attr(
-																	"data-leavestrname");
 
-													$('#lvType').html(option);
 													$('#noOfDays1')
 															.html(
 																	document
 																			.getElementById("noOfDays").value);
-													$('#empCode1')
-															.html(
-																	document
-																			.getElementById("empCode").value);
+
 													$('#empName1')
 															.html(
 																	document
@@ -460,20 +456,8 @@
 
 					<div class="form-group row">
 						<label class="col-form-label col-lg-3" for="lvType">
-							Employee Code : </label> <label class="col-form-label col-lg-2"
-							id="empCode1" for="empCode1"> </label>
-
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-lg-3" for="lvType">
 							Employee Name : </label> <label class="col-form-label col-lg-6"
 							id="empName1" for="empName1"> </label>
-
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-lg-3" for="lvType"> Leave
-							Type : </label> <label class="col-form-label col-lg-6" id="lvType"
-							for="lvType"> </label>
 
 					</div>
 
