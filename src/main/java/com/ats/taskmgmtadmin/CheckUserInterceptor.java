@@ -20,7 +20,7 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) throws IOException {
 
-    	
+    	 
     	    	
     	HttpSession session = request.getSession();
 

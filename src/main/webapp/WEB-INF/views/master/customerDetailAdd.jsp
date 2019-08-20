@@ -324,7 +324,7 @@
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#activityName").val()) {
+				if (!$("#activity").val()) {
 
 					isError = true;
 
@@ -502,25 +502,13 @@
 						 document.getElementById("ans2").value=data.loginAns2;
 						 document.getElementById("remark").value=data.loginRemark;
 						 var x=data.servId;
-						 
-						 $("#service").select2("val", x).trigger('change');
-						// $('#service').val(x).trigger('change');
-						 //document.getElementById("service").selectedIndex = "4";
-						// $("#service").trigger("chosen:updated");
-//						    $('#country').select2("val", "Pakistan").trigger('change');
+						$("#service").val(x).change();
 
-						 //document.getElementById("service").value = data.servId;
-						 //$("#service").trigger("chosen:updated");
-							//multiple select
-						//	$('#service').val(''+data.servId).trigger('change');
-						/* 	var temp = new Array();
-							temp = (data.deptId).split(",");
-							$('#dept_id').val(temp);
-							$('#dept_id').trigger('change');
- */
 					}
 					)
 		}
+	 
+
 	</script>
 
 </body>
