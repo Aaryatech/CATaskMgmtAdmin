@@ -37,7 +37,7 @@ import com.ats.taskmgmtadmin.model.LeaveDetail;
 @Scope("session")
 public class LeaveController {
 
-	RestTemplate rest = new RestTemplate();
+	 
 
 	@RequestMapping(value = "/showEmpListForLeave", method = RequestMethod.GET)
 	public String showEmpListForLeave(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -46,7 +46,7 @@ public class LeaveController {
 
 		try {
 
-			EmployeeMaster[] employee = rest.getForObject(Constants.url + "/getAllEmployees", EmployeeMaster[].class);
+			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees", EmployeeMaster[].class);
 			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 
 			for (int i = 0; i < empList.size(); i++) {
@@ -73,7 +73,7 @@ public class LeaveController {
 			// int empId = Integer.parseInt(request.getParameter("empId"));
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", FormValidation.DecodeKey(empIds));
-			EmployeeMaster employee = rest.postForObject(Constants.url + "/getEmployeeById", map, EmployeeMaster.class);
+			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map, EmployeeMaster.class);
 
 			model.addAttribute("employee", employee);
 			model.addAttribute("empId", Integer.parseInt(FormValidation.DecodeKey(empIds)));
@@ -98,7 +98,7 @@ public class LeaveController {
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			System.out.println(map);
-			leaveCount = rest.postForObject(Constants.url + "/calculateHolidayBetweenDate", map, LeaveCount.class);
+			leaveCount = Constants.getRestTemplate().postForObject(Constants.url + "/calculateHolidayBetweenDate", map, LeaveCount.class);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,7 +201,7 @@ public class LeaveController {
 				System.out.println("noOfDays" + ret);
 			}
 
-			CalenderYear cal = rest.getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
+			CalenderYear cal = Constants.getRestTemplate().getForObject(Constants.url + "/getCalculateYearListIsCurrent", CalenderYear.class);
 
 			if (ret == false) {
 
@@ -218,7 +218,7 @@ public class LeaveController {
 				leaveSummary.setDelStatus(1);
 				leaveSummary.setMakerEnterDatetime(sf.format(date));
 
-				LeaveApply res = rest.postForObject(Constants.url + "/saveLeaveApply", leaveSummary, LeaveApply.class);
+				LeaveApply res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveApply", leaveSummary, LeaveApply.class);
 
 			} else {
 				session.setAttribute("errorMsg", "Failed to Insert Record");
@@ -244,8 +244,11 @@ public class LeaveController {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
-			LeaveDetail[] res = rest.postForObject(Constants.url + "/getLeaveListByEmp",map, LeaveDetail[].class);
+			LeaveDetail[] res = Constants.getRestTemplate().postForObject(Constants.url + "/getLeaveListByEmp",map, LeaveDetail[].class);
 			List<LeaveDetail> list = new ArrayList<>(Arrays.asList(res));
+			
+			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map, EmployeeMaster.class);
+			model.addAttribute("employee", employee);
 			model.addAttribute("list", list);
 			model.addAttribute("empId1", empId1);
 			
@@ -266,7 +269,7 @@ public class LeaveController {
 			int leaveId=Integer.parseInt(request.getParameter("leaveId"));
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("leaveId", leaveId);
-			Info res = rest.postForObject(Constants.url + "/deleteLeaveApply",map, Info.class); 
+			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteLeaveApply",map, Info.class); 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
