@@ -124,29 +124,34 @@
 							
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Firm Name</th>
 									<th>Customer Group</th>
-									<th>Assesse Name</th>
-									<th>PAN No.</th>
-									<th>Email</th>
-									<th>Contact</th>
-									<th>Owner Partner</th>
-									<th class="text-center" width="10%">Actions</th>
+									<th>Service</th>
+									<th>Activity</th>
+									<th>Periodicity</th>
+									<th>Start Date</th>
+									<th>End Date</th>
+									<th>Statutory End Days</th>
+									<th>Manager Budget Hours</th>
+									<th>Employee Budget Hours</th>
+									<th>Billing Amount</th>									
+									<!-- <th class="text-center" width="10%">Actions</th> -->
 								</tr>
 							</thead>
-							<c:forEach items="${custHeadList}" var="custHeadList" varStatus="count">
+							<c:forEach items="${custActMapList}" var="actMap" varStatus="count">
 							<tr>
 								<td>${count.index+1}</td>
-								<td>${custHeadList.custFirmName}</td>
-								<td>${custHeadList.custGroupName}</td>
-								<td>${custHeadList.custAssesseeName}</td>
-								<td>${custHeadList.custPanNo}</td>
-								<td>${custHeadList.custEmailId}</td>
-								<td>${custHeadList.custPhoneNo}</td>
-								<td>${custHeadList.empName}</td>
+								<td>${actMap.custGroupName}</td>
+								<td>${actMap.servName}</td>
+								<td>${actMap.actiName}</td>
+								<td>${actMap.periodicityName}</td>
+								<td>${actMap.actvStartDate}</td>
+								<td>${actMap.actvEndDate}</td>
+								<td>${actMap.actvStatutoryDays}</td>
+								<td>${actMap.actvManBudgHr}</td>
+								<td>${actMap.actvEmpBudgHr}</td>
+								<td>${actMap.actvBillingAmt}</td>
 
-
-								<td><a
+								<%-- <td><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.custId}"
 									title="Map Activity"><i class="icon-add"
 										style="color: black;"></i></a> 
@@ -160,7 +165,7 @@
 										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.custId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
+								</a></td> --%>
 
 							</tr>
 							</c:forEach>

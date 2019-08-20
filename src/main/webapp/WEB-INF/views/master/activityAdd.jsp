@@ -159,16 +159,19 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1">Select Periodicity</option>
-													<c:forEach items="${periodList}" var="List">														
-														<option value="${List.periodicityId}">${List.periodicityName}</option>
+												<option value="">Select Periodicity</option>
+												
+													<c:forEach items="${periodList}" var="list">	
+													<c:choose>	
+													<c:when test="${list.periodicityId == activity.periodicityId}">												
+														<option value="${list.periodicityId}">${list.periodicityName}</option>
+													</c:when>
+														<c:otherwise>
+															<option value="${list.periodicityId}">${list.periodicityName}</option>
+														</c:otherwise>
+													</c:choose>
 													</c:forEach>
-												<!-- <option value="3">Monthly</option>
-												<option value="4">Weekly</option> -->
-
-												<%-- <c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach> --%>
+												
 											</select>
 
 
@@ -222,14 +225,14 @@
 												</tr>
 											</thead>
 											<tbody>
-											 	 <c:forEach items="${actList}" var="List" varStatus="count">
+											 	 <c:forEach items="${actList}" var="actList" varStatus="count">
 													<tr>
 														<td>${count.index+1}</td>
-														<td>${List.actiName}</td>
-														<td>${List.actiDesc}</td>
-														<td>${List.periodicityName}</td>
-														<td><a href="#" onclick="editActivity(${List.actiId})" title="Edit"><i class="icon-pencil7"
-																style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteActivity/${List.actiId}"
+														<td>${actList.actiName}</td>
+														<td>${actList.actiDesc}</td>
+														<td>${actList.periodicityName}</td>
+														<td><a href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}" title="Edit"><i class="icon-pencil7"
+																style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
 															onClick="return confirm('Are you sure want to delete this record');"
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
@@ -326,7 +329,7 @@
 															.hide()
 												}
 
-												if ($("#periodicity").val()==1) {
+												if ($("#periodicity").val()=="" || !$("#periodicity").val()) {
 
 													isError = true;
 

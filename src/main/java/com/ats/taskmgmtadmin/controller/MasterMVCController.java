@@ -44,6 +44,7 @@ import com.ats.taskmgmtadmin.model.FirmType;
 import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
 
 @Controller
@@ -291,7 +292,7 @@ public class MasterMVCController {
 	}
 	
 	
-	@RequestMapping(value = "/editActivity", method = RequestMethod.POST)
+	@RequestMapping(value = "/editActivity", method = RequestMethod.GET)
 	public ModelAndView editActivity(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
@@ -299,7 +300,7 @@ public class MasterMVCController {
 					
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 					
-					int activityId = Integer.parseInt(request.getParameter("edit_activity_id"));
+					int activityId = Integer.parseInt(request.getParameter("actiId"));
 								
 					map.add("activityId", activityId);
 					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
@@ -311,6 +312,7 @@ public class MasterMVCController {
 					map.add("serviceId", activity.getServId());
 					
 					ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
+					System.out.println("Service="+servicemMap);
 					mav.addObject("service", servicemMap);		
 					
 					map = new LinkedMultiValueMap<>();
@@ -360,7 +362,7 @@ public class MasterMVCController {
 					System.err.println("Exce in deleteActivity " + e.getMessage());
 					e.printStackTrace();
 		}
-		return "redirect:/activityAdd/"+serviceId;		
+		return "redirect:/activity";		
 	}
 	
 	@RequestMapping(value = "/activityAdd/{serviceId}", method = RequestMethod.GET)
@@ -973,6 +975,32 @@ public class MasterMVCController {
 		
 	}
 	
+	
+	
+	@RequestMapping(value = "/showCustomerActivityMap", method = RequestMethod.GET)
+	public ModelAndView showCustomerActivityMap(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("master/customerActiMapList");
+		MultiValueMap<String, Object> map = null;
+		try {			
+			
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("custId", custId);
+			
+			ShowCustActiMapped[] custHeadArr = rest.postForObject(Constants.url+"/getAllCustActivityMapped",map, ShowCustActiMapped[].class);
+				List<ShowCustActiMapped> custActMapList = new ArrayList<ShowCustActiMapped>(Arrays.asList(custHeadArr));
+				mav.addObject("custActMapList", custActMapList);
+				
+		}catch (Exception e) {
+			System.err.println("Exce in showCustomerActivityMap " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	
 	/**********************************************************************/
 	
 	@RequestMapping(value = "/getPeridicityByActivity", method = RequestMethod.GET)
@@ -998,5 +1026,46 @@ public class MasterMVCController {
 		}
 		return period;
 		
+		
 	}
 }
+
+/*SELECT 
+        t_tasks.task_id,
+        t_tasks.task_text,
+        t_tasks.task_start_date,
+        t_tasks.task_end_date,
+        t_tasks.task_statutory_due_date,
+        t_tasks.mngr_bud_hr,
+        t_tasks.emp_bud_hr,
+        t_tasks.task_emp_ids,
+        m_emp.emp_name,
+        m_services.serv_name,
+        m_activities.acti_name,
+        dm_periodicity.periodicity_name,
+        m_cust_group.cust_group_name,
+        dm_fin_year.fin_year_name
+       
+
+FROM 	
+        t_tasks,
+        m_emp,
+        m_services,
+        m_activities,
+        dm_periodicity,
+        m_cust_group,
+        m_cust_header,
+        dm_fin_year
+       
+WHERE 
+        t_tasks.del_status=1 AND
+        m_emp.emp_id=2 AND
+		t_tasks.task_emp_ids=m_emp.emp_id AND
+        t_tasks.actv_id=m_activities.acti_id AND
+        m_activities.serv_id=m_services.serv_id AND
+        m_activities.periodicity_id=dm_periodicity.periodicity_id AND
+        t_tasks.cust_id=m_cust_header.cust_id AND
+        m_cust_header.cust_group_id=m_cust_group.cust_group_id AND
+        dm_fin_year.fin_year_id=t_tasks.task_fy_id*/
+
+
