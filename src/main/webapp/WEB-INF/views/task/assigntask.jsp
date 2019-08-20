@@ -158,6 +158,9 @@
 
 					<div class="card-body">
 						<div class="table-responsive">
+						<form
+									action="${pageContext.request.contextPath}/submitTaskRole"
+									id="submitInsertEmpType" method="post">
 							<table
 								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
 								id="printtable">
@@ -170,35 +173,40 @@
 										<th>Date</th>
 										<th>Alloted Hrs</th>
 										<th>Actual Hrs</th>
-										<th>Status</th>
-										<th class="text-center" width="10%">Actions</th>
+										
+										
 									</tr>
 								</thead>
 
-								<tbody>
+								<c:forEach items="${taskList}" var="taskList"  varStatus="count">
 									<tr>
-										<td>1&nbsp;<input type="checkbox" id="taskcheck"
-											name="taskcheck"></td>
-										<td>ABC</td>
-										<td>GST</td>
-										<td>2018-19</td>
-										<td>11-01-2019</td>
-										<td>45</td>
-										<td>52</td>
-										<td><span class="badge badge-info">Pending</span></td>
-										<td class="text-center"><a href="#" class="dropdown-item"
-											title="Task detail"><i class="fa fa-list-alt"></i> </a></td>
+									<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
+														id="TaskId${taskList.taskId}"
+														name="TaskId${taskList.taskId}" class="select_all"
+														></td>
+										
+										<td>${taskList.custFirmName}</td>
+										<td>${taskList.actiName}</td>
+										<td>${taskList.finYearName}</td>
+										<td>${taskList.taskStatutoryDueDate}</td>
+										<td>${taskList.mngrBudHr}</td>
+										<td>${taskList.empBudHr}</td>
+								
+										
 
 									</tr>
+									</c:forEach>
 								</tbody>
+								
 							</table>
+							</form>
 						</div>
 						<br>
 						<div style="text-align: center;">
-							<a
-								href="${pageContext.request.contextPath}/selectEmployeeToAssigTask"><button
-									type="button" class="btn btn-primary">Assign To
-									Employee</button></a>
+							<input type="submit" class="btn btn-primary" value="Assign Task"
+										id="deleteId"
+										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
+										style="align-content: center; width: 113px; margin-left: 40px;">
 						</div>
 
 
@@ -220,6 +228,25 @@
 
 	</div>
 	<!-- /page content -->
+	
+	
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$('#printtable').DataTable();
+
+							$("#selAll")
+									.click(
+											function() {
+												$(
+														'#printtable tbody input[type="checkbox"]')
+														.prop('checked',
+																this.checked);
+											});
+						});
+	</script>
+	
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->

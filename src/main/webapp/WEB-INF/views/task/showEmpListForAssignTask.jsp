@@ -158,42 +158,33 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="catId">
-											Employee Category <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-3" for="empType">Type
+											<span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
-											<select name="catId" data-placeholder="Select Category"
-												id="catId"
+										<div class="col-lg-6">
+											<select name="empType"
+												data-placeholder="Select Employee Type" id="empType"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="">Select Category</option>
+												<option value="">Select Employee Type</option>
+												<option value="1" ${employee.empType == 1 ? 'selected' : ''}>Admin</option>
+												<option value="2" ${employee.empType == 2 ? 'selected' : ''}>Partner</option>
+												<option value="3" ${employee.empType == 3 ? 'selected' : ''}>Manager</option>
+												<option value="4" ${employee.empType == 4 ? 'selected' : ''}>Team
+													Leader</option>
+												<option value="5" ${employee.empType == 5 ? 'selected' : ''}>Employee</option>
 
-												<c:forEach items="${empCatList}" var="empCatList">
-													<option value="${empCatList.empCatId}">${empCatList.empCatName}</option>
-												</c:forEach>
-											</select> <span class="validation-invalid-label" id="error_catId"
-												style="display: none;">This field is required.</span>
+											</select>
 										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_empType"
+												style="display: none;">Please select employee type.</span>
+										</div>
+
 									</div>
 
-									<!-- <div class="form-group row">
-										<label class="col-form-label col-lg-2" for="fullHalfwork">Select
-											<span style="color: red">* </span>:
-										</label>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-												class="form-check-input" name="fullHalfwork"
-												id="fullHalfwork" checked value="2"> Full Time
-											</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio"
-												class="form-check-input" name="fullHalfwork"
-												id="fullHalfwork" value="1"> Partial Time
-											</label>
-										</div>
-									</div> -->
+
 
 
 
@@ -215,7 +206,7 @@
 
 									<div class="row">
 										<div class="col-md-5">
-											<input type="text" id="myInput" class="myInput"
+											<input type="text" id="printtable1" class="myInput"
 												onkeyup="myFunction()" placeholder="Search for employee.."
 												title="Type in a name">
 											<div class="table-responsive">
@@ -238,7 +229,7 @@
 											</div>
 										</div>
 										<div class="col-md-1" style="text-align: center;">
-											<a onclick="allocateMultipleEmployee()"><i
+											<a onclick="moveEmp()"><i
 												class="icon-drag-right "></i></a>
 										</div>
 
@@ -252,7 +243,7 @@
 													id="printtable2">
 													<thead>
 														<tr class="bg-blue">
-															<th width="10%">Sr. No.</th>
+															<th width="20%">Sr. No.</th>
 															<th>Employee Name</th>
 
 															<th width="10%" style="text-align: center;">Action</th>
@@ -298,18 +289,129 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
-		// Single picker
+	$(document).ready(
+			function() {
+				//$('#bootstrap-data-table-export').DataTable();
 
-		$(document).ready(
-				function() {
-					//$('#bootstrap-data-table-export').DataTable();
+				$("#selAll").click(
+						function() {
+							$('#printtable1 tbody input[type="checkbox"]')
+									.prop('checked', this.checked);
+						});
+			});
+	
+		function getFreeEmployeeList() {
 
-					$("#selAll").click(
-							function() {
-								$('#printtable1 tbody input[type="checkbox"]')
-										.prop('checked', this.checked);
-							});
+			var catId = document.getElementById("empType").value;
+
+			if (catId == "") {
+				$("#error_empType").show();
+			} else {
+
+				$("#error_empType").hide();
+
+				$("#loader").show();
+				//alert(selectedValues);
+				$.getJSON('${getFreeEmployeeList}', {
+					catId : catId,
+					ajax : 'true',
+
+				}, function(data) {
+					$("#loader").hide();
+					//alert("hii");
+					//alert(data);
+					for (var i = 0; i < data.length; i++) {
+						var tr_data = '<tr>'
+						+ '<td  >'
+						+ (i + 1) 
+						+ ' '
+						+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data[i].empId+'" data-empName="'+data[i].empName+'"  />'
+						+'</td>'
+								+ '<td  >' + data[i].empName + '</td>'
+								+ '<td  ></td>' + '</tr>';
+								$('#printtable1' + ' tbody').append(
+										tr_data);
+						//alert(data[i].empName);
+					}
+
 				});
+
+			}
+		}
+
+		function moveEmp() {
+
+			var index = "-1";
+			$('.chk:checkbox:checked')
+					.each(
+							function(i) {
+								var val = $(this).val();
+
+								if (val != 'on') {
+								
+									index = index + "," + val;
+								}
+							});
+			
+			
+			//alert("index**"+index);
+				$("#loader").show();
+				$
+						.getJSON(
+								'${moveEmp}',
+								{
+
+									empId : index,
+									ajax : 'true',
+
+								},
+								function(data) {
+									alert(data);
+									alert("tot data is "+JSON.stringify(data));
+
+									$("#loader").hide();
+									$("#printtable1 tbody").empty();
+
+									
+										for (var i = 0; i < data.bsyList.length; i++) {
+											var tr_data = '<tr>'
+											+ '<td  >'
+											+ (i + 1) 
+											+ ' '
+											+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data.bsyList[i].empId+'" data-empNname="'+data.bsyList[i].empName+'"   />'											+'</td>'
+													+ '<td  >' + data.bsyList[i].empName + '</td>'
+													+ '<td  ></td>' + '</tr>';
+													$('#printtable1' + ' tbody').append(
+															tr_data);
+											//alert(data[i].empName);
+										}
+
+									$("#printtable2 tbody").empty();
+									
+								
+										for (var i = 0; i < data.freeList.length; i++) {
+											var tr_data = '<tr>'
+											+ '<td  >'
+											+ (i + 1) 
+											+ ' '
+											+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data.freeList[i].empName+'" data-empNname="'+data.freeList[i].empName+'"   />'											+'</td>'
+											+'</td>'
+													+ '<td  >' + data.freeList[i].empName + '</td>'
+													+ '<td  ></td>' + '</tr>';
+													$('#printtable2' + ' tbody').append(
+															tr_data);
+											//alert(data[i].empName);
+										}
+
+									
+									document.getElementById("selAll").checked = false;
+								});
+			
+
+		}
+
+
+		
 
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -335,27 +437,11 @@
 
 
 	<script>
-		function trim(el) {
-			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
-			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
-			replace(/\n +/, "\n"); // Removes spaces after newlines
-			return;
-		}
-
 		$(document).ready(function($) {
 
 			$("#submitInsertEmpType").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
-				/* $("#error_empTypeName").hide();
-				
-				if (!$("#empTypeName").val()) {
-
-					isError = true;
-
-					$("#error_empTypeName").show();
-					//return false;
-				}   */
 
 				if (!isError) {
 
@@ -371,230 +457,6 @@
 			});
 		});
 		//
-
-		function getFreeEmployeeList() {
-
-			var catId = document.getElementById("catId").value;
-			var daterange = document.getElementById("leaveDateRange").value;
-			var res = daterange.split(" to ");
-			var locationId = document.getElementById("locationId").value;
-			var worktime = document
-					.querySelector('input[name="fullHalfwork"]:checked').value;
-
-			if (catId == "") {
-				$("#error_catId").show();
-			} else {
-
-				$("#error_catId").hide();
-
-				var selectedValues = ",";
-				$("#locationId :selected").each(
-						function() {
-							selectedValues = selectedValues
-									+ parseInt($(this).val()) + ",";
-						});
-
-				if (locationId == "") {
-					selectedValues = 0;
-				}
-				$("#loader").show();
-				//alert(selectedValues);
-				$
-						.getJSON(
-								'${getFreeEmployeeList}',
-								{
-
-									fromDate : res[0],
-									toDate : res[1],
-									catId : catId,
-									locationId : selectedValues,
-									worktime : worktime,
-									ajax : 'true',
-
-								},
-								function(data) {
-
-									//alert(data);
-									$("#printtable1 tbody").empty();
-									$("#loader").hide();
-									for (var i = 0; i < data.length; i++) {
-
-										var partialFull;
-
-										if (data[i].exInt1 == 1) {
-											partialFull = "Partial";
-										} else {
-											partialFull = "Full";
-										}
-										var tr_data = '<tr>'
-												+ '<td  >'
-												+ (i + 1)
-												+ ' '
-												+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+i+'" data-empFname="'+data[i].empFname+'" data-empSname="'+data[i].empSname+'"  />'
-												+ '</td>'
-												+ '<td  >'
-												+ data[i].empFname
-												+ ' '
-												+ data[i].empSname
-												+ '</td>'
-												+ '<td  >'
-												+ partialFull
-												+ '</td>'
-												+ '<td  >  <a onclick="getEmpHistory('
-												+ data[i].empId
-												+ ');"><i class="fas fa-list"></i></a></td>'
-												+ '</tr>';
-										$('#printtable1' + ' tbody').append(
-												tr_data);
-
-										/* <a  onclick="fillEmpInfo('
-											+ i
-											+ ','
-											+ data[i].empId
-											+ ')"><i class="icon-drag-right "></i></a>&nbsp; */
-									}
-
-								});
-
-			}
-
-		}
-		function moveEmp() {
-
-			var empId = document.getElementById("tempEmpId").value;
-			var selectWorkType = document
-					.querySelector('input[name="selectWorkType"]:checked').value;
-			var worktime = document
-					.querySelector('input[name="fullHalfwork"]:checked').value;
-			var hours = parseFloat(document.getElementById("hours").value);
-			var flag = 0;
-			$("#error_fullTimeError").hide();
-			$("#error_hours").hide();
-
-			if (selectWorkType == 1) {
-
-				if (isNaN(hours) || hours > 8) {
-
-					flag = 1;
-					$("#error_hours").show();
-
-				}
-
-			} else {
-				hours = 8;
-			}
-
-			/* if (selectWorkType == 2 && worktime == 1) {
-				flag = 1;
-				$("#error_fullTimeError").show();
-
-			} */
-
-			if (empId == '-1') {
-				flag = 1;
-				$("#error_fullTimeError").html("Select atleast one employee. ");
-				$("#error_fullTimeError").show();
-
-			}
-
-			if (flag == 0) {
-				$("#loader").show();
-				$
-						.getJSON(
-								'${moveEmp}',
-								{
-
-									empId : empId,
-									selectWorkType : selectWorkType,
-									hours : hours,
-									ajax : 'true',
-
-								},
-								function(data) {
-
-									$("#loader").hide();
-									$("#printtable1 tbody").empty();
-
-									for (var i = 0; i < data.freeList.length; i++) {
-										var partialFull;
-
-										if (data.freeList[i].exInt1 == 1) {
-											partialFull = "Partial";
-										} else {
-											partialFull = "Full";
-										}
-
-										var tr_data = '<tr>'
-												+ '<td  >'
-												+ (i + 1)
-												+ ' '
-												+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+i+'" data-empFname="'+data.freeList[i].empFname+'" data-empSname="'+data.freeList[i].empSname+'"   />'
-												+ '</td>'
-												+ '<td  >'
-												+ data.freeList[i].empFname
-												+ ' '
-												+ data.freeList[i].empSname
-												+ '</td>'
-												+ '<td  >'
-												+ partialFull
-												+ '</td>'
-												+ '<td  >   <a onclick="getEmpHistory('
-												+ data.freeList[i].empId
-												+ ');"><i class="fas fa-list"></i></a></td>'
-												+ '</tr>';
-										$('#printtable1' + ' tbody').append(
-												tr_data);
-									}
-
-									$("#printtable2 tbody").empty();
-
-									for (var i = 0; i < data.bsyList.length; i++) {
-
-										var atn;
-										var partialFull;
-										if (data.bsyList[i].pallotId == 0) {
-											atn = '<td  >  <a  onclick="deleteEmp('
-													+ i
-													+ ')"><i class="icon-trash"></i></a></td>';
-										} else {
-											atn = '<td  >  </td>';
-										}
-										if (data.bsyList[i].exInt1 == 1) {
-											partialFull = 'Partial';
-										} else {
-											partialFull = 'Full';
-										}
-										var tr_data = '<tr>'
-												+ '<td  >'
-												+ (i + 1)
-												+ '</td>'
-												+ '<td  >'
-												+ data.bsyList[i].empFname
-												+ ' '
-												+ data.bsyList[i].empSname
-												+ '</td>'
-												+ '<td  >'
-												+ data.bsyList[i].pallotFromdt
-												+ '</td>'
-												+ '<td  >'
-												+ data.bsyList[i].pallotTodt
-												+ '</td>'
-												+ '<td  >'
-												+ partialFull
-												+ '</td>'
-												+ '<td  >'
-												+ data.bsyList[i].pallotDailyHrs
-												+ '</td>' + atn + '</tr>';
-										$('#printtable2' + ' tbody').append(
-												tr_data);
-									}
-
-									$('#modal_full').modal('hide');
-									document.getElementById("selAll").checked = false;
-								});
-			}
-
-		}
 
 		function allocateMultipleEmployee() {
 
