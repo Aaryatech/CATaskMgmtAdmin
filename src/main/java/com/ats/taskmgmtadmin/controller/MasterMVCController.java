@@ -298,14 +298,16 @@ public class MasterMVCController {
 		try {
 					mav = new ModelAndView("master/activityAdd");
 					
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					MultiValueMap<String, Object> map = null;
 					
 					int activityId = Integer.parseInt(request.getParameter("actiId"));
-								
-					map.add("activityId", activityId);
-					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
-					System.out.println("Ativity="+activity);
+						System.err.println("In Activity Edit--------"+activityId);
 					
+					map = new LinkedMultiValueMap<>();
+					map.add("activityId", activityId);
+					
+					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
+					System.out.println("Ativity="+activity);					
 					mav.addObject("activity", activity);
 					
 					map = new LinkedMultiValueMap<>();			
@@ -318,10 +320,15 @@ public class MasterMVCController {
 					map = new LinkedMultiValueMap<>();
 					map.add("serviceId", activity.getServId());
 					
-					ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
-					List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+					ActivityPeriodDetails[] activityArr = rest.postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
+					List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
 					System.out.println("Act List:"+activityList);
-					mav.addObject("actList", activityList);		
+					mav.addObject("actList", activityList);	
+					
+					DevPeriodicityMaster[] priodArr = rest.getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+					List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+					System.out.println("Periodicit-------------"+periodList);
+					mav.addObject("periodList", periodList);
 			
 			
 		}catch (Exception e) {

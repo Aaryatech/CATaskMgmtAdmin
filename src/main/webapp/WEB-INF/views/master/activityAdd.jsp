@@ -150,7 +150,7 @@
 												id="error_activityName" style="display: none;">Please enter activity name.</span>
 										</div>
 									</div>
-									<div class="form-group row">
+								 <div class="form-group row">
 										<label class="col-form-label col-lg-3" for="periodicity">
 											Periodicity : </label>
 										<div class="col-lg-6">
@@ -164,7 +164,7 @@
 													<c:forEach items="${periodList}" var="list">	
 													<c:choose>	
 													<c:when test="${list.periodicityId == activity.periodicityId}">												
-														<option value="${list.periodicityId}">${list.periodicityName}</option>
+														<option selected value="${list.periodicityId}">${list.periodicityName}</option>
 													</c:when>
 														<c:otherwise>
 															<option value="${list.periodicityId}">${list.periodicityName}</option>
@@ -180,7 +180,7 @@
 											<span class="validation-invalid-label"
 												id="error_periodicity" style="display: none;">Please select periodicity.</span>
 										</div>
-									</div>
+									</div> 
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="serviceDesc">Activity
@@ -215,7 +215,7 @@
 											class="table table-bordered table-hover datatable-highlight1 "
 											id="printtable1">
 											<thead>
-											
+
 												<tr class="bg-blue">
 													<th width="10%">Sr.no</th>
 													<th>Activity Name</th>
@@ -225,45 +225,27 @@
 												</tr>
 											</thead>
 											<tbody>
-											 	 <c:forEach items="${actList}" var="actList" varStatus="count">
+												<c:forEach items="${actList}" var="actList"
+													varStatus="count">
 													<tr>
 														<td>${count.index+1}</td>
 														<td>${actList.actiName}</td>
 														<td>${actList.actiDesc}</td>
-														<td>${actList.periodicityName}</td>
-														<td><a href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}" title="Edit"><i class="icon-pencil7"
-																style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
+														 <td>${actList.periodicityName}</td>
+														<td><a
+															href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}"
+															title="Edit"><i class="icon-pencil7"
+																style="color: black;"></i></a> <a
+															href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
 															onClick="return confirm('Are you sure want to delete this record');"
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
 													</tr>
-												</c:forEach> 
- 									</tbody>
+												</c:forEach>
+											</tbody>
 
-											<%-- <tbody>
-
-								<c:forEach items="${compList}" var="compList" varStatus="count">
-									<tr>
-										<td>${count.index+1}</td>
-										<td>${compList.companyName}</td>
-										<td class="text-center"><c:if test="${editAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/editCompany?compId=${compList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/deleteCompany?compId=${compList.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
-											</c:if></td>
-									</tr>
-								</c:forEach>
-
-							</tbody> --%>
+											 
 										</table>
-										<input type="hidden" id="edit_activity_id" name="edit_activity_id" value="0">
 									</div>
 
 								</form>
@@ -289,19 +271,6 @@
 
 	</div>
 	<!-- /page content -->
-<script type="text/javascript">
-	function editActivity(activityId){
-		//alert(activityId);
-		document.getElementById("edit_activity_id").value=activityId;//create this 
-		var form=document.getElementById("submitInsertActivity");
-	    form.setAttribute("method", "post");
-
-		form.action=("editActivity");
-		form.submit();
-		
-	}
-	</script>
-
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
