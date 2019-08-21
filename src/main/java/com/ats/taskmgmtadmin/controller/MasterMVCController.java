@@ -833,29 +833,27 @@ public class MasterMVCController {
 			
 				CustomerHeaderMaster cust = new CustomerHeaderMaster();
 				int custHeadId = 0; 
-				int ownerPartId = 0;
-				int asseseeType = 0;
-				int firmType = 0;
 				try {
-					asseseeType = Integer.parseInt(request.getParameter("assesseeType"));
-					custHeadId = Integer.parseInt(request.getParameter("cust_head_id"));
-					ownerPartId = Integer.parseInt(request.getParameter("ownerPartner"));
-					firmType = Integer.parseInt(request.getParameter("firmType"));
+						custHeadId = Integer.parseInt(request.getParameter("cust_head_id"));
 				}catch (Exception e) {
 					e.getMessage();
-					custHeadId = 0;
-					ownerPartId = 0;
-					asseseeType = 0;
-					firmType = 0;
 				}
 				
+				int custType = Integer.parseInt(request.getParameter("custType"));
+				
 				cust.setCustId(custHeadId);
-				cust.setOwnerEmpId(ownerPartId);
-				cust.setCustFirmName(request.getParameter("firmName"));
+				cust.setOwnerEmpId(Integer.parseInt(request.getParameter("ownerPartner")));
+				
 				 
-				cust.setCustType(Integer.parseInt(request.getParameter("custType")));	
-				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));				
-				cust.setCustAssesseeTypeId(asseseeType);
+				cust.setCustType(custType);
+				if(custType==1) {
+					cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));	
+					cust.setCustFirmName("NA");
+				}else {
+					cust.setCustGroupId(0);
+					cust.setCustFirmName(request.getParameter("firmName"));
+				}
+				cust.setCustAssesseeTypeId(Integer.parseInt(request.getParameter("assesseeType")));
 				cust.setCustAssesseeName(request.getParameter("assesseeName"));
 				cust.setCustPanNo(request.getParameter("panNo"));
 				cust.setCustEmailId(request.getParameter("emailId"));

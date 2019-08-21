@@ -118,19 +118,67 @@
 
 									<input type="hidden" value="${custHead.custId}" name="cust_head_id">
 									
+									
 									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="custType">Customer 
+											Type <span style="color: red">*</span>:
+										</label>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
+												class="form-check-input" name="custType" id="custType" checked
+												value="0" onclick="showDiv(this.value)"> Individual
+											</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<label class="form-check-label"> <input type="radio" ${custHead.custType == 1 ? 'checked' : ''}
+												class="form-check-input" name="custType" id="custType" value="1" onclick="showDiv(this.value)">Client
+												 Group
+											</label>
+										</div>
+									</div>
+
+
+									<div class="form-group row" style="display: none" id="ihide">
+										<label class="col-form-label col-lg-3" for="clientGroup">Client
+											Group : </label>
+										<div class="col-lg-6">
+											<select name="clientGrp"
+												data-placeholder="Select Client Group" id="clientGrp"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+												
+											<!-- 	<option value="1">Select</option> -->
+												<c:forEach items="${custGrpList}" var="custGrpList">
+													<c:choose>
+														<c:when test="${custGrpList.custGroupId==custHead.custGroupId}">
+															<option selected value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+														</c:otherwise>
+													</c:choose>
+												</c:forEach>
+
+											</select>
+
+										</div>
+										<div class="col-lg-3"></div>
+									</div>
+									
+									
+									<div class="form-group row" id="hideFirm">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
-											Name <span style="color: red">*</span>:
+											Name <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custFirmName}"
 												placeholder="Enter Firm Name" id="firmName" name="firmName"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										<div class="col-lg-3">
+										<!-- <div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_firmName"
 												style="display: none;">Please enter firm name.</span>
-										</div>
+										</div> -->
 
 									</div>
 									
@@ -162,7 +210,7 @@
 											<input type="text" class="form-control"  value="${custHead.custPanNo}"
 												placeholder="Enter Permanent Account Number (PAN)"
 												id="panNo" name="panNo" autocomplete="off"
-												onchange="trim(this)">
+												onchange="trim(this)" maxlength="10">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_panNo"
@@ -211,52 +259,6 @@
 										<div class="col-lg-3"></div>
 									</div>
 									
-									
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="custType">Customer 
-											Type <span style="color: red">*</span>:
-										</label>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
-												class="form-check-input" name="custType" id="custType" checked
-												value="0" onclick="showDiv(this.value)"> Individual
-											</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custType == 1 ? 'checked' : ''}
-												class="form-check-input" name="custType" id="custType" value="1" onclick="showDiv(this.value)">Client
-												 Group
-											</label>
-										</div>
-									</div>
-
-
-									<div class="form-group row" style="display: none" id="ihide">
-										<label class="col-form-label col-lg-3" for="clientGroup">Client
-											Group : </label>
-										<div class="col-lg-6">
-											<select name="clientGrp"
-												data-placeholder="Select Client Group" id="clientGrp"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-												
-											<!-- 	<option value="1">Select</option> -->
-												<c:forEach items="${custGrpList}" var="custGrpList">
-													<c:choose>
-														<c:when test="${custGrpList.custGroupId==custHead.custGroupId}">
-															<option selected value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
-														</c:when>
-														<c:otherwise>
-															<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-
-											</select>
-
-										</div>
-										<div class="col-lg-3"></div>
-									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="dob">Date
@@ -353,7 +355,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custPinCode}"
 												placeholder="Enter Pin Code" id="pincode" name="pincode"
-												autocomplete="off" onchange="trim(this)">
+												autocomplete="off" onchange="trim(this)" maxlength="6">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_pincode"
@@ -502,7 +504,7 @@
 												var isError = false;
 												var errMsg = "";
 
-												if (!$("#firmName").val()) {
+												/* if (!$("#firmName").val()) {
 
 													isError = true;
 
@@ -510,7 +512,7 @@
 													//return false;
 												} else {
 													$("#error_firmName").hide()
-												}
+												} */
 												
 												if (!$("#assesseeName").val()) {
 
@@ -611,11 +613,11 @@ function showDiv(typdId){
 		if (typdId == 1) {
 			
 			document.getElementById("ihide").style = "visible"
-			
-		
+			document.getElementById("hideFirm").style = "display:none"
+				
 		} else if (typdId == 0) {
 			document.getElementById("ihide").style = "display:none"
-			
+			document.getElementById("hideFirm").style = "visible"
 	}
 }
 
