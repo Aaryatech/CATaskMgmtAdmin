@@ -1,5 +1,9 @@
 package com.ats.taskmgmtadmin.model;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class EmployeeMaster {
 
 	private int empId;
@@ -21,6 +25,7 @@ public class EmployeeMaster {
 	private String exVar1;
 	private String exVar2;
 	private String empSalary;
+	private int isActive;
 	
 	
 	public String getEmpSalary() {
@@ -54,7 +59,7 @@ public class EmployeeMaster {
 	public void setEmpNickname(String empNickname) {
 		this.empNickname = empNickname;
 	}
-	public String getEmpDob() {
+ 	public String getEmpDob() {
 		return empDob;
 	}
 	public void setEmpDob(String empDob) {
@@ -139,6 +144,14 @@ public class EmployeeMaster {
 	public void setExVar2(String exVar2) {
 		this.exVar2 = exVar2;
 	}
+	
+	
+	public int getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
 	@Override
 	public String toString() {
 		return "EmployeeMaster [empId=" + empId + ", empType=" + empType + ", empName=" + empName + ", empNickname="
@@ -146,7 +159,8 @@ public class EmployeeMaster {
 				+ empEmail + ", empPass=" + empPass + ", empDesc=" + empDesc + ", empPic=" + empPic + ", delStatus="
 				+ delStatus + ", updateDatetime=" + updateDatetime + ", updateUsername=" + updateUsername + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", empSalary="
-				+ empSalary + "]";
+				+ empSalary + ", isActive=" + isActive + "]";
 	}
 	
+
 }

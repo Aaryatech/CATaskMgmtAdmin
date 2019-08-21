@@ -32,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.CustmrActivityMap;
@@ -417,6 +418,11 @@ public class MasterMVCController {
 				EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
+				
+				for (int i = 0; i < epmList.size(); i++) {
+
+					epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
+				}
 			
 		}catch (Exception e) {
 			System.err.println("Exce in employeeList " + e.getMessage());
@@ -465,6 +471,8 @@ public class MasterMVCController {
 				}catch(Exception e) {
 					e.getMessage();
 				}
+				String servicesList=null;
+				try {
 				String[] services = request.getParameterValues("empService");
 				
 				StringBuilder sb = new StringBuilder();
@@ -473,8 +481,14 @@ public class MasterMVCController {
 					sb = sb.append(services[i] + ",");
 
 				}
-				String servicesList = sb.toString();
+				 servicesList = sb.toString();
 				System.out.println("Serviceas:"+servicesList);
+				}catch(Exception e) {
+					
+					servicesList="NA";
+					System.out.println("Serviceas:"+servicesList);
+				}
+				
 							
 				employee.setEmpId(empId);
 				employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
@@ -495,6 +509,7 @@ public class MasterMVCController {
 				employee.setExInt2(0);
 				employee.setExVar1("NA");
 				employee.setExVar2("NA");
+				employee.setIsActive(1);
 				
 				EmployeeMaster empl = rest.postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
 		}catch (Exception e) {
@@ -564,9 +579,12 @@ public class MasterMVCController {
 	
 	
 	
-	@RequestMapping(value = "/deleteEmployee/{employeeId}", method = RequestMethod.GET)
-	public String deleteEmployee(HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable int employeeId) {
+	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.GET)
+	public String deleteEmployee(HttpServletRequest request, HttpServletResponse response 
+			) {
+		
+		String base64encodedString = request.getParameter("empId");
+		String employeeId = FormValidation.DecodeKey(base64encodedString);
 				
 				int serviceId = 0;
 		try {
@@ -586,6 +604,38 @@ public class MasterMVCController {
 					map.add("empId", employeeId);
 					
 					Info info = rest.postForObject(Constants.url+"/deleteEmployee", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deleteEmployee " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/employeeList";
+	}
+	
+	
+	@RequestMapping(value = "/updateIsActive", method = RequestMethod.GET)
+	public String updateIsActive(HttpServletRequest request, HttpServletResponse response
+		) {
+		
+		String base64encodedString = request.getParameter("empId");
+		String empId = FormValidation.DecodeKey(base64encodedString);
+			
+		try {
+					MultiValueMap<String, Object> map = null;
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();
+					
+					System.out.println("Delete:"+empId);
+					
+					map = new LinkedMultiValueMap<>();				
+					map.add("employeeId", empId);
+										
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("empId", empId);
+					
+					Info info = rest.postForObject(Constants.url+"/updateEmployeeActiveness", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deleteEmployee " + e.getMessage());
 					e.printStackTrace();
@@ -740,9 +790,7 @@ public class MasterMVCController {
 				CustomerHeaderMaster custHead = new CustomerHeaderMaster();
 				mav.addObject("custHead", custHead);
 				
-				FirmType[] firmArr = rest.getForObject(Constants.url+"/getAllFirms", FirmType[].class);
-				List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
-				mav.addObject("firmList", firmList);
+			 
 				
 				CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
@@ -806,7 +854,7 @@ public class MasterMVCController {
 				cust.setCustId(custHeadId);
 				cust.setOwnerEmpId(ownerPartId);
 				cust.setCustFirmName(request.getParameter("firmName"));
-				cust.setCustFirmType(firmType);
+				 
 				cust.setCustType(Integer.parseInt(request.getParameter("custType")));	
 				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));				
 				cust.setCustAssesseeTypeId(asseseeType);
@@ -821,8 +869,17 @@ public class MasterMVCController {
 				cust.setCustBusinNatute(request.getParameter("business"));
 				cust.setCustIsDscAvail(Integer.parseInt(request.getParameter("dsc")));
 				cust.setCustFolderId(request.getParameter("filePath"));
-				cust.setCustFileNo(request.getParameter("fileNo"));				
+				cust.setCustFileNo(request.getParameter("fileNo"));		
+				
+				try {
 				cust.setCustAadhar(request.getParameter("aadhar"));
+				}catch (Exception e) {
+					e.getMessage();
+					cust.setCustAadhar(request.getParameter("-"));
+				}
+				
+				
+				
 				cust.setCustDob(request.getParameter("dob"));
 				cust.setDelStatus(1);
 				cust.setIsActive(1);
