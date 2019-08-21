@@ -60,15 +60,15 @@ public class CustDetailController {
 	// this mapping is to show add cust login detail and show records added for
 	// particular cust
 	// Sachin
-	@RequestMapping(value = "/customerDetailAdd", method = RequestMethod.POST)
+	@RequestMapping(value = "/customerDetailAdd", method = RequestMethod.GET)
 	public ModelAndView clientDetailAddForm(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
+		ModelAndView mav = new ModelAndView("master/addCustDetailSignatory");///customerDetailAdd
 		try {
 			int custId = Integer.parseInt(request.getParameter("custId"));
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+			
 			map.add("custId", custId);
 
 			GetCustLoginDetail[] custDetArray = Constants.getRestTemplate()
@@ -76,6 +76,8 @@ public class CustDetailController {
 			List<GetCustLoginDetail> custDetailList = new ArrayList<>(Arrays.asList(custDetArray));
 
 			mav.addObject("custDetailList", custDetailList);
+			mav.addObject("custName", custDetailList.get(0).getCustFirmName());
+			
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
@@ -83,8 +85,16 @@ public class CustDetailController {
 
 			mav.addObject("serviceList", srvcMstrList);
 			
-			String custName = request.getParameter("custName");
-			mav.addObject("custName", custName);
+			map.add("custId", custId);
+			GetCustSignatory[] custSignArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getCustSignatoryByCustId", map, GetCustSignatory[].class);
+			List<GetCustSignatory> custSignList = new ArrayList<>(Arrays.asList(custSignArray));
+			System.err.println("custSignList" +custSignList.toString());
+			mav.addObject("custSignList", custSignList);
+
+			
+			//String custName = request.getParameter("custName");
+			//mav.addObject("custName", custName);
 			mav.addObject("custId", custId);
 
 		} catch (Exception e) {
@@ -112,13 +122,14 @@ public class CustDetailController {
 
 	// addCustLoginDetail
 	@RequestMapping(value = "/addCustLoginDetail", method = RequestMethod.POST)
-	public ModelAndView addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
+	public String addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
+		//ModelAndView mav = new ModelAndView("master/customerDetailList");//customerDetailAdd
+		int custId = 0;
 		try {
 
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			custId = Integer.parseInt(request.getParameter("custId"));
 			int custDetailId = Integer.parseInt(request.getParameter("custDetailId"));
 
 			int servId = Integer.parseInt(request.getParameter("service"));
@@ -162,7 +173,7 @@ public class CustDetailController {
 			e.printStackTrace();
 		}
 		
-		return mav;
+		return "redirect:/customerDetailAdd?custId="+custId;
 	}
 
 	
@@ -201,13 +212,15 @@ public class CustDetailController {
 	
 
 	@RequestMapping(value = "/addCustSignatory", method = RequestMethod.POST)
-	public ModelAndView addCustSignatory(HttpServletRequest request, HttpServletResponse response) {
+	public String addCustSignatory(HttpServletRequest request, HttpServletResponse response) {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
+		//ModelAndView mav = new ModelAndView("master/customerDetailList");//customerDetailAdd
+		
+		int custId = 0;
 		try {
 
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			 custId = Integer.parseInt(request.getParameter("custId"));
 			
 			CustSignatoryMaster custSign=new CustSignatoryMaster();
 			
@@ -259,7 +272,7 @@ public class CustDetailController {
 			e.printStackTrace();
 		}
 		
-		return mav;
+		return "redirect:/customerDetailAdd?custId="+custId;
 	}
 	
 	

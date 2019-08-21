@@ -145,13 +145,14 @@
 
 
 								<td class="text-center"><a
-										href="#" onclick="addDetail(${custHeadList.custId},'${custHeadList.custFirmName}')"
+										href="${pageContext.request.contextPath}/customerDetailAdd?custId=${custHeadList.custId}" 
 										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
-										<a href="#" onclick="addSignatory(${custHeadList.custId},'${custHeadList.custFirmName}')"
+										<%-- <a href="#" onclick="addSignatory(${custHeadList.custId},'${custHeadList.custFirmName}')"
 										class="dropdown-item"><i class="icon-add"></i> Add
-											Signatory</a></td>
+											Signatory</a></td> --%>
 
 								</tr>
+								<!-- onclick="addDetail(${custHeadList.custId},'${custHeadList.custFirmName}')" -->
 							</c:forEach>
 
 									
