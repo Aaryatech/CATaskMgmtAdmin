@@ -215,7 +215,8 @@
 													id="printtable1">
 													<thead>
 														<tr class="bg-blue">
-															<th width="20%">Sr. No. </th>
+															<th width="20%">Sr. No.<input type="checkbox"
+																name="selAll" id="selAll" /> </th>
 															<th>Employee Name</th>
 
 														 
@@ -355,7 +356,7 @@
 							});
 			
 			
-			//alert("index**"+index);
+			alert("index**"+index);
 				$("#loader").show();
 				$
 						.getJSON(

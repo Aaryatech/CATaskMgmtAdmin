@@ -2,16 +2,17 @@ package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,16 +35,17 @@ import com.ats.taskmgmtadmin.task.model.GetTaskList;
 @Controller
 @Scope("session")
 public class TaskController {
-
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Calendar cal = Calendar.getInstance();
 	List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
 	EmployeeFreeBsyList empListTot = new EmployeeFreeBsyList();
 	List<EmployeeMaster> empListNew = new ArrayList<EmployeeMaster>();
 	RestTemplate rest = new RestTemplate();
-	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	Date now = new Date();
+ 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
-	String items =null;
+	String items = null;
+	String curDateTime = dateFormat.format(cal.getTime());
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public String assignTask(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -65,40 +67,33 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/selectEmployeeToAssigTask", method = RequestMethod.GET)
-	public  ModelAndView selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public ModelAndView selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
 
-	 
 		ModelAndView mav = new ModelAndView("task/showEmpListForAssignTask");
 		try {
 			empList = new ArrayList<EmployeeMaster>();
 			empListTot = new EmployeeFreeBsyList();
 			empListNew = new ArrayList<EmployeeMaster>();
 
-			
 			String[] TaskId = request.getParameterValues("TaskId");
- 			
 
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < TaskId.length; i++) {
 				sb = sb.append(TaskId[i] + ",");
-				
-				System.out.println("task id are**"+TaskId[i]);
+
+				System.out.println("task id are**" + TaskId[i]);
 
 			}
-			 items = sb.toString();
-			System.out.println("task items**"+items);
+			items = sb.toString();
+			System.out.println("task items**" + items);
 			items = items.substring(0, items.length() - 1);
-			
-			
-			
 
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-
 
 		return mav;
 	}
@@ -127,7 +122,7 @@ public class TaskController {
 				}
 			}
 
-			///System.out.println("emp list by type" + empList.toString());
+			/// System.out.println("emp list by type" + empList.toString());
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -140,15 +135,13 @@ public class TaskController {
 	public @ResponseBody EmployeeFreeBsyList moveEmp(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-			//System.out.println("Hii in moveEmp");
+			// System.out.println("Hii in moveEmp");
 
 			String empIds = request.getParameter("empId");
 			String[] empId = empIds.split(",");
-			//System.out.println(Arrays.asList(empId));
-
-			for (int j = 0; j < empList.size(); j++) {
-
-				for (int i = 1; i < empId.length; i++) {
+			System.out.println(Arrays.asList(empId));
+			for (int i = 1; i < empId.length; i++) {
+				for (int j = 0; j < empList.size(); j++) {
 
 					if (empList.get(j).getEmpId() == Integer.parseInt(empId[i])) {
 						empListNew.add(empList.get(j));
@@ -160,34 +153,33 @@ public class TaskController {
 				}
 			}
 
-			//System.out.println("Complete emp 1** " + empList.toString());
-			//System.out.println("Complete emp 2** " + empListNew.toString());
+			// System.out.println("Complete emp 1** " + empList.toString());
+			// System.out.println("Complete emp 2** " + empListNew.toString());
 			empListTot.setBsyList(empList);
 			empListTot.setFreeList(empListNew);
-			//System.out.println("Complete emp list is** " + empListTot.toString());
+			// System.out.println("Complete emp list is** " + empListTot.toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return empListTot;
 	}
-	
+
 	@RequestMapping(value = "/deleteEmp", method = RequestMethod.GET)
 	public @ResponseBody EmployeeFreeBsyList deleteEmp(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			int empId = Integer.parseInt(request.getParameter("empId"));
- 			System.out.println("empId** " +empId );
-			
+			System.out.println("empId** " + empId);
+
 			for (int i = 0; i < empListTot.getFreeList().size(); i++) {
-				if(empListTot.getFreeList().get(i).getEmpId()==empId) {
-					System.out.println("matchd** " +i );
+				if (empListTot.getFreeList().get(i).getEmpId() == empId) {
+					System.out.println("matchd** " + i);
 					empListTot.getFreeList().remove(i);
 					break;
-					
+
 				}
 			}
-			
 
 			empListTot.setBsyList(empList);
 			empListTot.setFreeList(empListNew);
@@ -199,36 +191,40 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/submitTaskAssignment", method = RequestMethod.POST)
-	public String  addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
+	public String addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
 
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
- 		try {
+		try {
+			HttpSession session = request.getSession(); 
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
 
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < empListTot.getFreeList().size(); i++) {
-				sb = sb.append( empListTot.getFreeList().get(i).getEmpId() + ",");
+				sb = sb.append(empListTot.getFreeList().get(i).getEmpId() + ",");
 
 			}
 			String itemsEmp = sb.toString();
-			 itemsEmp = itemsEmp.substring(0, itemsEmp.length() - 1);
-		 
-			
-			 
+			itemsEmp = itemsEmp.substring(0, itemsEmp.length() - 1);
+
 			map.add("taskIdList", items);
 			map.add("empIdList", itemsEmp);
-			Info info =Constants.getRestTemplate().postForObject(Constants.url+"/taskAssignmentUpdate", map, Info.class);
+			map.add("userId", userId);
+			map.add("curDateTime", curDateTime);
 			
-			 
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
+					Info.class);
+
 		} catch (Exception e) {
-			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
+			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
-		
- 		return "redirect:/assignTask";
-	}
 
+		return "redirect:/assignTask";
+	}
 
 	@RequestMapping(value = "/showDailyWorkLog", method = RequestMethod.GET)
 	public String showDailyWorkLog(HttpServletRequest request, HttpServletResponse response, Model model) {
