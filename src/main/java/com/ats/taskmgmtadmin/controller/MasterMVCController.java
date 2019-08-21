@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
+import com.ats.taskmgmtadmin.common.Constants;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
@@ -56,9 +56,7 @@ public class MasterMVCController {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Calendar cal = Calendar.getInstance();
 	String curDateTime = dateFormat.format(cal.getTime());
-	
-	RestTemplate rest = new RestTemplate();
-	
+		
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 	HttpSession session = null;
 
@@ -69,7 +67,7 @@ public class MasterMVCController {
 		ModelAndView mav = new ModelAndView("master/serviceList");
 		try {
 			
-		ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+		ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 		List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));		
 		mav.addObject("serviceList", srvcMstrList);
 		
@@ -130,7 +128,7 @@ public class MasterMVCController {
 			service.setExVar1("NA");
 			service.setExVar2("NA");
 			
-			ServiceMaster saveSrvc = rest.postForObject(Constants.url+"/saveService", service, ServiceMaster.class);
+			ServiceMaster saveSrvc = Constants.getRestTemplate().postForObject(Constants.url+"/saveService", service, ServiceMaster.class);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in addService " + e.getMessage());
@@ -152,7 +150,7 @@ public class MasterMVCController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
 			map.add("serviceId", serviceId);			
-			ServiceMaster service = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class); 
+			ServiceMaster service = Constants.getRestTemplate().postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class); 
 			
 			mav.addObject("service", service);
 			
@@ -182,7 +180,7 @@ public class MasterMVCController {
 		map.add("userId", userId);
 		map.add("serviceId", serviceId);
 		
-		Info info = rest.postForObject(Constants.url+"/deleteService", map, Info.class);
+		Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteService", map, Info.class);
 		}catch (Exception e) {
 			System.err.println("Exce in deleteService " + e.getMessage());
 			e.printStackTrace();
@@ -200,7 +198,7 @@ public class MasterMVCController {
 		
 			mav = new ModelAndView("master/activityList");
 			
-			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 				
 			mav.addObject("serviceList", srvcMstrList);
@@ -227,19 +225,19 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();			
 			map.add("serviceId", serviceId);
 			
-			ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);
+			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);
 			
 			mav.addObject("service", servicemMap);	
 			
 			map = new LinkedMultiValueMap<>();
 			map.add("serviceId", serviceId);
 			
-			ActivityPeriodDetails[] activityArr = rest.postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
+			ActivityPeriodDetails[] activityArr = Constants.getRestTemplate().postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
 			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
 			System.out.println("Act List:"+activityList);
 			mav.addObject("actList", activityList);	
 			
-			DevPeriodicityMaster[] priodArr = rest.getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+			DevPeriodicityMaster[] priodArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 			mav.addObject("periodList", periodList);	
 			
@@ -282,7 +280,7 @@ public class MasterMVCController {
 			activity.setExVar1("NA");
 			activity.setExVar2("NA");
 			
-			ActivityMaster actMastr = rest.postForObject(Constants.url+"/saveActivity", activity, ActivityMaster.class);
+			ActivityMaster actMastr = Constants.getRestTemplate().postForObject(Constants.url+"/saveActivity", activity, ActivityMaster.class);
 		}catch (Exception e) {
 			System.err.println("Exce in addNewActivity " + e.getMessage());
 			e.printStackTrace();
@@ -307,26 +305,26 @@ public class MasterMVCController {
 					map = new LinkedMultiValueMap<>();
 					map.add("activityId", activityId);
 					
-					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
+					ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
 					System.out.println("Ativity="+activity);					
 					mav.addObject("activity", activity);
 					
 					map = new LinkedMultiValueMap<>();			
 					map.add("serviceId", activity.getServId());
 					
-					ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
+					ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
 					System.out.println("Service="+servicemMap);
 					mav.addObject("service", servicemMap);		
 					
 					map = new LinkedMultiValueMap<>();
 					map.add("serviceId", activity.getServId());
 					
-					ActivityPeriodDetails[] activityArr = rest.postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
+					ActivityPeriodDetails[] activityArr = Constants.getRestTemplate().postForObject(Constants.url+"/getActivityDetails", map, ActivityPeriodDetails[].class);
 					List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
 					System.out.println("Act List:"+activityList);
 					mav.addObject("actList", activityList);	
 					
-					DevPeriodicityMaster[] priodArr = rest.getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+					DevPeriodicityMaster[] priodArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 					List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 					System.out.println("Periodicit-------------"+periodList);
 					mav.addObject("periodList", periodList);
@@ -356,7 +354,7 @@ public class MasterMVCController {
 					map = new LinkedMultiValueMap<>();				
 					map.add("activityId", activityId);
 					
-					ActivityMaster activity = rest.postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
+					ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url+"/getActivityById", map, ActivityMaster.class);
 					
 					serviceId = activity.getServId();
 					//System.out.println("In Act Del="+activity+"  "+serviceId);
@@ -365,7 +363,7 @@ public class MasterMVCController {
 					map.add("userId", userId);
 					map.add("activityId", activityId);
 					
-					Info info = rest.postForObject(Constants.url+"/deleteActivity", map, Info.class);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteActivity", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deleteActivity " + e.getMessage());
 					e.printStackTrace();
@@ -387,13 +385,13 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();			
 			map.add("serviceId", serviceId);
 			
-			ServiceMaster servicemMap = rest.postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
+			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url+"/getServiceById", map, ServiceMaster.class);			
 			mav.addObject("service", servicemMap);	
 			
 			map = new LinkedMultiValueMap<>();
 			map.add("serviceId", serviceId);
 			
-			ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
+			ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
 			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
 			System.out.println("Act List:"+activityList);
 			mav.addObject("actList", activityList);				
@@ -415,7 +413,7 @@ public class MasterMVCController {
 		try {
 				mav = new ModelAndView("master/employeeList");
 				
-				EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
 				
@@ -442,7 +440,7 @@ public class MasterMVCController {
 				EmployeeMaster employee  = new EmployeeMaster();
 				mav.addObject("employee", employee);				
 				
-				ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 				
 				mav.addObject("serviceList", srvcMstrList);
@@ -511,7 +509,7 @@ public class MasterMVCController {
 				employee.setExVar2("NA");
 				employee.setIsActive(1);
 				
-				EmployeeMaster empl = rest.postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
+				EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url+"/saveNewEmployee", employee, EmployeeMaster.class);
 		}catch (Exception e) {
 			System.err.println("Exce in addNwEmployee " + e.getMessage());
 			e.printStackTrace();
@@ -535,7 +533,7 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			
 			map.add("empId", empId);
-			EmployeeMaster employee = rest.postForObject(Constants.url+"/getEmployeeById", map, EmployeeMaster.class);			
+			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url+"/getEmployeeById", map, EmployeeMaster.class);			
 			System.err.println("EmpSrvcList-------"+employee.getEmpDesc());
 			mav.addObject("employee", employee);
 			
@@ -547,7 +545,7 @@ public class MasterMVCController {
 			
 			mav.addObject("empSrvcIds", empSrvc);
 			
-			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
 			System.out.println("srvcMstrList------------"+srvcMstrList);
 			mav.addObject("serviceList", srvcMstrList);
@@ -603,7 +601,7 @@ public class MasterMVCController {
 					map.add("userId", userId);
 					map.add("empId", employeeId);
 					
-					Info info = rest.postForObject(Constants.url+"/deleteEmployee", map, Info.class);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteEmployee", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deleteEmployee " + e.getMessage());
 					e.printStackTrace();
@@ -635,7 +633,7 @@ public class MasterMVCController {
 					map.add("userId", userId);
 					map.add("empId", empId);
 					
-					Info info = rest.postForObject(Constants.url+"/updateEmployeeActiveness", map, Info.class);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/updateEmployeeActiveness", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deleteEmployee " + e.getMessage());
 					e.printStackTrace();
@@ -651,7 +649,7 @@ public class MasterMVCController {
 		try {
 			mav = new ModelAndView("master/customerGroupList");
 			
-			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			
 			mav.addObject("custGrpList", custGrpList);
@@ -715,7 +713,7 @@ public class MasterMVCController {
 			cust.setExVar1("NA");
 			cust.setExVar2("NA");
 			
-			CustomerGroupMaster custGrp = rest.postForObject(Constants.url+"/saveNewCustomerGroup", cust, CustomerGroupMaster.class);
+			CustomerGroupMaster custGrp = Constants.getRestTemplate().postForObject(Constants.url+"/saveNewCustomerGroup", cust, CustomerGroupMaster.class);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in newCustomerGroup " + e.getMessage());
@@ -740,7 +738,7 @@ public class MasterMVCController {
 				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("custGrpId", custGrpId);
-				CustomerGroupMaster custGrp = rest.postForObject(Constants.url+"/getCustomerGroupById", map, CustomerGroupMaster.class);
+				CustomerGroupMaster custGrp = Constants.getRestTemplate().postForObject(Constants.url+"/getCustomerGroupById", map, CustomerGroupMaster.class);
 				
 				mav.addObject("cust", custGrp);
 		}catch (Exception e) {
@@ -770,7 +768,7 @@ public class MasterMVCController {
 					map.add("userId", userId);
 					map.add("custGrpId", custGrpId);
 					
-					Info info = rest.postForObject(Constants.url+"/deleteCustomerGroup", map, Info.class);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteCustomerGroup", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deleteCustGrp " + e.getMessage());
 					e.printStackTrace();
@@ -792,11 +790,11 @@ public class MasterMVCController {
 				
 			 
 				
-				CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+				CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 				mav.addObject("custGrpList", custGrpList);
 				
-				EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
 				
@@ -814,7 +812,7 @@ public class MasterMVCController {
 		ModelAndView mav = new ModelAndView("master/customerList");
 		try {
 			
-				CustomerDetails[] custHeadArr = rest.getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 				mav.addObject("custHeadList", custHeadList);
 				
@@ -890,7 +888,7 @@ public class MasterMVCController {
 				cust.setExVar1("NA");
 				cust.setExVar2("NA");
 				System.out.println("Customer:"+cust);
-		 CustomerHeaderMaster  custHead = rest.postForObject(Constants.url+"/saveNewCustomerHeader", cust, CustomerHeaderMaster.class);
+		 CustomerHeaderMaster  custHead = Constants.getRestTemplate().postForObject(Constants.url+"/saveNewCustomerHeader", cust, CustomerHeaderMaster.class);
 				
 		}catch (Exception e) {
 			System.err.println("Exce in addCustomerHeader " + e.getMessage());
@@ -912,18 +910,18 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("custHeadId", custId);
 			
-			CustomerHeaderMaster custHead = rest.postForObject(Constants.url+"/getCustomerHeadById", map, CustomerHeaderMaster.class);
+			CustomerHeaderMaster custHead = Constants.getRestTemplate().postForObject(Constants.url+"/getCustomerHeadById", map, CustomerHeaderMaster.class);
 			mav.addObject("custHead", custHead);
 			
-			FirmType[] firmArr = rest.getForObject(Constants.url+"/getAllFirms", FirmType[].class);
+			FirmType[] firmArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllFirms", FirmType[].class);
 			List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
 			mav.addObject("firmList", firmList);
 			
-			EmployeeMaster[] employee = rest.getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
+			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url+"/getAllEmployees", EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			mav.addObject("epmList", epmList);
 			
-			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
 			
@@ -952,7 +950,7 @@ public class MasterMVCController {
 					map.add("userId", userId);
 					map.add("custHeadId", custId);
 					
-					Info info = rest.postForObject(Constants.url+"/deleteCustomerHeader", map, Info.class);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteCustomerHeader", map, Info.class);
 		}catch (Exception e) {
 					System.err.println("Exce in deletCust " + e.getMessage());
 					e.printStackTrace();
@@ -976,17 +974,17 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
 			
-			CustomerDetails cust = rest.postForObject(Constants.url+"/getcustById", map, CustomerDetails.class);
+			CustomerDetails cust = Constants.getRestTemplate().postForObject(Constants.url+"/getcustById", map, CustomerDetails.class);
 			mav.addObject("cust", cust);
 			
-			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));			
 			mav.addObject("serviceList", srvcMstrList);
 			
 			map = new LinkedMultiValueMap<>();
 			map.add("serviceId", srvcMstrList.get(0).getServId());
 			
-			ActivityMaster[] activityArr = rest.postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
+			ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url+"/getAllActivitesByServiceId", map, ActivityMaster[].class);
 			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));			
 			mav.addObject("actList", activityList);	
 			
@@ -1028,7 +1026,7 @@ public class MasterMVCController {
 			activityMap.setActvId(Integer.parseInt(request.getParameter("activity")));
 			
 			System.out.println("Activity Map---------"+activityMap.toString());
-			CustmrActivityMap map = rest.postForObject(Constants.url+"/saveTask1", activityMap, CustmrActivityMap.class);
+			CustmrActivityMap map = Constants.getRestTemplate().postForObject(Constants.url+"/saveTask1", activityMap, CustmrActivityMap.class);
 			
 		}catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -1053,7 +1051,7 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
 			
-			ShowCustActiMapped[] custHeadArr = rest.postForObject(Constants.url+"/getAllCustActivityMapped",map, ShowCustActiMapped[].class);
+			ShowCustActiMapped[] custHeadArr = Constants.getRestTemplate().postForObject(Constants.url+"/getAllCustActivityMapped",map, ShowCustActiMapped[].class);
 				List<ShowCustActiMapped> custActMapList = new ArrayList<ShowCustActiMapped>(Arrays.asList(custHeadArr));
 				mav.addObject("custActMapList", custActMapList);
 				
@@ -1071,7 +1069,7 @@ public class MasterMVCController {
 	public @ResponseBody GetActivityPeriodicity getPeridicityByActivity(HttpServletRequest request, HttpServletResponse response){
 		GetActivityPeriodicity period = null;
 		try {
-			RestTemplate restTemplate = new RestTemplate();			 
+				 
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
@@ -1081,7 +1079,7 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("activityId", activityId);
 			
-			 period = restTemplate.postForObject(Constants.url+"/getPeriodicityByActivityId", map, GetActivityPeriodicity.class);
+			 period = Constants.getRestTemplate().postForObject(Constants.url+"/getPeriodicityByActivityId", map, GetActivityPeriodicity.class);
 			System.out.println("Periodicity-------------"+period);
 			
 		}catch (Exception e) {

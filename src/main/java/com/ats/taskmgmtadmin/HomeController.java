@@ -292,21 +292,20 @@ public class HomeController {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			RestTemplate rest = new RestTemplate();
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
 			map.add("empId", empSes.getEmpId());
-			TaskListHome[] taskArr = rest.postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
+			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
 			mav.addObject("taskList", taskList);
 			
-			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 			
-			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
 			
@@ -332,7 +331,6 @@ public class HomeController {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			RestTemplate rest = new RestTemplate();
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
@@ -343,18 +341,18 @@ public class HomeController {
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
 			
-			TaskListHome[] taskArr = rest.postForObject(Constants.url+"/getTaskListByFilters",map, TaskListHome[].class);
+			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByFilters",map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
 			System.out.println("taskList-----------"+taskList);
 			mav.addObject("taskList", taskList);
 			
 			
-			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 			
-			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
 			

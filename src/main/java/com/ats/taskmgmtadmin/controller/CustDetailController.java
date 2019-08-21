@@ -15,14 +15,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
-import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
-import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.custdetail.CustSignatoryMaster;
 import com.ats.taskmgmtadmin.model.custdetail.CustomerDetailMaster;
@@ -44,10 +41,8 @@ public class CustDetailController {
 		
 		try {
 			mav = new ModelAndView("master/customerDetailList");
-			
-			RestTemplate restTemplate = new RestTemplate();
-			
-			CustomerDetails[] custHeadArr = restTemplate.getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
+						
+			CustomerDetails[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 			mav.addObject("custHeadList", custHeadList);
 				
@@ -71,20 +66,18 @@ public class CustDetailController {
 		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
 		try {
 			int custId = Integer.parseInt(request.getParameter("custId"));
-
-			RestTemplate restTemplate = new RestTemplate();
-
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("custId", custId);
 
-			GetCustLoginDetail[] custDetArray = restTemplate
+			GetCustLoginDetail[] custDetArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustLoginDetailByCustId", map, GetCustLoginDetail[].class);
 			List<GetCustLoginDetail> custDetailList = new ArrayList<>(Arrays.asList(custDetArray));
 
 			mav.addObject("custDetailList", custDetailList);
 
-			ServiceMaster[] srvsMstr = restTemplate.getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
@@ -105,14 +98,12 @@ public class CustDetailController {
 	public @ResponseBody List<ActivityMaster> getActivityByService(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
-
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		map = new LinkedMultiValueMap<>();
 		map.add("serviceId", Integer.parseInt(request.getParameter("servId")));
 
-		ActivityMaster[] activityArr = restTemplate.postForObject(Constants.url + "/getAllActivitesByServiceId", map,
+		ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllActivitesByServiceId", map,
 				ActivityMaster[].class);
 		List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
 
@@ -123,7 +114,6 @@ public class CustDetailController {
 	@RequestMapping(value = "/addCustLoginDetail", method = RequestMethod.POST)
 	public ModelAndView addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
 		try {
@@ -165,7 +155,7 @@ public class CustDetailController {
 			
 			custDetail.setUpdateUsername(1);
 			
-			CustomerDetailMaster custDetailSaveRes = restTemplate.postForObject(Constants.url+"/saveNewCustomerDetail", custDetail, CustomerDetailMaster.class);
+			CustomerDetailMaster custDetailSaveRes = Constants.getRestTemplate().postForObject(Constants.url+"/saveNewCustomerDetail", custDetail, CustomerDetailMaster.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
@@ -185,13 +175,12 @@ public class CustDetailController {
 			
 			int custId = Integer.parseInt(request.getParameter("custId"));
 
-			RestTemplate restTemplate = new RestTemplate();
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("custId", custId);
 
-			GetCustSignatory[] custSignArray = restTemplate
+			GetCustSignatory[] custSignArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustSignatoryByCustId", map, GetCustSignatory[].class);
 			List<GetCustSignatory> custSignList = new ArrayList<>(Arrays.asList(custSignArray));
 			System.err.println("custSignList" +custSignList.toString());
@@ -214,7 +203,6 @@ public class CustDetailController {
 	@RequestMapping(value = "/addCustSignatory", method = RequestMethod.POST)
 	public ModelAndView addCustSignatory(HttpServletRequest request, HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		ModelAndView mav = new ModelAndView("master/customerDetailAdd");
 		try {
@@ -264,7 +252,7 @@ public class CustDetailController {
 			
 			custSign.setUpdateUsername(1);
 			
-			CustSignatoryMaster custDetailSaveRes = restTemplate.postForObject(Constants.url+"/saveCustSignatory", custSign, CustSignatoryMaster.class);
+			CustSignatoryMaster custDetailSaveRes = Constants.getRestTemplate().postForObject(Constants.url+"/saveCustSignatory", custSign, CustSignatoryMaster.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
@@ -279,14 +267,12 @@ public class CustDetailController {
 	public @ResponseBody GetCustSignatory getCustSignatoryBySignId(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
-
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		map = new LinkedMultiValueMap<>();
 		map.add("signId", Integer.parseInt(request.getParameter("signId")));
 
-		GetCustSignatory custSignatory = restTemplate.postForObject(Constants.url + "/getCustSignatoryBySignId", map,
+		GetCustSignatory custSignatory = Constants.getRestTemplate().postForObject(Constants.url + "/getCustSignatoryBySignId", map,
 				GetCustSignatory.class);
 
 		return custSignatory;
@@ -296,14 +282,12 @@ public class CustDetailController {
 	public @ResponseBody GetCustLoginDetail getCustLoginDetailByCustDetailId(HttpServletRequest request,
 			HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
-
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 		map = new LinkedMultiValueMap<>();
 		map.add("custDetailId", Integer.parseInt(request.getParameter("custDetailId")));
 
-		GetCustLoginDetail  custLogin = restTemplate.postForObject(Constants.url + "/getCustLoginDetailByCustDetailId", map,
+		GetCustLoginDetail  custLogin = Constants.getRestTemplate().postForObject(Constants.url + "/getCustLoginDetailByCustDetailId", map,
 				GetCustLoginDetail.class);
 
 		return custLogin;
