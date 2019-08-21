@@ -153,7 +153,7 @@
 												onchange="calholidayWebservice()">
 												<option></option>
 												<option selected value="1">Full Day</option>
-												<option value="2">Half Day</option>
+												<option value="0">Half Day</option>
 											</select><span class="validation-invalid-label" id="error_dayType"
 												style="display: none;">This field is required.</span>
 										</div>
