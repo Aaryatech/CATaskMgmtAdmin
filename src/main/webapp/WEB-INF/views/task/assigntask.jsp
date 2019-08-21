@@ -181,7 +181,7 @@
 								<c:forEach items="${taskList}" var="taskList"  varStatus="count">
 									<tr>
 									<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
-														id="TaskId${taskList.taskId}"
+														id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 														name="TaskId${taskList.taskId}" class="select_all"
 														></td>
 										

@@ -134,31 +134,7 @@
 
 									</div>
 									
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="clientGroup">Firm
-											Type<span style="color: red">* </span> : </label>
-										<div class="col-lg-6">
-											<select name="firmType"
-												data-placeholder="Select Client Group" id="firmType"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"> 												
-												<!-- <option value="">Select Firm Type</option> -->
-												<c:forEach items="${firmList}" var="firm" >
-													<c:choose>
-														<c:when test="${firm.firmId==custHead.custFirmType}">
-															<option selected value="${firm.firmId}">${firm.firmTypeName}</option>
-														</c:when>
-														<c:otherwise>
-															<option selected value="${firm.firmId}">${firm.firmTypeName}</option>
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-
-											</select>
-
-										</div>
-										<div class="col-lg-3"></div>
-									</div>
+									
 
 
 									<div class="form-group row">
@@ -197,7 +173,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="aadhar">Aadhar
-											Card No. <span style="color: red">*</span>:
+											Card No. :
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custAadhar}"
@@ -205,8 +181,8 @@
 												name="aadhar" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_aadhar"
-												style="display: none;">Please enter Aadhar Card No.</span>
+											<!-- <span class="validation-invalid-label" id="error_aadhar"
+												style="display: none;">Please enter Aadhar Card No.</span> -->
 										</div>
 									</div>
 

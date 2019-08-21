@@ -411,151 +411,11 @@
 		}
 
 
-		
-
-		$('.datepickerclass').daterangepicker({
-			singleDatePicker : true,
-			selectMonths : true,
-			selectYears : true,
-			locale : {
-				format : 'DD-MM-YYYY'
-			}
-		});
-
-		//daterange-basic_new
-		// Basic initialization
-		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
-			cancelClass : 'btn-light',
-			locale : {
-				format : 'DD-MM-YYYY',
-				separator : ' to '
-			}
-		});
+	
 	</script>
 
-
 	<script>
-		$(document).ready(function($) {
-
-			$("#submitInsertEmpType").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-
-				if (!isError) {
-
-					var x = confirm("Do you really want to submit the form?");
-					if (x == true) {
-
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
-		//
-
-		function allocateMultipleEmployee() {
-
-			document.getElementById("fulltimeWorkType").checked = true;
-			document.getElementById("hours").value = "";
-			$('#hoursDiv').hide();
-			$("#error_hours").hide();
-			$('#historyTableDiv').modal('hide');
-			$("#error_fullTimeError").hide();
-			$('#modal_full').modal('show');
-			$("#tempallocatedTable tbody").empty();
-
-			var index = "-1";
-			$('.chk:checkbox:checked')
-					.each(
-							function(i) {
-								var val = $(this).val();
-
-								if (val != 'on') {
-									var empFname = $("#empIds" + val).attr(
-											'data-empFname');
-									var empSname = $("#empIds" + val).attr(
-											'data-empSname');
-
-									var tr_data = '<tr>' + '<td  >' + (i + 1)
-											+ '</td>' + '<td  >' + empFname
-											+ ' ' + empSname + '</td>'
-											+ '</tr>';
-									$('#tempallocatedTable' + ' tbody').append(
-											tr_data);
-									index = index + "," + val;
-								}
-							});
-
-			document.getElementById("tempEmpId").value = index;
-
-		}
-
-		function fillEmpInfo(index, empId) {
-
-			document.getElementById("fulltimeWorkType").checked = true;
-			document.getElementById("hours").value = "";
-			$('#hoursDiv').hide();
-			$("#error_hours").hide();
-			$('#historyTableDiv').modal('hide');
-			$("#error_fullTimeError").hide();
-			document.getElementById("tempEmpId").value = index;
-			document.getElementById("tempEmployeeId").value = empId;
-			$('#modal_full').modal('show');
-
-		}
-
-		function getEmpHistory(empId) {
-
-			//var empId = document.getElementById("tempEmployeeId").value;
-			$("#loader").show();
-			$.getJSON('${getEmployeeAllocatedHistory}', {
-
-				empId : empId,
-				ajax : 'true',
-
-			}, function(data) {
-
-				//alert(data);
-				$("#loader").hide();
-				$('#historyTableDiv').modal('show');
-				$("#historyTable tbody").empty();
-
-				for (var i = 0; i < data.length; i++) {
-
-					var halfFull;
-
-					if (data[i].exInt1 == 1) {
-						halfFull = "Partial";
-					} else {
-						halfFull = "Full";
-					}
-					var tr_data = '<tr>' + '<td  >' + (i + 1) + '</td>'
-							+ '<td  >' + data[i].projectTitle + '</td>'
-							+ '<td  >' + halfFull + '</td>' + '<td  >'
-							+ data[i].pallotFromdt + '</td>' + '<td  >'
-							+ data[i].pallotTodt + '</td>' + '<td  >'
-							+ data[i].pallotDailyHrs + '</td>' + '</tr>';
-					$('#historyTable' + ' tbody').append(tr_data);
-				}
-
-			});
-
-		}
-
-		function opneCloseHoursDiv(value) {
-
-			if (value == 1) {
-				$('#hoursDiv').show();
-			} else {
-				$('#hoursDiv').hide();
-			}
-
-		}
+		
 		function deleteEmp(empId) {
 			$("#loader").show();
 			$
@@ -640,6 +500,53 @@
 							});
 
 		}
+		
+		
+		
+		$(document).ready(function($) {
+
+			$("#submitInsertEmpType").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+
+				if (!isError) {
+
+					var x = confirm("Do you really want to submit the form?");
+					if (x == true) {
+
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
+		//
+		
+			
+
+		$('.datepickerclass').daterangepicker({
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		});
+
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
+
 	</script>
 	<script>
 		function myFunction() {

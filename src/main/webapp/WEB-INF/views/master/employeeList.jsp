@@ -125,6 +125,7 @@
 									<th>Date of Birth</th>
 									<th>Official Email Id</th>
 									<th>Contact No.</th>
+									<th>Is Active</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
@@ -140,12 +141,18 @@
 								<td>${epmList.empDob}</td>
 								<td>${epmList.empEmail}</td>
 								<td>${epmList.empMob}</td>
+								<td>${epmList.isActive==1 ? 'Yes': epmList.isActive==0 ? 'No' : ''}</td> 
 
 								<td><a href="${pageContext.request.contextPath}/editEmployee?empId=${epmList.empId}" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> 
-									<a href="${pageContext.request.contextPath}/deleteEmployee?empId=${epmList.empId}"
+									<a href="${pageContext.request.contextPath}/deleteEmployee?empId=${epmList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
+								</a>
+								
+								<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
+									onClick="return confirm('Are you sure want to Chage Is Active');"
+									title="Active/Deactive"><i class="icon-cog5" style="color: black;"></i>
 								</a></td>
 
 							</tr>					

@@ -182,7 +182,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="empService">Service
-											<span style="color: red">* </span>:
+										:
 										</label>
 										<div class="col-lg-6">
 											<select name="empService" multiple="multiple"
@@ -211,8 +211,8 @@
 											</select>
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_empService"
-												style="display: none;">Please select service.</span>
+											<!-- <span class="validation-invalid-label" id="error_empService"
+												style="display: none;">Please select service.</span> -->
 										</div>
 
 									</div>
@@ -397,7 +397,7 @@
 					$("#error_empType").hide()
 				}
 				
-				if (!$("#empService").val() || $("#empService").val()=="") {
+				/* if (!$("#empService").val() || $("#empService").val()=="") {
 
 					isError = true;
 
@@ -405,7 +405,7 @@
 
 				} else {
 					$("#error_empService").hide()
-				} 
+				}  */
 				
 				if (!$("#empNickname").val()) {
 
