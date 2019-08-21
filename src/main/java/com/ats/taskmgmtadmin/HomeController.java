@@ -1,7 +1,10 @@
 package com.ats.taskmgmtadmin;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +23,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.DateConvertor;
+import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 
 /**
@@ -276,9 +283,84 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
-	public ModelAndView taskListForEmpForm(Locale locale, Model model) {
+	public ModelAndView taskListForEmpForm(HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/homeTaskList");
+		try {
+					
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+			RestTemplate rest = new RestTemplate();
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			map.add("empId", empSes.getEmpId());
+			TaskListHome[] taskArr = rest.postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
+			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+			mav.addObject("taskList", taskList);
+			
+			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+			
+			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			mav.addObject("custGrpList", custGrpList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in taskListForEmp  " + e.getMessage());
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
+	public ModelAndView fliterTaskList(HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("task/homeTaskList");
+		try {
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
+			System.err.println("Data---------"+fromDate+"   "+toDate);
+			
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+			RestTemplate rest = new RestTemplate();
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			map.add("empId", empSes.getEmpId());
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("service", Integer.parseInt(request.getParameter("service")));
+			map.add("activity", Integer.parseInt(request.getParameter("activity")));
+			map.add("custId", Integer.parseInt(request.getParameter("custId")));
+			
+			TaskListHome[] taskArr = rest.postForObject(Constants.url+"/getTaskListByFilters",map, TaskListHome[].class);
+			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+			System.out.println("taskList-----------"+taskList);
+			mav.addObject("taskList", taskList);
+			
+			
+			ServiceMaster[] srvsMstr = rest.getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+			
+			CustomerGroupMaster[] custGrpArr = rest.getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
+			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			mav.addObject("custGrpList", custGrpList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in fliterTaskList  " + e.getMessage());
+		}
 
 		return mav;
 	}

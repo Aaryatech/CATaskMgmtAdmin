@@ -15,7 +15,7 @@
 </head>
 
 <body>
-
+	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -183,7 +183,7 @@ h5 {
 
 
 
-
+<!--/////////////////////////////////////////////////////  -->
 
 				<!-- Remote source -->
 				<div id="modal_remote" class="modal" tabindex="-1">
@@ -195,31 +195,33 @@ h5 {
 							</div>
 
 							<div class="modal-body">
+							<form id="filterForm">
 
 								<div class="form-group row">
-									<label class="col-form-label col-lg-2" for="fromDate">Due
-										Date Range <span style="color: red">* </span>:
+									<label class="col-form-label col-lg-2" for="fromDate"><!-- Due Date Range --> Due-
+									 From Date <span style="color: red">* </span>:
 									</label>
 									<div class="col-lg-3">
-										<input type="text" class="form-control daterange-basic"
-											value="01-01-2015 - 01-31-2015">
+										<input type="text" class="form-control datepickerclass"
+											id="fromDate" name="fromDate">
 									</div>
+									<!-- <div class="col-lg-3">																							
+											<span class="validation-invalid-label" id="error_start_date"
+												style="display: none;">Start date must be greater than end date.</span>
+									</div> -->
 
-
-									<label class="col-form-label col-lg-2" for="customer">
-										Select Customer : </label>
+								<label class="col-form-label col-lg-2" for="toDate">Due-
+										To Date <span style="color: red">* </span>:
+									</label>
 									<div class="col-lg-3">
-										<select name="custId" data-placeholder="Select Customer"
-											id="custId"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-											
-											<option value="1">All</option>
-											<option value="1">ABC</option>
-											<option value="1">PQR</option>
-
-										</select>
-									</div>
+										<input type="text" class="form-control datepickerclass"
+											id="toDate" name="toDate">
+									</div>									
+									
+									<!-- <div class="col-lg-3">																							
+											<span class="validation-invalid-label" id="error_end_date"
+												style="display: none;">To date must be smaller than from date.</span>
+										</div> -->
 								</div>
 
 								<div class="form-group row">
@@ -227,32 +229,28 @@ h5 {
 									<label class="col-form-label col-lg-2" for="service">
 										Select Service : </label>
 									<div class="col-lg-3">
-										<select name="serviceId" data-placeholder="Select Service"
-											id="serviceId"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-											
-											<option value="1">All</option>
-											<option value="1">Income Tax</option>
-											<option value="1">GST</option>
+										<select name="service" data-placeholder="Select Service"
+												id="service"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true"
+												onchange="getActivities(this.value)">
 
-										</select>
+												<c:forEach items="${serviceList}" var="serv">
+													<option value="${serv.servId}">${serv.servName}</option>
+												</c:forEach>
+
+											</select>
 									</div>
 
 
 									<label class="col-form-label col-lg-2" for="activity">
 										Select Activity : </label>
 									<div class="col-lg-3">
-										<select name="serviceId" data-placeholder="Select Activity"
-											id="serviceId"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-											
-											<option value="1">All</option>
-											<option value="1">Return Filling</option>
-											<option value="1">GST</option>
-
-										</select>
+										<select name="activity" data-placeholder="Select Activity"
+												id="activity"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+											</select>
 									</div>
 
 								</div>
@@ -284,14 +282,28 @@ h5 {
 
 										</select>
 									</div>
+									
+									<label class="col-form-label col-lg-2" for="customer">
+										Select Customer : </label>
+									<div class="col-lg-3">
+										<select name="custId" data-placeholder="Select Customer"
+											id="custId"
+											class="form-control form-control-select2 select2-hidden-accessible"
+											data-fouc="" aria-hidden="true">
+											<c:forEach items="${custGrpList}" var="custGrpList">
+												<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+											</c:forEach>
+
+										</select>
+									</div>
 
 								</div>
-
+								</form>
 							</div>
 
 							<div class="modal-footer">
-								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="button" class="btn bg-primary">Search</button>
+								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="submit" class="btn bg-primary" id="submtbtn" onclick="dataFilter()">Search</button>
 							</div>
 						</div>
 					</div>
@@ -513,7 +525,7 @@ h5 {
 
 
 
-				<style type="text/css">
+<style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -539,7 +551,7 @@ h5 {
 						</div>
 					</div> --%>
 
-					<style type="text/css">
+<style type="text/css">
 .fab-menu-bottom-right, .fab-menu-top-right {
 	right: 1.25rem;
 	top: 1rem;
@@ -563,6 +575,7 @@ h5 {
 									<th style="background-color: white;">Service - Activity</th>
 									<th style="background-color: white;">Narration</th>
 									<th style="background-color: white;">Due Date</th>
+									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Alloted Hrs</th>
 									<th style="background-color: white;">Actual Hrs</th>
 									<th style="background-color: white;">Status</th>
@@ -570,50 +583,49 @@ h5 {
 								</tr>
 							</thead>
 							<tbody>
+							<c:forEach items="${taskList}" var="taskList" varStatus="count">
 								<tr>
-									<td>A B Shinde</td>
-									<td>Income Tax-Revised Return Filling-Oct-2019</td>
-									<td>Oct-2019</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td data-toggle="modal" data-target="#modal_remote_log">52</td>
-									<td><span class="badge badge-info">Pending</span></td>
+									<td>${taskList.custGroupName}</td>
+									<td>${taskList.servName}-${taskList.actiName}</td>
+									<td>NA</td>
+									<td>${taskList.taskStatutoryDueDate}</td>
+									<td>${taskList.taskEndDate}</td>
+									
+									<c:if test="${empType==5}">
+										<td>${taskList.empBudHr}</td>
+									</c:if>
+									<c:if test="${empType==3}">
+										<td>${taskList.mngrBudHr}</td>
+									</c:if>
+																		
+									<c:if test="${empType==4}">
+										<td>NA</td>
+									</c:if>
+									<c:if test="${empType==2}">
+										<td>NA</td>
+									</c:if>
+									<c:if test="${empType==1}">
+										<td>NA</td>
+									</c:if>
+									
+									<td data-toggle="modal" data-target="#modal_remote_log">0</td>
+									<c:set var="status" value="${taskList.taskStatus}"/>
+										<c:if test="${status==1}">
+											<td><span class="badge badge-info">Approved</span></td>
+										</c:if>
+										
+										<c:if test="${status==0}">
+											<td><span class="badge badge-info">Pending</span></td>
+										</c:if>
+									<!-- <td><span class="badge badge-info">Pending</span></td> -->
 									<td class="text-center"><a
 										href="${pageContext.request.contextPath}/communication"
 										title="Chat/Update"><i class="icon-pencil7"
 											style="color: black;"></i></a></td>
 								</tr>
+						</c:forEach>
 
-
-								<tr>
-									<td>PQR</td>
-									<td>Return Filling</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td data-toggle="modal" data-target="#modal_remote_log">52</td>
-									<td><span class="badge badge-success">Completed</span></td>
-									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/communication"
-										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a></td>
-								</tr>
-
-
-								<tr>
-									<td>PQR</td>
-									<td>Return Filling</td>
-									<td>2018-19</td>
-									<td>11-01-2019</td>
-									<td>45</td>
-									<td data-toggle="modal" data-target="#modal_remote_log">52</td>
-									<td><span class="badge badge-danger">Critical</span></td>
-									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/communication"
-										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a></td>
-								</tr>
-
+								
 
 
 
@@ -670,6 +682,151 @@ h5 {
 				separator : ' to '
 			}
 		});
+	</script>
+	
+	<script type="text/javascript">
+	function dataFilter(){
+		
+		var fromDate = $("#fromDate").val();
+		var toDate = $("#toDate").val();
+		
+		var service = $("#service").val();
+		var activity = $("#activity").val();
+		
+		var custId = $("#custId").val();		
+		
+		//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
+		
+		document.getElementById("fromDate").value=fromDate;//create this
+		document.getElementById("toDate").value=toDate;//create this
+		document.getElementById("service").value=service;//create this
+		document.getElementById("activity").value=activity;//create this
+		document.getElementById("custId").value=custId;//create this
+		
+		var form=document.getElementById("filterForm");
+	    form.setAttribute("method", "post");
+
+		form.action=("fliterTaskList");
+		form.submit();
+	}
+	
+	function getActivities(servId) {
+		//alert("servId " +servId)
+		if (servId > 0) {
+
+			$
+					.getJSON(
+							'${getActivityByService}',
+							{
+								servId : servId,
+								ajax : 'true',
+							},
+
+							function(data) {
+								var html;
+								var p = -1;
+								var q = "Select Activity";
+								html += '<option disabled value="'+p+'">'
+										+ q + '</option>';
+								html += '</option>';
+
+								var temp = 0;
+								//temp=document.getElementById("temp").value;
+								//alert("temp");
+								var len = data.length;
+								for (var i = 0; i < len; i++) {
+
+									/* 	if(temp==data[i].infraAreaId){
+											 html += '<option selected value="' + data[i].infraAreaId + '">'
+									         + data[i].infraAreaName + '</option>';
+										}
+											
+											else{ */
+
+									html += '<option value="' + data[i].actiId + '">'
+											+ data[i].actiName
+											+ '</option>';
+									//}
+
+								}
+
+								/*        if(temp==0){
+								       	//alert("If temp==0");
+								       	  var x=0;
+								             var y="Any Other";
+								             html += '<option selected value="'+x+'">'
+								             +y+'</option>';
+								             html += '</option>';
+								             //document.getElementById("other_area").show();
+											$("#area_name_div").show();
+
+								            
+								       }else{
+								       	  /* var x=0;
+								             var y="Any Other";
+								             html += '<option value="'+x+'">'
+								             +y+'</option>';
+								             html += '</option>'; */
+
+								// } 
+								$('#activity').html(html);
+								$("#activity").trigger("chosen:updated");
+
+							});
+
+		}//end of if
+	}
+	</script>
+	
+	<script type="text/javascript">
+	<script>
+	$(document)
+			.ready(
+					function($) {
+				$("#filterForm")
+						.submit(
+								function(e) {
+									var isError = false;
+									var errMsg = "";
+									
+									alert("Hi"+from_date);
+									
+										var from_date = document.getElementById("fromDate").value;
+						 				var to_date = document.getElementById("toDate").value;
+						 				
+						 		        var fromdate = from_date.split('-');
+						 		        from_date = new Date();
+						 		        from_date.setFullYear(fromdate[2],fromdate[1]-1,fromdate[0]);
+						 		        var todate = to_date.split('-');
+						 		        to_date = new Date();
+						 		        to_date.setFullYear(todate[2],todate[1]-1,todate[0]);
+						 		        if (from_date > to_date ) 
+						 		        {										 		           
+											$("#error_start_date").show();
+										 	$("#error_end_date").show();
+										 	return false;
+						 		           
+						 		        }else {
+						 					$("#error_start_date").hide();
+						 					$("#error_end_date").hide();
+						 				}
+										
+								
+									if (!isError) {
+
+										var x = true;
+										if (x == true) {
+											alert("this");
+											document
+													.getElementById("submtbtn").disabled = true;
+											return true;
+										}
+										//end ajax send this to php page
+									}
+									return false;
+					});
+});
+//
 	</script>
 </body>
 </html>

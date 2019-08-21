@@ -70,11 +70,18 @@
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Customer And
 										Activity Mapping</h5></td>
-								<td width="40%" align="right"><a
+								<%-- <td width="40%" align="right"><a
 									href="${pageContext.request.contextPath}/customerAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
 											Customer</button>
+								</a></td> --%>
+								
+								<td width="40%" align="right"><a
+									href="${pageContext.request.contextPath}/customerList"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">Back
+											</button>
 								</a></td>
 							</tr>
 						</table>
