@@ -155,62 +155,63 @@
 						</div>
 					</div>
 
+					<form
+						action="${pageContext.request.contextPath}/selectEmployeeToAssigTask"
+						id="submitInsertEmpType" >
+						<div class="card-body">
+							<div class="table-responsive">
 
-					<div class="card-body">
-						<div class="table-responsive">
-						<form
-									action="${pageContext.request.contextPath}/submitTaskRole"
-									id="submitInsertEmpType" method="post">
-							<table
-								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-								id="printtable">
-								<thead>
-									<tr class="bg-blue">
-										<th width="10%">Sr.no</th>
-										<th>Customer</th>
-										<th>Activity</th>
-										<th>Year</th>
-										<th>Date</th>
-										<th>Alloted Hrs</th>
-										<th>Actual Hrs</th>
-										
-										
-									</tr>
-								</thead>
+								<table
+									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+									id="printtable1">
+									<thead>
+										<tr class="bg-blue">
+											<th width="10%">Sr.no</th>
+											<th>Customer</th>
+											<th>Activity</th>
+											<th>Year</th>
+											<th>Date</th>
+											<th>Alloted Hrs</th>
+											<th>Actual Hrs</th>
 
-								<c:forEach items="${taskList}" var="taskList"  varStatus="count">
-									<tr>
-									<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
-														id="TaskId${taskList.taskId}" value="${taskList.taskId}"
-														name="TaskId${taskList.taskId}" class="select_all"
-														></td>
-										
-										<td>${taskList.custFirmName}</td>
-										<td>${taskList.actiName}</td>
-										<td>${taskList.finYearName}</td>
-										<td>${taskList.taskStatutoryDueDate}</td>
-										<td>${taskList.mngrBudHr}</td>
-										<td>${taskList.empBudHr}</td>
-								
-										
 
-									</tr>
+										</tr>
+									</thead>
+
+									<c:forEach items="${taskList}" var="taskList" varStatus="count">
+										<tr>
+											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
+												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
+												name="TaskId" class="select_all"></td>
+
+											<td>${taskList.custFirmName}</td>
+											<td>${taskList.actiName}</td>
+											<td>${taskList.finYearName}</td>
+											<td>${taskList.taskStatutoryDueDate}</td>
+											<td>${taskList.mngrBudHr}</td>
+											<td>${taskList.empBudHr}</td>
+
+
+
+										</tr>
 									</c:forEach>
-								</tbody>
-								
-							</table>
-							</form>
-						</div>
-						<br>
-						<div style="text-align: center;">
-							<input type="submit" class="btn btn-primary" value="Assign Task"
-										id="deleteId"
-										onClick="var checkedVals = $('.chk:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to delete record');}"
-										style="align-content: center; width: 113px; margin-left: 40px;">
-						</div>
+									</tbody>
+
+								</table>
+
+							</div>
+							<br>
+							<div style="text-align: center;">
+								<input type="submit" class="btn btn-primary" value="Assign Task"
+									id="deleteId"
+									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Assign These Task');}"
+									style="align-content: center; width: 113px; margin-left: 40px;">
+							</div>
 
 
-					</div>
+
+						</div>
+					</form>
 				</div>
 
 
@@ -228,25 +229,21 @@
 
 	</div>
 	<!-- /page content -->
-	
-	
-	<script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
-							$('#printtable').DataTable();
 
-							$("#selAll")
-									.click(
-											function() {
-												$(
-														'#printtable tbody input[type="checkbox"]')
-														.prop('checked',
-																this.checked);
-											});
-						});
+
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					//	$('#printtable').DataTable();
+
+					$("#selAll").click(
+							function() {
+								$('#printtable1 tbody input[type="checkbox"]')
+										.prop('checked', this.checked);
+							});
+				});
 	</script>
-	
+
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->

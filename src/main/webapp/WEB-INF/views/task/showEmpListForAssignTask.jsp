@@ -153,7 +153,7 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/submitProjectAllotment"
+									action="${pageContext.request.contextPath}/submitTaskAssignment"
 									id="submitInsertEmpType" method="post">
 
 
@@ -215,11 +215,10 @@
 													id="printtable1">
 													<thead>
 														<tr class="bg-blue">
-															<th width="20%">Sr. No. <input type="checkbox"
-																name="selAll" id="selAll" /></th>
+															<th width="20%">Sr. No. </th>
 															<th>Employee Name</th>
 
-															<th width="15%" style="text-align: center;">Action</th>
+														 
 														</tr>
 													</thead>
 													<tbody>
@@ -245,8 +244,7 @@
 														<tr class="bg-blue">
 															<th width="20%">Sr. No.</th>
 															<th>Employee Name</th>
-
-															<th width="10%" style="text-align: center;">Action</th>
+ 															<th width="10%" style="text-align: center;">Action</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -317,7 +315,10 @@
 					ajax : 'true',
 
 				}, function(data) {
+					
+					$("#printtable1 tbody").empty();
 					$("#loader").hide();
+					
 					//alert("hii");
 					//alert(data);
 					for (var i = 0; i < data.length; i++) {
@@ -328,7 +329,7 @@
 						+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data[i].empId+'" data-empName="'+data[i].empName+'"  />'
 						+'</td>'
 								+ '<td  >' + data[i].empName + '</td>'
-								+ '<td  ></td>' + '</tr>';
+								 + '</tr>';
 								$('#printtable1' + ' tbody').append(
 										tr_data);
 						//alert(data[i].empName);
@@ -366,21 +367,22 @@
 
 								},
 								function(data) {
-									alert(data);
-									alert("tot data is "+JSON.stringify(data));
-
+									//alert(data);
+									//alert("tot data is "+JSON.stringify(data));
+									
 									$("#loader").hide();
 									$("#printtable1 tbody").empty();
 
 									
 										for (var i = 0; i < data.bsyList.length; i++) {
+											
 											var tr_data = '<tr>'
 											+ '<td  >'
 											+ (i + 1) 
 											+ ' '
 											+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data.bsyList[i].empId+'" data-empNname="'+data.bsyList[i].empName+'"   />'											+'</td>'
 													+ '<td  >' + data.bsyList[i].empName + '</td>'
-													+ '<td  ></td>' + '</tr>';
+													 + '</tr>';
 													$('#printtable1' + ' tbody').append(
 															tr_data);
 											//alert(data[i].empName);
@@ -390,14 +392,14 @@
 									
 								
 										for (var i = 0; i < data.freeList.length; i++) {
+											var atn = '<td  >  <a  onclick="deleteEmp('
+												+ data.freeList[i].empId
+												+ ')"><i class="icon-trash"></i></a></td>';
+
 											var tr_data = '<tr>'
-											+ '<td  >'
-											+ (i + 1) 
-											+ ' '
-											+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data.freeList[i].empName+'" data-empNname="'+data.freeList[i].empName+'"   />'											+'</td>'
-											+'</td>'
-													+ '<td  >' + data.freeList[i].empName + '</td>'
-													+ '<td  ></td>' + '</tr>';
+											+ '<td  >'+ (i + 1) +'</td>'
+											+ '<td  >' + data.freeList[i].empName + '</td>'
+											+ atn + '</tr>';
 													$('#printtable2' + ' tbody').append(
 															tr_data);
 											//alert(data[i].empName);
@@ -431,71 +433,40 @@
 								$("#loader").hide();
 								$("#printtable1 tbody").empty();
 
-								for (var i = 0; i < data.freeList.length; i++) {
-
-									if (data.freeList[i].exInt1 == 1) {
-										partialFull = "Partial";
-									} else {
-										partialFull = "Full";
+								
+									for (var i = 0; i < data.bsyList.length; i++) {
+										
+										var tr_data = '<tr>'
+										+ '<td  >'
+										+ (i + 1) 
+										+ ' '
+										+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+data.bsyList[i].empId+'" data-empNname="'+data.bsyList[i].empName+'"   />'											+'</td>'
+												+ '<td  >' + data.bsyList[i].empName + '</td>'
+												 + '</tr>';
+												$('#printtable1' + ' tbody').append(
+														tr_data);
+										//alert(data[i].empName);
 									}
-
-									var tr_data = '<tr>'
-											+ '<td  >'
-											+ (i + 1)
-											+ ' '
-											+ '<input type="checkbox" class="chk" name="empIds" id="empIds'+i+'" value="'+i+'" data-empFname="'+data.freeList[i].empFname+'" data-empSname="'+data.freeList[i].empSname+'"   />'
-											+ '</td>'
-											+ '<td  >'
-											+ data.freeList[i].empFname
-											+ ' '
-											+ data.freeList[i].empSname
-											+ '</td>'
-											+ '<td  >'
-											+ partialFull
-											+ '</td>'
-											+ '<td  >   <a onclick="getEmpHistory('
-											+ data.freeList[i].empId
-											+ ');"><i class="fas fa-list"></i></a></td>'
-											+ '</tr>';
-									$('#printtable1' + ' tbody')
-											.append(tr_data);
-								}
 
 								$("#printtable2 tbody").empty();
+								
+							
+									for (var i = 0; i < data.freeList.length; i++) {
+										var atn = '<td  >  <a  onclick="deleteEmp('
+											+ data.freeList[i].empId
+											+ ')"><i class="icon-trash"></i></a></td>';
 
-								for (var i = 0; i < data.bsyList.length; i++) {
-
-									var atn;
-									var partialFull;
-									if (data.bsyList[i].pallotId == 0) {
-										atn = '<td  >  <a  onclick="deleteEmp('
-												+ i
-												+ ')"><i class="icon-trash"></i></a></td>';
-									} else {
-										atn = '<td  >  </td>';
+										var tr_data = '<tr>'
+										+ '<td  >'+ (i + 1) +'</td>'
+										+ '<td  >' + data.freeList[i].empName + '</td>'
+										+ atn + '</tr>';
+												$('#printtable2' + ' tbody').append(
+														tr_data);
+										//alert(data[i].empName);
 									}
 
-									if (data.bsyList[i].exInt1 == 1) {
-										partialFull = 'Partial';
-									} else {
-										partialFull = 'Full';
-									}
-
-									var tr_data = '<tr>' + '<td  >' + (i + 1)
-											+ '</td>' + '<td  >'
-											+ data.bsyList[i].empFname + ' '
-											+ data.bsyList[i].empSname
-											+ '</td>' + '<td  >'
-											+ data.bsyList[i].pallotFromdt
-											+ '</td>' + '<td  >'
-											+ data.bsyList[i].pallotTodt
-											+ '</td>' + '<td  >' + partialFull
-											+ '</td>' + '<td  >'
-											+ data.bsyList[i].pallotDailyHrs
-											+ '</td>' + atn + '</tr>';
-									$('#printtable2' + ' tbody')
-											.append(tr_data);
-								}
+								
+								document.getElementById("selAll").checked = false;
 
 							});
 
