@@ -6,8 +6,6 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
-
-
 </head>
 
 <body>
@@ -36,9 +34,9 @@
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
-							<a href="#" class="breadcrumb-item"><i
+							<a href="index.html" class="breadcrumb-item"><i
 								class="icon-home2 mr-2"></i> Home</a> <span
-								class="breadcrumb-item active"></span>
+								class="breadcrumb-item active">Dashboard</span>
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i
@@ -65,21 +63,20 @@
 				<!-- Highlighting rows and columns -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-
-						<table width="100%">
-							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Customer And
-										Activity Mapping</h5></td>
-								<td width="40%" align="right"><a
-									href="${pageContext.request.contextPath}/customerAdd"
-									class="breadcrumb-elements-item">
-										<button type="button" class="btn btn-primary">Add
-											Customer</button>
-								</a></td>
-							</tr>
-						</table>
+						
+						 <table  width="100%">
+						 <tr  width="100%">
+						 <td width="60%"><h5 class="card-title">Service List</h5></td>
+						 <td  width="40%" align="right"><a href="${pageContext.request.contextPath}/addStatus"
+								class="breadcrumb-elements-item"> <button
+													type="button" class="btn btn-primary">
+													Add Status
+												</button> </a></td>
+						 </tr>
+						 </table>	
 					</div>
-
+					
+					<form method="post" id="service_list">
 					<div class="card-body">
 
 						<%
@@ -121,82 +118,32 @@
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
 							<thead>
-							
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Firm Name</th>
-									<!-- <th>Customer Group</th> -->
-									<th>Assesse Name</th>
-									<th>PAN No.</th>
-									<th>Email</th>
-									<th>Contact</th>
-									<th>Owner Partner</th>
+									<th>Status</th>
+									<th>Status Description</th>
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
 							</thead>
-							<c:forEach items="${custHeadList}" var="custHeadList" varStatus="count">
+							<c:forEach items="${statusList}" var="statusList" varStatus="count">
 							<tr>
 								<td>${count.index+1}</td>
-								<td>${custHeadList.custFirmName}</td>
-								<%-- <td>${custHeadList.custGroupName}</td> --%>
-								<td>${custHeadList.custAssesseeName}</td>
-								<td>${custHeadList.custPanNo}</td>
-								<td>${custHeadList.custEmailId}</td>
-								<td>${custHeadList.custPhoneNo}</td>
-								<td>${custHeadList.empName}</td>
-
-
-								<td><a
-									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.custId}"
-									title="Map Activity"><i class="icon-add"
+								<td>${statusList.statusText}</td>
+								<td>${statusList.statusDesc}</td>
+								<td><a href="${pageContext.request.contextPath}/editStatus?statusId=${statusList.statusId}" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> 
-										
 										<a
-									href="${pageContext.request.contextPath}/showCustomerActivityMap?custId=${custHeadList.custId}"
-									title="Mapped Activity List"><i class="icon-three-bars""
-										style="color: black;"></i></a>
-										
-										<a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.custId}" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.custId}"
+									href="${pageContext.request.contextPath}/deleteStatus?statusId=${statusList.statusId}" 
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>
-
 							</tr>
-							</c:forEach>
-						
-
-							<%-- <tbody>
-
-
-								<c:forEach items="${compList}" var="compList" varStatus="count">
-									<tr>
-										<td>${count.index+1}</td>
-										<td>${compList.companyName}</td>
-										<td class="text-center"><c:if test="${editAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/editCompany?compId=${compList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-												<a
-													href="${pageContext.request.contextPath}/editCompany?compId=${compList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/deleteCompany?compId=${compList.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
-											</c:if></td>
-									</tr>
-								</c:forEach>
-
-							</tbody> --%>
+							</c:forEach>										
 						</table>
-
 					</div>
-
+					
+					</form>
+					
 				</div>
 				<!-- /highlighting rows and columns -->
 
@@ -213,6 +160,5 @@
 
 	</div>
 	<!-- /page content -->
-
 </body>
 </html>

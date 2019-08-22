@@ -13,6 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
@@ -192,6 +197,23 @@ public class HomeController {
 				session = request.getSession();
 
 				session.setAttribute("empLogin", empLogin);
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("roleId", empLogin.getEmpRoleId());
+		
+				try {
+					ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+					};
+					ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
+							Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
+							typeRef);
+
+					List<ModuleJson> newModuleList = responseEntity.getBody();
+
+					session.setAttribute("newModuleList", newModuleList);
+			}catch (Exception e) {
+				System.err.println("Access Right get Exception  " +e.getMessage());
+			}
+
 
 			}
 		} catch (Exception e) {
@@ -266,13 +288,14 @@ public class HomeController {
 	 * return mav; }
 	 */
 
-	@RequestMapping(value = "/communication", method = RequestMethod.GET)
-	public ModelAndView communicationForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("task/communication");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/communication", method = RequestMethod.GET) public
+	 * ModelAndView communicationForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("task/communication");
+	 * 
+	 * return mav; }
+	 */
 
 	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
 	public ModelAndView manualTaskAddForm(Locale locale, Model model) {

@@ -99,12 +99,15 @@ public class TaskListHome {
 	public void setFinYearName(String finYearName) {
 		this.finYearName = finYearName;
 	}
-	public String getCustGroupName() {
-		return custGroupName;
-	}
-	public void setCustGroupName(String custGroupName) {
-		this.custGroupName = custGroupName;
-	}
+	
+	  public String getCustGroupName() 
+	  { 
+		  return custGroupName; 
+	  } 
+	  public void setCustGroupName(String custGroupName) 
+	  { 
+		  this.custGroupName = custGroupName;
+	  } 
 	
 	public int getTaskStatus() {
 		return taskStatus;
@@ -121,5 +124,5 @@ public class TaskListHome {
 				+ ", custGroupName=" + custGroupName + ", finYearName=" + finYearName + ", taskStatus=" + taskStatus
 				+ "]";
 	}
-	
+		
 }

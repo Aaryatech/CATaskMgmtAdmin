@@ -93,6 +93,10 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/customerDetailList"
 							class="nav-link">Customer Login & Signatory</a></li>
+							
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/statusList"
+							class="nav-link">Status Master</a></li>
 
 
 					</ul></li>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -232,15 +233,10 @@
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 
-											<option value="4">Select Status</option>
-											<option value="4">Pending for Manager</option>
-											<option value="4">Pending for Partner</option>
-											<option value="4">Pending for Team Lead</option>
-											<option value="4">Pending for Client</option>
-											<option value="4">Completed</option>
-											<option value="4">Inactive</option>
-											<option value="4">Other</option>
-
+											<option value="">Select Status</option>
+											<c:forEach items="${statusList}" var="statusList" varStatus="count">
+												<option value="${statusList.statusId}">${statusList.statusText}</option>													
+											</c:forEach>
 										</select>
 									</div>
 								</div>
