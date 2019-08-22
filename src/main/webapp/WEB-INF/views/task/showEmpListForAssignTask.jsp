@@ -259,7 +259,7 @@
 									<br>
 									<div class="form-group" style="text-align: center;">
 										<button type="submit" class="btn bg-blue ml-3 legitRipple"
-											id="submtbtn">
+											id="submtbtn" disabled>
 											Submit <i class="icon-paperplane ml-2"></i>
 										</button>
 										<a href="${pageContext.request.contextPath}/assignTask"><button
@@ -356,7 +356,7 @@
 							});
 			
 			
-			alert("index**"+index);
+			//alert("index**"+index);
 				$("#loader").show();
 				$
 						.getJSON(
@@ -406,7 +406,8 @@
 											//alert(data[i].empName);
 										}
 
-									
+										
+										document.getElementById("submtbtn").disabled = false;
 									document.getElementById("selAll").checked = false;
 								});
 			
@@ -466,7 +467,7 @@
 										//alert(data[i].empName);
 									}
 
-								
+									document.getElementById("expExcel").disabled = true;
 								document.getElementById("selAll").checked = false;
 
 							});

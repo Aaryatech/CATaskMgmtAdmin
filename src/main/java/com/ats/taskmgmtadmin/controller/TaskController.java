@@ -29,8 +29,7 @@ import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
-import com.ats.taskmgmtadmin.model.custdetail.CustomerDetailMaster;
-import com.ats.taskmgmtadmin.task.model.GetTaskList;
+ import com.ats.taskmgmtadmin.task.model.GetTaskList;
 
 @Controller
 @Scope("session")
@@ -83,7 +82,7 @@ public class TaskController {
 			for (int i = 0; i < TaskId.length; i++) {
 				sb = sb.append(TaskId[i] + ",");
 
-				System.out.println("task id are**" + TaskId[i]);
+				//System.out.println("task id are**" + TaskId[i]);
 
 			}
 			items = sb.toString();
@@ -139,7 +138,7 @@ public class TaskController {
 
 			String empIds = request.getParameter("empId");
 			String[] empId = empIds.split(",");
-			System.out.println(Arrays.asList(empId));
+			//System.out.println(Arrays.asList(empId));
 			for (int i = 1; i < empId.length; i++) {
 				for (int j = 0; j < empList.size(); j++) {
 
@@ -170,11 +169,11 @@ public class TaskController {
 
 		try {
 			int empId = Integer.parseInt(request.getParameter("empId"));
-			System.out.println("empId** " + empId);
+			//System.out.println("empId** " + empId);
 
 			for (int i = 0; i < empListTot.getFreeList().size(); i++) {
 				if (empListTot.getFreeList().get(i).getEmpId() == empId) {
-					System.out.println("matchd** " + i);
+					//System.out.println("matchd** " + i);
 					empListTot.getFreeList().remove(i);
 					break;
 

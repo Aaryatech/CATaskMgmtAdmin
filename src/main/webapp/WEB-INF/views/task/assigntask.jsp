@@ -167,6 +167,7 @@
 									<thead>
 										<tr class="bg-blue">
 											<th width="10%">Sr.no</th>
+											<th>Task </th>
 											<th>Customer</th>
 											<th>Activity</th>
 											<th>Year</th>
@@ -184,6 +185,7 @@
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all"></td>
 
+                                            <td>${taskList.taskText}</td>
 											<td>${taskList.custFirmName}</td>
 											<td>${taskList.actiName}</td>
 											<td>${taskList.finYearName}</td>
