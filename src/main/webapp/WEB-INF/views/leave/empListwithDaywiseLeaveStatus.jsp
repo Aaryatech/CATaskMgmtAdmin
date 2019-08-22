@@ -155,10 +155,10 @@
 											<c:forEach items="${list.atndsList}" var="atndsList">
 												<c:choose>
 													<c:when test="${atndsList.sts eq 'AB'}">
-														<td style="background-color: red;">${atndsList.sts}</td>
+														<td style="background-color: red;color: white;">${atndsList.sts}</td>
 													</c:when>
 													<c:when test="${atndsList.sts eq 'HO'}">
-														<td style="background-color:green;">${atndsList.sts}</td>
+														<td style="background-color:green;color: white;">${atndsList.sts}</td>
 													</c:when>
 													<c:when test="${atndsList.sts eq 'H'}">
 														<td style="background-color:yellow;">${atndsList.sts}</td>
