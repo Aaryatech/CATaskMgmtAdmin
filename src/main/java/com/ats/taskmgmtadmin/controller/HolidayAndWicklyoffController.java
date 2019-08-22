@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List; 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate; 
- 
+import org.springframework.web.bind.annotation.RequestMethod; 
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
@@ -36,7 +32,7 @@ import com.ats.taskmgmtadmin.model.WeeklyOff;
 @Scope("session")
 public class HolidayAndWicklyoffController {
 
-	RestTemplate rest = new RestTemplate();
+	 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
@@ -55,7 +51,7 @@ public class HolidayAndWicklyoffController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("companyId", 0);
 
-			GetHoliday[] holListArray = rest.postForObject(Constants.url + "/getHolidayList", map, GetHoliday[].class);
+			GetHoliday[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayList", map, GetHoliday[].class);
 
 			List<GetHoliday> holList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -90,7 +86,7 @@ public class HolidayAndWicklyoffController {
 		try {
 			HttpSession session = request.getSession();
 
-			CalenderYear calculateYear = rest.getForObject(Constants.url + "/getCalculateYearListIsCurrent",
+			CalenderYear calculateYear = Constants.getRestTemplate().getForObject(Constants.url + "/getCalculateYearListIsCurrent",
 					CalenderYear.class);
 
 			String dateRange = request.getParameter("dateRange");
@@ -141,7 +137,7 @@ public class HolidayAndWicklyoffController {
 				holiday.setMakerEnterDatetime(dateTime);
 				holiday.setMakerUserId(1);
 
-				Holiday res = rest.postForObject(Constants.url + "/saveHoliday", holiday, Holiday.class);
+				Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday, Holiday.class);
 
 				if (res.isError() == false) {
 					session.setAttribute("successMsg", "Record Inserted Successfully");
@@ -172,7 +168,7 @@ public class HolidayAndWicklyoffController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("holidayId", holidayId);
-			editHoliday = rest.postForObject(Constants.url + "/getHolidayById", map, Holiday.class);
+			editHoliday = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayById", map, Holiday.class);
 			model.addAttribute("editHoliday", editHoliday);
 			editHoliday.setHolidayFromdt(DateConvertor.convertToDMY(editHoliday.getHolidayFromdt()));
 			editHoliday.setHolidayTodt(DateConvertor.convertToDMY(editHoliday.getHolidayTodt()));
@@ -216,7 +212,7 @@ public class HolidayAndWicklyoffController {
 				editHoliday.setHolidayTodt(DateConvertor.convertToYMD(arrOfStr[1].toString().trim()));
 				editHoliday.setHolidayRemark(holidayRemark);
 				editHoliday.setExVar2(holidayTitle);
-				Holiday res = rest.postForObject(Constants.url + "/saveHoliday", editHoliday, Holiday.class);
+				Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", editHoliday, Holiday.class);
 
 				if (res.isError() == false) {
 					session.setAttribute("successMsg", "Record Updated Successfully");
@@ -248,7 +244,7 @@ public class HolidayAndWicklyoffController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("holidayId", holidayId);
-			Info info = rest.postForObject(Constants.url + "/deleteHoliday", map, Info.class);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteHoliday", map, Info.class);
 
 			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Deleted Successfully");
@@ -276,7 +272,7 @@ public class HolidayAndWicklyoffController {
 			map.add("companyId", 0);
 			map.add("locIdList", 0);
 
-			GetWeeklyOff[] holListArray = rest.postForObject(Constants.url + "/getWeeklyOffList", map,
+			GetWeeklyOff[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffList", map,
 					GetWeeklyOff[].class);
 
 			List<GetWeeklyOff> weekOffList = new ArrayList<>(Arrays.asList(holListArray));
@@ -342,7 +338,7 @@ public class HolidayAndWicklyoffController {
 				save.setWoPresently(woPresently);
 				save.setMakerEnterDatetime(dateTime);
 
-				WeeklyOff res = rest.postForObject(Constants.url + "/saveWeeklyOff", save, WeeklyOff.class);
+				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save, WeeklyOff.class);
 
 				if (res != null) {
 					session.setAttribute("successMsg", "Record Inserted Successfully");
@@ -374,7 +370,7 @@ public class HolidayAndWicklyoffController {
 
 			map = new LinkedMultiValueMap<>();
 			map.add("woId", woId);
-			editWeeklyOff = rest.postForObject(Constants.url + "/getWeeklyOffById", map, WeeklyOff.class);
+			editWeeklyOff = Constants.getRestTemplate().postForObject(Constants.url + "/getWeeklyOffById", map, WeeklyOff.class);
 			model.addAttribute("editWeeklyOff", editWeeklyOff);
 
 		} catch (Exception e) {
@@ -415,7 +411,7 @@ public class HolidayAndWicklyoffController {
 				editWeeklyOff.setWoRemarks(woRemarks);
 				editWeeklyOff.setWoType(woType);
 
-				WeeklyOff res = rest.postForObject(Constants.url + "/saveWeeklyOff", editWeeklyOff, WeeklyOff.class);
+				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", editWeeklyOff, WeeklyOff.class);
 
 				if (res != null) {
 					session.setAttribute("successMsg", "Record Updated Successfully");
@@ -447,7 +443,7 @@ public class HolidayAndWicklyoffController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("woId", woId);
-			Info info = rest.postForObject(Constants.url + "/deleteWeeklyOff", map, Info.class);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWeeklyOff", map, Info.class);
 
 			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Deleted Successfully");

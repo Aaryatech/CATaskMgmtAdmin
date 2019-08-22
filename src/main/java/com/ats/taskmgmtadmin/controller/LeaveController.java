@@ -27,6 +27,8 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CalenderYear;
+import com.ats.taskmgmtadmin.model.EmpListWithDateList;
+import com.ats.taskmgmtadmin.model.EmpListWithDateWiseDetail;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.LeaveApply;
@@ -303,7 +305,38 @@ public class LeaveController {
 				model.addAttribute("leaveDetailWithFreeHours", leaveDetailWithFreeHours);
 				model.addAttribute("fromDate", fromDate);
 				model.addAttribute("toDate", toDate);
-				
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/empListwithDaywiseLeaveStatus", method = RequestMethod.GET)
+	public String empListwithDaywiseLeaveStatus(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "leave/empListwithDaywiseLeaveStatus";
+
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			if (fromDate != null && toDate != null) {
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("fromDate", fromDate);
+				map.add("toDate", toDate);
+				EmpListWithDateList empListWithDateList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/daywiseLeaveHistoryofEmployee", map, EmpListWithDateList.class);
+				model.addAttribute("empListWithDateList", empListWithDateList);
+				model.addAttribute("fromDate", fromDate);
+				model.addAttribute("toDate", toDate);
+
 			}
 
 		} catch (Exception e) {

@@ -11,6 +11,7 @@ public class Constants {
 
 	// Web Api Path url
 	public static final String url = "http://localhost:8095/";
+	//public static final String url = "http://132.148.143.124:8080/CATaskMngtApi/";
 	public static RestTemplate rest = new RestTemplate();
 	
 	 public static RestTemplate getRestTemplate() {
