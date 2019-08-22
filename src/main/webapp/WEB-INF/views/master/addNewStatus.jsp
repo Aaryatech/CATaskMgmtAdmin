@@ -117,6 +117,10 @@
 									>
 									<input type="hidden" id="status_id" name="status_id"
 											value="${status.statusMstId}">
+											
+									<input type="text" id="isEdit" name="isEdit"
+											value="${isEdit}">
+									
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Status

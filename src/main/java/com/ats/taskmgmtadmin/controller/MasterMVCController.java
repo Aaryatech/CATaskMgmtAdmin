@@ -1140,18 +1140,28 @@ public class MasterMVCController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
 			int userId = emp.getEmpId();
 			
-			StatusMaster status = new StatusMaster(); 
-			
+			int edit = 0;
 			int statusId = 0;
 			try {
 				statusId = Integer.parseInt(request.getParameter("status_id"));
+				edit = Integer.parseInt(request.getParameter("isEdit"));
 			}catch(Exception e) {
 				e.getMessage();
 			}
+			int maxStat = 0;
+			int maxStaVal = Constants.getRestTemplate().getForObject(Constants.url+"/getMaxStatusValue", Integer.class);
+			if(edit!=1) {
+				
+				 maxStat = maxStaVal+1;
+			}else {
+				maxStat = maxStaVal;
+			}
 			
+			StatusMaster status = new StatusMaster(); 
+		
 			status.setStatusMstId(statusId);
 			status.setStatusText(request.getParameter("statusText"));
-			status.setStatusValue(0);
+			status.setStatusValue(maxStat);
 			status.setStatusDesc(request.getParameter("statusDesc"));
 			status.setStatusColor("Green");
 			status.setIsEditable(1);
@@ -1183,6 +1193,8 @@ public class MasterMVCController {
 			map.add("statusId", statusId);
 			StatusMaster status= Constants.getRestTemplate().postForObject(Constants.url+"/getStatusById", map, StatusMaster.class);
 			mav.addObject("status", status);
+			
+			mav.addObject("isEdit", 1);
 			
 			mav.addObject("title", "Edit Status");
 			//logger.info("Service List"+srvcMstrList);
