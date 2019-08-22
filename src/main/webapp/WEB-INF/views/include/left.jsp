@@ -38,33 +38,32 @@
 					class="nav-link active"> <i class="icon-home4"></i> <span>
 							Dashboard </span>
 				</a></li>
-				
+
 				<li class="nav-item"><a
 					href="${pageContext.request.contextPath}/taskListForEmp"
 					class="nav-link active"> <i class="icon-home4"></i> <span>
 							Home </span>
 				</a></li>
-				
-				
-				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-file-locked"></i><span>Access Rights
-							</span></a>
 
-					<ul class="nav nav-group-sub"
-						data-submenu-title="Access Rights">
+
+				<li class="nav-item nav-item-submenu"><a href="#"
+					class="nav-link"><i class="icon-file-locked"></i><span>Access
+							Rights </span></a>
+
+					<ul class="nav nav-group-sub" data-submenu-title="Access Rights">
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showCreateRole"
 							class="nav-link">Create Role</a></li>
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showRoleList"
 							class="nav-link">Role List</a></li>
-							<li class="nav-item"><a
+						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/showAssignRole"
 							class="nav-link">Assign Role</a></li>
 
 					</ul></li>
-				
-				
+
+
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-file-plus"></i><span>Master</span></a>
 
@@ -93,14 +92,21 @@
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/customerDetailList"
 							class="nav-link">Customer Login & Signatory</a></li>
-							
+
 						<li class="nav-item"><a
 							href="${pageContext.request.contextPath}/statusList"
 							class="nav-link">Status Master</a></li>
 
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showHolidayList"
+							class="nav-link">Holiday Master</a></li>
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/showWeeklyOffList"
+							class="nav-link">Weekend Master</a></li>
+
 
 					</ul></li>
- 
+
 				<li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-file-check"></i><span>Task
 							Allotment</span></a>
@@ -118,8 +124,8 @@
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-exit3"></i><span>
-							Leave Management </span></a>
+					class="nav-link"><i class="icon-exit3"></i><span> Leave
+							Management </span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
 
@@ -131,11 +137,15 @@
 							href="${pageContext.request.contextPath}/showLeaveHistListBetweenDate"
 							class="nav-link">Leave History</a></li>
 
+						<li class="nav-item"><a
+							href="${pageContext.request.contextPath}/empListwithDaywiseLeaveStatus"
+							class="nav-link">Leave Record Sheet</a></li>
+
 					</ul></li>
 
 				<li class="nav-item nav-item-submenu"><a href="#"
-					class="nav-link"><i class="icon-stack"></i><span>
-							Daily Work Log </span></a>
+					class="nav-link"><i class="icon-stack"></i><span> Daily
+							Work Log </span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
 

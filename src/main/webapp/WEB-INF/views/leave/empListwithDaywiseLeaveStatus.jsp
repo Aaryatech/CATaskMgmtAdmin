@@ -134,7 +134,7 @@
 								id="printtable1">
 								<thead>
 									<tr class="bg-blue">
-										<th width="10%">Sr. No.</th>
+										<th width="5%">Sr. No.</th>
 										<th>Employee Name</th>
 
 										<c:forEach items="${empListWithDateList.dateslist}"
@@ -151,7 +151,7 @@
 										var="list" varStatus="count">
 										<tr>
 											<td>${count.index+1}</td>
-											<td>${list.empName}</td>
+											<td width="30%">${list.empName}</td>
 											<c:forEach items="${list.atndsList}" var="atndsList">
 												<c:choose>
 													<c:when test="${atndsList.sts eq 'AB'}">
