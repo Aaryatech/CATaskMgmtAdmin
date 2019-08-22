@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,7 @@ import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
+import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
 
 @Controller
@@ -1088,44 +1090,159 @@ public class MasterMVCController {
 		
 		
 	}
+	
+	/*******************************Status Master********************************/
+	
+	@RequestMapping(value = "/statusList", method = RequestMethod.GET)
+	public ModelAndView statusList(Locale locale, Model model) {
+		
+		ModelAndView mav = new ModelAndView("master/statusList");
+		try {
+			
+			StatusMaster[] statusMstr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllStatus", StatusMaster[].class);
+		List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));		
+		mav.addObject("statusList", statusList);
+		
+		//logger.info("Service List"+srvcMstrList);
+		
+		}catch (Exception e) {
+			System.err.println("Exce in statusList " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/addStatus", method = RequestMethod.GET)
+	public ModelAndView addStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		ModelAndView mav = new ModelAndView("master/addNewStatus");
+		try {
+			
+			StatusMaster status = new StatusMaster();
+			
+			mav.addObject("status", status);
+			mav.addObject("title", "Add Status");
+		}catch (Exception e) {
+			System.err.println("Exce in addStatus " + e.getMessage());
+		}
+		
+		return mav;
+		
+	}
+	
+	@RequestMapping(value = "/addStatus", method = RequestMethod.POST)
+	public String addStatus(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			
+			StatusMaster status = new StatusMaster(); 
+			
+			int statusId = 0;
+			try {
+				statusId = Integer.parseInt(request.getParameter("status_id"));
+			}catch(Exception e) {
+				e.getMessage();
+			}
+			
+			status.setStatusId(statusId);
+			status.setStatusText(request.getParameter("statusText"));
+			status.setStatusValue(0);
+			status.setStatusDesc(request.getParameter("statusDesc"));
+			status.setIsEdit(1);
+			status.setEmpTypeIds("0");
+			status.setDelStatus(1);
+			status.setUpdateDatetime(curDateTime);
+			status.setUpdateUsername(userId);
+			status.setExInt1(0);
+			status.setExVar1("NA");
+			
+			
+			StatusMaster actMastr = Constants.getRestTemplate().postForObject(Constants.url+"/saveStatus", status, StatusMaster.class);
+		}catch (Exception e) {
+			System.err.println("Exce in addStatus " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "redirect:/statusList";
+		
+	}
+	
+	@RequestMapping(value = "/editStatus", method = RequestMethod.GET)
+	public ModelAndView statusList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView("master/addNewStatus");
+		try {
+			int statusId = Integer.parseInt(request.getParameter("statusId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			map.add("statusId", statusId);
+			StatusMaster status= Constants.getRestTemplate().postForObject(Constants.url+"/getStatusById", map, StatusMaster.class);
+			mav.addObject("status", status);
+			
+			mav.addObject("title", "Edit Status");
+			//logger.info("Service List"+srvcMstrList);
+		
+		}catch (Exception e) {
+			System.err.println("Exce in statusList " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/deleteStatus", method = RequestMethod.GET)
+	public String deleteStatus(HttpServletRequest request, HttpServletResponse response) {
+				
+		try {
+					MultiValueMap<String, Object> map = null;
+					
+					session = request.getSession(); 
+					
+					EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+					int userId = emp.getEmpId();
+					
+					int statusId = Integer.parseInt(request.getParameter("statusId"));						
+										
+					map = new LinkedMultiValueMap<>();
+					map.add("userId", userId);
+					map.add("statusId", statusId);
+					
+					Info info = Constants.getRestTemplate().postForObject(Constants.url+"/deleteStatusById", map, Info.class);
+		}catch (Exception e) {
+					System.err.println("Exce in deletCust " + e.getMessage());
+					e.printStackTrace();
+		}
+		return "redirect:/statusList";
+	}
+	
+	@RequestMapping(value = "/communication", method = RequestMethod.GET)
+	public ModelAndView communicationForm(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("task/communication");
+		try {
+			session = request.getSession(); 
+			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			int userId = emp.getEmpId();
+			System.out.println("Id-------------"+userId);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			map.add("empType", userId);
+			StatusMaster[] statusMstr = Constants.getRestTemplate().postForObject(Constants.url+"/getStatusByEmpTypeIds", map, StatusMaster[].class);
+			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));		
+			mav.addObject("statusList", statusList);
+			
+		}catch (Exception e) {
+			System.err.println("Exce in communication " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
 }
 
-/*SELECT 
-        t_tasks.task_id,
-        t_tasks.task_text,
-        t_tasks.task_start_date,
-        t_tasks.task_end_date,
-        t_tasks.task_statutory_due_date,
-        t_tasks.mngr_bud_hr,
-        t_tasks.emp_bud_hr,
-        t_tasks.task_emp_ids,
-        m_emp.emp_name,
-        m_services.serv_name,
-        m_activities.acti_name,
-        dm_periodicity.periodicity_name,
-        m_cust_group.cust_group_name,
-        dm_fin_year.fin_year_name
-       
-
-FROM 	
-        t_tasks,
-        m_emp,
-        m_services,
-        m_activities,
-        dm_periodicity,
-        m_cust_group,
-        m_cust_header,
-        dm_fin_year
-       
-WHERE 
-        t_tasks.del_status=1 AND
-        m_emp.emp_id=2 AND
-		t_tasks.task_emp_ids=m_emp.emp_id AND
-        t_tasks.actv_id=m_activities.acti_id AND
-        m_activities.serv_id=m_services.serv_id AND
-        m_activities.periodicity_id=dm_periodicity.periodicity_id AND
-        t_tasks.cust_id=m_cust_header.cust_id AND
-        m_cust_header.cust_group_id=m_cust_group.cust_group_id AND
-        dm_fin_year.fin_year_id=t_tasks.task_fy_id*/
 
 

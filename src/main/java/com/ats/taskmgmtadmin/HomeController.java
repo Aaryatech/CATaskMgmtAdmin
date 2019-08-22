@@ -288,13 +288,14 @@ public class HomeController {
 	 * return mav; }
 	 */
 
-	@RequestMapping(value = "/communication", method = RequestMethod.GET)
-	public ModelAndView communicationForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("task/communication");
-
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value = "/communication", method = RequestMethod.GET) public
+	 * ModelAndView communicationForm(Locale locale, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("task/communication");
+	 * 
+	 * return mav; }
+	 */
 
 	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
 	public ModelAndView manualTaskAddForm(Locale locale, Model model) {
