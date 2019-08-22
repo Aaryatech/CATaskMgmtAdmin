@@ -42,15 +42,15 @@
 								<td style="color: white; padding: .8rem 1rem;" align="left"
 									width="80%">
 									<h5>
-										Task ID -<span class="font-weight-semibold"> 1 </span>
-										&nbsp;&nbsp; Name - <span class="font-weight-semibold">
-											GST </span> <small class="d-block opacity-75">Owner Partner
+										Task ID -<span class="font-weight-semibold"> ${task.taskId} </span>
+										&nbsp;&nbsp; Name - <span class="font-weight-semibold">${task.taskText}
+											</span> <small class="d-block opacity-75">Owner Partner
 											- Prakash</small>
 									</h5>
 								</td>
 								<td style="color: white; padding: .8rem 1rem;">
 									<div align="center">
-										<div class="btn" style="background-color: white;">Pending</div>
+										<div class="btn" style="background-color: white;">${task.taskStatus}</div>
 										<normal class="d-block opacity-75" style="color: white;">Current
 										Status</normal>
 									</div>
@@ -222,7 +222,9 @@
 							</div>
 
 							<div class="card-body">
-
+							<form action="${pageContext.request.contextPath}/updateTaskStatus" method="post" id="changeTask">
+							<input type="hidden" value="${task.taskId}" id="taskId" name="taskId">
+							
 								<div class="form-group row">
 									<label class="col-form-label col-lg-12" for="status">
 										Select Status <span style="color: red">* </span>:
@@ -235,14 +237,14 @@
 
 											<option value="">Select Status</option>
 											<c:forEach items="${statusList}" var="statusList" varStatus="count">
-												<option value="${statusList.statusId}">${statusList.statusText}</option>													
+												<option value="${statusList.statusValue}">${statusList.statusText}</option>													
 											</c:forEach>
 										</select>
 									</div>
 								</div>
 
 
-								<div class="form-group row">
+								<!-- <div class="form-group row">
 									<label class="col-form-label col-lg-12" for="remark">
 										Enter Remark <span style="color: red">* </span>:
 									</label>
@@ -251,7 +253,7 @@
 											placeholder="Enter Remark" id="remark" name="remark"
 											autocomplete="off" onchange="trim(this)">
 									</div>
-								</div>
+								</div> -->
 								
 								
 
@@ -261,6 +263,7 @@
 
 								</div>
 								<br><br>
+								</form>
 							</div>
 
 						</div>

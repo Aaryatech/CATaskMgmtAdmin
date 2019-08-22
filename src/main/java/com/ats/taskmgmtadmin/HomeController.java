@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,11 +33,13 @@ import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
-
+import com.ats.taskmgmtadmin.task.model.Task;
 /**
  * Handles requests for the application home page.
+ * @param <Task>
  */
 
 //for session
@@ -54,7 +57,7 @@ import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
  */
 
 @Controller
-public class HomeController {
+public class HomeController<Task> {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -288,14 +291,7 @@ public class HomeController {
 	 * return mav; }
 	 */
 
-	/*
-	 * @RequestMapping(value = "/communication", method = RequestMethod.GET) public
-	 * ModelAndView communicationForm(Locale locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("task/communication");
-	 * 
-	 * return mav; }
-	 */
+	
 
 	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
 	public ModelAndView manualTaskAddForm(Locale locale, Model model) {

@@ -48,7 +48,9 @@ import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
 import com.ats.taskmgmtadmin.model.StatusMaster;
+import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
+import com.ats.taskmgmtadmin.task.model.Task;
 
 @Controller
 public class MasterMVCController {
@@ -1147,17 +1149,15 @@ public class MasterMVCController {
 				e.getMessage();
 			}
 			
-			status.setStatusId(statusId);
+			status.setStatusMstId(statusId);
 			status.setStatusText(request.getParameter("statusText"));
 			status.setStatusValue(0);
 			status.setStatusDesc(request.getParameter("statusDesc"));
-			status.setIsEdit(1);
-			status.setEmpTypeIds("0");
+			status.setIsEditable(1);
+			status.setTypeIds("0");
 			status.setDelStatus(1);
 			status.setUpdateDatetime(curDateTime);
 			status.setUpdateUsername(userId);
-			status.setExInt1(0);
-			status.setExVar1("NA");
 			
 			
 			StatusMaster actMastr = Constants.getRestTemplate().postForObject(Constants.url+"/saveStatus", status, StatusMaster.class);
@@ -1223,18 +1223,30 @@ public class MasterMVCController {
 
 		ModelAndView mav = new ModelAndView("task/communication");
 		try {
+			
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			
+			MultiValueMap<String, Object> map = null;
 			session = request.getSession(); 
 			
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
 			int userId = emp.getEmpId();
 			System.out.println("Id-------------"+userId);
 			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			
+			map = new LinkedMultiValueMap<String, Object>();			
 			map.add("empType", userId);
+			
 			StatusMaster[] statusMstr = Constants.getRestTemplate().postForObject(Constants.url+"/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));		
 			mav.addObject("statusList", statusList);
+			
+			map = new LinkedMultiValueMap<String, Object>();			
+			map.add("empType", userId);	
+			map.add("taskId", taskId);
+			
+			TaskListHome task = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskByTaskId", map, TaskListHome.class);
+			mav.addObject("task", task);			
+			
 			
 		}catch (Exception e) {
 			System.err.println("Exce in communication " + e.getMessage());
@@ -1242,6 +1254,35 @@ public class MasterMVCController {
 		}
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/updateTaskStatus", method = RequestMethod.POST)
+	public String updateTaskStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		String redirect = null;
+		try {
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			int statusVal = Integer.parseInt(request.getParameter("status"));
+			
+			System.err.println("Id / Value--------------"+taskId+" / "+statusVal);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();			
+			
+			map.add("taskId", taskId);
+			map.add("statusVal", statusVal);
+			
+			Task task = Constants.getRestTemplate().postForObject(Constants.url+"/updateTaskByTaskId", map, Task.class);
+			
+			redirect = "redirect:/communication?taskId="+taskId;
+			
+		}catch (Exception e) {
+			System.err.println("Exce in updateTaskStatus " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return redirect;
+	}
+	
+	
 }
 
 

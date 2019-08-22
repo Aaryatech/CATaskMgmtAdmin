@@ -183,7 +183,7 @@ h5 {
 
 
 
-				<!--/////////////////////////////////////////////////////  -->
+<!--/////////////////////////////////////////////////////  -->
 
 				<!-- Remote source -->
 				<div id="modal_remote" class="modal" tabindex="-1">
@@ -195,42 +195,41 @@ h5 {
 							</div>
 
 							<div class="modal-body">
-								<form id="filterForm">
+							<form id="filterForm">
 
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="fromDate">
-											<!-- Due Date Range --> Due- From Date <span
-											style="color: red">* </span>:
-										</label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control datepickerclass"
-												id="fromDate" name="fromDate">
-										</div>
-										<!-- <div class="col-lg-3">																							
+								<div class="form-group row">
+									<label class="col-form-label col-lg-2" for="fromDate"><!-- Due Date Range --> Due-
+									 From Date <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-3">
+										<input type="text" class="form-control datepickerclass"
+											id="fromDate" name="fromDate">
+									</div>
+									<!-- <div class="col-lg-3">																							
 											<span class="validation-invalid-label" id="error_start_date"
 												style="display: none;">Start date must be greater than end date.</span>
 									</div> -->
 
-										<label class="col-form-label col-lg-2" for="toDate">Due-
-											To Date <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control datepickerclass"
-												id="toDate" name="toDate">
-										</div>
-
-										<!-- <div class="col-lg-3">																							
+								<label class="col-form-label col-lg-2" for="toDate">Due-
+										To Date <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-3">
+										<input type="text" class="form-control datepickerclass"
+											id="toDate" name="toDate">
+									</div>									
+									
+									<!-- <div class="col-lg-3">																							
 											<span class="validation-invalid-label" id="error_end_date"
 												style="display: none;">To date must be smaller than from date.</span>
 										</div> -->
-									</div>
+								</div>
 
-									<div class="form-group row">
+								<div class="form-group row">
 
-										<label class="col-form-label col-lg-2" for="service">
-											Select Service : </label>
-										<div class="col-lg-3">
-											<select name="service" data-placeholder="Select Service"
+									<label class="col-form-label col-lg-2" for="service">
+										Select Service : </label>
+									<div class="col-lg-3">
+										<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
@@ -241,70 +240,70 @@ h5 {
 												</c:forEach>
 
 											</select>
-										</div>
+									</div>
 
 
-										<label class="col-form-label col-lg-2" for="activity">
-											Select Activity : </label>
-										<div class="col-lg-3">
-											<select name="activity" data-placeholder="Select Activity"
+									<label class="col-form-label col-lg-2" for="activity">
+										Select Activity : </label>
+									<div class="col-lg-3">
+										<select name="activity" data-placeholder="Select Activity"
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 											</select>
-										</div>
-
 									</div>
 
-									<div class="form-group row">
+								</div>
+
+								<div class="form-group row">
 
 
 
-										<label class="col-form-label col-lg-2" for="status">
-											Select Status : </label>
-										<div class="col-lg-3">
-											<select name="sts" data-placeholder="Select Status" id="sts"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
+									<label class="col-form-label col-lg-2" for="status">
+										Select Status :
+									</label>
+									<div class="col-lg-3">
+										<select name="sts" data-placeholder="Select Status" id="sts"
+											class="form-control form-control-select2 select2-hidden-accessible"
+											data-fouc="" aria-hidden="true">
 
-												<option value="1">All</option>
-												<option value="2">Generated</option>
-												<option value="3">Unallocated</option>
-												<option value="4">Critical</option>
-												<option value="4">Overdue</option>
-												<option value="4">Pending for Manager</option>
-												<option value="4">Pending for Partner</option>
-												<option value="4">Pending for Team Lead</option>
-												<option value="4">Pending for Client</option>
-												<option value="4">Completed</option>
-												<option value="4">Inactive</option>
-												<option value="4">Other</option>
+											<option value="1">All</option>
+											<option value="2">Generated</option>
+											<option value="3">Unallocated</option>
+											<option value="4">Critical</option>
+											<option value="4">Overdue</option>
+											<option value="4">Pending for Manager</option>
+											<option value="4">Pending for Partner</option>
+											<option value="4">Pending for Team Lead</option>
+											<option value="4">Pending for Client</option>
+											<option value="4">Completed</option>
+											<option value="4">Inactive</option>
+											<option value="4">Other</option>
 
-											</select>
-										</div>
-
-										<label class="col-form-label col-lg-2" for="customer">
-											Select Customer : </label>
-										<div class="col-lg-3">
-											<select name="custId" data-placeholder="Select Customer"
-												id="custId"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-												<c:forEach items="${custGrpList}" var="custGrpList">
-													<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
-												</c:forEach>
-
-											</select>
-										</div>
-
+										</select>
 									</div>
+									
+									<label class="col-form-label col-lg-2" for="customer">
+										Select Customer : </label>
+									<div class="col-lg-3">
+										<select name="custId" data-placeholder="Select Customer"
+											id="custId"
+											class="form-control form-control-select2 select2-hidden-accessible"
+											data-fouc="" aria-hidden="true">
+											<c:forEach items="${custGrpList}" var="custGrpList">
+												<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+											</c:forEach>
+
+										</select>
+									</div>
+
+								</div>
 								</form>
 							</div>
 
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="submit" class="btn bg-primary" id="submtbtn"
-									onclick="dataFilter()">Search</button>
+								<button type="submit" class="btn bg-primary" id="submtbtn" onclick="dataFilter()">Search</button>
 							</div>
 						</div>
 					</div>
@@ -372,12 +371,9 @@ h5 {
 									</div>
 
 
-									<label class="col-form-label col-lg-4" for="workDate"
-										align="right">
-										<h4>Total Work Hours :</h4>
-									</label> <label class="col-form-label col-lg-2" for="workDate">
-										<h4>50</h4>
-									</label>
+									<label class="col-form-label col-lg-4" for="workDate" align="right" >
+										<h4>Total Work Hours :</h4> </label> <label class="col-form-label col-lg-2"
+										for="workDate"> <h4>50</h4> </label>
 
 
 								</div>
@@ -435,7 +431,7 @@ h5 {
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
 													</tr>
-
+													
 													<tr>
 														<td>2</td>
 														<td>12-05-2018</td>
@@ -447,7 +443,7 @@ h5 {
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
 													</tr>
-
+													
 
 
 												</table>
@@ -457,9 +453,9 @@ h5 {
 											</div>
 
 											<div class="tab-pane fade" id="datewise">
-
-
-												<table
+											
+											
+											<table
 													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
 													id="printtable1">
 													<thead>
@@ -485,7 +481,7 @@ h5 {
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
 													</tr>
-
+													
 													<tr>
 														<td>1</td>
 														<td>225</td>
@@ -499,11 +495,11 @@ h5 {
 															title="Delete"><i class="icon-trash"
 																style="color: black;"></i> </a></td>
 													</tr>
-
+													
 
 
 												</table>
-
+											
 											</div>
 
 
@@ -529,7 +525,7 @@ h5 {
 
 
 
-				<style type="text/css">
+<style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -555,7 +551,7 @@ h5 {
 						</div>
 					</div> --%>
 
-					<style type="text/css">
+<style type="text/css">
 .fab-menu-bottom-right, .fab-menu-top-right {
 	right: 1.25rem;
 	top: 1rem;
@@ -577,7 +573,7 @@ h5 {
 								<tr>
 									<th style="background-color: white;">Customer</th>
 									<th style="background-color: white;">Service - Activity</th>
-									<th style="background-color: white;">Narration</th>
+									<th style="background-color: white;">Task Name</th>
 									<th style="background-color: white;">Due Date</th>
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Alloted Hrs</th>
@@ -587,54 +583,41 @@ h5 {
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${taskList}" var="taskList" varStatus="count">
-									<tr>
-										<td>${taskList.custGroupName}</td>
-										<td>${taskList.servName}-${taskList.actiName}</td>
+							<c:forEach items="${taskList}" var="taskList" varStatus="count">
+								<tr>
+									<td>${taskList.custGroupName}</td>
+									<td>${taskList.servName}-${taskList.actiName}</td>
+									<td>${taskList.taskText}</td>
+									<td>${taskList.taskStatutoryDueDate}</td>
+									<td>${taskList.taskEndDate}</td>
+									
+									<c:if test="${empType==5}">
+										<td>${taskList.empBudHr}</td>
+									</c:if>
+									<c:if test="${empType==3}">
+										<td>${taskList.mngrBudHr}</td>
+									</c:if>
+																		
+									<c:if test="${empType==4}">
 										<td>NA</td>
-										<td>${taskList.taskStatutoryDueDate}</td>
-										<td>${taskList.taskEndDate}</td>
-
-										<c:if test="${empType==5}">
-											<td>${taskList.empBudHr}</td>
-										</c:if>
-										<c:if test="${empType==3}">
-											<td>${taskList.mngrBudHr}</td>
-										</c:if>
-
-										<c:if test="${empType==4}">
-											<td>NA</td>
-										</c:if>
-										<c:if test="${empType==2}">
-											<td>NA</td>
-										</c:if>
-										<c:if test="${empType==1}">
-											<td>NA</td>
-										</c:if>
-
-										<td data-toggle="modal" data-target="#modal_remote_log">0</td>
-										<c:set var="status" value="${taskList.taskStatus}" />
-										<c:if test="${status==1}">
-											<td><span class="badge badge-info">Approved</span></td>
-										</c:if>
-
-										<c:if test="${status==0}">
-											<td><span class="badge badge-info">Pending</span></td>
-										</c:if>
-										<!-- <td><span class="badge badge-info">Pending</span></td> -->
-										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/communication"
-											title="Chat/Update"><i class="icon-pencil7"
-												style="color: black;"></i></a></td>
-									</tr>
-								</c:forEach>
-
-
-
-
-
-
-
+									</c:if>
+									<c:if test="${empType==2}">
+										<td>NA</td>
+									</c:if>
+									<c:if test="${empType==1}">
+										<td>NA</td>
+									</c:if>
+									
+									<td data-toggle="modal" data-target="#modal_remote_log">0</td>
+									
+									<td><span class="badge badge-info">${taskList.taskStatus}</span></td>
+									
+									<td class="text-center"><a
+										href="${pageContext.request.contextPath}/communication?taskId=${taskList.taskId}"
+										title="Chat/Update"><i class="icon-pencil7"
+											style="color: black;"></i></a></td>
+								</tr>
+						</c:forEach>
 
 							</tbody>
 						</table>
@@ -687,158 +670,150 @@ h5 {
 			}
 		});
 	</script>
-
+	
 	<script type="text/javascript">
-		function dataFilter() {
+	function dataFilter(){
+		
+		var fromDate = $("#fromDate").val();
+		var toDate = $("#toDate").val();
+		
+		var service = $("#service").val();
+		var activity = $("#activity").val();
+		
+		var custId = $("#custId").val();		
+		
+		//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
+		
+		document.getElementById("fromDate").value=fromDate;//create this
+		document.getElementById("toDate").value=toDate;//create this
+		document.getElementById("service").value=service;//create this
+		document.getElementById("activity").value=activity;//create this
+		document.getElementById("custId").value=custId;//create this
+		
+		var form=document.getElementById("filterForm");
+	    form.setAttribute("method", "post");
 
-			var fromDate = $("#fromDate").val();
-			var toDate = $("#toDate").val();
+		form.action=("fliterTaskList");
+		form.submit();
+	}
+	
+	function getActivities(servId) {
+		//alert("servId " +servId)
+		if (servId > 0) {
 
-			var service = $("#service").val();
-			var activity = $("#activity").val();
+			$
+					.getJSON(
+							'${getActivityByService}',
+							{
+								servId : servId,
+								ajax : 'true',
+							},
 
-			var custId = $("#custId").val();
+							function(data) {
+								var html;
+								var p = -1;
+								var q = "Select Activity";
+								html += '<option disabled value="'+p+'">'
+										+ q + '</option>';
+								html += '</option>';
 
-			//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
+								var temp = 0;
+								//temp=document.getElementById("temp").value;
+								//alert("temp");
+								var len = data.length;
+								for (var i = 0; i < len; i++) {
 
-			document.getElementById("fromDate").value = fromDate;//create this
-			document.getElementById("toDate").value = toDate;//create this
-			document.getElementById("service").value = service;//create this
-			document.getElementById("activity").value = activity;//create this
-			document.getElementById("custId").value = custId;//create this
+									/* 	if(temp==data[i].infraAreaId){
+											 html += '<option selected value="' + data[i].infraAreaId + '">'
+									         + data[i].infraAreaName + '</option>';
+										}
+											
+											else{ */
 
-			var form = document.getElementById("filterForm");
-			form.setAttribute("method", "post");
+									html += '<option value="' + data[i].actiId + '">'
+											+ data[i].actiName
+											+ '</option>';
+									//}
 
-			form.action = ("fliterTaskList");
-			form.submit();
-		}
+								}
 
-		function getActivities(servId) {
-			//alert("servId " +servId)
-			if (servId > 0) {
+								/*        if(temp==0){
+								       	//alert("If temp==0");
+								       	  var x=0;
+								             var y="Any Other";
+								             html += '<option selected value="'+x+'">'
+								             +y+'</option>';
+								             html += '</option>';
+								             //document.getElementById("other_area").show();
+											$("#area_name_div").show();
 
-				$
-						.getJSON(
-								'${getActivityByService}',
-								{
-									servId : servId,
-									ajax : 'true',
-								},
+								            
+								       }else{
+								       	  /* var x=0;
+								             var y="Any Other";
+								             html += '<option value="'+x+'">'
+								             +y+'</option>';
+								             html += '</option>'; */
 
-								function(data) {
-									var html;
-									var p = -1;
-									var q = "Select Activity";
-									html += '<option disabled value="'+p+'">'
-											+ q + '</option>';
-									html += '</option>';
+								// } 
+								$('#activity').html(html);
+								$("#activity").trigger("chosen:updated");
 
-									var temp = 0;
-									//temp=document.getElementById("temp").value;
-									//alert("temp");
-									var len = data.length;
-									for (var i = 0; i < len; i++) {
+							});
 
-										/* 	if(temp==data[i].infraAreaId){
-												 html += '<option selected value="' + data[i].infraAreaId + '">'
-										         + data[i].infraAreaName + '</option>';
-											}
-												
-												else{ */
-
-										html += '<option value="' + data[i].actiId + '">'
-												+ data[i].actiName
-												+ '</option>';
-										//}
-
-									}
-
-									/*        if(temp==0){
-									       	//alert("If temp==0");
-									       	  var x=0;
-									             var y="Any Other";
-									             html += '<option selected value="'+x+'">'
-									             +y+'</option>';
-									             html += '</option>';
-									             //document.getElementById("other_area").show();
-												$("#area_name_div").show();
-
-									            
-									       }else{
-									       	  /* var x=0;
-									             var y="Any Other";
-									             html += '<option value="'+x+'">'
-									             +y+'</option>';
-									             html += '</option>'; */
-
-									// } 
-									$('#activity').html(html);
-									$("#activity").trigger("chosen:updated");
-
-								});
-
-			}//end of if
-		}
+		}//end of if
+	}
 	</script>
-
+	
 	<script type="text/javascript">
-		<script>
-		$(document)
-				.ready(
-						function($) {
-							$("#filterForm")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+	<script>
+	$(document)
+			.ready(
+					function($) {
+				$("#filterForm")
+						.submit(
+								function(e) {
+									var isError = false;
+									var errMsg = "";
+									
+									alert("Hi"+from_date);
+									
+										var from_date = document.getElementById("fromDate").value;
+						 				var to_date = document.getElementById("toDate").value;
+						 				
+						 		        var fromdate = from_date.split('-');
+						 		        from_date = new Date();
+						 		        from_date.setFullYear(fromdate[2],fromdate[1]-1,fromdate[0]);
+						 		        var todate = to_date.split('-');
+						 		        to_date = new Date();
+						 		        to_date.setFullYear(todate[2],todate[1]-1,todate[0]);
+						 		        if (from_date > to_date ) 
+						 		        {										 		           
+											$("#error_start_date").show();
+										 	$("#error_end_date").show();
+										 	return false;
+						 		           
+						 		        }else {
+						 					$("#error_start_date").hide();
+						 					$("#error_end_date").hide();
+						 				}
+										
+								
+									if (!isError) {
 
-												alert("Hi" + from_date);
-
-												var from_date = document
-														.getElementById("fromDate").value;
-												var to_date = document
-														.getElementById("toDate").value;
-
-												var fromdate = from_date
-														.split('-');
-												from_date = new Date();
-												from_date.setFullYear(
-														fromdate[2],
-														fromdate[1] - 1,
-														fromdate[0]);
-												var todate = to_date.split('-');
-												to_date = new Date();
-												to_date.setFullYear(todate[2],
-														todate[1] - 1,
-														todate[0]);
-												if (from_date > to_date) {
-													$("#error_start_date")
-															.show();
-													$("#error_end_date").show();
-													return false;
-
-												} else {
-													$("#error_start_date")
-															.hide();
-													$("#error_end_date").hide();
-												}
-
-												if (!isError) {
-
-													var x = true;
-													if (x == true) {
-														alert("this");
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
-		//
+										var x = true;
+										if (x == true) {
+											alert("this");
+											document
+													.getElementById("submtbtn").disabled = true;
+											return true;
+										}
+										//end ajax send this to php page
+									}
+									return false;
+					});
+});
+//
 	</script>
 </body>
 </html>

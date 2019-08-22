@@ -16,7 +16,7 @@ public class TaskListHome {
 	private String periodicityName;
 	private String custGroupName;
 	private String finYearName;
-	private int taskStatus;
+	private String taskStatus;
 	
 	public int getTaskId() {
 		return taskId;
@@ -109,10 +109,10 @@ public class TaskListHome {
 		  this.custGroupName = custGroupName;
 	  } 
 	
-	public int getTaskStatus() {
+	public String getTaskStatus() {
 		return taskStatus;
 	}
-	public void setTaskStatus(int taskStatus) {
+	public void setTaskStatus(String taskStatus) {
 		this.taskStatus = taskStatus;
 	}
 	@Override
