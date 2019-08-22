@@ -1153,6 +1153,7 @@ public class MasterMVCController {
 			status.setStatusText(request.getParameter("statusText"));
 			status.setStatusValue(0);
 			status.setStatusDesc(request.getParameter("statusDesc"));
+			status.setStatusColor("Green");
 			status.setIsEditable(1);
 			status.setTypeIds("0");
 			status.setDelStatus(1);

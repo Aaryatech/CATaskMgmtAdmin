@@ -130,10 +130,10 @@
 								<td>${count.index+1}</td>
 								<td>${statusList.statusText}</td>
 								<td>${statusList.statusDesc}</td>
-								<td><a href="${pageContext.request.contextPath}/editStatus?statusId=${statusList.statusId}" title="Edit"><i class="icon-pencil7"
+								<td><a href="${pageContext.request.contextPath}/editStatus?statusId=${statusList.statusMstId}" title="Edit"><i class="icon-pencil7"
 										style="color: black;"></i></a> 
 										<a
-									href="${pageContext.request.contextPath}/deleteStatus?statusId=${statusList.statusId}" 
+									href="${pageContext.request.contextPath}/deleteStatus?statusId=${statusList.statusMstId}" 
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>

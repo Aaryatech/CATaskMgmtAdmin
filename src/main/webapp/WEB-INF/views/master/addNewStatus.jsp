@@ -116,7 +116,7 @@
 									id="submitInsertService"  method="post"
 									>
 									<input type="hidden" id="status_id" name="status_id"
-											value="${status.statusId}">
+											value="${status.statusMstId}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Status
