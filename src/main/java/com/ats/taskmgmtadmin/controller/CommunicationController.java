@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,7 +32,7 @@ import com.ats.taskmgmtadmin.model.TaskListHome;
 
 @Controller
 public class CommunicationController {
-	
+
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Calendar cal = Calendar.getInstance();
 
@@ -41,13 +42,10 @@ public class CommunicationController {
 	String dateTime = dateFormat.format(now);
 	String items = null;
 	String curDateTime = dateFormat.format(cal.getTime());
-	HttpSession session =null ;
+	HttpSession session = null;
 
-	
-	
 	@RequestMapping(value = "/communication", method = RequestMethod.GET)
-	public ModelAndView communicationForm(HttpServletRequest request, HttpServletResponse response
-			) {
+	public ModelAndView communicationForm(HttpServletRequest request, HttpServletResponse response) {
 		session = request.getSession();
 		ModelAndView mav = new ModelAndView("task/communication");
 		String base64encodedString = request.getParameter("taskId");
@@ -57,24 +55,22 @@ public class CommunicationController {
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		int userId = emp.getEmpId();
 		System.err.println("Id / Value--------------" + taskId + " / " + empId);
-		
+
 		try {
 
 			mav.addObject("taskId", taskId);
 			mav.addObject("empId", empId);
 			MultiValueMap<String, Object> map = null;
-		
-
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
 
-			GetAllCommunicationByTaskId[] communication = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getCommunicationByTaskId", map, GetAllCommunicationByTaskId[].class);
+			GetAllCommunicationByTaskId[] communication = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getCommunicationByTaskId", map, GetAllCommunicationByTaskId[].class);
 			List<GetAllCommunicationByTaskId> communicationList = new ArrayList<>(Arrays.asList(communication));
 			mav.addObject("communicationList", communicationList);
 			mav.addObject("loginUser", userId);
 			System.err.println("communicationList--------------" + communicationList.toString());
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", userId);
 
@@ -97,41 +93,60 @@ public class CommunicationController {
 		}
 		return mav;
 	}
-	
-	
+
+	@RequestMapping(value = "/getAllCommunicationByTaskId", method = RequestMethod.GET)
+	public @ResponseBody List<GetAllCommunicationByTaskId> getAllCommunicationByTaskId(HttpServletRequest request,
+			HttpServletResponse response) {
+		String taskId = request.getParameter("taskId");
+ 		List<GetAllCommunicationByTaskId> communicationList = new ArrayList<GetAllCommunicationByTaskId>();
+
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("taskId", taskId);
+
+			GetAllCommunicationByTaskId[] communication = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getCommunicationByTaskId", map, GetAllCommunicationByTaskId[].class);
+			communicationList = new ArrayList<>(Arrays.asList(communication));
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return communicationList;
+	}
+
 	@RequestMapping(value = "/insertNewMessage", method = RequestMethod.POST)
 	public String insertNewMessage(HttpServletRequest request, HttpServletResponse response) {
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		int userId = emp.getEmpId();
-		String empId=request.getParameter("empId");
-		String taskId=request.getParameter("taskId");
+		String empId = request.getParameter("empId");
+		String taskId = request.getParameter("taskId");
 		try {
 			session = request.getSession();
-			
-         Communication comcat=new Communication();
-		 
-         comcat.setCommunText(request.getParameter("msg"));
-         comcat.setDelStatus(1);
-         comcat.setEmpId(Integer.parseInt(request.getParameter("empId")));
-         comcat.setExInt1(1);
-         comcat.setExInt2(1);
-         comcat.setExVar1("NA");
-         comcat.setExVar2("NA");
-         comcat.setTaskId(Integer.parseInt(request.getParameter("taskId")));
-         comcat.setUpdateDatetime(Constants.getCurDateTime());
-         comcat.setUpdateUser(userId);
-        
-			 
-         Communication custHead = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/saveCommunication", comcat, Communication.class);
+
+			Communication comcat = new Communication();
+
+			comcat.setCommunText(request.getParameter("msg"));
+			comcat.setDelStatus(1);
+			comcat.setEmpId(Integer.parseInt(request.getParameter("empId")));
+			comcat.setExInt1(1);
+			comcat.setExInt2(1);
+			comcat.setExVar1("NA");
+			comcat.setExVar2("NA");
+			comcat.setTaskId(Integer.parseInt(request.getParameter("taskId")));
+			comcat.setUpdateDatetime(Constants.getCurDateTime());
+			comcat.setUpdateUser(userId);
+
+			Communication custHead = Constants.getRestTemplate().postForObject(Constants.url + "/saveCommunication",
+					comcat, Communication.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in saveCommunication " + e.getMessage());
 			e.printStackTrace();
 		}
- 		return "redirect:/communication?taskId="+FormValidation.Encrypt(taskId)+"&empId="+FormValidation.Encrypt(empId);
+		return "redirect:/communication?taskId=" + FormValidation.Encrypt(taskId) + "&empId="
+				+ FormValidation.Encrypt(empId);
 	}
-
-
 
 }
