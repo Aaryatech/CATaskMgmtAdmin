@@ -10,6 +10,9 @@ public class CustomerDetails {
 	private String custEmailId;
 	private String custPhoneNo;
 	private String empName;
+	public String exVar1;
+	public String exVar2;
+	
 	public int getCustId() {
 		return custId;
 	}
@@ -58,11 +61,25 @@ public class CustomerDetails {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
+	
+	public String getExVar1() {
+		return exVar1;
+	}
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
+	public String getExVar2() {
+		return exVar2;
+	}
+	public void setExVar2(String exVar2) {
+		this.exVar2 = exVar2;
+	}
 	@Override
 	public String toString() {
 		return "CustomerDetails [custId=" + custId + ", custFirmName=" + custFirmName + ", custGroupName="
 				+ custGroupName + ", custAssesseeName=" + custAssesseeName + ", custPanNo=" + custPanNo
-				+ ", custEmailId=" + custEmailId + ", custPhoneNo=" + custPhoneNo + ", empName=" + empName + "]";
+				+ ", custEmailId=" + custEmailId + ", custPhoneNo=" + custPhoneNo + ", empName=" + empName + ", exVar1="
+				+ exVar1 + ", exVar2=" + exVar2 + "]";
 	}
 	
 	

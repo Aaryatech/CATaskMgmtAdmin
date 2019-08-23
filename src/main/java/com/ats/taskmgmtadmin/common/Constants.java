@@ -9,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class Constants {
 
+	public static String statusIds = "0,8,9";
+	
 	// Web Api Path url
 	public static final String url = "http://localhost:8095/";
 	//public static final String url = "http://132.148.143.124:8080/CATaskMngtApi/";

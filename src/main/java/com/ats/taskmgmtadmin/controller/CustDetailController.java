@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
+import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.custdetail.CustSignatoryMaster;
@@ -44,8 +46,12 @@ public class CustDetailController {
 						
 			CustomerDetails[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerInfo", CustomerDetails[].class);
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
-			mav.addObject("custHeadList", custHeadList);
-				
+			for (int i = 0; i < custHeadList.size(); i++) {
+
+				custHeadList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustId())));
+				custHeadList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustGroupName())));
+			}
+			mav.addObject("custHeadList", custHeadList);				
 				
 			}catch (Exception e) {
 				e.getMessage();
@@ -65,18 +71,17 @@ public class CustDetailController {
 
 		ModelAndView mav = new ModelAndView("master/addCustDetailSignatory");///customerDetailAdd
 		try {
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			MultiValueMap<String, Object> map = null;
 			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			System.err.println("base64encodedString custId---------" +custId);
+						
+			map = new LinkedMultiValueMap<String, Object>();			
 			map.add("custId", custId);
-
-			GetCustLoginDetail[] custDetArray = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getCustLoginDetailByCustId", map, GetCustLoginDetail[].class);
-			List<GetCustLoginDetail> custDetailList = new ArrayList<>(Arrays.asList(custDetArray));
-
-			mav.addObject("custDetailList", custDetailList);
-			mav.addObject("custName", custDetailList.get(0).getCustFirmName());
+			
+			CustNameId cust= Constants.getRestTemplate().postForObject(Constants.url + "/getCustNameById",map, CustNameId.class);
+			mav.addObject("custName", cust.getCustName());
 			
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
@@ -85,16 +90,18 @@ public class CustDetailController {
 
 			mav.addObject("serviceList", srvcMstrList);
 			
-			map.add("custId", custId);
+			
 			GetCustSignatory[] custSignArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustSignatoryByCustId", map, GetCustSignatory[].class);
 			List<GetCustSignatory> custSignList = new ArrayList<>(Arrays.asList(custSignArray));
 			System.err.println("custSignList" +custSignList.toString());
 			mav.addObject("custSignList", custSignList);
 
-			
-			//String custName = request.getParameter("custName");
-			//mav.addObject("custName", custName);
+			GetCustLoginDetail[] custDetArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getCustLoginDetailByCustId", map, GetCustLoginDetail[].class);
+			List<GetCustLoginDetail> custDetailList = new ArrayList<>(Arrays.asList(custDetArray));
+
+			mav.addObject("custDetailList", custDetailList);
 			mav.addObject("custId", custId);
 
 		} catch (Exception e) {
@@ -128,8 +135,17 @@ public class CustDetailController {
 		//ModelAndView mav = new ModelAndView("master/customerDetailList");//customerDetailAdd
 		int custId = 0;
 		try {
-
-			custId = Integer.parseInt(request.getParameter("custId"));
+			
+			String base64encodedString = request.getParameter("custId");			
+			String customerId = FormValidation.DecodeKey(base64encodedString);
+			System.err.println(customerId);
+			
+			try {			
+				custId = Integer.parseInt(request.getParameter("customerId"));
+			}catch (Exception e) {
+				e.getMessage();
+				// TODO: handle exception
+			}
 			int custDetailId = Integer.parseInt(request.getParameter("custDetailId"));
 
 			int servId = Integer.parseInt(request.getParameter("service"));
@@ -161,6 +177,16 @@ public class CustDetailController {
 			custDetail.setLoginQue1(que1);
 			custDetail.setLoginQue2(que2);
 			custDetail.setLoginRemark(remark);
+			
+			custDetail.setContactEmail(request.getParameter("contPerEmail"));			
+			custDetail.setContactName(request.getParameter("contPerName"));			
+			custDetail.setContactPhno(request.getParameter("contPerNo"));			
+			custDetail.setCustRemark(request.getParameter("sigremark"));
+			custDetail.setSignDesign(request.getParameter("desg"));			
+			custDetail.setSignfName(request.getParameter("signFName"));			
+			custDetail.setSignlName(request.getParameter("signLName"));			
+			custDetail.setSignPhno(request.getParameter("signMobile"));			
+			custDetail.setSignRegNo(request.getParameter("regNo"));
 			
 			custDetail.setUpdateDatetime(Constants.getCurDateTime());
 			
