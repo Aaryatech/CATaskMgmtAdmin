@@ -222,7 +222,7 @@
 										<h6 class="card-title">Customer Signatory</h6>
 								</div> -->
 								
-								<div class="form-group row">
+								<%-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">
 											Customer : </label>
 										<div class="col-lg-10">
@@ -230,7 +230,7 @@
 												placeholder="Customer Name" id="customer" name="customer"
 												autocomplete="off" value="${custName}" onchange="trim(this)" readonly="readonly">
 										</div>
-									</div>
+									</div> --%>
 
 									<legend
 										class="font-weight-semibold text-uppercase font-size-sm">Signatory

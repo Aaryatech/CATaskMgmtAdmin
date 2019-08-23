@@ -136,12 +136,12 @@ public class CustDetailController {
 		int custId = 0;
 		try {
 			
-			String base64encodedString = request.getParameter("custId");			
-			String customerId = FormValidation.DecodeKey(base64encodedString);
-			System.err.println(customerId);
+		//	String base64encodedString = request.getParameter("custId");			
+		//	String customerId = FormValidation.DecodeKey(base64encodedString);
+		//	System.err.println(customerId);
 			
 			try {			
-				custId = Integer.parseInt(request.getParameter("customerId"));
+				custId = Integer.parseInt(request.getParameter("custId"));
 			}catch (Exception e) {
 				e.getMessage();
 				// TODO: handle exception
@@ -199,7 +199,7 @@ public class CustDetailController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/customerDetailAdd?custId="+custId;
+		return "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));
 	}
 
 	
