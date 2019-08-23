@@ -345,8 +345,9 @@ public class HomeController<Task> {
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			
-			System.err.println("Data---------"+fromDate+"   "+toDate);
 			
+			String[] dates = fromDate.split("to");
+			System.err.println("Data---------"+dates[0]+"   "+dates[1]);
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
@@ -354,8 +355,8 @@ public class HomeController<Task> {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
 			map.add("empId", empSes.getEmpId());
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
+			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("service", Integer.parseInt(request.getParameter("service")));
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
