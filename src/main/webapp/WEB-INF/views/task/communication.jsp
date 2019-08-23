@@ -6,6 +6,9 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+<c:url var="saveNewMessage" value="/saveNewMessage" />
+<c:url var="getAllCommunicationByTaskId"
+	value="/getAllCommunicationByTaskId" />
 </head>
 <style type="text/css">
 .media-chat-scrollable {
@@ -13,7 +16,7 @@
 	overflow: auto;
 }
 </style>
-<body>
+<body onload="onloadActive()">
 
 
 
@@ -112,7 +115,8 @@
 
 							<div class="card-body">
 
-								<ul class="media-list media-chat media-chat-scrollable mb-3">
+								<ul class="media-list media-chat media-chat-scrollable mb-3"
+									id="ulComm">
 
 									<c:forEach items="${communicationList}" var="communicationList">
 										<c:choose>
@@ -121,7 +125,7 @@
 													<div class="media-body">
 														<div class="media-chat-item">${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-														${communicationList.updateDatetime}<a href="#"></a>
+															${communicationList.updateDatetime}<a href="#"></a>
 														</div>
 													</div>
 
@@ -153,10 +157,9 @@
 
 													<div class="media-body">
 														<div class="media-chat-item">
-														${communicationList.communText}
-														</div>
+															${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-														${communicationList.updateDatetime} <a href="#"></a>
+															${communicationList.updateDatetime} <a href="#"></a>
 														</div>
 													</div>
 												</li>
@@ -177,30 +180,33 @@
 									</button>
 								</div> -->
 
-<form action="${pageContext.request.contextPath}/insertNewMessage"
+								<form
+									action="${pageContext.request.contextPath}/insertNewMessage"
 									id="submitInsertClient" method="post">
 
-								<table width="100%">
-									<tr>
-										<td width="89%"><textarea name="msg" id="msg"
-												class="form-control mb-3" rows="1" cols="1"
-												placeholder="Enter your message..."></textarea></td>
-										<td width="1%"></td>
-										<td width="10%" align="right">
-											<button type="submit"  id="submtbtn" class="btn bg-teal-400">
-												<b><i class="icon-paperplane"></i></b>
-											</button>
-											
-										 
-										</td>
-									</tr>
-								</table>
-								
-								
-					 <input type="hidden" name="taskId" value="${taskId}">
-					  <input type="hidden" name="empId" value="${empId}">			
+									<table width="100%">
+										<tr>
+											<td width="89%"><textarea name="msg" id="msg"
+													class="form-control mb-3" rows="1" cols="1"
+													placeholder="Enter your message..."></textarea></td>
+											<td width="1%"></td>
+											<td width="10%" align="right">
+												<button type="button" id="submtbtn" class="btn bg-teal-400"
+													onclick="chat()">
+													<b><i class="icon-paperplane"></i></b>
+												</button>
 
-</form>
+
+											</td>
+										</tr>
+									</table>
+
+
+									<input type="hidden" name="taskId" value="${taskId}"> <input
+										type="hidden" name="empId" value="${empId}"> <input
+										type="hidden" name="loginUser" id="loginUser"
+										value="${loginUser}">
+								</form>
 
 							</div>
 							<!-- /basic layout -->
@@ -319,6 +325,118 @@
 				separator : ' to '
 			}
 		});
+
+		function chat() {
+			var msg = document.getElementById("msg").value;
+			var taskId = document.getElementById("taskId").value;
+
+			if (msg != "") {
+				$.post('${saveNewMessage}', {
+					msg : msg,
+					taskId : taskId,
+					ajax : 'true',
+				},
+
+				function(data) {
+
+					if (data.error == false) {
+
+						chatList();
+
+					} else {
+						alert("Message Not dilivered");
+					}
+
+				});
+			}
+
+		}
+
+		function chatList() {
+			//alert("List");
+			var taskId = document.getElementById("taskId").value;
+			var loginUser = document.getElementById("loginUser").value;
+			$
+					.getJSON(
+							'${getAllCommunicationByTaskId}',
+							{
+								taskId : taskId,
+								ajax : 'true',
+							},
+
+							function(data) {
+
+								for (var i = 0; i < data.length; i++) {
+
+									if (data[i].empId == loginUser) {
+
+										var timeDiv = ''
+												+ '<div class="media-body">'
+												+ '<div class="media-chat-item">'
+												+ data[i].communText
+												+ '</div>'
+												+ '<div class="font-size-sm text-muted mt-2">'
+												+ data[i].updateDatetime
+												+ '</div>'
+												+ '</div>'
+												+ '<div class="ml-3">'
+												+ '<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">'
+												+ '<img src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"'+
+		'class="rounded-circle" width="40" height="40" alt="">'
+												+ '</a>' + '</div>' + '';
+
+										var ul = document
+												.getElementById("ulComm");
+										var $last = $("#ulComm")
+												.append(
+														$(
+																'<li class="media media-chat-item-reverse"></li>')
+																.html(timeDiv));
+									} else {
+
+										var timeDiv = '<div class="mr-3">'
+												+ '<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">'
+												+ '<img src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"'+
+											'class="rounded-circle" width="40" height="40" alt="">'
+												+ '</a>'
+												+ '</div> '
+												+ '<div class="media-body">'
+												+ '<div class="media-chat-item">'
+												+ data[i].communText
+												+ '</div>'
+												+ '<div class="font-size-sm text-muted mt-2">'
+												+ data[i].updateDatetime
+												+ '<a href="#"></a>' + '</div>'
+												+ '</div>';
+
+										var ul = document
+												.getElementById("ulComm");
+										var $last = $("#ulComm").append(
+												$('<li class="media"></li>')
+														.html(timeDiv));
+									}
+								}
+
+								container = $('#ulComm').get(0);
+								container.scrollTop = (container.scrollHeight + container.offsetHeight);
+								display_c();
+							});
+
+		}
+		function onloadActive() {
+
+			container = $('#ulComm').get(0);
+			container.scrollTop = (container.scrollHeight + container.offsetHeight); 
+			display_c();
+		}
+		function display_c() {
+
+			var refresh = 1000; // Refresh rate in milli seconds
+			mytime = setTimeout('chatList()', refresh)
+		}
+ 
 	</script>
+
+
 </body>
 </html>
