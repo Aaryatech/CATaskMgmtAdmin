@@ -101,7 +101,7 @@
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
-												onchange="getActivities(this.value)">
+												onchange="getActivities(this.value,0)">
 
 												<c:forEach items="${serviceList}" var="serv">
 													<option value="${serv.servId}">${serv.servName}</option>
@@ -115,8 +115,8 @@
 										<div class="col-lg-4">
 											<select name="activity" data-placeholder="Select Activity"
 												id="activity"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
+												class="form-control form-control-select21 select21-hidden-accessible"
+												data-fouc1="" aria-hidden1="true1">
 											</select>
 										</div>
 
@@ -127,7 +127,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="username">Login
-											Username <span style="color: red">* </span>:
+											Username <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -139,7 +139,7 @@
 
 
 										<label class="col-form-label col-lg-2" for="password">Login
-											Password <span style="color: red">* </span>:
+											Password <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -154,7 +154,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="que1">Security
-											Question 1 <span style="color: red">* </span>:
+											Question 1 <span style="color: red"></span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -166,7 +166,7 @@
 
 
 										<label class="col-form-label col-lg-2" for="ans1">Answer
-											<span style="color: red">* </span>:
+											<span style="color: red"> </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -180,7 +180,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="que1">Security
-											Question 2 <span style="color: red">* </span>:
+											Question 2 <span style="color: red"> </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -192,7 +192,7 @@
 
 
 										<label class="col-form-label col-lg-2" for="ans2">Answer
-											<span style="color: red">* </span>:
+											<span style="color: red"> </span>:
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
@@ -214,6 +214,153 @@
 												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
+									<!-- Customer Detail End -->
+									
+									<!-- Customer Signatory Start -->
+									
+								<!-- <div class="card-header header-elements-inline">
+										<h6 class="card-title">Customer Signatory</h6>
+								</div> -->
+								
+								<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="customer">
+											Customer : </label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Customer Name" id="customer" name="customer"
+												autocomplete="off" value="${custName}" onchange="trim(this)" readonly="readonly">
+										</div>
+									</div>
+
+									<legend
+										class="font-weight-semibold text-uppercase font-size-sm">Signatory
+										Information</legend>								
+								
+								<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="signFName">
+											First Name <span style="color: red"></span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter First Name" id="signFName"
+												name="signFName" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_signFName"
+												style="display: none;">Please enter first name.</span>
+										</div>
+
+
+										<label class="col-form-label col-lg-2" for="signLName">
+											Last Name <span style="color: red"> </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Last Name" id="signLName"
+												name="signLName" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_signLName"
+												style="display: none;">Please enter last name.</span>
+										</div>
+
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="regNo">Register
+											Number <span style="color: red"> </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Registration Number" id="regNo"
+												name="regNo" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_regNo"
+												style="display: none;">Please enter register No.</span>
+										</div>
+
+
+										<label class="col-form-label col-lg-2" for="desg">Designation
+											<span style="color: red"> </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Designation" id="desg" name="desg"
+												autocomplete="off" onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_desg"
+												style="display: none;">Please enter designation.</span>
+										</div>
+
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="signMobile">
+											Contact Number <span style="color: red"> </span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Signatory Contact Number" id="signMobile"
+												name="signMobile" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_signMobile"
+												style="display: none;">Please enter contact No.</span>
+										</div>
+
+									</div>
+
+									<legend	class="font-weight-semibold text-uppercase font-size-sm">Contact
+										Person Information</legend>
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="contPerName">
+											Name <span style="color: red"></span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Contact Person Name" id="contPerName"
+												name="contPerName" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_contPerName"
+												style="display: none;">Please enter name.</span>
+										</div>
+
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="contPerEmail">
+											Email <span style="color: red"></span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Email Address" id="contPerEmail"
+												name="contPerEmail" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label"
+												id="error_contPerEmail" style="display: none;">Please enter email.</span>
+										</div>
+
+
+										<label class="col-form-label col-lg-2" for="contPerNo">Contact
+											Number <span style="color: red"></span>:
+										</label>
+										<div class="col-lg-4">
+											<input type="text" class="form-control"
+												placeholder="Enter Contact Number" id="contPerNo" maxlength="10"
+												name="contPerNo" autocomplete="off" onchange="trim(this)">
+											<span class="validation-invalid-label" id="error_contPerNo"
+												style="display: none;">Please enter contact No.</span>
+										</div>
+
+									</div>
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="remark">Remark
+											: </label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control"
+												placeholder="Enter Remark" id="sigremark" name="sigremark"
+												autocomplete="off" onchange="trim(this)">
+										</div>
+									</div>
+								
+								
+								
+								<!-- Customer Signatory End -->
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
@@ -230,7 +377,7 @@
 												</button></a>
 										</div>
 									</div>
-
+ 
 
 								</form>
 
@@ -246,7 +393,7 @@
 
 							<div class="card-body">
 
-								<form action="${pageContext.request.contextPath}/"
+								<form 
 									id="submitInsertActivity" method="post">
 
 									<table
@@ -255,8 +402,13 @@
 										<thead>
 											<tr class="bg-blue">
 												<th>Activity</th>
+												<th>Customer Name</th>
 												<th>Login</th>
 												<th>Security Questions</th>
+												<th>Signatory</th>
+												<th>Designation</th>
+												<th>Contact Person Name</th>
+												<th>Contact Person Mobile</th>
 												<th class="text-center" width="10%">Actions</th>
 											</tr>
 										</thead>
@@ -266,6 +418,7 @@
 
 												<tr>
 													<td>${custDetail.actiName}</td>
+													<td>${custDetail.custFirmName}</td>
 													<td>Username : ${custDetail.loginId}<br>Password
 														: ${custDetail.loginPass}
 													</td>
@@ -274,7 +427,10 @@
 														${custDetail.loginQue2}<br>Ans 2 :
 														${custDetail.loginAns2}
 													</td>
-
+													<td>${custDetail.signfName} ${custDetail.signlName}</td>
+													<td>${custDetail.signDesign}</td>
+													<td>${custDetail.contactName}</td>
+													<td>${custDetail.contactPhno}</td>
 													<td class="text-center"><a href="#"  onclick="showEdit(${custDetail.custDetailId})" title="Edit"><i
 															class="icon-pencil7" style="color: black;"></i></a> <a
 														href=""
@@ -298,279 +454,8 @@
 
 				</div>
 			</div>	
-				<!-- Signatory Start -->
 				
 				<div class="content">
-<!-- 
-				<div class="card-header header-elements-inline">
-					<h6 class="card-title">Customer Signatory</h6>
-					<div class="header-elements">
-									<div class="list-icons">
-										<a class="list-icons-item" data-action="collapse"></a>
-									</div>
-								</div>
-				</div> -->
-				
-				<div class="row">
-					<div class="col-md-12">
-
-						<div class="card">
-						<div class="card-header header-elements-inline">
-								<h6 class="card-title">Customer Signatory</h6>
-							</div>
-							<div class="card-body">
-
-
-								<form method="post"
-									action="${pageContext.request.contextPath}/addCustSignatory"
-									id="submitInsertActivity1">
-									<input type="hidden" id="custId" name="custId" value="${custId}">
-									<input type="hidden" id="signId" name="signId" value="0">
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="customer">
-											Customer : </label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control"
-												placeholder="Customer Name" id="customer" name="customer"
-												autocomplete="off" value="${custName}" onchange="trim(this)" readonly="readonly">
-										</div>
-									</div>
-
-									<legend
-										class="font-weight-semibold text-uppercase font-size-sm">Signatory
-										Information</legend>								
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="signFName">
-											First Name <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter First Name" id="signFName"
-												name="signFName" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_signFName"
-												style="display: none;">Please enter first name.</span>
-										</div>
-
-
-										<label class="col-form-label col-lg-2" for="signLName">
-											Last Name <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Last Name" id="signLName"
-												name="signLName" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_signLName"
-												style="display: none;">Please enter last name.</span>
-										</div>
-
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="regNo">Register
-											Number <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Registration Number" id="regNo"
-												name="regNo" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_regNo"
-												style="display: none;">Please enter register No.</span>
-										</div>
-
-
-										<label class="col-form-label col-lg-2" for="desg">Designation
-											<span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Designation" id="desg" name="desg"
-												autocomplete="off" onchange="trim(this)"> <span
-												class="validation-invalid-label" id="error_desg"
-												style="display: none;">Please enter designation.</span>
-										</div>
-
-									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="signMobile">
-											Contact Number <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Signatory Contact Number" id="signMobile"
-												name="signMobile" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_signMobile"
-												style="display: none;">Please enter contact No.</span>
-										</div>
-
-									</div>
-
-									<legend
-										class="font-weight-semibold text-uppercase font-size-sm">Contact
-										Person Information</legend>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="contPerName">
-											Name <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Contact Person Name" id="contPerName"
-												name="contPerName" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_contPerName"
-												style="display: none;">Please enter name.</span>
-										</div>
-
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="contPerEmail">
-											Email <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Email Address" id="contPerEmail"
-												name="contPerEmail" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label"
-												id="error_contPerEmail" style="display: none;">Please enter email.</span>
-										</div>
-
-
-										<label class="col-form-label col-lg-2" for="contPerNo">Contact
-											Number <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-4">
-											<input type="text" class="form-control"
-												placeholder="Enter Contact Number" id="contPerNo"
-												name="contPerNo" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_contPerNo"
-												style="display: none;">Please enter contact No.</span>
-										</div>
-
-									</div>
-
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="remark">Remark
-											: </label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control"
-												placeholder="Enter Remark" id="remark" name="remark"
-												autocomplete="off" onchange="trim(this)">
-										</div>
-									</div>
-
-
-
-									<div class="form-group row mb-0">
-										<div class="col-lg-12" align="center">
-											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
-											&nbsp; <a
-												href="${pageContext.request.contextPath}/customerDetailList"><button
-													type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
-										</div>
-									</div>
-
-
-								</form>
-
-
-							</div>
-						</div>
-
-					</div>
-
-
-
-
-					<div class="col-md-12">
-
-						<div class="card">
-
-
-							<div class="card-body">
-
-								<form
-									action="${pageContext.request.contextPath}/customerDetailList"
-									id="submitInsertActivity1">
-
-									<table
-										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
-										id="printtable1">
-										<thead>
-											<tr class="bg-blue">
-												<th>Signatory Name</th>
-												<th>Registration No.</th>
-												<th>Designation</th>
-												<th>Contact Number</th>
-												<th>Contact Person</th>
-												<th class="text-center" width="10%">Actions</th>
-											</tr>
-										</thead>
-		<tbody>
-										<!-- <tr>
-											<td>ABC</td>
-											<td>123123</td>
-											<td>Head</td>
-											<td>9898989898</td>
-											<td>Name : XYZ<br>Email : xyz@gmail.com<br>Mobile
-												: 8585858585
-											</td>
-
-											<td class="text-center"><a href="" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
-
-										</tr>
- -->
-										<c:forEach items="${custSignList}" var="sign">
-										
-										<tr>
-										<td>${sign.signfName} ${sign.signlName}</td>
-											<td>${sign.signRegNo}</td>
-											<td>${sign.signDesign}</td>
-											<td>${sign.signPhno}</td>
-											<td>Name : ${sign.contactName}<br>Email : ${sign.contactEmail}<br>Mobile
-												: ${sign.contactPhno}
-											</td>
-											<td class="text-center"><a href="#" onclick="showEditSig(${sign.signId})" title="Edit"><i
-													class="icon-pencil7" style="color: black;"></i></a> <a href=""
-												onClick="return confirm('Are you sure want to delete this record');"
-												title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a></td>
-										
-										
-										</tr>
-										</c:forEach>
-
-										</tbody>
-									</table>
-
-
-								</form>
-							</div>
-						</div>
-
-
-					</div>
-
-
-
-
-				</div>
 			</div>				
 			
 			<!-- /content area -->
@@ -589,7 +474,7 @@
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 	<script>
-		$(document).ready(function($) {
+		/* $(document).ready(function($) {
 
 			$("#submitInsertActivity").submit(function(e) {
 				var isError = false;
@@ -679,10 +564,11 @@
 				}
 				return false;
 			});
-		});
+		}); */
 		//
-
-		function getActivities(servId) {
+ 
+		function getActivities(servId,valid=0) {
+	
 			//alert("servId " +servId)
 			if (servId > 0) {
 
@@ -743,6 +629,10 @@
 									// } 
 									$('#activity').html(html);
 									$("#activity").trigger("chosen:updated");
+									//
+									if(valid>0){
+										$("#activity").val(valid);
+									}
 
 								});
 
@@ -750,6 +640,7 @@
 		}
 		
 		function showEdit(custDetailId){
+	
 			 document.getElementById("custDetailId").value="0";
 			$
 			.getJSON(
@@ -772,9 +663,29 @@
 						 document.getElementById("ans1").value=data.loginAns1;
 						 document.getElementById("ans2").value=data.loginAns2;
 						 document.getElementById("remark").value=data.loginRemark;
+						 
+						 document.getElementById("signFName").value=data.signfName;
+						 document.getElementById("signLName").value=data.signlName;
+						 document.getElementById("regNo").value=data.signRegNo;
+						 document.getElementById("desg").value=data.signDesign;
+						 document.getElementById("signMobile").value=data.signPhno;
+						 document.getElementById("contPerName").value=data.contactName;
+						 document.getElementById("contPerEmail").value=data.contactEmail;
+						 document.getElementById("contPerNo").value=data.contactPhno;
+						 document.getElementById("sigremark").value=data.custRemark;
+		
 						 var x=data.servId;
 						$("#service").val(x).change();
-
+						getActivities(x,data.actvId);
+						//$("#service").val(x);
+						//var html = '<option selected value="' + data.actvId + '">'+ data.actiName+'</option>';
+						//$('#activity').html(html);
+						//$("#activity").trigger("chosen:updated");
+						 
+						 
+						
+						//$("#activity").val(data.actvId);
+						//alert($("#activity").val());
 					}
 					)
 		}
@@ -782,142 +693,6 @@
 
 	</script>
 	
-	<script>
-		$(document)
-				.ready(
-						function($) {
-
-							$("#submitInsertActivity1")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
-
-												 if (!$("#signFName").val()) {
-
-													isError = true;
-
-													$("#error_signFName")
-															.show()
-													//return false;
-												} else {
-													$("#error_signFName")
-															.hide()
-												}
-
-												if (!$("#signLName").val()) {
-
-													isError = true;
-
-													$("#error_signLName").show()
-
-												} else {
-													$("#error_signLName").hide()
-												}
-
-												if (!$("#regNo").val()) {
-
-													isError = true;
-
-													$("#error_regNo").show()
-
-												} else {
-													$("#error_regNo").hide()
-												}
-
-												if (!$("#desg").val()) {
-
-													isError = true;
-
-													$("#error_desg").show()
-
-												} else {
-													$("#error_desg").hide()
-												}
-
-												if (!$("#signMobile").val()) {
-
-													isError = true;
-
-													$("#error_signMobile").show()
-
-												} else {
-													$("#error_signMobile").hide()
-												}
-
-												if (!$("#contPerName").val()) {
-
-													isError = true;
-
-													$("#error_contPerName").show()
-
-												} else {
-													$("#error_contPerName").hide()
-												}
-
-												if (!$("#contPerEmail").val()) {
-
-													isError = true;
-
-													$("#error_contPerEmail").show()
-
-												} else {
-													$("#error_contPerEmail").hide()
-												} 
-												
-												if (!$("#contPerNo").val()) {
-
-													isError = true;
-
-													$("#error_contPerNo").show()
-
-												} else {
-													$("#error_contPerNo").hide()
-												} 
-
-												if (!isError) {
-
-													var x = true;
-													if (x == true) {
-
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
-		//
-		
-		function showEditSig(signId){
-			 document.getElementById("signId").value="0";
-			$
-			.getJSON(
-					'${getCustSignatoryBySignId}',
-					{
-						signId : signId,
-						ajax : 'true',
-					},
-
-					function(data) {
-						
-						//alert(JSON.stringify(data));
-						 document.getElementById("signId").value=data.signId;
-						 document.getElementById("contPerEmail").value=data.contactEmail;
-						 document.getElementById("contPerName").value=data.contactName;
-						 document.getElementById("contPerNo").value=data.contactPhno;
-						 document.getElementById("remark").value=data.custRemark;
-						 document.getElementById("desg").value=data.signDesign;
-						 document.getElementById("signFName").value=data.signfName;
-						 document.getElementById("signLName").value=data.signlName;
-						 document.getElementById("signMobile").value=data.signPhno;
-						 document.getElementById("regNo").value=data.signRegNo;
-					}
-					)
-		}
-	</script>
-
+	
 </body>
 </html>

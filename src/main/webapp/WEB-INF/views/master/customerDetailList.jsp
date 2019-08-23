@@ -145,7 +145,7 @@
 
 
 								<td class="text-center"><a
-										href="${pageContext.request.contextPath}/customerDetailAdd?custId=${custHeadList.custId}" 
+										href="${pageContext.request.contextPath}/customerDetailAdd?custId=${custHeadList.exVar1}" 
 										class="dropdown-item"><i class="icon-add"></i> Add Detail</a>
 										<%-- <a href="#" onclick="addSignatory(${custHeadList.custId},'${custHeadList.custFirmName}')"
 										class="dropdown-item"><i class="icon-add"></i> Add
