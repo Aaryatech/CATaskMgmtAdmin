@@ -118,7 +118,7 @@
 									<input type="hidden" id="status_id" name="status_id"
 											value="${status.statusMstId}">
 											
-									<input type="text" id="isEdit" name="isEdit"
+									<input type="hidden" id="isEdit" name="isEdit"
 											value="${isEdit}">
 									
 

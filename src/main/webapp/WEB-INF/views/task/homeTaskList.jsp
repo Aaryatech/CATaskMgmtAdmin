@@ -610,7 +610,7 @@ h5 {
 									
 									<td data-toggle="modal" data-target="#modal_remote_log">0</td>
 									
-									<td><span class="badge badge-info">${taskList.taskStatus}</span></td>
+									<td><span class="badge badge-info" style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
 									
 									<td class="text-center"><a
 										href="${pageContext.request.contextPath}/communication?taskId=${taskList.taskId}"
