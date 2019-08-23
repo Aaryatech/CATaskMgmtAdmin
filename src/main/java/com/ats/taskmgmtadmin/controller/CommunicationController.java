@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.task.mgmtadmin.communication.model.Communication;
 import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
+import com.ats.taskmgmtadmin.acsrights.Info;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
@@ -98,6 +99,8 @@ public class CommunicationController {
 	public @ResponseBody List<GetAllCommunicationByTaskId> getAllCommunicationByTaskId(HttpServletRequest request,
 			HttpServletResponse response) {
 		String taskId = request.getParameter("taskId");
+		String empId = request.getParameter("empId");
+
  		List<GetAllCommunicationByTaskId> communicationList = new ArrayList<GetAllCommunicationByTaskId>();
 
 		try {
@@ -114,6 +117,56 @@ public class CommunicationController {
 		}
 
 		return communicationList;
+	}
+	
+	
+	
+	@RequestMapping(value = "/saveNewMessage", method = RequestMethod.POST)
+	public @ResponseBody Info saveNewMessage(HttpServletRequest request,
+			HttpServletResponse response) {
+		 
+
+		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		int userId = emp.getEmpId();
+	 
+		String taskId = request.getParameter("taskId");
+		Info res=new Info();
+		try {
+			session = request.getSession();
+
+			Communication comcat = new Communication();
+
+			comcat.setCommunText(request.getParameter("msg"));
+			comcat.setDelStatus(1);
+			comcat.setEmpId(userId);
+			comcat.setExInt1(1);
+			comcat.setExInt2(1);
+			comcat.setExVar1("NA");
+			comcat.setExVar2("NA");
+			comcat.setTaskId(Integer.parseInt(request.getParameter("taskId")));
+			comcat.setUpdateDatetime(Constants.getCurDateTime());
+			comcat.setUpdateUser(userId);
+
+			Communication custHead = Constants.getRestTemplate().postForObject(Constants.url + "/saveCommunication",
+					comcat, Communication.class);
+			
+			
+			if(custHead!=null) {
+				res.setError(false);
+				res.setMessage("success");
+				
+			}else {
+				res.setError(true);
+				res.setMessage("failed");
+			}
+ 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 	@RequestMapping(value = "/insertNewMessage", method = RequestMethod.POST)
