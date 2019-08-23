@@ -159,6 +159,23 @@
 						action="${pageContext.request.contextPath}/selectEmployeeToAssigTask"
 						id="submitInsertEmpType" >
 						<div class="card-body">
+							<div class="form-group row">
+
+										<label class="col-form-label col-lg-3" for="startDate">Work
+											Date <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control datepickerclass"
+												name="workDate" id="workDate" placeholder="Task End Date">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_startDate"
+												style="display: none;">Please Enter Work Date.</span>
+											  
+										</div>
+
+									</div>
+									
 							<div class="table-responsive">
 
 								<table

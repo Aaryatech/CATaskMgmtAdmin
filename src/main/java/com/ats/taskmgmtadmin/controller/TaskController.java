@@ -29,7 +29,7 @@ import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
- import com.ats.taskmgmtadmin.task.model.GetTaskList;
+import com.ats.taskmgmtadmin.task.model.GetTaskList;
 
 @Controller
 @Scope("session")
@@ -40,11 +40,12 @@ public class TaskController {
 	EmployeeFreeBsyList empListTot = new EmployeeFreeBsyList();
 	List<EmployeeMaster> empListNew = new ArrayList<EmployeeMaster>();
 	RestTemplate rest = new RestTemplate();
- 	Date now = new Date();
+	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
 	String items = null;
 	String curDateTime = dateFormat.format(cal.getTime());
+	String workDate = null;
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public String assignTask(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -74,6 +75,8 @@ public class TaskController {
 			empList = new ArrayList<EmployeeMaster>();
 			empListTot = new EmployeeFreeBsyList();
 			empListNew = new ArrayList<EmployeeMaster>();
+			workDate = request.getParameter("workDate");
+			System.out.println("work date**" + workDate);
 
 			String[] TaskId = request.getParameterValues("TaskId");
 
@@ -82,11 +85,11 @@ public class TaskController {
 			for (int i = 0; i < TaskId.length; i++) {
 				sb = sb.append(TaskId[i] + ",");
 
-				//System.out.println("task id are**" + TaskId[i]);
+				// System.out.println("task id are**" + TaskId[i]);
 
 			}
 			items = sb.toString();
-			System.out.println("task items**" + items);
+
 			items = items.substring(0, items.length() - 1);
 
 		} catch (Exception e) {
@@ -138,7 +141,7 @@ public class TaskController {
 
 			String empIds = request.getParameter("empId");
 			String[] empId = empIds.split(",");
-			//System.out.println(Arrays.asList(empId));
+			// System.out.println(Arrays.asList(empId));
 			for (int i = 1; i < empId.length; i++) {
 				for (int j = 0; j < empList.size(); j++) {
 
@@ -169,11 +172,11 @@ public class TaskController {
 
 		try {
 			int empId = Integer.parseInt(request.getParameter("empId"));
-			//System.out.println("empId** " + empId);
+			// System.out.println("empId** " + empId);
 
 			for (int i = 0; i < empListTot.getFreeList().size(); i++) {
 				if (empListTot.getFreeList().get(i).getEmpId() == empId) {
-					//System.out.println("matchd** " + i);
+					// System.out.println("matchd** " + i);
 					empListTot.getFreeList().remove(i);
 					break;
 
@@ -195,10 +198,9 @@ public class TaskController {
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
-			HttpSession session = request.getSession(); 
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");				
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			
 
 			StringBuilder sb = new StringBuilder();
 
@@ -208,12 +210,13 @@ public class TaskController {
 			}
 			String itemsEmp = sb.toString();
 			itemsEmp = itemsEmp.substring(0, itemsEmp.length() - 1);
-
+			System.out.println("workDate" + workDate);
 			map.add("taskIdList", items);
 			map.add("empIdList", itemsEmp);
 			map.add("userId", userId);
-			map.add("curDateTime", curDateTime);
-			
+			map.add("curDateTime", Constants.getCurDateTime());
+			map.add("workDate", workDate);
+
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
 					Info.class);
 
