@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
+import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
@@ -317,6 +318,13 @@ public class HomeController<Task> {
 			map.add("empId", empSes.getEmpId());
 			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+			
+			for (int i = 0; i < taskList.size(); i++) {
+
+				taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+				taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+			
 			mav.addObject("taskList", taskList);
 			
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",

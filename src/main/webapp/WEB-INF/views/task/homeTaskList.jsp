@@ -198,30 +198,13 @@ h5 {
 							<form id="filterForm">
 
 								<div class="form-group row">
-									<label class="col-form-label col-lg-2" for="fromDate"><!-- Due Date Range --> Due-
-									 From Date <span style="color: red">* </span>:
+									<label class="col-form-label col-lg-2" for="fromDate">Due 
+									  Date Range <span style="color: red">* </span>:
 									</label>
 									<div class="col-lg-3">
-										<input type="text" class="form-control datepickerclass"
+										<input type="text" class="form-control daterange-basic_new"
 											id="fromDate" name="fromDate">
-									</div>
-									<!-- <div class="col-lg-3">																							
-											<span class="validation-invalid-label" id="error_start_date"
-												style="display: none;">Start date must be greater than end date.</span>
-									</div> -->
-
-								<label class="col-form-label col-lg-2" for="toDate">Due-
-										To Date <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-3">
-										<input type="text" class="form-control datepickerclass"
-											id="toDate" name="toDate">
-									</div>									
-									
-									<!-- <div class="col-lg-3">																							
-											<span class="validation-invalid-label" id="error_end_date"
-												style="display: none;">To date must be smaller than from date.</span>
-										</div> -->
+									</div>								
 								</div>
 
 								<div class="form-group row">
@@ -613,7 +596,7 @@ h5 {
 									<td><span class="badge badge-info" style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
 									
 									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/communication?taskId=${taskList.taskId}"
+										href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 										title="Chat/Update"><i class="icon-pencil7"
 											style="color: black;"></i></a></td>
 								</tr>
@@ -675,7 +658,7 @@ h5 {
 	function dataFilter(){
 		
 		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
+		//var toDate = $("#toDate").val();
 		
 		var service = $("#service").val();
 		var activity = $("#activity").val();
@@ -685,7 +668,7 @@ h5 {
 		//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
 		
 		document.getElementById("fromDate").value=fromDate;//create this
-		document.getElementById("toDate").value=toDate;//create this
+		//document.getElementById("toDate").value=toDate;//create this
 		document.getElementById("service").value=service;//create this
 		document.getElementById("activity").value=activity;//create this
 		document.getElementById("custId").value=custId;//create this
@@ -766,7 +749,7 @@ h5 {
 	</script>
 	
 	<script type="text/javascript">
-	<script>
+
 	$(document)
 			.ready(
 					function($) {
