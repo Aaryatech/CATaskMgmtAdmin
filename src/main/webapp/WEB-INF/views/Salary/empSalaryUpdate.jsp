@@ -84,7 +84,7 @@
 										</label>
 										<div class="col-lg-3">
 											<select name="month" data-placeholder="Select Month"
-												id="month" onChange="getPrevMonthSalaryData()"
+												id="month" onchange="getPrevMonthSalaryData()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
@@ -104,11 +104,12 @@
 											</select>
 										</div>
 
-										<label class="col-form-label col-lg-2" for="empService">Financial
-											Year : </label>
+										<label class="col-form-label col-lg-2" for="empService" align="right">Financial
+											Year :<span style="color: red">*
+										</span>: </label>
 										<div class="col-lg-3">
 											<select name="finYear"
-												data-placeholder="Select Financial Year" id="finYear" onChange="getPrevMonthSalaryData()"
+												data-placeholder="Select Financial Year" id="finYear"  onchange="getPrevMonthSalaryData()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
@@ -223,17 +224,18 @@
 				ajax : 'true',
 
 			}, function(data) {
-
-			//	alert("data.empSalList[i].Jan;"+data.empSalList[0].Jan;);
-				//alert(JSON.stringify(data));
-				
+		if(data.empSalList==""){
+	 	 $("input:text").val("0");
+		}
+				 
+				//alert("data"+JSON.stringify(data));
 				for (var i = 0; i < data.empSalList.length; i++) {
 					
 					for(var j = 0; j < data.empList.length; j++) {
 						
 						
-						if(data.empSalList[i].empId ==data.empSalList[j].empId ){
-							//alert("matched"+data.empSalList[i].empId);
+						if(data.empSalList[i].empId ==data.empList[j].empId ){
+							
 							if(month==1){
  								document.getElementById("currSal"+data.empList[j].empId).value=data.empSalList[i].jan;
 								document.getElementById("prevSal"+data.empList[j].empId).value=data.empSalList[i].dece;
@@ -296,6 +298,7 @@
 							
 							
 						}
+						
 						
 						
 					}

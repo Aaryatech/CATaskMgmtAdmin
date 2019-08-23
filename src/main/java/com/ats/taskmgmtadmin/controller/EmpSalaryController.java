@@ -155,7 +155,7 @@ public class EmpSalaryController {
 					.postForObject(Constants.url + "/getEmpSalByYear", map, EmpSalary[].class);
 
 			epmSalList = new ArrayList<>(Arrays.asList(holListArray));
-			//System.out.println("date in ajax **"+epmSalList.toString());
+		System.out.println("data in ajax **"+epmSalList.toString());
 			empListTot.setEmpList(epmList);;
 			empListTot.setEmpSalList(epmSalList);
 			

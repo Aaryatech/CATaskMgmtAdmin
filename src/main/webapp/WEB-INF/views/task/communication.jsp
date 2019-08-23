@@ -7,7 +7,12 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
-
+<style type="text/css">
+.media-chat-scrollable {
+	max-height: 209px;
+	overflow: auto;
+}
+</style>
 <body>
 
 
@@ -42,10 +47,10 @@
 								<td style="color: white; padding: .8rem 1rem;" align="left"
 									width="80%">
 									<h5>
-										Task ID -<span class="font-weight-semibold"> ${task.taskId} </span>
-										&nbsp;&nbsp; Name - <span class="font-weight-semibold">${task.taskText}
-											</span> <small class="d-block opacity-75">Owner Partner
-											- Prakash</small>
+										Task ID -<span class="font-weight-semibold">
+											${task.taskId} </span> &nbsp;&nbsp; Name - <span
+											class="font-weight-semibold">${task.taskText} </span> <small
+											class="d-block opacity-75">Owner Partner - Prakash</small>
 									</h5>
 								</td>
 								<td style="color: white; padding: .8rem 1rem;">
@@ -103,74 +108,61 @@
 								<h5 class="card-title">Communication & Logs</h5>
 							</div>
 
-
-
 							<!-- Basic layout -->
 
 							<div class="card-body">
 
-
-<style type="text/css">
-.media-chat-scrollable {
-	max-height: 209px;
-	overflow: auto;
-}
-
-</style>
-
-
-
 								<ul class="media-list media-chat media-chat-scrollable mb-3">
 
+									<c:forEach items="${communicationList}" var="communicationList">
+										<c:choose>
+											<c:when test="${communicationList.empId==loginUser}">
+												<li class="media media-chat-item-reverse">
+													<div class="media-body">
+														<div class="media-chat-item">${communicationList.communText}</div>
+														<div class="font-size-sm text-muted mt-2">
+														${communicationList.updateDatetime}<a href="#"></a>
+														</div>
+													</div>
 
-								<!-- 	<li
-										class="media content-divider justify-content-center text-muted mx-0">Task
-										Generated - ABC - 5/8/2018 6:22 pm</li> -->
-
-									<li
-										class="media content-divider justify-content-center text-muted mx-0">Employee
-										Assigned - ABC - 5/8/2018 6:22 pm</li>
-
-
-									<li class="media">
-										<div class="mr-3">
-											<a
-												href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
-												<img
-												src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
-												class="rounded-circle" width="40" height="40" alt="">
-											</a>
-										</div>
-
-										<div class="media-body">
-											<div class="media-chat-item">Hello, Please take follow
-												up. <br>- A B Shinde</div>
-											<div class="font-size-sm text-muted mt-2">
-												9/8/2018 6:22 pm <a href="#"><i
-													class="icon-pin-alt ml-2 text-muted"></i></a>
-											</div>
-										</div>
-									</li>
-
-									<li class="media media-chat-item-reverse">
-										<div class="media-body">
-											<div class="media-chat-item">OK</div>
-											<div class="font-size-sm text-muted mt-2">
-												9/8/2018 6:30 pm <a href="#"><i
-													class="icon-pin-alt ml-2 text-muted"></i></a>
-											</div>
-										</div>
-
-										<div class="ml-3">
-											<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
-												<img
-												src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-												class="rounded-circle" width="40" height="40" alt="">
-											</a>
-										</div>
-									</li>
+													<div class="ml-3">
+														<a
+															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
+															<img
+															src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
+															class="rounded-circle" width="40" height="40" alt="">
+														</a>
+													</div>
+												</li>
 
 
+
+											</c:when>
+
+											<c:otherwise>
+
+												<li class="media">
+													<div class="mr-3">
+														<a
+															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
+															<img
+															src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+															class="rounded-circle" width="40" height="40" alt="">
+														</a>
+													</div>
+
+													<div class="media-body">
+														<div class="media-chat-item">
+														${communicationList.communText}
+														</div>
+														<div class="font-size-sm text-muted mt-2">
+														${communicationList.updateDatetime} <a href="#"></a>
+														</div>
+													</div>
+												</li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 								</ul>
 
 								<!-- <textarea name="enter-message" class="form-control mb-3"
@@ -184,24 +176,31 @@
 										<b><i class="icon-paperplane"></i></b> Send
 									</button>
 								</div> -->
-								
-								
+
+<form action="${pageContext.request.contextPath}/insertNewMessage"
+									id="submitInsertClient" method="post">
+
 								<table width="100%">
 									<tr>
-										<td width="89%" ><textarea name="enter-message"
+										<td width="89%"><textarea name="msg" id="msg"
 												class="form-control mb-3" rows="1" cols="1"
 												placeholder="Enter your message..."></textarea></td>
 										<td width="1%"></td>
 										<td width="10%" align="right">
-											<button type="button"
-												class="btn bg-teal-400">
+											<button type="submit"  id="submtbtn" class="btn bg-teal-400">
 												<b><i class="icon-paperplane"></i></b>
 											</button>
+											
+										 
 										</td>
 									</tr>
 								</table>
+								
+								
+					 <input type="hidden" name="taskId" value="${taskId}">
+					  <input type="hidden" name="empId" value="${empId}">			
 
-
+</form>
 
 							</div>
 							<!-- /basic layout -->
@@ -222,29 +221,33 @@
 							</div>
 
 							<div class="card-body">
-							<form action="${pageContext.request.contextPath}/updateTaskStatus" method="post" id="changeTask">
-							<input type="hidden" value="${task.taskId}" id="taskId" name="taskId">
-							
-								<div class="form-group row">
-									<label class="col-form-label col-lg-12" for="status">
-										Select Status <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-12">
-										<select name="status" data-placeholder="Select Status"
-											id="status"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
+								<form
+									action="${pageContext.request.contextPath}/updateTaskStatus"
+									method="post" id="changeTask">
+									<input type="hidden" value="${task.taskId}" id="taskId"
+										name="taskId">
 
-											<option value="">Select Status</option>
-											<c:forEach items="${statusList}" var="statusList" varStatus="count">
-												<option value="${statusList.statusValue}">${statusList.statusText}</option>													
-											</c:forEach>
-										</select>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-12" for="status">
+											Select Status <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-12">
+											<select name="status" data-placeholder="Select Status"
+												id="status"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+												<option value="">Select Status</option>
+												<c:forEach items="${statusList}" var="statusList"
+													varStatus="count">
+													<option value="${statusList.statusValue}">${statusList.statusText}</option>
+												</c:forEach>
+											</select>
+										</div>
 									</div>
-								</div>
 
 
-								<!-- <div class="form-group row">
+									<!-- <div class="form-group row">
 									<label class="col-form-label col-lg-12" for="remark">
 										Enter Remark <span style="color: red">* </span>:
 									</label>
@@ -254,15 +257,15 @@
 											autocomplete="off" onchange="trim(this)">
 									</div>
 								</div> -->
-								
-								
 
-								<div class="form-group row">
-									<button class="btn btn-primary">Update</button>
-									<div class="form-group row"></div>
 
-								</div>
-								<br><br>
+
+									<div class="form-group row">
+										<button class="btn btn-primary">Update</button>
+										<div class="form-group row"></div>
+
+									</div>
+									<br> <br>
 								</form>
 							</div>
 
@@ -286,36 +289,36 @@
 
 		</div>
 		<!-- /page content -->
-
-		<script type="text/javascript"
-			src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
-
-
-		
+	</div>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
-		<script type="text/javascript">
-			// Single picker
-			$('.datepickerclass').daterangepicker({
-				singleDatePicker : true,
-				selectMonths : true,
-				selectYears : true,
-				locale : {
-					format : 'DD-MM-YYYY'
-				}
-			});
 
-			//daterange-basic_new
-			// Basic initialization
-			$('.daterange-basic_new').daterangepicker({
-				applyClass : 'bg-slate-600',
 
-				cancelClass : 'btn-light',
-				locale : {
-					format : 'DD-MM-YYYY',
-					separator : ' to '
-				}
-			});
-		</script>
+
+	<script type="text/javascript">
+		// Single picker
+		$('.datepickerclass').daterangepicker({
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			locale : {
+				format : 'DD-MM-YYYY'
+			}
+		});
+
+		//daterange-basic_new
+		// Basic initialization
+		$('.daterange-basic_new').daterangepicker({
+			applyClass : 'bg-slate-600',
+
+			cancelClass : 'btn-light',
+			locale : {
+				format : 'DD-MM-YYYY',
+				separator : ' to '
+			}
+		});
+	</script>
 </body>
 </html>
