@@ -1,11 +1,13 @@
 package com.ats.taskmgmtadmin.controller;
 
 import java.text.Collator;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collector;
@@ -29,13 +31,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
+ import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
 import com.ats.taskmgmtadmin.common.Constants;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ats.taskmgmtadmin.common.Constants;
-import com.ats.taskmgmtadmin.common.FormValidation;
+ import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.CustmrActivityMap;
@@ -469,13 +472,15 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/addNewEmployee", method = RequestMethod.POST)
-	public String addNwEmployee(HttpServletRequest request, HttpServletResponse response) {
+	public String addNwEmployee(@RequestParam("profilePic") List<MultipartFile> profilePic,HttpServletRequest request, HttpServletResponse response) {
 		try {
+			Date date = new Date();
+		
 			session = request.getSession();
-
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-
+			VpsImageUpload upload = new VpsImageUpload();
 			EmployeeMaster employee = new EmployeeMaster();
 
 			int empId = 0;
@@ -501,6 +506,18 @@ public class MasterMVCController {
 				servicesList = "NA";
 				System.out.println("Serviceas:" + servicesList);
 			}
+			
+				String imageName = new String();
+				imageName = dateTimeInGMT.format(date) + "_" + profilePic.get(0).getOriginalFilename();
+				if (profilePic.get(0).getOriginalFilename() != null) {
+					try {
+						upload.saveUploadedImge(profilePic.get(0), Constants.imageSaveUrl, imageName, Constants.values,
+								0, 0, 0, 0, 0);
+						employee.setEmpPic(imageName);
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+			 
 
 			employee.setEmpId(empId);
 			employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
@@ -525,6 +542,7 @@ public class MasterMVCController {
 
 			EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 					employee, EmployeeMaster.class);
+				}
 		} catch (Exception e) {
 			System.err.println("Exce in addNwEmployee " + e.getMessage());
 			e.printStackTrace();
