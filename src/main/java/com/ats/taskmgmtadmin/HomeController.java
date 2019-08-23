@@ -316,6 +316,7 @@ public class HomeController<Task> {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			
 			map.add("empId", empSes.getEmpId());
+			map.add("statusIds", Constants.statusIds);
 			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
 			
