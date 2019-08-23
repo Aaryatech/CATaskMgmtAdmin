@@ -60,6 +60,15 @@ import com.ats.taskmgmtadmin.task.model.Task;
 @Controller
 public class MasterMVCController {
 
+	
+	
+	/*
+	 * <dependency> <groupId>org.apache.commons</groupId>
+	 * <artifactId>commons-lang3</artifactId> <version>3.8.1</version> </dependency>
+	 * 
+	 * public static final String imageSaveUrl = "/home/lenovo/Downloads/"; public
+	 * static String[] values = { "jpg", "jpeg", "gif", "png" };
+	 */
 	private static final Logger logger = LoggerFactory.getLogger(MasterMVCController.class);
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
