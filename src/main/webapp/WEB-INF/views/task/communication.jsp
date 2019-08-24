@@ -125,7 +125,7 @@
 													<div class="media-body">
 														<div class="media-chat-item">${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-															${communicationList.updateDatetime}<a href="#"></a>
+															${communicationList.empName}<br>${communicationList.updateDatetime}
 														</div>
 													</div>
 
@@ -159,7 +159,7 @@
 														<div class="media-chat-item">
 															${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-															${communicationList.updateDatetime} <a href="#"></a>
+															${communicationList.empName}<br>${communicationList.updateDatetime}
 														</div>
 													</div>
 												</li>
@@ -340,8 +340,8 @@
 				function(data) {
 
 					if (data.error == false) {
-
-						chatList();
+						document.getElementById("msg").value = "";
+						chatList(1);
 
 					} else {
 						alert("Message Not dilivered");
@@ -352,8 +352,8 @@
 
 		}
 
-		function chatList() {
-			//alert("List");
+		function chatList(index) {
+			//alert(index);
 			var taskId = document.getElementById("taskId").value;
 			var loginUser = document.getElementById("loginUser").value;
 			$
@@ -365,9 +365,10 @@
 							},
 
 							function(data) {
-
+                                 
+								 
 								$(".old").remove();
-								
+								  
 								for (var i = 0; i < data.length; i++) {
 
 									if (data[i].empId == loginUser) {
@@ -378,7 +379,7 @@
 												+ data[i].communText
 												+ '</div>'
 												+ '<div class="font-size-sm text-muted mt-2">'
-												+ data[i].updateDatetime
+												+ data[i].empName+'<br>'+data[i].updateDatetime
 												+ '</div>'
 												+ '</div>'
 												+ '<div class="ml-3">'
@@ -408,8 +409,7 @@
 												+ data[i].communText
 												+ '</div>'
 												+ '<div class="font-size-sm text-muted mt-2">'
-												+ data[i].updateDatetime
-												+ '<a href="#"></a>' + '</div>'
+												+ data[i].empName+'<br>'+data[i].updateDatetime + '</div>'
 												+ '</div>';
 
 										/* var ul = document
@@ -423,6 +423,10 @@
 									}
 								}
 
+								if (index == 1) {
+									container = $('#ulComm').get(0);
+									container.scrollTop = (container.scrollHeight + container.offsetHeight);
+								}
 								display_c();
 							});
 
@@ -433,11 +437,11 @@
 			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
 		}
-		function display_c() {
+		 function display_c() {
 
-			var refresh = 1000; // Refresh rate in milli seconds
-			mytime = setTimeout('chatList()', refresh)
-		}
+			var refresh = 5000; // Refresh rate in milli seconds
+			mytime = setTimeout('chatList(0)', refresh)
+		} 
 	</script>
 
 
