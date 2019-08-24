@@ -130,12 +130,22 @@
 													</div>
 
 													<div class="ml-3">
-														<a
-															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
-															<img
-															src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-															class="rounded-circle" width="40" height="40" alt="">
-														</a>
+														<%-- <a
+															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png"> --%>
+
+														<c:choose>
+															<c:when test="${not empty communicationList.empPic}">
+																<img src="${imgViewUrl}${communicationList.empPic}"
+																	class="rounded-circle" width="40" height="40" alt="">
+															</c:when>
+															<c:otherwise>
+																<img
+																	src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+																	class="rounded-circle" width="40" height="40" alt="">
+															</c:otherwise>
+														</c:choose>
+
+														<!-- </a> -->
 													</div>
 												</li>
 
@@ -147,12 +157,20 @@
 
 												<li class="media old">
 													<div class="mr-3">
-														<a
-															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
-															<img
-															src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
-															class="rounded-circle" width="40" height="40" alt="">
-														</a>
+														<%-- <a
+															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png"> --%>
+														<c:choose>
+															<c:when test="${not empty communicationList.empPic}">
+																<img src="${imgViewUrl}${communicationList.empPic}"
+																	class="rounded-circle" width="40" height="40" alt="">
+															</c:when>
+															<c:otherwise>
+																<img
+																	src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+																	class="rounded-circle" width="40" height="40" alt="">
+															</c:otherwise>
+														</c:choose>
+														<!-- </a> -->
 													</div>
 
 													<div class="media-body">
@@ -180,33 +198,39 @@
 									</button>
 								</div> -->
 
-								<form
+								<%-- <form
 									action="${pageContext.request.contextPath}/insertNewMessage"
-									id="submitInsertClient" method="post">
+									id="submitInsertClient" method="post"> --%>
 
-									<table width="100%">
-										<tr>
-											<td width="89%"><textarea name="msg" id="msg"
+								<table width="100%">
+									<tr>
+										<td width="89%">
+											<!-- <textarea name="msg" id="msg"
 													class="form-control mb-3" rows="1" cols="1"
-													placeholder="Enter your message..."></textarea></td>
-											<td width="1%"></td>
-											<td width="10%" align="right">
-												<button type="button" id="submtbtn" class="btn bg-teal-400"
-													onclick="chat()">
-													<b><i class="icon-paperplane"></i></b>
-												</button>
+													placeholder="Enter your message..."></textarea> --> <input
+											name="msg" id="msg" class="form-control mb-3"
+											placeholder="Enter your message...">
+										</td>
+										<td width="1%"></td>
+										<td width="10%" align="right">
+											<button type="button" id="submtbtn" class="btn bg-teal-400"
+												onclick="chat()">
+												<b><i class="icon-paperplane"></i></b>
+											</button>
 
 
-											</td>
-										</tr>
-									</table>
+										</td>
+									</tr>
+								</table>
 
 
-									<input type="hidden" name="taskId" value="${taskId}"> <input
-										type="hidden" name="empId" value="${empId}"> <input
-										type="hidden" name="loginUser" id="loginUser"
-										value="${loginUser}">
-								</form>
+								<input type="hidden" name="taskId" value="${taskId}"> <input
+									type="hidden" name="empId" value="${empId}"> <input
+									type="hidden" name="loginUser" id="loginUser"
+									value="${loginUser}"> <input type="hidden"
+									name="comLength" id="comLength"> <input type="hidden"
+									name="imgPath" id="imgPath" value="${imgViewUrl}">
+								<!-- </form> -->
 
 							</div>
 							<!-- /basic layout -->
@@ -365,65 +389,74 @@
 							},
 
 							function(data) {
-                                 
-								 
-								$(".old").remove();
-								  
-								for (var i = 0; i < data.length; i++) {
 
-									if (data[i].empId == loginUser) {
+								var comLength = document
+										.getElementById("comLength").value;
+								var imgPath = document
+										.getElementById("imgPath").value;
+								//alert(imgPath)
+								if (data.length > comLength) {
+									$(".old").remove();
 
-										var timeDiv = ''
-												+ '<div class="media-body">'
-												+ '<div class="media-chat-item">'
-												+ data[i].communText
-												+ '</div>'
-												+ '<div class="font-size-sm text-muted mt-2">'
-												+ data[i].empName+'<br>'+data[i].updateDatetime
-												+ '</div>'
-												+ '</div>'
-												+ '<div class="ml-3">'
-												+ '<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">'
-												+ '<img src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"'+
-		'class="rounded-circle" width="40" height="40" alt="">'
-												+ '</a>' + '</div>' + '';
+									for (var i = 0; i < data.length; i++) {
 
-										/* var ul = document
-												.getElementById("ulComm");
-										var $last =  */
-										$("#ulComm")
-												.append(
-														$(
-																'<li class="media media-chat-item-reverse old"></li>')
-																.html(timeDiv));
-									} else {
+										if (data[i].empId == loginUser) {
 
-										var timeDiv = '<div class="mr-3">'
-												+ '<a href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">'
-												+ '<img src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"'+
-											'class="rounded-circle" width="40" height="40" alt="">'
-												+ '</a>'
-												+ '</div> '
-												+ '<div class="media-body">'
-												+ '<div class="media-chat-item">'
-												+ data[i].communText
-												+ '</div>'
-												+ '<div class="font-size-sm text-muted mt-2">'
-												+ data[i].empName+'<br>'+data[i].updateDatetime + '</div>'
-												+ '</div>';
+											var timeDiv = ''
+													+ '<div class="media-body">'
+													+ '<div class="media-chat-item">'
+													+ data[i].communText
+													+ '</div>'
+													+ '<div class="font-size-sm text-muted mt-2">'
+													+ data[i].empName
+													+ '<br>'
+													+ data[i].updateDatetime
+													+ '</div>'
+													+ '</div>'
+													+ '<div class="ml-3">'
+													+ '<img src="'+imgPath+data[i].empPic+'"'+
+		'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"> </div>'
+													+ '';
 
-										/* var ul = document
-												.getElementById("ulComm");
-										var $last =  */
-										$("#ulComm")
-												.append(
-														$(
-																'<li class="media old"></li>')
-																.html(timeDiv));
+											/* var ul = document
+													.getElementById("ulComm");
+											var $last =  */
+											$("#ulComm")
+													.append(
+															$(
+																	'<li class="media media-chat-item-reverse old"></li>')
+																	.html(
+																			timeDiv));
+										} else {
+
+											var timeDiv = '<div class="mr-3">'
+													+ ' <img src="'+imgPath+data[i].empPic+'"'+
+											'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"">'
+													+ '</div> '
+													+ '<div class="media-body">'
+													+ '<div class="media-chat-item">'
+													+ data[i].communText
+													+ '</div>'
+													+ '<div class="font-size-sm text-muted mt-2">'
+													+ data[i].empName + '<br>'
+													+ data[i].updateDatetime
+													+ '</div>' + '</div>';
+
+											/* var ul = document
+													.getElementById("ulComm");
+											var $last =  */
+											$("#ulComm")
+													.append(
+															$(
+																	'<li class="media old"></li>')
+																	.html(
+																			timeDiv));
+										}
 									}
 								}
 
-								if (index == 1) {
+								document.getElementById("comLength").value = data.length;
+								if (data.length > comLength) {
 									container = $('#ulComm').get(0);
 									container.scrollTop = (container.scrollHeight + container.offsetHeight);
 								}
@@ -437,11 +470,19 @@
 			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
 		}
-		 function display_c() {
+		function display_c() {
 
-			var refresh = 5000; // Refresh rate in milli seconds
+			var refresh = 10000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList(0)', refresh)
-		} 
+		}
+
+		$(document).keypress(function(event) {
+			if (event.keyCode == 13) {
+				chat();
+				//$('#submtbtn').click();
+				//  validate(); doesn't need to be called from here
+			}
+		});
 	</script>
 
 
