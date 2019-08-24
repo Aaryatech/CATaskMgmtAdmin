@@ -469,16 +469,18 @@
 																				timeDiv));
 											}
 										} else {
-											 
+
 											$("#ulComm")
 													.append(
 															$(
 																	'<li class="media content-divider justify-content-center text-muted mx-0 old"></li>')
-																	.html(data[i].empName+'&nbsp;'+data[i].updateDatetime));
+																	.html(
+																			data[i].communText
+																					+ '&nbsp;'
+																					+ data[i].updateDatetime));
 										}
 
 									}
-
 									if (index == 0) {
 										var audio = new Audio(
 												'https://notificationsounds.com/notification-sounds/for-sure-576/download/mp3');
@@ -501,11 +503,11 @@
 			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
 		}
-		  function display_c() {
+		function display_c() {
 
 			var refresh = 15000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList(0)', refresh)
-		}  
+		}
 
 		$(document).keypress(function(event) {
 			if (event.keyCode == 13) {
