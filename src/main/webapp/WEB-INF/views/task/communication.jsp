@@ -341,7 +341,7 @@
 
 					if (data.error == false) {
 						document.getElementById("msg").value = "";
-						chatList();
+						chatList(1);
 
 					} else {
 						alert("Message Not dilivered");
@@ -352,8 +352,8 @@
 
 		}
 
-		function chatList() {
-			//alert("List");
+		function chatList(index) {
+			//alert(index);
 			var taskId = document.getElementById("taskId").value;
 			var loginUser = document.getElementById("loginUser").value;
 			$
@@ -423,6 +423,10 @@
 									}
 								}
 
+								if (index == 1) {
+									container = $('#ulComm').get(0);
+									container.scrollTop = (container.scrollHeight + container.offsetHeight);
+								}
 								display_c();
 							});
 
@@ -436,7 +440,7 @@
 		function display_c() {
 
 			var refresh = 1000; // Refresh rate in milli seconds
-			mytime = setTimeout('chatList()', refresh)
+			mytime = setTimeout('chatList(0)', refresh)
 		}
 	</script>
 
