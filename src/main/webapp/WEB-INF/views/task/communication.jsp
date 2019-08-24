@@ -355,6 +355,9 @@
 			var taskId = document.getElementById("taskId").value;
 
 			if (msg != "") {
+				
+				document.getElementById("msg").value = "";
+				
 				$.post('${saveNewMessage}', {
 					msg : msg,
 					taskId : taskId,
@@ -364,7 +367,7 @@
 				function(data) {
 
 					if (data.error == false) {
-						document.getElementById("msg").value = "";
+						
 						chatList(1);
 
 					} else {
@@ -479,7 +482,7 @@
 		}
 		function display_c() {
 
-			var refresh = 10000; // Refresh rate in milli seconds
+			var refresh = 15000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList(0)', refresh)
 		}
 
