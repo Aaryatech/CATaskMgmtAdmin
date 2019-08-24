@@ -296,7 +296,7 @@
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
 												placeholder="Enter Signatory Contact Number" id="signMobile"
-												name="signMobile" autocomplete="off" onchange="trim(this)">
+												name="signMobile" autocomplete="off" onchange="trim(this)" maxlength="10">
 											<span class="validation-invalid-label" id="error_signMobile"
 												style="display: none;">Please enter contact No.</span>
 										</div>
@@ -371,7 +371,7 @@
 											</button>
 											&nbsp; <a
 												href="${pageContext.request.contextPath}/customerDetailList"><button
-													type="button" class="btn btn-primary">
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -474,13 +474,21 @@
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 	<script>
-		/* $(document).ready(function($) {
+	$('#signMobile').on('input', function() {
+		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+		});
+	
+	$('#contPerNo').on('input', function() {
+		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+		});
+	
+		 $(document).ready(function($) {
 
 			$("#submitInsertActivity").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#activity").val()) {
+				/* if (!$("#activity").val()) {
 
 					isError = true;
 
@@ -550,7 +558,7 @@
 
 				} else {
 					$("#error_ans2").hide()
-				} 
+				}  */
 
 				if (!isError) {
 
@@ -558,13 +566,15 @@
 					if (x == true) {
 
 						document.getElementById("submtbtn").disabled = true;
+						document.getElementById("cancelbtn").disabled = true;
+						
 						return true;
 					}
 					//end ajax send this to php page
 				}
 				return false;
 			});
-		}); */
+		}); 
 		//
  
 		function getActivities(servId,valid=0) {

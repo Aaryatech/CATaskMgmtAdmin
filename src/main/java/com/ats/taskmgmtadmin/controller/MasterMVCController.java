@@ -879,6 +879,10 @@ public class MasterMVCController {
 			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+			for (int i = 0; i < custHeadList.size(); i++) {
+
+				custHeadList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustId())));
+			}
 			mav.addObject("custHeadList", custHeadList);
 
 		} catch (Exception e) {
@@ -965,8 +969,11 @@ public class MasterMVCController {
 			MultiValueMap<String, Object> map = null;
 			mav = new ModelAndView("master/customerAdd");
 
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			//int custId = Integer.parseInt(request.getParameter("custId"));
 
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			
 			map = new LinkedMultiValueMap<>();
 			map.add("custHeadId", custId);
 
@@ -1009,7 +1016,9 @@ public class MasterMVCController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			//int custId = Integer.parseInt(request.getParameter("custId"));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("userId", userId);
@@ -1033,8 +1042,10 @@ public class MasterMVCController {
 		MultiValueMap<String, Object> map = null;
 		try {
 			mav = new ModelAndView("master/customerActivityAddMap");
-
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			//int custId = Integer.parseInt(request.getParameter("custId"));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
@@ -1119,7 +1130,9 @@ public class MasterMVCController {
 		MultiValueMap<String, Object> map = null;
 		try {
 
-			int custId = Integer.parseInt(request.getParameter("custId"));
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			//int custId = Integer.parseInt(request.getParameter("custId"));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
@@ -1332,7 +1345,8 @@ public class MasterMVCController {
 			}
 			
 			
-			redirect = "redirect:/communication?taskId=" + taskId;
+			redirect = "redirect:/taskListForEmp";
+					//"redirect:/communication?taskId=" + taskId;
 
 		} catch (Exception e) {
 			System.err.println("Exce in updateTaskStatus " + e.getMessage());

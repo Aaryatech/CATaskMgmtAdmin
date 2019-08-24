@@ -121,7 +121,7 @@
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
 									<th>Firm Name</th>
-									<th>Customer Group</th>
+									<!-- <th>Customer Group</th> -->
 									<th>Assesse Name</th>
 									<th>PAN No.</th>
 									<th>Email</th>
@@ -136,7 +136,7 @@
 							<tr>
 								<td>${count.index+1}</td>
 								<td>${custHeadList.custFirmName}</td>
-								<td>${custHeadList.custGroupName}</td>
+								<%-- <td>${custHeadList.custGroupName}</td> --%>
 								<td>${custHeadList.custAssesseeName}</td>
 								<td>${custHeadList.custPanNo}</td>
 								<td>${custHeadList.custEmailId}</td>

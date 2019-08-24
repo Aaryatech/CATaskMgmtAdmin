@@ -147,17 +147,17 @@
 
 
 								<td><a
-									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.custId}"
+									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.exVar1}"
 									title="Map Activity"><i class="icon-add"
 										style="color: black;"></i></a> 
 										
 										<a
-									href="${pageContext.request.contextPath}/showCustomerActivityMap?custId=${custHeadList.custId}"
+									href="${pageContext.request.contextPath}/showCustomerActivityMap?custId=${custHeadList.exVar1}"
 									title="Mapped Activity List"><i class="icon-three-bars""
 										style="color: black;"></i></a>
 										
-										<a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.custId}" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.custId}"
+										<a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.exVar1}" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></td>

@@ -210,7 +210,7 @@
 											<input type="text" class="form-control"  value="${custHead.custPanNo}"
 												placeholder="Enter Permanent Account Number (PAN)"
 												id="panNo" name="panNo" autocomplete="off"
-												onchange="trim(this)" maxlength="10">
+												onchange="trim(this)" maxlength="10" style="text-transform: uppercase;">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_panNo"

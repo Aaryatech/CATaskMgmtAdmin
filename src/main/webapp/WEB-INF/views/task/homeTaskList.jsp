@@ -14,7 +14,11 @@
 
 </head>
 
-<body>
+<body onload="getDataTaskWise()">
+
+
+	<c:url value="/getDailyWorkLogByEmpId" var="getDailyWorkLogByEmpId"></c:url>
+
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -342,47 +346,64 @@ h5 {
 
 								</table>
 
-								<br>
-
+							<br>
+							<form action="newWorkLog" method="post">
 								<div class="form-group row">
-
+									<input type="hidden" name="taskId" id="taskId">
+									<input type="hidden" name="empId" id="empId">
+									<input type="hidden" name="logId" id="logId" value="${workLog.workLogId}">
+								
 									<label class="col-form-label col-lg-3" for="workDate">
 										Work Date : </label>
 									<div class="col-lg-3">
-										<input type="text" class="form-control datepickerclass"
+										<input type="text" class="form-control datepickerclass" value="${workLog.workDate}"
 											name="workDate" id="workDate" placeholder="Work Date">
 									</div>
-
-
+									
+									
 									<label class="col-form-label col-lg-4" for="workDate" align="right" >
 										<h4>Total Work Hours :</h4> </label> <label class="col-form-label col-lg-2"
 										for="workDate"> <h4>50</h4> </label>
 
 
 								</div>
+								
+								<div class="form-group row">									
+								
+									<label class="col-form-label col-lg-3" for="workHour">
+										Work Hours : </label>
+									<div class="col-lg-3">
+										<input type="text" class="form-control" value="${workLog.workHours}"
+											name="workHour" id="workHour" placeholder="Work Hour">
+									</div>
+									
+
+								</div>
 
 								<div class="form-group row">
 
-									<label class="col-form-label col-lg-3" for="workDate">
-										Work Hours : </label>
+									<label class="col-form-label col-lg-3" for="workRemark">
+										Work Remark : </label>
 									<div class="col-lg-3">
-										<input type="text" class="form-control"
-											placeholder="Enter Hours" id="hrs" name="hrs"
+										<input type="text" class="form-control" value="${workLog.workRemark}"
+											placeholder="Enter Remark" id="remark" name=remark
 											autocomplete="off" onchange="trim(this)">
 									</div>
+									
+									
 
-									<button type="button" class="btn bg-primary">Add</button>
+									<button type="submit" class="btn bg-primary">Add</button>
 								</div>
 
-
+								</form>
 
 
 								<div class="card">
 
 									<div class="card-body">
 										<ul class="nav nav-tabs nav-tabs-highlight">
-											<li class="nav-item"><a href="#taskwise"
-												class="nav-link active" data-toggle="tab">Taskwise</a></li>
+											<li class="nav-item"><a href="#taskwise" 
+												class="nav-link active" data-toggle="tab">Taskwise</a></li><!--onclick="getDataTaskWise()"  -->
 											<li class="nav-item"><a href="#datewise"
 												class="nav-link" data-toggle="tab">Datewise</a></li>
 
@@ -400,13 +421,16 @@ h5 {
 															<th width="10%">Sr.no</th>
 															<th>Date</th>
 															<th>Work Hours</th>
+															<th>Remark</th>
 															<th class="text-center" width="10%">Actions</th>
 														</tr>
 													</thead>
+													<%-- <c:forEach items="${logList}" var="loglist" varStatus="count">
 													<tr>
-														<td>1</td>
-														<td>11-05-2018</td>
-														<td>35</td>
+														<td>${count.index+1}</td>
+														<td>${logList.workDate}</td>
+														<td>${logList.workHours}</td>
+														<td>${logList.workRemark}</td>
 														<td><a href="#" title="Edit"><i
 																class="icon-pencil7" style="color: black;"></i></a> <a
 															href="#"
@@ -415,18 +439,7 @@ h5 {
 																style="color: black;"></i> </a></td>
 													</tr>
 													
-													<tr>
-														<td>2</td>
-														<td>12-05-2018</td>
-														<td>40</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
+													</c:forEach> --%>
 
 
 												</table>
@@ -572,7 +585,7 @@ h5 {
 									<td>${taskList.servName}-${taskList.actiName}</td>
 									<td>${taskList.taskText}</td>
 									<td>${taskList.taskStatutoryDueDate}</td>
-									<td>${taskList.taskEndDate}</td>
+									<td>${taskList.taskEndDate}--${taskList.empId}</td>
 									
 									<c:if test="${empType==5}">
 										<td>${taskList.empBudHr}</td>
@@ -591,8 +604,8 @@ h5 {
 										<td>NA</td>
 									</c:if>
 									
-									<td data-toggle="modal" data-target="#modal_remote_log">0</td>
-									
+									<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
+									<td><a href="#" onclick="getTaskId('${taskList.taskId}', ${taskList.empId})">0</a></td>
 									<td><span class="badge badge-info" style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
 									
 									<td class="text-center"><a
@@ -630,6 +643,18 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+	
+	<script type="text/javascript">
+	function getTaskId(taskId, empId) {
+		//alert("HI:"+taskId+" "+ empId);
+		$('#modal_remote_log').modal('show');
+		document.getElementById("taskId").value = taskId;
+		document.getElementById("empId").value = empId;
+	}
+	</script>
+	
+	
+	
 	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
@@ -798,5 +823,55 @@ h5 {
 });
 //
 	</script>
+	
+	<script type="text/javascript">
+	function getDataTaskWise() {
+		//alert("Hi");
+		$("#loader").show();
+		$
+				.getJSON(
+						'${getDailyWorkLogByEmpId}',
+						{
+
+							//empId : empId,
+							ajax : 'true',
+
+						},
+						function(data) {
+						
+
+							if (data == "") {
+								alert("No records found !!");						
+
+							}
+
+							var dataTable = $('#printtable1').DataTable();
+							dataTable.clear().draw();
+
+							$.each(data, function(i, v) {
+		  												
+								var acButton = '&nbsp;&nbsp;<a href="#" onclick="editWorkLog('+ v.exVar1+')"><i class="icon-pencil7" style="color: black;">'+
+								'</i>   &nbsp;&nbsp;<a href="#" )"><i class="icon-trash" style="color: black;""></i>';	
+								dataTable.row.add(
+										[ i + 1,
+										  v.workDate,
+										  v.workHours,
+										  v.workRemark,
+										  acButton
+										
+										]).draw();
+							});});
+
+	}
+	
+	function editWorkLog(logId){
+		alert("LogId--"+logId);
+		window.open("${pageContext.request.contextPath}/editWorkLogById?logId="+logId);
+		
+	}
+	</script>
+	
+	
+	
 </body>
 </html>

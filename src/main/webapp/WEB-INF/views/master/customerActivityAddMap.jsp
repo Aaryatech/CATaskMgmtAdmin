@@ -318,7 +318,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/customerList"><button
-													type="button" class="btn btn-primary">
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -431,6 +431,23 @@
 
 
 		<script>
+		
+		$('#statutary_endDays').on('input', function() {
+			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+
+		$('#mgBudgetHr').on('input', function() {
+			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+
+		$('#empBudgetHr').on('input', function() {
+			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+
+		$('#billAmt').on('input', function() {
+			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+		
 			$(document)
 					.ready(
 							function($) {
@@ -580,8 +597,8 @@
 														var x = true;
 														if (x == true) {
 
-															document
-																	.getElementById("submtbtn").disabled = true;
+															document.getElementById("submtbtn").disabled = true;
+															document.getElementById("cancelbtn").disabled = true;
 															return true;
 														}
 														//end ajax send this to php page
