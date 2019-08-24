@@ -119,70 +119,80 @@
 									id="ulComm">
 
 									<c:forEach items="${communicationList}" var="communicationList">
+
 										<c:choose>
-											<c:when test="${communicationList.empId==loginUser}">
-												<li class="media media-chat-item-reverse old">
-													<div class="media-body">
-														<div class="media-chat-item">${communicationList.communText}</div>
-														<div class="font-size-sm text-muted mt-2">
-															${communicationList.empName}&nbsp;${communicationList.updateDatetime}
-														</div>
-													</div>
+											<c:when test="${communicationList.typeId==1}">
+												<c:choose>
+													<c:when test="${communicationList.empId==loginUser}">
+														<li class="media media-chat-item-reverse old">
+															<div class="media-body">
+																<div class="media-chat-item">${communicationList.communText}</div>
+																<div class="font-size-sm text-muted mt-2">
+																	${communicationList.empName}&nbsp;${communicationList.updateDatetime}
+																</div>
+															</div>
 
-													<div class="ml-3">
-														<%-- <a
+															<div class="ml-3">
+																<%-- <a
 															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png"> --%>
 
-														<c:choose>
-															<c:when test="${not empty communicationList.empPic}">
-																<img src="${imgViewUrl}${communicationList.empPic}"
-																	class="rounded-circle" width="40" height="40" alt="">
-															</c:when>
-															<c:otherwise>
-																<img
-																	src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
-																	class="rounded-circle" width="40" height="40" alt="">
-															</c:otherwise>
-														</c:choose>
+																<c:choose>
+																	<c:when test="${not empty communicationList.empPic}">
+																		<img src="${imgViewUrl}${communicationList.empPic}"
+																			class="rounded-circle" width="40" height="40" alt="">
+																	</c:when>
+																	<c:otherwise>
+																		<img
+																			src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+																			class="rounded-circle" width="40" height="40" alt="">
+																	</c:otherwise>
+																</c:choose>
 
-														<!-- </a> -->
-													</div>
-												</li>
+																<!-- </a> -->
+															</div>
+														</li>
 
 
 
+													</c:when>
+
+													<c:otherwise>
+
+														<li class="media old">
+															<div class="mr-3">
+																<%-- <a
+															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png"> --%>
+																<c:choose>
+																	<c:when test="${not empty communicationList.empPic}">
+																		<img src="${imgViewUrl}${communicationList.empPic}"
+																			class="rounded-circle" width="40" height="40" alt="">
+																	</c:when>
+																	<c:otherwise>
+																		<img
+																			src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+																			class="rounded-circle" width="40" height="40" alt="">
+																	</c:otherwise>
+																</c:choose>
+																<!-- </a> -->
+															</div>
+
+															<div class="media-body">
+																<div class="media-chat-item">
+																	${communicationList.communText}</div>
+																<div class="font-size-sm text-muted mt-2">
+																	${communicationList.empName}&nbsp;${communicationList.updateDatetime}
+																</div>
+															</div>
+														</li>
+													</c:otherwise>
+												</c:choose>
 											</c:when>
-
 											<c:otherwise>
-
-												<li class="media old">
-													<div class="mr-3">
-														<%-- <a
-															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png"> --%>
-														<c:choose>
-															<c:when test="${not empty communicationList.empPic}">
-																<img src="${imgViewUrl}${communicationList.empPic}"
-																	class="rounded-circle" width="40" height="40" alt="">
-															</c:when>
-															<c:otherwise>
-																<img
-																	src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
-																	class="rounded-circle" width="40" height="40" alt="">
-															</c:otherwise>
-														</c:choose>
-														<!-- </a> -->
-													</div>
-
-													<div class="media-body">
-														<div class="media-chat-item">
-															${communicationList.communText}</div>
-														<div class="font-size-sm text-muted mt-2">
-															${communicationList.empName}&nbsp;${communicationList.updateDatetime}
-														</div>
-													</div>
-												</li>
+												<li
+													class="media content-divider justify-content-center text-muted mx-0 old">${communicationList.communText}&nbsp;${communicationList.updateDatetime}</li>
 											</c:otherwise>
 										</c:choose>
+
 									</c:forEach>
 								</ul>
 
@@ -228,8 +238,9 @@
 									type="hidden" name="empId" value="${empId}"> <input
 									type="hidden" name="loginUser" id="loginUser"
 									value="${loginUser}"> <input type="hidden"
-									name="comLength" id="comLength"> <input type="hidden"
-									name="imgPath" id="imgPath" value="${imgViewUrl}">
+									name="comLength" id="comLength"
+									value="${communicationList.size()}"> <input
+									type="hidden" name="imgPath" id="imgPath" value="${imgViewUrl}">
 								<!-- </form> -->
 
 							</div>
@@ -355,9 +366,9 @@
 			var taskId = document.getElementById("taskId").value;
 
 			if (msg != "") {
-				
+
 				document.getElementById("msg").value = "";
-				
+
 				$.post('${saveNewMessage}', {
 					msg : msg,
 					taskId : taskId,
@@ -367,7 +378,7 @@
 				function(data) {
 
 					if (data.error == false) {
-						
+
 						chatList(1);
 
 					} else {
@@ -403,59 +414,69 @@
 
 									for (var i = 0; i < data.length; i++) {
 
-										if (data[i].empId == loginUser) {
+										if (data[i].typeId == 1) {
+											if (data[i].empId == loginUser) {
 
-											var timeDiv = ''
-													+ '<div class="media-body">'
-													+ '<div class="media-chat-item">'
-													+ data[i].communText
-													+ '</div>'
-													+ '<div class="font-size-sm text-muted mt-2">'
-													+ data[i].empName
-													+ '&nbsp;'
-													+ data[i].updateDatetime
-													+ '</div>'
-													+ '</div>'
-													+ '<div class="ml-3">'
-													+ '<img src="'+imgPath+data[i].empPic+'"'+
-		'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"> </div>'
-													+ '';
+												var timeDiv = ''
+														+ '<div class="media-body">'
+														+ '<div class="media-chat-item">'
+														+ data[i].communText
+														+ '</div>'
+														+ '<div class="font-size-sm text-muted mt-2">'
+														+ data[i].empName
+														+ '&nbsp;'
+														+ data[i].updateDatetime
+														+ '</div>'
+														+ '</div>'
+														+ '<div class="ml-3">'
+														+ '<img src="'+imgPath+data[i].empPic+'"'+
+			'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"> </div>'
+														+ '';
 
-											/* var ul = document
-													.getElementById("ulComm");
-											var $last =  */
-											$("#ulComm")
-													.append(
-															$(
-																	'<li class="media media-chat-item-reverse old"></li>')
-																	.html(
-																			timeDiv));
+												/* var ul = document
+														.getElementById("ulComm");
+												var $last =  */
+												$("#ulComm")
+														.append(
+																$(
+																		'<li class="media media-chat-item-reverse old"></li>')
+																		.html(
+																				timeDiv));
+											} else {
+
+												var timeDiv = '<div class="mr-3">'
+														+ ' <img src="'+imgPath+data[i].empPic+'"'+
+												'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"">'
+														+ '</div> '
+														+ '<div class="media-body">'
+														+ '<div class="media-chat-item">'
+														+ data[i].communText
+														+ '</div>'
+														+ '<div class="font-size-sm text-muted mt-2">'
+														+ data[i].empName
+														+ '&nbsp;'
+														+ data[i].updateDatetime
+														+ '</div>' + '</div>';
+
+												/* var ul = document
+														.getElementById("ulComm");
+												var $last =  */
+												$("#ulComm")
+														.append(
+																$(
+																		'<li class="media old"></li>')
+																		.html(
+																				timeDiv));
+											}
 										} else {
-
-											var timeDiv = '<div class="mr-3">'
-													+ ' <img src="'+imgPath+data[i].empPic+'"'+
-											'class="rounded-circle" width="40" height="40" alt="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"">'
-													+ '</div> '
-													+ '<div class="media-body">'
-													+ '<div class="media-chat-item">'
-													+ data[i].communText
-													+ '</div>'
-													+ '<div class="font-size-sm text-muted mt-2">'
-													+ data[i].empName
-													+ '&nbsp;'
-													+ data[i].updateDatetime
-													+ '</div>' + '</div>';
-
-											/* var ul = document
-													.getElementById("ulComm");
-											var $last =  */
+											 
 											$("#ulComm")
 													.append(
 															$(
-																	'<li class="media old"></li>')
-																	.html(
-																			timeDiv));
+																	'<li class="media content-divider justify-content-center text-muted mx-0 old"></li>')
+																	.html(data[i].empName+'&nbsp;'+data[i].updateDatetime));
 										}
+
 									}
 
 									if (index == 0) {
@@ -480,11 +501,11 @@
 			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
 		}
-		function display_c() {
+		  function display_c() {
 
 			var refresh = 15000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList(0)', refresh)
-		}
+		}  
 
 		$(document).keypress(function(event) {
 			if (event.keyCode == 13) {
