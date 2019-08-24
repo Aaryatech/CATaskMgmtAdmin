@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,6 +33,7 @@ import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 
 @Controller
+@Scope("session")
 public class CommunicationController {
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -43,11 +45,11 @@ public class CommunicationController {
 	String dateTime = dateFormat.format(now);
 	String items = null;
 	String curDateTime = dateFormat.format(cal.getTime());
-	HttpSession session = null;
+ 
 
 	@RequestMapping(value = "/communication", method = RequestMethod.GET)
 	public ModelAndView communicationForm(HttpServletRequest request, HttpServletResponse response) {
-		session = request.getSession();
+		HttpSession session = request.getSession();
 		ModelAndView mav = new ModelAndView("task/communication");
 		String base64encodedString = request.getParameter("taskId");
 		String taskId = FormValidation.DecodeKey(base64encodedString);
@@ -125,14 +127,14 @@ public class CommunicationController {
 	public @ResponseBody Info saveNewMessage(HttpServletRequest request,
 			HttpServletResponse response) {
 		 
-
+		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		int userId = emp.getEmpId();
 	 
 		String taskId = request.getParameter("taskId");
 		Info res=new Info();
 		try {
-			session = request.getSession();
+			
 
 			Communication comcat = new Communication();
 
@@ -171,12 +173,13 @@ public class CommunicationController {
 
 	@RequestMapping(value = "/insertNewMessage", method = RequestMethod.POST)
 	public String insertNewMessage(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		int userId = emp.getEmpId();
 		String empId = request.getParameter("empId");
 		String taskId = request.getParameter("taskId");
 		try {
-			session = request.getSession();
+			 
 
 			Communication comcat = new Communication();
 
