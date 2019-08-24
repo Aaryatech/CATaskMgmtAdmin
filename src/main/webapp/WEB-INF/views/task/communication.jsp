@@ -340,7 +340,7 @@
 				function(data) {
 
 					if (data.error == false) {
-
+						document.getElementById("msg").value = "";
 						chatList();
 
 					} else {
@@ -367,7 +367,7 @@
 							function(data) {
 
 								$(".old").remove();
-								
+
 								for (var i = 0; i < data.length; i++) {
 
 									if (data[i].empId == loginUser) {
