@@ -125,7 +125,7 @@
 													<div class="media-body">
 														<div class="media-chat-item">${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-															${communicationList.empName}<br>${communicationList.updateDatetime}
+															${communicationList.empName}&nbsp;${communicationList.updateDatetime}
 														</div>
 													</div>
 
@@ -177,7 +177,7 @@
 														<div class="media-chat-item">
 															${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
-															${communicationList.empName}<br>${communicationList.updateDatetime}
+															${communicationList.empName}&nbsp;${communicationList.updateDatetime}
 														</div>
 													</div>
 												</li>
@@ -409,7 +409,7 @@
 													+ '</div>'
 													+ '<div class="font-size-sm text-muted mt-2">'
 													+ data[i].empName
-													+ '<br>'
+													+ '&nbsp;'
 													+ data[i].updateDatetime
 													+ '</div>'
 													+ '</div>'
@@ -438,7 +438,8 @@
 													+ data[i].communText
 													+ '</div>'
 													+ '<div class="font-size-sm text-muted mt-2">'
-													+ data[i].empName + '<br>'
+													+ data[i].empName
+													+ '&nbsp;'
 													+ data[i].updateDatetime
 													+ '</div>' + '</div>';
 
@@ -454,10 +455,10 @@
 										}
 									}
 
-									if (index==0) {
-									var audio = new Audio(
-											'https://notificationsounds.com/notification-sounds/for-sure-576/download/mp3');
-									audio.play();
+									if (index == 0) {
+										var audio = new Audio(
+												'https://notificationsounds.com/notification-sounds/for-sure-576/download/mp3');
+										audio.play();
 									}
 								}
 
@@ -465,7 +466,7 @@
 								if (data.length > comLength) {
 									container = $('#ulComm').get(0);
 									container.scrollTop = (container.scrollHeight + container.offsetHeight);
-								} 
+								}
 								display_c();
 							});
 
