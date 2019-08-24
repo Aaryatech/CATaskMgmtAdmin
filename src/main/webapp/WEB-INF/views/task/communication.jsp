@@ -121,7 +121,7 @@
 									<c:forEach items="${communicationList}" var="communicationList">
 										<c:choose>
 											<c:when test="${communicationList.empId==loginUser}">
-												<li class="media media-chat-item-reverse">
+												<li class="media media-chat-item-reverse old">
 													<div class="media-body">
 														<div class="media-chat-item">${communicationList.communText}</div>
 														<div class="font-size-sm text-muted mt-2">
@@ -145,7 +145,7 @@
 
 											<c:otherwise>
 
-												<li class="media">
+												<li class="media old">
 													<div class="mr-3">
 														<a
 															href="${pageContext.request.contextPath}/resources/global_assets/images/demo/images/3.png">
@@ -366,6 +366,8 @@
 
 							function(data) {
 
+								$(".old").remove();
+								
 								for (var i = 0; i < data.length; i++) {
 
 									if (data[i].empId == loginUser) {
@@ -385,12 +387,13 @@
 		'class="rounded-circle" width="40" height="40" alt="">'
 												+ '</a>' + '</div>' + '';
 
-										var ul = document
+										/* var ul = document
 												.getElementById("ulComm");
-										var $last = $("#ulComm")
+										var $last =  */
+										$("#ulComm")
 												.append(
 														$(
-																'<li class="media media-chat-item-reverse"></li>')
+																'<li class="media media-chat-item-reverse old"></li>')
 																.html(timeDiv));
 									} else {
 
@@ -409,16 +412,17 @@
 												+ '<a href="#"></a>' + '</div>'
 												+ '</div>';
 
-										var ul = document
+										/* var ul = document
 												.getElementById("ulComm");
-										var $last = $("#ulComm").append(
-												$('<li class="media"></li>')
-														.html(timeDiv));
+										var $last =  */
+										$("#ulComm")
+												.append(
+														$(
+																'<li class="media old"></li>')
+																.html(timeDiv));
 									}
 								}
 
-								container = $('#ulComm').get(0);
-								container.scrollTop = (container.scrollHeight + container.offsetHeight);
 								display_c();
 							});
 
@@ -426,7 +430,7 @@
 		function onloadActive() {
 
 			container = $('#ulComm').get(0);
-			container.scrollTop = (container.scrollHeight + container.offsetHeight); 
+			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
 		}
 		function display_c() {
@@ -434,7 +438,6 @@
 			var refresh = 1000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList()', refresh)
 		}
- 
 	</script>
 
 
