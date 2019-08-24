@@ -89,6 +89,7 @@ public class CommunicationController {
 			TaskListHome task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskByTaskId", map,
 					TaskListHome.class);
 			mav.addObject("task", task);
+			mav.addObject("imgViewUrl",Constants.imageViewUrl);
 
 		} catch (Exception e) {
 			System.err.println("Exce in communication " + e.getMessage());
