@@ -1101,6 +1101,7 @@ public class MasterMVCController {
 			System.out.println("Activity Map---------" + activityMap.toString());
 			CustmrActivityMap map = Constants.getRestTemplate().postForObject(Constants.url + "/saveTask1", activityMap,
 					CustmrActivityMap.class);
+			
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -1310,6 +1311,11 @@ public class MasterMVCController {
 		try {
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			int statusVal = Integer.parseInt(request.getParameter("status"));
+			HttpSession session1 = request.getSession();
+
+			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+ 
 
 			System.err.println("Id / Value--------------" + taskId + " / " + statusVal);
 
@@ -1320,7 +1326,12 @@ public class MasterMVCController {
 
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskByTaskId", map,
 					Task.class);
+			if(task!=null) {
+				 FormValidation.updateTaskLog(Constants.taskTex3,userId,taskId);
 
+			}
+			
+			
 			redirect = "redirect:/communication?taskId=" + taskId;
 
 		} catch (Exception e) {

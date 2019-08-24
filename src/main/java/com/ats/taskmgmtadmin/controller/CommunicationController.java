@@ -147,6 +147,8 @@ public class CommunicationController {
 			comcat.setExInt2(1);
 			comcat.setExVar1("NA");
 			comcat.setExVar2("NA");
+			comcat.setTypeId(1);
+			comcat.setRemark("NA");
 			comcat.setTaskId(Integer.parseInt(request.getParameter("taskId")));
 			comcat.setUpdateDatetime(Constants.getCurDateTime());
 			comcat.setUpdateUser(userId);

@@ -46,6 +46,7 @@ public class TaskController {
 	String items = null;
 	String curDateTime = dateFormat.format(cal.getTime());
 	String workDate = null;
+	String[] TaskId =null;
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public String assignTask(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -78,7 +79,7 @@ public class TaskController {
 			workDate = request.getParameter("workDate");
 			System.out.println("work date**" + workDate);
 
-			String[] TaskId = request.getParameterValues("TaskId");
+		 TaskId = request.getParameterValues("TaskId");
 
 			StringBuilder sb = new StringBuilder();
 
@@ -219,6 +220,13 @@ public class TaskController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
 					Info.class);
+			
+			if(info.isError()==false) {
+				
+				for (int i = 0; i < TaskId.length; i++) {
+				 FormValidation.updateTaskLog(Constants.taskTex2,userId,Integer.parseInt(TaskId[i]));
+				}
+			}
 
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());

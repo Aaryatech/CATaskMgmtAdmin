@@ -5,6 +5,13 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import com.ats.task.mgmtadmin.communication.model.Communication;
+import com.ats.taskmgmtadmin.acsrights.Info;
+
 public class FormValidation {
 
 	public static Boolean Validaton(String str, String type) {
@@ -85,6 +92,53 @@ public class FormValidation {
 
 		return encrypt;
 
+	}
+	
+	
+	
+	public static Info updateTaskLog(String text,int userId,int taskId) {
+		
+		
+		Info res=new Info();
+		 try {
+ 				Communication comcat=new Communication();
+				comcat.setCommunText(text);
+				comcat.setDelStatus(1);
+				comcat.setEmpId(userId);
+				comcat.setExInt1(1);
+				comcat.setExInt2(1);
+				comcat.setExVar1("NA");
+				comcat.setExVar2("NA");
+				comcat.setTypeId(2);
+				comcat.setRemark("NA");
+				comcat.setTaskId(taskId);
+				comcat.setUpdateDatetime(Constants.getCurDateTime());
+				comcat.setUpdateUser(userId);
+				
+
+				Communication custHead = Constants.getRestTemplate().postForObject(Constants.url + "/saveCommunication",
+						comcat, Communication.class);
+				
+
+				if(custHead!=null) {
+					res.setError(false);
+					res.setMessage("success");
+					
+				}else {
+					res.setError(true);
+					res.setMessage("failed");
+				}
+	 
+				
+		 }catch (Exception e) {
+				System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
+				e.printStackTrace();
+			}
+ 
+		
+		
+		return res;
+		
 	}
 
 }
