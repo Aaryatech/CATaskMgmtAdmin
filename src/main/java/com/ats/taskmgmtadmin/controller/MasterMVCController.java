@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -59,6 +60,7 @@ import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
 import com.ats.taskmgmtadmin.task.model.Task;
 
 @Controller
+@Scope("session")
 public class MasterMVCController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MasterMVCController.class);
