@@ -101,6 +101,8 @@ public class MasterMVCController {
 			mav = new ModelAndView("master/serviceAdd");
 			ServiceMaster service = new ServiceMaster();
 			mav.addObject("service", service);
+			
+			mav.addObject("title", "Add Service");
 		} catch (Exception e) {
 			System.err.println("Exce in service " + e.getMessage());
 			e.printStackTrace();
@@ -165,6 +167,8 @@ public class MasterMVCController {
 					ServiceMaster.class);
 
 			mav.addObject("service", service);
+			
+			mav.addObject("title", "Edit Service");
 
 		} catch (Exception e) {
 			System.err.println("Exce in editService " + e.getMessage());
@@ -254,7 +258,8 @@ public class MasterMVCController {
 					.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 			mav.addObject("periodList", periodList);
-
+			
+			mav.addObject("title", "Add Activity");
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
@@ -346,6 +351,10 @@ public class MasterMVCController {
 			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 			System.out.println("Periodicit-------------" + periodList);
 			mav.addObject("periodList", periodList);
+			
+			mav.addObject("title", "Edit Activity");
+			
+			
 
 		} catch (Exception e) {
 			System.err.println("Exce in editActivity " + e.getMessage());
@@ -466,6 +475,8 @@ public class MasterMVCController {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
 			mav.addObject("serviceList", srvcMstrList);
+			
+			mav.addObject("title", "Add Employee");
 		} catch (Exception e) {
 			System.err.println("Exce in employeeAdd " + e.getMessage());
 			e.printStackTrace();
@@ -603,6 +614,8 @@ public class MasterMVCController {
 			 */
 
 			/// mav.addObject("empServcId", empEditSrvcs);
+			
+			mav.addObject("title", "Edit Employee");
 
 		} catch (Exception e) {
 			System.err.println("Exce in editEmployee " + e.getMessage());
@@ -703,6 +716,8 @@ public class MasterMVCController {
 
 			CustomerGroupMaster cust = new CustomerGroupMaster();
 			mav.addObject("cust", cust);
+			
+			mav.addObject("title", "  Add Customer Group");
 
 		} catch (Exception e) {
 
@@ -773,6 +788,8 @@ public class MasterMVCController {
 					.postForObject(Constants.url + "/getCustomerGroupById", map, CustomerGroupMaster.class);
 
 			mav.addObject("cust", custGrp);
+			
+			mav.addObject("title", "Edit Customer Group");
 		} catch (Exception e) {
 
 			System.err.println("Exce in customerGroupAdd " + e.getMessage());
@@ -830,6 +847,8 @@ public class MasterMVCController {
 					EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			mav.addObject("epmList", epmList);
+			
+			mav.addObject("title", "Add Customer");
 
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
@@ -956,6 +975,8 @@ public class MasterMVCController {
 					.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
+			
+			mav.addObject("title", "Edit Customer");
 
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());

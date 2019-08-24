@@ -67,7 +67,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Employee</h6>
+								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -347,7 +347,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/employeeList"><button
-													type="button" class="btn btn-primary">
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -381,6 +381,10 @@
 
 
 	<script>
+	$('#empSal').on('input', function() {
+		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+		});
+	
 		$(document).ready(function($) {
 			
 			$("#submitInsertClient").submit(function(e) {
@@ -473,6 +477,7 @@
 					if (x == true) {
 
 						document.getElementById("submtbtn").disabled = true;
+						document.getElementById("cancelbtn").disabled = true;
 						return true;
 					}
 					//end ajax send this to php page

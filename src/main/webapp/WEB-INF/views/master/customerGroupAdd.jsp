@@ -66,7 +66,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Customer Group</h6>
+								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -138,7 +138,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" placeholder="Remark"
-												id="remark" name="remark" autocomplete="off" ${cust.custGroupRemark}
+												id="remark" name="remark" autocomplete="off" value="${cust.custGroupRemark}"
 												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -158,8 +158,8 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/customerGroupListt"><button
-													type="button" class="btn btn-primary">
+											<a href="${pageContext.request.contextPath}/customerGroupList"><button
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -217,6 +217,8 @@
 					if (x == true) {
 
 						document.getElementById("submtbtn").disabled = true;
+						document.getElementById("cancelbtn").disabled = true;
+						
 						return true;
 					}
 					//end ajax send this to php page

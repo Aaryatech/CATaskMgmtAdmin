@@ -67,7 +67,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Customer</h6>
+								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -168,17 +168,17 @@
 									
 									<div class="form-group row" id="hideFirm">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
-											Name <span style="color: red"></span>:
+											Name <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custFirmName}"
 												placeholder="Enter Firm Name" id="firmName" name="firmName"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										<!-- <div class="col-lg-3">
+										 <div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_firmName"
 												style="display: none;">Please enter firm name.</span>
-										</div> -->
+										</div>
 
 									</div>
 									
@@ -225,7 +225,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custAadhar}"
-												placeholder="Enter Aadhar Card Number" id="aadhar"
+												placeholder="Enter Aadhar Card Number" id="aadhar" maxlength="12"
 												name="aadhar" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -460,7 +460,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/customerList"><button
-													type="button" class="btn btn-primary">
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -494,6 +494,10 @@
 
 
 	<script>
+	$('#aadhar').on('input', function() {
+		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+		});
+	
 		$(document)
 				.ready(
 						function($) {
@@ -504,7 +508,8 @@
 												var isError = false;
 												var errMsg = "";
 
-												/* if (!$("#firmName").val()) {
+											if($("#custType").val()==0){
+												if (!$("#firmName").val()) {
 
 													isError = true;
 
@@ -512,8 +517,9 @@
 													//return false;
 												} else {
 													$("#error_firmName").hide()
-												} */
-												
+												} 
+											}
+											
 												if (!$("#assesseeName").val()) {
 
 													isError = true;
@@ -571,7 +577,7 @@
 													$("#error_address1").hide()
 												}
 
-												if (!C) {
+												if (!$("#city").val()) {
 
 													isError = true;
 
@@ -596,8 +602,8 @@
 													var x = true;
 													if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
+														document.getElementById("submtbtn").disabled = true;
+														document.getElementById("cancelbtn").disabled = true;
 														return true;
 													}
 													//end ajax send this to php page

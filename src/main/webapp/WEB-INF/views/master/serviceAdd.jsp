@@ -156,7 +156,7 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<a href="${pageContext.request.contextPath}/serviceList"><button
-													type="button" class="btn btn-primary">
+													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
@@ -219,8 +219,8 @@
 													var x = true;
 													if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
+														document.getElementById("submtbtn").disabled = true;
+														document.getElementById("cancelbtn").disabled = true;
 														return true;
 													}
 													//end ajax send this to php page
