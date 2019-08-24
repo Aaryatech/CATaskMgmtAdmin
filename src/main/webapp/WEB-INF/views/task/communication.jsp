@@ -453,13 +453,19 @@
 																			timeDiv));
 										}
 									}
+
+									if (index==0) {
+									var audio = new Audio(
+											'https://notificationsounds.com/notification-sounds/for-sure-576/download/mp3');
+									audio.play();
+									}
 								}
 
 								document.getElementById("comLength").value = data.length;
 								if (data.length > comLength) {
 									container = $('#ulComm').get(0);
 									container.scrollTop = (container.scrollHeight + container.offsetHeight);
-								}
+								} 
 								display_c();
 							});
 
