@@ -129,7 +129,7 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${cust.custGroupName}"
+											<input type="text" class="form-control" value="${cust.custName}"
 												placeholder="Customer Name" id="custName" name="custName"
 												autocomplete="off" onchange="trim(this)" readonly="readonly">
 										</div>

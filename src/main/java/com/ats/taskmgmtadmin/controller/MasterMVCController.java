@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
+import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustmrActivityMap;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
@@ -1002,9 +1003,12 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
 
-			CustomerDetails cust = Constants.getRestTemplate().postForObject(Constants.url + "/getcustById", map,
-					CustomerDetails.class);
+			//CustomerDetails cust = Constants.getRestTemplate().postForObject(Constants.url + "/getcustById", map,
+				//	CustomerDetails.class);
+			CustNameId cust= Constants.getRestTemplate().postForObject(Constants.url + "/getCustNameById",map, CustNameId.class);
+			System.err.println("ActMap--------------"+cust.toString());
 			mav.addObject("cust", cust);
+			
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
