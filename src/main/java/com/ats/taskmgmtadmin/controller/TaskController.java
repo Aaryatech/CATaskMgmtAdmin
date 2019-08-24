@@ -43,10 +43,11 @@ public class TaskController {
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
-	String items = null;
+	
+
 	String curDateTime = dateFormat.format(cal.getTime());
-	String workDate = null;
-	String[] TaskId =null;
+	
+ 
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public String assignTask(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -63,44 +64,54 @@ public class TaskController {
 			taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 		}
 		model.addAttribute("taskList", taskList);
+		EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[].class);
+		List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+		model.addAttribute("epmList", epmList);
 
 		return mav;
 	}
 
-	@RequestMapping(value = "/selectEmployeeToAssigTask", method = RequestMethod.GET)
-	public ModelAndView selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response,
-			Model model) {
-
-		ModelAndView mav = new ModelAndView("task/showEmpListForAssignTask");
-		try {
-			empList = new ArrayList<EmployeeMaster>();
-			empListTot = new EmployeeFreeBsyList();
-			empListNew = new ArrayList<EmployeeMaster>();
-			workDate = request.getParameter("workDate");
-			System.out.println("work date**" + workDate);
-
-		 TaskId = request.getParameterValues("TaskId");
-
-			StringBuilder sb = new StringBuilder();
-
-			for (int i = 0; i < TaskId.length; i++) {
-				sb = sb.append(TaskId[i] + ",");
-
-				// System.out.println("task id are**" + TaskId[i]);
-
-			}
-			items = sb.toString();
-
-			items = items.substring(0, items.length() - 1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return mav;
-	}
-
+	/*
+	 * @RequestMapping(value = "/selectEmployeeToAssigTask", method =
+	 * RequestMethod.GET) public ModelAndView
+	 * selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse
+	 * response, Model model) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("task/showEmpListForAssignTask"); try {
+	 * empList = new ArrayList<EmployeeMaster>(); empListTot = new
+	 * EmployeeFreeBsyList(); empListNew = new ArrayList<EmployeeMaster>(); workDate
+	 * = request.getParameter("workDate"); System.out.println("work date**" +
+	 * workDate);
+	 * 
+	 * TaskId = request.getParameterValues("TaskId");
+	 * 
+	 * StringBuilder sb = new StringBuilder();
+	 * 
+	 * for (int i = 0; i < TaskId.length; i++) { sb = sb.append(TaskId[i] + ",");
+	 * 
+	 * // System.out.println("task id are**" + TaskId[i]);
+	 * 
+	 * } items = sb.toString();
+	 * 
+	 * items = items.substring(0, items.length() - 1);
+	 * 
+	 * 
+	 * StringBuilder sb1 = new StringBuilder(); String[] locId2 =
+	 * request.getParameterValues("empId2"); for (int i = 0; i < locId2.length; i++)
+	 * { sb1 = sb1.append(locId2[i] + ",");
+	 * 
+	 * } String items1 = sb.toString(); items1 = items1.substring(0, items1.length()
+	 * - 1); System.err.println("emp loc are :::" + items1);
+	 * 
+	 * 
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return mav; }
+	 */
 	@RequestMapping(value = "/getFreeEmployeeList", method = RequestMethod.GET)
 	public @ResponseBody List<EmployeeMaster> getFreeEmployeeList(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -199,32 +210,58 @@ public class TaskController {
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
+
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
+			String workDate=null;
+			try {
+				  workDate = request.getParameter("workDate");
+			} catch (Exception e) {
+				e.printStackTrace();
+				workDate="NA";
+			}
+			System.out.println("work date**" + workDate);
+
+			String[] TaskId = request.getParameterValues("TaskId");
 
 			StringBuilder sb = new StringBuilder();
 
-			for (int i = 0; i < empListTot.getFreeList().size(); i++) {
-				sb = sb.append(empListTot.getFreeList().get(i).getEmpId() + ",");
+			for (int i = 0; i < TaskId.length; i++) {
+				sb = sb.append(TaskId[i] + ",");
+
+				System.out.println("task id are**" + TaskId[i]);
 
 			}
-			String itemsEmp = sb.toString();
-			itemsEmp = itemsEmp.substring(0, itemsEmp.length() - 1);
-			System.out.println("workDate" + workDate);
+			
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+
+			StringBuilder sbEmp = new StringBuilder();
+			String[] locId2 = request.getParameterValues("empId2");
+			System.err.println("emp id are " + locId2);
+			for (int j = 0; j < locId2.length; j++) {
+				sbEmp = sbEmp.append(locId2[j] + ",");
+
+			}
+			String items1 = sbEmp.toString();
+			items1 = items1.substring(0, items1.length() - 1);
+			System.err.println("emp id are :::" + items1);
+
 			map.add("taskIdList", items);
-			map.add("empIdList", itemsEmp);
+			map.add("empIdList", items1);
 			map.add("userId", userId);
 			map.add("curDateTime", Constants.getCurDateTime());
 			map.add("workDate", workDate);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
 					Info.class);
-			
-			if(info.isError()==false) {
-				
+
+			if (info.isError() == false) {
+
 				for (int i = 0; i < TaskId.length; i++) {
-				 FormValidation.updateTaskLog(Constants.taskTex2,userId,Integer.parseInt(TaskId[i]));
+					FormValidation.updateTaskLog(Constants.taskTex2, userId, Integer.parseInt(TaskId[i]));
 				}
 			}
 

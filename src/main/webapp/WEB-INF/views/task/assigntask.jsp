@@ -156,26 +156,50 @@
 					</div>
 
 					<form
-						action="${pageContext.request.contextPath}/selectEmployeeToAssigTask"
-						id="submitInsertEmpType" >
+						action="${pageContext.request.contextPath}/submitTaskAssignment"
+						id="submitInsertEmpType" method="post">
 						<div class="card-body">
 							<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="startDate">Work
-											Date <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												name="workDate" id="workDate" placeholder="Task End Date">
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_startDate"
-												style="display: none;">Please Enter Work Date.</span>
-											  
-										</div>
+								<label class="col-form-label col-lg-3" for="startDate">Work
+									Date:
+								</label>
+								<div class="col-lg-6">
+									<input type="text" class="form-control datepickerclass"
+										name="workDate" id="workDate" placeholder="Task End Date">
+								</div>
+								<div class="col-lg-3">
+									<span class="validation-invalid-label" id="error_startDate"
+										style="display: none;">Please Enter Work Date.</span>
 
-									</div>
-									
+								</div>
+
+							</div>
+
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-3" for="locId2">
+									Employee <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-6">
+
+									<select multiple="multiple" data-placeholder="Select Location"
+										name="empId2" id="empId2"
+										class="form-control form-control-sm select"
+										data-container-css-class="select-sm" data-fouc>
+										<option value="">Select Employee</option>
+										<c:forEach items="${epmList}" var="epmList">
+											<option value="${epmList.empId}">
+											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+										</c:forEach>
+
+									</select> <span class="validation-invalid-label" id="error_locId2"
+										style="display: none;">This field is required.</span>
+								</div>
+							</div>
+
+
+
 							<div class="table-responsive">
 
 								<table
@@ -184,7 +208,7 @@
 									<thead>
 										<tr class="bg-blue">
 											<th width="10%">Sr.no</th>
-											<th>Task </th>
+											<th>Task</th>
 											<th>Customer</th>
 											<th>Activity</th>
 											<th>Year</th>
@@ -202,7 +226,7 @@
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all"></td>
 
-                                            <td>${taskList.taskText}</td>
+											<td>${taskList.taskText}</td>
 											<td>${taskList.custFirmName}</td>
 											<td>${taskList.actiName}</td>
 											<td>${taskList.finYearName}</td>
