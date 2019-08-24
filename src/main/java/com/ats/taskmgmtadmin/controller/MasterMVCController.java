@@ -34,11 +34,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
- import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
+import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
 import com.ats.taskmgmtadmin.common.Constants;
 import org.springframework.web.servlet.ModelAndView;
 
- import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
@@ -101,7 +101,7 @@ public class MasterMVCController {
 			mav = new ModelAndView("master/serviceAdd");
 			ServiceMaster service = new ServiceMaster();
 			mav.addObject("service", service);
-			
+
 			mav.addObject("title", "Add Service");
 		} catch (Exception e) {
 			System.err.println("Exce in service " + e.getMessage());
@@ -167,7 +167,7 @@ public class MasterMVCController {
 					ServiceMaster.class);
 
 			mav.addObject("service", service);
-			
+
 			mav.addObject("title", "Edit Service");
 
 		} catch (Exception e) {
@@ -258,7 +258,7 @@ public class MasterMVCController {
 					.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 			mav.addObject("periodList", periodList);
-			
+
 			mav.addObject("title", "Add Activity");
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
@@ -351,10 +351,8 @@ public class MasterMVCController {
 			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 			System.out.println("Periodicit-------------" + periodList);
 			mav.addObject("periodList", periodList);
-			
+
 			mav.addObject("title", "Edit Activity");
-			
-			
 
 		} catch (Exception e) {
 			System.err.println("Exce in editActivity " + e.getMessage());
@@ -475,10 +473,11 @@ public class MasterMVCController {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
 			mav.addObject("serviceList", srvcMstrList);
-			
+
 			mav.addObject("title", "Add Employee");
-			
-			
+			mav.addObject("imageUrl", Constants.imageViewUrl);
+
+
 		} catch (Exception e) {
 			System.err.println("Exce in employeeAdd " + e.getMessage());
 			e.printStackTrace();
@@ -488,23 +487,27 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/addNewEmployee", method = RequestMethod.POST)
-	public String addNwEmployee(@RequestParam("profilePic") List<MultipartFile> profilePic,HttpServletRequest request, HttpServletResponse response) {
+	public String addNwEmployee(@RequestParam("profilePic") List<MultipartFile> profilePic, HttpServletRequest request,
+			HttpServletResponse response) {
 		try {
+			 
 			Date date = new Date();
-		
+
 			session = request.getSession();
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 			VpsImageUpload upload = new VpsImageUpload();
 			EmployeeMaster employee = new EmployeeMaster();
-
+			String imageName = new String();
 			int empId = 0;
+
 			try {
 				empId = Integer.parseInt(request.getParameter("employee_id"));
 			} catch (Exception e) {
 				e.getMessage();
 			}
+
 			String servicesList = null;
 			try {
 				String[] services = request.getParameterValues("empService");
@@ -520,20 +523,27 @@ public class MasterMVCController {
 			} catch (Exception e) {
 
 				servicesList = "NA";
-				System.out.println("Serviceas:" + servicesList);
+				//System.out.println("Serviceas:" + servicesList);
 			}
-			
-				String imageName = new String();
+
+			if (profilePic.get(0).getOriginalFilename() != "") {
 				imageName = dateTimeInGMT.format(date) + "_" + profilePic.get(0).getOriginalFilename();
 				if (profilePic.get(0).getOriginalFilename() != null) {
 					try {
 						upload.saveUploadedImge(profilePic.get(0), Constants.imageSaveUrl, imageName, Constants.values,
 								0, 0, 0, 0, 0);
-						employee.setEmpPic(imageName);
+
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
-			 
+				}
+			} else {
+
+				imageName = request.getParameter("profPic");
+				System.out.println(imageName);
+			}
+
+			employee.setEmpPic(imageName);
 
 			employee.setEmpId(empId);
 			employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
@@ -545,7 +555,7 @@ public class MasterMVCController {
 			employee.setEmpEmail(request.getParameter("email"));
 			employee.setEmpPass(request.getParameter("pwd"));
 			employee.setEmpDesc(servicesList);
-			employee.setEmpPic("NA");
+			employee.setEmpPic(imageName);
 			employee.setEmpSalary(request.getParameter("empSal"));
 			employee.setDelStatus(1);
 			employee.setUpdateDatetime(curDateTime);
@@ -555,10 +565,10 @@ public class MasterMVCController {
 			employee.setExVar1("NA");
 			employee.setExVar2("NA");
 			employee.setIsActive(1);
-
+			System.err.println("employee " + employee.toString());
 			EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 					employee, EmployeeMaster.class);
-				}
+
 		} catch (Exception e) {
 			System.err.println("Exce in addNwEmployee " + e.getMessage());
 			e.printStackTrace();
@@ -593,6 +603,7 @@ public class MasterMVCController {
 			System.out.println("Res------------" + empSrvc);
 
 			mav.addObject("empSrvcIds", empSrvc);
+			mav.addObject("imageUrl", Constants.imageViewUrl);
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
@@ -616,7 +627,7 @@ public class MasterMVCController {
 			 */
 
 			/// mav.addObject("empServcId", empEditSrvcs);
-			
+
 			mav.addObject("title", "Edit Employee");
 
 		} catch (Exception e) {
@@ -718,7 +729,7 @@ public class MasterMVCController {
 
 			CustomerGroupMaster cust = new CustomerGroupMaster();
 			mav.addObject("cust", cust);
-			
+
 			mav.addObject("title", "  Add Customer Group");
 
 		} catch (Exception e) {
@@ -790,7 +801,7 @@ public class MasterMVCController {
 					.postForObject(Constants.url + "/getCustomerGroupById", map, CustomerGroupMaster.class);
 
 			mav.addObject("cust", custGrp);
-			
+
 			mav.addObject("title", "Edit Customer Group");
 		} catch (Exception e) {
 
@@ -849,7 +860,7 @@ public class MasterMVCController {
 					EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			mav.addObject("epmList", epmList);
-			
+
 			mav.addObject("title", "Add Customer");
 
 		} catch (Exception e) {
@@ -977,7 +988,7 @@ public class MasterMVCController {
 					.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			mav.addObject("title", "Edit Customer");
 
 		} catch (Exception e) {
@@ -1028,12 +1039,14 @@ public class MasterMVCController {
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
 
-			//CustomerDetails cust = Constants.getRestTemplate().postForObject(Constants.url + "/getcustById", map,
-				//	CustomerDetails.class);
-			CustNameId cust= Constants.getRestTemplate().postForObject(Constants.url + "/getCustNameById",map, CustNameId.class);
-			System.err.println("ActMap--------------"+cust.toString());
+			// CustomerDetails cust =
+			// Constants.getRestTemplate().postForObject(Constants.url + "/getcustById",
+			// map,
+			// CustomerDetails.class);
+			CustNameId cust = Constants.getRestTemplate().postForObject(Constants.url + "/getCustNameById", map,
+					CustNameId.class);
+			System.err.println("ActMap--------------" + cust.toString());
 			mav.addObject("cust", cust);
-			
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
@@ -1290,7 +1303,6 @@ public class MasterMVCController {
 		}
 		return "redirect:/statusList";
 	}
-
 
 	@RequestMapping(value = "/updateTaskStatus", method = RequestMethod.POST)
 	public String updateTaskStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {

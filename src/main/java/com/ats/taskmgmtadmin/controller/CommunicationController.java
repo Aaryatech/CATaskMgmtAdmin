@@ -57,7 +57,7 @@ public class CommunicationController {
 		String empId = FormValidation.DecodeKey(base64encodedString1);
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		int userId = emp.getEmpId();
-		System.err.println("Id / Value--------------" + taskId + " / " + empId);
+		//System.err.println("Id / Value--------------" + taskId + " / " + empId);
 
 		try {
 
@@ -67,12 +67,13 @@ public class CommunicationController {
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
 
+			//dfg
 			GetAllCommunicationByTaskId[] communication = Constants.getRestTemplate().postForObject(
 					Constants.url + "/getCommunicationByTaskId", map, GetAllCommunicationByTaskId[].class);
 			List<GetAllCommunicationByTaskId> communicationList = new ArrayList<>(Arrays.asList(communication));
 			mav.addObject("communicationList", communicationList);
 			mav.addObject("loginUser", userId);
-			System.err.println("communicationList--------------" + communicationList.toString());
+			//System.err.println("communicationList--------------" + communicationList.toString());
 
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", userId);

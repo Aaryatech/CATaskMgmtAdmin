@@ -133,9 +133,15 @@
 							<c:forEach items="${epmList}" var="epmList" varStatus="count">
 							<tr>
 								<td>${count.index+1}</td>
-								<td class="text-center"><img
-									src="${pageContext.request.contextPath}/${epmList.empPic}"
-									class="rounded-circle" width="36" height="36" alt=""></td> 
+								<td class="text-center">
+								
+								 
+									
+									<c:if test="${not empty epmList.empPic}">
+													<img src="${imageUrl}${employee.empPic}"
+														class="rounded-circle" width="36" height="36" alt="">
+												</c:if>
+									</td> 
 								<td>${epmList.empName}</td>
 								<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
 								<td>${epmList.empDob}</td>

@@ -114,15 +114,23 @@
 								%>
 
 								<form action="${pageContext.request.contextPath}/addNewEmployee"
-									id="submitInsertClient" method="post">
+									id="submitInsertClient" method="post"
+									enctype="multipart/form-data">
 
 									<input type="hidden" value="${employee.empId}"
 										name="employee_id">
+										
+										<input type="text" value="${employee.empPic}"
+										name="profPic">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="profilePic">
 											Profile Pic :</label>
 										<div class="col-lg-6">
 											<div class="input-group-btn  ">
+												<c:if test="${not empty employee.empPic}">
+													<img src="${imageUrl}${employee.empPic}"
+														style="width: 200px; height: auto;">
+												</c:if>
 
 												<span class="filename" style="user-select: none1;"><img
 													id="temppreviewimageki1" name="image1"
@@ -182,15 +190,14 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="empService">Service
-										:
-										</label>
+											: </label>
 										<div class="col-lg-6">
 											<select name="empService" multiple="multiple"
 												data-placeholder="Select Employee Service" id="empService"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-																					  
+
 												<c:forEach items="${serviceList}" var="serviceId">
 													<c:set var="find" value="0"></c:set>
 													<c:forEach items="${empSrvcIds}" var="empSrvcIds">
@@ -235,17 +242,17 @@
 										</div>
 
 									</div>
-									
-										<div class="form-group row">
+
+									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="empNickname">Nick
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												value="${employee.empNickname}" placeholder="Enter Nick Name"
-												id="empNickname" name="empNickname" autocomplete="off"
-												onchange="trim(this)">
+												value="${employee.empNickname}"
+												placeholder="Enter Nick Name" id="empNickname"
+												name="empNickname" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empNickname"
@@ -381,12 +388,15 @@
 
 
 	<script>
-	$('#empSal').on('input', function() {
-		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-		});
-	
+		$('#empSal').on(
+				'input',
+				function() {
+					this.value = this.value.replace(/[^0-9.]/g, '').replace(
+							/(\..*)\./g, '$1');
+				});
+
 		$(document).ready(function($) {
-			
+
 			$("#submitInsertClient").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
@@ -400,7 +410,7 @@
 				} else {
 					$("#error_empType").hide()
 				}
-				
+
 				/* if (!$("#empService").val() || $("#empService").val()=="") {
 
 					isError = true;
@@ -410,7 +420,7 @@
 				} else {
 					$("#error_empService").hide()
 				}  */
-				
+
 				if (!$("#empNickname").val()) {
 
 					isError = true;
@@ -420,7 +430,7 @@
 				} else {
 					$("#error_empNickname").hide()
 				}
-				
+
 				if (!$("#empName").val()) {
 
 					isError = true;
@@ -510,6 +520,70 @@
 				format : 'DD-MM-YYYY',
 				separator : ' to '
 			}
+		});
+	</script>
+	<script type="text/javascript">
+		function readURL(input) {
+			/* 
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function(e) {
+					$('#image1').attr('src', e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			} */
+		}
+
+		$("#profilePic").change(function() {
+
+			//readURL(this);
+		});
+
+		$(function() {
+
+			//image 1
+			// Create the close button
+
+			// Clear event
+			$('.image-preview-clear').click(function() {
+				var imgid = $(this).attr('id');
+
+				$('.browseimage' + imgid).val("");
+				$('.image-preview-clear' + imgid).hide();
+
+				//$('.image-preview-input-title'+imgid).text("Browse"); 
+				$('.temppreviewimageki' + imgid).attr("src", '');
+				$('.temppreviewimageki' + imgid).hide();
+			});
+			// Create the preview image
+			$(".browseimage").change(
+					function() {
+						var img = $('<img/>', {
+							id : 'dynamic',
+							width : 250,
+							height : 200,
+						});
+						var imgid = $(this).attr('id');
+						var file = this.files[0];
+						var reader = new FileReader();
+						// Set preview image into the popover data-content
+						reader.onload = function(e) {
+
+							//	$('.image-preview-input-title'+imgid).text("Change");
+							$('.image-preview-clear' + imgid).show();
+							//	$('.image-preview-filename'+imgid).val(file.name);   
+							img.attr('src', e.target.result);
+
+							$(".temppreviewimageki" + imgid).attr("src",
+									$(img)[0].src);
+							$(".temppreviewimageki" + imgid).show();
+
+						}
+						reader.readAsDataURL(file);
+					});
+			//end  
 		});
 	</script>
 
