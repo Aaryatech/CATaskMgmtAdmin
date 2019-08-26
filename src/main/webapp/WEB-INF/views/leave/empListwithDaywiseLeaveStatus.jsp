@@ -104,30 +104,23 @@
 							%>
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="fromDate">From
+								<label class="col-form-label col-lg-2" for="fromDate">Select
 									Date <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-3">
-									<input type="text" class="form-control datepickerclass"
+									<input type="text" class="form-control daterange-basic_new"
 										placeholder="From Date" id="fromDate" name="fromDate"
-										autocomplete="off" onchange="trim(this)" value="${fromDate}">
+										autocomplete="off" onchange="trim(this)"
+										value="${fromDate}">
 								</div>
 
-								<label class="col-form-label col-lg-2" for="toDate">To
-									Date <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<input type="text" class="form-control datepickerclass"
-										placeholder="To Date" id="toDate" name="toDate"
-										autocomplete="off" onchange="trim(this)" value="${toDate}">
-								</div>
-
-							</div>
-							<div class="col-lg-12" align="center">
-								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+								 <div class="col-lg-3">
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Search</button>
-							</div>
+								</div>
 
+							</div>
+							 
 
 							<table
 								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"

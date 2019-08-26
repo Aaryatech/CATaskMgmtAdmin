@@ -324,18 +324,19 @@ public class LeaveController {
 		try {
 
 			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			//String toDate = request.getParameter("toDate");
 
-			if (fromDate != null && toDate != null) {
+			String[] dates = fromDate.split(" to ");
+			
+			if (fromDate != null) {
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("fromDate", fromDate);
-				map.add("toDate", toDate);
+				map.add("fromDate", dates[0]);
+				map.add("toDate", dates[1]);
 				EmpListWithDateList empListWithDateList = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/daywiseLeaveHistoryofEmployee", map, EmpListWithDateList.class);
 				model.addAttribute("empListWithDateList", empListWithDateList);
-				model.addAttribute("fromDate", fromDate);
-				model.addAttribute("toDate", toDate);
+				model.addAttribute("fromDate", fromDate); 
 
 			}
 
