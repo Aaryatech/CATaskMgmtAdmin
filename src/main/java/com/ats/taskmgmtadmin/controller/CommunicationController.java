@@ -1,6 +1,7 @@
 package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +23,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+ 
 import com.ats.task.mgmtadmin.communication.model.Communication;
 import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
 import com.ats.taskmgmtadmin.acsrights.Info;
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
-
+import com.ats.taskmgmtadmin.common.AccessControll;
+import com.ats.taskmgmtadmin.acsrights.AccessRightModule;
 @Controller
 @Scope("session")
 public class CommunicationController {
@@ -49,8 +53,21 @@ public class CommunicationController {
 
 	@RequestMapping(value = "/communication", method = RequestMethod.GET)
 	public ModelAndView communicationForm(HttpServletRequest request, HttpServletResponse response) {
+	 
 		HttpSession session = request.getSession();
-		ModelAndView mav = new ModelAndView("task/communication");
+		ModelAndView mav = null;
+		
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("moduleJsonList");
+		Info view = AccessControll.checkAccess("communication", "communication", "1","0" ,"0", "0", newModuleList);
+		try {
+
+		if (view.isError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+			mav = new ModelAndView("task/communication");
+	
 		String base64encodedString = request.getParameter("taskId");
 		String taskId = FormValidation.DecodeKey(base64encodedString);
 		String base64encodedString1 = request.getParameter("empId");
@@ -59,8 +76,7 @@ public class CommunicationController {
 		int userId = emp.getEmpId();
 		//System.err.println("Id / Value--------------" + taskId + " / " + empId);
 
-		try {
-
+		
 			mav.addObject("taskId", taskId);
 			mav.addObject("empId", empId);
 			MultiValueMap<String, Object> map = null;
@@ -91,7 +107,7 @@ public class CommunicationController {
 					TaskListHome.class);
 			mav.addObject("task", task);
 			mav.addObject("imgViewUrl",Constants.imageViewUrl);
-
+		}
 		} catch (Exception e) {
 			System.err.println("Exce in communication " + e.getMessage());
 			e.printStackTrace();

@@ -120,7 +120,7 @@
 									<input type="hidden" value="${employee.empId}"
 										name="employee_id">
 										
-										<input type="text" value="${employee.empPic}"
+										<input type="hidden" value="${employee.empPic}"
 										name="profPic">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="profilePic">

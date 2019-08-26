@@ -183,7 +183,7 @@
 								</label>
 								<div class="col-lg-6">
 
-									<select multiple="multiple" data-placeholder="Select Location"
+									<select multiple="multiple" data-placeholder="Select Employee"
 										name="empId2" id="empId2"
 										class="form-control form-control-sm select"
 										data-container-css-class="select-sm" data-fouc>
