@@ -35,18 +35,18 @@
 				<!-- <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li> -->
 				<li class="nav-item"><a
 					href="${pageContext.request.contextPath}/dashboard"
-					class="nav-link active"> <i class="icon-home4"></i> <span>
-							Dashboard </span>
+					class="nav-link active" onclick="selectSubMod(0,0)"> <i
+						class="icon-home4"></i> <span> Dashboard </span>
 				</a></li>
 
 				<li class="nav-item"><a
 					href="${pageContext.request.contextPath}/taskListForEmp"
-					class="nav-link active"> <i class="icon-home4"></i> <span>
-							Home </span>
+					class="nav-link active" onclick="selectSubMod(0,0)"> <i
+						class="icon-home4"></i> <span> Home </span>
 				</a></li>
 
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-file-locked"></i><span>Access
 							Rights </span></a>
 
@@ -61,10 +61,10 @@
 							href="${pageContext.request.contextPath}/showAssignRole"
 							class="nav-link">Assign Role</a></li>
 
-					</ul></li>
+					</ul></li> --%>
 
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-file-plus"></i><span>Master</span></a>
 
 					<ul class="nav nav-group-sub" data-submenu-title="Master">
@@ -105,9 +105,9 @@
 							class="nav-link">Weekend Master</a></li>
 
 
-					</ul></li>
+					</ul></li> --%>
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-file-check"></i><span>Task
 							Allotment</span></a>
 
@@ -121,9 +121,9 @@
 							href="${pageContext.request.contextPath}/assignTask"
 							class="nav-link">Assign Task</a></li>
 
-					</ul></li>
+					</ul></li> --%>
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-exit3"></i><span> Leave
 							Management </span></a>
 
@@ -141,9 +141,9 @@
 							href="${pageContext.request.contextPath}/empListwithDaywiseLeaveStatus"
 							class="nav-link">Leave Record Sheet</a></li>
 
-					</ul></li>
+					</ul></li> --%>
 
-				<li class="nav-item nav-item-submenu"><a href="#"
+				<%-- <li class="nav-item nav-item-submenu"><a href="#"
 					class="nav-link"><i class="icon-stack"></i><span> Daily
 							Work Log </span></a>
 
@@ -153,7 +153,7 @@
 							href="${pageContext.request.contextPath}/showDailyWorkLog"
 							class="nav-link">Daily Work Log</a></li>
 
-					</ul></li>
+					</ul></li> --%>
 
 				<c:forEach items="${sessionScope.newModuleList}"
 					var="moduleJsonList" varStatus="count">
