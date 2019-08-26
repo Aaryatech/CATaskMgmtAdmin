@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -94,6 +95,28 @@ public class MasterMVCController {
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
+			
+			Info add = AccessControll.checkAccess("serviceList", "serviceList", "0", "1", "0", "0",
+					newModuleList);
+			Info edit = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "1", "0",
+					newModuleList);
+			Info delete = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "0", "1",
+					newModuleList);
+			
+			if (add.isError() == false) {
+				// //System.out.println(" add Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
+			if (edit.isError() == false) {
+				// //System.out.println(" edit Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				// //System.out.println(" delete Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in serviceList " + e.getMessage());
@@ -243,10 +266,11 @@ public class MasterMVCController {
 	/**************************** Activity Controller ****************************/
 
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
-	public ModelAndView activityForm(Locale locale, Model model) {
+	public ModelAndView activityForm(Locale locale, Model model, HttpServletRequest request) {
 
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info info = AccessControll.checkAccess("activity", "activity","1","0", "0", "0", newModuleList);
 			if (info.isError() == true) {
@@ -261,6 +285,15 @@ public class MasterMVCController {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
 			mav.addObject("serviceList", srvcMstrList);
+			
+			Info add = AccessControll.checkAccess("activity", "activity", "0", "1", "0", "0",
+					newModuleList);
+			
+			if (add.isError() == false) {
+				// //System.out.println(" add Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in activity " + e.getMessage());
@@ -273,13 +306,14 @@ public class MasterMVCController {
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("activityAdd", "activity","0","1", "0", "0", newModuleList);
-			if (info.isError() == true) {
+			//HttpSession session = request.getSession();
+			//List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			///Info info = AccessControll.checkAccess("activityAdd", "activityAdd","1","0", "0", "0", newModuleList);
+			//if (info.isError() == true) {
 
-				mav = new ModelAndView("accessDenied");
+			//	mav = new ModelAndView("accessDenied");
 
-			} else {
+			//} else {
 				mav = new ModelAndView("master/activityAdd");
 				ActivityMaster activity = new ActivityMaster();
 				mav.addObject("activity", activity);
@@ -311,7 +345,24 @@ public class MasterMVCController {
 				mav.addObject("periodList", periodList);
 	
 				mav.addObject("title", "Add Activity");
-			}
+				
+			
+				//Info edit = AccessControll.checkAccess("activityAdd", "activityAdd", "0", "0", "1", "0",
+				//		newModuleList);
+				//Info delete = AccessControll.checkAccess("activityAdd", "activityAdd", "0", "0", "0", "1",
+					//	newModuleList);
+				
+				
+				//if (edit.isError() == false) {
+					// //System.out.println(" edit Accessable ");
+				//	mav.addObject("editAccess", 0);
+				////}
+				//if (delete.isError() == false) {
+					// //System.out.println(" delete Accessable ");
+					//mav.addObject("deleteAccess", 0);
+
+				//}
+			//}
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
@@ -366,6 +417,7 @@ public class MasterMVCController {
 	public ModelAndView editActivity(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info info = AccessControll.checkAccess("editActivity", "activity","0","0", "1", "0", newModuleList);
 			if (info.isError() == true) {
@@ -428,6 +480,7 @@ public class MasterMVCController {
 		int serviceId = 0;
 		String redirect = null;
 		try {
+			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info info = AccessControll.checkAccess("deleteActivity", "activity","0","0", "1", "0", newModuleList);
 			if (info.isError() == true) {
@@ -504,10 +557,22 @@ public class MasterMVCController {
 	/*********************** Employee Master *************************/
 
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
-	public ModelAndView employeeListForm(Locale locale, Model model) {
+	public ModelAndView employeeListForm(Locale locale, Model model, HttpServletRequest request) {
 
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			
+			Info view = AccessControll.checkAccess("employeeList", "employeeList", "1", "0", "0", "0",
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
+			
 			mav = new ModelAndView("master/employeeList");
 
 			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
@@ -521,6 +586,29 @@ public class MasterMVCController {
 
 				epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
 			}
+			
+			Info add = AccessControll.checkAccess("employeeList", "employeeList", "0", "1", "0", "0",
+					newModuleList);
+			Info edit = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "1", "0",
+					newModuleList);
+			Info delete = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "0", "1",
+					newModuleList);
+
+			if (add.isError() == false) {
+				//System.out.println(" add   Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
+			if (edit.isError() == false) {
+				//System.out.println(" edit   Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				//System.out.println(" delete   Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
+		}
 
 		} catch (Exception e) {
 			System.err.println("Exce in employeeList " + e.getMessage());
@@ -531,10 +619,20 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/employeeAdd", method = RequestMethod.GET)
-	public ModelAndView employeeAddForm(Locale locale, Model model) {
+	public ModelAndView employeeAddForm(Locale locale, Model model, HttpServletRequest request) {
 
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		
+			Info view = AccessControll.checkAccess("employeeAdd", "employeeList", "0", "1", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			mav = new ModelAndView("master/employeeAdd");
 
 			EmployeeMaster employee = new EmployeeMaster();
@@ -548,7 +646,7 @@ public class MasterMVCController {
 
 			mav.addObject("title", "Add Employee");
 			mav.addObject("imageUrl", Constants.imageViewUrl);
-
+			}
 
 		} catch (Exception e) {
 			System.err.println("Exce in employeeAdd " + e.getMessage());
@@ -653,7 +751,16 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		MultiValueMap<String, Object> map = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		
+			Info view = AccessControll.checkAccess("editEmployee", "employeeList", "0", "0", "1", "0", newModuleList);
 
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			List empEditSrvcs = new ArrayList();
 
 			mav = new ModelAndView("master/employeeAdd");
@@ -701,7 +808,7 @@ public class MasterMVCController {
 			/// mav.addObject("empServcId", empEditSrvcs);
 
 			mav.addObject("title", "Edit Employee");
-
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in editEmployee " + e.getMessage());
 			e.printStackTrace();
@@ -714,9 +821,19 @@ public class MasterMVCController {
 
 		String base64encodedString = request.getParameter("empId");
 		String employeeId = FormValidation.DecodeKey(base64encodedString);
-
+		String redirect = null;
 		int serviceId = 0;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		
+			Info view = AccessControll.checkAccess("editEmployee", "employeeList", "0", "0", "0", "1", newModuleList);
+
+			if (view.isError() == true) {
+
+				redirect = "redirect:/accessDenied";
+
+			} else {
 			MultiValueMap<String, Object> map = null;
 			session = request.getSession();
 
@@ -733,11 +850,13 @@ public class MasterMVCController {
 			map.add("empId", employeeId);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map, Info.class);
+			redirect = "redirect:/employeeList";
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteEmployee " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/employeeList";
+		return redirect;
 	}
 
 	@RequestMapping(value = "/updateIsActive", method = RequestMethod.GET)
@@ -774,9 +893,19 @@ public class MasterMVCController {
 	/********************** Customer Group Master **************************/
 
 	@RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
-	public ModelAndView customerGroupListForm(Locale locale, Model model) {
+	public ModelAndView customerGroupListForm(Locale locale, Model model, HttpServletRequest request) {
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");			
+			Info view = AccessControll.checkAccess("customerGroupList", "customerGroupList", "1", "0", "0", "0",
+					newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			mav = new ModelAndView("master/customerGroupList");
 
 			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
@@ -784,8 +913,31 @@ public class MasterMVCController {
 			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 
 			mav.addObject("custGrpList", custGrpList);
-			return mav;
-		} catch (Exception e) {
+			
+			Info add = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "1", "0", "0",
+					newModuleList);
+			Info edit = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "1", "0",
+					newModuleList);
+			Info delete = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "0", "1",
+					newModuleList);
+
+			if (add.isError() == false) {
+				//System.out.println(" add   Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
+			if (edit.isError() == false) {
+				//System.out.println(" edit   Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				//System.out.println(" delete   Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
+		}
+			
+			} catch (Exception e) {
 			System.err.println("Exce in customerGroupList " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -793,17 +945,26 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
-	public ModelAndView customerGroupAddForm(Locale locale, Model model) {
+	public ModelAndView customerGroupAddForm(Locale locale, Model model, HttpServletRequest request) {
 
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			mav = new ModelAndView("master/customerGroupAdd");
 
 			CustomerGroupMaster cust = new CustomerGroupMaster();
 			mav.addObject("cust", cust);
 
 			mav.addObject("title", "  Add Customer Group");
-
+			}
 		} catch (Exception e) {
 
 			System.err.println("Exce in customerGroupAdd " + e.getMessage());
@@ -860,6 +1021,15 @@ public class MasterMVCController {
 
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
 
 			mav = new ModelAndView("master/customerGroupAdd");
@@ -875,6 +1045,7 @@ public class MasterMVCController {
 			mav.addObject("cust", custGrp);
 
 			mav.addObject("title", "Edit Customer Group");
+			}
 		} catch (Exception e) {
 
 			System.err.println("Exce in customerGroupAdd " + e.getMessage());
@@ -886,8 +1057,17 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/deleteCustGrp", method = RequestMethod.GET)
 	public String deleteCustGrp(HttpServletRequest request, HttpServletResponse response) {
-
+		String redirect = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				redirect = "redirect:/accessDenied";
+
+			} else {
 			MultiValueMap<String, Object> map = null;
 
 			int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
@@ -904,20 +1084,30 @@ public class MasterMVCController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerGroup", map,
 					Info.class);
+			redirect = "redirect:/customerGroupList";
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteCustGrp " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/customerGroupList";
+		return redirect; 
 	}
 
 	/******************** Customer Header Master *************************/
 
 	@RequestMapping(value = "/customerAdd", method = RequestMethod.GET)
-	public ModelAndView clientForm(Locale locale, Model model) {
+	public ModelAndView clientForm(Locale locale, Model model, HttpServletRequest request) {
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			Info view = AccessControll.checkAccess("customerAdd", "customerList", "0", "1", "0", "0", newModuleList);
 
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			mav = new ModelAndView("master/customerAdd");
 
 			CustomerHeaderMaster custHead = new CustomerHeaderMaster();
@@ -934,7 +1124,7 @@ public class MasterMVCController {
 			mav.addObject("epmList", epmList);
 
 			mav.addObject("title", "Add Customer");
-
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
 			e.printStackTrace();
@@ -943,11 +1133,20 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/customerList", method = RequestMethod.GET)
-	public ModelAndView clientListForm(Locale locale, Model model) {
+	public ModelAndView clientListForm(Locale locale, Model model, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView("master/customerList");
 		try {
+			HttpSession session = request.getSession();		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");			
+			Info view = AccessControll.checkAccess("customerList", "customerList", "1", "0", "0", "0",
+					newModuleList);
 
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
@@ -956,7 +1155,29 @@ public class MasterMVCController {
 				custHeadList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustId())));
 			}
 			mav.addObject("custHeadList", custHeadList);
+			
+			Info add = AccessControll.checkAccess("customerList", "customerList", "0", "1", "0", "0",
+					newModuleList);
+			Info edit = AccessControll.checkAccess("customerList", "customerList", "0", "0", "1", "0",
+					newModuleList);
+			Info delete = AccessControll.checkAccess("customerList", "customerList", "0", "0", "0", "1",
+					newModuleList);
 
+			if (add.isError() == false) {
+				//System.out.println(" add   Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
+			if (edit.isError() == false) {
+				//System.out.println(" edit   Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				//System.out.println(" delete   Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerList " + e.getMessage());
 			e.printStackTrace();
@@ -1038,6 +1259,16 @@ public class MasterMVCController {
 	public ModelAndView editCust(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
+			 
+		HttpSession session = request.getSession();
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+		Info view = AccessControll.checkAccess("editCust", "customerList", "0", "0", "1", "0", newModuleList);
+
+		if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+		} else {
+	
 			MultiValueMap<String, Object> map = null;
 			mav = new ModelAndView("master/customerAdd");
 
@@ -1069,7 +1300,7 @@ public class MasterMVCController {
 			mav.addObject("custGrpList", custGrpList);
 
 			mav.addObject("title", "Edit Customer");
-
+		}
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());
 			e.printStackTrace();
@@ -1079,11 +1310,18 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/deletCust", method = RequestMethod.GET)
 	public String deletCustcustId(HttpServletRequest request, HttpServletResponse response) {
-
+		String redirect = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			Info view = AccessControll.checkAccess("deletCust", "customerList", "0", "0", "1", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				redirect = "redirect:/accessDenied";
+			} else {
 			MultiValueMap<String, Object> map = null;
 
-			session = request.getSession();
 
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -1098,11 +1336,14 @@ public class MasterMVCController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerHeader", map,
 					Info.class);
+			
+			 redirect = "redirect:/customerList";
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/customerList";
+		return redirect;
 	}
 
 	/***************** Customer Activity Mapping Master ****************/
@@ -1252,18 +1493,50 @@ public class MasterMVCController {
 	/******************************* Status Master ********************************/
 
 	@RequestMapping(value = "/statusList", method = RequestMethod.GET)
-	public ModelAndView statusList(Locale locale, Model model) {
+	public ModelAndView statusList(Locale locale, Model model, HttpServletRequest request) {
 
-		ModelAndView mav = new ModelAndView("master/statusList");
+		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			mav = new ModelAndView("master/statusList");
+		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		
+			Info view = AccessControll.checkAccess("statusList", "statusList", "1", "0", "0", "0", newModuleList);
 
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			StatusMaster[] statusMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllStatus",
 					StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
 
 			// logger.info("Service List"+srvcMstrList);
+			Info add = AccessControll.checkAccess("statusList", "statusList", "0", "1", "0", "0",
+					newModuleList);
+			Info edit = AccessControll.checkAccess("statusList", "statusList", "0", "0", "1", "0",
+					newModuleList);
+			Info delete = AccessControll.checkAccess("statusList", "statusList", "0", "0", "0", "1",
+					newModuleList);
 
+			if (add.isError() == false) {
+				//System.out.println(" add   Accessable ");
+				mav.addObject("addAccess", 0);
+
+			}
+			if (edit.isError() == false) {
+				//System.out.println(" edit   Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				//System.out.println(" delete   Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in statusList " + e.getMessage());
 			e.printStackTrace();
@@ -1273,13 +1546,24 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/addStatus", method = RequestMethod.GET)
 	public ModelAndView addStatus(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		ModelAndView mav = new ModelAndView("master/addNewStatus");
+		ModelAndView mav = null;
 		try {
+			mav = new ModelAndView("master/addNewStatus");
+			
+			session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("addStatus", "statusList", "0", "1", "0", "0", newModuleList);
 
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			StatusMaster status = new StatusMaster();
 
 			mav.addObject("status", status);
 			mav.addObject("title", "Add Status");
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in addStatus " + e.getMessage());
 		}
@@ -1342,8 +1626,18 @@ public class MasterMVCController {
 	@RequestMapping(value = "/editStatus", method = RequestMethod.GET)
 	public ModelAndView statusList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
-		ModelAndView mav = new ModelAndView("master/addNewStatus");
+		ModelAndView mav = null;
 		try {
+			mav = new ModelAndView("master/addNewStatus");
+		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "1", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -1357,7 +1651,7 @@ public class MasterMVCController {
 
 			mav.addObject("title", "Edit Status");
 			// logger.info("Service List"+srvcMstrList);
-
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in statusList " + e.getMessage());
 			e.printStackTrace();
@@ -1367,11 +1661,21 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/deleteStatus", method = RequestMethod.GET)
 	public String deleteStatus(HttpServletRequest request, HttpServletResponse response) {
+String redirect = null;
+	try {
+			HttpSession session = request.getSession();
+			
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "1", "0", newModuleList);
 
-		try {
+			if (view.isError() == true) {
+
+				redirect = "rediredt:/accessDenied";
+
+			} else {
 			MultiValueMap<String, Object> map = null;
 
-			session = request.getSession();
+			
 
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -1383,11 +1687,13 @@ public class MasterMVCController {
 			map.add("statusId", statusId);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteStatusById", map, Info.class);
-		} catch (Exception e) {
+			redirect = "redirect:/statusList";
+			}
+			} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/statusList";
+		return redirect;
 	}
 
 	@RequestMapping(value = "/updateTaskStatus", method = RequestMethod.POST)

@@ -70,12 +70,13 @@
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Customer And
 										Activity Mapping</h5></td>
-								<td width="40%" align="right"><a
+								<td width="40%" align="right">
+								<c:if test="${addAccess==0}"><a
 									href="${pageContext.request.contextPath}/customerAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
 											Customer</button>
-								</a></td>
+								</a></c:if></td>
 							</tr>
 						</table>
 					</div>
@@ -156,11 +157,12 @@
 									title="Mapped Activity List"><i class="icon-three-bars""
 										style="color: black;"></i></a>
 										
-										<a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.exVar1}" title="Edit"><i
-										class="icon-pencil7" style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
+										<c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/editCust?custId=${custHeadList.exVar1}" title="Edit"><i
+										class="icon-pencil7" style="color: black;"></i></a></c:if>
+										<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>
+								</a></c:if></td>
 
 							</tr>
 							</c:forEach>

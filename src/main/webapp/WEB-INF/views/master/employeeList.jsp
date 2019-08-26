@@ -66,12 +66,16 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Employee</h5></td>
-								<td width="40%" align="right"><a
+								<td width="40%" align="right">
+								<c:if test="${addAccess==0}">
+								<a
 									href="${pageContext.request.contextPath}/employeeAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
 											Employee</button>
-								</a></td>
+								</a>
+								</c:if>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -149,12 +153,13 @@
 								<td>${epmList.empMob}</td>
 								<td>${epmList.isActive==1 ? 'Yes': epmList.isActive==0 ? 'No' : ''}</td> 
 
-								<td><a href="${pageContext.request.contextPath}/editEmployee?empId=${epmList.empId}" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> 
-									<a href="${pageContext.request.contextPath}/deleteEmployee?empId=${epmList.exVar1}"
+								<td><c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/editEmployee?empId=${epmList.empId}" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a></c:if> 
+								
+									<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deleteEmployee?empId=${epmList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a>
+								</a></c:if>
 								
 								<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
 									onClick="return confirm('Are you sure want to Chage Is Active');"

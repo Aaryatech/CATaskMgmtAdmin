@@ -118,9 +118,12 @@
 							<tr>
 								<td>${count.index+1}</td>
 								<td>${serviceList.servName}</td>
-								<td><a
+								<td>
+								<c:if test="${addAccess==0}">
+								<a
 									href="#" onclick="activityAdd(${serviceList.servId})"
-									title="Edit"><i class="icon-add" style="color: black;"></i></a></td>
+									title="Activity Mapping"><i class="icon-add" style="color: black;"></i></a>
+								</c:if></td>
 							</tr>
 							</c:forEach>
 							

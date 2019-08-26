@@ -66,12 +66,13 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Customer Group</h5></td>
-								<td width="40%" align="right"><a
+								<td width="40%" align="right"><c:if test="${addAccess==0}"><a
 									href="${pageContext.request.contextPath}/customerGroupAdd"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
 											Group</button>
-								</a></td>
+								</a></c:if>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -128,11 +129,12 @@
 								<td>${count.index+1}</td>
 								<td>${custGrpList.custGroupName}</td>
 								
-								<td class="text-center"><a href="${pageContext.request.contextPath}/editCustGrp?custGrpId=${custGrpList.custGroupId}" title="Edit"><i class="icon-pencil7"
-										style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deleteCustGrp?custGrpId=${custGrpList.custGroupId}"
+								<td class="text-center"><c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/editCustGrp?custGrpId=${custGrpList.custGroupId}" title="Edit"><i class="icon-pencil7"
+										style="color: black;"></i></a></c:if> 
+								<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deleteCustGrp?custGrpId=${custGrpList.custGroupId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></td>				
+								</a></c:if></td>				
 
 							</tr>
 							</c:forEach>
