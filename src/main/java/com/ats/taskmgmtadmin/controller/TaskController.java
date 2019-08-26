@@ -63,9 +63,10 @@ public class TaskController {
 
 			} else {
 				mav = new ModelAndView("task/assigntask");
-
-				GetTaskList[] holListArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllTaskList",
-						GetTaskList[].class);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("stat", 0);
+				GetTaskList[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getAllTaskList",
+						map,GetTaskList[].class);
 
 				List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
 

@@ -10,12 +10,13 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="hideAddForm()">
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
-	
-	<c:url value="/getCustLoginDetailByCustDetailId" var="getCustLoginDetailByCustDetailId"></c:url>
+
+	<c:url value="/getCustLoginDetailByCustDetailId"
+		var="getCustLoginDetailByCustDetailId"></c:url>
 	<c:url value="/getCustSignatoryBySignId" var="getCustSignatoryBySignId"></c:url>
-	
+
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -63,7 +64,7 @@
 				<div class="row">
 
 
-					<div class="col-md-12">
+					<div class="col-md-12" id="abc">
 
 
 						<div class="card">
@@ -161,7 +162,8 @@
 												placeholder="Enter Security Question 1" id="que1"
 												name="que1" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_que1"
-												style="display: none;">Please enter security question 1.</span>
+												style="display: none;">Please enter security question
+												1.</span>
 										</div>
 
 
@@ -187,7 +189,8 @@
 												placeholder="Enter Security Question 2" id="que2"
 												name="que2" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label" id="error_que2"
-												style="display: none;">Please enter security question 2.</span>
+												style="display: none;">Please enter security question
+												2.</span>
 										</div>
 
 
@@ -215,14 +218,14 @@
 										</div>
 									</div>
 									<!-- Customer Detail End -->
-									
+
 									<!-- Customer Signatory Start -->
-									
-								<!-- <div class="card-header header-elements-inline">
+
+									<!-- <div class="card-header header-elements-inline">
 										<h6 class="card-title">Customer Signatory</h6>
 								</div> -->
-								
-								<%-- <div class="form-group row">
+
+									<%-- <div class="form-group row">
 										<label class="col-form-label col-lg-2" for="customer">
 											Customer : </label>
 										<div class="col-lg-10">
@@ -234,9 +237,9 @@
 
 									<legend
 										class="font-weight-semibold text-uppercase font-size-sm">Signatory
-										Information</legend>								
-								
-								<div class="form-group row">
+										Information</legend>
+
+									<div class="form-group row">
 										<label class="col-form-label col-lg-2" for="signFName">
 											First Name <span style="color: red"></span>:
 										</label>
@@ -296,14 +299,16 @@
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
 												placeholder="Enter Signatory Contact Number" id="signMobile"
-												name="signMobile" autocomplete="off" onchange="trim(this)" maxlength="10">
-											<span class="validation-invalid-label" id="error_signMobile"
+												name="signMobile" autocomplete="off" onchange="trim(this)"
+												maxlength="10"> <span
+												class="validation-invalid-label" id="error_signMobile"
 												style="display: none;">Please enter contact No.</span>
 										</div>
 
 									</div>
 
-									<legend	class="font-weight-semibold text-uppercase font-size-sm">Contact
+									<legend
+										class="font-weight-semibold text-uppercase font-size-sm">Contact
 										Person Information</legend>
 
 									<div class="form-group row">
@@ -330,7 +335,8 @@
 												placeholder="Enter Email Address" id="contPerEmail"
 												name="contPerEmail" autocomplete="off" onchange="trim(this)">
 											<span class="validation-invalid-label"
-												id="error_contPerEmail" style="display: none;">Please enter email.</span>
+												id="error_contPerEmail" style="display: none;">Please
+												enter email.</span>
 										</div>
 
 
@@ -339,9 +345,10 @@
 										</label>
 										<div class="col-lg-4">
 											<input type="text" class="form-control"
-												placeholder="Enter Contact Number" id="contPerNo" maxlength="10"
-												name="contPerNo" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label" id="error_contPerNo"
+												placeholder="Enter Contact Number" id="contPerNo"
+												maxlength="10" name="contPerNo" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_contPerNo"
 												style="display: none;">Please enter contact No.</span>
 										</div>
 
@@ -357,10 +364,10 @@
 												autocomplete="off" onchange="trim(this)">
 										</div>
 									</div>
-								
-								
-								
-								<!-- Customer Signatory End -->
+
+
+
+									<!-- Customer Signatory End -->
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
@@ -377,7 +384,7 @@
 												</button></a>
 										</div>
 									</div>
- 
+
 
 								</form>
 
@@ -391,10 +398,23 @@
 
 						<div class="card">
 
+							<div class="card-header header-elements-inline">
+
+								<table width="100%">
+									<tr width="100%">
+										<td width="60%"><h5 class="card-title"></h5></td>
+										<td width="40%" align="right">
+											<button type="button" onclick="showAddForm()"
+												class="btn btn-primary">Add Customer Detail</button>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+
 							<div class="card-body">
 
-								<form 
-									id="submitInsertActivity" method="post">
+								<form id="submitInsertActivity1" method="post">
 
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
@@ -427,13 +447,14 @@
 														${custDetail.loginQue2}<br>Ans 2 :
 														${custDetail.loginAns2}
 													</td>
-													<td>${custDetail.signfName} ${custDetail.signlName}</td>
+													<td>${custDetail.signfName}${custDetail.signlName}</td>
 													<td>${custDetail.signDesign}</td>
 													<td>${custDetail.contactName}</td>
 													<td>${custDetail.contactPhno}</td>
-													<td class="text-center"><a href="#"  onclick="showEdit(${custDetail.custDetailId})" title="Edit"><i
-															class="icon-pencil7" style="color: black;"></i></a> <a
-														href=""
+													<td class="text-center"><a href="#"
+														onclick="showEdit(${custDetail.custDetailId})"
+														title="Edit"><i class="icon-pencil7"
+															style="color: black;"></i></a> <a href=""
 														onClick="return confirm('Are you sure want to delete this record');"
 														title="Delete"><i class="icon-trash"
 															style="color: black;"></i> </a></td>
@@ -453,11 +474,10 @@
 					</div>
 
 				</div>
-			</div>	
-				
-				<div class="content">
-			</div>				
-			
+			</div>
+
+			<div class="content"></div>
+
 			<!-- /content area -->
 
 			<!-- Footer -->
@@ -469,6 +489,23 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+function showAddForm(){
+	 var x = document.getElementById("abc");
+	  if (window.getComputedStyle(x).display === "none") {
+		  document.getElementById("abc").style.display="block";
+	  }else {
+		  document.getElementById("abc").style.display="none";
+	  }
+	 
+}
+function hideAddForm(){
+	  document.getElementById("abc").style.display="none";
+}
+
+
+
+</script>
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
@@ -702,7 +739,7 @@
 	 
 
 	</script>
-	
-	
+
+
 </body>
 </html>

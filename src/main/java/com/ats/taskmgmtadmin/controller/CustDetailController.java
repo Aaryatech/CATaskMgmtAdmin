@@ -122,7 +122,7 @@ public class CustDetailController {
 		ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllActivitesByServiceId", map,
 				ActivityMaster[].class);
 		List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
-
+		System.err.println("Exce in " +activityList.toString());
 		return activityList;
 	}
 

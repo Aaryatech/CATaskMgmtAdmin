@@ -52,6 +52,7 @@ import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.FinancialYear;
 import com.ats.taskmgmtadmin.model.FirmType;
 import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
@@ -60,6 +61,7 @@ import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
 import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
+import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
 
 @Controller
@@ -83,40 +85,38 @@ public class MasterMVCController {
 		HttpSession session = request.getSession();
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		try {
-			Info info = AccessControll.checkAccess("serviceList", "serviceList","1","0", "0", "0", newModuleList);
+			Info info = AccessControll.checkAccess("serviceList", "serviceList", "1", "0", "0", "0", newModuleList);
 			if (info.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/serviceList");
-			
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-			mav.addObject("serviceList", srvcMstrList);
-			
-			Info add = AccessControll.checkAccess("serviceList", "serviceList", "0", "1", "0", "0",
-					newModuleList);
-			Info edit = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "1", "0",
-					newModuleList);
-			Info delete = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "0", "1",
-					newModuleList);
-			
-			if (add.isError() == false) {
-				// //System.out.println(" add Accessable ");
-				mav.addObject("addAccess", 0);
+				mav = new ModelAndView("master/serviceList");
 
-			}
-			if (edit.isError() == false) {
-				// //System.out.println(" edit Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				// //System.out.println(" delete Accessable ");
-				mav.addObject("deleteAccess", 0);
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+						ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				mav.addObject("serviceList", srvcMstrList);
 
-			}
+				Info add = AccessControll.checkAccess("serviceList", "serviceList", "0", "1", "0", "0", newModuleList);
+				Info edit = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "1", "0", newModuleList);
+				Info delete = AccessControll.checkAccess("serviceList", "serviceList", "0", "0", "0", "1",
+						newModuleList);
+
+				if (add.isError() == false) {
+					// //System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					// //System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// //System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
+
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in serviceList " + e.getMessage());
@@ -132,17 +132,17 @@ public class MasterMVCController {
 		HttpSession session = request.getSession();
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		try {
-			Info info = AccessControll.checkAccess("service", "serviceList","0","1", "0", "0", newModuleList);
+			Info info = AccessControll.checkAccess("service", "serviceList", "0", "1", "0", "0", newModuleList);
 			if (info.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/serviceAdd");
-			ServiceMaster service = new ServiceMaster();
-			mav.addObject("service", service);
+				mav = new ModelAndView("master/serviceAdd");
+				ServiceMaster service = new ServiceMaster();
+				mav.addObject("service", service);
 
-			mav.addObject("title", "Add Service");
+				mav.addObject("title", "Add Service");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in service " + e.getMessage());
@@ -199,25 +199,25 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("editService", "serviceList","0","0", "1", "0", newModuleList);
+			Info info = AccessControll.checkAccess("editService", "serviceList", "0", "0", "1", "0", newModuleList);
 			if (info.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/serviceAdd");
+				mav = new ModelAndView("master/serviceAdd");
 
-			int serviceId = Integer.parseInt(request.getParameter("serviceId"));
+				int serviceId = Integer.parseInt(request.getParameter("serviceId"));
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-			map.add("serviceId", serviceId);
-			ServiceMaster service = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById", map,
-					ServiceMaster.class);
+				map.add("serviceId", serviceId);
+				ServiceMaster service = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
+						map, ServiceMaster.class);
 
-			mav.addObject("service", service);
+				mav.addObject("service", service);
 
-			mav.addObject("title", "Edit Service");
+				mav.addObject("title", "Edit Service");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editService " + e.getMessage());
@@ -234,25 +234,25 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("editService", "serviceList","0","0", "0", "1", newModuleList);
+			Info info = AccessControll.checkAccess("editService", "serviceList", "0", "0", "0", "1", newModuleList);
 			if (info.isError() == true) {
 
 				redirect = "redirect:/accessDenied";
 
 			} else {
 				session = request.getSession();
-	
+
 				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 				int userId = emp.getEmpId();
-	
+
 				int serviceId = Integer.parseInt(request.getParameter("serviceId"));
-	
+
 				System.out.println("Delete:" + serviceId);
-	
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("userId", userId);
 				map.add("serviceId", serviceId);
-	
+
 				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteService", map, Info.class);
 				redirect = "redirect:/serviceList";
 			}
@@ -272,28 +272,27 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("activity", "activity","1","0", "0", "0", newModuleList);
+			Info info = AccessControll.checkAccess("activity", "activity", "1", "0", "0", "0", newModuleList);
 			if (info.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/activityList");
+				mav = new ModelAndView("master/activityList");
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+						ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
-			mav.addObject("serviceList", srvcMstrList);
-			
-			Info add = AccessControll.checkAccess("activity", "activity", "0", "1", "0", "0",
-					newModuleList);
-			
-			if (add.isError() == false) {
-				// //System.out.println(" add Accessable ");
-				mav.addObject("addAccess", 0);
+				mav.addObject("serviceList", srvcMstrList);
 
-			}
+				Info add = AccessControll.checkAccess("activity", "activity", "0", "1", "0", "0", newModuleList);
+
+				if (add.isError() == false) {
+					// //System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
+
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in activity " + e.getMessage());
@@ -306,63 +305,65 @@ public class MasterMVCController {
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-			//HttpSession session = request.getSession();
-			//List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			///Info info = AccessControll.checkAccess("activityAdd", "activityAdd","1","0", "0", "0", newModuleList);
-			//if (info.isError() == true) {
+			// HttpSession session = request.getSession();
+			// List<ModuleJson> newModuleList = (List<ModuleJson>)
+			// session.getAttribute("newModuleList");
+			/// Info info = AccessControll.checkAccess("activityAdd", "activityAdd","1","0",
+			// "0", "0", newModuleList);
+			// if (info.isError() == true) {
 
-			//	mav = new ModelAndView("accessDenied");
+			// mav = new ModelAndView("accessDenied");
 
-			//} else {
-				mav = new ModelAndView("master/activityAdd");
-				ActivityMaster activity = new ActivityMaster();
-				mav.addObject("activity", activity);
-				MultiValueMap<String, Object> map = null;
-	
-				int serviceId = Integer.parseInt(request.getParameter("map_service_id"));
-				System.out.println("Mapping Service Id = " + serviceId);
-	
-				map = new LinkedMultiValueMap<>();
-				map.add("serviceId", serviceId);
-	
-				ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
-						map, ServiceMaster.class);
-	
-				mav.addObject("service", servicemMap);
-	
-				map = new LinkedMultiValueMap<>();
-				map.add("serviceId", serviceId);
-	
-				ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
-				List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
-				System.out.println("Act List:" + activityList);
-				mav.addObject("actList", activityList);
-	
-				DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
-				List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
-				mav.addObject("periodList", periodList);
-	
-				mav.addObject("title", "Add Activity");
-				
-			
-				//Info edit = AccessControll.checkAccess("activityAdd", "activityAdd", "0", "0", "1", "0",
-				//		newModuleList);
-				//Info delete = AccessControll.checkAccess("activityAdd", "activityAdd", "0", "0", "0", "1",
-					//	newModuleList);
-				
-				
-				//if (edit.isError() == false) {
-					// //System.out.println(" edit Accessable ");
-				//	mav.addObject("editAccess", 0);
-				////}
-				//if (delete.isError() == false) {
-					// //System.out.println(" delete Accessable ");
-					//mav.addObject("deleteAccess", 0);
+			// } else {
+			mav = new ModelAndView("master/activityAdd");
+			ActivityMaster activity = new ActivityMaster();
+			mav.addObject("activity", activity);
+			MultiValueMap<String, Object> map = null;
 
-				//}
-			//}
+			int serviceId = Integer.parseInt(request.getParameter("map_service_id"));
+			System.out.println("Mapping Service Id = " + serviceId);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+
+			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
+					map, ServiceMaster.class);
+
+			mav.addObject("service", servicemMap);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+
+			ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
+			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			System.out.println("Act List:" + activityList);
+			mav.addObject("actList", activityList);
+
+			DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+			mav.addObject("periodList", periodList);
+
+			mav.addObject("title", "Add Activity");
+
+			// Info edit = AccessControll.checkAccess("activityAdd", "activityAdd", "0",
+			// "0", "1", "0",
+			// newModuleList);
+			// Info delete = AccessControll.checkAccess("activityAdd", "activityAdd", "0",
+			// "0", "0", "1",
+			// newModuleList);
+
+			// if (edit.isError() == false) {
+			// //System.out.println(" edit Accessable ");
+			// mav.addObject("editAccess", 0);
+			//// }
+			// if (delete.isError() == false) {
+			// //System.out.println(" delete Accessable ");
+			// mav.addObject("deleteAccess", 0);
+
+			// }
+			// }
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
@@ -419,54 +420,54 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("editActivity", "activity","0","0", "1", "0", newModuleList);
+			Info info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
 			if (info.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
 				mav = new ModelAndView("master/activityAdd");
-	
+
 				MultiValueMap<String, Object> map = null;
-	
+
 				int activityId = Integer.parseInt(request.getParameter("actiId"));
 				System.err.println("In Activity Edit--------" + activityId);
-	
+
 				map = new LinkedMultiValueMap<>();
 				map.add("activityId", activityId);
-	
-				ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById", map,
-						ActivityMaster.class);
+
+				ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById",
+						map, ActivityMaster.class);
 				System.out.println("Ativity=" + activity);
 				mav.addObject("activity", activity);
-	
+
 				map = new LinkedMultiValueMap<>();
 				map.add("serviceId", activity.getServId());
-	
+
 				ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
 						map, ServiceMaster.class);
 				System.out.println("Service=" + servicemMap);
 				mav.addObject("service", servicemMap);
-	
+
 				map = new LinkedMultiValueMap<>();
 				map.add("serviceId", activity.getServId());
-	
+
 				ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
 				List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
 				System.out.println("Act List:" + activityList);
 				mav.addObject("actList", activityList);
-	
+
 				DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 				List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
 				System.out.println("Periodicit-------------" + periodList);
 				mav.addObject("periodList", periodList);
-	
+
 				mav.addObject("title", "Edit Activity");
 
 			}
-			} catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("Exce in editActivity " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -482,7 +483,7 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info info = AccessControll.checkAccess("deleteActivity", "activity","0","0", "1", "0", newModuleList);
+			Info info = AccessControll.checkAccess("deleteActivity", "activity", "0", "0", "1", "0", newModuleList);
 			if (info.isError() == true) {
 
 				redirect = "redirect:/accessDenied";
@@ -490,26 +491,27 @@ public class MasterMVCController {
 			} else {
 				MultiValueMap<String, Object> map = null;
 				session = request.getSession();
-	
+
 				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 				int userId = emp.getEmpId();
-	
+
 				System.out.println("Delete:" + activityId);
-	
+
 				map = new LinkedMultiValueMap<>();
 				map.add("activityId", activityId);
-	
-				ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById", map,
-						ActivityMaster.class);
-	
+
+				ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById",
+						map, ActivityMaster.class);
+
 				serviceId = activity.getServId();
 				// System.out.println("In Act Del="+activity+" "+serviceId);
-	
+
 				map = new LinkedMultiValueMap<>();
 				map.add("userId", userId);
 				map.add("activityId", activityId);
-	
-				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteActivity", map, Info.class);
+
+				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteActivity", map,
+						Info.class);
 				redirect = "redirect:/activity";
 			}
 		} catch (Exception e) {
@@ -518,7 +520,7 @@ public class MasterMVCController {
 		}
 		return redirect;
 	}
-	
+
 	@RequestMapping(value = "/activityAdd/{serviceId}", method = RequestMethod.GET)
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable int serviceId) {
@@ -563,52 +565,50 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			
-			Info view = AccessControll.checkAccess("employeeList", "employeeList", "1", "0", "0", "0",
-					newModuleList);
+
+			Info view = AccessControll.checkAccess("employeeList", "employeeList", "1", "0", "0", "0", newModuleList);
 
 			if (view.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			
-			mav = new ModelAndView("master/employeeList");
 
-			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
-					EmployeeMaster[].class);
-			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-			mav.addObject("epmList", epmList);
-			mav.addObject("imageUrl", Constants.imageViewUrl);
+				mav = new ModelAndView("master/employeeList");
 
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+				mav.addObject("imageUrl", Constants.imageViewUrl);
 
-			for (int i = 0; i < epmList.size(); i++) {
+				for (int i = 0; i < epmList.size(); i++) {
 
-				epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
+					epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
+				}
+
+				Info add = AccessControll.checkAccess("employeeList", "employeeList", "0", "1", "0", "0",
+						newModuleList);
+				Info edit = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "1", "0",
+						newModuleList);
+				Info delete = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "0", "1",
+						newModuleList);
+
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
+
+				}
 			}
-			
-			Info add = AccessControll.checkAccess("employeeList", "employeeList", "0", "1", "0", "0",
-					newModuleList);
-			Info edit = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "1", "0",
-					newModuleList);
-			Info delete = AccessControll.checkAccess("employeeList", "employeeList", "0", "0", "0", "1",
-					newModuleList);
-
-			if (add.isError() == false) {
-				//System.out.println(" add   Accessable ");
-				mav.addObject("addAccess", 0);
-
-			}
-			if (edit.isError() == false) {
-				//System.out.println(" edit   Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				//System.out.println(" delete   Accessable ");
-				mav.addObject("deleteAccess", 0);
-
-			}
-		}
 
 		} catch (Exception e) {
 			System.err.println("Exce in employeeList " + e.getMessage());
@@ -625,7 +625,7 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		
+
 			Info view = AccessControll.checkAccess("employeeAdd", "employeeList", "0", "1", "0", "0", newModuleList);
 
 			if (view.isError() == true) {
@@ -633,19 +633,19 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/employeeAdd");
+				mav = new ModelAndView("master/employeeAdd");
 
-			EmployeeMaster employee = new EmployeeMaster();
-			mav.addObject("employee", employee);
+				EmployeeMaster employee = new EmployeeMaster();
+				mav.addObject("employee", employee);
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+						ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 
-			mav.addObject("serviceList", srvcMstrList);
+				mav.addObject("serviceList", srvcMstrList);
 
-			mav.addObject("title", "Add Employee");
-			mav.addObject("imageUrl", Constants.imageViewUrl);
+				mav.addObject("title", "Add Employee");
+				mav.addObject("imageUrl", Constants.imageViewUrl);
 			}
 
 		} catch (Exception e) {
@@ -660,7 +660,7 @@ public class MasterMVCController {
 	public String addNwEmployee(@RequestParam("profilePic") List<MultipartFile> profilePic, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			 
+
 			Date date = new Date();
 
 			session = request.getSession();
@@ -693,7 +693,7 @@ public class MasterMVCController {
 			} catch (Exception e) {
 
 				servicesList = "NA";
-				//System.out.println("Serviceas:" + servicesList);
+				// System.out.println("Serviceas:" + servicesList);
 			}
 
 			if (profilePic.get(0).getOriginalFilename() != "") {
@@ -753,7 +753,7 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		
+
 			Info view = AccessControll.checkAccess("editEmployee", "employeeList", "0", "0", "1", "0", newModuleList);
 
 			if (view.isError() == true) {
@@ -761,53 +761,53 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			List empEditSrvcs = new ArrayList();
+				List empEditSrvcs = new ArrayList();
 
-			mav = new ModelAndView("master/employeeAdd");
+				mav = new ModelAndView("master/employeeAdd");
 
-			int empId = Integer.parseInt(request.getParameter("empId"));
-			System.out.println("Emp Id:" + empId);
+				int empId = Integer.parseInt(request.getParameter("empId"));
+				System.out.println("Emp Id:" + empId);
 
-			map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<>();
 
-			map.add("empId", empId);
-			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
-					EmployeeMaster.class);
-			System.err.println("EmpSrvcList-------" + employee.getEmpDesc());
-			mav.addObject("employee", employee);
+				map.add("empId", empId);
+				EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
+						map, EmployeeMaster.class);
+				System.err.println("EmpSrvcList-------" + employee.getEmpDesc());
+				mav.addObject("employee", employee);
 
-			List<Integer> empSrvc = Stream.of(employee.getEmpDesc().split(",")).map(Integer::parseInt)
-					.collect(Collectors.toList());
+				List<Integer> empSrvc = Stream.of(employee.getEmpDesc().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
 
-			System.out.println("Res------------" + empSrvc);
+				System.out.println("Res------------" + empSrvc);
 
-			mav.addObject("empSrvcIds", empSrvc);
-			mav.addObject("imageUrl", Constants.imageViewUrl);
+				mav.addObject("empSrvcIds", empSrvc);
+				mav.addObject("imageUrl", Constants.imageViewUrl);
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-			System.out.println("srvcMstrList------------" + srvcMstrList);
-			mav.addObject("serviceList", srvcMstrList);
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+						ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				System.out.println("srvcMstrList------------" + srvcMstrList);
+				mav.addObject("serviceList", srvcMstrList);
 
-			/*
-			 * for (int i = 0; i < empSrvc.size(); i++) {
-			 * 
-			 * for (int j = 0; j < srvcMstrList.size(); j++) {
-			 * 
-			 * if(Integer.parseInt(empSrvc.get(i))==srvcMstrList.get(j).getServId()) {
-			 * System.out.println("List Found-------------"+empSrvc.get(i));
-			 * 
-			 * empEditSrvcs.add(empSrvc.get(i)); }
-			 * 
-			 * }
-			 * 
-			 * }
-			 */
+				/*
+				 * for (int i = 0; i < empSrvc.size(); i++) {
+				 * 
+				 * for (int j = 0; j < srvcMstrList.size(); j++) {
+				 * 
+				 * if(Integer.parseInt(empSrvc.get(i))==srvcMstrList.get(j).getServId()) {
+				 * System.out.println("List Found-------------"+empSrvc.get(i));
+				 * 
+				 * empEditSrvcs.add(empSrvc.get(i)); }
+				 * 
+				 * }
+				 * 
+				 * }
+				 */
 
-			/// mav.addObject("empServcId", empEditSrvcs);
+				/// mav.addObject("empServcId", empEditSrvcs);
 
-			mav.addObject("title", "Edit Employee");
+				mav.addObject("title", "Edit Employee");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editEmployee " + e.getMessage());
@@ -826,7 +826,7 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		
+
 			Info view = AccessControll.checkAccess("editEmployee", "employeeList", "0", "0", "0", "1", newModuleList);
 
 			if (view.isError() == true) {
@@ -834,23 +834,24 @@ public class MasterMVCController {
 				redirect = "redirect:/accessDenied";
 
 			} else {
-			MultiValueMap<String, Object> map = null;
-			session = request.getSession();
+				MultiValueMap<String, Object> map = null;
+				session = request.getSession();
 
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-			int userId = emp.getEmpId();
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
 
-			System.out.println("Delete:" + employeeId);
+				System.out.println("Delete:" + employeeId);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("employeeId", employeeId);
+				map = new LinkedMultiValueMap<>();
+				map.add("employeeId", employeeId);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("userId", userId);
-			map.add("empId", employeeId);
+				map = new LinkedMultiValueMap<>();
+				map.add("userId", userId);
+				map.add("empId", employeeId);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map, Info.class);
-			redirect = "redirect:/employeeList";
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map,
+						Info.class);
+				redirect = "redirect:/employeeList";
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteEmployee " + e.getMessage());
@@ -896,8 +897,8 @@ public class MasterMVCController {
 	public ModelAndView customerGroupListForm(Locale locale, Model model, HttpServletRequest request) {
 		ModelAndView mav = null;
 		try {
-			HttpSession session = request.getSession();		
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");			
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("customerGroupList", "customerGroupList", "1", "0", "0", "0",
 					newModuleList);
 
@@ -906,38 +907,38 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/customerGroupList");
+				mav = new ModelAndView("master/customerGroupList");
 
-			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
-			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+				CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
+				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 
-			mav.addObject("custGrpList", custGrpList);
-			
-			Info add = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "1", "0", "0",
-					newModuleList);
-			Info edit = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "1", "0",
-					newModuleList);
-			Info delete = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "0", "1",
-					newModuleList);
+				mav.addObject("custGrpList", custGrpList);
 
-			if (add.isError() == false) {
-				//System.out.println(" add   Accessable ");
-				mav.addObject("addAccess", 0);
+				Info add = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "1", "0", "0",
+						newModuleList);
+				Info edit = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "1", "0",
+						newModuleList);
+				Info delete = AccessControll.checkAccess("customerGroupList", "customerGroupList", "0", "0", "0", "1",
+						newModuleList);
 
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
+
+				}
 			}
-			if (edit.isError() == false) {
-				//System.out.println(" edit   Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				//System.out.println(" delete   Accessable ");
-				mav.addObject("deleteAccess", 0);
 
-			}
-		}
-			
-			} catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("Exce in customerGroupList " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -950,20 +951,21 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
-			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0",
+					newModuleList);
 
 			if (view.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/customerGroupAdd");
+				mav = new ModelAndView("master/customerGroupAdd");
 
-			CustomerGroupMaster cust = new CustomerGroupMaster();
-			mav.addObject("cust", cust);
+				CustomerGroupMaster cust = new CustomerGroupMaster();
+				mav.addObject("cust", cust);
 
-			mav.addObject("title", "  Add Customer Group");
+				mav.addObject("title", "  Add Customer Group");
 			}
 		} catch (Exception e) {
 
@@ -1022,29 +1024,30 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
-			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0",
+					newModuleList);
 
 			if (view.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
+				int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
 
-			mav = new ModelAndView("master/customerGroupAdd");
+				mav = new ModelAndView("master/customerGroupAdd");
 
-			CustomerGroupMaster cust = new CustomerGroupMaster();
-			mav.addObject("cust", cust);
+				CustomerGroupMaster cust = new CustomerGroupMaster();
+				mav.addObject("cust", cust);
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("custGrpId", custGrpId);
-			CustomerGroupMaster custGrp = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getCustomerGroupById", map, CustomerGroupMaster.class);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("custGrpId", custGrpId);
+				CustomerGroupMaster custGrp = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getCustomerGroupById", map, CustomerGroupMaster.class);
 
-			mav.addObject("cust", custGrp);
+				mav.addObject("cust", custGrp);
 
-			mav.addObject("title", "Edit Customer Group");
+				mav.addObject("title", "Edit Customer Group");
 			}
 		} catch (Exception e) {
 
@@ -1060,37 +1063,38 @@ public class MasterMVCController {
 		String redirect = null;
 		try {
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
-			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0", newModuleList);
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("customerGroupAdd", "customerGroupList", "0", "1", "0", "0",
+					newModuleList);
 
 			if (view.isError() == true) {
 
 				redirect = "redirect:/accessDenied";
 
 			} else {
-			MultiValueMap<String, Object> map = null;
+				MultiValueMap<String, Object> map = null;
 
-			int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
-			System.out.println("ID:" + custGrpId);
+				int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
+				System.out.println("ID:" + custGrpId);
 
-			session = request.getSession();
+				session = request.getSession();
 
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-			int userId = emp.getEmpId();
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
 
-			map = new LinkedMultiValueMap<>();
-			map.add("userId", userId);
-			map.add("custGrpId", custGrpId);
+				map = new LinkedMultiValueMap<>();
+				map.add("userId", userId);
+				map.add("custGrpId", custGrpId);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerGroup", map,
-					Info.class);
-			redirect = "redirect:/customerGroupList";
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerGroup", map,
+						Info.class);
+				redirect = "redirect:/customerGroupList";
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteCustGrp " + e.getMessage());
 			e.printStackTrace();
 		}
-		return redirect; 
+		return redirect;
 	}
 
 	/******************** Customer Header Master *************************/
@@ -1100,7 +1104,7 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("customerAdd", "customerList", "0", "1", "0", "0", newModuleList);
 
 			if (view.isError() == true) {
@@ -1108,22 +1112,22 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			mav = new ModelAndView("master/customerAdd");
+				mav = new ModelAndView("master/customerAdd");
 
-			CustomerHeaderMaster custHead = new CustomerHeaderMaster();
-			mav.addObject("custHead", custHead);
+				CustomerHeaderMaster custHead = new CustomerHeaderMaster();
+				mav.addObject("custHead", custHead);
 
-			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
-			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
-			mav.addObject("custGrpList", custGrpList);
+				CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
+				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+				mav.addObject("custGrpList", custGrpList);
 
-			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
-					EmployeeMaster[].class);
-			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-			mav.addObject("epmList", epmList);
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
 
-			mav.addObject("title", "Add Customer");
+				mav.addObject("title", "Add Customer");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
@@ -1137,46 +1141,46 @@ public class MasterMVCController {
 
 		ModelAndView mav = new ModelAndView("master/customerList");
 		try {
-			HttpSession session = request.getSession();		
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");			
-			Info view = AccessControll.checkAccess("customerList", "customerList", "1", "0", "0", "0",
-					newModuleList);
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("customerList", "customerList", "1", "0", "0", "0", newModuleList);
 
 			if (view.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
-			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
-			for (int i = 0; i < custHeadList.size(); i++) {
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+				for (int i = 0; i < custHeadList.size(); i++) {
 
-				custHeadList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustId())));
-			}
-			mav.addObject("custHeadList", custHeadList);
-			
-			Info add = AccessControll.checkAccess("customerList", "customerList", "0", "1", "0", "0",
-					newModuleList);
-			Info edit = AccessControll.checkAccess("customerList", "customerList", "0", "0", "1", "0",
-					newModuleList);
-			Info delete = AccessControll.checkAccess("customerList", "customerList", "0", "0", "0", "1",
-					newModuleList);
+					custHeadList.get(i)
+							.setExVar1(FormValidation.Encrypt(String.valueOf(custHeadList.get(i).getCustId())));
+				}
+				mav.addObject("custHeadList", custHeadList);
 
-			if (add.isError() == false) {
-				//System.out.println(" add   Accessable ");
-				mav.addObject("addAccess", 0);
+				Info add = AccessControll.checkAccess("customerList", "customerList", "0", "1", "0", "0",
+						newModuleList);
+				Info edit = AccessControll.checkAccess("customerList", "customerList", "0", "0", "1", "0",
+						newModuleList);
+				Info delete = AccessControll.checkAccess("customerList", "customerList", "0", "0", "0", "1",
+						newModuleList);
 
-			}
-			if (edit.isError() == false) {
-				//System.out.println(" edit   Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				//System.out.println(" delete   Accessable ");
-				mav.addObject("deleteAccess", 0);
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
 
-			}
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
+
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerList " + e.getMessage());
@@ -1259,48 +1263,48 @@ public class MasterMVCController {
 	public ModelAndView editCust(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-			 
-		HttpSession session = request.getSession();
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
-		Info view = AccessControll.checkAccess("editCust", "customerList", "0", "0", "1", "0", newModuleList);
 
-		if (view.isError() == true) {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("editCust", "customerList", "0", "0", "1", "0", newModuleList);
+
+			if (view.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
-		} else {
-	
-			MultiValueMap<String, Object> map = null;
-			mav = new ModelAndView("master/customerAdd");
+			} else {
 
-			//int custId = Integer.parseInt(request.getParameter("custId"));
+				MultiValueMap<String, Object> map = null;
+				mav = new ModelAndView("master/customerAdd");
 
-			String base64encodedString = request.getParameter("custId");			
-			String custId = FormValidation.DecodeKey(base64encodedString);
-			
-			map = new LinkedMultiValueMap<>();
-			map.add("custHeadId", custId);
+				// int custId = Integer.parseInt(request.getParameter("custId"));
 
-			CustomerHeaderMaster custHead = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
-			mav.addObject("custHead", custHead);
+				String base64encodedString = request.getParameter("custId");
+				String custId = FormValidation.DecodeKey(base64encodedString);
 
-			FirmType[] firmArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFirms",
-					FirmType[].class);
-			List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
-			mav.addObject("firmList", firmList);
+				map = new LinkedMultiValueMap<>();
+				map.add("custHeadId", custId);
 
-			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
-					EmployeeMaster[].class);
-			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-			mav.addObject("epmList", epmList);
+				CustomerHeaderMaster custHead = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
+				mav.addObject("custHead", custHead);
 
-			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
-			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
-			mav.addObject("custGrpList", custGrpList);
+				FirmType[] firmArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFirms",
+						FirmType[].class);
+				List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
+				mav.addObject("firmList", firmList);
 
-			mav.addObject("title", "Edit Customer");
-		}
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+
+				CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerGroups", CustomerGroupMaster[].class);
+				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+				mav.addObject("custGrpList", custGrpList);
+
+				mav.addObject("title", "Edit Customer");
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());
 			e.printStackTrace();
@@ -1313,31 +1317,30 @@ public class MasterMVCController {
 		String redirect = null;
 		try {
 			HttpSession session = request.getSession();
-			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");		
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("deletCust", "customerList", "0", "0", "1", "0", newModuleList);
 
 			if (view.isError() == true) {
 
 				redirect = "redirect:/accessDenied";
 			} else {
-			MultiValueMap<String, Object> map = null;
+				MultiValueMap<String, Object> map = null;
 
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
 
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-			int userId = emp.getEmpId();
+				String base64encodedString = request.getParameter("custId");
+				String custId = FormValidation.DecodeKey(base64encodedString);
+				// int custId = Integer.parseInt(request.getParameter("custId"));
 
-			String base64encodedString = request.getParameter("custId");			
-			String custId = FormValidation.DecodeKey(base64encodedString);
-			//int custId = Integer.parseInt(request.getParameter("custId"));
+				map = new LinkedMultiValueMap<>();
+				map.add("userId", userId);
+				map.add("custHeadId", custId);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("userId", userId);
-			map.add("custHeadId", custId);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerHeader", map,
+						Info.class);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerHeader", map,
-					Info.class);
-			
-			 redirect = "redirect:/customerList";
+				redirect = "redirect:/customerList";
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
@@ -1355,10 +1358,10 @@ public class MasterMVCController {
 		MultiValueMap<String, Object> map = null;
 		try {
 			mav = new ModelAndView("master/customerActivityAddMap");
-			
-			String base64encodedString = request.getParameter("custId");			
+
+			String base64encodedString = request.getParameter("custId");
 			String custId = FormValidation.DecodeKey(base64encodedString);
-			//int custId = Integer.parseInt(request.getParameter("custId"));
+			// int custId = Integer.parseInt(request.getParameter("custId"));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
@@ -1393,6 +1396,120 @@ public class MasterMVCController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
+	public ModelAndView manualTaskAddForm(Locale locale, Model model) {
+
+		ModelAndView mav = new ModelAndView("task/manualTaskAdd");
+		CustomerDetails[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllCustomerInfo",
+				CustomerDetails[].class);
+		List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+		mav.addObject("custList", custHeadList);
+		System.out.println("cust list is"+custHeadList.toString());
+	
+		
+
+		ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+				ServiceMaster[].class);
+		List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+		mav.addObject("serviceList", srvcMstrList);
+
+		map = new LinkedMultiValueMap<>();
+		map.add("serviceId", srvcMstrList.get(0).getServId());
+ 
+		FinancialYear[] fin = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFinYear",
+				FinancialYear[].class);
+		List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
+		mav.addObject("fyList", fyList);
+		EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[].class);
+		List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+		mav.addObject("epmList", epmList);
+		 
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
+	public String addManualTask(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+			int userId = emp.getEmpId();
+
+			CustmrActivityMap activityMapanual = new CustmrActivityMap();
+			StringBuilder sbEmp = new StringBuilder();
+			String[] locId2 = request.getParameterValues("empId2");
+			//System.err.println("emp id are " + locId2);
+			for (int j = 0; j < locId2.length; j++) {
+				sbEmp = sbEmp.append(locId2[j] + ",");
+
+			}
+			String items1 = sbEmp.toString();
+			items1 = items1.substring(0, items1.length() - 1);
+
+			activityMapanual.setMappingId(0);
+			activityMapanual.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+			activityMapanual.setActvStartDate(request.getParameter("startDate"));
+			activityMapanual.setActvEndDate(request.getParameter("endDate"));
+			activityMapanual.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+			activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
+			activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
+			activityMapanual.setDelStatus(1);
+			activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")));
+			activityMapanual.setExInt2(0);
+			activityMapanual.setExVar1(items1);
+			activityMapanual.setExVar2("NA");
+			activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
+			activityMapanual.setUpdateDatetime(curDateTime);
+			activityMapanual.setUpdateUsername(userId);
+			activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
+
+			System.out.println("Activity Map---------" + activityMapanual.toString());
+			Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask", activityMapanual,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/customerList";
+
+	}
+	@RequestMapping(value = "/manualTaskList", method = RequestMethod.GET)
+	public ModelAndView manualTaskList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = new ModelAndView("task/manualTaskList");
+		try {
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("stat", -1);
+			GetTaskList[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getAllTaskList",map,
+					GetTaskList[].class);
+
+			List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+
+			for (int i = 0; i < taskList.size(); i++) {
+
+				taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+			}
+			mav.addObject("taskList", taskList);
+		}
+		catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
+		}
+
+
+		 
+		return mav;
+
+	}
+	
+	
+	
 	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
 	public String addCustomerActMap(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -1425,7 +1542,6 @@ public class MasterMVCController {
 			System.out.println("Activity Map---------" + activityMap.toString());
 			CustmrActivityMap map = Constants.getRestTemplate().postForObject(Constants.url + "/saveTask1", activityMap,
 					CustmrActivityMap.class);
-			
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -1443,9 +1559,9 @@ public class MasterMVCController {
 		MultiValueMap<String, Object> map = null;
 		try {
 
-			String base64encodedString = request.getParameter("custId");			
+			String base64encodedString = request.getParameter("custId");
 			String custId = FormValidation.DecodeKey(base64encodedString);
-			//int custId = Integer.parseInt(request.getParameter("custId"));
+			// int custId = Integer.parseInt(request.getParameter("custId"));
 
 			map = new LinkedMultiValueMap<>();
 			map.add("custId", custId);
@@ -1499,9 +1615,9 @@ public class MasterMVCController {
 		try {
 			HttpSession session = request.getSession();
 			mav = new ModelAndView("master/statusList");
-		
+
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		
+
 			Info view = AccessControll.checkAccess("statusList", "statusList", "1", "0", "0", "0", newModuleList);
 
 			if (view.isError() == true) {
@@ -1509,33 +1625,30 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			StatusMaster[] statusMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllStatus",
-					StatusMaster[].class);
-			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
-			mav.addObject("statusList", statusList);
+				StatusMaster[] statusMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllStatus",
+						StatusMaster[].class);
+				List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
+				mav.addObject("statusList", statusList);
 
-			// logger.info("Service List"+srvcMstrList);
-			Info add = AccessControll.checkAccess("statusList", "statusList", "0", "1", "0", "0",
-					newModuleList);
-			Info edit = AccessControll.checkAccess("statusList", "statusList", "0", "0", "1", "0",
-					newModuleList);
-			Info delete = AccessControll.checkAccess("statusList", "statusList", "0", "0", "0", "1",
-					newModuleList);
+				// logger.info("Service List"+srvcMstrList);
+				Info add = AccessControll.checkAccess("statusList", "statusList", "0", "1", "0", "0", newModuleList);
+				Info edit = AccessControll.checkAccess("statusList", "statusList", "0", "0", "1", "0", newModuleList);
+				Info delete = AccessControll.checkAccess("statusList", "statusList", "0", "0", "0", "1", newModuleList);
 
-			if (add.isError() == false) {
-				//System.out.println(" add   Accessable ");
-				mav.addObject("addAccess", 0);
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					mav.addObject("addAccess", 0);
 
-			}
-			if (edit.isError() == false) {
-				//System.out.println(" edit   Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				//System.out.println(" delete   Accessable ");
-				mav.addObject("deleteAccess", 0);
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
 
-			}
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in statusList " + e.getMessage());
@@ -1549,7 +1662,7 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			mav = new ModelAndView("master/addNewStatus");
-			
+
 			session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("addStatus", "statusList", "0", "1", "0", "0", newModuleList);
@@ -1559,10 +1672,10 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			StatusMaster status = new StatusMaster();
+				StatusMaster status = new StatusMaster();
 
-			mav.addObject("status", status);
-			mav.addObject("title", "Add Status");
+				mav.addObject("status", status);
+				mav.addObject("title", "Add Status");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in addStatus " + e.getMessage());
@@ -1629,7 +1742,7 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			mav = new ModelAndView("master/addNewStatus");
-		
+
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "1", "0", newModuleList);
 
@@ -1638,19 +1751,19 @@ public class MasterMVCController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-			int statusId = Integer.parseInt(request.getParameter("statusId"));
+				int statusId = Integer.parseInt(request.getParameter("statusId"));
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("statusId", statusId);
-			StatusMaster status = Constants.getRestTemplate().postForObject(Constants.url + "/getStatusById", map,
-					StatusMaster.class);
-			mav.addObject("status", status);
+				map.add("statusId", statusId);
+				StatusMaster status = Constants.getRestTemplate().postForObject(Constants.url + "/getStatusById", map,
+						StatusMaster.class);
+				mav.addObject("status", status);
 
-			mav.addObject("isEdit", 1);
+				mav.addObject("isEdit", 1);
 
-			mav.addObject("title", "Edit Status");
-			// logger.info("Service List"+srvcMstrList);
+				mav.addObject("title", "Edit Status");
+				// logger.info("Service List"+srvcMstrList);
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in statusList " + e.getMessage());
@@ -1661,10 +1774,10 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/deleteStatus", method = RequestMethod.GET)
 	public String deleteStatus(HttpServletRequest request, HttpServletResponse response) {
-String redirect = null;
-	try {
+		String redirect = null;
+		try {
 			HttpSession session = request.getSession();
-			
+
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "1", "0", newModuleList);
 
@@ -1673,23 +1786,22 @@ String redirect = null;
 				redirect = "rediredt:/accessDenied";
 
 			} else {
-			MultiValueMap<String, Object> map = null;
+				MultiValueMap<String, Object> map = null;
 
-			
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
 
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-			int userId = emp.getEmpId();
+				int statusId = Integer.parseInt(request.getParameter("statusId"));
 
-			int statusId = Integer.parseInt(request.getParameter("statusId"));
+				map = new LinkedMultiValueMap<>();
+				map.add("userId", userId);
+				map.add("statusId", statusId);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("userId", userId);
-			map.add("statusId", statusId);
-
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteStatusById", map, Info.class);
-			redirect = "redirect:/statusList";
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteStatusById", map,
+						Info.class);
+				redirect = "redirect:/statusList";
 			}
-			} catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -1706,7 +1818,6 @@ String redirect = null;
 
 			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
 			int userId = emp.getEmpId();
- 
 
 			System.err.println("Id / Value--------------" + taskId + " / " + statusVal);
 
@@ -1717,14 +1828,13 @@ String redirect = null;
 
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskByTaskId", map,
 					Task.class);
-			if(task!=null) {
-				 FormValidation.updateTaskLog(Constants.taskTex3,userId,taskId);
+			if (task != null) {
+				FormValidation.updateTaskLog(Constants.taskTex3, userId, taskId);
 
 			}
-			
-			
+
 			redirect = "redirect:/taskListForEmp";
-					//"redirect:/communication?taskId=" + taskId;
+			// "redirect:/communication?taskId=" + taskId;
 
 		} catch (Exception e) {
 			System.err.println("Exce in updateTaskStatus " + e.getMessage());

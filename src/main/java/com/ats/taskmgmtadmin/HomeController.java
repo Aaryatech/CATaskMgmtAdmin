@@ -295,13 +295,6 @@ public class HomeController<Task> {
 
 	
 
-	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
-	public ModelAndView manualTaskAddForm(Locale locale, Model model) {
-
-		ModelAndView mav = new ModelAndView("task/manualTaskAdd");
-
-		return mav;
-	}
 
 	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
 	public ModelAndView taskListForEmpForm(HttpServletRequest request,
