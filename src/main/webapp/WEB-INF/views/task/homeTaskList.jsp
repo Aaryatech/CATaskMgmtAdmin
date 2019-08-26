@@ -610,8 +610,8 @@ h5 {
 									
 									<td class="text-center"><a
 										href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
-										title="Chat/Update"><i class="icon-pencil7"
-											style="color: black;"></i></a></td>
+										title="Chat/Update"><i class="icon-comments"
+											style="color: green;"></i></a></td>
 								</tr>
 						</c:forEach>
 
