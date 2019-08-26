@@ -155,7 +155,7 @@
 
 					</ul></li>
 
-				<c:forEach items="${sessionScope.moduleJsonList}"
+				<c:forEach items="${sessionScope.newModuleList}"
 					var="moduleJsonList" varStatus="count">
 					<c:choose>
 						<c:when test="${moduleJsonList.moduleId==sessionModuleId}">
@@ -180,7 +180,7 @@
 						</c:otherwise>
 					</c:choose>
 
-					<c:forEach items="${moduleJsonList.accessRightSubModuleList}"
+					<c:forEach items="${moduleJsonList.subModuleJsonList}"
 						var="accessRightSubModuleList">
 						<li class="nav-item"><c:choose>
 								<c:when
