@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
@@ -49,11 +49,11 @@ public class TaskController {
 	String curDateTime = dateFormat.format(cal.getTime());
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
-	public String assignTask(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView assignTask(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		ModelAndView mav = null;
 
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("moduleJsonList");
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("assignTask", "assignTask", "1", "0", "0", "0", newModuleList);
 		try {
 
@@ -78,6 +78,7 @@ public class TaskController {
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
+				
 
 			}
 		} catch (Exception e) {
@@ -86,7 +87,7 @@ public class TaskController {
 
 		}
 
-		return "redirect:/assignTask";
+		return mav;
 	}
 
 	/*
@@ -236,9 +237,9 @@ public class TaskController {
 				workDate = request.getParameter("workDate");
 			} catch (Exception e) {
 				e.printStackTrace();
-				workDate = "NA";
+				workDate = " ";
 			}
-			System.out.println("work date**" + workDate);
+			//System.out.println("work date**" + workDate);
 
 			String[] TaskId = request.getParameterValues("TaskId");
 
@@ -257,14 +258,14 @@ public class TaskController {
 
 			StringBuilder sbEmp = new StringBuilder();
 			String[] locId2 = request.getParameterValues("empId2");
-			System.err.println("emp id are " + locId2);
+			//System.err.println("emp id are " + locId2);
 			for (int j = 0; j < locId2.length; j++) {
 				sbEmp = sbEmp.append(locId2[j] + ",");
 
 			}
 			String items1 = sbEmp.toString();
 			items1 = items1.substring(0, items1.length() - 1);
-			System.err.println("emp id are :::" + items1);
+			///System.err.println("emp id are :::" + items1);
 
 			map.add("taskIdList", items);
 			map.add("empIdList", items1);

@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body>
+<body onload="setDate()">
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -40,7 +40,7 @@
 
 
 				<!-- Remote source -->
-				<div id="modal_remote" class="modal" tabindex="-1">
+				<!-- <div id="modal_remote" class="modal" tabindex="-1">
 					<div class="modal-dialog modal-full">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -134,7 +134,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- /remote source -->
 
 
@@ -144,14 +144,14 @@
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Assign Task</h5>
 						<div class="header-elements">
-							<div class="list-icons">
+						<%-- 	<div class="list-icons">
 
 								<a href="#" title="Chat/Update" data-toggle="modal"
 									data-target="#modal_remote"><img
 									src="${pageContext.request.contextPath}/resources/global_assets/images/filter.png"
 									alt="" style="height: 26px; width: 26px;"></a> &nbsp;<a
 									class="list-icons-item" data-action="collapse"></a>
-							</div>
+							</div> --%>
 						</div>
 					</div>
 
@@ -286,11 +286,21 @@
 							});
 				});
 	</script>
+<script type="text/javascript">
 
+function setDate(){
+	
+	
+	document
+	.getElementById("workDate").value="";
+}
+
+</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
 	<script type="text/javascript">
+	
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
