@@ -514,6 +514,8 @@ public class MasterMVCController {
 					EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			mav.addObject("epmList", epmList);
+			mav.addObject("imageUrl", Constants.imageViewUrl);
+
 
 			for (int i = 0; i < epmList.size(); i++) {
 
