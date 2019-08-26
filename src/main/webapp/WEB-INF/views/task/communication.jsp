@@ -285,6 +285,10 @@
 												</c:forEach>
 											</select>
 										</div>
+										<div class="col-lg-12">
+											<span class="validation-invalid-label" id="error_serviceName"
+												style="display: none;">Please select status.</span>
+										</div>
 									</div>
 
 
@@ -302,7 +306,7 @@
 
 
 									<div class="form-group row">
-										<button class="btn btn-primary">Update</button>
+										<button type="submit" class="btn btn-primary" id="submtbtn">Update</button>
 										<div class="form-group row"></div>
 
 									</div>
@@ -517,7 +521,45 @@
 			}
 		});
 	</script>
+<script>
+		$(document)
+				.ready(
+						function($) {
 
+							$("#changeTask")
+									.submit(
+											function(e) {
+												var isError = false;
+												var errMsg = "";
+
+												if (!$("#status").val() || $("#status").val()=="") {
+
+													isError = true;
+
+													$("#error_serviceName").show()
+													//return false;
+												} else {
+													$("#error_serviceName").hide()
+												}
+
+
+
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document.getElementById("submtbtn").disabled = true;
+														document.getElementById("cancelbtn").disabled = true;
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
+		//
+	</script>
 
 </body>
 </html>
