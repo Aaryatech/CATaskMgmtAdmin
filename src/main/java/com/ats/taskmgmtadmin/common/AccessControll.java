@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ats.taskmgmtadmin.acsrights.Info;
-import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.model.Info;
 
 
 

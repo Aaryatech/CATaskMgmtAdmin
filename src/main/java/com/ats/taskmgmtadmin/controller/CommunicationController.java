@@ -26,12 +26,12 @@ import org.springframework.web.servlet.ModelAndView;
  
 import com.ats.task.mgmtadmin.communication.model.Communication;
 import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
-import com.ats.taskmgmtadmin.acsrights.Info;
-import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.common.AccessControll;
@@ -57,15 +57,10 @@ public class CommunicationController {
 		HttpSession session = request.getSession();
 		ModelAndView mav = null;
 		
-		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("moduleJsonList");
-		Info view = AccessControll.checkAccess("communication", "communication", "1","0" ,"0", "0", newModuleList);
+		 
 		try {
 
-		if (view.isError() == true) {
-
-			mav = new ModelAndView("accessDenied");
-
-		} else {
+	 
 			mav = new ModelAndView("task/communication");
 	
 		String base64encodedString = request.getParameter("taskId");
@@ -107,7 +102,7 @@ public class CommunicationController {
 					TaskListHome.class);
 			mav.addObject("task", task);
 			mav.addObject("imgViewUrl",Constants.imageViewUrl);
-		}
+	 
 		} catch (Exception e) {
 			System.err.println("Exce in communication " + e.getMessage());
 			e.printStackTrace();
@@ -118,8 +113,11 @@ public class CommunicationController {
 	@RequestMapping(value = "/getAllCommunicationByTaskId", method = RequestMethod.GET)
 	public @ResponseBody List<GetAllCommunicationByTaskId> getAllCommunicationByTaskId(HttpServletRequest request,
 			HttpServletResponse response) {
+		
+		
 		String taskId = request.getParameter("taskId");
 		String empId = request.getParameter("empId");
+		
 
  		List<GetAllCommunicationByTaskId> communicationList = new ArrayList<GetAllCommunicationByTaskId>();
 
@@ -175,12 +173,10 @@ public class CommunicationController {
 			
 			if(custHead!=null) {
 				res.setError(false);
-				res.setMessage("success");
-				
+ 				
 			}else {
 				res.setError(true);
-				res.setMessage("failed");
-			}
+ 			}
  
 
 		} catch (Exception e) {

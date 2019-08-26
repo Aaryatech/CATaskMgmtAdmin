@@ -34,12 +34,12 @@ import com.ats.taskmgmtadmin.acsrights.AccessRightModule;
 import com.ats.taskmgmtadmin.acsrights.AccessRightModuleList;
 import com.ats.taskmgmtadmin.acsrights.AssignRoleDetailList;
 import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
-import com.ats.taskmgmtadmin.acsrights.Info;
-import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.acsrights.SubModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.Info;
 import com.google.gson.Gson;
 
 @Controller

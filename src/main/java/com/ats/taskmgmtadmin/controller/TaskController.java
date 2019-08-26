@@ -24,13 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
-
+ 
 @Controller
 @Scope("session")
 public class TaskController {
@@ -43,33 +45,48 @@ public class TaskController {
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
-	
 
 	String curDateTime = dateFormat.format(cal.getTime());
-	
- 
 
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
-	public String assignTask(HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String assignTask(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		ModelAndView mav = null;
 
-		String mav = "task/assigntask";
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("moduleJsonList");
+		Info view = AccessControll.checkAccess("assignTask", "assignTask", "1", "0", "0", "0", newModuleList);
+		try {
 
-		GetTaskList[] holListArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllTaskList",
-				GetTaskList[].class);
+			if (view.isError() == true) {
 
-		List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+				mav = new ModelAndView("accessDenied");
 
-		for (int i = 0; i < taskList.size(); i++) {
+			} else {
+				mav = new ModelAndView("task/assigntask");
 
-			taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+				GetTaskList[] holListArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllTaskList",
+						GetTaskList[].class);
+
+				List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+				}
+				mav.addObject("taskList", taskList);
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 		}
-		model.addAttribute("taskList", taskList);
-		EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
-				EmployeeMaster[].class);
-		List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-		model.addAttribute("epmList", epmList);
 
-		return mav;
+		return "redirect:/assignTask";
 	}
 
 	/*
@@ -214,12 +231,12 @@ public class TaskController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			String workDate=null;
+			String workDate = null;
 			try {
-				  workDate = request.getParameter("workDate");
+				workDate = request.getParameter("workDate");
 			} catch (Exception e) {
 				e.printStackTrace();
-				workDate="NA";
+				workDate = "NA";
 			}
 			System.out.println("work date**" + workDate);
 
@@ -233,7 +250,7 @@ public class TaskController {
 				System.out.println("task id are**" + TaskId[i]);
 
 			}
-			
+
 			String items = sb.toString();
 
 			items = items.substring(0, items.length() - 1);
