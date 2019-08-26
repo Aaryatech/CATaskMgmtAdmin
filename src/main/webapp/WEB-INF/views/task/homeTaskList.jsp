@@ -14,7 +14,7 @@
 
 </head>
 
-<body onload="getDataTaskWise()">
+<body ><!-- onload="getDataTaskWise()" -->
 
 
 	<c:url value="/getDailyWorkLogByEmpId" var="getDailyWorkLogByEmpId"></c:url>
@@ -309,7 +309,157 @@ h5 {
 						</table>
 					</div> -->
 
+			
+			<!-- Service Activity Info -->
+					
+				<div id="modal_remote_log_service" class="modal" tabindex="-1">
+					<div class="modal-dialog modal-full">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Daily Work Log</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
 
+							<div class="modal-body">
+
+
+								<table style="background-color: #4CAF50;" width="100%">
+
+									<tr>
+										<td style="color: white; padding: .8rem 1rem;" align="left"
+											width="80%">
+											<h5>
+												Task ID -<span class="font-weight-semibold"> 1 </span>
+												&nbsp;&nbsp; Name - <span class="font-weight-semibold">
+													GST </span> <small class="d-block opacity-75">Owner
+													Partner - Prakash</small>
+											</h5>
+										</td>
+										<!-- <td style="color: white; padding: .8rem 1rem;">
+											<div align="center">
+												<div class="btn" style="background-color: white;">Pending</div>
+												<normal class="d-block opacity-75" style="color: white;">Current
+												Status</normal>
+											</div>
+										</td>
+									</tr> -->
+
+								</table>
+
+							<br>
+								<div class="card">
+
+									<div class="card-body">
+										<ul class="nav nav-tabs nav-tabs-highlight">
+											<li class="nav-item"><a href="#taskwise" 
+												class="nav-link active" data-toggle="tab">Service Activity</a></li>									
+
+										</ul>
+
+										<div class="tab-content">
+											<div class="tab-pane fade show active" id="taskwise">
+
+
+												<table
+													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
+													id="printtable1">
+													<thead>
+														<tr class="bg-blue">
+															<th width="10%">Sr.no</th>
+															<th>Employee</th>
+															<th>Peiodicity</th>
+															<th>Work Hours</th>
+															<th class="text-center" width="10%">Actions</th>
+														</tr>
+													</thead>
+													<%-- <c:forEach items="${logList}" var="loglist" varStatus="count">
+													<tr>
+														<td>${count.index+1}</td>
+														<td>${logList.workDate}</td>
+														<td>${logList.workHours}</td>
+														<td>${logList.workRemark}</td>
+														<td><a href="#" title="Edit"><i
+																class="icon-pencil7" style="color: black;"></i></a> <a
+															href="#"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash"
+																style="color: black;"></i> </a></td>
+													</tr>
+													
+													</c:forEach> --%>
+
+
+												</table>
+
+
+
+											</div>
+
+											<div class="tab-pane fade" id="datewise">
+											
+											
+											<table
+													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
+													id="printtable1">
+													<thead>
+														<tr class="bg-blue">
+															<th width="10%">Sr.no</th>
+															<th>Task Id</th>
+															<th>Task Name</th>
+															<th>Date</th>
+															<th>Work Hours</th>
+															<th class="text-center" width="10%">Actions</th>
+														</tr>
+													</thead>
+													<tr>
+														<td>1</td>
+														<td>105</td>
+														<td>Income Tax - Return Filling - Oct-2019</td>
+														<td>11-05-2019</td>
+														<td>35</td>
+														<td><a href="#" title="Edit"><i
+																class="icon-pencil7" style="color: black;"></i></a> <a
+															href="#"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash"
+																style="color: black;"></i> </a></td>
+													</tr>
+													
+													<tr>
+														<td>1</td>
+														<td>225</td>
+														<td>GST - GST - Oct-2019</td>
+														<td>11-05-2019</td>
+														<td>45</td>
+														<td><a href="#" title="Edit"><i
+																class="icon-pencil7" style="color: black;"></i></a> <a
+															href="#"
+															onClick="return confirm('Are you sure want to delete this record');"
+															title="Delete"><i class="icon-trash"
+																style="color: black;"></i> </a></td>
+													</tr>
+													
+
+
+												</table>
+											
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					<!-- End Service Activity Info -->
 
 				<!-- Remote source DAILY WORK LOG-->
 				<div id="modal_remote_log" class="modal" tabindex="-1">
@@ -572,6 +722,8 @@ h5 {
 									<th style="background-color: white;">Task Name</th>
 									<th style="background-color: white;">Due Date</th>
 									<th style="background-color: white;">Work Date</th>
+									<th style="background-color: white;">Periodicity</th>
+									<th style="background-color: white;">Employees</th>
 									<th style="background-color: white;">Alloted Hrs</th>
 									<th style="background-color: white;">Actual Hrs</th>
 									<th style="background-color: white;">Status</th>
@@ -580,12 +732,14 @@ h5 {
 							</thead>
 							<tbody>
 							<c:forEach items="${taskList}" var="taskList" varStatus="count">
-								<tr>
+								<tr onclick="getServiceActInfo('${taskList.taskId}', ${taskList.empId})">
 									<td>${taskList.custGroupName}</td>
-									<td>${taskList.servName}-${taskList.actiName}</td>
+									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
 									<td>${taskList.taskStatutoryDueDate}</td>
-									<td>${taskList.taskEndDate}--${taskList.empId}</td>
+									<td>${taskList.taskEndDate}</td>
+									<td>${taskList.periodicityName}</td>
+									<td>${taskList.employees}</td>
 									
 									<c:if test="${empType==5}">
 										<td>${taskList.empBudHr}</td>
@@ -651,6 +805,50 @@ h5 {
 		document.getElementById("taskId").value = taskId;
 		document.getElementById("empId").value = empId;
 	}
+	
+	
+	function getServiceActInfo(taskId, empId) {
+		
+		//alert("HI:"+taskId+" "+ empId);
+		
+		$("#loader").show();
+		$
+				.getJSON(
+						'${getDailyWorkLogByEmpId}',
+						{
+
+							//empId : empId,
+							ajax : 'true',
+
+						},
+						function(data) {
+						
+
+							if (data == "") {
+								alert("No records found !!");						
+
+							}
+
+							var dataTable = $('#printtable1').DataTable();
+							dataTable.clear().draw();
+
+							$.each(data, function(i, v) {
+		  												
+								//var acButton = '&nbsp;&nbsp;<a href="#" onclick="editWorkLog('+ v.exVar1+')"><i class="icon-pencil7" style="color: black;">'+
+								//'</i>   &nbsp;&nbsp;<a href="#" )"><i class="icon-trash" style="color: black;""></i>';	
+								dataTable.row.add(
+										[ i + 1,
+										  v.workDate,
+										  v.workHours,
+										  v.workRemark,
+										//  acButton
+										
+										]).draw();
+							});});
+							
+		$('#modal_remote_log_service').modal('show');
+	}
+	
 	</script>
 	
 	
