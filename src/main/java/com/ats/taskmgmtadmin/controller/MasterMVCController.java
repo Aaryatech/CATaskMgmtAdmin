@@ -1827,7 +1827,7 @@ public class MasterMVCController {
 
 	}
 
-	@RequestMapping(value = "/updateManualTaskStatus", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/updateManualTaskStatus", method = RequestMethod.GET)
 	public String updateManualTaskStatus(HttpServletRequest request, HttpServletResponse response) {
 		String redirect = null;
 		try {
@@ -1862,7 +1862,7 @@ public class MasterMVCController {
 		}
 
 		return redirect;
-	}
+	}*/
 
 	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
 	public String addManualTask(HttpServletRequest request, HttpServletResponse response) {

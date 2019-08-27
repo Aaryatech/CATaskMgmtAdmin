@@ -24,6 +24,12 @@ public class Constants {
 
 			} 
 public static String imageViewUrl="http://132.148.143.124:8080/uploads/ujwal/UjjwalImg/";
+
+public static String taskTex3;
+
+public static String taskTex2;
+
+public static String taskTex4;
 	public static String getCurDateTime() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();

@@ -574,7 +574,7 @@ public class AccessRightController {
 
 			
 			
-			EmployeeMaster[] empArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees", 
+			EmployeeMaster[] empArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployeesWithRoleName", 
 					EmployeeMaster[].class);
 			List<EmployeeMaster> empList = new
 					  ArrayList<>(Arrays.asList(empArray));

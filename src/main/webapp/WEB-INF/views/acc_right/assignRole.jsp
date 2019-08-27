@@ -119,42 +119,45 @@
 
 								<form
 									action="${pageContext.request.contextPath}/submitAssignedRole"
-									id="submitInsertEmpType" method="post">
-									
+									id="assignTask" method="post">
+
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="empIds">Employee Name <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-2" for="roleId">Select
+											Access Role <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
-									<select name="empIds" data-placeholder="Select Employees"
-												id="empIds" multiple="multiple"
-												class="form-control form-control-sm select"
+											<select name="roleId" data-placeholder="Select Employees"
+												id="roleId" class="form-control form-control-sm select"
 												aria-hidden="true" data-container-css-class="select-sm"
 												data-fouc>
-
-												<c:forEach items="${empList}" var="emp">
-													<option value="${emp.empId}">${emp.empName}</option>
+												<option value="">Select Role</option>
+												<c:forEach items="${createdRoleList}" var="createdRoleList">
+													<option value="${createdRoleList.roleId}">${createdRoleList.roleName}</option>
 												</c:forEach>
-											
-									</select>
-											</div>
-								    </div>
-											
-											<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="roleName">Role to be Assigned <span style="color: red">* </span>:
+
+											</select> <span class="validation-invalid-label" id="error_roleId"
+												style="display: none;">select access role.</span>
+										</div>
+
+									</div>
+
+									<!-- <div class="form-group row">
+										<label class="col-form-label col-lg-2" for="roleName">Role
+											to be Assigned <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-10">
 											<input type="text" class="form-control"
-												placeholder="Role Name"  readonly id="roleName" maxlength="15"
-												name="roleName" autocomplete="off" onchange="trim(this)">
-											<span class="validation-invalid-label"  id="error_empTypeName"
+												placeholder="Role Name" readonly id="roleName"
+												maxlength="15" name="roleName" autocomplete="off"
+												onchange="trim(this)"> <span
+												class="validation-invalid-label" id="error_empTypeName"
 												style="display: none;">This field is required.</span>
 										</div>
-									</div>
-											
-											
-											<div class="col-md-12" style="text-align: center;">
-<input type="hidden"   id="roleId"
-										name="roleId" value="0">
+									</div> -->
+
+
+									<div class="col-md-12" style="text-align: center;">
+										<input type="hidden" id="roleId" name="roleId" value="0">
 										<button type="submit" class="btn bg-blue ml-3 legitRipple"
 											id="submtbtn">
 											Submit <i class="icon-paperplane ml-2"></i>
@@ -163,41 +166,41 @@
 												type="button" class="btn btn-primary">Cancel</button></a>
 
 									</div>
+									<br>
 
 									<table
 										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
 										id="printtable1">
 										<thead>
 											<tr class="bg-blue">
-												<th width="10%">Sr. No.</th>
-												<th>Role Name</th>
-												<th width="10%">Select Role</th>
+												<th width="7%">Sr. No.</th>
+												<th>Employee Name</th>
+												<th width="10%">Role Name</th>
 
 											</tr>
 										</thead>
 										<tbody>
 
 
-																<c:forEach items="${createdRoleList}"
-																		var="createdRoleList" varStatus="count">
-																		<tr>
-																			<td style="text-align: center; "><c:out value="${count.index+1}" /></td>
-																			<td><c:out value="${createdRoleList.roleName}" /></td>
-																			<td style="text-align: center; "><a title="Select Role" rel="tooltip"
-																				data-color-class="detail"
-																				data-animate=" animated fadeIn "
-																				href="#" onclick="seleRole(${createdRoleList.roleId},'${createdRoleList.roleName}')"
-																				  data-original-title="Edit"><i class="icon-user-check" style="color: black;"></i></a></td>
-																		</tr>
+											<c:forEach items="${empList}" var="empList" varStatus="count">
+												<tr>
+													<td style="text-align: center;"><c:out
+															value="${count.index+1}" />&nbsp;<input type="checkbox"
+														name="empIds" id="empIds${empList.empId}" class="chk" value="${empList.empId}"></td>
+													<td><c:out value="${empList.empName}" /></td>
+													<td><c:out value="${empList.exVar2}" /></td>
+												</tr>
 
 
-																	</c:forEach>
+											</c:forEach>
 
 
 										</tbody>
 									</table>
-									</form>
-									<%-- <span class="form-text text-muted">* If Want To Access
+									<span class="validation-invalid-label" id="error_table1"
+										style="display: none;">Please select one record.</span>
+								</form>
+								<%-- <span class="form-text text-muted">* If Want To Access
 										Add, Edit,Delete Then View Access is Compulsory</span>
 									<div class="form-group row">
 										<div class="col-lg-10">
@@ -217,7 +220,7 @@
 												type="button" class="btn btn-primary">Cancel</button></a>
 
 									</div> --%>
-								
+
 							</div>
 						</div>
 
@@ -238,9 +241,37 @@
 
 	</div>
 	<!-- /page content -->
-	
-	
+
+
 	<script>
+		$(document).ready(function($) {
+
+			$("#assignTask").submit(function(e) {
+				var isError = true;
+				var errMsg = "";
+				$("#error_table1").hide();
+				$("#error_roleId").hide();
+
+				var checkedVals = $('.chk:checkbox:checked').map(function() {
+					return this.value;
+				}).get();
+				checkedVals = checkedVals.join(','); 
+
+				if ($("#roleId").val() == '') {
+					$("#error_roleId").show();
+					return false;
+				}
+				else if (checkedVals == '') {
+					$("#error_table1").show();
+					return false;
+				}else{
+					return true;
+				}
+ 
+				return false;
+			});
+		});
+
 		function trim(el) {
 			el.value = el.value.replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
 			replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space 
@@ -248,13 +279,13 @@
 			checkSame();
 			return;
 		}
-function seleRole(roleId,roleName){
-	document.getElementById("roleId").value=roleId;
-	document.getElementById("roleName").value=roleName;
-}
-  </script>
+		function seleRole(roleId, roleName) {
+			document.getElementById("roleId").value = roleId;
+			document.getElementById("roleName").value = roleName;
+		}
+	</script>
 
-	
+
 
 </body>
 </html>
