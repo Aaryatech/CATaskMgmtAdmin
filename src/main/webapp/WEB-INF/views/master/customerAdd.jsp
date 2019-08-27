@@ -125,7 +125,7 @@
 										</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
-												class="form-check-input" name="custType" id="custType" checked
+												class="form-check-input" name="custType" id="custType"
 												value="0" onclick="showDiv(this.value)"> Individual
 											</label>
 										</div>
@@ -498,6 +498,14 @@
 		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 		});
 	
+	function validatePAN(pan) {
+		 var regex1=/^[A-Z]{5}\d{4}[A-Z]{1}$/;
+		if (regex1.test($.trim(pan)) == false) {
+			return false;
+		}
+		return true;
+	}
+	
 		$(document)
 				.ready(
 						function($) {
@@ -507,8 +515,9 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
-
-											if($("#custType").val()==0){
+										var radio = $("#custType").val();
+										alert(radio);
+											if(radio==0){
 												if (!$("#firmName").val()) {
 
 													isError = true;

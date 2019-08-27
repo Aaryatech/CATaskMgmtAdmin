@@ -16,7 +16,7 @@
 
 <body ><!-- onload="getDataTaskWise()" -->
 
-
+	<c:url value="/getEmpTtlHrs" var="getEmpTtlHrs"></c:url>
 	<c:url value="/getDailyWorkLogByEmpId" var="getDailyWorkLogByEmpId"></c:url>
 
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
@@ -312,7 +312,7 @@ h5 {
 			
 			<!-- Service Activity Info -->
 					
-				<div id="modal_remote_log_service" class="modal" tabindex="-1">
+				 <div id="modal_remote_log_service" class="modal" tabindex="-1">
 					<div class="modal-dialog modal-full">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -329,10 +329,8 @@ h5 {
 										<td style="color: white; padding: .8rem 1rem;" align="left"
 											width="80%">
 											<h5>
-												Task ID -<span class="font-weight-semibold"> 1 </span>
-												&nbsp;&nbsp; Name - <span class="font-weight-semibold">
-													GST </span> <small class="d-block opacity-75">Owner
-													Partner - Prakash</small>
+												<span class="font-weight-semibold"> Task Work Hours </span>
+											
 											</h5>
 										</td>
 										<!-- <td style="color: white; padding: .8rem 1rem;">
@@ -352,7 +350,7 @@ h5 {
 									<div class="card-body">
 										<ul class="nav nav-tabs nav-tabs-highlight">
 											<li class="nav-item"><a href="#taskwise" 
-												class="nav-link active" data-toggle="tab">Service Activity</a></li>									
+												class="nav-link active" data-toggle="tab">Work Hours</a></li>									
 
 										</ul>
 
@@ -366,10 +364,10 @@ h5 {
 													<thead>
 														<tr class="bg-blue">
 															<th width="10%">Sr.no</th>
+															<th>Task</th>
+															<th>Total Work Hrs</th>															
 															<th>Employee</th>
-															<th>Peiodicity</th>
-															<th>Work Hours</th>
-															<th class="text-center" width="10%">Actions</th>
+														<!-- 	<th class="text-center" width="10%">Actions</th> -->
 														</tr>
 													</thead>
 													<%-- <c:forEach items="${logList}" var="loglist" varStatus="count">
@@ -386,8 +384,8 @@ h5 {
 																style="color: black;"></i> </a></td>
 													</tr>
 													
-													</c:forEach> --%>
-
+													</c:forEach>
+ --%>
 
 												</table>
 
@@ -458,7 +456,7 @@ h5 {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> 
 					<!-- End Service Activity Info -->
 
 				<!-- Remote source DAILY WORK LOG-->
@@ -553,7 +551,7 @@ h5 {
 									<div class="card-body">
 										<ul class="nav nav-tabs nav-tabs-highlight">
 											<li class="nav-item"><a href="#taskwise" 
-												class="nav-link active" data-toggle="tab">Taskwise</a></li><!--onclick="getDataTaskWise()"  -->
+												class="nav-link active" data-toggle="tab" onclick="getDataTaskWise()">Taskwise</a></li><!--"  -->
 											<li class="nav-item"><a href="#datewise"
 												class="nav-link" data-toggle="tab">Datewise</a></li>
 
@@ -717,13 +715,13 @@ h5 {
 						<table class="table datatable-basic table-hover" width="100%">
 							<thead>
 								<tr>
+									<th style="background-color: white;">Sr. No.</th>
 									<th style="background-color: white;">Customer</th>
-									<th style="background-color: white;">Service - Activity</th>
+								<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									<th style="background-color: white;">Task Name</th>
-									<th style="background-color: white;">Due Date</th>
-									<th style="background-color: white;">Work Date</th>
-									<th style="background-color: white;">Periodicity</th>
-									<th style="background-color: white;">Employees</th>
+									<th style="background-color: white;">Work Date</th>			
+									<th style="background-color: white;">Statutary Due Date</th>						
+									<th style="background-color: white;">Task Team</th>
 									<th style="background-color: white;">Alloted Hrs</th>
 									<th style="background-color: white;">Actual Hrs</th>
 									<th style="background-color: white;">Status</th>
@@ -733,12 +731,12 @@ h5 {
 							<tbody>
 							<c:forEach items="${taskList}" var="taskList" varStatus="count">
 								<tr onclick="getServiceActInfo('${taskList.taskId}', ${taskList.empId})">
+									<td>${count.index+1}</td>
 									<td>${taskList.custGroupName}</td>
-									<td>${taskList.servName}</td>
-									<td>${taskList.taskText}</td>
-									<td>${taskList.taskStatutoryDueDate}</td>
+									<%-- <td>${taskList.servName}</td> --%>
+									<td>${taskList.taskText}(${taskList.periodicityName})</td>
 									<td>${taskList.taskEndDate}</td>
-									<td>${taskList.periodicityName}</td>
+									<td>${taskList.taskStatutoryDueDate}</td>
 									<td>${taskList.employees}</td>
 									
 									<c:if test="${empType==5}">
@@ -814,33 +812,34 @@ h5 {
 		$("#loader").show();
 		$
 				.getJSON(
-						'${getDailyWorkLogByEmpId}',
+						'${getEmpTtlHrs}',
 						{
-
-							//empId : empId,
+							taskId : taskId,
+							empId : empId,
 							ajax : 'true',
 
 						},
 						function(data) {
 						
 
-							if (data == "") {
+							/* if (data == "") {
 								alert("No records found !!");						
 
-							}
+							} */
 
 							var dataTable = $('#printtable1').DataTable();
 							dataTable.clear().draw();
 
 							$.each(data, function(i, v) {
+								//alert(JSON.stringify(v));
 		  												
 								//var acButton = '&nbsp;&nbsp;<a href="#" onclick="editWorkLog('+ v.exVar1+')"><i class="icon-pencil7" style="color: black;">'+
 								//'</i>   &nbsp;&nbsp;<a href="#" )"><i class="icon-trash" style="color: black;""></i>';	
 								dataTable.row.add(
 										[ i + 1,
-										  v.workDate,
-										  v.workHours,
-										  v.workRemark,
+										  v.taskText,
+										  v.ttlWorkHrs,
+										  v.empName
 										//  acButton
 										
 										]).draw();
@@ -982,7 +981,7 @@ h5 {
 									var isError = false;
 									var errMsg = "";
 									
-									alert("Hi"+from_date);
+									///alert("Hi"+from_date);
 									
 										var from_date = document.getElementById("fromDate").value;
 						 				var to_date = document.getElementById("toDate").value;
@@ -1038,10 +1037,10 @@ h5 {
 						function(data) {
 						
 
-							if (data == "") {
+							/* if (data == "") {
 								alert("No records found !!");						
 
-							}
+							} */
 
 							var dataTable = $('#printtable1').DataTable();
 							dataTable.clear().draw();

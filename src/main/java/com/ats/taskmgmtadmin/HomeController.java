@@ -363,6 +363,7 @@ public class HomeController<Task> {
 			map.add("service", Integer.parseInt(request.getParameter("service")));
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
+			map.add("statusIds", Constants.statusIds);
 			
 			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByFilters",map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
