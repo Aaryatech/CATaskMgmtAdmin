@@ -35,59 +35,70 @@ public class ActiveDeactiveController {
 		String mav = "master/activeDeactiveservice";
 
 		try {
-			
-			
-			int servId = Integer.parseInt(request.getParameter("serviceId")); 
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-			map.add("serviceId", servId); 
+
+			int servId = Integer.parseInt(request.getParameter("serviceId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("serviceId", servId);
 			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
 					map, ServiceMaster.class);
 			model.addAttribute("service", servicemMap);
- 
+
 			ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
 			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
-			
-			map = new LinkedMultiValueMap<>(); 
-			map.add("servId", servId); 
-			Task[] task = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getTaskListForisactive", map, Task[].class);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("servId", servId);
+			Task[] task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListForisactive", map,
+					Task[].class);
 			List<Task> taskList = new ArrayList<>(Arrays.asList(task));
-			 
+
 			model.addAttribute("actList", activityList);
 			model.addAttribute("taskList", taskList);
-			
+
 		} catch (Exception e) {
 			e.getMessage();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/updateServiceIsActiveStatus", method = RequestMethod.POST)
 	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response) {
 
 		String mav = "redirect:/serviceList";
 
 		try {
-			
-			
-			int servId = Integer.parseInt(request.getParameter("serviceId")); 
+
+			int servId = Integer.parseInt(request.getParameter("serviceId"));
 			int isActiveStatus = Integer.parseInt(request.getParameter("isActiveStatus"));
 			String[] taskIds = request.getParameterValues("taskIds");
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-			map.add("servId", servId); 
-			map.add("isActiveStatus", isActiveStatus); 
-			map.add("taskIds", taskIds); 
-			
-			Info updateIsActiveStatus = Constants.getRestTemplate().postForObject(Constants.url + "/updateServiceIsActiveStatus",
-					map, Info.class);
-			 
-			
+
+			String ids = "0";
+
+			try {
+
+				 
+				
+				for(int i=0 ; i<taskIds.length ; i++) {
+					ids=ids+","+taskIds[i];
+				}
+
+			} catch (Exception e) {
+				ids="0";
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("servId", servId);
+			map.add("isActiveStatus", isActiveStatus);
+			map.add("taskIds", ids);
+
+			Info updateIsActiveStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/updateServiceIsActiveStatus", map, Info.class);
+
 		} catch (Exception e) {
-			e.getMessage();
+			e.printStackTrace();
 		}
 
 		return mav;
