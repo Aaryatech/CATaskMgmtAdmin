@@ -158,7 +158,7 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"><c:forEach
 													items="${custList}" var="custList">
-													<option value="${custList.custId}">${custList.custFirmName}</option>
+													<option value="${custList.custId}">${custList.custName}</option>
 												</c:forEach>
 
 											</select>

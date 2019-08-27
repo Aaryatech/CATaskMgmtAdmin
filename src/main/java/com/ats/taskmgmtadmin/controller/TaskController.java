@@ -24,16 +24,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
- import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.model.CustNameId;
+import com.ats.taskmgmtadmin.model.CustmrActivityMap;
+import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.FinancialYear;
 import com.ats.taskmgmtadmin.model.Info;
+import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
- 
+
 @Controller
 @Scope("session")
 public class TaskController {
@@ -66,8 +71,8 @@ public class TaskController {
 				mav = new ModelAndView("task/assigntask");
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("stat", 0);
-				GetTaskList[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getAllTaskList",
-						map,GetTaskList[].class);
+				GetTaskList[] holListArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllTaskList", map, GetTaskList[].class);
 
 				List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -80,7 +85,6 @@ public class TaskController {
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
-				
 
 			}
 		} catch (Exception e) {
@@ -241,7 +245,7 @@ public class TaskController {
 				e.printStackTrace();
 				workDate = " ";
 			}
-			//System.out.println("work date**" + workDate);
+			// System.out.println("work date**" + workDate);
 
 			String[] TaskId = request.getParameterValues("TaskId");
 
@@ -260,14 +264,14 @@ public class TaskController {
 
 			StringBuilder sbEmp = new StringBuilder();
 			String[] locId2 = request.getParameterValues("empId2");
-			//System.err.println("emp id are " + locId2);
+			// System.err.println("emp id are " + locId2);
 			for (int j = 0; j < locId2.length; j++) {
 				sbEmp = sbEmp.append(locId2[j] + ",");
 
 			}
 			String items1 = sbEmp.toString();
 			items1 = items1.substring(0, items1.length() - 1);
-			///System.err.println("emp id are :::" + items1);
+			/// System.err.println("emp id are :::" + items1);
 
 			map.add("taskIdList", items);
 			map.add("empIdList", items1);
@@ -300,11 +304,9 @@ public class TaskController {
 
 		return mav;
 	}
-	
-	
-	
-	//*******************Inactive Task******************************************
-	
+
+	// *******************Inactive Task******************************************
+
 	@RequestMapping(value = "/inactiveTaskList", method = RequestMethod.GET)
 	public ModelAndView inactiveTaskList(HttpServletRequest request, HttpServletResponse response) {
 
@@ -313,24 +315,192 @@ public class TaskController {
 		ModelAndView mav = null;
 
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info view = AccessControll.checkAccess("inactiveTaskList", "inactiveTaskList", "1", "0", "0", "0", newModuleList);
+		Info view = AccessControll.checkAccess("inactiveTaskList", "inactiveTaskList", "1", "0", "0", "0",
+				newModuleList);
 
 		if (view.isError() == true) {
 
 			mav = new ModelAndView("accessDenied");
 
 		} else {
+
 			mav = new ModelAndView("task/inactiveTaskList");
+
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+
+			CustNameId[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
+			List<CustNameId> custHeadList = new ArrayList<CustNameId>(Arrays.asList(custHeadArr));
+			mav.addObject("custList", custHeadList);
+			StringBuilder sbCust = new StringBuilder();
+			String[] custList = null;
+			int servId = 0;
+			StringBuilder sbAct = new StringBuilder();
+			String[] actList = null;
+			String itemsCust = null;
+			String itemsAct = null;
+
+			try {
+				servId = Integer.parseInt(request.getParameter("service"));
+			} catch (Exception e) {
+				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				e.printStackTrace();
+				servId = 0;
+
+			}
+
+			try {
+				sbAct = new StringBuilder();
+				actList = request.getParameterValues("activity");
+				// System.err.println("emp id are " + locId2);
+				for (int j = 0; j < actList.length; j++) {
+					sbAct = sbAct.append(actList[j] + ",");
+
+				}
+				itemsAct = sbAct.toString();
+				itemsAct = itemsAct.substring(0, itemsAct.length() - 1);
+			} catch (Exception e) {
+				
+				itemsAct = "0";
+
+			}
+
+			try {
+				sbCust = new StringBuilder();
+				custList = request.getParameterValues("customer");
+				// System.err.println("emp id are " + locId2);
+				for (int j = 0; j < custList.length; j++) {
+					sbCust = sbCust.append(custList[j] + ",");
+
+				}
+				itemsCust = sbCust.toString();
+				itemsCust = sbCust.substring(0, itemsCust.length() - 1);
+
+			} catch (Exception e) {
+				 
+				itemsCust = "0";
+
+			}
+
+			// Prev
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 			// System.out.println("empType is "+emp.getEmpType());
-		 
-				try {
+
+			try {
+				
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				 
 					map.add("empId", userId);
+					map.add("itemsAct", itemsAct);
+					map.add("itemsCust", itemsCust);
+ 					map.add("servId", servId);
+					
 					GetTaskList[] holListArray = Constants.getRestTemplate()
 							.postForObject(Constants.url + "/getAllInactiveTaskList", map, GetTaskList[].class);
+
+					List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+
+					for (int i = 0; i < taskList.size(); i++) {
+
+						taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					}
+					mav.addObject("taskList", taskList);
+				
+				
+				
+				// System.out.println("ManualTakList***"+taskList.toString());
+
+			} catch (Exception e) {
+				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				e.printStackTrace();
+			}
+
+		}
+		return mav;
+
+	}
+
+	// **************************Manual Task
+	// ******************************************************************
+
+	@RequestMapping(value = "/manualTaskAdd", method = RequestMethod.GET)
+	public ModelAndView manualTaskAddForm(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = null;
+		HttpSession session = request.getSession();
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("manualTaskAdd", "manualTaskAdd", "1", "0", "0", "0", newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+
+			try {
+				mav = new ModelAndView("task/manualTaskAdd");
+
+				CustNameId[] custHeadArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+						CustNameId[].class);
+				List<CustNameId> custHeadList = new ArrayList<CustNameId>(Arrays.asList(custHeadArr));
+				mav.addObject("custList", custHeadList);
+
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+						ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				mav.addObject("serviceList", srvcMstrList);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map = new LinkedMultiValueMap<>();
+				map.add("serviceId", srvcMstrList.get(0).getServId());
+
+				FinancialYear[] fin = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFinYear",
+						FinancialYear[].class);
+				List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
+				mav.addObject("fyList", fyList);
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav.addObject("epmList", epmList);
+			} catch (Exception e) {
+				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				e.printStackTrace();
+			}
+
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/manualTaskList", method = RequestMethod.GET)
+	public ModelAndView manualTaskList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+
+		ModelAndView mav = null;
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("manualTaskList", "manualTaskList", "1", "0", "0", "0", newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+			mav = new ModelAndView("task/manualTaskList");
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+			// System.out.println("empType is "+emp.getEmpType());
+			if (emp.getEmpType() == 3) {
+
+				try {
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+					map.add("stat", -1);
+					map.add("empId", userId);
+					GetTaskList[] holListArray = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getAllManualTaskList", map, GetTaskList[].class);
 
 					List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
 
@@ -344,7 +514,7 @@ public class TaskController {
 					System.err.println("Exce in addCustomerActMap " + e.getMessage());
 					e.printStackTrace();
 				}
-		
+			}
 		}
 		return mav;
 
@@ -372,7 +542,14 @@ public class TaskController {
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateManualTaskByTaskId", map,
 					Task.class);
 			if (task != null) {
-				FormValidation.updateTaskLog(Constants.taskTex4, userId, taskId);
+
+				if (stat == 1) {
+					FormValidation.updateTaskLog(Constants.taskTex6, userId, taskId);
+				} else if (stat == 0) {
+					FormValidation.updateTaskLog(Constants.taskTex5, userId, taskId);
+				} else if (stat == 2) {
+					FormValidation.updateTaskLog(Constants.taskTex7, userId, taskId);
+				}
 
 			}
 
@@ -385,6 +562,56 @@ public class TaskController {
 		}
 
 		return redirect;
+	}
+
+	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
+	public String addManualTask(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+			int userId = emp.getEmpId();
+
+			CustmrActivityMap activityMapanual = new CustmrActivityMap();
+			StringBuilder sbEmp = new StringBuilder();
+			String[] locId2 = request.getParameterValues("empId2");
+			// System.err.println("emp id are " + locId2);
+			for (int j = 0; j < locId2.length; j++) {
+				sbEmp = sbEmp.append(locId2[j] + ",");
+
+			}
+			String items1 = sbEmp.toString();
+			items1 = items1.substring(0, items1.length() - 1);
+
+			activityMapanual.setMappingId(0);
+			activityMapanual.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+			activityMapanual.setActvStartDate(request.getParameter("startDate"));
+			activityMapanual.setActvEndDate(request.getParameter("endDate"));
+			activityMapanual.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+			activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
+			activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
+			activityMapanual.setDelStatus(1);
+			activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")));
+			activityMapanual.setExInt2(0);
+			activityMapanual.setExVar1(items1);
+			activityMapanual.setExVar2("NA");
+			activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
+			activityMapanual.setUpdateDatetime(curDateTime);
+			activityMapanual.setUpdateUsername(userId);
+			activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
+
+			System.out.println("Activity Map---------" + activityMapanual.toString());
+			Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask", activityMapanual,
+					Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "redirect:/customerList";
+
 	}
 
 }
