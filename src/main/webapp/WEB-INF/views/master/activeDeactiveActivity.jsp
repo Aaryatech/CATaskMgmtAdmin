@@ -112,24 +112,24 @@
 								%>
 
 								<form
-									action="${pageContext.request.contextPath}/updateServiceIsActiveStatus"
+									action="${pageContext.request.contextPath}/updateActivityIsActiveStatus"
 									id="submitInsertActivity" method="post">
 
-									<input type="hidden" id="activity_id" name="activity_id"
-										value="${activity.actiId}">
+									<input type="hidden" id="actiId" name="actiId"
+										value="${activityMaster.actiId}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-1" for="service">
-											Service : </label>
+											Activity : </label>
 										<div class="col-lg-2">
 
 											<input type="text" class="form-control"
 												placeholder="Service Name" id="serviceName"
-												value="${service.servName}" name="serviceName"
+												value="${activityMaster.actiName}" name="serviceName"
 												autocomplete="off" onchange="trim(this)" readonly="readonly">
 
-											<input type="hidden" id="serviceId" name="serviceId"
-												value="${service.servId}">
+											<input type="hidden" id="servId" name="servId"
+												value="${activityMaster.servId}">
 
 										</div>
 
@@ -141,8 +141,8 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1" ${service.exInt1 == 1 ? 'selected' : ''}>Active</option>
-												<option value="0" ${service.exInt1 == 0 ? 'selected' : ''}>InActive</option>
+												<option value="1" ${activityMaster.exInt1 == 1 ? 'selected' : ''}>Active</option>
+												<option value="0" ${activityMaster.exInt1 == 0 ? 'selected' : ''}>InActive</option>
 
 
 											</select>
@@ -151,40 +151,7 @@
 									</div>
 
 									<br>
-									<div class="form-group row">
-										<table
-											class="table table-bordered table-hover datatable-highlight1 "
-											id="printtable1">
-											<thead>
-
-												<tr class="bg-blue">
-													<th width="10%">Sr.no</th>
-													<th>Activity Name</th>
-													<th width="10%">Status</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${actList}" var="actList"
-													varStatus="count">
-													<tr>
-														<td>${count.index+1}</td>
-														<td>${actList.actiName}</td>
-
-														<td><c:choose>
-																<c:when test="${actList.exInt1==0}">
-															InActive
-															</c:when>
-																<c:otherwise>
-															Active
-															</c:otherwise>
-															</c:choose></td>
-													</tr>
-												</c:forEach>
-											</tbody>
-
-
-										</table>
-									</div>
+									 
 									<div class="form-group row">
 										<table
 											class="table table-bordered table-hover datatable-highlight1 "

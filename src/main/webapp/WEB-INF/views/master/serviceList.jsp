@@ -148,12 +148,12 @@
 												<c:when test="${serviceList.exInt1==1}">
 													<a
 														href="${pageContext.request.contextPath}/activeDeactiveService?serviceId=${serviceList.servId}"><i
-														class="fas fa-toggle-on" style="color: black;"></i> </a>
+														class="fas fa-toggle-on" style="color: green;"></i> </a>
 												</c:when>
 												<c:otherwise>
 													<a
 														href="${pageContext.request.contextPath}/activeDeactiveService?serviceId=${serviceList.servId}"><i
-														class="fas fa-toggle-off" style="color: black;"></i> </a>
+														class="fas fa-toggle-off" style="color: red;"></i> </a>
 												</c:otherwise>
 											</c:choose></td>
 									</tr>

@@ -112,25 +112,25 @@
 									}
 								%>
 
-								<form
-									action="${pageContext.request.contextPath}/addNewActivity"
+								<form action="${pageContext.request.contextPath}/addNewActivity"
 									id="submitInsertActivity" method="post">
 
-								 <input type="hidden" id="activity_id" name="activity_id"
-											value="${activity.actiId}"> 
-											
+									<input type="hidden" id="activity_id" name="activity_id"
+										value="${activity.actiId}">
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
 											Service : </label>
 										<div class="col-lg-6">
-										
+
 											<input type="text" class="form-control"
-												placeholder="Service Name" id="serviceName" value="${service.servName}"
-												name="serviceName" autocomplete="off" onchange="trim(this)" readonly="readonly">
-									
+												placeholder="Service Name" id="serviceName"
+												value="${service.servName}" name="serviceName"
+												autocomplete="off" onchange="trim(this)" readonly="readonly">
+
 											<input type="hidden" id="service_id" name="service_id"
 												value="${service.servId}">
-										
+
 										</div>
 									</div>
 
@@ -141,16 +141,18 @@
 											Name <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${activity.actiName}"
+											<input type="text" class="form-control"
+												value="${activity.actiName}"
 												placeholder="Enter Activity Name" id="activityName"
 												name="activityName" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label"
-												id="error_activityName" style="display: none;">Please enter activity name.</span>
+												id="error_activityName" style="display: none;">Please
+												enter activity name.</span>
 										</div>
 									</div>
-								 <div class="form-group row">
+									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="periodicity">
 											Periodicity : </label>
 										<div class="col-lg-6">
@@ -160,33 +162,35 @@
 												data-fouc="" aria-hidden="true">
 
 												<option value="">Select Periodicity</option>
-												
-													<c:forEach items="${periodList}" var="list">	
-													<c:choose>	
-													<c:when test="${list.periodicityId == activity.periodicityId}">												
-														<option selected value="${list.periodicityId}">${list.periodicityName}</option>
-													</c:when>
+
+												<c:forEach items="${periodList}" var="list">
+													<c:choose>
+														<c:when
+															test="${list.periodicityId == activity.periodicityId}">
+															<option selected value="${list.periodicityId}">${list.periodicityName}</option>
+														</c:when>
 														<c:otherwise>
 															<option value="${list.periodicityId}">${list.periodicityName}</option>
 														</c:otherwise>
 													</c:choose>
-													</c:forEach>
-												
+												</c:forEach>
+
 											</select>
 
 
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label"
-												id="error_periodicity" style="display: none;">Please select periodicity.</span>
+											<span class="validation-invalid-label" id="error_periodicity"
+												style="display: none;">Please select periodicity.</span>
 										</div>
-									</div> 
+									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="serviceDesc">Activity
 											Description : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${activity.actiDesc}"
+											<input type="text" class="form-control"
+												value="${activity.actiDesc}"
 												placeholder="Enter Activity Description" id="activityDesc"
 												name="activityDesc" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -200,8 +204,7 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											&nbsp; <a
-												href="${pageContext.request.contextPath}/activity"><button
+											&nbsp; <a href="${pageContext.request.contextPath}/activity"><button
 													type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
@@ -221,6 +224,7 @@
 													<th>Activity Name</th>
 													<th>Description</th>
 													<th>Periodicity</th>
+													<th>Status</th>
 													<th class="text-center" width="10%">Actions</th>
 												</tr>
 											</thead>
@@ -231,7 +235,15 @@
 														<td>${count.index+1}</td>
 														<td>${actList.actiName}</td>
 														<td>${actList.actiDesc}</td>
-														 <td>${actList.periodicityName}</td>
+														<td>${actList.periodicityName}</td>
+														<td><c:choose>
+																<c:when test="${actList.exInt1==0}">
+															InActive
+															</c:when>
+																<c:otherwise>
+															Active
+															</c:otherwise>
+															</c:choose></td>
 														<td><a
 															href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}"
 															title="Edit"><i class="icon-pencil7"
@@ -239,18 +251,29 @@
 															href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
 															onClick="return confirm('Are you sure want to delete this record');"
 															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
+																style="color: black;"></i> </a> <c:choose>
+																<c:when test="${actList.exInt1==1}">
+																	<a
+																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
+																		class="fas fa-toggle-on" style="color: green;"></i> </a>
+																</c:when>
+																<c:otherwise>
+																	<a
+																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
+																		class="fas fa-toggle-off" style="color: red;"></i> </a>
+																</c:otherwise>
+															</c:choose></td>
 													</tr>
 												</c:forEach>
 											</tbody>
 
-											 
+
 										</table>
 									</div>
 
 								</form>
-								<p class="desc text-danger fontsize11">Notice : * Fields
-										are mandatory.</p>
+								<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 
@@ -276,53 +299,45 @@
 
 
 	<script>
-		$(document)
-				.ready(
-						function($) {
+		$(document).ready(function($) {
 
-							$("#submitInsertActivity")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#submitInsertActivity").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												if (!$("#activityName").val()) {
+				if (!$("#activityName").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_activityName")
-															.show()
-													//return false;
-												} else {
-													$("#error_activityName")
-															.hide()
-												}
+					$("#error_activityName").show()
+					//return false;
+				} else {
+					$("#error_activityName").hide()
+				}
 
-												if ($("#periodicity").val()=="" || !$("#periodicity").val()) {
+				if ($("#periodicity").val() == "" || !$("#periodicity").val()) {
 
-													isError = true;
+					isError = true;
 
-													$("#error_periodicity").show()
+					$("#error_periodicity").show()
 
-												} else {
-													$("#error_periodicity").hide()
-												}
+				} else {
+					$("#error_periodicity").hide()
+				}
 
-												
-												if (!isError) {
+				if (!isError) {
 
-													var x = true;
-													if (x == true) {
+					var x = true;
+					if (x == true) {
 
-														document
-																.getElementById("submtbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+						document.getElementById("submtbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
 	</script>
 
