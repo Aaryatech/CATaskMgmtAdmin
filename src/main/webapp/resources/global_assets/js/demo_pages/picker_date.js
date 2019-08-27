@@ -453,6 +453,16 @@ var DateTimePickers = function() {
         $('#anytime-time').AnyTime_picker({
             format: '%H:%i'
         });
+        
+        $('#anytime-time1').AnyTime_picker({
+            format: '%H:%i'
+        });
+        
+        
+        $('#anytime-time2').AnyTime_picker({
+            format: '%H:%i'
+        });
+
 
         // Display hours only
         $('#anytime-time-hours').AnyTime_picker({

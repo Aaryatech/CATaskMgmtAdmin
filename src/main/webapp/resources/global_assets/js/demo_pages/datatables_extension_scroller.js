@@ -36,14 +36,14 @@ var DatatableScroller = function() {
                     targets: [ 1, 2, 3, 4 ]
                 }
             ],
-            dom: '<"datatable-header info-right"fi><"datatable-scroll"tS>',
-            ajax: '../../../../global_assets/demo_data/tables/datatable_2500.json',
-            deferRender: true,
+        dom: '<"datatable-header info-right"fi><"datatable-scroll"tS>',
+        /*        ajax: '../../../../global_assets/demo_data/tables/datatable_2500.json',
+*/            deferRender: true,
             scrollY: 419,
             scrollCollapse: true,
             language: {
-                search: '<span>Filter:</span> _INPUT_',
-                searchPlaceholder: 'Type to filter...',
+                search: '<span>Search:</span> _INPUT_',
+                searchPlaceholder: 'Type to search...',
                 lengthMenu: '<span>Show:</span> _MENU_',
                 paginate: { 'first': 'First', 'last': 'Last', 'next': $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;', 'previous': $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;' }
             }

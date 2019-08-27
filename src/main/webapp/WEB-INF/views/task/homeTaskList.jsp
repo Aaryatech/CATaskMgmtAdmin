@@ -14,7 +14,8 @@
 
 </head>
 
-<body ><!-- onload="getDataTaskWise()" -->
+<body>
+	<!-- onload="getDataTaskWise()" -->
 
 	<c:url value="/getEmpTtlHrs" var="getEmpTtlHrs"></c:url>
 	<c:url value="/getDailyWorkLogByEmpId" var="getDailyWorkLogByEmpId"></c:url>
@@ -187,7 +188,7 @@ h5 {
 
 
 
-<!--/////////////////////////////////////////////////////  -->
+				<!--/////////////////////////////////////////////////////  -->
 
 				<!-- Remote source -->
 				<div id="modal_remote" class="modal" tabindex="-1">
@@ -199,24 +200,24 @@ h5 {
 							</div>
 
 							<div class="modal-body">
-							<form id="filterForm">
+								<form id="filterForm">
 
-								<div class="form-group row">
-									<label class="col-form-label col-lg-2" for="fromDate">Due 
-									  Date Range <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-3">
-										<input type="text" class="form-control daterange-basic_new"
-											id="fromDate" name="fromDate">
-									</div>								
-								</div>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-2" for="fromDate">Due
+											Date Range <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-3">
+											<input type="text" class="form-control daterange-basic_new"
+												id="fromDate" name="fromDate">
+										</div>
+									</div>
 
-								<div class="form-group row">
+									<div class="form-group row">
 
-									<label class="col-form-label col-lg-2" for="service">
-										Select Service : </label>
-									<div class="col-lg-3">
-										<select name="service" data-placeholder="Select Service"
+										<label class="col-form-label col-lg-2" for="service">
+											Select Service : </label>
+										<div class="col-lg-3">
+											<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
@@ -227,70 +228,70 @@ h5 {
 												</c:forEach>
 
 											</select>
-									</div>
+										</div>
 
 
-									<label class="col-form-label col-lg-2" for="activity">
-										Select Activity : </label>
-									<div class="col-lg-3">
-										<select name="activity" data-placeholder="Select Activity"
+										<label class="col-form-label col-lg-2" for="activity">
+											Select Activity : </label>
+										<div class="col-lg-3">
+											<select name="activity" data-placeholder="Select Activity"
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 											</select>
+										</div>
+
 									</div>
 
-								</div>
-
-								<div class="form-group row">
+									<div class="form-group row">
 
 
 
-									<label class="col-form-label col-lg-2" for="status">
-										Select Status :
-									</label>
-									<div class="col-lg-3">
-										<select name="sts" data-placeholder="Select Status" id="sts"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
+										<label class="col-form-label col-lg-2" for="status">
+											Select Status : </label>
+										<div class="col-lg-3">
+											<select name="sts" data-placeholder="Select Status" id="sts"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
 
-											<option value="1">All</option>
-											<option value="2">Generated</option>
-											<option value="3">Unallocated</option>
-											<option value="4">Critical</option>
-											<option value="4">Overdue</option>
-											<option value="4">Pending for Manager</option>
-											<option value="4">Pending for Partner</option>
-											<option value="4">Pending for Team Lead</option>
-											<option value="4">Pending for Client</option>
-											<option value="4">Completed</option>
-											<option value="4">Inactive</option>
-											<option value="4">Other</option>
+												<option value="1">All</option>
+												<option value="2">Generated</option>
+												<option value="3">Unallocated</option>
+												<option value="4">Critical</option>
+												<option value="4">Overdue</option>
+												<option value="4">Pending for Manager</option>
+												<option value="4">Pending for Partner</option>
+												<option value="4">Pending for Team Lead</option>
+												<option value="4">Pending for Client</option>
+												<option value="4">Completed</option>
+												<option value="4">Inactive</option>
+												<option value="4">Other</option>
 
-										</select>
+											</select>
+										</div>
+
+										<label class="col-form-label col-lg-2" for="customer">
+											Select Customer : </label>
+										<div class="col-lg-3">
+											<select name="custId" data-placeholder="Select Customer"
+												id="custId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+												<c:forEach items="${custGrpList}" var="custGrpList">
+													<option value="${custGrpList.custId}">${custGrpList.custName}</option>
+												</c:forEach>
+
+											</select>
+										</div>
+
 									</div>
-									
-									<label class="col-form-label col-lg-2" for="customer">
-										Select Customer : </label>
-									<div class="col-lg-3">
-										<select name="custId" data-placeholder="Select Customer"
-											id="custId"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-											<c:forEach items="${custGrpList}" var="custGrpList">
-												<option value="${custGrpList.custId}">${custGrpList.custName}</option>
-											</c:forEach>
-
-										</select>
-									</div>
-
-								</div>
 								</form>
 							</div>
 
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="submit" class="btn bg-primary" id="submtbtn" onclick="dataFilter()">Search</button>
+								<button type="submit" class="btn bg-primary" id="submtbtn"
+									onclick="dataFilter()">Search</button>
 							</div>
 						</div>
 					</div>
@@ -309,348 +310,274 @@ h5 {
 						</table>
 					</div> -->
 
-			
-			<!-- Service Activity Info -->
-					
-				 <div id="modal_remote_log_service" class="modal" tabindex="-1">
-					<div class="modal-dialog modal-full">
+
+
+
+
+				<!-- Daily Work Log modal -->
+				<div id="modal_small" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Daily Work Log</h5>
+							<div class="modal-header bg-success">
+								<h5 class="modal-title">Project Financing-Internal
+									Audit-text2-3</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<div class="modal-body">
+							<div class="modal-header">
+								<form action="newWorkLog" method="post">
+									<div class="form-group row">
+
+										<input type="hidden" name="taskId" id="taskId"> <input
+											type="hidden" name="empId" id="empId"> <input
+											type="hidden" name="logId" id="logId"
+											value="${workLog.workLogId}">
 
 
-								<table style="background-color: #4CAF50;" width="100%">
-
-									<tr>
-										<td style="color: white; padding: .8rem 1rem;" align="left"
-											width="80%">
-											<h5>
-												<span class="font-weight-semibold"> Task Work Hours </span>
-											
-											</h5>
-										</td>
-										<!-- <td style="color: white; padding: .8rem 1rem;">
-											<div align="center">
-												<div class="btn" style="background-color: white;">Pending</div>
-												<normal class="d-block opacity-75" style="color: white;">Current
-												Status</normal>
-											</div>
-										</td>
-									</tr> -->
-
-								</table>
-
-							<br>
-								<div class="card">
-
-									<div class="card-body">
-										<ul class="nav nav-tabs nav-tabs-highlight">
-											<li class="nav-item"><a href="#taskwise" 
-												class="nav-link active" data-toggle="tab">Work Hours</a></li>									
-
-										</ul>
-
-										<div class="tab-content">
-											<div class="tab-pane fade show active" id="taskwise">
-
-
-												<table
-													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
-													id="printtable1">
-													<thead>
-														<tr class="bg-blue">
-															<th width="10%">Sr.no</th>
-															<th>Task</th>
-															<th>Total Work Hrs</th>															
-															<th>Employee</th>
-														<!-- 	<th class="text-center" width="10%">Actions</th> -->
-														</tr>
-													</thead>
-													<%-- <c:forEach items="${logList}" var="loglist" varStatus="count">
-													<tr>
-														<td>${count.index+1}</td>
-														<td>${logList.workDate}</td>
-														<td>${logList.workHours}</td>
-														<td>${logList.workRemark}</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
-													</c:forEach>
- --%>
-
-												</table>
-
-
-
-											</div>
-
-											<div class="tab-pane fade" id="datewise">
-											
-											
-											<table
-													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
-													id="printtable1">
-													<thead>
-														<tr class="bg-blue">
-															<th width="10%">Sr.no</th>
-															<th>Task Id</th>
-															<th>Task Name</th>
-															<th>Date</th>
-															<th>Work Hours</th>
-															<th class="text-center" width="10%">Actions</th>
-														</tr>
-													</thead>
-													<tr>
-														<td>1</td>
-														<td>105</td>
-														<td>Income Tax - Return Filling - Oct-2019</td>
-														<td>11-05-2019</td>
-														<td>35</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
-													<tr>
-														<td>1</td>
-														<td>225</td>
-														<td>GST - GST - Oct-2019</td>
-														<td>11-05-2019</td>
-														<td>45</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
-
-
-												</table>
-											
-											</div>
-
-
+										<div class="form-group form-group-float col-md-2">
+											<label class="form-group-float-label">Work Date</label> <input
+												type="text" class="form-control datepickerclass"
+												value="${workLog.workDate}" name="workDate" id="workDate"
+												placeholder="Work Date">
 										</div>
+
+
+										<div class="form-group form-group-float  col-md-2">
+											<label class="form-group-float-label">Hours </label> <input
+												type="text" class="form-control"
+												value="${workLog.workHours}" name="workHour"
+												id="anytime-time" placeholder="Work Hour">
+										</div>
+
+										<div class="form-group form-group-float  col-md-6">
+											<label class="form-group-float-label"> Remark</label> <input
+												type="text" class="form-control"
+												value="${workLog.workRemark}" placeholder="Enter Remark"
+												id="remark" name=remark autocomplete="off"
+												onchange="trim(this)">
+										</div>
+
+										<div class="form-group  col-md-1">
+											<label class="form-group-float-label animate is-visible">
+											</label>
+											<button type="button" id="submtbtn"
+												class="btn bg-info-400 legitRipple" onclick="chat()">
+												<b><i class="icon-paperplane"></i></b>
+											</button>
+										</div>
+
 									</div>
-								</div>
-
-
-							</div>
-
-							<div class="modal-footer">
-								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-							</div>
-						</div>
-					</div>
-				</div> 
-					<!-- End Service Activity Info -->
-
-				<!-- Remote source DAILY WORK LOG-->
-				<div id="modal_remote_log" class="modal" tabindex="-1">
-					<div class="modal-dialog modal-full">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Daily Work Log</h5>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
-
-							<div class="modal-body">
-
-
-								<table style="background-color: #4CAF50;" width="100%">
-
-									<tr>
-										<td style="color: white; padding: .8rem 1rem;" align="left"
-											width="80%">
-											<h5>
-												Task ID -<span class="font-weight-semibold"> 1 </span>
-												&nbsp;&nbsp; Name - <span class="font-weight-semibold">
-													GST </span> <small class="d-block opacity-75">Owner
-													Partner - Prakash</small>
-											</h5>
-										</td>
-										<td style="color: white; padding: .8rem 1rem;">
-											<div align="center">
-												<div class="btn" style="background-color: white;">Pending</div>
-												<normal class="d-block opacity-75" style="color: white;">Current
-												Status</normal>
-											</div>
-										</td>
-									</tr>
-
-								</table>
-
-							<br>
-							<form action="newWorkLog" method="post">
-								<div class="form-group row">
-									<input type="hidden" name="taskId" id="taskId">
-									<input type="hidden" name="empId" id="empId">
-									<input type="hidden" name="logId" id="logId" value="${workLog.workLogId}">
-								
-									<label class="col-form-label col-lg-3" for="workDate">
-										Work Date : </label>
-									<div class="col-lg-3">
-										<input type="text" class="form-control datepickerclass" value="${workLog.workDate}"
-											name="workDate" id="workDate" placeholder="Work Date">
-									</div>
-									
-									
-									<label class="col-form-label col-lg-4" for="workDate" align="right" >
-										<h4>Total Work Hours :</h4> </label> <label class="col-form-label col-lg-2"
-										for="workDate"> <h4>50</h4> </label>
-
-
-								</div>
-								
-								<div class="form-group row">									
-								
-									<label class="col-form-label col-lg-3" for="workHour">
-										Work Hours : </label>
-									<div class="col-lg-3">
-										<input type="text" class="form-control" value="${workLog.workHours}"
-											name="workHour" id="workHour" placeholder="Work Hour">
-									</div>
-									
-
-								</div>
-
-								<div class="form-group row">
-
-									<label class="col-form-label col-lg-3" for="workRemark">
-										Work Remark : </label>
-									<div class="col-lg-3">
-										<input type="text" class="form-control" value="${workLog.workRemark}"
-											placeholder="Enter Remark" id="remark" name=remark
-											autocomplete="off" onchange="trim(this)">
-									</div>
-									
-									
-
-									<button type="submit" class="btn bg-primary">Add</button>
-								</div>
-
 								</form>
 
 
-								<div class="card">
+							</div>
 
-									<div class="card-body">
-										<ul class="nav nav-tabs nav-tabs-highlight">
-											<li class="nav-item"><a href="#taskwise" 
-												class="nav-link active" data-toggle="tab" onclick="getDataTaskWise()">Taskwise</a></li><!--"  -->
-											<li class="nav-item"><a href="#datewise"
-												class="nav-link" data-toggle="tab">Datewise</a></li>
+							<table class="table datatable-scroller">
+								<thead>
+									<tr>
+										<th style="width: 1px; color: white;"></th>
+										<th style="width: 350px; color: white;">Employee</th>
+										<th style="width: 100px; color: white;">Hours</th>
 
-										</ul>
+									</tr>
+								</thead>
+							</table>
 
-										<div class="tab-content">
-											<div class="tab-pane fade show active" id="taskwise">
-
-
-												<table
-													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
-													id="printtable1">
-													<thead>
-														<tr class="bg-blue">
-															<th width="10%">Sr.no</th>
-															<th>Date</th>
-															<th>Work Hours</th>
-															<th>Remark</th>
-															<th class="text-center" width="10%">Actions</th>
-														</tr>
-													</thead>
-													<%-- <c:forEach items="${logList}" var="loglist" varStatus="count">
-													<tr>
-														<td>${count.index+1}</td>
-														<td>${logList.workDate}</td>
-														<td>${logList.workHours}</td>
-														<td>${logList.workRemark}</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
-													</c:forEach> --%>
+							<div class="modal-body py-0">
 
 
-												</table>
+								<div class="table-responsive">
+									<table class="table datatable-scroller">
+
+										<tbody>
+											<tr>
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Admin)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
 
 
+											</tr>
+											<tr>
 
-											</div>
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
 
-											<div class="tab-pane fade" id="datewise">
-											
-											
-											<table
-													class="table table-bordered table-hover datatable-highlight1   datatable-button-print-columns1"
-													id="printtable1">
-													<thead>
-														<tr class="bg-blue">
-															<th width="10%">Sr.no</th>
-															<th>Task Id</th>
-															<th>Task Name</th>
-															<th>Date</th>
-															<th>Work Hours</th>
-															<th class="text-center" width="10%">Actions</th>
-														</tr>
-													</thead>
-													<tr>
-														<td>1</td>
-														<td>105</td>
-														<td>Income Tax - Return Filling - Oct-2019</td>
-														<td>11-05-2019</td>
-														<td>35</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
-													<tr>
-														<td>1</td>
-														<td>225</td>
-														<td>GST - GST - Oct-2019</td>
-														<td>11-05-2019</td>
-														<td>45</td>
-														<td><a href="#" title="Edit"><i
-																class="icon-pencil7" style="color: black;"></i></a> <a
-															href="#"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a></td>
-													</tr>
-													
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
 
 
-												</table>
-											
-											</div>
+											</tr>
+
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
 
 
-										</div>
-									</div>
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+
+											<tr>
+
+												<td>
+													<div class="d-flex align-items-center">
+														<div>
+															<a href="#"
+																class="text-default font-weight-semibold letter-icon-title">Annabelle
+																Doney - (Manager)</a>
+														</div>
+													</div>
+												</td>
+
+												<td class="text-center">
+													<h6 class="mb-0">12</h6>
+												</td>
+
+
+											</tr>
+
+										</tbody>
+
+
+									</table>
+
 								</div>
-
 
 
 
@@ -658,18 +585,92 @@ h5 {
 
 							</div>
 
-							<div class="modal-footer">
+							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-primary">Save
+									changes</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- /remote source DAILY WORK LOG-->
+				<!-- /Daily Work Log modal -->
+
+
+
+				<!-- Task Edit modal -->
+				<div id="modal_edit" class="modal fade" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+
+							<div class="modal-header bg-success">
+								<h5 class="modal-title">Project Financing-Internal
+									Audit-text2-3</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
+											name="ManBudgetedHrs" autocomplete="off"
+											onchange="trim(this)">
+									</div>
+
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Employee Budgeted Hours"
+											id="anytime-time2" name="EmpBudgetedHrs" autocomplete="off"
+											onchange="trim(this)">
+									</div>
+
+								</div>
+
+
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6">Work Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Work Date" id="workDate" name="workDate"
+											autocomplete="off" onchange="trim(this)">
+									</div>
+								</div>
+								<div class="form-group row">
+
+									<label class="col-form-label col-lg-6">Statutory Due
+										Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off" onchange="trim(this)">
+									</div>
+
+								</div>
+
+
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-primary">Save
+									changes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Task Edit Log modal -->
 
 
 
 
-<style type="text/css">
+				<style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -695,7 +696,7 @@ h5 {
 						</div>
 					</div> --%>
 
-<style type="text/css">
+					<style type="text/css">
 .fab-menu-bottom-right, .fab-menu-top-right {
 	right: 1.25rem;
 	top: 1rem;
@@ -717,10 +718,10 @@ h5 {
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
 									<th style="background-color: white;">Customer</th>
-								<!-- 	<th style="background-color: white;">Service - Activity</th> -->
+									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									<th style="background-color: white;">Task Name</th>
-									<th style="background-color: white;">Work Date</th>			
-									<th style="background-color: white;">Statutary Due Date</th>						
+									<th style="background-color: white;">Work Date</th>
+									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
 									<th style="background-color: white;">Alloted Hrs</th>
 									<th style="background-color: white;">Actual Hrs</th>
@@ -729,43 +730,64 @@ h5 {
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${taskList}" var="taskList" varStatus="count">
-								<tr onclick="getServiceActInfo('${taskList.taskId}', ${taskList.empId})">
-									<td>${count.index+1}</td>
-									<td>${taskList.custGroupName}</td>
-									<%-- <td>${taskList.servName}</td> --%>
-									<td>${taskList.taskText}(${taskList.periodicityName})</td>
-									<td>${taskList.taskEndDate}</td>
-									<td>${taskList.taskStatutoryDueDate}</td>
-									<td>${taskList.employees}</td>
-									
-									<c:if test="${empType==5}">
-										<td>${taskList.empBudHr}</td>
-									</c:if>
-									<c:if test="${empType==3}">
-										<td>${taskList.mngrBudHr}</td>
-									</c:if>
-																		
-									<c:if test="${empType==4}">
-										<td>NA</td>
-									</c:if>
-									<c:if test="${empType==2}">
-										<td>NA</td>
-									</c:if>
-									<c:if test="${empType==1}">
-										<td>NA</td>
-									</c:if>
-									
-									<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
-									<td><a href="#" onclick="getTaskId('${taskList.taskId}', ${taskList.empId})">0</a></td>
-									<td><span class="badge badge-info" style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
-									
-									<td class="text-center"><a
-										href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
-										title="Chat/Update"><i class="icon-comments"
-											style="color: green;"></i></a></td>
-								</tr>
-						</c:forEach>
+								<c:forEach items="${taskList}" var="taskList" varStatus="count">
+									<tr
+										onclick="getServiceActInfo('${taskList.taskId}', ${taskList.empId})">
+										<td>${count.index+1}</td>
+										<td>${taskList.custGroupName}</td>
+										<%-- <td>${taskList.servName}</td> --%>
+										<td data-toggle="modal" data-target="#modal_small">${taskList.taskText}(${taskList.periodicityName})</td>
+										<td>${taskList.taskEndDate}</td>
+										<td>${taskList.taskStatutoryDueDate}</td>
+										<td>${taskList.employees}</td>
+
+										<c:if test="${empType==5}">
+											<td>${taskList.empBudHr}</td>
+										</c:if>
+										<c:if test="${empType==3}">
+											<td>${taskList.mngrBudHr}</td>
+										</c:if>
+
+										<c:if test="${empType==4}">
+											<td>NA</td>
+										</c:if>
+										<c:if test="${empType==2}">
+											<td>NA</td>
+										</c:if>
+										<c:if test="${empType==1}">
+											<td>NA</td>
+										</c:if>
+
+										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
+										<td><a href="#"
+											onclick="getTaskId('${taskList.taskId}', ${taskList.empId})">0</a></td>
+
+
+										<td align="center"><select name="set_status"
+											id="${taskList.taskId}" class="  ats_sel_status ">
+												<option class="opt" style="background: blue; font-size: 20px;"  value="1"
+													id="Blue" >Allocated</option>
+												<option class="opt" style="background: Orange; font-size: 20px;" value="2" id="Orange">Pending
+													For Manager</option>
+												<option class="opt" style="background: Gray; font-size: 20px;" value="3" selected
+													id="Gray">Pending for TL</option>
+												<option class="opt" style="background: Green; font-size: 20px;" value="4" id="Green">Completed</option>
+
+										</select></td>
+
+
+
+										<%-- <td><span class="badge badge-info"
+											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td> --%>
+
+										<td class="text-center"><a
+											href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
+											title="Chat/Update"><i class="icon-comments"
+												style="color: green;"></i></a> &nbsp;&nbsp;<a href="#"
+											title="Edit"><i class="icon-pencil7" style="color: info;"
+												data-toggle="modal" data-target="#modal_edit"></i></a></td>
+									</tr>
+								</c:forEach>
 
 							</tbody>
 						</table>
@@ -795,7 +817,44 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+
+
+
+
+
+
+
+	<script type="text/javascript">
 	
+	$(document).ready(function(){
+	      // setColor();
+	      $('.ats_sel_status').change(function(){
+	    	  var id=$(this).attr('id');
+	    	  var color =  $('#'+id).find('option:selected').attr('id');
+	  	      $('#'+id).css('background', color); 
+	            // setColor();       
+	     });
+	      
+	      $('.ats_sel_status').each(function(){
+	    	  var id=$(this).attr('id');
+	    	  var color =  $('#'+id).find('option:selected').attr('id');
+	  	      $('#'+id).css('background', color); 
+
+	    	 });
+	});
+
+	function setColor()
+	{
+	   // var color =  $('.sel_status').find('option:selected').attr('id');
+	    //$('#'+id).css('background', color); 
+	}
+	    
+	
+	</script>
+
+
+
+
 	<script type="text/javascript">
 	function getTaskId(taskId, empId) {
 		//alert("HI:"+taskId+" "+ empId);
@@ -849,9 +908,9 @@ h5 {
 	}
 	
 	</script>
-	
-	
-	
+
+
+
 	<script type="text/javascript">
 		// Single picker
 		$('.datepickerclass').daterangepicker({
@@ -875,7 +934,7 @@ h5 {
 			}
 		});
 	</script>
-	
+
 	<script type="text/javascript">
 	function dataFilter(){
 		
@@ -969,7 +1028,7 @@ h5 {
 		}//end of if
 	}
 	</script>
-	
+
 	<script type="text/javascript">
 
 	$(document)
@@ -1020,7 +1079,7 @@ h5 {
 });
 //
 	</script>
-	
+
 	<script type="text/javascript">
 	function getDataTaskWise() {
 		//alert("Hi");
@@ -1067,8 +1126,8 @@ h5 {
 		
 	}
 	</script>
-	
-	
-	
+
+
+
 </body>
 </html>
