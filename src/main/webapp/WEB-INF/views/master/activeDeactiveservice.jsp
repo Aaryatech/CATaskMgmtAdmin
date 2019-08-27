@@ -112,7 +112,8 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/addNewActivity"
+								<form
+									action="${pageContext.request.contextPath}/updateServiceIsActiveStatus"
 									id="submitInsertActivity" method="post">
 
 									<input type="hidden" id="activity_id" name="activity_id"
@@ -128,24 +129,23 @@
 												value="${service.servName}" name="serviceName"
 												autocomplete="off" onchange="trim(this)" readonly="readonly">
 
-											<input type="hidden" id="service_id" name="service_id"
+											<input type="hidden" id="serviceId" name="serviceId"
 												value="${service.servId}">
 
 										</div>
-										
+
 										<label class="col-form-label col-lg-1" for="service">
 											Status : </label>
 										<div class="col-lg-2">
 
-											<select name="empType"
-												data-placeholder="Select Employee Type" id="empType"
+											<select name="isActiveStatus" id="isActiveStatus"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
- 
+
 												<option value="1" ${service.exInt1 == 1 ? 'selected' : ''}>Active</option>
 												<option value="0" ${service.exInt1 == 0 ? 'selected' : ''}>InActive</option>
-												 
- 
+
+
 											</select>
 
 										</div>
@@ -178,7 +178,7 @@
 																<c:otherwise>
 															Active
 															</c:otherwise>
-															</c:choose>  </td>
+															</c:choose></td>
 													</tr>
 												</c:forEach>
 											</tbody>
@@ -202,7 +202,9 @@
 												<c:forEach items="${taskList}" var="taskList"
 													varStatus="count">
 													<tr>
-														<td>${count.index+1}</td>
+														<td>${count.index+1}&nbsp;<input type="checkbox"
+															name="taskIds" id="empIds${taskList.taskId}" class="chk"
+															value="${taskList.taskId}"></td>
 														<td>${taskList.taskText}</td>
 
 														<td><c:choose>
@@ -212,7 +214,7 @@
 																<c:otherwise>
 															Active
 															</c:otherwise>
-															</c:choose> </td>
+															</c:choose></td>
 													</tr>
 												</c:forEach>
 											</tbody>
@@ -259,49 +261,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
-
-	<script>
-		$(document).ready(function($) {
-
-			$("#submitInsertActivity").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-
-				if (!$("#activityName").val()) {
-
-					isError = true;
-
-					$("#error_activityName").show()
-					//return false;
-				} else {
-					$("#error_activityName").hide()
-				}
-
-				if ($("#periodicity").val() == "" || !$("#periodicity").val()) {
-
-					isError = true;
-
-					$("#error_periodicity").show()
-
-				} else {
-					$("#error_periodicity").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						document.getElementById("submtbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
-		//
-	</script>
+ 
 
 </body>
 </html>

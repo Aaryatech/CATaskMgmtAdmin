@@ -21,6 +21,7 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
+import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.task.model.Task;
 
@@ -56,6 +57,34 @@ public class ActiveDeactiveController {
 			 
 			model.addAttribute("actList", activityList);
 			model.addAttribute("taskList", taskList);
+			
+		} catch (Exception e) {
+			e.getMessage();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/updateServiceIsActiveStatus", method = RequestMethod.POST)
+	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response) {
+
+		String mav = "redirect:/serviceList";
+
+		try {
+			
+			
+			int servId = Integer.parseInt(request.getParameter("serviceId")); 
+			int isActiveStatus = Integer.parseInt(request.getParameter("isActiveStatus"));
+			String[] taskIds = request.getParameterValues("taskIds");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("servId", servId); 
+			map.add("isActiveStatus", isActiveStatus); 
+			map.add("taskIds", taskIds); 
+			
+			Info updateIsActiveStatus = Constants.getRestTemplate().postForObject(Constants.url + "/updateServiceIsActiveStatus",
+					map, Info.class);
+			 
 			
 		} catch (Exception e) {
 			e.getMessage();
