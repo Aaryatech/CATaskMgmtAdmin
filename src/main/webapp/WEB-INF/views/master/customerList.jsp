@@ -162,7 +162,20 @@
 										<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></c:if></td>
+								</a></c:if>
+								<c:choose>
+												<c:when test="${custHeadList.isActive==1}">
+													<a
+														href="${pageContext.request.contextPath}/activeDeactiveCustomer?custId=${custHeadList.exVar1}"><i
+														class="fas fa-toggle-on" style="color: black;"></i> </a>
+												</c:when>
+												<c:otherwise>
+													<a
+														href="${pageContext.request.contextPath}/activeDeactiveCustomer?custId=${custHeadList.exVar1}"><i
+														class="fas fa-toggle-off" style="color: black;"></i> </a>
+												</c:otherwise>
+											</c:choose>
+								</td>
 
 							</tr>
 							</c:forEach>

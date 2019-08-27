@@ -1730,6 +1730,81 @@ public class MasterMVCController {
 		return redirect;
 	}
 
+/***********Customer Active Decative*******************/
 	
+	@RequestMapping(value="/activeDeactiveCustomer",method = RequestMethod.GET)
+	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = "master/customerDeactive";
+
+		try {
+
+			String base64encodedString = request.getParameter("custId");			
+			String custId = FormValidation.DecodeKey(base64encodedString);
+			System.err.println("base64encodedString custId---------" +custId);
+			//int custId = Integer.parseInt(request.getParameter("custId"));
+
+			MultiValueMap<String, Object> map = null;
+			map = new LinkedMultiValueMap<>();
+			map.add("custId", custId);
+			
+			CustNameId custName = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getCustNameById", map, CustNameId.class);
+			
+			model.addAttribute("custName", custName);			
+	
+
+			Task[] task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListCustIsActive", map,
+					Task[].class);
+			List<Task> taskList = new ArrayList<>(Arrays.asList(task));
+			model.addAttribute("taskList", taskList);
+			
+			//model.addAttribute("actList", custActList);
+		} catch (Exception e) {
+			e.getMessage();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/updateCustomerIsActiveStatus", method = RequestMethod.POST)
+	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response) {
+
+		String mav = "redirect:/customerList";
+
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			int isActiveStatus = Integer.parseInt(request.getParameter("isActiveStatus"));
+			String[] taskIds = request.getParameterValues("taskIds");
+
+			String ids = "0";
+
+			try {
+
+				 
+				
+				for(int i=0 ; i<taskIds.length ; i++) {
+					ids=ids+","+taskIds[i];
+				}
+
+			} catch (Exception e) {
+				ids="0";
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("custId", custId);
+			map.add("isActiveStatus", isActiveStatus);
+			map.add("taskIds", ids);
+
+			Info updateIsActiveStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/updateCustomerIsActiveStatus", map, Info.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
 
 }

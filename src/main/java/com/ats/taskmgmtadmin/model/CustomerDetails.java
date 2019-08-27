@@ -10,6 +10,7 @@ public class CustomerDetails {
 	private String custEmailId;
 	private String custPhoneNo;
 	private String empName;
+	private int isActive;
 	public String exVar1;
 	public String exVar2;
 	
@@ -73,13 +74,19 @@ public class CustomerDetails {
 	}
 	public void setExVar2(String exVar2) {
 		this.exVar2 = exVar2;
+	}	
+	public int getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
 	}
 	@Override
 	public String toString() {
 		return "CustomerDetails [custId=" + custId + ", custFirmName=" + custFirmName + ", custGroupName="
 				+ custGroupName + ", custAssesseeName=" + custAssesseeName + ", custPanNo=" + custPanNo
-				+ ", custEmailId=" + custEmailId + ", custPhoneNo=" + custPhoneNo + ", empName=" + empName + ", exVar1="
-				+ exVar1 + ", exVar2=" + exVar2 + "]";
+				+ ", custEmailId=" + custEmailId + ", custPhoneNo=" + custPhoneNo + ", empName=" + empName
+				+ ", isActive=" + isActive + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
 	
 	
