@@ -140,11 +140,8 @@
 									<td>${taskList.periodicity_name}</td>
 
 									<td><a
-										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=1"
-										title="Approve Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a> | <a
-										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
-										title="Disapprove Task"><i class="icon-cancel-square"
+										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=2"
+										title="Activate Task"><i class="icon-checkmark4 "
 											style="color: black;"></i></a></td>
 
 								</tr>

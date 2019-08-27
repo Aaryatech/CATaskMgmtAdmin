@@ -32,6 +32,7 @@ import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
+import com.ats.taskmgmtadmin.task.model.Task;
  
 @Controller
 @Scope("session")
@@ -298,6 +299,92 @@ public class TaskController {
 		String mav = "task/showDailyWorkLog";
 
 		return mav;
+	}
+	
+	
+	
+	//*******************Inactive Task******************************************
+	
+	@RequestMapping(value = "/inactiveTaskList", method = RequestMethod.GET)
+	public ModelAndView inactiveTaskList(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session = request.getSession();
+
+		ModelAndView mav = null;
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("inactiveTaskList", "inactiveTaskList", "1", "0", "0", "0", newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
+			mav = new ModelAndView("task/inactiveTaskList");
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+			// System.out.println("empType is "+emp.getEmpType());
+		 
+				try {
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				 
+					map.add("empId", userId);
+					GetTaskList[] holListArray = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getAllInactiveTaskList", map, GetTaskList[].class);
+
+					List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+
+					for (int i = 0; i < taskList.size(); i++) {
+
+						taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					}
+					mav.addObject("taskList", taskList);
+					// System.out.println("ManualTakList***"+taskList.toString());
+				} catch (Exception e) {
+					System.err.println("Exce in addCustomerActMap " + e.getMessage());
+					e.printStackTrace();
+				}
+		
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/updateManualTaskStatus", method = RequestMethod.GET)
+	public String updateManualTaskStatus(HttpServletRequest request, HttpServletResponse response) {
+		String redirect = null;
+		try {
+
+			String base64encodedString = request.getParameter("taskId");
+			int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
+			int stat = Integer.parseInt(request.getParameter("stat"));
+
+			HttpSession session1 = request.getSession();
+
+			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("taskId", taskId);
+			map.add("statusVal", stat);
+
+			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateManualTaskByTaskId", map,
+					Task.class);
+			if (task != null) {
+				FormValidation.updateTaskLog(Constants.taskTex4, userId, taskId);
+
+			}
+
+			redirect = "redirect:/manualTaskList";
+			// "redirect:/communication?taskId=" + taskId;
+
+		} catch (Exception e) {
+			System.err.println("Exce in updateTaskStatus " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return redirect;
 	}
 
 }
