@@ -32,6 +32,7 @@ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
@@ -327,8 +328,9 @@ public class HomeController<Task> {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 			
-			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
-			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
+		//	System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
 			
 		}catch (Exception e) {
@@ -376,8 +378,8 @@ public class HomeController<Task> {
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 			
-			CustomerGroupMaster[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getAllCustomerGroups", CustomerGroupMaster[].class);
-			List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
 			
 		}catch (Exception e) {

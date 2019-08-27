@@ -120,18 +120,18 @@
 									
 									
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="custType">Customer 
+										<label class="col-form-label col-lg-3" for="custType">Customer
 											Type <span style="color: red">*</span>:
 										</label>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
 												class="form-check-input" name="custType" id="custType"
-												value="0" onclick="showDiv(this.value)"> Individual
+												 onclick="showDiv(this.value)" value="0"> Individual
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
 											<label class="form-check-label"> <input type="radio" ${custHead.custType == 1 ? 'checked' : ''}
-												class="form-check-input" name="custType" id="custType" value="1" onclick="showDiv(this.value)">Client
+												class="form-check-input" name="custType" id="custType" onclick="showDiv(this.value)" value="1">Client
 												 Group
 											</label>
 										</div>
@@ -516,7 +516,7 @@
 												var isError = false;
 												var errMsg = "";
 										var radio = $("#custType").val();
-										alert(radio);
+										alert("Radio---"+radio);
 											if(radio==0){
 												if (!$("#firmName").val()) {
 
@@ -629,6 +629,7 @@ function showDiv(typdId){
 			
 			document.getElementById("ihide").style = "visible"
 			document.getElementById("hideFirm").style = "display:none"
+				document.getElementById("firmName").value = "NA";
 				
 		} else if (typdId == 0) {
 			document.getElementById("ihide").style = "display:none"

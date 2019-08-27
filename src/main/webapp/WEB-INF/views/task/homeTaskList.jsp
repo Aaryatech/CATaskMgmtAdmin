@@ -278,7 +278,7 @@ h5 {
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 											<c:forEach items="${custGrpList}" var="custGrpList">
-												<option value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
+												<option value="${custGrpList.custId}">${custGrpList.custName}</option>
 											</c:forEach>
 
 										</select>
