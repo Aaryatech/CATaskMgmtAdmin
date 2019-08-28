@@ -28,6 +28,8 @@ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.TaskText;
+import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustmrActivityMap;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
@@ -285,7 +287,7 @@ public class TaskController {
 			if (info.isError() == false) {
 
 				for (int i = 0; i < TaskId.length; i++) {
-					FormValidation.updateTaskLog(Constants.taskTex2, userId, Integer.parseInt(TaskId[i]));
+					FormValidation.updateTaskLog(TaskText.taskTex2, userId, Integer.parseInt(TaskId[i]));
 				}
 			}
 
@@ -335,6 +337,10 @@ public class TaskController {
 					CustNameId[].class);
 			List<CustNameId> custHeadList = new ArrayList<CustNameId>(Arrays.asList(custHeadArr));
 			mav.addObject("custList", custHeadList);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		
 			StringBuilder sbCust = new StringBuilder();
 			String[] custList = null;
 			int servId = 0;
@@ -346,11 +352,19 @@ public class TaskController {
 			try {
 				servId = Integer.parseInt(request.getParameter("service"));
 			} catch (Exception e) {
-				System.err.println("Exce in addCustomerActMap " + e.getMessage());
-				e.printStackTrace();
+				 
 				servId = 0;
 
 			}
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId",servId );
+
+			ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllActivitesByServiceId", map,
+					ActivityMaster[].class);
+			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			mav.addObject("activityList", activityList);
+			
 
 			try {
 				sbAct = new StringBuilder();
@@ -392,7 +406,7 @@ public class TaskController {
 
 			try {
 				
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				  map = new LinkedMultiValueMap<>();
 					map.add("empId", userId);
 					map.add("itemsAct", itemsAct);
 					map.add("itemsCust", itemsCust);
@@ -408,10 +422,13 @@ public class TaskController {
 						taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 					}
 					mav.addObject("taskList", taskList);
+					mav.addObject("servId", servId);
+					mav.addObject("custList1", custList);
+					mav.addObject("actList", actList);
 				
 				
 				
-				// System.out.println("ManualTakList***"+taskList.toString());
+			 System.out.println("ManualTakList***"+taskList.toString());
 
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -544,11 +561,11 @@ public class TaskController {
 			if (task != null) {
 
 				if (stat == 1) {
-					FormValidation.updateTaskLog(Constants.taskTex6, userId, taskId);
+					FormValidation.updateTaskLog(TaskText.taskTex6, userId, taskId);
 				} else if (stat == 0) {
-					FormValidation.updateTaskLog(Constants.taskTex5, userId, taskId);
+					FormValidation.updateTaskLog(TaskText.taskTex5, userId, taskId);
 				} else if (stat == 2) {
-					FormValidation.updateTaskLog(Constants.taskTex7, userId, taskId);
+					FormValidation.updateTaskLog(TaskText.taskTex7, userId, taskId);
 				}
 
 			}

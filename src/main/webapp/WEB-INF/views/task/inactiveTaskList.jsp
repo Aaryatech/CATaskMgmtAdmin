@@ -113,100 +113,121 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
-						
-							<form
-									action="${pageContext.request.contextPath}/activeDeactiveService"
-									id="submitInsertActivity">
 
-									<input type="hidden" id="activity_id" name="activity_id"
-										value="${activity.actiId}">
-						
-						
+						<form action="${pageContext.request.contextPath}/inactiveTaskList"
+							id="submitInsertActivity">
+
+							<input type="hidden" id="activity_id" name="activity_id"
+								value="${activity.actiId}">
+
+
 							<div class="form-group row">
-										<label class="col-form-label col-lg-1" for="service">
-											Service<span style="color: red">* </span> :
-										</label>
-										<div class="col-lg-3">
-											<select name="service" data-placeholder="Select Service"
-												id="service"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"
-												onchange="getActivities(this.value)"><c:forEach
-													items="${serviceList}" var="serviceList">
+								<label class="col-form-label col-lg-1" for="service">
+									Service<span style="color: red">* </span> :
+								</label>
+								<div class="col-lg-3">
+									<select name="service" data-placeholder="Select Service"
+										id="service"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true"
+										onchange="getActivities(this.value)">
+										<option value="0">Select Service</option>
+										<c:forEach items="${serviceList}" var="serviceList">
+											<c:choose>
+												<c:when test="${serviceList.servId==servId}">
+													<option selected value="${serviceList.servId}">${serviceList.servName}</option>
+												</c:when>
+												<c:otherwise>
 													<option value="${serviceList.servId}">${serviceList.servName}</option>
-												</c:forEach>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
 
-											</select>
-										</div>
-										<div class="col-lg-2">
-											<span class="validation-invalid-label" id="error_periodicity"
-												style="display: none;">  Select Service</span>
-										</div>
-										
-										
-										<label class="col-form-label col-lg-1" for="activity">
-											Activity <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-3">
-											<select name="activity" data-placeholder="Select Activity"
-												id="activity" multiple
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"
-												>
-											</select>
-										</div>
-									
-										<div class="col-lg-2">
-											<span class="validation-invalid-label" id="error_activity"
-												style="display: none;">   Select  Activity
-												</span>
-										</div>
-										
-										
-									</div>
-									
-									
-									<div class="form-group row">
-									
-										
-										
-										<label class="col-form-label col-lg-1" for="service">
-											Customer<span style="color: red">* </span> :
-										</label>
-										<div class="col-lg-3">
-											<select name="customer" data-placeholder="Select Customer"
-												id="customer" multiple
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-													<option value="-1">All</option>
-													<c:forEach
-													items="${custList}" var="custList">
-													
-													<option value="${custList.custId}">${custList.custName}</option>
-												</c:forEach>
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_periodicity"
+										style="display: none;"> Select Service</span>
+								</div>
 
-											</select>
-										</div>
-										<div class="col-lg-2">
-											<span class="validation-invalid-label" id="error_cust"
-												style="display: none;"> Select customer </span>
-										</div>
-									</div>
-									
-									<div class="form-group row mb-0">
-										<div class="col-lg-12" align="center">
-											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
-												Submit <i class="icon-paperplane ml-2"></i>
-											</button>
-											 
-										</div>
-									</div>
-									
-									</form>
-						
-						
+
+								<label class="col-form-label col-lg-1" for="activity">
+									Activity <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-3">
+									<select name="activity" data-placeholder="Select Activity"
+										id="activity" multiple
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										
+										
+										
+										<c:forEach items="${activityList}" var="activityList">
+										<c:forEach items="${actList}" var="actList">
+											<c:choose>
+												<c:when test="${activityList.actiId==actList}">
+													<option selected value="${activityList.actiId}">${activityList.actiName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${activityList.actiId}">${activityList.actiName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+										</c:forEach>
+									</select>
+								</div>
+
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_activity"
+										style="display: none;"> Select Activity </span>
+										
+								</div>
+
+
+							</div>
+
+
+							<div class="form-group row">
+
+
+
+								<label class="col-form-label col-lg-1" for="service">
+									Customer<span style="color: red">* </span> :
+								</label>
+								<div class="col-lg-3">
+									<select name="customer" data-placeholder="Select Customer"
+										id="customer" multiple
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										
+										<option value="-1">All</option>
+
+										<c:forEach items="${custList}" var="custList">
+											<option value="${custList.custId}">${custList.custName}</option>
+										</c:forEach>
+
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_cust"
+										style="display: none;"> Select customer </span>
+								</div>
+							</div>
+
+							<div class="form-group row mb-0">
+								<div class="col-lg-12" align="center">
+									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn">
+										Submit <i class="icon-paperplane ml-2"></i>
+									</button>
+
+								</div>
+							</div>
+
+						</form>
+
+
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -264,42 +285,38 @@
 
 	</div>
 	<script type="text/javascript">
-	
-	function getActivities(servId) {
-		//alert("servId " +servId)
-		if (servId > 0) {
+		function getActivities(servId) {
+			//alert("servId " +servId)
+			if (servId > 0) {
 
-			$.getJSON('${getActivityByService}', {
-				servId : servId,
-				ajax : 'true',
-			},
+				$.getJSON('${getActivityByService}', {
+					servId : servId,
+					ajax : 'true',
+				},
 
-			function(data) {
-				var html;
-				var p = -1;
-				var q = "All";
-				html += '<option  value="'+p+'" >' + q
-						+ '</option>';
-				html += '</option>';
+				function(data) {
+					var html;
+					var p = -1;
+					var q = "All";
+					html += '<option  value="'+p+'" >' + q + '</option>';
+					html += '</option>';
 
-				var temp = 0;
+					var temp = 0;
 
-				var len = data.length;
-				for (var i = 0; i < len; i++) {
+					var len = data.length;
+					for (var i = 0; i < len; i++) {
 
-					html += '<option value="' + data[i].actiId + '">'
-							+ data[i].actiName + '</option>';
-				}
+						html += '<option value="' + data[i].actiId + '">'
+								+ data[i].actiName + '</option>';
+					}
 
-				$('#activity').html(html);
-				$("#activity").trigger("chosen:updated");
+					$('#activity').html(html);
+					$("#activity").trigger("chosen:updated");
 
-			});
+				});
 
-		}//end of if
-	}
-	
-	
+			}//end of if
+		}
 	</script>
 	<!-- /page content -->
 

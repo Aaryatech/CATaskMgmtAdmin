@@ -159,46 +159,98 @@
 						action="${pageContext.request.contextPath}/submitTaskAssignment"
 						id="submitInsertEmpType" method="post">
 						<div class="card-body">
-							<div class="form-group row">
-
-								<label class="col-form-label col-lg-3" for="startDate">Work
-									Date:
+						<div class="form-group row">
+								<label class="col-form-label col-lg-1" for="service">
+									Service<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-6">
-									<input type="text" class="form-control datepickerclass"
-										name="workDate" id="workDate" placeholder="Task End Date">
-								</div>
 								<div class="col-lg-3">
-									<span class="validation-invalid-label" id="error_startDate"
-										style="display: none;">Please Enter Work Date.</span>
-
-								</div>
-
-							</div>
-
-
-							<div class="form-group row">
-								<label class="col-form-label col-lg-3" for="locId2">
-									Employee <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-6">
-
-									<select multiple="multiple" data-placeholder="Select Employee"
-										name="empId2" id="empId2"
-										class="form-control form-control-sm select"
-										data-container-css-class="select-sm" data-fouc>
-										<option value="">Select Employee</option>
-										<c:forEach items="${epmList}" var="epmList">
-											<option value="${epmList.empId}">
-											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+									<select name="service" data-placeholder="Select Service"
+										id="service"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true"
+										onchange="getActivities(this.value)">
+										<option value="0">Select Service</option>
+										<c:forEach items="${serviceList}" var="serviceList">
+											<c:choose>
+												<c:when test="${serviceList.servId==servId}">
+													<option selected value="${serviceList.servId}">${serviceList.servName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${serviceList.servId}">${serviceList.servName}</option>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 
-									</select> <span class="validation-invalid-label" id="error_locId2"
-										style="display: none;">This field is required.</span>
+									</select>
 								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_periodicity"
+										style="display: none;"> Select Service</span>
+								</div>
+
+
+								<label class="col-form-label col-lg-1" for="activity">
+									Activity <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-3">
+									<select name="activity" data-placeholder="Select Activity"
+										id="activity" multiple
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										
+										
+										
+										<c:forEach items="${activityList}" var="activityList">
+										<c:forEach items="${actList}" var="actList">
+											<c:choose>
+												<c:when test="${activityList.actiId==actList}">
+													<option selected value="${activityList.actiId}">${activityList.actiName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${activityList.actiId}">${activityList.actiName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+										</c:forEach>
+									</select>
+								</div>
+
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_activity"
+										style="display: none;"> Select Activity </span>
+										
+								</div>
+
+
 							</div>
 
 
+							<div class="form-group row">
+
+
+
+								<label class="col-form-label col-lg-1" for="service">
+									Customer<span style="color: red">* </span> :
+								</label>
+								<div class="col-lg-3">
+									<select name="customer" data-placeholder="Select Customer"
+										id="customer" multiple
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										
+										<option value="-1">All</option>
+
+										<c:forEach items="${custList}" var="custList">
+											<option value="${custList.custId}">${custList.custName}</option>
+										</c:forEach>
+
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_cust"
+										style="display: none;"> Select customer </span>
+								</div>
+							</div>
 
 							<div class="table-responsive">
 
