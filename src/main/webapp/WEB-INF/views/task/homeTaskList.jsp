@@ -15,11 +15,11 @@
 </head>
 
 <body>
-	<!-- onload="getDataTaskWise()" -->
-
+	
 	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
-
+	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -511,7 +511,7 @@ h5 {
 							</a>
 						</div>
 
-						<table class="table datatable-basic table-hover" width="100%">
+						<table class="table datatable-basic table-hover" width="100%" id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
@@ -561,7 +561,7 @@ h5 {
 
 
 									<td>${taskList.taskStatus}</td> 
-										<td align="center"><select name="set_status"
+										<td align="center"><select name="set_status" onchange="updateStatus(this.value, ${taskList.taskId })"
 											id="${taskList.taskId}" class="form-control  ats_sel_status ">
 
 												<c:forEach items="${statusList}" var="statusList">
@@ -636,12 +636,40 @@ h5 {
 	<!-- /page content -->
 
 
-
-
-
-
-
 	<script type="text/javascript">
+	
+	function updateStatus(statusId, taskId){
+		alert("Status----"+statusId+" "+taskId)
+
+	 $("#loader").show();
+		$
+				.getJSON(
+						'${updateTaskStatusByTaskId}',
+						{
+							taskId : taskId,
+							statusId: statusId,
+							ajax : 'true',
+
+						},
+						function(data) {						
+
+							var dataTable = $('#task_info_table').DataTable();
+							dataTable.clear().draw();
+
+							$.each(data, function(i, v) {
+								//alert(JSON.stringify(v));
+		  											
+								dataTable.row.add(
+										[ 	i + 1,
+											v.exVar1,											 
+											 v.workHours
+										
+										
+										]).draw();
+							});}); 
+		
+	}
+	
 	
 	$(document).ready(function(){
 	      // setColor();
