@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.Info;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
@@ -419,6 +420,28 @@ public class HomeController<Task> {
 			System.err.println("Exception in getTaskById : "+e.getMessage());
 		}
 		return null;
+		
+	}
+	
+	@RequestMapping(value = "/updateTaskStatusByTaskId", method=RequestMethod.GET)
+	public @ResponseBody Info updateTaskStatusByTaskId(HttpServletRequest request, HttpServletResponse response) {
+		Info info = new Info();
+		try {
+			int statusId = Integer.parseInt(request.getParameter("statusId"));
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("statusId", statusId);
+			map.add("taskId", taskId);
+			
+			info = Constants.getRestTemplate().getForObject(Constants.url+"/updateStatusByTaskId", Info.class);
+				
+			
+		}catch (Exception e) {
+			System.err.println("Exception in updateTaskStatusByTaskId : "+e.getMessage());
+		}
+		
+		return info;
 		
 	}
 }
