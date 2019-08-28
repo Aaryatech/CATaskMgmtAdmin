@@ -85,9 +85,10 @@ public class DailyWorkLogMVCController {
 				EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			
 				DailyWorkLog workLog = new DailyWorkLog();
-				
+				String hrs = request.getParameter("workHour");
+				String workHrs = hrs.replace(":", ".");
 				workLog.setDelStatus(1);
-				workLog.setEmpId(Integer.parseInt(request.getParameter("empId")));
+				workLog.setEmpId(empSes.getEmpId());
 				workLog.setExInt1(0);
 				workLog.setExInt2(0);
 				workLog.setExVar1("NA");
@@ -96,7 +97,7 @@ public class DailyWorkLogMVCController {
 				workLog.setUpdateDatetime(curDateTime);
 				workLog.setUpdateUsername(empSes.getEmpId());
 				workLog.setWorkDate(request.getParameter("workDate"));
-				workLog.setWorkHours(Float.parseFloat(request.getParameter("workHour")));
+				workLog.setWorkHours(Float.parseFloat(workHrs));
 				workLog.setWorkLogId(logId);
 				workLog.setWorkRemark(request.getParameter("remark"));
 				
@@ -112,27 +113,32 @@ public class DailyWorkLogMVCController {
 		
 	}
 	
-	@RequestMapping(value = "/getDailyWorkLogByEmpId", method = RequestMethod.GET)
+	@RequestMapping(value = "/getDailyWorkLogByTaskId", method = RequestMethod.GET)
 	public @ResponseBody List<DailyWorkLog> getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 			List<DailyWorkLog> logList = null;
 		try {
-			System.out.println("getDailyWorkLogByEmpId ----- Service Called ");
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			System.out.println("getDailyWorkLogByEmpId ----- Service Called "+ taskId);
 			MultiValueMap<String, Object> map =  new LinkedMultiValueMap<String, Object>();	
 			
 			 session = request.getSession();
 			 			
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");				
-			map.add("empId", empSes.getEmpId());
+			map.add("taskId", taskId);
 			
 			DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
 					DailyWorkLog[].class);
 			 logList = new ArrayList<>(Arrays.asList(logArr));
 			
-			 for (int i = 0; i < logList.size(); i++) {
-
-				 logList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(logList.get(i).getWorkLogId())));
-					
-				}
+			 System.out.println("Log List----------"+logList.toString());
+			/*
+			 * for (int i = 0; i < logList.size(); i++) {
+			 * 
+			 * logList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(logList.get(i)
+			 * .getWorkLogId())));
+			 * 
+			 * }
+			 */
 
 		} catch (Exception e) {
 			System.err.println("Exce in workLogList " + e.getMessage());

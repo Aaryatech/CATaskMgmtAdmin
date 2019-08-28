@@ -403,4 +403,15 @@ public class HomeController<Task> {
 		session.removeAttribute("exportExcelList");
 	}
 
+	@RequestMapping(value = "/getTaskById", method=RequestMethod.GET)
+	public @ResponseBody TaskListHome getTaskById(HttpServletRequest request, HttpServletResponse response) {
+		
+		try {
+			
+		}catch (Exception e) {
+			System.err.println("Exception in getTaskById : "+e.getMessage());
+		}
+		return null;
+		
+	}
 }

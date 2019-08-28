@@ -17,8 +17,7 @@
 <body>
 	<!-- onload="getDataTaskWise()" -->
 
-	<c:url value="/getEmpTtlHrs" var="getEmpTtlHrs"></c:url>
-	<c:url value="/getDailyWorkLogByEmpId" var="getDailyWorkLogByEmpId"></c:url>
+	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
 
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<!-- Main navbar -->
@@ -329,7 +328,6 @@ h5 {
 									<div class="form-group row">
 
 										<input type="hidden" name="taskId" id="taskId"> <input
-											type="hidden" name="empId" id="empId"> <input
 											type="hidden" name="logId" id="logId"
 											value="${workLog.workLogId}">
 
@@ -360,8 +358,8 @@ h5 {
 										<div class="form-group  col-md-1">
 											<label class="form-group-float-label animate is-visible">
 											</label>
-											<button type="button" id="submtbtn"
-												class="btn bg-info-400 legitRipple" onclick="chat()">
+											<button type="submit" id="submtbtn"
+												class="btn bg-info-400 legitRipple">
 												<b><i class="icon-paperplane"></i></b>
 											</button>
 										</div>
@@ -371,219 +369,20 @@ h5 {
 
 
 							</div>
+							<div class="table-responsive">
+								<table class="table datatable-scroller1" id="work_log_table">
+									<thead>
+										<tr>
+										 	<th style="width: 350px; color: white;"></th>
+											<th style="width: 350px; color: white;">Employee</th>
+											<!-- <th style="width: 100px; color: white;">Date</th> -->
+											<th style="width: 100px; color: white;">Hours</th>
 
-							<table class="table datatable-scroller">
-								<thead>
-									<tr>
-										<th style="width: 1px; color: white;"></th>
-										<th style="width: 350px; color: white;">Employee</th>
-										<th style="width: 100px; color: white;">Hours</th>
-
-									</tr>
-								</thead>
-							</table>
-
-							<div class="modal-body py-0">
-
-
-								<div class="table-responsive">
-									<table class="table datatable-scroller">
-
-										<tbody>
-											<tr>
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Admin)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-
-											<tr>
-
-												<td>
-													<div class="d-flex align-items-center">
-														<div>
-															<a href="#"
-																class="text-default font-weight-semibold letter-icon-title">Annabelle
-																Doney - (Manager)</a>
-														</div>
-													</div>
-												</td>
-
-												<td class="text-center">
-													<h6 class="mb-0">12</h6>
-												</td>
-
-
-											</tr>
-
-										</tbody>
-
-
-									</table>
-
-								</div>
-
-
-
-
-
+										</tr>
+									</thead>
+								</table>
 							</div>
+							 
 
 							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
@@ -731,12 +530,12 @@ h5 {
 							</thead>
 							<tbody>
 								<c:forEach items="${taskList}" var="taskList" varStatus="count">
-									<tr
-										onclick="getServiceActInfo('${taskList.taskId}', ${taskList.empId})">
+									<tr>
 										<td>${count.index+1}</td>
 										<td>${taskList.custGroupName}</td>
-										<%-- <td>${taskList.servName}</td> --%>
-										<td data-toggle="modal" data-target="#modal_small">${taskList.taskText}(${taskList.periodicityName})</td>
+										<%-- data-toggle="modal" data-target="#modal_small" --%>
+										<td><a href="#"
+											onclick="showTaskLogs(${taskList.taskId })">${taskList.taskText}(${taskList.periodicityName})</a></td>
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
@@ -759,19 +558,23 @@ h5 {
 										</c:if>
 
 										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
-										<td><a href="#"
-											onclick="getTaskId('${taskList.taskId}', ${taskList.empId})">0</a></td>
+										<td>0</td>
 
 
 										<td align="center"><select name="set_status"
 											id="${taskList.taskId}" class="  ats_sel_status ">
-												<option class="opt" style="background: blue; font-size: 20px;"  value="1"
-													id="Blue" >Allocated</option>
-												<option class="opt" style="background: Orange; font-size: 20px;" value="2" id="Orange">Pending
-													For Manager</option>
-												<option class="opt" style="background: Gray; font-size: 20px;" value="3" selected
-													id="Gray">Pending for TL</option>
-												<option class="opt" style="background: Green; font-size: 20px;" value="4" id="Green">Completed</option>
+												<option class="opt"
+													style="background: blue; font-size: 20px;" value="1"
+													id="Blue">Allocated</option>
+												<option class="opt"
+													style="background: Orange; font-size: 20px;" value="2"
+													id="Orange">Pending For Manager</option>
+												<option class="opt"
+													style="background: Gray; font-size: 20px;" value="3"
+													selected id="Gray">Pending for TL</option>
+												<option class="opt"
+													style="background: Green; font-size: 20px;" value="4"
+													id="Green">Completed</option>
 
 										</select></td>
 
@@ -856,25 +659,15 @@ h5 {
 
 
 	<script type="text/javascript">
-	function getTaskId(taskId, empId) {
-		//alert("HI:"+taskId+" "+ empId);
-		$('#modal_remote_log').modal('show');
+	function showTaskLogs(taskId) {
+		//alert("HI:"+taskId);
 		document.getElementById("taskId").value = taskId;
-		document.getElementById("empId").value = empId;
-	}
-	
-	
-	function getServiceActInfo(taskId, empId) {
-		
-		//alert("HI:"+taskId+" "+ empId);
-		
 		$("#loader").show();
 		$
 				.getJSON(
-						'${getEmpTtlHrs}',
+						'${getDailyWorkLogByTaskId}',
 						{
-							taskId : taskId,
-							empId : empId,
+							taskId : taskId,				
 							ajax : 'true',
 
 						},
@@ -886,27 +679,28 @@ h5 {
 
 							} */
 
-							var dataTable = $('#printtable1').DataTable();
+							var dataTable = $('#work_log_table').DataTable();
 							dataTable.clear().draw();
 
 							$.each(data, function(i, v) {
 								//alert(JSON.stringify(v));
-		  												
-								//var acButton = '&nbsp;&nbsp;<a href="#" onclick="editWorkLog('+ v.exVar1+')"><i class="icon-pencil7" style="color: black;">'+
-								//'</i>   &nbsp;&nbsp;<a href="#" )"><i class="icon-trash" style="color: black;""></i>';	
+		  											
 								dataTable.row.add(
-										[ i + 1,
-										  v.taskText,
-										  v.ttlWorkHrs,
-										  v.empName
+										[ 	i + 1,
+											v.exVar1,
+											 // v.workDate,
+											  v.workHours
 										//  acButton
 										
 										]).draw();
 							});});
-							
-		$('#modal_remote_log_service').modal('show');
+		
+		
+		$('#modal_small').modal('show');
+		
+		
 	}
-	
+		
 	</script>
 
 
