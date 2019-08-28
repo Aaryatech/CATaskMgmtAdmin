@@ -639,7 +639,7 @@ h5 {
 	<script type="text/javascript">
 	
 	function updateStatus(statusId, taskId){
-		alert("Status----"+statusId+" "+taskId)
+		//alert("Status----"+statusId+" "+taskId)
 
 	 $("#loader").show();
 		$
@@ -701,7 +701,7 @@ h5 {
 
 
 	<script type="text/javascript">
-	function showTaskLogs(taskId, taskText) {
+	/* function showTaskLogs(taskId, taskText) {
 		//alert("HI:"+taskText);
 		var empType = ${empType};
 		//alert("Emp Type------"+empType)
@@ -733,18 +733,40 @@ h5 {
 		  											
 								dataTable.row.add(
 										[ 	i + 1,
-											v.exVar1,
-											 // v.workDate,
-											  v.workHours
-										//  acButton
+											v.custGroupName,
+											  v.taskText(v.periodicityName),
+											  v.workHours,
+											  v.taskEndDate,
+											  v.taskStatutoryDueDate,
+											  v.employees,
+											  if(v.empType==5){
+												  v.empBudHr,
+											  }
+										
+											if(v.empType==3){
+												  v.mngrBudHr,
+											  }
+											
+											if(v.empType==){
+												  NA,
+											  }
+											
+											if(v.empType==2){
+												  NA,
+											  }
+											
+											if(v.empType==1){
+												  NA
+											  }
+											  //  acButton
 										
 										]).draw();
 							});});
 		
-		
+
 		$('#modal_small').modal('show');
 		
-	}
+	} */
 		
 	</script>
 
