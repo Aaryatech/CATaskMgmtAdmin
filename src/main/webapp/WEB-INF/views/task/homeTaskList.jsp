@@ -318,8 +318,7 @@ h5 {
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header bg-success">
-								<h5 class="modal-title">Project Financing-Internal
-									Audit-text2-3</h5>
+								<h5 class="modal-title"><span id="taskText"></span></h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -535,7 +534,7 @@ h5 {
 										<td>${taskList.custGroupName}</td>
 										<%-- data-toggle="modal" data-target="#modal_small" --%>
 										<td><a href="#"
-											onclick="showTaskLogs(${taskList.taskId })">${taskList.taskText}(${taskList.periodicityName})</a></td>
+											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
@@ -659,9 +658,13 @@ h5 {
 
 
 	<script type="text/javascript">
-	function showTaskLogs(taskId) {
-		//alert("HI:"+taskId);
+	function showTaskLogs(taskId, taskText) {
+		//alert("HI:"+taskText);
+		var empType = ${empType};
+		//alert("Emp Type------"+empType)
 		document.getElementById("taskId").value = taskId;
+		//document.getElementById("taskText").value = taskText;
+		document.getElementById("taskText").innerHTML = taskText;
 		$("#loader").show();
 		$
 				.getJSON(
@@ -698,12 +701,9 @@ h5 {
 		
 		$('#modal_small').modal('show');
 		
-		
 	}
 		
 	</script>
-
-
 
 	<script type="text/javascript">
 		// Single picker
