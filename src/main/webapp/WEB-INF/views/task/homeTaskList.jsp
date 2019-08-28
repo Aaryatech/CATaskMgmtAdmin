@@ -522,8 +522,8 @@ h5 {
 									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
 									<th style="background-color: white;">Alloted Hrs</th>
-									<th style="background-color: white;">Actual Hrs</th>
-									<th style="background-color: white;">Status</th>
+									<th style="background-color: white;">Task Status</th>
+									<th style="background-color: white;">Change Status</th>
 									<th class="text-center" style="background-color: white;">Actions</th>
 								</tr>
 							</thead>
@@ -557,12 +557,28 @@ h5 {
 										</c:if>
 
 										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
-										<td>0</td>
+										<!-- <td>0</td> -->
 
 
+									<td>${taskList.taskStatus}</td> 
 										<td align="center"><select name="set_status"
-											id="${taskList.taskId}" class="  ats_sel_status ">
-												<option class="opt"
+											id="${taskList.taskId}" class="form-control  ats_sel_status ">
+
+												<c:forEach items="${statusList}" var="statusList">
+													<c:choose>
+														<c:when
+															test="${statusList.statusText eq taskList.taskStatus}">
+															<option value="${statusList.statusValue}" selected>${statusList.statusText}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${statusList.statusValue}">${statusList.statusText}</option>
+														</c:otherwise>
+
+													</c:choose>
+													<%-- <option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option> --%>
+												</c:forEach>
+
+												<!-- <option class="opt"
 													style="background: blue; font-size: 20px;" value="1"
 													id="Blue">Allocated</option>
 												<option class="opt"
@@ -573,10 +589,9 @@ h5 {
 													selected id="Gray">Pending for TL</option>
 												<option class="opt"
 													style="background: Green; font-size: 20px;" value="4"
-													id="Green">Completed</option>
+													id="Green">Completed</option> -->
 
 										</select></td>
-
 
 
 										<%-- <td><span class="badge badge-info"

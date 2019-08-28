@@ -333,8 +333,15 @@ public class HomeController<Task> {
 		//	System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
 			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("empType", empSes.getEmpId());
+			StatusMaster[] statusMstr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
+			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
+			mav.addObject("statusList", statusList);
+			
 		}catch (Exception e) {
-			System.err.println("Exce in taskListForEmp  " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return mav;
