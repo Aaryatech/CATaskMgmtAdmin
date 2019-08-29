@@ -400,7 +400,7 @@ public class MasterMVCController {
 			activity.setDelStatus(1);
 			activity.setUpdateDatetime(curDateTime);
 			activity.setUpdateUsername(userId);
-			activity.setExInt1(0);
+			activity.setExInt1(1); //1=active, 0=deactive
 			activity.setExInt2(0);
 			activity.setExVar1("NA");
 			activity.setExVar2("NA");
