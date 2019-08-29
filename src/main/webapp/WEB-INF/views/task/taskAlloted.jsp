@@ -411,7 +411,7 @@ h5 {
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
 									<!-- <th style="background-color: white;">Task Team</th> -->
-									<th style="background-color: white;">Alloted Hrs</th>
+									<th style="background-color: white;">Budget Hrs</th>
 									<!-- <th style="background-color: white;">Task Status</th> -->								
 								</tr>
 							</thead>

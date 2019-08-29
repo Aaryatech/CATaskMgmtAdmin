@@ -357,7 +357,7 @@
 												<th style="color: white;">Periodicity</th>
 												<th style="color: white;">Start Date</th>
 												<th style="color: white;">End Date</th>
-												<th style="color: white;">Alloted Hrs</th>
+												<th style="color: white;">Budget Hrs</th>
 											</tr>
 										</thead>
 										<tbody>

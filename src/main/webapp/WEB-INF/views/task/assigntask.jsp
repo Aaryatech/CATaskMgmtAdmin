@@ -211,7 +211,7 @@
 											<th>Activity</th>
 											<th>Year</th>
 											<th>Date</th>
-											<th>Alloted Hrs</th>
+											<th>Budget Hrs</th>
 											<th>Actual Hrs</th>
 
 

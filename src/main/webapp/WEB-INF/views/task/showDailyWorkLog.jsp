@@ -80,7 +80,7 @@
 										<th>Activity Name</th>
 										<th>Year</th>
 										<th>Date</th>
-										<th>Alloted Hours</th>
+										<th>Budget Hours</th>
 										<th>Actual Hrs</th>
 										<th>Remark</th>
 										<th class="text-center" width="10%">Actions</th>
@@ -136,7 +136,7 @@
 											<th>Activity Name</th>
 											<th>Year</th>
 											<th>Date</th>
-											<th>Alloted Hours</th>
+											<th>Budget Hours</th>
 											<th>Actual Hrs</th>
 											<th>Remark</th>
 										</tr>
