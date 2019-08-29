@@ -117,8 +117,6 @@
 						<form action="${pageContext.request.contextPath}/inactiveTaskList"
 							id="submitInsertActivity">
 
-							<input type="hidden" id="activity_id" name="activity_id"
-								value="${activity.actiId}">
 
 
 							<div class="form-group row">
@@ -149,9 +147,8 @@
 									<span class="validation-invalid-label" id="error_periodicity"
 										style="display: none;"> Select Service</span>
 								</div>
-
-
-								<label class="col-form-label col-lg-1" for="activity">
+								
+									<label class="col-form-label col-lg-1" for="activity">
 									Activity <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-3">
@@ -159,43 +156,20 @@
 										id="activity" multiple
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										<c:forEach items="${actIntList}" var="actIntList">
-										<c:when test="${actIntList==-1}">
-											<option selected value="-1">All</option>
-										</c:when>
-										</c:forEach>
-									
-										<c:forEach items="${activityList}" var="activityList">
-										<c:forEach items="${actIntList}" var="actIntList">
-											<c:choose>
-												<c:when test="${activityList.actiId==actIntList}">
-													<option selected value="${activityList.actiId}">${activityList.actiName}</option>
-												</c:when>
-												<c:otherwise>
-													<option value="${activityList.actiId}">${activityList.actiName}</option>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-										</c:forEach>
-										
-										
+
+
 									</select>
 								</div>
 
 								<div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_activity"
 										style="display: none;"> Select Activity </span>
-										
+
 								</div>
-
-
+								
 							</div>
 
-
 							<div class="form-group row">
-
-
-
 								<label class="col-form-label col-lg-1" for="service">
 									Customer<span style="color: red">* </span> :
 								</label>
@@ -204,12 +178,39 @@
 										id="customer" multiple
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										
-										<option value="-1">All</option>
-
+										<c:set var="isAll" value="0"></c:set>
+										<c:if test="${custIdList[0]==-1}">
+											<option selected value="-1">All</option>
+										  <c:set var="isAll" value="1"></c:set>
+										</c:if>
+											<c:if test="${isAll==0}">
+											<option  value="-1">All</option>
+											</c:if>
+									 
 										<c:forEach items="${custList}" var="custList">
-											<option value="${custList.custId}">${custList.custFirmName}</option>
+											<c:set var="flag" value="0"></c:set>
+											<c:forEach items="${custIdList}" var="custList1"
+												varStatus="count2">
+												<c:choose>
+													<c:when test="${custList1==custList.custId}">
+														<option selected value="${custList.custId}"><c:out
+																value="${custList.custFirmName}" /></option>
+														<c:set var="flag" value="1"></c:set>
+													</c:when>
+													<c:otherwise>
+
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${flag==0}">
+													<option value="${custList.custId}"><c:out
+															value="${custList.custFirmName}" /></option>
+												</c:when>
+											</c:choose>
 										</c:forEach>
+
+
 
 									</select>
 								</div>
@@ -218,6 +219,21 @@
 										style="display: none;"> Select customer </span>
 								</div>
 							</div>
+
+
+							<div class="form-group row">
+
+
+							
+
+							</div>
+
+
+
+
+							<input type="hidden" id="activity_id" name="activity_id"
+								value="${activity.actiId}">
+
 
 							<div class="form-group row mb-0">
 								<div class="col-lg-12" align="center">
@@ -291,9 +307,12 @@
 	</div>
 	<script type="text/javascript">
 		function getActivities(servId) {
-			//alert("servId " +servId)
+			
+		
+			
 			if (servId > 0) {
-
+				
+			
 				$.getJSON('${getActivityByService}', {
 					servId : servId,
 					ajax : 'true',
@@ -307,20 +326,45 @@
 					html += '</option>';
 
 					var temp = 0;
-
+					var list =${actIntList};
+					//alert("list " +list);
 					var len = data.length;
-					for (var i = 0; i < len; i++) {
+					var len1 = list.length;
+					//alert("len1 " +len1);
+					 for (var i = 0; i < len; i++) {
+						var flag=0;
+						 for(var j = 0; j < len1; j++){
+													
+							 if(data[i].actiId==list[j]){
+								 		flag=1;							 
+							 }	
 
-						html += '<option value="' + data[i].actiId + '">'
-								+ data[i].actiName + '</option>';
 					}
+						 if(flag==1){
+
+								html += '<option selected value="' + data[i].actiId + '">'
+										+ data[i].actiName + '</option>';
+
+		                     }else{
+
+									html += '<option value="' + data[i].actiId + '">'
+											+ data[i].actiName + '</option>';
+
+		                     }
+						 
+						 
+					} 
 
 					$('#activity').html(html);
 					$("#activity").trigger("chosen:updated");
+                    
+						
+					});
 
-				});
 
-			}//end of if
+				}
+
+			//}//end of if
 		}
 	</script>
 	<!-- /page content -->

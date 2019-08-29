@@ -143,7 +143,7 @@
 																	</c:when>
 																	<c:otherwise>
 																		<img
-																			src="resources/global_assets/images/noimageteam.png"
+																			src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
 																			class="rounded-circle" width="40" height="40" alt="">
 																	</c:otherwise>
 																</c:choose>
@@ -521,43 +521,37 @@
 			}
 		});
 	</script>
-<script>
-		$(document)
-				.ready(
-						function($) {
+	<script>
+		$(document).ready(function($) {
 
-							$("#changeTask")
-									.submit(
-											function(e) {
-												var isError = false;
-												var errMsg = "";
+			$("#changeTask").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
 
-												if (!$("#status").val() || $("#status").val()=="") {
+				if (!$("#status").val() || $("#status").val() == "") {
 
-													isError = true;
+					isError = true;
 
-													$("#error_serviceName").show()
-													//return false;
-												} else {
-													$("#error_serviceName").hide()
-												}
+					$("#error_serviceName").show()
+					//return false;
+				} else {
+					$("#error_serviceName").hide()
+				}
 
+				if (!isError) {
 
+					var x = true;
+					if (x == true) {
 
-												if (!isError) {
-
-													var x = true;
-													if (x == true) {
-
-														document.getElementById("submtbtn").disabled = true;
-														document.getElementById("cancelbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
-						});
+						document.getElementById("submtbtn").disabled = true;
+						document.getElementById("cancelbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
 		//
 	</script>
 
