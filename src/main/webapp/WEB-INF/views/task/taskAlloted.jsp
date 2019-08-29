@@ -15,12 +15,11 @@
 </head>
 
 <body>
+	
 	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
-	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
-
-
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -54,21 +53,7 @@ h5 {
 						class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
 
 
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Unallocated Task"
-								class="btn bg-transparent border-warning-400 text-warning-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-file-plus"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">Gen</span>
-								<div>
-									<h5>50</h5>
-								</div>
-
-
-							</div>
-						</div>
-
+						<c:if test="${sysState==1}">
 
 						<div class="d-flex align-items-center mb-3 mb-md-0">
 							<a href="#" title="Unallocated Task"
@@ -78,103 +63,43 @@ h5 {
 							<div class="ml-3">
 								<span class="text-muted">UT</span>
 								<div>
-									<h5>750</h5>
+									<h5>Unalloted Task</h5>
 								</div>
-
 
 							</div>
 						</div>
-
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Pending for Manager"
-								class="btn bg-transparent border-info-400 text-info-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-user-tie"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">PM</span>
-								<div>
-									<h5>150</h5>
-								</div>
-							</div>
-						</div>
-
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Pending for Partner"
-								class="btn bg-transparent border-info-400 text-info-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-user-check"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">PP</span>
-								<div>
-									<h5>125</h5>
-								</div>
-							</div>
-						</div>
-
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Pending for Team Lead"
-								class="btn bg-transparent border-info-400 text-info-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-tree7"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">PTL</span>
-								<div>
-									<h5>125</h5>
-								</div>
-							</div>
-						</div>
-
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Pending for Client"
-								class="btn bg-transparent border-info-400 text-info-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-users"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">PC</span>
-								<div>
-									<h5>125</h5>
-								</div>
-							</div>
-						</div>
-
+					</c:if>
+					
+					<c:if test="${sysState==2}">
 						<div class="d-flex align-items-center mb-3 mb-md-0">
 							<a href="#" title="Critical Task"
 								class="btn bg-transparent border-danger-400 text-danger-400 rounded-round border-2 btn-icon legitRipple">
 								<i class="icon-warning"></i>
 							</a>
 							<div class="ml-3">
-								<span class="text-muted">CT</span>
+								 <span class="text-muted">CT</span>
 								<div>
-									<h5>650</h5>
+									<h5>Critical Task</h5>
 								</div>
 							</div>
 						</div>
+					</c:if>
 
+				<c:if test="${sysState==3}">
 						<div class="d-flex align-items-center mb-3 mb-md-0">
 							<a href="#" title="Overdue Task"
 								class="btn bg-transparent border-danger-400 text-danger-400 rounded-round border-2 btn-icon legitRipple">
 								<i class="icon-stats-growth2"></i>
 							</a>
 							<div class="ml-3">
-								<span class="text-muted">OD</span>
+									<span class="text-muted">OD</span>
 								<div>
-									<h5>350</h5>
+									<h5>Overdue Task</h5>
 								</div>
 							</div>
 						</div>
-
-						<div class="d-flex align-items-center mb-3 mb-md-0">
-							<a href="#" title="Other Task"
-								class="btn bg-transparent border-pink-400 text-pink-400 rounded-round border-2 btn-icon legitRipple">
-								<i class="icon-flickr2"></i>
-							</a>
-							<div class="ml-3">
-								<span class="text-muted">OT</span>
-								<div>
-									<h5>350</h5>
-								</div>
-							</div>
-						</div>
+					</c:if>
+				
 
 
 
@@ -201,19 +126,9 @@ h5 {
 
 							<div class="modal-body">
 								<form id="filterForm">
-
+							
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="fromDate">Due
-											Date Range <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control daterange-basic_new"
-												id="fromDate" name="fromDate">
-										</div>
-									</div>
-
-									<div class="form-group row">
-
+									<input type="hidden" id="state" value="${sysState}">
 										<label class="col-form-label col-lg-2" for="service">
 											Select Service : </label>
 										<div class="col-lg-3">
@@ -244,32 +159,7 @@ h5 {
 									</div>
 
 									<div class="form-group row">
-
-
-
-										<label class="col-form-label col-lg-2" for="status">
-											Select Status : </label>
-										<div class="col-lg-3">
-											<select name="sts" data-placeholder="Select Status" id="sts"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-
-												<option value="1">All</option>
-												<option value="2">Generated</option>
-												<option value="3">Unallocated</option>
-												<option value="4">Critical</option>
-												<option value="4">Overdue</option>
-												<option value="4">Pending for Manager</option>
-												<option value="4">Pending for Partner</option>
-												<option value="4">Pending for Team Lead</option>
-												<option value="4">Pending for Client</option>
-												<option value="4">Completed</option>
-												<option value="4">Inactive</option>
-												<option value="4">Other</option>
-
-											</select>
-										</div>
-
+									
 										<label class="col-form-label col-lg-2" for="customer">
 											Select Customer : </label>
 										<div class="col-lg-3">
@@ -287,7 +177,7 @@ h5 {
 									</div>
 								</form>
 							</div>
-
+								
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
 								<button type="submit" class="btn bg-primary" id="submtbtn"
@@ -319,9 +209,7 @@ h5 {
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header bg-success">
-								<h5 class="modal-title">
-									<span id="taskText"></span>
-								</h5>
+								<h5 class="modal-title"><span id="taskText"></span></h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -375,7 +263,7 @@ h5 {
 								<table class="table datatable-scroller1" id="work_log_table">
 									<thead>
 										<tr>
-											<th style="width: 350px; color: white;"></th>
+										 	<th style="width: 350px; color: white;"></th>
 											<th style="width: 350px; color: white;">Employee</th>
 											<!-- <th style="width: 100px; color: white;">Date</th> -->
 											<th style="width: 100px; color: white;">Hours</th>
@@ -384,7 +272,7 @@ h5 {
 									</thead>
 								</table>
 							</div>
-
+							 
 
 							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
@@ -404,82 +292,64 @@ h5 {
 						<div class="modal-content">
 
 							<div class="modal-header bg-success">
-								<h5 class="modal-title">Edit Task</h5>
+								<h5 class="modal-title">Project Financing-Internal
+									Audit-text2-3</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
 							<div class="modal-body">
 
-								<form action="submitUpdatedTask" method="post">
-
-									<input type="hidden" id="taskId1" name="taskId1" value=0
-										>
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
-											Budgeted Hours : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Manager Budgeted Hours"
-												id="anytime-time1" name="manBudHr" autocomplete="off"
-												>
-										</div>
-
-									</div>
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
-											Budgeted Hours : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Employee Budgeted Hours"
-												id="anytime-time2" name="empBudHr" autocomplete="off"
-											>
-										</div>
-
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
+											name="ManBudgetedHrs" autocomplete="off"
+											onchange="trim(this)">
 									</div>
 
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6">Work Date : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												placeholder="Enter Work Date" id="workDate" name="workDate"
-												autocomplete="off"  >
-										</div>
-									</div>
-									<div class="form-group row">
-
-										<label class="col-form-label col-lg-6">Statutory Due
-											Date : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												placeholder="Enter Statutory Due Date" id="dueDate"
-												name="dueDate" autocomplete="off"  >
-										</div>
-
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Employee Budgeted Hours"
+											id="anytime-time2" name="EmpBudgetedHrs" autocomplete="off"
+											onchange="trim(this)">
 									</div>
 
-									<div class="form-group row">
+								</div>
 
-										<label class="col-form-label col-lg-6" for="activity">
-											Employee <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<select name="emp" data-placeholder="Select Activity"
-												id="emp" multiple
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-											</select>
-										</div>
 
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6">Work Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Work Date" id="workDate" name="workDate"
+											autocomplete="off" onchange="trim(this)">
+									</div>
+								</div>
+								<div class="form-group row">
+
+									<label class="col-form-label col-lg-6">Statutory Due
+										Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off" onchange="trim(this)">
 									</div>
 
-									<div class="modal-footer">
-										<button type="button" class="btn btn-link"
-											data-dismiss="modal">Close</button>
-										<button type="submit" class="btn bg-primary">Save
-											changes</button>
-									</div>
-								</form>
+								</div>
+
+
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-primary">Save
+									changes</button>
 							</div>
 						</div>
 					</div>
@@ -532,37 +402,30 @@ h5 {
 							</a>
 						</div>
 
-						<table class="table datatable-basic table-hover" width="100%"
-							id="task_info_table">
+						<table class="table datatable-basic table-hover" width="100%" id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
 									<th style="background-color: white;">Customer</th>
-									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									<th style="background-color: white;">Task Name</th>
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
-									<th style="background-color: white;">Task Team</th>
+									<!-- <th style="background-color: white;">Task Team</th> -->
 									<th style="background-color: white;">Alloted Hrs</th>
-									<th style="background-color: white;">Task Status</th>
-									<th style="background-color: white;">Change Status</th>
-									<th class="text-center" style="background-color: white;">Actions</th>
+									<!-- <th style="background-color: white;">Task Status</th> -->								
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${taskList.custGroupName}</td>
-										<%-- data-toggle="modal" data-target="#modal_small" --%>
-										<td><a href="#"
-											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
+										<td>${taskList.custGroupName}</td>										
+										<td>${taskList.taskText}(${taskList.periodicityName})</td>
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
-										<td>${taskList.employees}</td>
-
+										
 										<c:if test="${empType==5}">
-											<td>${taskList.empBudHr}</td>
+										 	<td>${taskList.empBudHr}</td>
 										</c:if>
 										<c:if test="${empType==3}">
 											<td>${taskList.mngrBudHr}</td>
@@ -578,53 +441,11 @@ h5 {
 											<td>NA</td>
 										</c:if>
 
-										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
-										<!-- <td>0</td> -->
-
-
-									<td id="taskStatus${taskList.taskId}" style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td> 
-										<td align="center"><select name="set_status" onchange="updateStatus(this.value, ${taskList.taskId })"
-											id="set_status${taskList.taskId}" class="form-control  ats_sel_status ">
-
-												<c:forEach items="${statusList}" var="statusList">
-													<c:choose>
-														<c:when
-															test="${statusList.statusText eq taskList.taskStatus}">
-															<option value="${statusList.statusValue}" selected>${statusList.statusText}</option>
-														</c:when>
-														<c:otherwise>
-															<option value="${statusList.statusValue}">${statusList.statusText}</option>
-														</c:otherwise>
-
-													</c:choose>
-													<%-- <option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option> --%>
-												</c:forEach>
-
-												<!-- <option class="opt"
-													style="background: blue; font-size: 20px;" value="1"
-													id="Blue">Allocated</option>
-												<option class="opt"
-													style="background: Orange; font-size: 20px;" value="2"
-													id="Orange">Pending For Manager</option>
-												<option class="opt"
-													style="background: Gray; font-size: 20px;" value="3"
-													selected id="Gray">Pending for TL</option>
-												<option class="opt"
-													style="background: Green; font-size: 20px;" value="4"
-													id="Green">Completed</option> -->
-
-										</select></td>
-
-
+									<%-- <td id="taskStatus${taskList.taskId}" style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td> --%> 										
 										<%-- <td><span class="badge badge-info"
 											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td> --%>
 
-										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
-											title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> &nbsp;&nbsp;<a href="#"
-											title="Edit"><i class="icon-pencil7" style="color: info;"
-												data-toggle="modal" data-target="#modal_edit"></i></a></td>
+										
 									</tr>
 								</c:forEach>
 
@@ -660,64 +481,6 @@ h5 {
 
 	<script type="text/javascript">
 	
-	
-	function showEditTask(taskId) {
-	//	alert("HI");
-			
-			$
-					.getJSON(
-							'${getTaskByTaskIdForEdit}',
-							{
-								taskId : taskId,				
-								ajax : 'true',
-
-							},
-							function(data) {
-								
-								//alert(JSON.stringify(data));
-								
-								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
-								document.getElementById("anytime-time2").value=data.task.empBudHr;
-								document.getElementById("workDate").value=data.task.taskEndDate;
-								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
-								
-								document.getElementById("taskId1").value=data.task.taskId;
-								var html;
-								 
-								var len = data.empList.length;
-								
-								for (var i = 0; i < len; i++) {
-									var flag=0;
-								 for(var j = 0; j < data.empId.length; j++){
-															
-									 if(data.empList[i].empId==data.empId[j]){
-										 		flag=1;							 
-									 }															
-								 }
-                                 if(flag==1){
-								 html += '<option selected value="' +data.empList[i].empId + '">'
-									+ data.empList[i].empName + '</option>';
-                                 }else{
-                                	 html += '<option  value="' +data.empList[i].empId + '">'
- 									+ data.empList[i].empName + '</option>';
-                                 }
-									
-								}
-
-								$('#emp').html(html);
-
-								$("#emp").trigger("chosen:updated");
-								
-								
-							
-						 });
-			
-		}
-
-
-
-
-	
 	function updateStatus(statusId, taskId){
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
 		$
@@ -738,6 +501,12 @@ h5 {
 		
 	}
 	
+	</script>
+
+
+
+
+	<script type="text/javascript">
 	
 	$(document).ready(function(){
 	      // setColor();
@@ -762,57 +531,8 @@ h5 {
 	    //$('#'+id).css('background', color); 
 	}
 	    
-	function showTaskLogs(taskId, taskText) {
-		//alert("HI:"+taskText);
-		var empType = ${empType};
-		//alert("Emp Type------"+empType)
-		document.getElementById("taskId").value = taskId;
-		//document.getElementById("taskText").value = taskText;
-		document.getElementById("taskText").innerHTML = taskText;
-		$("#loader").show();
-		$
-				.getJSON(
-						'${getDailyWorkLogByTaskId}',
-						{
-							taskId : taskId,				
-							ajax : 'true',
-
-						},
-						function(data) {
-						
-
-							/* if (data == "") {
-								alert("No records found !!");						
-
-							} */
-
-							var dataTable = $('#work_log_table').DataTable();
-							dataTable.clear().draw();
-
-							$.each(data, function(i, v) {
-								//alert(JSON.stringify(v));
-		  											
-								dataTable.row.add(
-										[ 	i + 1,
-											v.exVar1,
-											 // v.workDate,
-											  v.workHours
-										//  acButton
-										
-										]).draw();
-							});});
-		
-		
-		$('#modal_small').modal('show');
-		
-	}
 	
 	</script>
-
-
-
-
-	
 
 	<script type="text/javascript">
 		// Single picker
@@ -839,28 +559,33 @@ h5 {
 	</script>
 
 	<script type="text/javascript">
-	function dataFilter(){
-		
-		var fromDate = $("#fromDate").val();
-		//var toDate = $("#toDate").val();
-		
+	function dataFilter(){		
+		var state = $("#state").val();
 		var service = $("#service").val();
-		var activity = $("#activity").val();
-		
+		var activity = $("#activity").val();		
 		var custId = $("#custId").val();		
 		
-		//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
+		alert("Dates="+service+"   "+activity+" "+custId+" "+state);
 		
-		document.getElementById("fromDate").value=fromDate;//create this
-		//document.getElementById("toDate").value=toDate;//create this
-		document.getElementById("service").value=service;//create this
-		document.getElementById("activity").value=activity;//create this
-		document.getElementById("custId").value=custId;//create this
+		
+		document.getElementById("service").value=service;
+		document.getElementById("activity").value=activity;
+		document.getElementById("custId").value=custId;
 		
 		var form=document.getElementById("filterForm");
 	    form.setAttribute("method", "post");
-
-		form.action=("fliterTaskList");
+		
+	    if(state==1){
+			form.action=("fliterUnAllotedTaskList");
+	    }
+	    
+	    if(state==2){
+			form.action=("fliterCriticalTaskList");
+	    }
+	    if(state==3){
+			form.action=("fliterOverdueTaskList");
+	    }
+	    
 		form.submit();
 	}
 	

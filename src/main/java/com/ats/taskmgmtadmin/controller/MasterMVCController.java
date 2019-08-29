@@ -37,6 +37,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
+import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
@@ -178,9 +179,8 @@ public class MasterMVCController {
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
 			service.setUpdateUsername(userId);
-			service.setExInt1(0);
+			service.setExInt1(1);// Service Status 1=active, 2=deactive
 			service.setExInt2(0);
-			service.setExInt1(0);
 			service.setExVar1("NA");
 			service.setExVar2("NA");
 
@@ -673,9 +673,11 @@ public class MasterMVCController {
 			EmployeeMaster employee = new EmployeeMaster();
 			String imageName = new String();
 			int empId = 0;
+			int roleId = 0;
 
 			try {
 				empId = Integer.parseInt(request.getParameter("employee_id"));
+				roleId = Integer.parseInt(request.getParameter("roleId"));
 			} catch (Exception e) {
 				e.getMessage();
 			}
@@ -722,7 +724,11 @@ public class MasterMVCController {
 			employee.setEmpName(request.getParameter("empName"));
 			employee.setEmpNickname(request.getParameter("empNickname"));
 			employee.setEmpDob(request.getParameter("dob"));
-			employee.setEmpRoleId(1);
+			if(empId!=0) {
+				employee.setEmpRoleId(roleId);
+			}else {
+			employee.setEmpRoleId(0);
+			}
 			employee.setEmpMob(request.getParameter("phone"));
 			employee.setEmpEmail(request.getParameter("email"));
 			employee.setEmpPass(request.getParameter("pwd"));
@@ -768,8 +774,7 @@ public class MasterMVCController {
 				mav = new ModelAndView("master/employeeAdd");
 
 				int empId = Integer.parseInt(request.getParameter("empId"));
-				System.out.println("Emp Id:" + empId);
-
+				
 				map = new LinkedMultiValueMap<>();
 
 				map.add("empId", empId);
@@ -792,22 +797,13 @@ public class MasterMVCController {
 				System.out.println("srvcMstrList------------" + srvcMstrList);
 				mav.addObject("serviceList", srvcMstrList);
 
-				/*
-				 * for (int i = 0; i < empSrvc.size(); i++) {
-				 * 
-				 * for (int j = 0; j < srvcMstrList.size(); j++) {
-				 * 
-				 * if(Integer.parseInt(empSrvc.get(i))==srvcMstrList.get(j).getServId()) {
-				 * System.out.println("List Found-------------"+empSrvc.get(i));
-				 * 
-				 * empEditSrvcs.add(empSrvc.get(i)); }
-				 * 
-				 * }
-				 * 
-				 * }
-				 */
+				CreatedRoleList createdRoleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllAccessRole",
+						CreatedRoleList.class);
+				System.out.println("Access List " + createdRoleList.toString());
+				mav.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
+				
 
-				/// mav.addObject("empServcId", empEditSrvcs);
+				mav.addObject("isEdit", 1);
 
 				mav.addObject("title", "Edit Employee");
 			}

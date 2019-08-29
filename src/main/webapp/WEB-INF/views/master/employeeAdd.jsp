@@ -344,7 +344,38 @@
 												style="display: none;">Please enter password.</span>
 										</div>
 									</div>
+									
+									<c:if test="${isEdit==1}">
+									<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="roleId">Role
+											<span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<select name="roleId"
+												data-placeholder="Select Employee Role" id="roleId"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
 
+												<option value="">Select Employee Type</option>	
+												 <c:forEach items="${createdRoleList}" var="roleList">
+													<c:choose>
+													 <c:when test="${roleList.roleId==employee.empRoleId}">
+														<option  Selected value="${roleList.roleId}">${roleList.roleName}</option>
+													</c:when>												
+													<c:otherwise>
+														<option value="${roleList.roleId}">${roleList.roleName}</option>
+													</c:otherwise>	
+													</c:choose>											
+												</c:forEach> 
+											</select>
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_empType"
+												style="display: none;">Please select employee type.</span>
+										</div>
+
+									</div>
+									</c:if>
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
