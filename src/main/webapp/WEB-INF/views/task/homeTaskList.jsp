@@ -15,11 +15,12 @@
 </head>
 
 <body>
-	
 	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
-	
+	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
+
+
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -318,7 +319,9 @@ h5 {
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header bg-success">
-								<h5 class="modal-title"><span id="taskText"></span></h5>
+								<h5 class="modal-title">
+									<span id="taskText"></span>
+								</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -372,7 +375,7 @@ h5 {
 								<table class="table datatable-scroller1" id="work_log_table">
 									<thead>
 										<tr>
-										 	<th style="width: 350px; color: white;"></th>
+											<th style="width: 350px; color: white;"></th>
 											<th style="width: 350px; color: white;">Employee</th>
 											<!-- <th style="width: 100px; color: white;">Date</th> -->
 											<th style="width: 100px; color: white;">Hours</th>
@@ -381,7 +384,7 @@ h5 {
 									</thead>
 								</table>
 							</div>
-							 
+
 
 							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
@@ -401,64 +404,82 @@ h5 {
 						<div class="modal-content">
 
 							<div class="modal-header bg-success">
-								<h5 class="modal-title">Project Financing-Internal
-									Audit-text2-3</h5>
+								<h5 class="modal-title">Edit Task</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
 							<div class="modal-body">
 
-								<div class="form-group row">
-									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
-										Budgeted Hours : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control"
-											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
-											name="ManBudgetedHrs" autocomplete="off"
-											onchange="trim(this)">
+								<form action="submitUpdatedTask" method="post">
+
+									<input type="hidden" id="taskId1" name="taskId1" value=0
+										>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+											Budgeted Hours : </label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												placeholder="Enter Manager Budgeted Hours"
+												id="anytime-time1" name="manBudHr" autocomplete="off"
+												>
+										</div>
+
+									</div>
+									<div class="form-group row">
+										<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+											Budgeted Hours : </label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												placeholder="Enter Employee Budgeted Hours"
+												id="anytime-time2" name="empBudHr" autocomplete="off"
+											>
+										</div>
+
 									</div>
 
-								</div>
-								<div class="form-group row">
-									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
-										Budgeted Hours : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control"
-											placeholder="Enter Employee Budgeted Hours"
-											id="anytime-time2" name="EmpBudgetedHrs" autocomplete="off"
-											onchange="trim(this)">
+
+									<div class="form-group row">
+										<label class="col-form-label col-lg-6">Work Date : </label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Enter Work Date" id="workDate" name="workDate"
+												autocomplete="off"  >
+										</div>
+									</div>
+									<div class="form-group row">
+
+										<label class="col-form-label col-lg-6">Statutory Due
+											Date : </label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control datepickerclass"
+												placeholder="Enter Statutory Due Date" id="dueDate"
+												name="dueDate" autocomplete="off"  >
+										</div>
+
 									</div>
 
-								</div>
+									<div class="form-group row">
 
+										<label class="col-form-label col-lg-6" for="activity">
+											Employee <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<select name="emp" data-placeholder="Select Activity"
+												id="emp" multiple
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+											</select>
+										</div>
 
-								<div class="form-group row">
-									<label class="col-form-label col-lg-6">Work Date : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass"
-											placeholder="Enter Work Date" id="workDate" name="workDate"
-											autocomplete="off" onchange="trim(this)">
-									</div>
-								</div>
-								<div class="form-group row">
-
-									<label class="col-form-label col-lg-6">Statutory Due
-										Date : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass"
-											placeholder="Enter Statutory Due Date" id="dueDate"
-											name="dueDate" autocomplete="off" onchange="trim(this)">
 									</div>
 
-								</div>
-
-
-							</div>
-
-							<div class="modal-footer">
-								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="button" class="btn bg-primary">Save
-									changes</button>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-link"
+											data-dismiss="modal">Close</button>
+										<button type="submit" class="btn bg-primary">Save
+											changes</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -511,7 +532,8 @@ h5 {
 							</a>
 						</div>
 
-						<table class="table datatable-basic table-hover" width="100%" id="task_info_table">
+						<table class="table datatable-basic table-hover" width="100%"
+							id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
@@ -560,8 +582,8 @@ h5 {
 										<!-- <td>0</td> -->
 
 
-									<td>${taskList.taskStatus}</td> 
-										<td align="center"><select name="set_status" onchange="updateStatus(this.value, ${taskList.taskId })"
+										<td>${taskList.taskStatus}</td>
+										<td align="center"><select name="set_status"
 											id="${taskList.taskId}" class="form-control  ats_sel_status ">
 
 												<c:forEach items="${statusList}" var="statusList">
@@ -600,8 +622,9 @@ h5 {
 										<td class="text-center"><a
 											href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 											title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> &nbsp;&nbsp;<a href="#"
-											title="Edit"><i class="icon-pencil7" style="color: info;"
+												style="color: green;"></i></a> &nbsp;&nbsp; <a href="#"
+											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
+												class="icon-pencil7" style="color: info;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
 								</c:forEach>
@@ -637,6 +660,64 @@ h5 {
 
 
 	<script type="text/javascript">
+	
+	
+	function showEditTask(taskId) {
+	//	alert("HI");
+			
+			$
+					.getJSON(
+							'${getTaskByTaskIdForEdit}',
+							{
+								taskId : taskId,				
+								ajax : 'true',
+
+							},
+							function(data) {
+								
+								//alert(JSON.stringify(data));
+								
+								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
+								document.getElementById("anytime-time2").value=data.task.empBudHr;
+								document.getElementById("workDate").value=data.task.taskEndDate;
+								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
+								
+								document.getElementById("taskId1").value=data.task.taskId;
+								var html;
+								 
+								var len = data.empList.length;
+								
+								for (var i = 0; i < len; i++) {
+									var flag=0;
+								 for(var j = 0; j < data.empId.length; j++){
+															
+									 if(data.empList[i].empId==data.empId[j]){
+										 		flag=1;							 
+									 }															
+								 }
+                                 if(flag==1){
+								 html += '<option selected value="' +data.empList[i].empId + '">'
+									+ data.empList[i].empName + '</option>';
+                                 }else{
+                                	 html += '<option  value="' +data.empList[i].empId + '">'
+ 									+ data.empList[i].empName + '</option>';
+                                 }
+									
+								}
+
+								$('#emp').html(html);
+
+								$("#emp").trigger("chosen:updated");
+								
+								
+							
+						 });
+			
+		}
+
+
+
+
 	
 	function updateStatus(statusId, taskId){
 		//alert("Status----"+statusId+" "+taskId)
@@ -700,75 +781,7 @@ h5 {
 
 
 
-	<script type="text/javascript">
-	/* function showTaskLogs(taskId, taskText) {
-		//alert("HI:"+taskText);
-		var empType = ${empType};
-		//alert("Emp Type------"+empType)
-		document.getElementById("taskId").value = taskId;
-		//document.getElementById("taskText").value = taskText;
-		document.getElementById("taskText").innerHTML = taskText;
-		$("#loader").show();
-		$
-				.getJSON(
-						'${getDailyWorkLogByTaskId}',
-						{
-							taskId : taskId,				
-							ajax : 'true',
-
-						},
-						function(data) {
-						
-
-							/* if (data == "") {
-								alert("No records found !!");						
-
-							} */
-
-							var dataTable = $('#work_log_table').DataTable();
-							dataTable.clear().draw();
-
-							$.each(data, function(i, v) {
-								//alert(JSON.stringify(v));
-		  											
-								dataTable.row.add(
-										[ 	i + 1,
-											v.custGroupName,
-											  v.taskText(v.periodicityName),
-											  v.workHours,
-											  v.taskEndDate,
-											  v.taskStatutoryDueDate,
-											  v.employees,
-											  if(v.empType==5){
-												  v.empBudHr,
-											  }
-										
-											if(v.empType==3){
-												  v.mngrBudHr,
-											  }
-											
-											if(v.empType==){
-												  NA,
-											  }
-											
-											if(v.empType==2){
-												  NA,
-											  }
-											
-											if(v.empType==1){
-												  NA
-											  }
-											  //  acButton
-										
-										]).draw();
-							});});
-		
-
-		$('#modal_small').modal('show');
-		
-	} */
-		
-	</script>
+	
 
 	<script type="text/javascript">
 		// Single picker

@@ -21,9 +21,9 @@ public class GetTaskList {
 
 	private String taskStatutoryDueDate;
 
-	private int mngrBudHr;
+	private String mngrBudHr;
 
-	private int empBudHr;
+	private String empBudHr;
 
 	private int custId;
 
@@ -118,19 +118,19 @@ public class GetTaskList {
 		this.taskStatutoryDueDate = taskStatutoryDueDate;
 	}
 
-	public int getMngrBudHr() {
+	public String getMngrBudHr() {
 		return mngrBudHr;
 	}
 
-	public void setMngrBudHr(int mngrBudHr) {
+	public void setMngrBudHr(String mngrBudHr) {
 		this.mngrBudHr = mngrBudHr;
 	}
 
-	public int getEmpBudHr() {
+	public String getEmpBudHr() {
 		return empBudHr;
 	}
 
-	public void setEmpBudHr(int empBudHr) {
+	public void setEmpBudHr(String empBudHr) {
 		this.empBudHr = empBudHr;
 	}
 

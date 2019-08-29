@@ -159,13 +159,16 @@
 										id="activity" multiple
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										
-										
-										
+										<c:forEach items="${actIntList}" var="actIntList">
+										<c:when test="${actIntList==-1}">
+											<option selected value="-1">All</option>
+										</c:when>
+										</c:forEach>
+									
 										<c:forEach items="${activityList}" var="activityList">
-										<c:forEach items="${actList}" var="actList">
+										<c:forEach items="${actIntList}" var="actIntList">
 											<c:choose>
-												<c:when test="${activityList.actiId==actList}">
+												<c:when test="${activityList.actiId==actIntList}">
 													<option selected value="${activityList.actiId}">${activityList.actiName}</option>
 												</c:when>
 												<c:otherwise>
@@ -174,6 +177,8 @@
 											</c:choose>
 										</c:forEach>
 										</c:forEach>
+										
+										
 									</select>
 								</div>
 
@@ -203,7 +208,7 @@
 										<option value="-1">All</option>
 
 										<c:forEach items="${custList}" var="custList">
-											<option value="${custList.custId}">${custList.custName}</option>
+											<option value="${custList.custId}">${custList.custFirmName}</option>
 										</c:forEach>
 
 									</select>

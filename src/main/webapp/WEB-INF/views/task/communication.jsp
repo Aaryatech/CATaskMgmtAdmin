@@ -143,7 +143,7 @@
 																	</c:when>
 																	<c:otherwise>
 																		<img
-																			src="${pageContext.request.contextPath}/resources/global_assets/images/noimageteam.png"
+																			src="resources/global_assets/images/noimageteam.png"
 																			class="rounded-circle" width="40" height="40" alt="">
 																	</c:otherwise>
 																</c:choose>
