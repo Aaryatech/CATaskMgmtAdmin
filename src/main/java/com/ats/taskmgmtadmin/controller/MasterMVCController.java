@@ -173,13 +173,23 @@ public class MasterMVCController {
 				servcId = 0;
 			}
 
+			if(servcId!=0) {
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("serviceId", servcId);
+				ServiceMaster srvc = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
+						map, ServiceMaster.class);
+				service.setExInt1(srvc.getExInt1());// Service Status 1=active, 2=deactive
+			}else {
+				service.setExInt1(1);// Service Status 1=active, 2=deactive
+			}
 			service.setServId(servcId);
 			service.setServName(request.getParameter("serviceName"));
 			service.setServDesc(request.getParameter("serviceDesc"));
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
 			service.setUpdateUsername(userId);
-			service.setExInt1(1);// Service Status 1=active, 2=deactive
+			
 			service.setExInt2(0);
 			service.setExVar1("NA");
 			service.setExVar2("NA");
@@ -391,6 +401,18 @@ public class MasterMVCController {
 				actId = 0;
 				e.getMessage();
 			}
+			
+			if(actId!=0) {
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("activityId", actId);
+
+				ActivityMaster actvt = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById",
+						map, ActivityMaster.class);
+				
+				activity.setExInt1(actvt.getExInt1()); //1=active, 0=deactive
+			}else {
+				activity.setExInt1(1); //1=active, 0=deactive
+			}
 
 			activity.setActiId(actId);
 			activity.setActiName(request.getParameter("activityName"));
@@ -400,7 +422,7 @@ public class MasterMVCController {
 			activity.setDelStatus(1);
 			activity.setUpdateDatetime(curDateTime);
 			activity.setUpdateUsername(userId);
-			activity.setExInt1(1); //1=active, 0=deactive
+			
 			activity.setExInt2(0);
 			activity.setExVar1("NA");
 			activity.setExVar2("NA");
@@ -648,6 +670,7 @@ public class MasterMVCController {
 
 				mav.addObject("title", "Add Employee");
 				mav.addObject("imageUrl", Constants.imageViewUrl);
+				mav.addObject("isEdit", 0);
 			}
 
 		} catch (Exception e) {
@@ -724,10 +747,17 @@ public class MasterMVCController {
 			employee.setEmpName(request.getParameter("empName"));
 			employee.setEmpNickname(request.getParameter("empNickname"));
 			employee.setEmpDob(request.getParameter("dob"));
+			
 			if(empId!=0) {
 				employee.setEmpRoleId(roleId);
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empId);
+				EmployeeMaster empMst = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
+						map, EmployeeMaster.class);
+				employee.setIsActive(empMst.getIsActive());
 			}else {
 			employee.setEmpRoleId(0);
+			employee.setIsActive(1);
 			}
 			employee.setEmpMob(request.getParameter("phone"));
 			employee.setEmpEmail(request.getParameter("email"));
@@ -742,7 +772,7 @@ public class MasterMVCController {
 			employee.setExInt2(0);
 			employee.setExVar1("NA");
 			employee.setExVar2("NA");
-			employee.setIsActive(1);
+			
 			System.err.println("employee " + employee.toString());
 			EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 					employee, EmployeeMaster.class);
