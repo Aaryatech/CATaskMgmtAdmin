@@ -622,8 +622,11 @@ h5 {
 										<td class="text-center"><a
 											href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 											title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> &nbsp;&nbsp;<a href="#"
-											title="Edit"><i class="icon-pencil7" style="color: black;"
+												style="color: green;"></i></a> &nbsp;&nbsp;
+												
+												<a href="#"
+											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
+												class="icon-pencil7"  style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
 								</c:forEach>

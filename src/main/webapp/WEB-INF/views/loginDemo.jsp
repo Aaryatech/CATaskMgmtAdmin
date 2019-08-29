@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%><%@ taglib
+	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -40,16 +41,25 @@
 		<div class="white-panel">
 			<div class="login-show">
 
-				<form method="post" action="${pageContext.request.contextPath}/loginProcess">
+				<form method="post"
+					action="${pageContext.request.contextPath}/loginProcess">
 
+				
 					<h2>LOGIN</h2>
-					<input type="text" placeholder="Email" name="username" id="username" style="border-radius: 5px">
-					<input type="password" placeholder="Password" id="password"
+					<input type="text" placeholder="Email" name="username"
+						id="username" style="border-radius: 5px"> <input
+						type="password" placeholder="Password" id="password"
 						name="password" style="border-radius: 5px"> <input
-				 		type="checkbox" onclick="myFunction()"><font color="white">Show
-						Password</font> <br> <br> <input type="submit" value="Login"
-						> <!-- <a
+						type="checkbox" onclick="myFunction()"><font color="white">Show
+						Password</font> <br> <br> <input type="submit" value="Login">
+							<c:if test="${errorPassMsg!=null}">
+						<span style="color: red;">${errorPassMsg}</span>
+						 
+					</c:if>
+						
+					<!-- <a
 						href="">Forgot password?</a>
+						
  -->
 				</form>
 			</div>

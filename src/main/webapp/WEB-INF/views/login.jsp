@@ -121,7 +121,7 @@ body {
 									<span style="color: red;">${msg}</span>
 
 								</c:if>
-								<c:if test="${sessionScope.errorPassMsg!=null}">
+								<c:if test="${errorPassMsg!=null}">
 									<span style="color: red;">${sessionScope.errorPassMsg}</span>
 									<%
 										session.removeAttribute("errorPassMsg");
