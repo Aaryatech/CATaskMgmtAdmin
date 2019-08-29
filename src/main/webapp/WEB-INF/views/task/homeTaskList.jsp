@@ -733,6 +733,7 @@ h5 {
 							if(data.error==false){
 							//	alert("Task Status Updated Successfully!")
                             document.getElementById("taskStatus"+taskId).innerHTML=selectedStatus;
+							
 							}
 					      }); 
 		

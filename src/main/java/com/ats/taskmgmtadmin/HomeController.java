@@ -204,6 +204,7 @@ public class HomeController<Task> {
 				session = request.getSession();
 
 				session.setAttribute("empLogin", empLogin);
+				session.setAttribute("imageUrl", Constants.imageViewUrl+empLogin.getEmpPic());
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("roleId", empLogin.getEmpRoleId());
 		
@@ -217,6 +218,7 @@ public class HomeController<Task> {
 					List<ModuleJson> newModuleList = responseEntity.getBody();
 
 					session.setAttribute("newModuleList", newModuleList);
+					
 			}catch (Exception e) {
 				System.err.println("Access Right get Exception  " +e.getMessage());
 			}

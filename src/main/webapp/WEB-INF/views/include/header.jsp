@@ -43,8 +43,8 @@
 			<li class="nav-item dropdown dropdown-user"><a href="#"
 				class="navbar-nav-link d-flex align-items-center dropdown-toggle"
 				data-toggle="dropdown"> <img
-					src="${pageContext.request.contextPath}/resources/global_assets/images/face11.jpg"
-					class="rounded-circle mr-2" height="34" alt=""> <span>Victoria</span>
+					src="${sessionScope.imageUrl}"
+					class="rounded-circle mr-2" height="34" alt=""> <span>${sessionScope.empLogin.getEmpName()}</span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
 						<a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
