@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.model.EmployeeFreeBsyList;
@@ -50,10 +52,21 @@ public class EmpSalaryController {
 	List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>();
 	List<EmpSalary> epmSalList = new ArrayList<EmpSalary>();
 	@RequestMapping(value = "/employeeListForSalaryUpdate", method = RequestMethod.GET)
-	public ModelAndView employeeListForm(Locale locale, Model model) {
-
+	public ModelAndView employeeListForm(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		ModelAndView mav = null;
+		
+		
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("employeeListForSalaryUpdate", "employeeListForSalaryUpdate", "1", "0", "0", "0", newModuleList);
 		try {
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
+	 
 			mav = new ModelAndView("Salary/empSalaryUpdate");
 
 			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
@@ -75,7 +88,7 @@ public class EmpSalaryController {
 				epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
 			}
 			mav.addObject("epmList", epmList);
-
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in employeeList " + e.getMessage());
 			e.printStackTrace();

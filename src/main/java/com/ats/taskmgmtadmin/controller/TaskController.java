@@ -334,7 +334,7 @@ public class TaskController {
 
 			mav = new ModelAndView("task/inactiveTaskList");
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);

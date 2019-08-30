@@ -293,7 +293,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="endDate">Task
-											End Date <span style="color: red">* </span>:
+											End Date 
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
@@ -474,15 +474,7 @@
 															.hide()
 												}
 
-												if (!$("#endDate").val()) {
-
-													isError = true;
-
-													$("#error_endDate").show()
-
-												} else {
-													$("#error_endDate").hide()
-												}
+											
 
 												var from_date = document
 														.getElementById("startDate").value;
