@@ -199,12 +199,17 @@ public class HomeController<Task> {
 				 
 				model.addAttribute("errorPassMsg", "Invalid Login Credentials");
 			} else {
-				mav = "redirect:/dashboard";
-				System.err.println("Successful Login");
+				System.err.println("Successful Login******"+empLogin.getExInt1());
 
+				
+				if(empLogin.getExInt1()!=0) {
+					System.err.println("already login ");
+				mav = "redirect:/dashboard";
+			
 				session = request.getSession();
 
 				session.setAttribute("empLogin", empLogin);
+				
 				session.setAttribute("imageUrl", Constants.imageViewUrl+empLogin.getEmpPic());
 				map = new LinkedMultiValueMap<String, Object>();
 				map.add("roleId", empLogin.getEmpRoleId());
@@ -224,7 +229,15 @@ public class HomeController<Task> {
 				System.err.println("Access Right get Exception  " +e.getMessage());
 			}
 
-
+				}
+				else {
+					System.err.println("1st login ");
+					//mav="changePassword";
+					session.setAttribute("userId", empLogin.getEmpId());
+					mav = "redirect:/chngPassword";
+					
+					
+				}
 			}
 		} catch (Exception e) {
 			mav = "loginDemo";
@@ -234,6 +247,49 @@ public class HomeController<Task> {
 		}
 
 		return mav;
+	}
+	
+
+	@RequestMapping(value = "/chngPassword", method = RequestMethod.GET)
+	public ModelAndView chngPassword(Locale locale, Model model) {
+
+		// ModelAndView mav = new ModelAndView("login");
+
+		ModelAndView mav = new ModelAndView("changePassword");
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/chngNewPassword", method = RequestMethod.POST)
+	public String changePassForm(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("Got me");
+		
+ 
+		try {
+			HttpSession session = request.getSession();
+			String password = request.getParameter("newPasssword");
+			int userId = (int) session.getAttribute("userId");
+			System.out.println("Password Found"+password+"  "+userId);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("password", password);
+			map.add("userId", userId);
+
+			Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "/changePass", map, Info.class);
+		
+			session.invalidate();
+
+		} catch (Exception e) {
+
+			System.err.println("exception In chngNewPassword at Home Contr" + e.getMessage());
+			
+			e.printStackTrace();
+			HttpSession session = request.getSession();
+			session.invalidate();
+		}
+
+		return "redirect:/";
+
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

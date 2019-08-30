@@ -20,7 +20,7 @@ public class EmployeeMaster {
 	private int delStatus;
 	private String updateDatetime;
 	private int updateUsername;
-	private int exInt1;
+	private int exInt1;	//isEnroll
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;

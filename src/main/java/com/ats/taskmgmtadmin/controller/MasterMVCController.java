@@ -768,7 +768,7 @@ public class MasterMVCController {
 			employee.setDelStatus(1);
 			employee.setUpdateDatetime(curDateTime);
 			employee.setUpdateUsername(userId);
-			employee.setExInt1(0);
+			employee.setExInt1(0); // isEnroll
 			employee.setExInt2(0);
 			employee.setExVar1("NA");
 			employee.setExVar2("NA");
