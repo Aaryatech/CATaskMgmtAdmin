@@ -1403,7 +1403,7 @@ public class MasterMVCController {
 			System.err.println("ActMap--------------" + cust.toString());
 			mav.addObject("cust", cust);
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
@@ -1412,7 +1412,7 @@ public class MasterMVCController {
 			map.add("serviceId", srvcMstrList.get(0).getServId());
 
 			ActivityMaster[] activityArr = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAllActivitesByServiceId", map, ActivityMaster[].class);
+					.postForObject(Constants.url + "/getAllEnrolledActivitesByServiceId", map, ActivityMaster[].class);
 			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
 			mav.addObject("actList", activityList);
 
