@@ -378,7 +378,7 @@ h5 {
 											<th style="width: 350px; color: white;"></th>
 											<th style="width: 350px; color: white;">Employee</th>
 											<!-- <th style="width: 100px; color: white;">Date</th> -->
-											<th style="width: 100px; color: white;">Hours</th>
+											<th style="width: 100px; color: white;">Actual Hours</th>
 
 										</tr>
 									</thead>
@@ -592,10 +592,10 @@ h5 {
 													<c:choose>
 														<c:when
 															test="${statusList.statusText eq taskList.taskStatus}">
-															<option value="${statusList.statusValue}" selected>${statusList.statusText}</option>
+															<option data-statusColor="${statusList.statusColor}" value="${statusList.statusValue}" selected>${statusList.statusText}</option>
 														</c:when>
 														<c:otherwise>
-															<option value="${statusList.statusValue}">${statusList.statusText}</option>
+															<option data-statusColor="${statusList.statusColor}" value="${statusList.statusValue}">${statusList.statusText}</option>
 														</c:otherwise>
 
 													</c:choose>
@@ -726,6 +726,9 @@ h5 {
 	function updateStatus(statusId, taskId){
 		//alert(statusId+" "+taskId)
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
+        //var color =  $('#set_status'+taskId).val();
+        
+      
 		$
 				.getJSON(
 						'${updateTaskStatusByTaskId}',
@@ -739,7 +742,10 @@ h5 {
 							if(data.error==false){
 							//	alert("Task Status Updated Successfully!")
                             document.getElementById("taskStatus"+taskId).innerHTML=selectedStatus;
-							
+                            var color =  $('#set_status'+taskId).find('option:selected').attr('data-statusColor');
+                            
+                            $('#taskStatus'+taskId).css('background', color); 
+                            
 							}
 					      }); 
 		
@@ -748,14 +754,16 @@ h5 {
 	
 	$(document).ready(function(){
 	      // setColor();
-	      $('.ats_sel_status').change(function(){
+	      $('.ats_sel_status_nouse').change(function(){
 	    	  var id=$(this).attr('id');
 	    	  var color =  $('#'+id).find('option:selected').attr('id');
 	  	      $('#'+id).css('background', color); 
+	  	      //
+	  	      $('#taskStatus'+id).css('background', color); 
 	            // setColor();       
 	     });
 	      
-	      $('.ats_sel_status').each(function(){
+	      $('.ats_sel_status_nouse').each(function(){
 	    	  var id=$(this).attr('id');
 	    	  var color =  $('#'+id).find('option:selected').attr('id');
 	  	      $('#'+id).css('background', color); 
