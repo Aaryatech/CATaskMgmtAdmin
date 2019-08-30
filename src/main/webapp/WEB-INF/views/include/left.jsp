@@ -205,7 +205,7 @@
 			</c:forEach>
 
 			<li class="nav-item"><a class="nav-link"
-				href="${pageContext.request.contextPath}/logout"><i
+				href="${pageContext.request.contextPath}/logout" onClick="return confirm('Are you sure you want to logout?');"><i
 					class="icon-switch2"></i> <span>Logout</span></a></li> 
 			<!-- /main -->
 

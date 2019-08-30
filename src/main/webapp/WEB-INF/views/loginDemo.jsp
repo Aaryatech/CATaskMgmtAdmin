@@ -40,7 +40,15 @@
 
 		<div class="white-panel">
 			<div class="login-show">
+	
+			<c:if test="${errorPassMsg!=null}">
+						<h2><span style="color: red;">${errorPassMsg}</span></h2>
+						<%
+							session.removeAttribute("errorPassMsg");
+						%>
 
+					</c:if>
+				
 				<form method="post"
 					action="${pageContext.request.contextPath}/loginProcess">
 
@@ -58,16 +66,7 @@
 						href="${pageContext.request.contextPath}/showForgotPass"
 						style="align: right">Forgot password?</a> <br> <br> <input
 						type="submit" value="Login">
-					<c:if test="${errorPassMsg!=null}">
-						<span style="color: red;">${errorPassMsg}</span>
-						<%
-							session.removeAttribute("errorPassMsg");
-						%>
-
-					</c:if>
-
-
-
+					
 				</form>
 			</div>
 
