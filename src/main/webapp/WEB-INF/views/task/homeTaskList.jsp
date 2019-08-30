@@ -540,6 +540,7 @@ h5 {
 									<th style="background-color: white;">Customer</th>
 									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									<th style="background-color: white;">Task Name</th>
+									<th style="background-color: white;">Start Date</th>
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
@@ -557,6 +558,7 @@ h5 {
 										<%-- data-toggle="modal" data-target="#modal_small" --%>
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
+										<td>${taskList.taskStartDate}</td>
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
