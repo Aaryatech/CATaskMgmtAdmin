@@ -2,6 +2,7 @@ package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
@@ -726,5 +727,72 @@ public class TaskController {
 		return "redirect:/taskListForEmp";
 
 	}
+	
+	
+	// *************************Forgot
+		// Pass***********************************************
+
+		@RequestMapping(value = "/showForgotPass", method = RequestMethod.GET)
+		public ModelAndView showForgotPassForm(HttpServletRequest request, HttpServletResponse response) {
+
+			ModelAndView model = null;
+			try {
+
+				model = new ModelAndView("forgetPassword");
+
+			} catch (Exception e) {
+
+				System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
+
+				e.printStackTrace();
+
+			}
+
+			return model;
+
+		}
+
+		@RequestMapping(value = "/checkUserPassword", method = RequestMethod.POST)
+		public String checkUserPassword(HttpServletRequest request, HttpServletResponse response) {
+			String c = null;
+			System.err.println("Hiii  checkValue  ");
+			Info info = new Info();
+			ModelAndView model = new ModelAndView();
+			HttpSession session = request.getSession();
+			try {
+				// model = new ModelAndView("forgotPassword");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				String inputValue = request.getParameter("username");
+				System.err.println("Info inputValue  " + inputValue);
+				 
+				map.add("inputValue", inputValue);
+				info = Constants.getRestTemplate().postForObject(Constants.url + "checkUserName", map, Info.class);
+				System.err.println("get GetUserData" + info.toString());
+
+				if (info.isError() == true) {
+					//model = new ModelAndView("forgotPassword");
+					 c="redirect:/showForgotPass";
+					//model.addObject("msg", "Invalid User Name");
+					 session.setAttribute("errorPassMsg", "Invalid User Name or Contact Number");
+
+
+				} else {
+				//	model = new ModelAndView("login");
+					 c="redirect:/";
+					 session.setAttribute("errorPassMsg", "Password has been sent to your Email & Contact Number");
+					//model.addObject("msg", "Password has been sent to your email");
+					 
+				}
+
+			} catch (Exception e) {
+				System.err.println("Exce in checkUniqueField  " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			return c;
+		 
+		}
 
 }

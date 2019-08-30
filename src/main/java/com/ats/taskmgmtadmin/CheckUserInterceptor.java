@@ -65,7 +65,7 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
          
          try {
          if(request.getServletPath().equals("/") || request.getServletPath().equals("/loginProcess") ||request.getServletPath().equals("/logout") ||request.getServletPath().equals("/login")
-        		     		  ){ //||request.getServletPath().equals("/logout")
+        		 ||request.getServletPath().equals("/showForgotPass")  ||request.getServletPath().equals("/checkUserPassword")  ){ //||request.getServletPath().equals("/logout")
         	// System.out.println("Login request");// /reGenOtp1 
              return true;
          }

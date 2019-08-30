@@ -51,16 +51,26 @@
 						type="password" placeholder="Password" id="password"
 						name="password" style="border-radius: 5px"> <input
 						type="checkbox" onclick="myFunction()"><font color="white">Show
-						Password</font> <br> <br> <input type="submit" value="Login">
+						Password</font> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+						
+						<a
+						href="${pageContext.request.contextPath}/showForgotPass" style="align:right">Forgot password?</a>
+						  
+						
+						
+						
+						<br> <br> <input type="submit" value="Login">
 							<c:if test="${errorPassMsg!=null}">
 						<span style="color: red;">${errorPassMsg}</span>
+						<%
+									session.removeAttribute("errorPassMsg");
+								%>
 						 
 					</c:if>
 						
-					<!-- <a
-						href="">Forgot password?</a>
-						
- -->
+					
+
 				</form>
 			</div>
 
