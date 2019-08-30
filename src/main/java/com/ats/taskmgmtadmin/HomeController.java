@@ -496,7 +496,7 @@ public class HomeController<Task> {
 		try {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
-			
+			System.out.println("status-------------"+statusId+" "+taskId);
 			MultiValueMap<String, Object> map = null;
 			
 			map = new LinkedMultiValueMap<>();

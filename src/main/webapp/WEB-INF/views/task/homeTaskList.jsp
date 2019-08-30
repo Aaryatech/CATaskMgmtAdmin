@@ -724,6 +724,7 @@ h5 {
 
 	
 	function updateStatus(statusId, taskId){
+		//alert(statusId+" "+taskId)
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
 		$
 				.getJSON(
