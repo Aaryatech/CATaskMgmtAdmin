@@ -119,7 +119,7 @@ public class CustDetailController {
 		map = new LinkedMultiValueMap<>();
 		map.add("serviceId", Integer.parseInt(request.getParameter("servId")));
 
-		ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllActivitesByServiceId", map,
+		ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllEnrolledActivitesByServiceId", map,
 				ActivityMaster[].class);
 		List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
 		System.err.println("Exce in " +activityList.toString());

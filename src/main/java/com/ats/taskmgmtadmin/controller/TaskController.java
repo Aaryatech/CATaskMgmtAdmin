@@ -477,7 +477,7 @@ public class TaskController {
 				System.out.println("cust is " + custHeadList.toString());
 				mav.addObject("custList", custHeadList);
 
-				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
 						ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 				mav.addObject("serviceList", srvcMstrList);
