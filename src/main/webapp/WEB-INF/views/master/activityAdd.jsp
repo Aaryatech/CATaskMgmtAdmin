@@ -154,7 +154,7 @@
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="periodicity">
-											Periodicity : </label>
+											Periodicity<span style="color: red">* </span> : </label>
 										<div class="col-lg-6">
 											<select name="periodicity"
 												data-placeholder="Select Periodicity" id="periodicity"

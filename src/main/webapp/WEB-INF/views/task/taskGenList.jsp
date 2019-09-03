@@ -102,7 +102,7 @@
 											<th width="10%">Sr.no</th>
 											<th>Task</th>
 											<th>Start Date</th>
-											<th>End Date</th>
+											<th>Statutory Due  Date</th>
  											<th>Manager Budget Hrs.</th>
 											<th>Emp Budget Hrs.</th>
 
@@ -118,7 +118,7 @@
 
 											<td>${taskList.taskText}</td>
 											<td>${taskList.taskStartDate}</td>
-											<td>${taskList.taskEndDate}</td>
+											<td>${taskList.taskStatutoryDueDate}</td>
 											<td>${taskList.mngrBudHr}</td>
 											<td>${taskList.empBudHr}</td>
 											 

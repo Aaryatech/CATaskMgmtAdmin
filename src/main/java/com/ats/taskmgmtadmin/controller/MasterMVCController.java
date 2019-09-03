@@ -79,6 +79,7 @@ public class MasterMVCController {
 
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 	HttpSession session = null;
+	List<Task> empListNew = new ArrayList<Task>();
 
 	/********************** Service Master **********************/
 	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
@@ -189,7 +190,7 @@ public class MasterMVCController {
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
 			service.setUpdateUsername(userId);
-			
+			service.setExInt1(1);
 			service.setExInt2(0);
 			service.setExVar1("NA");
 			service.setExVar2("NA");
@@ -422,7 +423,7 @@ public class MasterMVCController {
 			activity.setDelStatus(1);
 			activity.setUpdateDatetime(curDateTime);
 			activity.setUpdateUsername(userId);
-			
+			activity.setExInt1(1);
 			activity.setExInt2(0);
 			activity.setExVar1("NA");
 			activity.setExVar2("NA");
@@ -600,7 +601,7 @@ public class MasterMVCController {
 
 				mav = new ModelAndView("master/employeeList");
 
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployeesActiveInactive",
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
@@ -1432,7 +1433,7 @@ public class MasterMVCController {
 		MultiValueMap<String, Object> map = null;
 
 		mav = new ModelAndView("task/taskGenList");
-
+		List<Task> custActMapList =null;
 		try {
 
 			HttpSession session = request.getSession();
@@ -1464,7 +1465,7 @@ public class MasterMVCController {
  			Task[] taskArr = Constants.getRestTemplate().postForObject(Constants.url + "/saveTask1", activityMap,
 					Task[].class);
 
-			List<Task> custActMapList = new ArrayList<Task>(Arrays.asList(taskArr));
+ 			custActMapList  = new ArrayList<Task>(Arrays.asList(taskArr));
 			mav.addObject("taskList", custActMapList);
 			System.out.println("Activity Map---------" + custActMapList.toString());
 ///
