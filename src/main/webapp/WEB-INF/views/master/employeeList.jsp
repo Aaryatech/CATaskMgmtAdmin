@@ -162,7 +162,7 @@
 								</a></c:if>
 								
 								<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
-									onClick="return confirm('Are you sure want to Chage Is Active');"
+									onClick="return confirm('Are you sure want to Chage Status');"
 									title="Active/Deactive"><i class="icon-cog5" style="color: black;"></i>
 								</a></td>
 

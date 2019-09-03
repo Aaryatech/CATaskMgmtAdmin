@@ -266,7 +266,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass" value="${custHead.custDob}"
-												name="dob" id="dob" placeholder="Date of Birth">
+												name="dob" id="dob" placeholder="Date of Birth" data-end-date="0d">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
@@ -516,7 +516,7 @@
 												var isError = false;
 												var errMsg = "";
 										var radio = $("#custType").val();
-										alert("Radio---"+radio);
+										//alert("Radio---"+radio);
 											if(radio==0){
 												if (!$("#firmName").val()) {
 
@@ -529,19 +529,19 @@
 												} 
 											}
 											
-												if (!$("#assesseeName").val()) {
+											if (!$("#assesseeName").val()) {
 
-													isError = true;
+												isError = true;
 
-													$("#assesseeName").show()
-													//return false;
-												} else {
-													$("#error_assesseName").hide()
-												}
+												$("#error_assesseName").show()
 
+											} else {
+												$("#error_assesseName").hide()
+											}
 												if (!$("#panNo").val()
 														|| !validatePAN($(
-																"#panNo").val())) {
+														"#panNo")
+														.val())) {
 
 													isError = true;
 

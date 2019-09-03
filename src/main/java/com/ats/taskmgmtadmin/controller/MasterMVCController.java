@@ -1180,7 +1180,7 @@ public class MasterMVCController {
 
 			} else {
 				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+						.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 				for (int i = 0; i < custHeadList.size(); i++) {
 

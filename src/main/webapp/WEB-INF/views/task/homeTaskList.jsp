@@ -564,10 +564,10 @@ h5 {
 										<td>${taskList.employees}</td>
 
 										<c:if test="${empType==5}">
-											<td>${taskList.empBudHr}</td>
+											<td>E-Hr-${taskList.empBudHr}</td>
 										</c:if>
 										<c:if test="${empType==3}">
-											<td>${taskList.mngrBudHr}</td>
+											<td>M-Hr-${taskList.mngrBudHr}</td>
 										</c:if>
 
 										<c:if test="${empType==4}">
@@ -585,8 +585,8 @@ h5 {
 
 
 									<td id="taskStatus${taskList.taskId}" style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td> 
-										<td align="center"><select name="set_status" onchange="updateStatus(this.value, ${taskList.taskId })"
-											id="set_status${taskList.taskId}" class="form-control  ats_sel_status ">
+										<td align="center"><select name="set_status" onClick1="updateStatus_new(this.value, ${taskList.taskId })"
+											id="set_status${taskList.taskId}" data-id="${taskList.taskId}"  class="form-control  ats_sel_status ">
 
 												<c:forEach items="${statusList}" var="statusList">
 													<c:choose>
@@ -723,8 +723,8 @@ h5 {
 
 
 	
-	function updateStatus(statusId, taskId){
-		//alert(statusId+" "+taskId)
+	function updateStatus_new(statusId, taskId){
+	//alert(statusId+" "+taskId)
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
         //var color =  $('#set_status'+taskId).val();
         
@@ -738,12 +738,13 @@ h5 {
 							ajax : 'true',
 
 						},
-						function(data) {	
+						function(data) {
+							 
 							if(data.error==false){
 							//	alert("Task Status Updated Successfully!")
                             document.getElementById("taskStatus"+taskId).innerHTML=selectedStatus;
                             var color =  $('#set_status'+taskId).find('option:selected').attr('data-statusColor');
-                            
+                          
                             $('#taskStatus'+taskId).css('background', color); 
                             
 							}
@@ -754,7 +755,14 @@ h5 {
 	
 	$(document).ready(function(){
 	      // setColor();
-	      $('.ats_sel_status_nouse').change(function(){
+	      //set_status
+	      $('.ats_sel_status').change(function(e){
+	    	  var id = $(this).data("id") // will return the number 123
+	    	  var value = $("#set_status"+id).val();
+	    	  updateStatus_new(value, id)
+	      });
+	       
+	     /*  $('.ats_sel_status_nouse').change(function(){
 	    	  var id=$(this).attr('id');
 	    	  var color =  $('#'+id).find('option:selected').attr('id');
 	  	      $('#'+id).css('background', color); 
@@ -768,7 +776,7 @@ h5 {
 	    	  var color =  $('#'+id).find('option:selected').attr('id');
 	  	      $('#'+id).css('background', color); 
 
-	    	 });
+	    	 }); */
 	});
 
 	function setColor()
