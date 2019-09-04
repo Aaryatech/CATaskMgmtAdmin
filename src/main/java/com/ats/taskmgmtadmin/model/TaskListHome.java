@@ -1,12 +1,16 @@
 package com.ats.taskmgmtadmin.model;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class TaskListHome {
 	
 	private int taskId;
 	private String taskText;
-	private String taskStartDate;
-	private String taskEndDate;
-	private String taskStatutoryDueDate;
+	private Date taskStartDate;
+	private Date taskEndDate;
+	private Date taskStatutoryDueDate;
 	private String mngrBudHr;
 	private String empBudHr;
 	private String taskEmpIds;
@@ -25,7 +29,17 @@ public class TaskListHome {
 	private String exVar2;
 	private String employees;	
 	
+	private String ownerPartner;
 	
+	
+	
+	
+	public String getOwnerPartner() {
+		return ownerPartner;
+	}
+	public void setOwnerPartner(String ownerPartner) {
+		this.ownerPartner = ownerPartner;
+	}
 	public String getEmployees() {
 		return employees;
 	}
@@ -45,24 +59,27 @@ public class TaskListHome {
 		this.taskText = taskText;
 	}
 	
-	public String getTaskStartDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getTaskStartDate() {
 		return taskStartDate;
 	}
-	public void setTaskStartDate(String taskStartDate) {
+	public void setTaskStartDate(Date taskStartDate) {
 		this.taskStartDate = taskStartDate;
 	}
 	
-	public String getTaskEndDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getTaskEndDate() {
 		return taskEndDate;
 	}
-	public void setTaskEndDate(String taskEndDate) {
+	public void setTaskEndDate(Date taskEndDate) {
 		this.taskEndDate = taskEndDate;
 	}
 	
-	public String getTaskStatutoryDueDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getTaskStatutoryDueDate() {
 		return taskStatutoryDueDate;
 	}
-	public void setTaskStatutoryDueDate(String taskStatutoryDueDate) {
+	public void setTaskStatutoryDueDate(Date taskStatutoryDueDate) {
 		this.taskStatutoryDueDate = taskStatutoryDueDate;
 	}
 	public String getMngrBudHr() {
@@ -113,15 +130,12 @@ public class TaskListHome {
 	public void setFinYearName(String finYearName) {
 		this.finYearName = finYearName;
 	}
-	
-	  public String getCustGroupName() 
-	  { 
-		  return custGroupName; 
-	  } 
-	  public void setCustGroupName(String custGroupName) 
-	  { 
-		  this.custGroupName = custGroupName;
-	  } 
+	public String getCustGroupName() {
+		return custGroupName;
+	}
+	public void setCustGroupName(String custGroupName) {
+		this.custGroupName = custGroupName;
+	}
 	
 	public String getTaskStatus() {
 		return taskStatus;
@@ -140,7 +154,7 @@ public class TaskListHome {
 	}
 	public void setEmpId(int empId) {
 		this.empId = empId;
-	}
+	}	
 	public int getExInt1() {
 		return exInt1;
 	}
@@ -173,7 +187,8 @@ public class TaskListHome {
 				+ ", empId=" + empId + ", servName=" + servName + ", actiName=" + actiName + ", periodicityName="
 				+ periodicityName + ", custGroupName=" + custGroupName + ", finYearName=" + finYearName
 				+ ", taskStatus=" + taskStatus + ", statusColor=" + statusColor + ", exInt1=" + exInt1 + ", exVar1="
-				+ exVar1 + ", exInt2=" + exInt2 + ", exVar2=" + exVar2 + ", employees=" + employees + "]";
+				+ exVar1 + ", exInt2=" + exInt2 + ", exVar2=" + exVar2 + ", employees=" + employees + ", ownerPartner="
+				+ ownerPartner + "]";
 	}
-	
+	  
 }

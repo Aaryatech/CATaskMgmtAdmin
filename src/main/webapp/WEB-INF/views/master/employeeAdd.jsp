@@ -273,7 +273,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
-												style="display: none;">Please enter date of birth.</span>
+												style="display: none;">Please Enter Date of Birth Properly.</span>
 										</div>
 									</div>
 
@@ -413,6 +413,11 @@
 
 	</div>
 	<!-- /page content -->
+	
+	<script type="text/javascript">
+	
+	
+	</script>
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
@@ -511,6 +516,18 @@
 				} else {
 					$("#error_pwd").hide()
 				}
+				
+				if (!$("#dob").val() ||  !checkDOB($("#dob").val())) {
+
+					isError = true;
+
+					$("#error_dob").show()
+
+				} else {
+					$("#error_dob").hide()
+				}
+
+				
 
 				if (!isError) {
 
@@ -527,6 +544,49 @@
 			});
 		});
 		//
+		function checkDOB(dateEntered) {
+		//	alert("hii"+dateEntered);
+			var date = dateEntered.substring(0, 2);
+			var month = dateEntered.substring(3, 5);
+			var year = dateEntered.substring(6, 10);
+
+			var dateToCompare = new Date(year, month - 1, date);
+			var currentDate = new Date();
+
+			if (dateToCompare > currentDate) {
+				//alert("Please enter DOB less than Current Date ");
+				return false;
+				document.getElementById('dob').value = "";
+			}
+			return true;
+		}
+		
+		function validateEmail(email) {
+
+			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+			if (eml.test($.trim(email)) == false) {
+
+				return false;
+
+			}
+
+			return true;
+
+		}
+		function validateMobile(mobile) {
+			var mob = /^[1-9]{1}[0-9]{9}$/;
+
+			if (mob.test($.trim(mobile)) == false) {
+
+				//alert("Please enter a valid email address .");
+				return false;
+
+			}
+			return true;
+
+		}
+
 	</script>
 
 

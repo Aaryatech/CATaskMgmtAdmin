@@ -384,6 +384,54 @@ public class MasterMVCController {
 		return mav;
 	}
 
+	
+	
+	
+	@RequestMapping(value = "/activityBackPage", method = RequestMethod.GET)
+	public ModelAndView activityBackPage(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = null;
+		try {
+			 
+			mav = new ModelAndView("master/activityAdd");
+			ActivityMaster activity = new ActivityMaster();
+			mav.addObject("activity", activity);
+			MultiValueMap<String, Object> map = null;
+
+			int serviceId = Integer.parseInt(request.getParameter("servId"));
+			System.out.println("Mapping Service Id = " + serviceId);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+
+			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
+					map, ServiceMaster.class);
+
+			mav.addObject("service", servicemMap);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", serviceId);
+
+			ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
+			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			System.out.println("Act List:" + activityList);
+			mav.addObject("actList", activityList);
+
+			DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+			mav.addObject("periodList", periodList);
+
+			mav.addObject("title", "Add Activity");
+
+			 
+		} catch (Exception e) {
+			System.err.println("Exce in activityAdd " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+ 
 	@RequestMapping(value = "/addNewActivity", method = RequestMethod.POST)
 	public String addServcActvtMaping(HttpServletRequest request, HttpServletResponse response) {
 

@@ -50,10 +50,9 @@
 								<td style="color: white; padding: .8rem 1rem;" align="left"
 									width="80%">
 									<h5>
-										Task ID -<span class="font-weight-semibold">
-											${task.taskId} </span> &nbsp;&nbsp; Name - <span
+										Task Name - <span
 											class="font-weight-semibold">${task.taskText} </span> <small
-											class="d-block opacity-75">Owner Partner - Prakash</small>
+											class="d-block opacity-75">Owner Partner - ${task.ownerPartner} </small>
 									</h5>
 								</td>
 								<td style="color: white; padding: .8rem 1rem;">
@@ -63,9 +62,16 @@
 										Status</normal>
 									</div>
 								</td>
+								<td style="color: white; padding: .8rem 1rem;">	<a href="${pageContext.request.contextPath}/taskListForEmp"><button
+													type="button" class="btn btn-primary" id="cancelbtn">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a></td>
 							</tr>
 
 						</table>
+						
+						
 
 						<br>
 

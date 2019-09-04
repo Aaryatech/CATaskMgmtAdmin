@@ -210,7 +210,7 @@
 											<th>Customer</th>
 											<th>Activity</th>
 											<th>Year</th>
-											<th>Date</th>
+											<th>Statutory Due Date</th>
 											<th>Budget Hrs</th>
 											<th>Actual Hrs</th>
 
@@ -220,9 +220,9 @@
 
 									<c:forEach items="${taskList}" var="taskList" varStatus="count">
 										<tr>
-											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
+											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox" 
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
-												name="TaskId" class="select_all"></td>
+												name="TaskId" class="select_all" checked></td>
 
 											<td>${taskList.taskText}</td>
 											<td>${taskList.custFirmName}</td>

@@ -266,11 +266,11 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass" value="${custHead.custDob}"
-												name="dob" id="dob" placeholder="Date of Birth" data-end-date="0d">
+												name="dob" id="dob" placeholder="Date of Birth" >
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please Enter Date of Birth Properly.</span>
 										</div>
 									</div>
 
@@ -499,9 +499,11 @@
 		});
 	
 	function validatePAN(pan) {
-		 var regex1=/^[A-Z]{5}\d{4}[A-Z]{1}$/;
+		 var regex1=/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 		if (regex1.test($.trim(pan)) == false) {
 			return false;
+			
+			
 		}
 		return true;
 	}
@@ -606,6 +608,15 @@
 													$("#error_pincode").hide()
 												}
 
+												if (!$("#dob").val() ||  !checkDOB($("#dob").val())) {
+
+													isError = true;
+
+													$("#error_dob").show()
+
+												} else {
+													$("#error_dob").hide()
+												}
 												if (!isError) {
 
 													var x = true;
@@ -621,6 +632,52 @@
 											});
 						});
 		//
+		
+		
+		
+		function checkDOB(dateEntered) {
+		//	alert("hii"+dateEntered);
+			var date = dateEntered.substring(0, 2);
+			var month = dateEntered.substring(3, 5);
+			var year = dateEntered.substring(6, 10);
+
+			var dateToCompare = new Date(year, month - 1, date);
+			var currentDate = new Date();
+
+			if (dateToCompare > currentDate) {
+				//alert("Please enter DOB less than Current Date ");
+				return false;
+				document.getElementById('dob').value = "";
+			}
+			return true;
+		}
+		
+		function validateEmail(email) {
+
+			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+			if (eml.test($.trim(email)) == false) {
+
+				return false;
+
+			}
+
+			return true;
+
+		}
+		function validateMobile(mobile) {
+			var mob = /^[1-9]{1}[0-9]{9}$/;
+
+			if (mob.test($.trim(mobile)) == false) {
+
+				//alert("Please enter a valid email address .");
+				return false;
+
+			}
+			return true;
+
+		}
+
 	</script>
 <script type="text/javascript">
 function showDiv(typdId){

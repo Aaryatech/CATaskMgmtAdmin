@@ -167,12 +167,12 @@
 												<c:when test="${custHeadList.isActive==1}">
 													<a
 														href="${pageContext.request.contextPath}/activeDeactiveCustomer?custId=${custHeadList.exVar1}"><i
-														class="fas fa-toggle-on" title="Active" style="color: black;"></i> </a>
+														class="fas fa-toggle-on" title="Active" style="color:green;"></i> </a>
 												</c:when>
 												<c:otherwise>
 													<a
 														href="${pageContext.request.contextPath}/activeDeactiveCustomer?custId=${custHeadList.exVar1}"><i
-														class="fas fa-toggle-off" title="Deactive"  style="color: black;"></i> </a>
+														class="fas fa-toggle-off" title="Deactive"  style="color: red;"></i> </a>
 												</c:otherwise>
 											</c:choose>
 								</td>

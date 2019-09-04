@@ -195,11 +195,13 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="${pageContext.request.contextPath}/activity"><button
+											<a href="${pageContext.request.contextPath}/activityBackPage?servId=${activityMaster.servId}"><button
 													type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>
 													Cancel
 												</button></a>
+												
+												 
 										</div>
 									</div>
 								</form>
@@ -227,7 +229,18 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
- 
+ <script type="text/javascript">
+	function activityAdd(serviceId){
+		alert(serviceId);
+		document.getElementById("map_service_id").value=serviceId;//create this 
+		var form=document.getElementById("service_list");
+	    form.setAttribute("method", "post");
+
+		form.action=("activityAdd");
+		form.submit();
+		
+	}
+	</script>
 
 </body>
 </html>

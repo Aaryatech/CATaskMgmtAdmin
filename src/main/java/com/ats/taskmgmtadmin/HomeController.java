@@ -382,6 +382,7 @@ public class HomeController<Task> {
 				}
 			
 			mav.addObject("taskList", taskList);
+			System.err.println("taskList-----"+taskList.toString());
 			
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
