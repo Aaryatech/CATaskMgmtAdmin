@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+ 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -421,8 +421,7 @@
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
-
-
+ 
 	<script>
 		$('#empSal').on(
 				'input',
@@ -552,8 +551,10 @@
 
 			var dateToCompare = new Date(year, month - 1, date);
 			var currentDate = new Date();
+			
+			alert(currentDate+''+dateToCompare);
 
-			if (dateToCompare > currentDate) {
+			if (dateToCompare > currentDate || currentDate == dateToCompare) {
 				//alert("Please enter DOB less than Current Date ");
 				return false;
 				document.getElementById('dob').value = "";
@@ -612,6 +613,8 @@
 				separator : ' to '
 			}
 		});
+		
+ 	 
 	</script>
 	<script type="text/javascript">
 		function readURL(input) {
