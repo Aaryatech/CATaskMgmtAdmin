@@ -122,6 +122,7 @@
 									<th>Customer Name</th>
 									<th>Service Name</th>
 									<th>Task Text</th>
+									<th>Team</th>
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Periodicity</th>
@@ -135,7 +136,8 @@
 									<td>${taskList.custFirmName}</td>
 									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
-									<td>${taskList.taskStartDate}</td>
+									<td>${taskList.employees}</td>
+ 									<td>${taskList.taskStartDate}</td>
 									<td>${taskList.taskEndDate}</td>
 									<td>${taskList.periodicity_name}</td>
 
@@ -145,7 +147,10 @@
 											style="color: black;"></i></a> | <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
 										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a></td>
+											style="color: black;"></i></a> | <a
+										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}"
+										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
+											></i></a></td>
 
 								</tr>
 							</c:forEach>

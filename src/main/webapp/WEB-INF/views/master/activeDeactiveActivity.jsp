@@ -159,7 +159,8 @@
 											<thead>
 
 												<tr class="bg-blue">
-													<th width="10%">Sr.no</th>
+													<th width="10%">Sr.no&nbsp;<input type="checkbox"
+													name="selAll" id="selAll" /></th>
 													<th>Task Name</th>
 													<th width="10%">Status</th>
 												</tr>
@@ -228,7 +229,19 @@
 	<!-- /page content -->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
+<script type="text/javascript">
+ $(document).ready(
+			function() {
+				//$('#bootstrap-data-table-export').DataTable();
 
+				$("#selAll").click(
+						function() {
+							$('#printtable2 tbody input[type="checkbox"]')
+									.prop('checked', this.checked);
+						});
+			});
+	
+	</script>
  <script type="text/javascript">
 	function activityAdd(serviceId){
 		alert(serviceId);

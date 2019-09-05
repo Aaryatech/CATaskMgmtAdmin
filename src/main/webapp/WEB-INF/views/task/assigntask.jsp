@@ -205,7 +205,8 @@
 									id="printtable1">
 									<thead>
 										<tr class="bg-blue">
-											<th width="10%">Sr.no</th>
+											<th width="10%">Sr.no<input type="checkbox"
+																name="selAll" id="selAll" /></th>
 											<th>Task</th>
 											<th>Customer</th>
 											<th>Activity</th>

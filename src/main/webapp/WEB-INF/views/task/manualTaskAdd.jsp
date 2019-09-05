@@ -120,6 +120,7 @@
 
 
 
+<input type="hidden" name="taskId" value="${task.taskId}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="locId2">
@@ -132,13 +133,30 @@
 												class="form-control form-control-sm select"
 												data-container-css-class="select-sm" data-fouc>
 												<option value="">Select Employee</option>
+
 												<c:forEach items="${epmList}" var="epmList">
-													<option value="${epmList.empId}">
-														${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+													<c:set var="flag" value="0"></c:set>
+													<c:forEach items="${empIntList}" var="empIntList"
+														varStatus="count2">
+														<c:choose>
+															<c:when test="${empIntList==epmList.empId}">
+																<option selected value="${epmList.empId}">${epmList.empName}
+																	-${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+																<c:set var="flag" value="1"></c:set>
+															</c:when>
+															<c:otherwise>
+
+															</c:otherwise>
+														</c:choose>
+													</c:forEach>
+													<c:choose>
+														<c:when test="${flag==0}">
+															<option  value="${epmList.empId}">${epmList.empName}
+																-${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+														</c:when>
+													</c:choose>
 												</c:forEach>
-
 											</select>
-
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emp"
@@ -147,6 +165,7 @@
 									</div>
 
 
+ 
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
@@ -156,9 +175,20 @@
 											<select name="customer" data-placeholder="Select Customer"
 												id="customer"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"><c:forEach
-													items="${custList}" var="custList">
-													<option value="${custList.custId}">${custList.custFirmName}</option>
+												data-fouc="" aria-hidden="true">
+												<c:forEach items="${custList}" var="custList">
+
+													<c:choose>
+														<c:when test="${task.custId==custList.custId}">
+															<option selected value="${custList.custId}"><c:out
+																	value="${custList.custFirmName}" /></option>
+															<c:set var="flag" value="1"></c:set>
+														</c:when>
+														<c:otherwise>
+															<option value="${custList.custId}">${custList.custFirmName}</option>
+
+														</c:otherwise>
+													</c:choose>
 												</c:forEach>
 
 											</select>
@@ -179,10 +209,24 @@
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
-												onchange="getActivities(this.value)"><c:forEach
-													items="${serviceList}" var="serviceList">
+												onchange="getActivities(this.value)">
+												
+												<c:forEach items="${serviceList}" var="serviceList">
+
+													<c:choose>
+														<c:when test="${task.servId==serviceList.servId}">
+															<option  selected value="${serviceList.servId}">${serviceList.servName}</option>
+															 
+														</c:when>
+														<c:otherwise>
 													<option value="${serviceList.servId}">${serviceList.servName}</option>
+
+														</c:otherwise>
+													</c:choose>
 												</c:forEach>
+												
+												
+												 
 
 											</select>
 										</div>
@@ -202,7 +246,7 @@
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
-												onchange="getPeriodicity(this.value)">
+												onchange="getPeriodicity()">
 											</select>
 										</div>
 										<div class="col-lg-3">
@@ -257,7 +301,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Statutory End Days" id="statutary_endDays"
-												name="statutary_endDays" autocomplete="off"
+												name="statutary_endDays" autocomplete="off" value=0
 												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -276,7 +320,8 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
-												name="startDate" id="startDate" placeholder="Start Date">
+												value="${task.taskStartDate}" name="startDate"
+												id="startDate" placeholder="Start Date">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_startDate"
@@ -293,11 +338,11 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="endDate">Task
-											End Date 
-										</label>
+											End Date </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
-												name="endDate" id="endDate" placeholder="Task End Date">
+												value="${task.taskEndDate}" name="endDate" id="endDate"
+												placeholder="Task End Date">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_endDate"
@@ -313,7 +358,8 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
-												name="mgBudgetHr" autocomplete="off" onchange="trim(this)">
+												value="${task.mngrBudHr}" name="mgBudgetHr"
+												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
@@ -328,7 +374,8 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Employee Budget Hours" id="empBudgetHr"
-												name="empBudgetHr" autocomplete="off" onchange="trim(this)">
+												value="${task.empBudHr}" name="empBudgetHr"
+												autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empHrs"
@@ -474,8 +521,6 @@
 															.hide()
 												}
 
-											
-
 												var from_date = document
 														.getElementById("startDate").value;
 												var to_date = document
@@ -592,6 +637,10 @@
 	<script>
 		function getActivities(servId) {
 			//alert("servId " +servId)
+			var actId=${task.actvId}
+					//alert(actId);
+			
+			
 			if (servId > 0) {
 
 				$.getJSON('${getActivityByService}', {
@@ -608,25 +657,42 @@
 					html += '</option>';
 
 					var temp = 0;
-
+					
+					//alert("hii ")
 					var len = data.length;
+					
 					for (var i = 0; i < len; i++) {
+					
+						 if(data[i].actiId==actId){
+							  
+							// alert("matched"+data[i].actiId);
+						 		flag=1;							 
+					 }	
 
-						html += '<option value="' + data[i].actiId + '">'
+						 if(flag==1){
+							 var flag=0;
+						html += '<option selected value="' + data[i].actiId + '">'
 								+ data[i].actiName + '</option>';
+								
+					}else{
+						html += '<option value="' + data[i].actiId + '">'
+						+ data[i].actiName + '</option>';
+						}
 					}
 
 					$('#activity').html(html);
 					$("#activity").trigger("chosen:updated");
-
+					getPeriodicity();
 				});
 
 			}//end of if
 		}
 
 		//
-		function getPeriodicity(actvityId) {
-			//alert("Activity---"+actvityId);
+		function getPeriodicity() {
+		
+		var actvityId=document.getElementById("activity").value;
+	//	alert("Activity---"+actvityId);
 
 			if (actvityId > 0) {
 

@@ -2,7 +2,6 @@ package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
- import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
@@ -321,7 +320,7 @@ public class TaskController {
 		HttpSession session = request.getSession();
 
 		ModelAndView mav = null;
-		 
+
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("inactiveTaskList", "inactiveTaskList", "1", "0", "0", "0",
 				newModuleList);
@@ -334,8 +333,8 @@ public class TaskController {
 
 			mav = new ModelAndView("task/inactiveTaskList");
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
-					ServiceMaster[].class);
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 
@@ -344,7 +343,7 @@ public class TaskController {
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 
 			mav.addObject("custList", custHeadList);
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			StringBuilder sbCust = new StringBuilder();
@@ -362,7 +361,7 @@ public class TaskController {
 				servId = 0;
 
 			}
-			
+
 			map = new LinkedMultiValueMap<>();
 			map.add("serviceId", servId);
 
@@ -377,13 +376,13 @@ public class TaskController {
 				// System.err.println("emp id are " + locId2);
 				for (int j = 0; j < actList.length; j++) {
 					sbAct = sbAct.append(actList[j] + ",");
- 				}
+				}
 				itemsAct = sbAct.toString();
 				itemsAct = itemsAct.substring(0, itemsAct.length() - 1);
 			} catch (Exception e) {
 
 				itemsAct = "0";
- 			}
+			}
 			List<Integer> actIntList = Stream.of(itemsAct.split(",")).map(Integer::parseInt)
 					.collect(Collectors.toList());
 			mav.addObject("actIntList", actIntList);
@@ -393,7 +392,7 @@ public class TaskController {
 
 				for (int j = 0; j < custList.length; j++) {
 					sbCust = sbCust.append(custList[j] + ",");
- 
+
 				}
 				itemsCust = sbCust.toString();
 				itemsCust = sbCust.substring(0, itemsCust.length() - 1);
@@ -403,22 +402,18 @@ public class TaskController {
 				itemsCust = "0";
 
 			}
-			
+
 			List<Integer> custIntList = Stream.of(itemsCust.split(",")).map(Integer::parseInt)
 					.collect(Collectors.toList());
-			 
-			
-			
 
 			// Prev
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
- //for dropdown
+			// for dropdown
 			mav.addObject("actIntList", actIntList);
 			mav.addObject("custIdList", custIntList);
 			mav.addObject("servId", servId);
-		
-		
+
 //
 			try {
 
@@ -477,8 +472,8 @@ public class TaskController {
 				System.out.println("cust is " + custHeadList.toString());
 				mav.addObject("custList", custHeadList);
 
-				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
-						ServiceMaster[].class);
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 				mav.addObject("serviceList", srvcMstrList);
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -498,6 +493,62 @@ public class TaskController {
 				e.printStackTrace();
 			}
 
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/editTask", method = RequestMethod.GET)
+	public ModelAndView taskEdit(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView mav = null;
+		HttpSession session = request.getSession();
+
+		try {
+			mav = new ModelAndView("task/manualTaskAdd");
+
+			String base64encodedString = request.getParameter("taskId");
+			int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("taskId", taskId);
+			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskByTaskIdForEdit1", map,
+					Task.class);
+			task.setTaskStatutoryDueDate(DateConvertor.convertToDMY(task.getTaskStatutoryDueDate()));
+			task.setTaskStartDate(DateConvertor.convertToDMY(task.getTaskStartDate()));
+			task.setTaskEndDate(DateConvertor.convertToDMY(task.getTaskEndDate()));
+			List<Integer> empIntList = Stream.of(task.getTaskEmpIds().split(",")).map(Integer::parseInt)
+					.collect(Collectors.toList());
+
+			mav.addObject("task", task);
+			mav.addObject("empIntList", empIntList);
+
+			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+			System.out.println("cust is " + custHeadList.toString());
+			mav.addObject("custList", custHeadList);
+
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+			map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<>();
+			map.add("serviceId", srvcMstrList.get(0).getServId());
+
+			FinancialYear[] fin = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFinYear",
+					FinancialYear[].class);
+			List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
+			mav.addObject("fyList", fyList);
+			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+					EmployeeMaster[].class);
+			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+			mav.addObject("epmList", epmList);
+		} catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return mav;
@@ -604,7 +655,7 @@ public class TaskController {
 
 			CustmrActivityMap activityMapanual = new CustmrActivityMap();
 			StringBuilder sbEmp = new StringBuilder();
-			String[] locId2 = request.getParameterValues("emp");
+			String[] locId2 = request.getParameterValues("empId2");
 			// System.err.println("emp id are " + locId2);
 			for (int j = 0; j < locId2.length; j++) {
 				sbEmp = sbEmp.append(locId2[j] + ",");
@@ -612,27 +663,59 @@ public class TaskController {
 			}
 			String items1 = sbEmp.toString();
 			items1 = items1.substring(0, items1.length() - 1);
+			int taskId = 0;
+			try {
+				taskId = Integer.parseInt(request.getParameter("taskId"));
 
-			activityMapanual.setMappingId(0);
-			activityMapanual.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
-			activityMapanual.setActvStartDate(request.getParameter("startDate"));
-			activityMapanual.setActvEndDate(request.getParameter("endDate"));
-			activityMapanual.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
-			activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
-			activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
-			activityMapanual.setDelStatus(1);
-			activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")));
-			activityMapanual.setExInt2(0);
-			activityMapanual.setExVar1(items1);
-			activityMapanual.setExVar2("NA");
-			activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
-			activityMapanual.setUpdateDatetime(curDateTime);
-			activityMapanual.setUpdateUsername(userId);
-			activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
+				if (taskId != 0) {
+					System.out.println("in task edit");
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			System.out.println("Activity Map---------" + activityMapanual.toString());
-			Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask", activityMapanual,
-					Info.class);
+					map.add("taskId", taskId);
+					map.add("items1", items1);
+					map.add("empBudgetHr", Integer.parseInt(request.getParameter("empBudgetHr")));
+					map.add("mgBudgetHr", Integer.parseInt(request.getParameter("mgBudgetHr")));
+					map.add("startDate", request.getParameter("startDate"));
+					map.add("endDate", request.getParameter("endDate"));
+					map.add("customer", Integer.parseInt(request.getParameter("customer")));
+					map.add("service", Integer.parseInt(request.getParameter("service")));
+					map.add("periodicityId", Integer.parseInt(request.getParameter("periodicityId")));
+					map.add("activity", Integer.parseInt(request.getParameter("activity")));
+					map.add("userId", userId);
+					map.add("curDateTime", curDateTime);
+
+					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
+							Info.class);
+				}
+
+			} catch (Exception e) {
+				taskId = 0;
+				e.getMessage();
+			}
+
+			if (taskId == 0) {
+				System.out.println("in task add");
+				activityMapanual.setMappingId(0);
+				activityMapanual.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+				activityMapanual.setActvStartDate(request.getParameter("startDate"));
+				activityMapanual.setActvEndDate(request.getParameter("endDate"));
+				activityMapanual.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+				activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
+				activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
+				activityMapanual.setDelStatus(1);
+				activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")));
+				activityMapanual.setExInt2(0);
+				activityMapanual.setExVar1(items1);
+				activityMapanual.setExVar2("NA");
+				activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
+				activityMapanual.setUpdateDatetime(curDateTime);
+				activityMapanual.setUpdateUsername(userId);
+				activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
+
+				System.out.println("Activity Map---------" + activityMapanual.toString());
+				Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
+						activityMapanual, Info.class);
+			}
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -727,72 +810,70 @@ public class TaskController {
 		return "redirect:/taskListForEmp";
 
 	}
-	
-	
+
 	// *************************Forgot
-		// Pass***********************************************
+	// Pass***********************************************
 
-		@RequestMapping(value = "/showForgotPass", method = RequestMethod.GET)
-		public ModelAndView showForgotPassForm(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/showForgotPass", method = RequestMethod.GET)
+	public ModelAndView showForgotPassForm(HttpServletRequest request, HttpServletResponse response) {
 
-			ModelAndView model = null;
-			try {
+		ModelAndView model = null;
+		try {
 
-				model = new ModelAndView("forgetPassword");
+			model = new ModelAndView("forgetPassword");
 
-			} catch (Exception e) {
+		} catch (Exception e) {
 
-				System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
+			System.err.println("exception In showCMSForm at home Contr" + e.getMessage());
 
-				e.printStackTrace();
-
-			}
-
-			return model;
+			e.printStackTrace();
 
 		}
 
-		@RequestMapping(value = "/checkUserPassword", method = RequestMethod.POST)
-		public String checkUserPassword(HttpServletRequest request, HttpServletResponse response) {
-			String c = null;
-			System.err.println("Hiii  checkValue  ");
-			Info info = new Info();
-			ModelAndView model = new ModelAndView();
-			HttpSession session = request.getSession();
-			try {
+		return model;
+
+	}
+
+	@RequestMapping(value = "/checkUserPassword", method = RequestMethod.POST)
+	public String checkUserPassword(HttpServletRequest request, HttpServletResponse response) {
+		String c = null;
+		System.err.println("Hiii  checkValue  ");
+		Info info = new Info();
+		ModelAndView model = new ModelAndView();
+		HttpSession session = request.getSession();
+		try {
+			// model = new ModelAndView("forgotPassword");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			String inputValue = request.getParameter("username");
+			System.err.println("Info inputValue  " + inputValue);
+
+			map.add("inputValue", inputValue);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "checkUserName", map, Info.class);
+			System.err.println("get GetUserData" + info.toString());
+
+			if (info.isError() == true) {
 				// model = new ModelAndView("forgotPassword");
+				c = "redirect:/showForgotPass";
+				// model.addObject("msg", "Invalid User Name");
+				session.setAttribute("errorPassMsg", "Invalid User Name or Contact Number");
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			} else {
+				// model = new ModelAndView("login");
+				c = "redirect:/";
+				session.setAttribute("errorPassMsg", "Password has been sent to your Email & Contact Number");
+				// model.addObject("msg", "Password has been sent to your email");
 
-				String inputValue = request.getParameter("username");
-				System.err.println("Info inputValue  " + inputValue);
-				 
-				map.add("inputValue", inputValue);
-				info = Constants.getRestTemplate().postForObject(Constants.url + "checkUserName", map, Info.class);
-				System.err.println("get GetUserData" + info.toString());
-
-				if (info.isError() == true) {
-					//model = new ModelAndView("forgotPassword");
-					 c="redirect:/showForgotPass";
-					//model.addObject("msg", "Invalid User Name");
-					 session.setAttribute("errorPassMsg", "Invalid User Name or Contact Number");
-
-
-				} else {
-				//	model = new ModelAndView("login");
-					 c="redirect:/";
-					 session.setAttribute("errorPassMsg", "Password has been sent to your Email & Contact Number");
-					//model.addObject("msg", "Password has been sent to your email");
-					 
-				}
-
-			} catch (Exception e) {
-				System.err.println("Exce in checkUniqueField  " + e.getMessage());
-				e.printStackTrace();
 			}
 
-			return c;
-		 
+		} catch (Exception e) {
+			System.err.println("Exce in checkUniqueField  " + e.getMessage());
+			e.printStackTrace();
 		}
+
+		return c;
+
+	}
 
 }
