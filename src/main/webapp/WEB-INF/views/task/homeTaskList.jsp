@@ -562,9 +562,10 @@ h5 {
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
+										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr} </td>
 
-										<c:if test="${empType==5}">
-											<td>E-Hr-${taskList.empBudHr}</td>
+										<%-- <c:if test="${empType==5}">
+											<td>E-${taskList.empBudHr}</td>
 										</c:if>
 										<c:if test="${empType==3}">
 											<td>M-Hr-${taskList.mngrBudHr}</td>
@@ -578,7 +579,7 @@ h5 {
 										</c:if>
 										<c:if test="${empType==1}">
 											<td>NA</td>
-										</c:if>
+										</c:if> --%>
 
 										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
 										<!-- <td>0</td> -->

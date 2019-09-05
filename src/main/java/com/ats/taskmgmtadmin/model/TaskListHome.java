@@ -8,9 +8,9 @@ public class TaskListHome {
 	
 	private int taskId;
 	private String taskText;
-	private Date taskStartDate;
-	private Date taskEndDate;
-	private Date taskStatutoryDueDate;
+	private String taskStartDate;
+	private String taskEndDate;
+	private String taskStatutoryDueDate;
 	private String mngrBudHr;
 	private String empBudHr;
 	private String taskEmpIds;
@@ -60,26 +60,26 @@ public class TaskListHome {
 	}
 	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getTaskStartDate() {
+	public String getTaskStartDate() {
 		return taskStartDate;
 	}
-	public void setTaskStartDate(Date taskStartDate) {
+	public void setTaskStartDate(String taskStartDate) {
 		this.taskStartDate = taskStartDate;
 	}
 	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getTaskEndDate() {
+	public String getTaskEndDate() {
 		return taskEndDate;
 	}
-	public void setTaskEndDate(Date taskEndDate) {
+	public void setTaskEndDate(String taskEndDate) {
 		this.taskEndDate = taskEndDate;
 	}
 	
 	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getTaskStatutoryDueDate() {
+	public String getTaskStatutoryDueDate() {
 		return taskStatutoryDueDate;
 	}
-	public void setTaskStatutoryDueDate(Date taskStatutoryDueDate) {
+	public void setTaskStatutoryDueDate(String taskStatutoryDueDate) {
 		this.taskStatutoryDueDate = taskStatutoryDueDate;
 	}
 	public String getMngrBudHr() {
