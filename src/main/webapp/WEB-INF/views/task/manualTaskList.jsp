@@ -147,10 +147,10 @@
 											style="color: black;"></i></a> | <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
 										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a> | <a
+											style="color: black;"></i></a> |<c:if test="${editAccess == 0}"> <a
 										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
 										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
-											></i></a></td>
+											></i></a></c:if></td>
 
 								</tr>
 							</c:forEach>

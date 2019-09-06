@@ -353,8 +353,9 @@ public class TaskController {
 			StringBuilder sbAct = new StringBuilder();
 			String[] actList = null;
 			String itemsCust = null;
-			String itemsAct = null;
-
+			String itemsAct = null; 
+ 			
+			 
 			try {
 				servId = Integer.parseInt(request.getParameter("service"));
 			} catch (Exception e) {
@@ -434,7 +435,14 @@ public class TaskController {
 					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 				}
 				mav.addObject("taskList", taskList);
-				System.out.println("ManualTakList***" + taskList.toString());
+				//System.out.println("ManualTakList***" + taskList.toString());
+				Info edit = AccessControll.checkAccess("inactiveTaskList", "inactiveTaskList", "0", "0", "1", "0", newModuleList);
+				 
+				 
+				if (edit.isError() == false) {
+					// //System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
 
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -507,7 +515,24 @@ public class TaskController {
 	public ModelAndView taskEdit(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView mav = null;
+		int flag = Integer.parseInt(request.getParameter("flag"));
 		HttpSession session = request.getSession();
+		
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info info=new Info();
+		if(flag==1) {
+			  info = AccessControll.checkAccess("editTask", "manualTaskList", "0", "0", "1", "0", newModuleList);
+
+		}else {
+			  info = AccessControll.checkAccess("editTask", "inactiveTaskList", "0", "0", "1", "0", newModuleList);
+
+		}
+		
+		if (info.isError() == true) {
+
+			mav = new ModelAndView("accessDenied");
+
+		} else {
 
 		try {
 			mav = new ModelAndView("task/manualTaskAdd");
@@ -516,7 +541,7 @@ public class TaskController {
 
 			String base64encodedString = request.getParameter("taskId");
 			int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
-			int flag = Integer.parseInt(request.getParameter("flag"));
+		
 			System.out.println("flag is"+flag);
 			mav.addObject("taskType", flag);
 
@@ -560,6 +585,7 @@ public class TaskController {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
 			e.printStackTrace();
 		}
+		}
 
 		return mav;
 	}
@@ -600,6 +626,13 @@ public class TaskController {
 					}
 					mav.addObject("taskList", taskList);
 					// System.out.println("ManualTakList***"+taskList.toString());
+					Info edit = AccessControll.checkAccess("manualTaskList", "manualTaskList", "0", "0", "1", "0", newModuleList);
+					 
+					 
+					if (edit.isError() == false) {
+						// //System.out.println(" edit Accessable ");
+						mav.addObject("editAccess", 0);
+					}
 				} catch (Exception e) {
 					System.err.println("Exce in addCustomerActMap " + e.getMessage());
 					e.printStackTrace();

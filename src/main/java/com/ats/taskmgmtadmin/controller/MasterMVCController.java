@@ -1969,5 +1969,37 @@ if(custHeadId==0) {
 
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/deletCustDetail", method = RequestMethod.GET)
+	public String deletCustDetail(HttpServletRequest request, HttpServletResponse response) {
+		String redirect = null;
+		try {
+			HttpSession session = request.getSession();
+
+			 
+				MultiValueMap<String, Object> map = null;
+
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
+
+				int custDetId = Integer.parseInt(request.getParameter("custDetId"));
+
+				map = new LinkedMultiValueMap<>();
+				map.add("custDetId", custDetId);
+ 				map.add("userId", userId);
+ 				map.add("curDateTime", Constants.getCurDateTime());
+ 				
+				
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerDetail", map,
+						Info.class);
+				redirect = "redirect:/customerDetailList";
+			 
+		} catch (Exception e) {
+			System.err.println("Exce in deletCust " + e.getMessage());
+			e.printStackTrace();
+		}
+		return redirect;
+	}
 
 }
