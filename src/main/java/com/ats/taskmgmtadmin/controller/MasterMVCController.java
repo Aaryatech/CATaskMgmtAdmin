@@ -1281,7 +1281,9 @@ public class MasterMVCController {
 			} catch (Exception e) {
 				e.getMessage();
 			}
-
+if(custHeadId==0) {
+	cust.setIsActive(1);
+} 
 			int custType = Integer.parseInt(request.getParameter("custType"));
 
 			cust.setCustId(custHeadId);
@@ -1318,7 +1320,7 @@ public class MasterMVCController {
 
 			cust.setCustDob(request.getParameter("dob"));
 			cust.setDelStatus(1);
-			cust.setIsActive(1);
+			
 			cust.setUpdateDatetime(curDateTime);
 			cust.setUpdateUsername(userId);
 			cust.setExInt1(0);

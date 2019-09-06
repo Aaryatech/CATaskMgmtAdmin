@@ -281,7 +281,14 @@
 									<td><a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=2"
 										title="Activate Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a></td>
+											style="color: black;"></i></a>
+										<a
+										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=2"
+										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
+											></i></a>	
+											
+											
+											</td>
 
 								</tr>
 							</c:forEach>

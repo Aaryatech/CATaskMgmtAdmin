@@ -69,7 +69,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Manual Task</h6>
+								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -118,9 +118,10 @@
 								<form action="${pageContext.request.contextPath}/addManualTask"
 									id="submitInsertClient" method="post">
 
-
+ 
 
 <input type="hidden" name="taskId" value="${task.taskId}">
+<input type="hidden" name="taskType" value="${taskType}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="locId2">
@@ -391,10 +392,18 @@
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-											<a href="#"><button type="button" class="btn btn-primary">
+											<c:if test="${taskType==1}">
+ 											<a href="${pageContext.request.contextPath}/manualTaskList"><button type="button" class="btn btn-primary">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Cancel
 												</button></a>
+ 											</c:if>
+ 											<c:if test="${taskType==2}">
+											<a href="${pageContext.request.contextPath}/inactiveTaskList"><button type="button" class="btn btn-primary">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Cancel
+												</button></a>
+												</c:if>
 										</div>
 									</div>
 								</form>

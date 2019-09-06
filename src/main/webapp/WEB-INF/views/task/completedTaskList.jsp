@@ -68,7 +68,7 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Manual Task
+								<td width="60%"><h5 class="card-title">Completed Task
 										List</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
@@ -126,6 +126,7 @@
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Periodicity</th>
+									<th>Status</th>
 
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
@@ -137,20 +138,15 @@
 									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
 									<td>${taskList.employees}</td>
- 									<td>${taskList.taskStartDate}</td>
-									<td>${taskList.taskEndDate}</td>
-									<td>${taskList.periodicity_name}</td>
-
+									<td>${taskList.taskStartDate}</td>
+									<td>${taskList.taskEndDate}</td>									
+								<td>${taskList.periodicity_name}</td>
+									<td>${taskList.exInt2==1 ? 'Non Billable' : taskList.exInt2==2 ? 'Invoiced' : taskList.exInt2==3 ? '-' : ''}</td>
+	 
 									<td><a
-										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=1"
-										title="Approve Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a> | <a
-										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
-										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a> | <a
-										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
-										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
-											></i></a></td>
+										href="${pageContext.request.contextPath}/updateCompletedTaskStatus?taskId=${taskList.exVar1}"
+										title="Change Task Status"><i class="icon-cog5 "
+											style="color: black;"></i></a></td>
 
 								</tr>
 							</c:forEach>

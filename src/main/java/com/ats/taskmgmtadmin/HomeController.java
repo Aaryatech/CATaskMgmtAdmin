@@ -33,6 +33,7 @@ import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
@@ -494,6 +495,10 @@ public class HomeController<Task> {
 	public @ResponseBody Info updateTaskStatusByTaskId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		Info info = new Info();
 		List<TaskListHome> taskList = null;
+		HttpSession session1 = request.getSession();
+
+		EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
+		int userId = emp.getEmpId();
 		try {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
@@ -501,11 +506,23 @@ public class HomeController<Task> {
 			MultiValueMap<String, Object> map = null;
 			
 			map = new LinkedMultiValueMap<>();
-			map.add("statusVal", statusId);
 			map.add("taskId", taskId);
+			map.add("statusVal", statusId);
+ 			map.add("userId", userId);
+			map.add("curDateTime", Constants.getCurDateTime());
+
 			
 			info = Constants.getRestTemplate().postForObject(Constants.url+"/updateStatusByTaskId",map, Info.class);			
 			System.err.println(info.toString());
+			if(info!=null) {
+				FormValidation.updateTaskLog(TaskText.taskTex3, userId, taskId);
+
+			}
+			
+			
+			
+			
+			
 			//EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			
 			//map = new LinkedMultiValueMap<>();
