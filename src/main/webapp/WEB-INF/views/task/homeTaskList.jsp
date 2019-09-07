@@ -11,7 +11,20 @@
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/components_modals.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
-
+<style>
+.modal  {
+    position:fixed!important;
+    bottom:0!important;
+     top:auto!important;
+    right:0!important;
+    left:auto!important;
+    margin:0px!important;
+    width:auto!important;
+    height:auto!important;
+    
+    
+}
+</style>
 </head>
 
 <body>
@@ -622,8 +635,8 @@ h5 {
 										<%-- <td><span class="badge badge-info"
 											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td> --%>
 
-										<td class="text-center"><a
-											href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
+										<td class="text-center"><a  class="chatmodallink" data-href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
+											href1="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 											title="Chat/Update"><i class="icon-comments"
 												style="color: green;"></i></a> &nbsp;&nbsp;
 												
@@ -1053,8 +1066,45 @@ h5 {
 		
 	}
 	</script>
+<script>
+$(document).ready(function(){
+	$('.chatmodallink').click(function(){
+		//alert(1);
+	var href=	$(this).attr("data-href") // will return the string "123"
+//alert(href);
+	   var title = "Greetings";
+       var body = "Welcome to ASPSnippets.com";
 
-
+       $("#myModal .modal-title").html(title);
+       //$("#myModal .modal-body").html(body);
+       $("#modalbody").load(href);
+       $("#myModal").modal("show");
+		
+	});
+	
+	$('#myModal').on('hidden.bs.modal', function () {
+		$("#modalbody").html("");
+		})
+});
+</script>
+  <!-- Modal HTML -->
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <!--   <h5 class="modal-title">Ajax Loading Demo</h5> -->
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="modalbody">
+                    <!-- Content will be loaded here from "remote.php" file -->Wait...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

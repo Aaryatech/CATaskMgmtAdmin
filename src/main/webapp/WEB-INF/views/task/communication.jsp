@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 
-<jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+<%-- <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include> --%>
 <c:url var="saveNewMessage" value="/saveNewMessage" />
 <c:url var="getAllCommunicationByTaskId"
 	value="/getAllCommunicationByTaskId" />
@@ -21,7 +21,7 @@
 
 
 	<!-- Main navbar -->
-	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+	<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
 	<!-- /main navbar -->
 
 
@@ -29,7 +29,7 @@
 	<div class="page-content">
 
 		<!-- Main sidebar -->
-		<jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include>
+		<%-- <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include> --%>
 		<!-- /main sidebar -->
 
 
@@ -62,11 +62,11 @@
 										Status</normal>
 									</div>
 								</td>
-								<td style="color: white; padding: .8rem 1rem;">	<a href="${pageContext.request.contextPath}/taskListForEmp"><button
+								<td style="color: white; padding: .8rem 1rem;">	<%-- <a href="${pageContext.request.contextPath}/taskListForEmp"><button
 													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Back
-												</button></a></td>
+												</button></a> --%></td>
 							</tr>
 
 						</table>
@@ -110,7 +110,7 @@
 
 
 				<div class="row">
-					<div class="col-md-8">
+					<div class="col">
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
@@ -240,8 +240,8 @@
 								</table>
 
 
-								<input type="hidden" name="taskId" value="${taskId}"> <input
-									type="hidden" name="empId" value="${empId}"> <input
+								<input type="hidden" name="taskId_chat" id="taskId_chat" value="${taskId}"> <input
+									type="hidden" name="empId" id="empId" value="${empId}"> <input
 									type="hidden" name="loginUser" id="loginUser"
 									value="${loginUser}"> <input type="hidden"
 									name="comLength" id="comLength"
@@ -261,7 +261,7 @@
 					</div>
 
 
-					<div class="col-md-4">
+					<%-- <div class="col-md-4">
 						<div class="card">
 							<div class="card-header header-elements-inline">
 								<h5 class="card-title">Task Status Update</h5>
@@ -296,21 +296,7 @@
 												style="display: none;">Please select status.</span>
 										</div>
 									</div>
-
-
-									<!-- <div class="form-group row">
-									<label class="col-form-label col-lg-12" for="remark">
-										Enter Remark <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-12">
-										<input type="text" class="form-control"
-											placeholder="Enter Remark" id="remark" name="remark"
-											autocomplete="off" onchange="trim(this)">
-									</div>
-								</div> -->
-
-
-
+ 
 									<div class="form-group row">
 										<button type="submit" class="btn btn-primary" id="submtbtn">Update</button>
 										<div class="form-group row"></div>
@@ -325,13 +311,13 @@
 
 
 
-					</div>
+					</div> --%>
 				</div>
 				<!-- /content area -->
 
 
 				<!-- Footer -->
-				<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+				<%-- <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include> --%>
 				<!-- /footer -->
 
 
@@ -372,8 +358,8 @@
 		});
 
 		function chat() {
-			var msg = document.getElementById("msg").value;
-			var taskId = document.getElementById("taskId").value;
+			var msg = $("#msg").val();//document.getElementById("msg").value;
+			var taskId = $("#taskId_chat").val();//document.getElementById("taskId").value;
 
 			if (msg != "") {
 
@@ -402,8 +388,9 @@
 
 		function chatList(index) {
 			//alert(index);
-			var taskId = document.getElementById("taskId").value;
+			var taskId = document.getElementById("taskId_chat").value;
 			var loginUser = document.getElementById("loginUser").value;
+			
 			$
 					.getJSON(
 							'${getAllCommunicationByTaskId}',
@@ -508,13 +495,14 @@
 
 		}
 		function onloadActive() {
-
+			
 			container = $('#ulComm').get(0);
 			container.scrollTop = (container.scrollHeight + container.offsetHeight);
 			display_c();
+			
 		}
 		function display_c() {
-
+			
 			var refresh = 15000; // Refresh rate in milli seconds
 			mytime = setTimeout('chatList(0)', refresh)
 		}
@@ -529,7 +517,8 @@
 	</script>
 	<script>
 		$(document).ready(function($) {
-
+			
+			onloadActive(); 
 			$("#changeTask").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
