@@ -236,7 +236,7 @@ public class PeriodicityDates {
 
 					}
 				}
-				System.err.println("date array " + arryadate.toString());
+				//System.err.println("date array " + arryadate.toString());
 				j.setTime(j.getTime() + 1000 * 60 * 60 * 24);
 			} // end of for
 

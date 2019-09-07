@@ -1477,11 +1477,12 @@ public class MasterMVCController {
 
 	List<Task> taskTempList = new ArrayList<Task>();
 	CustmrActivityMap activityMap = new CustmrActivityMap();
- 	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
 	public ModelAndView addCustomerActMap(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		MultiValueMap<String, Object> map = null;
-
+		taskTempList = new ArrayList<Task>();
 		mav = new ModelAndView("task/taskGenList");
 		List<Task> custActMapList = null;
 		try {
@@ -1492,7 +1493,7 @@ public class MasterMVCController {
 
 			int userId = emp.getEmpId();
 
-	  activityMap = new CustmrActivityMap();
+			activityMap = new CustmrActivityMap();
 
 			activityMap.setMappingId(0);
 			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
@@ -1514,7 +1515,7 @@ public class MasterMVCController {
 
 			// task generation work start
 			int totdays = 0;
-		
+
 			Date date = Calendar.getInstance().getTime();
 			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -1537,7 +1538,7 @@ public class MasterMVCController {
 
 			String strDate = DateConvertor.convertToYMD((request.getParameter("startDate")));
 			System.out.println("Converted String str: " + strDate);
-			String endDate =DateConvertor.convertToYMD((request.getParameter("endDate")));
+			String endDate = DateConvertor.convertToYMD((request.getParameter("endDate")));
 			System.out.println("Converted String end: " + endDate);
 			System.out.println("perId: " + perId);
 			List<DateValues> listDate = PeriodicityDates.getDates(strDate, endDate, perId);
@@ -1603,13 +1604,13 @@ public class MasterMVCController {
 				taskTempList.add(task);
 
 			}
-			mav.addObject("taskList", taskTempList);	
-			System.out.println("taskTempList**" + taskTempList.toString());
-			
+			mav.addObject("taskList", taskTempList);
+			//System.out.println("taskTempList**" + taskTempList.toString());
+
 			// task generation work end
 
 			map = new LinkedMultiValueMap<>();
-			map.add("custHeadId",activityMap.getCustId());
+			map.add("custHeadId", activityMap.getCustId());
 
 			CustomerHeaderMaster custHead = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
@@ -1631,37 +1632,41 @@ public class MasterMVCController {
 
 		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		String custId=null;
 
 		try {
-			TempTaskSave tsk=new TempTaskSave();
+			TempTaskSave tsk = new TempTaskSave();
 			List<Task> taskFinalList = new ArrayList<Task>();
 			String[] TaskId = request.getParameterValues("TaskId");
+		
 
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < TaskId.length; i++) {
-				
+
 				for (int j = 0; j < taskTempList.size(); j++) {
-					if (Integer.parseInt(TaskId[i]) == taskTempList.get(j).getExInt1()) {
-						
+					if (Integer.parseInt(TaskId[i]) == taskTempList.get(j).getTaskId()) {
+
 						taskFinalList.add(taskTempList.get(j));
 						
+						 custId=String.valueOf(taskTempList.get(j).getCustId());
+
 					}
-				
+
 				}
-				
+
 			}
-			tsk.setCmpList(activityMap);
+ 			tsk.setCmpList(activityMap);
 			tsk.setTskList(taskFinalList);
-			
- 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", tsk, Info.class);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", tsk, Info.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
-
-		return "redirect:/customerActivityAddMap";
+		return "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
+	 
 
 	}
 
