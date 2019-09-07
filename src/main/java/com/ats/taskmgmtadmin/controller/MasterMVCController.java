@@ -41,9 +41,13 @@ import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.DateConvertor;
+import com.ats.taskmgmtadmin.common.DateValues;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.PeriodicityDates;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
@@ -66,6 +70,7 @@ import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
+import com.ats.taskmgmtadmin.task.model.TempTaskSave;
 
 @Controller
 @Scope("session")
@@ -174,14 +179,14 @@ public class MasterMVCController {
 				servcId = 0;
 			}
 
-			if(servcId!=0) {
-				
+			if (servcId != 0) {
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("serviceId", servcId);
-				ServiceMaster srvc = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
-						map, ServiceMaster.class);
+				ServiceMaster srvc = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById", map,
+						ServiceMaster.class);
 				service.setExInt1(srvc.getExInt1());// Service Status 1=active, 2=deactive
-			}else {
+			} else {
 				service.setExInt1(1);// Service Status 1=active, 2=deactive
 			}
 			service.setServId(servcId);
@@ -384,14 +389,11 @@ public class MasterMVCController {
 		return mav;
 	}
 
-	
-	
-	
 	@RequestMapping(value = "/activityBackPage", method = RequestMethod.GET)
 	public ModelAndView activityBackPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-			 
+
 			mav = new ModelAndView("master/activityAdd");
 			ActivityMaster activity = new ActivityMaster();
 			mav.addObject("activity", activity);
@@ -424,14 +426,13 @@ public class MasterMVCController {
 
 			mav.addObject("title", "Add Activity");
 
-			 
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
 		}
 		return mav;
 	}
- 
+
 	@RequestMapping(value = "/addNewActivity", method = RequestMethod.POST)
 	public String addServcActvtMaping(HttpServletRequest request, HttpServletResponse response) {
 
@@ -450,17 +451,17 @@ public class MasterMVCController {
 				actId = 0;
 				e.getMessage();
 			}
-			
-			if(actId!=0) {
+
+			if (actId != 0) {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("activityId", actId);
 
 				ActivityMaster actvt = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById",
 						map, ActivityMaster.class);
-				
-				activity.setExInt1(actvt.getExInt1()); //1=active, 0=deactive
-			}else {
-				activity.setExInt1(1); //1=active, 0=deactive
+
+				activity.setExInt1(actvt.getExInt1()); // 1=active, 0=deactive
+			} else {
+				activity.setExInt1(1); // 1=active, 0=deactive
 			}
 
 			activity.setActiId(actId);
@@ -649,8 +650,8 @@ public class MasterMVCController {
 
 				mav = new ModelAndView("master/employeeList");
 
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployeesActiveInactive",
-						EmployeeMaster[].class);
+				EmployeeMaster[] employee = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
 				mav.addObject("imageUrl", Constants.imageViewUrl);
@@ -796,17 +797,17 @@ public class MasterMVCController {
 			employee.setEmpName(request.getParameter("empName"));
 			employee.setEmpNickname(request.getParameter("empNickname"));
 			employee.setEmpDob(request.getParameter("dob"));
-			
-			if(empId!=0) {
+
+			if (empId != 0) {
 				employee.setEmpRoleId(roleId);
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("empId", empId);
 				EmployeeMaster empMst = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
 						map, EmployeeMaster.class);
 				employee.setIsActive(empMst.getIsActive());
-			}else {
-			employee.setEmpRoleId(0);
-			employee.setIsActive(1);
+			} else {
+				employee.setEmpRoleId(0);
+				employee.setIsActive(1);
 			}
 			employee.setEmpMob(request.getParameter("phone"));
 			employee.setEmpEmail(request.getParameter("email"));
@@ -821,7 +822,7 @@ public class MasterMVCController {
 			employee.setExInt2(0);
 			employee.setExVar1("NA");
 			employee.setExVar2("NA");
-			
+
 			System.err.println("employee " + employee.toString());
 			EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 					employee, EmployeeMaster.class);
@@ -853,7 +854,7 @@ public class MasterMVCController {
 				mav = new ModelAndView("master/employeeAdd");
 
 				int empId = Integer.parseInt(request.getParameter("empId"));
-				
+
 				map = new LinkedMultiValueMap<>();
 
 				map.add("empId", empId);
@@ -876,11 +877,10 @@ public class MasterMVCController {
 				System.out.println("srvcMstrList------------" + srvcMstrList);
 				mav.addObject("serviceList", srvcMstrList);
 
-				CreatedRoleList createdRoleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllAccessRole",
-						CreatedRoleList.class);
+				CreatedRoleList createdRoleList = Constants.getRestTemplate()
+						.getForObject(Constants.url + "getAllAccessRole", CreatedRoleList.class);
 				System.out.println("Access List " + createdRoleList.toString());
 				mav.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
-				
 
 				mav.addObject("isEdit", 1);
 
@@ -1281,9 +1281,9 @@ public class MasterMVCController {
 			} catch (Exception e) {
 				e.getMessage();
 			}
-if(custHeadId==0) {
-	cust.setIsActive(1);
-} 
+			if (custHeadId == 0) {
+				cust.setIsActive(1);
+			}
 			int custType = Integer.parseInt(request.getParameter("custType"));
 
 			cust.setCustId(custHeadId);
@@ -1320,7 +1320,7 @@ if(custHeadId==0) {
 
 			cust.setCustDob(request.getParameter("dob"));
 			cust.setDelStatus(1);
-			
+
 			cust.setUpdateDatetime(curDateTime);
 			cust.setUpdateUsername(userId);
 			cust.setExInt1(0);
@@ -1454,8 +1454,8 @@ if(custHeadId==0) {
 			System.err.println("ActMap--------------" + cust.toString());
 			mav.addObject("cust", cust);
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
-					ServiceMaster[].class);
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 
@@ -1476,14 +1476,14 @@ if(custHeadId==0) {
 	}
 
 	List<Task> taskTempList = new ArrayList<Task>();
-
-	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
+	CustmrActivityMap activityMap = new CustmrActivityMap();
+ 	@RequestMapping(value = "/addCustomerActMap", method = RequestMethod.POST)
 	public ModelAndView addCustomerActMap(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		MultiValueMap<String, Object> map = null;
 
 		mav = new ModelAndView("task/taskGenList");
-		List<Task> custActMapList =null;
+		List<Task> custActMapList = null;
 		try {
 
 			HttpSession session = request.getSession();
@@ -1492,7 +1492,7 @@ if(custHeadId==0) {
 
 			int userId = emp.getEmpId();
 
-			CustmrActivityMap activityMap = new CustmrActivityMap();
+	  activityMap = new CustmrActivityMap();
 
 			activityMap.setMappingId(0);
 			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
@@ -1512,46 +1512,108 @@ if(custHeadId==0) {
 			activityMap.setUpdateUsername(userId);
 			activityMap.setActvId(Integer.parseInt(request.getParameter("activity")));
 
- 			Task[] taskArr = Constants.getRestTemplate().postForObject(Constants.url + "/saveTask1", activityMap,
-					Task[].class);
+			// task generation work start
+			int totdays = 0;
+		
+			Date date = Calendar.getInstance().getTime();
+			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
- 			custActMapList  = new ArrayList<Task>(Arrays.asList(taskArr));
-			mav.addObject("taskList", custActMapList);
-			System.out.println("Activity Map---------" + custActMapList.toString());
-///
+			int perId = Integer.parseInt(request.getParameter("periodicityId"));
+
+			map = new LinkedMultiValueMap<>();
+			map.add("activityId", Integer.parseInt(request.getParameter("activity")));
+
+			ActivityMaster actv = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById", map,
+					ActivityMaster.class);
+			System.out.println("Ativity=" + actv);
+			mav.addObject("activity", actv);
+
+			map = new LinkedMultiValueMap<>();
+			map.add("periodicityId", perId);
+
+			DevPeriodicityMaster period = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getDevPerodicityById", map, DevPeriodicityMaster.class);
+			mav.addObject("per", period);
+
+			String strDate = DateConvertor.convertToYMD((request.getParameter("startDate")));
+			System.out.println("Converted String str: " + strDate);
+			String endDate =DateConvertor.convertToYMD((request.getParameter("endDate")));
+			System.out.println("Converted String end: " + endDate);
+			System.out.println("perId: " + perId);
+			List<DateValues> listDate = PeriodicityDates.getDates(strDate, endDate, perId);
+			totdays = listDate.size();
+
 			map = new LinkedMultiValueMap<>();
 
-			map.add("serviceId", custActMapList.get(0).getServId());
-			ServiceMaster service = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById", map,
+			map.add("serviceId", actv.getServId());
+			ServiceMaster servc = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById", map,
 					ServiceMaster.class);
 
-			mav.addObject("service", service);
+			mav.addObject("service", servc);
+
+			for (int i = 0; i < listDate.size(); i++) {
+
+				Task task = new Task();
+				task.setTaskId(i);
+				Date date1 = listDate.get(i).getDate();
+
+				System.out.println("date bef stat**" + dateFormat.format(date1));
+				task.setTaskStatutoryDueDate(PeriodicityDates.addDaysToGivenDate(dateFormat.format(date1),
+						Integer.parseInt(request.getParameter("statutary_endDays"))));
+
+				System.out.println("stat date **" + task.getTaskStatutoryDueDate());
+
+				FinancialYear fin = new FinancialYear();
+				map = new LinkedMultiValueMap<>();
+
+				map.add("statDate", String.valueOf(task.getTaskStatutoryDueDate()));
+				fin = Constants.getRestTemplate().postForObject(Constants.url + "/getFinYearByStatdate", map,
+						FinancialYear.class);
+
+				task.setTaskStartDate(PeriodicityDates.addDaysToGivenDate(task.getTaskStatutoryDueDate(), -30));
+
+				StringBuilder sb1 = new StringBuilder(servc.getServName());
+
+				sb1.append("-").append(actv.getActiName()).append("-").append(listDate.get(i).getValue());
+				// System.out.println("Fin task name" + sb1);
+				task.setTaskId(i);
+				task.setActvId(activityMap.getActvId());
+				task.setCustId(activityMap.getCustId());
+				task.setDelStatus(1);
+				task.setEmpBudHr(String.valueOf(activityMap.getActvEmpBudgHr()));
+				task.setExInt1(0);
+				task.setExInt2(0);
+				task.setExVar1("NA");
+				task.setExVar2("NA");
+				task.setMappingId(0);
+				task.setPeriodicityId(activityMap.getPeriodicityId());
+				task.setIsActive(1);
+
+				task.setMngrBudHr(String.valueOf(activityMap.getActvManBudgHr()));
+				task.setServId(actv.getServId());
+				task.setTaskCode("NA");
+				task.setTaskEmpIds("0");
+				task.setTaskFyId(fin.getFinYearId());
+				// task.setTaskEndDate(dateFormat.format(date));
+				task.setTaskStatus(0);
+				task.setTaskSubline("NA");
+				task.setTaskText(String.valueOf(sb1));
+				task.setUpdateDatetime(Constants.getCurDateTime());
+				task.setUpdateUsername(userId);
+				taskTempList.add(task);
+
+			}
+			mav.addObject("taskList", taskTempList);	
+			System.out.println("taskTempList**" + taskTempList.toString());
+			
+			// task generation work end
 
 			map = new LinkedMultiValueMap<>();
-			map.add("activityId",  custActMapList.get(0).getActvId());
-
-			ActivityMaster activity = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById", map,
-					ActivityMaster.class);
-			System.out.println("Ativity=" + activity);
-			mav.addObject("activity", activity);
-
-			map = new LinkedMultiValueMap<>();
-			map.add("custHeadId",  custActMapList.get(0).getCustId());
+			map.add("custHeadId",activityMap.getCustId());
 
 			CustomerHeaderMaster custHead = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
 			mav.addObject("custHead", custHead);
-			
-			map = new LinkedMultiValueMap<>();
-			map.add("periodicityId",  custActMapList.get(0).getPeriodicityId());
-
-			DevPeriodicityMaster per = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getDevPerodicityById", map, DevPeriodicityMaster.class);
-			mav.addObject("per", per);
-			
-			
-	///		
-			
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -1561,47 +1623,46 @@ if(custHeadId==0) {
 		return mav;
 
 	}
-	
+
 	@RequestMapping(value = "/submitTaskResponse", method = RequestMethod.POST)
 	public String addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
 
-	 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-	 
 
-			HttpSession session = request.getSession();
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-		 
-			try {
-		 
+		HttpSession session = request.getSession();
+		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+		try {
+			TempTaskSave tsk=new TempTaskSave();
+			List<Task> taskFinalList = new ArrayList<Task>();
 			String[] TaskId = request.getParameterValues("TaskId");
 
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < TaskId.length; i++) {
-				sb = sb.append(TaskId[i] + ",");
-
-				System.out.println("task id are**" + TaskId[i]);
-
+				
+				for (int j = 0; j < taskTempList.size(); j++) {
+					if (Integer.parseInt(TaskId[i]) == taskTempList.get(j).getExInt1()) {
+						
+						taskFinalList.add(taskTempList.get(j));
+						
+					}
+				
+				}
+				
 			}
-
-			String items = sb.toString();
-
-			items = items.substring(0, items.length() - 1);
-			System.out.println("items are-------------" + items);
-			map = new LinkedMultiValueMap<>();
-			map.add("items", items);
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", map,
-					Info.class);
-
+			tsk.setCmpList(activityMap);
+			tsk.setTskList(taskFinalList);
 			
+ 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", tsk, Info.class);
+
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		return "redirect:/customerActivityAddMap";
-		
+
 	}
 
 	@RequestMapping(value = "/showCustomerActivityMap", method = RequestMethod.GET)
@@ -1969,32 +2030,29 @@ if(custHeadId==0) {
 
 		return mav;
 	}
-	
-	
+
 	@RequestMapping(value = "/deletCustDetail", method = RequestMethod.GET)
 	public String deletCustDetail(HttpServletRequest request, HttpServletResponse response) {
 		String redirect = null;
 		try {
 			HttpSession session = request.getSession();
 
-			 
-				MultiValueMap<String, Object> map = null;
+			MultiValueMap<String, Object> map = null;
 
-				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-				int userId = emp.getEmpId();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
 
-				int custDetId = Integer.parseInt(request.getParameter("custDetId"));
+			int custDetId = Integer.parseInt(request.getParameter("custDetId"));
 
-				map = new LinkedMultiValueMap<>();
-				map.add("custDetId", custDetId);
- 				map.add("userId", userId);
- 				map.add("curDateTime", Constants.getCurDateTime());
- 				
-				
-				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerDetail", map,
-						Info.class);
-				redirect = "redirect:/customerDetailList";
-			 
+			map = new LinkedMultiValueMap<>();
+			map.add("custDetId", custDetId);
+			map.add("userId", userId);
+			map.add("curDateTime", Constants.getCurDateTime());
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerDetail", map,
+					Info.class);
+			redirect = "redirect:/customerDetailList";
+
 		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
 			e.printStackTrace();

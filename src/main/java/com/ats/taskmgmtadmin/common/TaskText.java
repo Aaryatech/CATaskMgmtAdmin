@@ -13,5 +13,5 @@ public static String taskTex5="Task Disapproved By Manager";
 public static String taskTex6="Task Approved By Manager";
 public static String taskTex7="Task Activated";
 public static String taskTex8="Completed Task Status Updated";
-
+ 
 }
