@@ -333,17 +333,16 @@ public class TaskController {
 		} else {
 
 			mav = new ModelAndView("task/inactiveTaskList");
-			List<Integer> actIntList =null;
-			List<Integer> custIntList=null;
+			List<Integer> actIntList = null;
+			List<Integer> custIntList = null;
 			int servId = 0;
 			StringBuilder sbCust = new StringBuilder();
 			String[] custList = null;
-		
+
 			StringBuilder sbAct = new StringBuilder();
 			String[] actList = null;
 			String itemsCust = null;
 			String itemsAct = null;
-			
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
@@ -357,8 +356,6 @@ public class TaskController {
 			mav.addObject("custList", custHeadList);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			
 
 			try {
 				servId = Integer.parseInt(request.getParameter("service"));
@@ -389,8 +386,7 @@ public class TaskController {
 
 				itemsAct = "0";
 			}
-			  actIntList = Stream.of(itemsAct.split(",")).map(Integer::parseInt)
-					.collect(Collectors.toList());
+			actIntList = Stream.of(itemsAct.split(",")).map(Integer::parseInt).collect(Collectors.toList());
 			mav.addObject("actIntList", actIntList);
 			try {
 				sbCust = new StringBuilder();
@@ -409,8 +405,7 @@ public class TaskController {
 
 			}
 
-			custIntList = Stream.of(itemsCust.split(",")).map(Integer::parseInt)
-					.collect(Collectors.toList());
+			custIntList = Stream.of(itemsCust.split(",")).map(Integer::parseInt).collect(Collectors.toList());
 
 			// Prev
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
@@ -694,7 +689,7 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
-	public String submitUpdatedTask(HttpServletRequest request, HttpServletResponse response) {
+	public String submitUpdatedTask(Model model, HttpServletRequest request, HttpServletResponse response) {
 		String a = null;
 		try {
 			HttpSession session = request.getSession();
@@ -736,8 +731,15 @@ public class TaskController {
 
 					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
 							Info.class);
+					if (temp.isError() == false) {
+						model.addAttribute("successMsg", "Manual Task Added Successfully");
+
+					} else {
+						model.addAttribute("errorMsg", "Failed to Add Manual Task");
+					}
 
 					if (taskType == 1) {
+
 						a = "redirect:/manualTaskList";
 					} else {
 						a = "redirect:/inactiveTaskList";
@@ -957,111 +959,110 @@ public class TaskController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 			// System.out.println("empType is "+emp.getEmpType());
-			 
+
+			try {
+
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				mav.addObject("serviceList", srvcMstrList);
+
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+				mav.addObject("custList", custHeadList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				StringBuilder sbCust = new StringBuilder();
+				String[] custList = null;
+				int servId = 0;
+				StringBuilder sbAct = new StringBuilder();
+				String[] actList = null;
+				String itemsCust = null;
+				String itemsAct = null;
 
 				try {
-
-					ServiceMaster[] srvsMstr = Constants.getRestTemplate()
-							.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
-					List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-					mav.addObject("serviceList", srvcMstrList);
-
-					CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-							.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
-					List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
-
-					mav.addObject("custList", custHeadList);
-
-					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-					StringBuilder sbCust = new StringBuilder();
-					String[] custList = null;
-					int servId = 0;
-					StringBuilder sbAct = new StringBuilder();
-					String[] actList = null;
-					String itemsCust = null;
-					String itemsAct = null;
-
-					try {
-						servId = Integer.parseInt(request.getParameter("service"));
-					} catch (Exception e) {
-
-						servId = 0;
-
-					}
-
-					map = new LinkedMultiValueMap<>();
-					map.add("serviceId", servId);
-
-					ActivityMaster[] activityArr = Constants.getRestTemplate()
-							.postForObject(Constants.url + "/getAllActivitesByServiceId", map, ActivityMaster[].class);
-					List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
-					mav.addObject("activityList", activityList);
-
-					try {
-						sbAct = new StringBuilder();
-						actList = request.getParameterValues("activity");
-						// System.err.println("emp id are " + locId2);
-						for (int j = 0; j < actList.length; j++) {
-							sbAct = sbAct.append(actList[j] + ",");
-						}
-						itemsAct = sbAct.toString();
-						itemsAct = itemsAct.substring(0, itemsAct.length() - 1);
-					} catch (Exception e) {
-
-						itemsAct = "0";
-					}
-					List<Integer> actIntList = Stream.of(itemsAct.split(",")).map(Integer::parseInt)
-							.collect(Collectors.toList());
-					mav.addObject("actIntList", actIntList);
-					try {
-						sbCust = new StringBuilder();
-						custList = request.getParameterValues("customer");
-
-						for (int j = 0; j < custList.length; j++) {
-							sbCust = sbCust.append(custList[j] + ",");
-
-						}
-						itemsCust = sbCust.toString();
-						itemsCust = sbCust.substring(0, itemsCust.length() - 1);
-
-					} catch (Exception e) {
-
-						itemsCust = "0";
-
-					}
-
-					List<Integer> custIntList = Stream.of(itemsCust.split(",")).map(Integer::parseInt)
-							.collect(Collectors.toList());
- 
-					// for dropdown
-					mav.addObject("actIntList", actIntList);
-					mav.addObject("custIdList", custIntList);
-					mav.addObject("servId", servId);
-					
- 					// Prev
-				  map = new LinkedMultiValueMap<>();
-					map.add("stat", 9);
- 					map.add("empId", userId);
-					map.add("itemsAct", itemsAct);
-					map.add("custId", itemsCust);
-					map.add("servId", servId);
-					GetTaskList[] holListArray = Constants.getRestTemplate()
-							.postForObject(Constants.url + "/getAllCompletedTaskList", map, GetTaskList[].class);
-
-					List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
-
-					for (int i = 0; i < taskList.size(); i++) {
-
-						taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
-					}
-					mav.addObject("taskList", taskList);
-					System.out.println("CompletedTakList***" + taskList.toString());
+					servId = Integer.parseInt(request.getParameter("service"));
 				} catch (Exception e) {
-					System.err.println("Exce in addCustomerActMap " + e.getMessage());
-					e.printStackTrace();
+
+					servId = 0;
+
 				}
-			 
+
+				map = new LinkedMultiValueMap<>();
+				map.add("serviceId", servId);
+
+				ActivityMaster[] activityArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllActivitesByServiceId", map, ActivityMaster[].class);
+				List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+				mav.addObject("activityList", activityList);
+
+				try {
+					sbAct = new StringBuilder();
+					actList = request.getParameterValues("activity");
+					// System.err.println("emp id are " + locId2);
+					for (int j = 0; j < actList.length; j++) {
+						sbAct = sbAct.append(actList[j] + ",");
+					}
+					itemsAct = sbAct.toString();
+					itemsAct = itemsAct.substring(0, itemsAct.length() - 1);
+				} catch (Exception e) {
+
+					itemsAct = "0";
+				}
+				List<Integer> actIntList = Stream.of(itemsAct.split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+				mav.addObject("actIntList", actIntList);
+				try {
+					sbCust = new StringBuilder();
+					custList = request.getParameterValues("customer");
+
+					for (int j = 0; j < custList.length; j++) {
+						sbCust = sbCust.append(custList[j] + ",");
+
+					}
+					itemsCust = sbCust.toString();
+					itemsCust = sbCust.substring(0, itemsCust.length() - 1);
+
+				} catch (Exception e) {
+
+					itemsCust = "0";
+
+				}
+
+				List<Integer> custIntList = Stream.of(itemsCust.split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+
+				// for dropdown
+				mav.addObject("actIntList", actIntList);
+				mav.addObject("custIdList", custIntList);
+				mav.addObject("servId", servId);
+
+				// Prev
+				map = new LinkedMultiValueMap<>();
+				map.add("stat", 9);
+				map.add("empId", userId);
+				map.add("itemsAct", itemsAct);
+				map.add("custId", itemsCust);
+				map.add("servId", servId);
+				GetTaskList[] holListArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllCompletedTaskList", map, GetTaskList[].class);
+
+				List<GetTaskList> taskList = new ArrayList<>(Arrays.asList(holListArray));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+				}
+				mav.addObject("taskList", taskList);
+				System.out.println("CompletedTakList***" + taskList.toString());
+			} catch (Exception e) {
+				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				e.printStackTrace();
+			}
+
 		}
 		return mav;
 
