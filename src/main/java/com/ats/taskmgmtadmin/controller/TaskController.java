@@ -833,8 +833,11 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/submitUpdatedTask", method = RequestMethod.POST)
-	public String addManualTask(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Info addManualTask(HttpServletRequest request, HttpServletResponse response) {
+		System.err.println("Hello sachin");
+		Info res=new Info();
 		try {
+		
 			HttpSession session = request.getSession();
 			System.err.println("emp hii");
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
@@ -867,14 +870,14 @@ public class TaskController {
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
 
-			Info inf = Constants.getRestTemplate().postForObject(Constants.url + "/updateEditTsk", map, Info.class);
+			res = Constants.getRestTemplate().postForObject(Constants.url + "/updateEditTsk", map, Info.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());
 			e.printStackTrace();
 		}
 
-		return "redirect:/taskListForEmp";
+		return res;
 
 	}
 

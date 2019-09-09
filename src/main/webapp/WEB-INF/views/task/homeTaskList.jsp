@@ -12,17 +12,15 @@
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
 <style>
-.modal  {
-    position:fixed!important;
-    bottom:0!important;
-     top:auto!important;
-    right:0!important;
-    left:auto!important;
-    margin:0px!important;
-    width:auto!important;
-    height:auto!important;
-    
-    
+.modal {
+	position: fixed !important;
+	bottom: 0 !important;
+	top: auto !important;
+	right: 0 !important;
+	left: auto !important;
+	margin: 0px !important;
+	width: auto !important;
+	height: auto !important;
 }
 </style>
 </head>
@@ -32,6 +30,8 @@
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
+	
+	<c:url value="/submitUpdatedTask" var="submitUpdatedTask"></c:url>
 
 
 	<!-- Main navbar -->
@@ -423,76 +423,76 @@ h5 {
 
 							<div class="modal-body">
 
-								<form action="submitUpdatedTask" method="post">
-
-									<input type="hidden" id="taskId1" name="taskId1" value=0
-										>
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
-											Budgeted Hours : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Manager Budgeted Hours"
-												id="anytime-time1" name="manBudHr" autocomplete="off"
-												>
-										</div>
-
-									</div>
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
-											Budgeted Hours : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Employee Budgeted Hours"
-												id="anytime-time2" name="empBudHr" autocomplete="off"
-											>
-										</div>
-
+								<!-- 								<form action="submitUpdatedTask" method="post">
+ -->
+								<input type="hidden" id="taskId1" name="taskId1" value=0>
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Manager Budgeted Hours"
+											onchange="submitResponse()" id="anytime-time1"
+											name="manBudHr" autocomplete="off">
 									</div>
 
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-6">Work Date : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												placeholder="Enter Work Date" id="workDate" name="workDate"
-												autocomplete="off"  >
-										</div>
-									</div>
-									<div class="form-group row">
-
-										<label class="col-form-label col-lg-6">Statutory Due
-											Date : </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												placeholder="Enter Statutory Due Date" id="dueDate"
-												name="dueDate" autocomplete="off"  >
-										</div>
-
+								</div>
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control"
+											placeholder="Enter Employee Budgeted Hours"
+											onchange="submitResponse()" id="anytime-time2"
+											name="empBudHr" autocomplete="off">
 									</div>
 
-									<div class="form-group row">
+								</div>
 
-										<label class="col-form-label col-lg-6" for="activity">
-											Employee <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<select name="emp" data-placeholder="Select Activity"
-												id="emp" multiple
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-											</select>
-										</div>
 
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6">Work Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											onchange="submitResponse()" placeholder="Enter Work Date"
+											id="workDate" name="workDate" autocomplete="off">
+									</div>
+								</div>
+								<div class="form-group row">
+
+									<label class="col-form-label col-lg-6">Statutory Due
+										Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											onchange="submitResponse()"
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off">
 									</div>
 
-									<div class="modal-footer">
+								</div>
+
+								<div class="form-group row">
+
+									<label class="col-form-label col-lg-6" for="activity">
+										Employee <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-6">
+										<select name="emp" data-placeholder="Select Activity"
+											onchange="submitResponse()" id="emp" multiple
+											class="form-control form-control-select2 select2-hidden-accessible"
+											data-fouc="" aria-hidden="true">
+										</select>
+									</div>
+
+								</div>
+
+								<!-- <div class="modal-footer">
 										<button type="button" class="btn btn-link"
 											data-dismiss="modal">Close</button>
 										<button type="submit" class="btn bg-primary">Save
 											changes</button>
 									</div>
-								</form>
+								</form> -->
 							</div>
 						</div>
 					</div>
@@ -553,7 +553,7 @@ h5 {
 									<th style="background-color: white;">Customer</th>
 									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									<th style="background-color: white;">Task Name</th>
-									 
+
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
@@ -571,11 +571,11 @@ h5 {
 										<%-- data-toggle="modal" data-target="#modal_small" --%>
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
-									 
+
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
-										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr} </td>
+										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
 
 										<%-- <c:if test="${empType==5}">
 											<td>E-${taskList.empBudHr}</td>
@@ -598,18 +598,24 @@ h5 {
 										<!-- <td>0</td> -->
 
 
-									<td id="taskStatus${taskList.taskId}" style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td> 
-										<td align="center"><select name="set_status" onClick1="updateStatus_new(this.value, ${taskList.taskId })"
-											id="set_status${taskList.taskId}" data-id="${taskList.taskId}"  class="form-control  ats_sel_status ">
+										<td id="taskStatus${taskList.taskId}"
+											style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td>
+										<td align="center"><select name="set_status"
+											onClick1="updateStatus_new(this.value, ${taskList.taskId })"
+											id="set_status${taskList.taskId}"
+											data-id="${taskList.taskId}"
+											class="form-control  ats_sel_status ">
 
 												<c:forEach items="${statusList}" var="statusList">
 													<c:choose>
 														<c:when
 															test="${statusList.statusText eq taskList.taskStatus}">
-															<option data-statusColor="${statusList.statusColor}" value="${statusList.statusValue}" selected>${statusList.statusText}</option>
+															<option data-statusColor="${statusList.statusColor}"
+																value="${statusList.statusValue}" selected>${statusList.statusText}</option>
 														</c:when>
 														<c:otherwise>
-															<option data-statusColor="${statusList.statusColor}" value="${statusList.statusValue}">${statusList.statusText}</option>
+															<option data-statusColor="${statusList.statusColor}"
+																value="${statusList.statusValue}">${statusList.statusText}</option>
 														</c:otherwise>
 
 													</c:choose>
@@ -635,14 +641,13 @@ h5 {
 										<%-- <td><span class="badge badge-info"
 											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td> --%>
 
-										<td class="text-center"><a  class="chatmodallink" data-href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
+										<td class="text-center"><a class="chatmodallink"
+											data-href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 											href1="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
 											title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> &nbsp;&nbsp;
-												
-												<a href="#"
+												style="color: green;"></i></a> &nbsp;&nbsp; <a href="#"
 											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
-												class="icon-pencil7"  style="color: black;"
+												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
 								</c:forEach>
@@ -693,7 +698,7 @@ h5 {
 							},
 							function(data) {
 								
-								//alert(JSON.stringify(data));
+								alert(JSON.stringify(data));
 								
 								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
 								document.getElementById("anytime-time2").value=data.task.empBudHr;
@@ -732,10 +737,41 @@ h5 {
 						 });
 			
 		}
+	
+	function submitResponse(){
+		//alert("hii");
+		var empBudHr = document.getElementById("anytime-time1").value;
+			var manBudHr = document.getElementById("anytime-time2").value;
+			var workDate=document.getElementById("workDate").value ;//create this
+			var dueDate=document.getElementById("dueDate").value;//create this
+			var taskId1=document.getElementById("taskId1").value ;
+			var emp=document.getElementById("emp").value ;
+			
+			//alert("data ***"+emp);
+			 
+			
+				$.post('${submitUpdatedTask}', {
+					empBudHr : empBudHr,
+					manBudHr : manBudHr,
+					workDate : workDate,
+					dueDate  : dueDate,
+					taskId1  : taskId1,
+					emp      : emp,
+					ajax : 'true',
+				},
 
+				function(data) {
 
+					if (data.error == false) {
 
+						alert("saved");
+					} else {
+						alert("not saved");
+					}
 
+				});
+		  
+	}
 	
 	function updateStatus_new(statusId, taskId){
 	//alert(statusId+" "+taskId)
@@ -849,7 +885,7 @@ h5 {
 
 
 
-	
+
 
 	<script type="text/javascript">
 		// Single picker
@@ -900,6 +936,10 @@ h5 {
 		form.action=("fliterTaskList");
 		form.submit();
 	}
+	
+	
+	
+	
 	
 	function getActivities(servId) {
 		//alert("servId " +servId)
@@ -1060,13 +1100,15 @@ h5 {
 
 	}
 	
+	
+	
 	function editWorkLog(logId){
 		alert("LogId--"+logId);
 		window.open("${pageContext.request.contextPath}/editWorkLogById?logId="+logId);
 		
 	}
 	</script>
-<script>
+	<script>
 $(document).ready(function(){
 	$('.chatmodallink').click(function(){
 		//alert(1);
@@ -1087,24 +1129,26 @@ $(document).ready(function(){
 		})
 });
 </script>
-  <!-- Modal HTML -->
-    <div id="myModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                  <!--   <h5 class="modal-title">Ajax Loading Demo</h5> -->
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body" id="modalbody">
-                    <!-- Content will be loaded here from "remote.php" file -->Wait...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Modal HTML -->
+	<div id="myModal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!--   <h5 class="modal-title">Ajax Loading Demo</h5> -->
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="modalbody">
+					<!-- Content will be loaded here from "remote.php" file -->
+					Wait...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
