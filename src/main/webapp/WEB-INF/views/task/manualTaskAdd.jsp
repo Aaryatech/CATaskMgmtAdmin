@@ -161,7 +161,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emp"
-												style="display: none;">Please Employee.</span>
+												style="display: none;">Please Select Employee.</span>
 										</div>
 									</div>
 
@@ -196,7 +196,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_cust"
-												style="display: none;">Please select customer </span>
+												style="display: none;">Please Select customer </span>
 										</div>
 									</div>
 
@@ -252,8 +252,8 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_activity"
-												style="display: none;">Please select above service
-												for corresponding activity.</span>
+												style="display: none;">Please Select Above Service
+												for Corresponding Activity.</span>
 										</div>
 
 									</div>
@@ -270,9 +270,9 @@
 												placeholder="Periodicity">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_periodicity"
-												style="display: none;">Please select above activity
-												for corresponding periodicity.</span>
+											<span class="validation-invalid-label" id="error_periodicity1"
+												style="display: none;">Please Select Above Service & Activity
+												for corresponding Periodicity.</span>
 										</div>
 
 									</div>
@@ -294,6 +294,7 @@
 											</select>
 										</div>
 									</div> --%>
+									<c:if test="${isEdit==0}">
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="statutary_endDays">
@@ -312,6 +313,7 @@
 										</div>
 
 									</div>
+									</c:if>
 
 
 									<div class="form-group row">
@@ -364,7 +366,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
-												style="display: none;">Please enter manager budget hours.</span>
+												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
@@ -380,7 +382,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empHrs"
-												style="display: none;">Please enter employee budget hours.</span>
+												style="display: none;">This field is required.</span>
 										</div>
 									</div>
 
@@ -407,8 +409,6 @@
 										</div>
 									</div>
 								</form>
-								<p class="desc text-danger fontsize11">Notice : * Fields
-										are Mandatory.</p>
 							</div>
 						</div>
 
@@ -512,11 +512,11 @@
 
 													isError = true;
 
-													$("#error_periodicity")
+													$("#error_periodicity1")
 															.show()
 
 												} else {
-													$("#error_periodicity")
+													$("#error_periodicity1")
 															.hide()
 												}
 

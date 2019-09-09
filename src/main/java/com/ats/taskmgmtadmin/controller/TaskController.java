@@ -44,6 +44,8 @@ import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.FinancialYear;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.StatusMaster;
+import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
 import com.ats.taskmgmtadmin.task.model.TempForTaskEdit;
@@ -346,12 +348,12 @@ public class TaskController {
 			String itemsAct = null;
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+					.getForObject(Constants.url + "/getAllServices", ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
 
 			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+					.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
 			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 
 			mav.addObject("custList", custHeadList);
@@ -472,10 +474,11 @@ public class TaskController {
 		} else {
 
 			try {
+				
 				mav = new ModelAndView("task/manualTaskAdd");
 				mav.addObject("title", " Add Manual Task");
 				mav.addObject("taskType", 1);
-
+				mav.addObject("isEdit", 0);
 				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
@@ -538,12 +541,14 @@ public class TaskController {
 				mav = new ModelAndView("task/manualTaskAdd");
 
 				mav.addObject("title", " Edit Task");
+				
 
 				String base64encodedString = request.getParameter("taskId");
 				int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
 
 				System.out.println("flag is" + flag);
 				mav.addObject("taskType", flag);
+				mav.addObject("isEdit", 1);
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 				map.add("taskId", taskId);
@@ -732,16 +737,17 @@ public class TaskController {
 
 					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
 							Info.class);
-					if (temp.isError() == false) {
-						model.addAttribute("successMsg", "Manual Task Added Successfully");
-
-					} else {
-						model.addAttribute("errorMsg", "Failed to Add Manual Task");
-					}
+					
 
 					if (taskType == 1) {
 
 						a = "redirect:/manualTaskList";
+						if (temp.isError() == false) {
+							session.setAttribute("successMsg", "Manual Task Added Successfully");
+
+						} else {
+							session.setAttribute("errorMsg", "Failed to Add Manual Task");
+						}
 					} else {
 						a = "redirect:/inactiveTaskList";
 					}
@@ -1179,8 +1185,46 @@ public class TaskController {
 
 		return "redirect:/completedTaskList";
 	}
-
 	
+	
+	
+	@RequestMapping(value = "/taskListForEmpFromDash", method = RequestMethod.GET)
+	public ModelAndView taskListForEmpForm(HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("task/homeTaskList");
+		try {
+					
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			
+			map.add("empId", empSes.getEmpId());
+			map.add("stat", 1);
+			
+			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpIdAndDashCountOverDue",map, TaskListHome[].class);
+			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+			
+			for (int i = 0; i < taskList.size(); i++) {
+
+				taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+				taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+			
+			mav.addObject("taskList", taskList);
+			
+			
+			
+			 
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
 	@RequestMapping(value = "/managerTask", method = RequestMethod.GET)
 	public ModelAndView managerTask(Locale locale, Model model) {
 

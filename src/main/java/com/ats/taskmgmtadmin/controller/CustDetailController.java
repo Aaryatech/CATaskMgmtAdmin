@@ -125,6 +125,22 @@ public class CustDetailController {
 		System.err.println("Exce in " +activityList.toString());
 		return activityList;
 	}
+	
+	@RequestMapping(value = "/getAllActivityByService", method = RequestMethod.GET)
+	public @ResponseBody List<ActivityMaster> getAllActivityByService(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map = new LinkedMultiValueMap<>();
+		map.add("serviceId", Integer.parseInt(request.getParameter("servId")));
+
+		ActivityMaster[] activityArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllActivitesByServiceId", map,
+				ActivityMaster[].class);
+		List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+		System.err.println("Exce in " +activityList.toString());
+		return activityList;
+	}
 
 	// addCustLoginDetail
 	@RequestMapping(value = "/addCustLoginDetail", method = RequestMethod.POST)

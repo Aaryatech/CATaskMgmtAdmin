@@ -77,29 +77,42 @@
 
 					<div class="card-body">
 
-							<c:if test="${errorMsg!=null}">
+							 
+						<%
+							if (session.getAttribute("errorMsg") != null) {
+						%>
 						<div
 							class="alert bg-danger text-white alert-styled-left alert-dismissible">
 							<button type="button" class="close" data-dismiss="alert">
 								<span>×</span>
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
-							${errorMsg}
+							<%
+								session.removeAttribute("errorMsg");
+							%>
 						</div>
-						</c:if>
 
-						 <c:if test="${successMsg!=null}">
-					 
+						<%
+							session.removeAttribute("errorMsg");
+							}
+						%>
+						<%
+							if (session.getAttribute("successMsg") != null) {
+						%>
 						<div
 							class="alert bg-success text-white alert-styled-left alert-dismissible">
 							<button type="button" class="close" data-dismiss="alert">
 								<span>×</span>
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
-							 ${successMsg}
+							<%
+								session.removeAttribute("successMsg");
+							%>
 						</div>
-						</c:if>
-						 
+						<%
+							session.removeAttribute("successMsg");
+							}
+						%>
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">

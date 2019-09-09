@@ -11,7 +11,7 @@
 </head>
 
 <body>
-	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
+	<c:url value="/getAllActivityByService" var="getAllActivityByService"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -323,7 +323,7 @@
 			if (servId > 0) {
 				
 			
-				$.getJSON('${getActivityByService}', {
+				$.getJSON('${getAllActivityByService}', {
 					servId : servId,
 					ajax : 'true',
 				},
