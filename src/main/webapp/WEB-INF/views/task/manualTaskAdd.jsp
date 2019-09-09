@@ -364,7 +364,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter manager budget hours.</span>
 										</div>
 									</div>
 
@@ -380,7 +380,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empHrs"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter employee budget hours.</span>
 										</div>
 									</div>
 
@@ -407,6 +407,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields
+										are Mandatory.</p>
 							</div>
 						</div>
 

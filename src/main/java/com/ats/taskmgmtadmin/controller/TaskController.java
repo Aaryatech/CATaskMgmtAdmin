@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -1179,4 +1180,24 @@ public class TaskController {
 		return "redirect:/completedTaskList";
 	}
 
+	
+	@RequestMapping(value = "/managerTask", method = RequestMethod.GET)
+	public ModelAndView managerTask(Locale locale, Model model) {
+
+		// ModelAndView mav = new ModelAndView("login");
+
+		ModelAndView mav = new ModelAndView("managerTask");
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/employeeTask", method = RequestMethod.GET)
+	public ModelAndView employeeTask(Locale locale, Model model) {
+
+		// ModelAndView mav = new ModelAndView("login");
+
+		ModelAndView mav = new ModelAndView("employeeTask");
+
+		return mav;
+	}
 }

@@ -421,6 +421,7 @@
 										id="printtable1">
 										<thead>
 											<tr class="bg-blue">
+												<th>Sr. No.</th>
 												<th>Activity</th>
 												<th>Customer Name</th>
 												<th>Login</th>
@@ -434,9 +435,10 @@
 										</thead>
 										<tbody>
 
-											<c:forEach items="${custDetailList}" var="custDetail">
+											<c:forEach items="${custDetailList}" var="custDetail" varStatus="count">
 
 												<tr>
+													<td>${count.index+1}</td>
 													<td>${custDetail.actiName}</td>
 													<td>${custDetail.custFirmName}</td>
 													<td>Username : ${custDetail.loginId}<br>Password
@@ -492,7 +494,7 @@
 	<script type="text/javascript">
 function showAddForm(){
 	 var x = document.getElementById("abc");
-	  if (window.getComputedStyle(x).display === "none") {
+	  if (window.getComputedStyle(x).display == "none") {
 		  document.getElementById("abc").style.display="block";
 	  }else {
 		  document.getElementById("abc").style.display="none";
@@ -686,9 +688,14 @@ function hideAddForm(){
 			}//end of if
 		}
 		
-		function showEdit(custDetailId){
+	function showEdit(custDetailId){
+	//alert("call--------"+custDetailId)
+		document.getElementById("custDetailId").value="0";
+		var x = document.getElementById("abc");
+		
+		if (window.getComputedStyle(x).display == "none") {
+		  document.getElementById("abc").style.display="block";
 	
-			 document.getElementById("custDetailId").value="0";
 			$
 			.getJSON(
 					'${getCustLoginDetailByCustDetailId}',
@@ -734,10 +741,58 @@ function hideAddForm(){
 						//$("#activity").val(data.actvId);
 						//alert($("#activity").val());
 					}
-					)
+					);
+	  }else{
+		  $
+			.getJSON(
+					'${getCustLoginDetailByCustDetailId}',
+					{
+						custDetailId : custDetailId,
+						ajax : 'true',
+					},
+
+					function(data) {
+						
+						//alert(JSON.stringify(data));
+						 document.getElementById("custDetailId").value=data.custDetailId;
+						// document.getElementById("service").value=data.servId;
+						// document.getElementById("activity").value=data.actiId;
+						 document.getElementById("username").value=data.loginId;
+						 document.getElementById("password").value=data.loginPass;
+						 document.getElementById("que1").value=data.loginQue1;
+						 document.getElementById("que2").value=data.loginQue2;
+						 document.getElementById("ans1").value=data.loginAns1;
+						 document.getElementById("ans2").value=data.loginAns2;
+						 document.getElementById("remark").value=data.loginRemark;
+						 
+						 document.getElementById("signFName").value=data.signfName;
+						 document.getElementById("signLName").value=data.signlName;
+						 document.getElementById("regNo").value=data.signRegNo;
+						 document.getElementById("desg").value=data.signDesign;
+						 document.getElementById("signMobile").value=data.signPhno;
+						 document.getElementById("contPerName").value=data.contactName;
+						 document.getElementById("contPerEmail").value=data.contactEmail;
+						 document.getElementById("contPerNo").value=data.contactPhno;
+						 document.getElementById("sigremark").value=data.custRemark;
+		
+						 var x=data.servId;
+						$("#service").val(x).change();
+						getActivities(x,data.actvId);
+						//$("#service").val(x);
+						//var html = '<option selected value="' + data.actvId + '">'+ data.actiName+'</option>';
+						//$('#activity').html(html);
+						//$("#activity").trigger("chosen:updated");
+						 
+						 
+						
+						//$("#activity").val(data.actvId);
+						//alert($("#activity").val());
+					}
+					);
+	 		 }
+		
 		}
 	 
-
 	</script>
 
 

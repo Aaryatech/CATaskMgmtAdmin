@@ -86,7 +86,7 @@ public class HomeController<Task> {
 
 		// ModelAndView mav = new ModelAndView("login");
 
-		ModelAndView mav = new ModelAndView("home");
+		ModelAndView mav = new ModelAndView("dashboard");
 
 		return mav;
 	}

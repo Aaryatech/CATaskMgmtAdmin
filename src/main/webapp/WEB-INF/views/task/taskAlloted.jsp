@@ -565,7 +565,7 @@ h5 {
 		var activity = $("#activity").val();		
 		var custId = $("#custId").val();		
 		
-		alert("Dates="+service+"   "+activity+" "+custId+" "+state);
+		//alert("Dates="+service+"   "+activity+" "+custId+" "+state);
 		
 		
 		document.getElementById("service").value=service;
@@ -749,7 +749,7 @@ h5 {
 	}
 	
 	function editWorkLog(logId){
-		alert("LogId--"+logId);
+		//alert("LogId--"+logId);
 		window.open("${pageContext.request.contextPath}/editWorkLogById?logId="+logId);
 		
 	}

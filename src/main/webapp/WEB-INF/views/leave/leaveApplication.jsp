@@ -191,7 +191,7 @@
 									</div>
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="lvngReson">Remark<span
+										<label class="col-form-label col-lg-2" for="lvngReson">Reason<span
 											style="color: red">* </span> :
 										</label>
 										<div class="col-lg-10">
@@ -199,7 +199,7 @@
 												placeholder="Remark" onchange="trim(this)" id="leaveRemark"
 												name="leaveRemark"> </textarea>
 											<span class="validation-invalid-label" id="error_leaveRemark"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter reason for leave.</span>
 										</div>
 									</div>
 									<input type="hidden" class="form-control numbersOnly"
@@ -232,6 +232,8 @@
 
 									</div>
 								</form>
+									<p class="desc text-danger fontsize11">Notice : * Fields
+										are Mandatory.</p>
 							</div>
 						</div>
 
