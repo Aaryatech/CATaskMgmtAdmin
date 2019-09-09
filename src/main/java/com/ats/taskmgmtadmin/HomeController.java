@@ -1,6 +1,7 @@
 package com.ats.taskmgmtadmin;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,11 +35,13 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.TaskText;
+import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.StatusMaster;
+import com.ats.taskmgmtadmin.model.TaskCountByStatus;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 import com.ats.taskmgmtadmin.task.model.Task;
@@ -81,7 +84,7 @@ public class HomeController<Task> {
 	 * return "home"; }
 	 */
 
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public ModelAndView dashboard(Locale locale, Model model) {
 
 		// ModelAndView mav = new ModelAndView("login");
@@ -89,7 +92,7 @@ public class HomeController<Task> {
 		ModelAndView mav = new ModelAndView("dashboard");
 
 		return mav;
-	}
+	}*/
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
@@ -828,5 +831,77 @@ public class HomeController<Task> {
 		}
 
 		return mav;
+	}
+	
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public String dashboard(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = "dashboard";
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empSes.getEmpId());
+			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
+			List<TaskCountByStatus> stswisetaskList = new ArrayList<TaskCountByStatus>(
+					Arrays.asList(taskCountByStatus));
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empSes.getEmpId());
+			map.add("fromDate", sf.format(date));
+			map.add("toDate", sf.format(date));
+			map.add("empType", empSes.getEmpType());
+			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
+			List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
+					Arrays.asList(capacityDetailByEmp));
+
+			model.addAttribute("stswisetaskList", stswisetaskList);
+			model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
+			model.addAttribute("empId", empSes.getEmpId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/getCapacityBuildingDetail", method = RequestMethod.GET)
+	public @ResponseBody List<CapacityDetailByEmp> getCapacityBuildingDetail(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<>();
+
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			String date = request.getParameter("fromDate");
+			String[] dates = date.split(" to ");
+
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empSes.getEmpId());
+			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
+			map.add("toDate", DateConvertor.convertToYMD(dates[1])); 
+			map.add("empType", empSes.getEmpType());
+
+			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
+			capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(Arrays.asList(capacityDetailByEmp));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return capacityDetailByEmpList;
 	}
 }
