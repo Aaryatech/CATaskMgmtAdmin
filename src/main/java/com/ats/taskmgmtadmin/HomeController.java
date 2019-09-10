@@ -377,7 +377,7 @@ public class HomeController<Task> {
 				dashStat = 0;
 				type = 0;
 
-				e.printStackTrace();
+				 
 			}
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
