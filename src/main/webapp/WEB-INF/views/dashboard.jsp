@@ -193,8 +193,7 @@ h5 {
 							</div>
 
 						</div>
-						<input type="hidden"  id="emp_id" name="emp_id"
-							  value="${empId}">
+						<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
 						<div id="loader" style="display: none;">
 							<img
 								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
@@ -294,10 +293,14 @@ h5 {
 											test="${stswisetaskList.overdeu>0 || stswisetaskList.duetoday>0 || stswisetaskList.week>0 || stswisetaskList.month>0}">
 											<tr>
 												<td>${stswisetaskList.statusText}</td>
-												<td>${stswisetaskList.overdeu}</td>
-												<td>${stswisetaskList.duetoday}</td>
-												<td>${stswisetaskList.week}</td>
-												<td>${stswisetaskList.month}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1">${stswisetaskList.overdeu}</a></td>
+												<td><a
+													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2">${stswisetaskList.duetoday}</a></td>
+												<td><a
+													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3">${stswisetaskList.week}</a></td>
+												<td><a
+													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4">${stswisetaskList.month}</a></td>
 											</tr>
 										</c:if>
 									</c:forEach>
