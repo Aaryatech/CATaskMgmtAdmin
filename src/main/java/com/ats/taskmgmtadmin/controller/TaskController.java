@@ -825,6 +825,9 @@ public class TaskController {
 			map.add("taskId", taskId);
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskByTaskIdForEdit1", map,
 					Task.class);
+			task.setEmpBudHr(HoursConversion.convertMinToHours(task.getEmpBudHr()));
+			task.setMngrBudHr(HoursConversion.convertMinToHours(task.getMngrBudHr()));
+			
 			task.setTaskStatutoryDueDate(DateConvertor.convertToDMY(task.getTaskStatutoryDueDate()));
 			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
 					EmployeeMaster[].class);
@@ -875,13 +878,15 @@ public class TaskController {
 
 			String empHr = request.getParameter("empBudHr");
 			String mngHr = request.getParameter("manBudHr");
+			String  mnghr1=HoursConversion.convertHoursToMin(mngHr);
+			String  emphr1=HoursConversion.convertHoursToMin(empHr);
 			String dueDate = request.getParameter("dueDate");
 			String workDate = request.getParameter("workDate");
 			String taskId = request.getParameter("taskId1");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
-			map.add("empHr", empHr);
-			map.add("mngHr", mngHr);
+			map.add("empHr", emphr1);
+			map.add("mngHr", mnghr1);
 			map.add("dueDate", dueDate);
 			map.add("workDate", workDate);
 			map.add("empId", items1);
@@ -1110,6 +1115,8 @@ public class TaskController {
 			map.add("taskId", taskId);
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskByTaskIdForEdit1", map,
 					Task.class);
+			task.setEmpBudHr(HoursConversion.convertMinToHours(task.getEmpBudHr()));
+			task.setMngrBudHr(HoursConversion.convertMinToHours(task.getMngrBudHr()));
 			model.addAttribute("task", task);
 
 		} catch (Exception e) {
