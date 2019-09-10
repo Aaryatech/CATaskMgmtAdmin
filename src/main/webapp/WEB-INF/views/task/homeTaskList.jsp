@@ -698,7 +698,7 @@ h5 {
 							},
 							function(data) {
 								
-								alert(JSON.stringify(data));
+								//alert(JSON.stringify(data));
 								
 								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
 								document.getElementById("anytime-time2").value=data.task.empBudHr;
@@ -1102,7 +1102,7 @@ h5 {
 	
 	
 	function editWorkLog(logId){
-		alert("LogId--"+logId);
+		//alert("LogId--"+logId);
 		window.open("${pageContext.request.contextPath}/editWorkLogById?logId="+logId);
 		
 	}
