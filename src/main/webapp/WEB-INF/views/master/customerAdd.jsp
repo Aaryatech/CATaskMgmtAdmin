@@ -498,6 +498,8 @@
 		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 		});
 	
+	
+	
 	function validatePAN(pan) {
 		 var regex1=/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 		if (regex1.test($.trim(pan)) == false) {
@@ -507,6 +509,18 @@
 		}
 		return true;
 	}
+
+	function validatePIN(pin) {
+		 var regex1=/^[1-9][0-9]{5}$/;
+		if (regex1.test($.trim(pin)) == false) {
+			return false;
+			
+			
+		}
+		return true;
+	}
+	
+	
 	
 		$(document)
 				.ready(
@@ -598,7 +612,9 @@
 													$("#error_city").hide()
 												}
 
-												if (!$("#pincode").val()) {
+												if (!$("#pincode").val() ||  !validatePIN($(
+												"#pincode")
+												.val())) {
 
 													isError = true;
 

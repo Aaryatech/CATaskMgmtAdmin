@@ -574,14 +574,14 @@ public class TaskController {
 				mav.addObject("empIntList", empIntList);
 
 				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+						.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 
 				System.out.println("cust is " + custHeadList.toString());
 				mav.addObject("custList", custHeadList);
 
 				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+						.getForObject(Constants.url + "/getAllServices", ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 				mav.addObject("serviceList", srvcMstrList);
 				map = new LinkedMultiValueMap<>();
@@ -592,7 +592,7 @@ public class TaskController {
 						FinancialYear[].class);
 				List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
 				mav.addObject("fyList", fyList);
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployeesActiveInactive",
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);

@@ -552,7 +552,7 @@
 			var dateToCompare = new Date(year, month - 1, date);
 			var currentDate = new Date();
 			
-			alert(currentDate+''+dateToCompare);
+			//alert(currentDate+''+dateToCompare);
 
 			if (dateToCompare > currentDate || currentDate == dateToCompare) {
 				//alert("Please enter DOB less than Current Date ");

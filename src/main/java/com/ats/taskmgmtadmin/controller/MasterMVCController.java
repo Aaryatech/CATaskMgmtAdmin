@@ -182,12 +182,15 @@ public class MasterMVCController {
 
 			if (servcId != 0) {
 
+			
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("serviceId", servcId);
 				ServiceMaster srvc = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById", map,
 						ServiceMaster.class);
+				System.err.println("Exce in editService "+srvc.getExInt1());
 				service.setExInt1(srvc.getExInt1());// Service Status 1=active, 2=deactive
 			} else {
+				System.err.println("Exce in addService ");
 				service.setExInt1(1);// Service Status 1=active, 2=deactive
 			}
 			service.setServId(servcId);
@@ -196,7 +199,7 @@ public class MasterMVCController {
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
 			service.setUpdateUsername(userId);
-			service.setExInt1(1);
+			
 			service.setExInt2(0);
 			service.setExVar1("NA");
 			service.setExVar2("NA");
@@ -473,8 +476,7 @@ public class MasterMVCController {
 			activity.setDelStatus(1);
 			activity.setUpdateDatetime(curDateTime);
 			activity.setUpdateUsername(userId);
-			activity.setExInt1(1);
-			activity.setExInt2(0);
+ 			activity.setExInt2(0);
 			activity.setExVar1("NA");
 			activity.setExVar2("NA");
 

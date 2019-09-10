@@ -147,10 +147,10 @@
 								<td>${custHeadList.empName}</td>
 
 
-								<td><a
+								<td><c:if test="${custHeadList.isActive==1}"><a
 									href="${pageContext.request.contextPath}/customerActivityAddMap?custId=${custHeadList.exVar1}"
 									title="Map Activity"><i class="icon-add"
-										style="color: black;"></i></a> 
+										style="color: black;"></i></a> </c:if>
 										
 										<a
 									href="${pageContext.request.contextPath}/showCustomerActivityMap?custId=${custHeadList.exVar1}"
