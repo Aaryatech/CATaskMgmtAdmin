@@ -432,7 +432,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Manager Budgeted Hours"
-											onchange="submitResponse()" id="anytime-time1"
+										 id="anytime-time1"
 											name="manBudHr" autocomplete="off">
 									</div>
 
@@ -443,7 +443,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
-											onchange="submitResponse()" id="anytime-time2"
+											  id="anytime-time2"
 											name="empBudHr" autocomplete="off">
 									</div>
 
@@ -454,7 +454,7 @@ h5 {
 									<label class="col-form-label col-lg-6">Work Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											onchange="submitResponse()" placeholder="Enter Work Date"
+											  placeholder="Enter Work Date"
 											id="workDate" name="workDate" autocomplete="off">
 									</div>
 								</div>
@@ -464,7 +464,7 @@ h5 {
 										Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											onchange="submitResponse()"
+											 
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
 									</div>
@@ -478,7 +478,7 @@ h5 {
 									</label>
 									<div class="col-lg-6">
 										<select name="emp" data-placeholder="Select Activity"
-											onchange="submitResponse()" id="emp" multiple
+										 id="emp" multiple
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 										</select>
@@ -764,9 +764,9 @@ h5 {
 
 					if (data.error == false) {
 
-						alert("saved");
+						//alert("saved");
 					} else {
-						alert("not saved");
+						//alert("not saved");
 					}
 
 				});
