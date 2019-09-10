@@ -119,8 +119,8 @@
 											<td>${taskList.taskText}</td>
 											<td>${taskList.taskStartDate}</td>
 											<td>${taskList.taskStatutoryDueDate}</td>
-											<td>${taskList.mngrBudHr}</td>
-											<td>${taskList.empBudHr}</td>
+											<td>${mHr}</td>
+											<td>${eHr}</td>
 											 
 
 

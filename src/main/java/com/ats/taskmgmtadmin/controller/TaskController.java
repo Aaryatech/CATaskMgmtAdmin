@@ -32,6 +32,7 @@ import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
@@ -556,7 +557,16 @@ public class TaskController {
 						Task.class);
 				task.setTaskStatutoryDueDate(DateConvertor.convertToDMY(task.getTaskStatutoryDueDate()));
 				task.setTaskStartDate(DateConvertor.convertToDMY(task.getTaskStartDate()));
+				try {
 				task.setTaskEndDate(DateConvertor.convertToDMY(task.getTaskEndDate()));
+				}catch (Exception e) {
+					task.setTaskEndDate("");
+				}
+				
+				task.setEmpBudHr(HoursConversion.convertMinToHours(task.getEmpBudHr()));
+				task.setMngrBudHr(HoursConversion.convertMinToHours(task.getMngrBudHr()));
+				
+				
 				List<Integer> empIntList = Stream.of(task.getTaskEmpIds().split(",")).map(Integer::parseInt)
 						.collect(Collectors.toList());
 
@@ -701,7 +711,12 @@ public class TaskController {
 			HttpSession session = request.getSession();
 
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-
+			String mnghr=request.getParameter("mgBudgetHr");
+			String emphr=request.getParameter("empBudgetHr");
+			String  mnghr1=HoursConversion.convertHoursToMin(mnghr);
+			String  emphr1=HoursConversion.convertHoursToMin(emphr);
+			System.out.println("mnghr1"+mnghr1);
+			System.out.println("emphr1"+emphr1);
 			int userId = emp.getEmpId();
 			int taskType = Integer.parseInt(request.getParameter("taskType"));
 			CustmrActivityMap activityMapanual = new CustmrActivityMap();
@@ -717,15 +732,18 @@ public class TaskController {
 			int taskId = 0;
 			try {
 				taskId = Integer.parseInt(request.getParameter("taskId"));
+				
+			
+				
 
 				if (taskId != 0) {
 					System.out.println("in task edit");
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+					
 					map.add("taskId", taskId);
 					map.add("items1", items1);
-					map.add("empBudgetHr", Integer.parseInt(request.getParameter("empBudgetHr")));
-					map.add("mgBudgetHr", Integer.parseInt(request.getParameter("mgBudgetHr")));
+					map.add("empBudgetHr", Integer.parseInt(emphr1));
+					map.add("mgBudgetHr", Integer.parseInt(mnghr1));
 					map.add("startDate", request.getParameter("startDate"));
 					map.add("endDate", request.getParameter("endDate"));
 					map.add("customer", Integer.parseInt(request.getParameter("customer")));
@@ -763,10 +781,10 @@ public class TaskController {
 				a = "redirect:/manualTaskList";
 				System.out.println("in task add");
 				activityMapanual.setMappingId(0);
-				activityMapanual.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+				activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
 				activityMapanual.setActvStartDate(request.getParameter("startDate"));
 				activityMapanual.setActvEndDate(request.getParameter("endDate"));
-				activityMapanual.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+				activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
 				activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
 				activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
 				activityMapanual.setDelStatus(1);

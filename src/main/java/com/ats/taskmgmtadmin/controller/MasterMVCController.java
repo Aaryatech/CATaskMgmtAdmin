@@ -47,6 +47,7 @@ import com.ats.taskmgmtadmin.common.DateValues;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.common.PeriodicityDates;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
@@ -1497,10 +1498,10 @@ public class MasterMVCController {
 
 			activityMap.setMappingId(0);
 			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
-			activityMap.setActvEmpBudgHr(Integer.parseInt(request.getParameter("empBudgetHr")));
+			activityMap.setActvEmpBudgHr(Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("empBudgetHr"))));
 			activityMap.setActvStartDate(request.getParameter("startDate"));
 			activityMap.setActvEndDate(request.getParameter("endDate"));
-			activityMap.setActvManBudgHr(Integer.parseInt(request.getParameter("mgBudgetHr")));
+			activityMap.setActvManBudgHr(Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("mgBudgetHr"))));
 			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
 			activityMap.setCustId(Integer.parseInt(request.getParameter("custId")));
 			activityMap.setDelStatus(1);
@@ -1581,7 +1582,7 @@ public class MasterMVCController {
 				task.setActvId(activityMap.getActvId());
 				task.setCustId(activityMap.getCustId());
 				task.setDelStatus(1);
-				task.setEmpBudHr(String.valueOf(activityMap.getActvEmpBudgHr()));
+				task.setEmpBudHr(HoursConversion.convertHoursToMin(request.getParameter("empBudgetHr")));
 				task.setExInt1(0);
 				task.setExInt2(0);
 				task.setExVar1("NA");
@@ -1590,7 +1591,7 @@ public class MasterMVCController {
 				task.setPeriodicityId(activityMap.getPeriodicityId());
 				task.setIsActive(1);
 
-				task.setMngrBudHr(String.valueOf(activityMap.getActvManBudgHr()));
+				task.setMngrBudHr(HoursConversion.convertHoursToMin(request.getParameter("mgBudgetHr")));
 				task.setServId(actv.getServId());
 				task.setTaskCode("NA");
 				task.setTaskEmpIds("0");
@@ -1605,6 +1606,9 @@ public class MasterMVCController {
 
 			}
 			mav.addObject("taskList", taskTempList);
+			mav.addObject("mHr",request.getParameter("mgBudgetHr"));
+			mav.addObject("eHr",request.getParameter("empBudgetHr"));
+			
 			//System.out.println("taskTempList**" + taskTempList.toString());
 
 			// task generation work end

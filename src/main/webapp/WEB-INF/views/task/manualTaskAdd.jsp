@@ -360,7 +360,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
+												placeholder="Enter Manager Budget Hours" id="anytime-time1"
 												value="${task.mngrBudHr}" name="mgBudgetHr"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -369,14 +369,16 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-
+									
+									
+										 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="empHrs">Employee
 											Budget Hours<span style="color: red">* </span> :
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Employee Budget Hours" id="empBudgetHr"
+												placeholder="Enter Employee Budget Hours" id="anytime-time2"
 												value="${task.empBudHr}" name="empBudgetHr"
 												autocomplete="off" onchange="trim(this)">
 										</div>
@@ -443,14 +445,14 @@
 							/(\..*)\./g, '$1');
 				});
 
-		$('#mgBudgetHr').on(
+		$('#anytime-time1').on(
 				'input',
 				function() {
 					this.value = this.value.replace(/[^0-9.]/g, '').replace(
 							/(\..*)\./g, '$1');
 				});
 
-		$('#empBudgetHr').on(
+		$('#anytime-time2').on(
 				'input',
 				function() {
 					this.value = this.value.replace(/[^0-9.]/g, '').replace(
@@ -578,7 +580,7 @@
 															.hide()
 												}
 
-												if (!$("#mgBudgetHr").val()) {
+												if (!$("#anytime-time1").val()) {
 
 													isError = true;
 
@@ -590,7 +592,7 @@
 															.hide()
 												}
 
-												if (!$("#empBudgetHr").val()) {
+												if (!$("#anytime-time2").val()) {
 
 													isError = true;
 
