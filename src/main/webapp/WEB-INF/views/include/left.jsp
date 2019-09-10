@@ -38,6 +38,12 @@
 					class="nav-link active" onclick="selectSubMod(0,0)"> <i
 						class="icon-home4"></i> <span> Dashboard </span>
 				</a></li>
+				
+				<%-- <li class="nav-item"><a
+					href="${pageContext.request.contextPath}/dashboard1"
+					class="nav-link active" onclick="selectSubMod(0,0)"> <i
+						class="icon-home4"></i> <span> Dashboard1 </span>
+				</a></li> --%>
 
 				<li class="nav-item"><a
 					href="${pageContext.request.contextPath}/taskListForEmp"

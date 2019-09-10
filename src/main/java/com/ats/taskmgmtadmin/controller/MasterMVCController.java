@@ -1295,7 +1295,7 @@ public class MasterMVCController {
 			cust.setCustType(custType);
 			if (custType == 1) {
 				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));
-				cust.setCustFirmName("NA");
+				cust.setCustFirmName("");
 			} else {
 				cust.setCustGroupId(0);
 				cust.setCustFirmName(request.getParameter("firmName"));

@@ -1277,4 +1277,127 @@ public class TaskController {
 
 		return mav;
 	}
+	
+	/********************Add Emp Hours**************************/
+	List<GetTaskList> taskList = null;
+	@RequestMapping(value = "/addEmpHrs", method = RequestMethod.GET)
+	public String addEmpHrs(HttpServletRequest request, HttpServletResponse response, Model model) {		
+		String mav = "task/addEmpHrs";
+		
+		try {				
+			
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			model.addAttribute("serviceList", srvcMstrList);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("serviceId", srvcMstrList.get(0).getServId());
+
+			ActivityMaster[] activityArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllEnrolledActivitesByServiceId", map, ActivityMaster[].class);
+			List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+			model.addAttribute("actList", activityList);
+			
+			
+			CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
+			List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+			model.addAttribute("custHeadList", custHeadList);
+			
+			
+			EmployeeMaster[] employee = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
+			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+			model.addAttribute("epmList", epmList);
+			
+			
+		}catch (Exception e) {
+		System.err.println("Exception in addEmpHrs"+e.getMessage());
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/getEmpWorkLogs", method=RequestMethod.GET)
+	public @ResponseBody List<GetTaskList> getEmpWorkLogs( HttpServletRequest request)
+	{
+		int emp = Integer.parseInt(request.getParameter("emp"));
+		int service = Integer.parseInt(request.getParameter("service"));
+		int activity = Integer.parseInt(request.getParameter("activity"));
+		int customer = Integer.parseInt(request.getParameter("customer"));
+		
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("stat", 9);
+		map.add("emp", emp);
+		map.add("service", service);
+		map.add("activity", activity);
+		map.add("customer", customer);
+		
+		GetTaskList[] holListArray = Constants.getRestTemplate()
+				.postForObject(Constants.url + "/getTaskListForWorkLog", map, GetTaskList[].class);
+
+		 taskList = new ArrayList<>(Arrays.asList(holListArray));
+		
+		System.out.println("List Work log-----------"+taskList);
+		return taskList;
+		
+	}
+	
+	/*************Save Emp Hrs***************/
+	@RequestMapping(value = "/addEmpWorkHrs", method = RequestMethod.POST)
+	public String addEmpWorkHrs(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		try {
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			
+			List<DailyWorkLog> workLogList=new ArrayList<DailyWorkLog>();
+			
+			int empId = Integer.parseInt(request.getParameter("employeeId"));
+			for(int i=0;i<taskList.size();i++)
+			{
+				 String taskId=request.getParameter("TaskId"+i);
+					System.err.println(taskId+"taskId");
+	
+				 if(taskId!=null && taskId!="" && taskId.equals(""+taskList.get(i).getTaskId()))
+				 {
+					 
+					 String date=request.getParameter("workdate"+i);
+					 String workHours=request.getParameter("workHr"+i);
+					 
+					 String remark=request.getParameter("remark"+i);
+					 System.out.println("Info----------"+date+" "+workHours+"  "+remark);
+					 DailyWorkLog log = new DailyWorkLog();
+					 
+					 log.setTaskId(taskList.get(i).getTaskId());
+					 log.setWorkHours(Float.parseFloat(workHours));
+					 log.setWorkRemark(remark);
+					 log.setEmpId(empId);
+					 log.setUpdateDatetime(curDateTime);
+					 log.setUpdateUsername(empSes.getEmpId());
+					 log.setExInt1(0);
+					 log.setExInt2(0);
+					 log.setExVar1("NA");
+					 log.setExVar2("NA");
+	                 log.setWorkDate(date);
+	                 log.setDelStatus(1);
+	                 log.setWorkLogId(0);
+	                 
+	                 workLogList.add(log);
+				 }
+			
+			}
+			
+			System.err.println(workLogList+"workLogList");
+				
+			List<DailyWorkLog>  logData = Constants.getRestTemplate().postForObject(Constants.url + "/addEmpWorkLogList",workLogList, List.class);
+		
+		}catch (Exception e) {
+			System.err.println("Exce in newWorkLog " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "task/addEmpHrs";
+		
+	}
 }

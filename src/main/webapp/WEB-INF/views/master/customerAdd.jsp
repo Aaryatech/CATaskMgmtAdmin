@@ -498,8 +498,6 @@
 		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 		});
 	
-	
-	
 	function validatePAN(pan) {
 		 var regex1=/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 		if (regex1.test($.trim(pan)) == false) {
@@ -509,18 +507,6 @@
 		}
 		return true;
 	}
-
-	function validatePIN(pin) {
-		 var regex1=/^[1-9][0-9]{5}$/;
-		if (regex1.test($.trim(pin)) == false) {
-			return false;
-			
-			
-		}
-		return true;
-	}
-	
-	
 	
 		$(document)
 				.ready(
@@ -531,11 +517,12 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
-										var radio = $("#custType").val();
-										//alert("Radio---"+radio);
-											if(radio==0){
+												var radioValue = $("input[name='custType']:checked").val();
+									
+										//alert("radioValue---"+radioValue);
+											if(radioValue==0){
 												if (!$("#firmName").val()) {
-
+/
 													isError = true;
 
 													$("#error_firmName").show()
@@ -546,7 +533,7 @@
 											}
 											
 											if (!$("#assesseeName").val()) {
-
+										
 												isError = true;
 
 												$("#error_assesseName").show()
@@ -558,7 +545,7 @@
 														|| !validatePAN($(
 														"#panNo")
 														.val())) {
-
+													
 													isError = true;
 
 													$("#error_panNo").show()
@@ -573,6 +560,7 @@
 																.val())) {
 
 													isError = true;
+													
 
 													$("#error_emailId").show()
 
@@ -585,7 +573,7 @@
 																"#phone").val())) {
 
 													isError = true;
-
+													
 													$("#error_phone").show()
 
 												} else {
@@ -603,7 +591,7 @@
 												}
 
 												if (!$("#city").val()) {
-
+													
 													isError = true;
 
 													$("#error_city").show()
@@ -612,10 +600,8 @@
 													$("#error_city").hide()
 												}
 
-												if (!$("#pincode").val() ||  !validatePIN($(
-												"#pincode")
-												.val())) {
-
+												if (!$("#pincode").val()) {
+													
 													isError = true;
 
 													$("#error_pincode").show()
@@ -625,7 +611,7 @@
 												}
 
 												if (!$("#dob").val() ||  !checkDOB($("#dob").val())) {
-
+													
 													isError = true;
 
 													$("#error_dob").show()
@@ -647,9 +633,6 @@
 												return false;
 											});
 						});
-		//
-		
-		
 		
 		function checkDOB(dateEntered) {
 		//	alert("hii"+dateEntered);
@@ -702,7 +685,8 @@ function showDiv(typdId){
 			
 			document.getElementById("ihide").style = "visible"
 			document.getElementById("hideFirm").style = "display:none"
-				document.getElementById("firmName").value = "NA";
+				document.getElementById("firmName").value = "";
+			//document.getElementById("firmName").setAttribute("required", false);
 				
 		} else if (typdId == 0) {
 			document.getElementById("ihide").style = "display:none"

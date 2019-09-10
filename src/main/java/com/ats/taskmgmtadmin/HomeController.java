@@ -1023,4 +1023,12 @@ public class HomeController<Task> {
 
 		return stswisetaskList;
 	}
+	
+	@RequestMapping(value = "/dashboard1", method = RequestMethod.GET)
+	public String dashboard1(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = "dashboard1";
+		return mav;
+	}
 }
