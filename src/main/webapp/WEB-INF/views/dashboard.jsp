@@ -24,6 +24,8 @@
 	href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900"
 	rel="stylesheet" type="text/css">
 <c:url var="getCapacityBuildingDetail" value="getCapacityBuildingDetail" />
+<c:url var="getTaskStatusbreakdownList"
+	value="getTaskStatusbreakdownList" />
 </head>
 
 <body>
@@ -270,8 +272,44 @@ h5 {
 
 					</div>
 					<div class="card-body">
+						<c:if test="${empSes.empType!=5}">
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="fromDate">Select
+									Employee <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-3">
+									<select name="membrId" id="membrId"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+										<c:forEach items="${empList}" var="empList">
+											<c:choose>
+												<c:when test="${empList.empId==empId}">
+													<option value="${empList.empId}" selected>${empList.empName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${empList.empId}">${empList.empName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+
+									</select>
+								</div>
+
+								<div class="col-lg-3">
+									<button type="button" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn" onclick="getTaskStatusbreakdownList()">Search</button>
+								</div>
+
+							</div>
+						</c:if>
+						<div id="loader1" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
 						<div class="table-responsive">
-							<table class="table text-nowrap">
+							<table class="table text-nowrap" id="breakdownTab">
 								<thead>
 									<tr>
 										<th style="background-color: white; width: 300px">Status
@@ -293,14 +331,42 @@ h5 {
 											test="${stswisetaskList.overdeu>0 || stswisetaskList.duetoday>0 || stswisetaskList.week>0 || stswisetaskList.month>0}">
 											<tr>
 												<td>${stswisetaskList.statusText}</td>
-												<td><a
-													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1">${stswisetaskList.overdeu}</a></td>
-												<td><a
-													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2">${stswisetaskList.duetoday}</a></td>
-												<td><a
-													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3">${stswisetaskList.week}</a></td>
-												<td><a
-													href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4">${stswisetaskList.month}</a></td>
+												<td><c:choose>
+														<c:when test="${stswisetaskList.overdeu>0}">
+															<a
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1">${stswisetaskList.overdeu}</a>
+														</c:when>
+														<c:otherwise>
+																	${stswisetaskList.overdeu}
+														</c:otherwise>
+													</c:choose></td>
+												<td><c:choose>
+														<c:when test="${stswisetaskList.duetoday>0}">
+															<a
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2">${stswisetaskList.duetoday}</a>
+														</c:when>
+														<c:otherwise>
+																	${stswisetaskList.duetoday}
+														</c:otherwise>
+													</c:choose></td>
+												<td><c:choose>
+														<c:when test="${stswisetaskList.week>0}">
+															<a
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3">${stswisetaskList.week}</a>
+														</c:when>
+														<c:otherwise>
+																	${stswisetaskList.week}
+														</c:otherwise>
+													</c:choose></td>
+												<td><c:choose>
+														<c:when test="${stswisetaskList.month>0}">
+															<a
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4">${stswisetaskList.month}</a>
+														</c:when>
+														<c:otherwise>
+																	${stswisetaskList.month}
+														</c:otherwise>
+													</c:choose></td>
 											</tr>
 										</c:if>
 									</c:forEach>
@@ -359,6 +425,109 @@ h5 {
 		});
 	</script>
 	<script type="text/javascript">
+		function getTaskStatusbreakdownList() {
+
+			//alert("Hi View Orders  ");
+
+			var membrId = document.getElementById("membrId").value;
+
+			$("#loader1").show();
+
+			$
+					.getJSON(
+							'${getTaskStatusbreakdownList}',
+							{
+								membrId : membrId,
+								ajax : 'true',
+							},
+
+							function(data) {
+								$("#breakdownTab tbody").empty();
+
+								$
+										.each(
+												data,
+												function(i, v) {
+
+													if (v.overdeu > 0
+															|| v.duetoday > 0
+															|| v.week > 0
+															|| v.month > 0) {
+
+														var overdeu;
+														var duetoday;
+														var week;
+														var month;
+
+														if (v.overdeu > 0) {
+															overdeu = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
+																	+ v.statusValue
+																	+ '&type=1">'
+																	+ v.overdeu
+																	+ '</a>';
+														} else {
+															overdeu = v.overdeu;
+														}
+														 
+														if (v.duetoday > 0) {
+															duetoday = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
+																	+ v.statusValue
+																	+ '&type=2">'
+															v.duetoday + '</a>';
+														} else {
+															duetoday = v.duetoday;
+														}
+
+														if (v.week > 0) {
+															week = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
+																	+ v.statusValue
+																	+ '&type=3">'
+																	+ v.week
+																	+ '</a>';
+														} else {
+															week = v.week;
+														}
+
+														if (v.month > 0) {
+															month = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
+																	+ v.statusValue
+																	+ '&type=4">'
+																	+ v.month
+																	+ '</a>';
+														} else {
+															month = v.month;
+														}
+
+														var tr_data = '<tr>'
+																+ '<td  >'
+																+ v.statusText
+																+ '</td>'
+																+ '<td  >'
+																+ overdeu
+																+ '</td>'
+																+ '<td  >'
+																+ duetoday
+																+ '</td>'
+																+ '<td  >'
+																+ week
+																+ '</td>'
+																+ '<td  >'
+																+ month
+																+ '</td>'
+																+ '</tr>';
+														$(
+																'#breakdownTab'
+																		+ ' tbody')
+																.append(tr_data);
+													}
+												});
+
+								$("#loader1").hide();
+
+							});
+
+		}
+
 		function show() {
 
 			//alert("Hi View Orders  ");
@@ -378,29 +547,6 @@ h5 {
 
 							function(data) {
 								$("#capTable tbody").empty();
-								/* $
-										.each(
-												data,
-												function(i, v) {
-
-													var per = (v.actWork / v.allWork) * 100
-													var str = '<div class="progress rounded-round"> <div class="progress-bar bg-success" style="width: '
-															+ per
-															+ '%">'
-															+ '<span>'
-															+ per
-															+ '% Complete</span> </div> </div>'
-
-													dataTable.row
-															.add(
-																	[
-																			v.empName,
-																			v.bugetedCap,
-																			v.allWork,
-																			v.actWork,
-																			str ])
-															.draw();
-												}); */
 
 								$
 										.each(

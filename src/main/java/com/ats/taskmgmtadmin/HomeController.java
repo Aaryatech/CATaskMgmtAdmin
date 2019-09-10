@@ -37,6 +37,7 @@ import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
+import com.ats.taskmgmtadmin.model.EmpListForDashboard;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.StatusMaster;
@@ -929,6 +930,7 @@ public class HomeController<Task> {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empSes.getEmpId());
 			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
@@ -938,12 +940,12 @@ public class HomeController<Task> {
 
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-
+ 
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empSes.getEmpId());
 			map.add("fromDate", sf.format(date));
 			map.add("toDate", sf.format(date));
-			map.add("empType", empSes.getEmpType());
+			map.add("empType", empSes.getEmpType()); 
 			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
 			List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
@@ -952,6 +954,14 @@ public class HomeController<Task> {
 			model.addAttribute("stswisetaskList", stswisetaskList);
 			model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
 			model.addAttribute("empId", empSes.getEmpId());
+			model.addAttribute("empSes", empSes);
+			
+			 if(empSes.getEmpType()!=5) {
+				 EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
+				 model.addAttribute("empList", empListForDashboard);
+			 }
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -989,5 +999,28 @@ public class HomeController<Task> {
 		}
 
 		return capacityDetailByEmpList;
+	}
+	
+	@RequestMapping(value = "/getTaskStatusbreakdownList", method = RequestMethod.GET)
+	public @ResponseBody List<TaskCountByStatus> getTaskStatusbreakdownList(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		List<TaskCountByStatus> stswisetaskList = new ArrayList<>();
+
+		try {
+
+			int empId = Integer.parseInt(request.getParameter("membrId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
+			 stswisetaskList = new ArrayList<TaskCountByStatus>(
+					Arrays.asList(taskCountByStatus));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return stswisetaskList;
 	}
 }
