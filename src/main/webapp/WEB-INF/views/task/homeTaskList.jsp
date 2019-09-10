@@ -432,7 +432,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Manager Budgeted Hours"
-										 id="anytime-time1"
+										 id="anytime-time1" onchange="submitResponse(1)"
 											name="manBudHr" autocomplete="off">
 									</div>
 
@@ -443,7 +443,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
-											  id="anytime-time2"
+											  id="anytime-time2" onchange="submitResponse()"
 											name="empBudHr" autocomplete="off">
 									</div>
 
@@ -454,7 +454,7 @@ h5 {
 									<label class="col-form-label col-lg-6">Work Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											  placeholder="Enter Work Date"
+											  placeholder="Enter Work Date" onchange="submitResponse()"
 											id="workDate" name="workDate" autocomplete="off">
 									</div>
 								</div>
@@ -463,7 +463,7 @@ h5 {
 									<label class="col-form-label col-lg-6">Statutory Due
 										Date : </label>
 									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass"
+										<input type="text" class="form-control datepickerclass" onchange="submitResponse()"
 											 
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
@@ -477,7 +477,7 @@ h5 {
 										Employee <span style="color: red">* </span>:
 									</label>
 									<div class="col-lg-6">
-										<select name="emp" data-placeholder="Select Activity"
+										<select name="emp" data-placeholder="Select Activity" onchange="submitResponse()"
 										 id="emp" multiple
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
@@ -738,8 +738,8 @@ h5 {
 			
 		}
 	
-	function submitResponse(){
-		//alert("hii");
+	function submitResponse(flag){
+		
 		var empBudHr = document.getElementById("anytime-time1").value;
 			var manBudHr = document.getElementById("anytime-time2").value;
 			var workDate=document.getElementById("workDate").value ;//create this
@@ -748,7 +748,7 @@ h5 {
 			var emp=document.getElementById("emp").value ;
 			
 			//alert("data ***"+emp);
-			 
+			 if(flag==1){
 			
 				$.post('${submitUpdatedTask}', {
 					empBudHr : empBudHr,
@@ -770,6 +770,7 @@ h5 {
 					}
 
 				});
+	}
 		  
 	}
 	

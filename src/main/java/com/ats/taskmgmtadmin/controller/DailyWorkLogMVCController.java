@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.DailyWorkLog;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
@@ -86,7 +87,8 @@ public class DailyWorkLogMVCController {
 			
 				DailyWorkLog workLog = new DailyWorkLog();
 				String hrs = request.getParameter("workHour");
-				String workHrs = hrs.replace(":", ".");
+				String  mnghr1=HoursConversion.convertHoursToMin(hrs);
+				 
 				workLog.setDelStatus(1);
 				workLog.setEmpId(empSes.getEmpId());
 				workLog.setExInt1(0);
@@ -97,7 +99,7 @@ public class DailyWorkLogMVCController {
 				workLog.setUpdateDatetime(curDateTime);
 				workLog.setUpdateUsername(empSes.getEmpId());
 				workLog.setWorkDate(request.getParameter("workDate"));
-				workLog.setWorkHours(Float.parseFloat(workHrs));
+				workLog.setWorkHours(Float.parseFloat(mnghr1));
 				workLog.setWorkLogId(logId);
 				workLog.setWorkRemark(request.getParameter("remark"));
 				
@@ -129,7 +131,8 @@ public class DailyWorkLogMVCController {
 			DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
 					DailyWorkLog[].class);
 			 logList = new ArrayList<>(Arrays.asList(logArr));
-			
+			 
+			 
 			 System.out.println("Log List----------"+logList.toString());
 			/*
 			 * for (int i = 0; i < logList.size(); i++) {
