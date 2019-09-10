@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,8 +44,10 @@ import com.ats.taskmgmtadmin.model.TaskCountByStatus;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.model.custdetail.GetCustSignatory;
 import com.ats.taskmgmtadmin.task.model.Task;
+
 /**
  * Handles requests for the application home page.
+ * 
  * @param <Task>
  */
 
@@ -84,15 +85,16 @@ public class HomeController<Task> {
 	 * return "home"; }
 	 */
 
-	/*@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-	public ModelAndView dashboard(Locale locale, Model model) {
-
-		// ModelAndView mav = new ModelAndView("login");
-
-		ModelAndView mav = new ModelAndView("dashboard");
-
-		return mav;
-	}*/
+	/*
+	 * @RequestMapping(value = "/dashboard", method = RequestMethod.GET) public
+	 * ModelAndView dashboard(Locale locale, Model model) {
+	 * 
+	 * // ModelAndView mav = new ModelAndView("login");
+	 * 
+	 * ModelAndView mav = new ModelAndView("dashboard");
+	 * 
+	 * return mav; }
+	 */
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
@@ -200,47 +202,43 @@ public class HomeController<Task> {
 			if (empLogin == null) {
 				mav = "loginDemo";
 				System.err.println("Login failed");
-				 
+
 				model.addAttribute("errorPassMsg", "Invalid Login Credentials");
 			} else {
-				System.err.println("Successful Login******"+empLogin.getExInt1());
+				System.err.println("Successful Login******" + empLogin.getExInt1());
 
-				
-				if(empLogin.getExInt1()!=0) {
+				if (empLogin.getExInt1() != 0) {
 					System.err.println("already login ");
-				mav = "redirect:/dashboard";
-			
-				session = request.getSession();
+					mav = "redirect:/dashboard";
 
-				session.setAttribute("empLogin", empLogin);
-				
-				session.setAttribute("imageUrl", Constants.imageViewUrl+empLogin.getEmpPic());
-				map = new LinkedMultiValueMap<String, Object>();
-				map.add("roleId", empLogin.getEmpRoleId());
-		
-				try {
-					ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
-					};
-					ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
-							Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map),
-							typeRef);
+					session = request.getSession();
 
-					List<ModuleJson> newModuleList = responseEntity.getBody();
+					session.setAttribute("empLogin", empLogin);
 
-					session.setAttribute("newModuleList", newModuleList);
-					
-			}catch (Exception e) {
-				System.err.println("Access Right get Exception  " +e.getMessage());
-			}
+					session.setAttribute("imageUrl", Constants.imageViewUrl + empLogin.getEmpPic());
+					map = new LinkedMultiValueMap<String, Object>();
+					map.add("roleId", empLogin.getEmpRoleId());
 
-				}
-				else {
+					try {
+						ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+						};
+						ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(
+								Constants.url + "getRoleJsonByRoleId", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+						List<ModuleJson> newModuleList = responseEntity.getBody();
+
+						session.setAttribute("newModuleList", newModuleList);
+
+					} catch (Exception e) {
+						System.err.println("Access Right get Exception  " + e.getMessage());
+					}
+
+				} else {
 					System.err.println("1st login ");
-					//mav="changePassword";
+					// mav="changePassword";
 					session.setAttribute("userId", empLogin.getEmpId());
 					mav = "redirect:/chngPassword";
-					
-					
+
 				}
 			}
 		} catch (Exception e) {
@@ -252,7 +250,6 @@ public class HomeController<Task> {
 
 		return mav;
 	}
-	
 
 	@RequestMapping(value = "/chngPassword", method = RequestMethod.GET)
 	public ModelAndView chngPassword(Locale locale, Model model) {
@@ -263,30 +260,29 @@ public class HomeController<Task> {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/chngNewPassword", method = RequestMethod.POST)
 	public String changePassForm(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Got me");
-		
- 
+
 		try {
 			HttpSession session = request.getSession();
 			String password = request.getParameter("newPasssword");
 			int userId = (int) session.getAttribute("userId");
-			System.out.println("Password Found"+password+"  "+userId);
-			
+			System.out.println("Password Found" + password + "  " + userId);
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("password", password);
 			map.add("userId", userId);
 
 			Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "/changePass", map, Info.class);
-		
+
 			session.invalidate();
 
 		} catch (Exception e) {
 
 			System.err.println("exception In chngNewPassword at Home Contr" + e.getMessage());
-			
+
 			e.printStackTrace();
 			HttpSession session = request.getSession();
 			session.invalidate();
@@ -358,80 +354,159 @@ public class HomeController<Task> {
 	 * return mav; }
 	 */
 
-	
-
-
 	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
-	public ModelAndView taskListForEmpForm(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
+	public ModelAndView taskListForEmpForm(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
+
+		List<TaskListHome> taskList = new ArrayList<TaskListHome>();
 
 		ModelAndView mav = new ModelAndView("task/homeTaskList");
 		try {
-					
+
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
-			map.add("empId", empSes.getEmpId());
-			map.add("statusIds", Constants.statusIds);
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
-			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
-			for (int i = 0; i < taskList.size(); i++) {
+			int dashStat = 0;
+			int type = 0;
 
-				taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
-				taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+			try {
+				dashStat = Integer.parseInt(request.getParameter("stat"));
+				type = Integer.parseInt(request.getParameter("type"));
+
+			} catch (Exception e) {
+				dashStat = 0;
+				type = 0;
+
+				e.printStackTrace();
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			// dash
+
+			if (dashStat != 0 && type == 1) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountOverDue", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
 				}
-			
+
+			} else if (dashStat != 0 && type == 2) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueToday", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else if (dashStat != 0 && type == 3) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueWeek", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else if (dashStat != 0 && type == 4) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueMonth", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("statusIds", Constants.statusIds);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTaskListByEmpId", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			}
+
 			mav.addObject("taskList", taskList);
-			System.err.println("taskList-----"+taskList.toString());
-			
+			System.err.println("taskList-----" + taskList.toString());
+
+			// dash
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
+			// System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
-	public ModelAndView fliterTaskList(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
+	public ModelAndView fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/homeTaskList");
 		try {
-			
+
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
-			
-			
+
 			String[] dates = fromDate.split("to");
-			System.err.println("Data---------"+dates[0]+"   "+dates[1]);
+			System.err.println("Data---------" + dates[0] + "   " + dates[1]);
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
+
 			map.add("empId", empSes.getEmpId());
 			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
@@ -439,36 +514,37 @@ public class HomeController<Task> {
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
 			map.add("statusIds", Constants.statusIds);
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByFilters",map, TaskListHome[].class);
+
+			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListByFilters",
+					map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			System.out.println("taskList-----------"+taskList);
+			System.out.println("taskList-----------" + taskList);
 			mav.addObject("taskList", taskList);
-			
-			
+
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			System.err.println("Exce in fliterTaskList  " + e.getMessage());
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
 	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
 		int subModId = Integer.parseInt(request.getParameter("subModId"));
@@ -483,20 +559,21 @@ public class HomeController<Task> {
 		session.removeAttribute("exportExcelList");
 	}
 
-	@RequestMapping(value = "/getTaskById", method=RequestMethod.GET)
+	@RequestMapping(value = "/getTaskById", method = RequestMethod.GET)
 	public @ResponseBody TaskListHome getTaskById(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		try {
-			
-		}catch (Exception e) {
-			System.err.println("Exception in getTaskById : "+e.getMessage());
+
+		} catch (Exception e) {
+			System.err.println("Exception in getTaskById : " + e.getMessage());
 		}
 		return null;
-		
+
 	}
-	
-	@RequestMapping(value = "/updateTaskStatusByTaskId", method=RequestMethod.GET)
-	public @ResponseBody Info updateTaskStatusByTaskId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+	@RequestMapping(value = "/updateTaskStatusByTaskId", method = RequestMethod.GET)
+	public @ResponseBody Info updateTaskStatusByTaskId(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 		Info info = new Info();
 		List<TaskListHome> taskList = null;
 		HttpSession session1 = request.getSession();
@@ -506,62 +583,61 @@ public class HomeController<Task> {
 		try {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
-			System.out.println("status-------------"+statusId+" "+taskId);
+			System.out.println("status-------------" + statusId + " " + taskId);
 			MultiValueMap<String, Object> map = null;
-			
+
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
 			map.add("statusVal", statusId);
- 			map.add("userId", userId);
+			map.add("userId", userId);
 			map.add("curDateTime", Constants.getCurDateTime());
 
-			
-			info = Constants.getRestTemplate().postForObject(Constants.url+"/updateStatusByTaskId",map, Info.class);			
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
-			if(info!=null) {
+			if (info != null) {
 				FormValidation.updateTaskLog(TaskText.taskTex3, userId, taskId);
 
 			}
-			
-			
-			
-			
-			
-			//EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			
-			//map = new LinkedMultiValueMap<>();
-			//map.add("empId", empSes.getEmpId());
-			//map.add("statusIds", Constants.statusIds);
-			
-			//TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map, TaskListHome[].class);
-			//taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
-		}catch (Exception e) {
-			System.err.println("Exception in updateTaskStatusByTaskId : "+e.getMessage());
+
+			// EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+
+			// map = new LinkedMultiValueMap<>();
+			// map.add("empId", empSes.getEmpId());
+			// map.add("statusIds", Constants.statusIds);
+
+			// TaskListHome[] taskArr =
+			// Constants.getRestTemplate().postForObject(Constants.url+"/getTaskListByEmpId",map,
+			// TaskListHome[].class);
+			// taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+		} catch (Exception e) {
+			System.err.println("Exception in updateTaskStatusByTaskId : " + e.getMessage());
 		}
-		
+
 		return info;
-		
+
 	}
-	
-	/*********************************System Generated Status**********************************/
-	
+
+	/*********************************
+	 * System Generated Status
+	 **********************************/
+
 	@RequestMapping(value = "/unallotedTask", method = RequestMethod.GET)
-	public ModelAndView unallotedTask(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
+	public ModelAndView unallotedTask(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/taskAlloted");
 		try {
-					
+
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url+"/getTaskAlloted", TaskListHome[].class);
+
+			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url + "/getTaskAlloted",
+					TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
+
 			/*
 			 * for (int i = 0; i < taskList.size(); i++) {
 			 * 
@@ -570,54 +646,56 @@ public class HomeController<Task> {
 			 * taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.
 			 * getEmpId()))); }
 			 */
-			
+
 			mav.addObject("taskList", taskList);
-			
+
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
+			// System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
+
 			mav.addObject("sysState", 1);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/fliterUnAllotedTaskList", method = RequestMethod.POST)
-	public ModelAndView unallotedFilterTask(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
+	public ModelAndView unallotedFilterTask(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/taskAlloted");
 		try {
-					
+
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			mav.addObject("empType", empSes.getEmpType());			
-			
+			mav.addObject("empType", empSes.getEmpType());
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
+
 			map.add("service", Integer.parseInt(request.getParameter("service")));
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getFilteredTaskUnalloted",map, TaskListHome[].class);
+
+			TaskListHome[] taskArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getFilteredTaskUnalloted", map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
+
 			/*
 			 * for (int i = 0; i < taskList.size(); i++) {
 			 * 
@@ -626,213 +704,221 @@ public class HomeController<Task> {
 			 * taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.
 			 * getEmpId()))); }
 			 */
-			
+
 			mav.addObject("taskList", taskList);
-			
+
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
+			// System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
+
 			mav.addObject("sysState", 1);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/critical", method = RequestMethod.GET)
-	public ModelAndView critical(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+	public ModelAndView critical(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/taskAlloted");
 		try {
-					
+
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCriticalTask", TaskListHome[].class);
+
+			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCriticalTask",
+					TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
+
 			mav.addObject("taskList", taskList);
-			
+
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
+			// System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
+
 			mav.addObject("sysState", 2);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/fliterCriticalTaskList", method = RequestMethod.POST)
-	public ModelAndView fliterCriticalTaskList(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
+	public ModelAndView fliterCriticalTaskList(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 
 		ModelAndView mav = new ModelAndView("task/taskAlloted");
 		try {
-					
-			session = request.getSession();
-			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			mav.addObject("empType", empSes.getEmpType());			
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
-			map.add("service", Integer.parseInt(request.getParameter("service")));
-			map.add("activity", Integer.parseInt(request.getParameter("activity")));
-			map.add("custId", Integer.parseInt(request.getParameter("custId")));
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getFilteredCriticalTask",map, TaskListHome[].class);
-			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
-			mav.addObject("taskList", taskList);
-			
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
-			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
-			mav.addObject("custGrpList", custGrpList);
-			
-			map = new LinkedMultiValueMap<String, Object>();
-			map.add("empType", empSes.getEmpId());
-			StatusMaster[] statusMstr = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
-			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
-			mav.addObject("statusList", statusList);
-			
-			mav.addObject("sysState", 2);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		return mav;
-	}
-	
-	
-	@RequestMapping(value = "/overdue", method = RequestMethod.GET)
-	public ModelAndView overdue(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
-
-		ModelAndView mav = new ModelAndView("task/taskAlloted");
-		try {
-					
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url+"/getOverdueTask", TaskListHome[].class);
-			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
-			mav.addObject("taskList", taskList);
-			
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
-					ServiceMaster[].class);
-			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
-			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
-			mav.addObject("custGrpList", custGrpList);
-			
-			map = new LinkedMultiValueMap<String, Object>();
-			map.add("empType", empSes.getEmpId());
-			StatusMaster[] statusMstr = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
-			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
-			mav.addObject("statusList", statusList);
-			
-			mav.addObject("sysState", 3);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		return mav;
-	}
-	
-	@RequestMapping(value = "/fliterOverdueTaskList", method = RequestMethod.POST)
-	public ModelAndView fliterOverdueTaskList(HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
-
-		ModelAndView mav = new ModelAndView("task/taskAlloted");
-		try {
-					
-			session = request.getSession();
-			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			mav.addObject("empType", empSes.getEmpType());			
-			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			
+
 			map.add("service", Integer.parseInt(request.getParameter("service")));
 			map.add("activity", Integer.parseInt(request.getParameter("activity")));
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
-			
-			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url+"/getFilteredOverdueTask",map, TaskListHome[].class);
+
+			TaskListHome[] taskArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getFilteredCriticalTask", map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			
+
 			mav.addObject("taskList", taskList);
-			
+
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 			mav.addObject("serviceList", srvcMstrList);
-			
-			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url+"/getCustNames", CustNameId[].class);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-		//	System.err.println("custGrpList-----"+custGrpList.toString());
+			// System.err.println("custGrpList-----"+custGrpList.toString());
 			mav.addObject("custGrpList", custGrpList);
-			
+
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			mav.addObject("statusList", statusList);
-			
-			mav.addObject("sysState", 3);
-		}catch (Exception e) {
+
+			mav.addObject("sysState", 2);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
-	
+
+	@RequestMapping(value = "/overdue", method = RequestMethod.GET)
+	public ModelAndView overdue(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("task/taskAlloted");
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			TaskListHome[] taskArr = Constants.getRestTemplate().getForObject(Constants.url + "/getOverdueTask",
+					TaskListHome[].class);
+			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+			mav.addObject("taskList", taskList);
+
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
+			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
+			// System.err.println("custGrpList-----"+custGrpList.toString());
+			mav.addObject("custGrpList", custGrpList);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("empType", empSes.getEmpId());
+			StatusMaster[] statusMstr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
+			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
+			mav.addObject("statusList", statusList);
+
+			mav.addObject("sysState", 3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/fliterOverdueTaskList", method = RequestMethod.POST)
+	public ModelAndView fliterOverdueTaskList(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
+
+		ModelAndView mav = new ModelAndView("task/taskAlloted");
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			map.add("service", Integer.parseInt(request.getParameter("service")));
+			map.add("activity", Integer.parseInt(request.getParameter("activity")));
+			map.add("custId", Integer.parseInt(request.getParameter("custId")));
+
+			TaskListHome[] taskArr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getFilteredOverdueTask", map, TaskListHome[].class);
+			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+			mav.addObject("taskList", taskList);
+
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			mav.addObject("serviceList", srvcMstrList);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
+			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
+			// System.err.println("custGrpList-----"+custGrpList.toString());
+			mav.addObject("custGrpList", custGrpList);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("empType", empSes.getEmpId());
+			StatusMaster[] statusMstr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
+			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
+			mav.addObject("statusList", statusList);
+
+			mav.addObject("sysState", 3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboard(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Model model) {
@@ -891,7 +977,7 @@ public class HomeController<Task> {
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empSes.getEmpId());
 			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
-			map.add("toDate", DateConvertor.convertToYMD(dates[1])); 
+			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("empType", empSes.getEmpType());
 
 			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
