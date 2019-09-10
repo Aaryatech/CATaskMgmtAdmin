@@ -878,8 +878,13 @@ public class TaskController {
 
 			String empHr = request.getParameter("empBudHr");
 			String mngHr = request.getParameter("manBudHr");
-			String  mnghr1=HoursConversion.convertHoursToMin(mngHr);
-			String  emphr1=HoursConversion.convertHoursToMin(empHr);
+			String  mnghr1=new String();
+			String  emphr1=new String();
+			 
+				   mnghr1=HoursConversion.convertHoursToMin(mngHr);
+				   emphr1=HoursConversion.convertHoursToMin(empHr);
+			 
+		
 			String dueDate = request.getParameter("dueDate");
 			String workDate = request.getParameter("workDate");
 			String taskId = request.getParameter("taskId1");

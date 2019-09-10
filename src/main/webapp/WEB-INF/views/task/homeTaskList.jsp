@@ -432,7 +432,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Manager Budgeted Hours"
-										 id="anytime-time1" onchange="submitResponse(1)"
+										 id="anytime-time1" onchange="submitResponse()"
 											name="manBudHr" autocomplete="off">
 									</div>
 
@@ -738,8 +738,8 @@ h5 {
 			
 		}
 	
-	function submitResponse(flag){
-		
+	function submitResponse(){
+		//alert("flag ***"+flag);
 		var empBudHr = document.getElementById("anytime-time1").value;
 			var manBudHr = document.getElementById("anytime-time2").value;
 			var workDate=document.getElementById("workDate").value ;//create this
@@ -747,8 +747,7 @@ h5 {
 			var taskId1=document.getElementById("taskId1").value ;
 			var emp=document.getElementById("emp").value ;
 			
-			//alert("data ***"+emp);
-			 if(flag==1){
+		
 			
 				$.post('${submitUpdatedTask}', {
 					empBudHr : empBudHr,
@@ -770,7 +769,6 @@ h5 {
 					}
 
 				});
-	}
 		  
 	}
 	
