@@ -686,7 +686,7 @@ h5 {
 	
 	
 	function showEditTask(taskId) {
-	//	alert("HI");
+		alert("HI"+taskId);
 			
 			$
 					.getJSON(
@@ -698,10 +698,11 @@ h5 {
 							},
 							function(data) {
 								
-								//alert(JSON.stringify(data));
+								alert(JSON.stringify(data));
 								
 								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
 								document.getElementById("anytime-time2").value=data.task.empBudHr;
+  								//alert("errordata"+data.task.taskEndDate);
 								document.getElementById("workDate1").value=data.task.taskEndDate;
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
 								
@@ -737,6 +738,14 @@ h5 {
 						 });
 			
 		}
+	</script>
+
+
+
+
+
+
+	<script type="text/javascript">
 	
 	function submitResponse(){
 		//alert("flag ***"+flag);

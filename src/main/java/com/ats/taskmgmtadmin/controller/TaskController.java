@@ -815,7 +815,7 @@ public class TaskController {
 
 		try {
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
-			System.out.println("getDailyWorkLogByEmpId ----- Service Called " + taskId);
+			//System.out.println("getDailyWorkLogByEmpId ----- Service Called " + taskId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskByTaskIdForEdit1", map,
@@ -824,6 +824,14 @@ public class TaskController {
 			task.setMngrBudHr(HoursConversion.convertMinToHours(task.getMngrBudHr()));
 
 			task.setTaskStatutoryDueDate(DateConvertor.convertToDMY(task.getTaskStatutoryDueDate()));
+			try {
+				task.setTaskEndDate(DateConvertor.convertToDMY(task.getTaskEndDate()));
+			}catch(Exception e) {
+				task.setTaskEndDate(DateConvertor.convertToDMY(""));
+			}
+		
+			logList.setTask(task);
+			//System.out.println(" task----------"+task.toString());
 			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
 					EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
@@ -839,7 +847,7 @@ public class TaskController {
 			}
 			logList.setEmpId(actIntList);
 
-			// System.out.println(" List----------"+actIntList.toString());
+			//System.out.println(" actIntList----------"+actIntList.toString());
 
 		} catch (Exception e) {
 			System.err.println("Exce in workLogList " + e.getMessage());
@@ -865,11 +873,12 @@ public class TaskController {
 			// System.err.println("emp id are " + locId2);
 
 			String emp1 = request.getParameter("emp");
+			System.err.println("emp id are " + emp1);
 
 			emp1 = emp1.substring(1, emp1.length() - 1);
 			emp1 = emp1.replaceAll("\"", "");
 			String items1 = emp1;
-
+			System.err.println("emp items1 are " + items1);
 			String empHr = request.getParameter("empBudHr");
 			String mngHr = request.getParameter("manBudHr");
 			String mnghr1 = new String();
@@ -1550,4 +1559,5 @@ public class TaskController {
 		}
 		return mav;
 	}
+
 }

@@ -122,7 +122,7 @@
 
 <input type="hidden" name="taskId" value="${task.taskId}">
 <input type="hidden" name="taskType" value="${taskType}">
-
+ 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="locId2">
 											Employee <span style="color: red">* </span>:
@@ -294,6 +294,8 @@
 											</select>
 										</div>
 									</div> --%>
+									
+									
 									<c:if test="${isEdit==0}">
 
 									<div class="form-group row">
@@ -466,11 +468,12 @@
 							$("#submitInsertClient")
 									.submit(
 											function(e) {
+											//	alert("in submit");
 												var isError = false;
 												var errMsg = "";
 
 												if ($("#service").val() == "") {
-
+ 
 													isError = true;
 
 													$("#error_service").show()
@@ -480,8 +483,7 @@
 												}
 
 												if ($("#empId2").val() == "") {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_emp").show()
 
@@ -490,8 +492,7 @@
 												}
 
 												if ($("#customer").val() == "") {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_cust").show()
 
@@ -501,8 +502,7 @@
 
 												if (!$("#periodicity").val()
 														|| $("#activity").val() == "") {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_activity").show()
 
@@ -511,8 +511,7 @@
 												}
 
 												if (!$("#periodicity").val()) {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_periodicity1")
 															.show()
@@ -523,8 +522,7 @@
 												}
 
 												if (!$("#startDate").val()) {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_startDate")
 															.show()
@@ -552,7 +550,7 @@
 														todate[1] - 1,
 														todate[0]);
 												if (from_date > to_date) {
-													$("#error_start_date")
+ 													$("#error_start_date")
 															.show();
 													$("#error_end_date").show();
 													$("#error_startDate")
@@ -567,9 +565,10 @@
 												}
 												////////
 
+												if(${isEdit}==0){
 												if (!$("#statutary_endDays")
 														.val()) {
-
+													//alert("in statutary_endDays");
 													isError = true;
 
 													$("#error_stat_endDays")
@@ -579,10 +578,10 @@
 													$("#error_stat_endDays")
 															.hide()
 												}
+												}
 
 												if (!$("#anytime-time1").val()) {
-
-													isError = true;
+ 													isError = true;
 
 													$("#error_mgBudgetHr")
 															.show()
@@ -595,8 +594,7 @@
 												if (!$("#anytime-time2").val()) {
 
 													isError = true;
-
-													$("#error_empHrs").show()
+ 													$("#error_empHrs").show()
 
 												} else {
 													$("#error_empHrs").hide()
