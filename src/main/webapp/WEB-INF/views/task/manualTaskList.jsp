@@ -124,8 +124,8 @@
 									<th>Service Name</th>
 									<th>Task Text</th>
 									<th>Team</th>
-									<th>Start Date</th>
-									<th>End Date</th>
+									<th>Statutory Due Date</th>
+									<th>Work Date</th>
 									<th>Periodicity</th>
 
 									<th class="text-center" width="10%">Actions</th>
@@ -138,17 +138,17 @@
 									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
 									<td>${taskList.employees}</td>
- 									<td>${taskList.taskStartDate}</td>
+ 									<td>${taskList.taskStatutoryDueDate}</td>
 									<td>${taskList.taskEndDate}</td>
 									<td>${taskList.periodicity_name}</td>
 
 									<td><a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=1"
 										title="Approve Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a> | <a
+											style="color: black;"></i></a> &nbsp; <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
 										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a> |<c:if test="${editAccess == 0}"> <a
+											style="color: black;"></i></a> &nbsp;<c:if test="${editAccess == 0}"> <a
 										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
 										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
 											></i></a></c:if></td>

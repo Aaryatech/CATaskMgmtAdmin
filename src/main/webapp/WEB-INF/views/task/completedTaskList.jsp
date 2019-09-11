@@ -275,8 +275,8 @@
 									<th>Service Name</th>
 									<th>Task Text</th>
  									<th>Team</th>
-									<th>Start Date</th>
-									<th>End Date</th>
+									<th>Statutory Due Date</th>
+									<th>Work Date</th>
 									<th>Periodicity</th>
 									<th>Status</th>
 
@@ -292,7 +292,7 @@
 									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
  									<td>${taskList.employees}</td>
-									<td>${taskList.taskStartDate}</td>
+									<td>${taskList.taskStatutoryDueDate}</td>
 									<td>${taskList.taskEndDate}</td>									
 								<td>${taskList.periodicity_name}</td>
 									<td>${taskList.exInt2==1 ? 'Non Billable' : taskList.exInt2==2 ? 'Invoiced' : taskList.exInt2==3 ? '-' : ''}</td>

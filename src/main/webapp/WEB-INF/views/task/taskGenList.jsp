@@ -99,10 +99,11 @@
 									id="printtable1">
 									<thead>
 										<tr class="bg-blue">
-											<th width="10%">Sr.no</th>
+											<th width="10%">Sr.no<input type="checkbox"
+													name="selAll" id="selAll" checked /></th>
 											<th>Task</th>
-											<th>Start Date</th>
-											<th>Statutory Due  Date</th>
+ 											<th>Statutory Due  Date</th>
+											<th>Work Date</th>
  											<th>Manager Budget Hrs.</th>
 											<th>Emp Budget Hrs.</th>
 
@@ -117,8 +118,8 @@
 												name="TaskId" class="select_all" checked></td>
 
 											<td>${taskList.taskText}</td>
-											<td>${taskList.taskStartDate}</td>
-											<td>${taskList.taskStatutoryDueDate}</td>
+ 											<td>${taskList.taskStatutoryDueDate}</td>
+												<td>${taskList.taskEndDate}</td>
 											<td>${mHr}</td>
 											<td>${eHr}</td>
 											 
