@@ -1540,10 +1540,10 @@ public class MasterMVCController {
 			mav.addObject("per", period);
 
 			String strDate = DateConvertor.convertToYMD((request.getParameter("startDate")));
-			System.out.println("Converted String str: " + strDate);
+			//System.out.println("Converted String str: " + strDate);
 			String endDate = DateConvertor.convertToYMD((request.getParameter("endDate")));
-			System.out.println("Converted String end: " + endDate);
-			System.out.println("perId: " + perId);
+			//System.out.println("Converted String end: " + endDate);
+			//System.out.println("perId: " + perId);
 			List<DateValues> listDate = PeriodicityDates.getDates(strDate, endDate, perId);
 			totdays = listDate.size();
 
@@ -1561,11 +1561,11 @@ public class MasterMVCController {
 				task.setTaskId(i);
 				Date date1 = listDate.get(i).getDate();
 
-				System.out.println("date bef stat**" + dateFormat.format(date1));
+				//System.out.println("date bef stat**" + dateFormat.format(date1));
 				task.setTaskStatutoryDueDate(PeriodicityDates.addDaysToGivenDate(dateFormat.format(date1),
 						Integer.parseInt(request.getParameter("statutary_endDays"))));
 
-				System.out.println("stat date **" + task.getTaskStatutoryDueDate());
+				//System.out.println("stat date **" + task.getTaskStatutoryDueDate());
 
 				FinancialYear fin = new FinancialYear();
 				map = new LinkedMultiValueMap<>();
@@ -1621,6 +1621,9 @@ public class MasterMVCController {
 			CustomerHeaderMaster custHead = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
 			mav.addObject("custHead", custHead);
+			mav.addObject("custName", request.getParameter("custName"));
+			
+			
 
 		} catch (Exception e) {
 			System.err.println("Exce in addCustomerActMap " + e.getMessage());

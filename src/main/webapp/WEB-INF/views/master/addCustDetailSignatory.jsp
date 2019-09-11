@@ -449,7 +449,7 @@
 														${custDetail.loginQue2}<br>Ans 2 :
 														${custDetail.loginAns2}
 													</td>
-													<td>${custDetail.signfName}${custDetail.signlName}</td>
+													<td>${custDetail.signfName}&nbsp;${custDetail.signlName}</td>
 													<td>${custDetail.signDesign}</td>
 													<td>${custDetail.contactName}</td>
 													<td>${custDetail.contactPhno}</td>

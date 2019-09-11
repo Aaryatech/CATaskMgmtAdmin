@@ -78,7 +78,7 @@
 										<label class="col-form-label col-lg-2" for="serviceDesc">Customer
 											  : </label>
 										<div class="col-lg-3">
-											<input type="text" class="form-control" value="${custHead.custFirmName}"
+											<input type="text" class="form-control" value="${custName}"
 												readonly>
 										</div>
 										
@@ -137,7 +137,7 @@
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Submit"
 									id="deleteId"
-									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Assign These Task');}"
+									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Generate These Task');}"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 

@@ -197,31 +197,22 @@
 			return;
 		}
 
-		function validateEmail(email) {
+		 
+		function validateDateRange(date) {
 
-			var eml = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+		 
+ 			var res = date.split(" to ");
+ 			
 
-			if (eml.test($.trim(email)) == false) {
-
+			if (res[0] > res[1]) {
+				//alert("wrong"+res[0]+res[1]);
 				return false;
-
 			}
 
 			return true;
 
 		}
-		function validateMobile(mobile) {
-			var mob = /^[1-9]{1}[0-9]{9}$/;
-
-			if (mob.test($.trim(mobile)) == false) {
-
-				//alert("Please enter a valid email address .");
-				return false;
-
-			}
-			return true;
-
-		}
+		 
 		$(document).ready(function($) {
 
 			$("#submitInsertHoli").submit(function(e) {
@@ -249,7 +240,7 @@
 				}
 
 			
-				if (!$("#dateRange").val()) {
+				if (!$("#dateRange").val()  || !validateDateRange($("#dateRange").val())) {
 
 					isError = true;
 
