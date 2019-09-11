@@ -664,7 +664,7 @@ h5 {
 				End Manager Dash
 				
 				
-				Copy of Partners
+				Copy of Partners-->
 				
 				<div class="form-group row" >
 										<label class="col-form-label col-lg-1" for="clientGroup">Month</label>
@@ -731,7 +731,7 @@ h5 {
 										</select>
 								</div>
 							<div class="col-lg-3"></div>
-					</div> -->
+					</div> 
 				
 				<div class="card">
 					<div class="card-header header-elements-sm-inline">
@@ -765,28 +765,28 @@ h5 {
 										Budgeted Cost
 									</td>
 									<td>200000</td>
-									<td>Budgeted Hrs for all the tasks whos due date falls in current month * Rate for the month.</td>
+									<td></td>
 									
 
 								</tr>
 								 <tr>
 									<td>Actual Cost</td>
 									<td>200000</td>
-									<td>Actual Hrs for all the tasks whos due date falls in current month * Rate for the month.</td>
+									<td></td>
 									
 
 								</tr>
 								<tr>
 									<td>Budgeted Revenue</td>
 									<td>20</td>
-									<td>Budgeted Revenue for the tasks whos due date fall in this month.</td>
+									<td></td>
 								</tr>
 								
 								
 								 <tr>
 									<td>Actual Revenue</td>
 									<td>325000</td>
-									<td>Budgeted Revenue for the tasks whos due date fall in this month and which are completed for the month.</td>
+									<td></td>
 								</tr>
 								
 							</tbody>
