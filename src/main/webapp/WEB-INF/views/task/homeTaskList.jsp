@@ -30,7 +30,7 @@
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
-	
+
 	<c:url value="/submitUpdatedTask" var="submitUpdatedTask"></c:url>
 
 
@@ -431,9 +431,9 @@ h5 {
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
-											placeholder="Enter Manager Budgeted Hours"
-										 id="anytime-time1" onchange="submitResponse()"
-											name="manBudHr" autocomplete="off">
+											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
+											onchange="submitResponse()" name="manBudHr"
+											autocomplete="off">
 									</div>
 
 								</div>
@@ -443,7 +443,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
-											  id="anytime-time2" onchange="submitResponse()"
+											id="anytime-time2" onchange="submitResponse()"
 											name="empBudHr" autocomplete="off">
 									</div>
 
@@ -454,8 +454,8 @@ h5 {
 									<label class="col-form-label col-lg-6">Work Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											  placeholder="Enter Work Date" onchange="submitResponse()"
-											id="workDate" name="workDate" autocomplete="off">
+											placeholder="Enter Work Date" onchange="submitResponse()"
+											id="workDate1" name="workDate" autocomplete="off">
 									</div>
 								</div>
 								<div class="form-group row">
@@ -463,8 +463,8 @@ h5 {
 									<label class="col-form-label col-lg-6">Statutory Due
 										Date : </label>
 									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass" onchange="submitResponse()"
-											 
+										<input type="text" class="form-control datepickerclass"
+											onchange="submitResponse()"
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
 									</div>
@@ -477,8 +477,8 @@ h5 {
 										Employee <span style="color: red">* </span>:
 									</label>
 									<div class="col-lg-6">
-										<select name="emp" data-placeholder="Select Activity" onchange="submitResponse()"
-										 id="emp" multiple
+										<select name="emp" data-placeholder="Select Activity"
+											onchange="submitResponse()" id="emp" multiple
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 										</select>
@@ -702,7 +702,7 @@ h5 {
 								
 								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
 								document.getElementById("anytime-time2").value=data.task.empBudHr;
-								document.getElementById("workDate").value=data.task.taskEndDate;
+								document.getElementById("workDate1").value=data.task.taskEndDate;
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
 								
 								document.getElementById("taskId1").value=data.task.taskId;
@@ -742,20 +742,41 @@ h5 {
 		//alert("flag ***"+flag);
 		var empBudHr = document.getElementById("anytime-time1").value;
 			var manBudHr = document.getElementById("anytime-time2").value;
-			var workDate=document.getElementById("workDate").value ;//create this
+			var workDate=document.getElementById("workDate1").value ;//create this
 			var dueDate=document.getElementById("dueDate").value;//create this
 			var taskId1=document.getElementById("taskId1").value ;
-			var emp=document.getElementById("emp").value ;
+			//var emp=document.getElementById("emp").value ;
+			var emp=$("#emp").val();
+			//alert("Hi " +JSON.stringify(emp));
 			
-		
-			
+ 		 var valid = true;
+			if (empBudHr == null || empBudHr == "") {
+				valid = false;
+			 
+			} else if (manBudHr == null || manBudHr == "") {
+				valid = false;
+ 			}
+ 			else if (workDate == null || workDate == "") {
+				valid = false;
+ 			}
+ 			else if (dueDate == null || dueDate == "") {
+				valid = false;
+ 			}
+ 			else if (taskId1 == 0 || taskId1 == "") {
+				valid = false;
+ 			}
+ 			else if (emp ==null || emp == "") {
+				valid = false;
+ 			}
+
+			if(valid == true){
 				$.post('${submitUpdatedTask}', {
 					empBudHr : empBudHr,
 					manBudHr : manBudHr,
 					workDate : workDate,
 					dueDate  : dueDate,
 					taskId1  : taskId1,
-					emp      : emp,
+					emp      : JSON.stringify(emp),
 					ajax : 'true',
 				},
 
@@ -769,6 +790,7 @@ h5 {
 					}
 
 				});
+			}
 		  
 	}
 	
