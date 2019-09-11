@@ -478,7 +478,7 @@ public class HomeController<Task> {
 			mav.addObject("custGrpList", custGrpList);
 
 			map = new LinkedMultiValueMap<String, Object>();
-			map.add("empType", empSes.getEmpId());
+			map.add("empType", empSes.getEmpType());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
