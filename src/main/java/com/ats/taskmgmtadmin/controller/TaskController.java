@@ -1364,13 +1364,14 @@ public class TaskController {
 					 
 					 String date=request.getParameter("workdate"+i);
 					 String workHours=request.getParameter("workHr"+i);
+					 String workHrs = workHours.replace(":",".");
 					 
 					 String remark=request.getParameter("remark"+i);
 					 System.out.println("Info----------"+date+" "+workHours+"  "+remark);
 					 DailyWorkLog log = new DailyWorkLog();
 					 
 					 log.setTaskId(taskList.get(i).getTaskId());
-					 log.setWorkHours(Float.parseFloat(workHours));
+					 log.setWorkHours(Float.parseFloat(workHrs));
 					 log.setWorkRemark(remark);
 					 log.setEmpId(empId);
 					 log.setUpdateDatetime(curDateTime);

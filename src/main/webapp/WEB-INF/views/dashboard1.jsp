@@ -91,7 +91,7 @@ h5 {
 </style>
 				<!-- Capacity Details -->
 				
-				<div class="card">
+				<!-- <div class="card">
 				<h2>Employee</h2>
 					<div class="card-header header-elements-sm-inline">
 						<h6 class="card-title">Capacity Details</h6>
@@ -156,18 +156,18 @@ h5 {
 
 						</div>
 					</div>
-					<!-- card body -->
+					card body
 
 
 				</div>
-				<!-- /support tickets -->
+				/support tickets
 
 
-				<!-- Quick stats boxes -->
+				Quick stats boxes
 				<div class="row" style="display: none;">
 					<div class="col-sm-4">
 
-						<!-- Members online -->
+						Members online
 						<div class="card bg-teal-400">
 							<div class="card-body">
 								<div class="d-flex">
@@ -186,13 +186,13 @@ h5 {
 								<div id="dash-members-online"></div>
 							</div>
 						</div>
-						<!-- /members online -->
+						/members online
 
 					</div>
 
 					<div class="col-sm-4">
 
-						<!-- Current server load -->
+						Current server load
 						<div class="card bg-pink-400">
 							<div class="card-body">
 								<div class="d-flex">
@@ -208,13 +208,13 @@ h5 {
 
 							<div id="server-load"></div>
 						</div>
-						<!-- /current server load -->
+						/current server load
 
 					</div>
 
 					<div class="col-sm-4">
 
-						<!-- Today's revenue -->
+						Today's revenue
 						<div class="card bg-blue-400">
 							<div class="card-body">
 								<div class="d-flex">
@@ -232,12 +232,12 @@ h5 {
 
 							<div id="today-revenue"></div>
 						</div>
-						<!-- /today's revenue -->
+						/today's revenue
 
 					</div>
 
 				</div>
-				<!-- /quick stats boxes -->
+				/quick stats boxes
 
 
 				<div class="card" >
@@ -305,11 +305,11 @@ h5 {
 						</table>
 					</div>
 				</div>
-				<!-- Hover rows -->
+				Hover rows
 				
-				<!-- Team Leader Dash -->
+				Team Leader Dash
 				
-				<!-- Capacity Details -->
+				Capacity Details
 				<div class="card">
 				<h2>Team Leader</h2>				
 					<div class="card-header header-elements-sm-inline">
@@ -375,7 +375,7 @@ h5 {
 
 						</div>
 					</div>
-					<!-- card body -->
+					card body
 
 
 				</div>
@@ -441,7 +441,7 @@ h5 {
 									<td>22</td>
 
 								</tr>
-								<!-- <tr>
+								<tr>
 									<td>
 										<div class="d-flex align-items-center">
 											<div class="mr-3">
@@ -463,18 +463,18 @@ h5 {
 									<td>12</td>
 									<td>22</td>
 
-								</tr> -->
+								</tr>
 
 							</tbody>
 						</table>
 					</div>
 				</div>
 				
-				<!-- End Team Leader Dash -->
+				End Team Leader Dash
 				
-				<!-- Manager Dash -->
+				Manager Dash
 				
-					<!-- Capacity Details -->
+					Capacity Details
 				<div class="card">
 				<h2>Manager</h2>		
 					<div class="card-header header-elements-sm-inline">
@@ -590,9 +590,9 @@ h5 {
 				
 						</div>
 					</div>
-					<!-- card body -->
+					card body
 				</div>
-				<!--Capacity  -->
+				Capacity 
 				
 				<div class="card" >
 					<div class="table-responsive">
@@ -661,10 +661,10 @@ h5 {
 						</table>
 					</div>
 				</div>
-				<!-- End Manager Dash -->
+				End Manager Dash
 				
 				
-				<!-- Copy of Partners -->
+				Copy of Partners
 				
 				<div class="form-group row" >
 										<label class="col-form-label col-lg-1" for="clientGroup">Month</label>
@@ -731,7 +731,7 @@ h5 {
 										</select>
 								</div>
 							<div class="col-lg-3"></div>
-					</div>
+					</div> -->
 				
 				<div class="card">
 					<div class="card-header header-elements-sm-inline">

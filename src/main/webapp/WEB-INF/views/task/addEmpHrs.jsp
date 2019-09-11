@@ -73,7 +73,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Customer Activity Mapping</h6>
+								<h6 class="card-title">Add Employee Hours</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -214,7 +214,7 @@
 
 									</div>
 
-									<div class="form-group row mb-0">
+									<%-- <div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
@@ -228,7 +228,7 @@
 													Cancel
 												</button></a>
 										</div>
-									</div>
+									</div> --%>
 								</form>
 							</div>
 						</div>
@@ -260,7 +260,7 @@
 								<br>
 
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+									<!-- <button type="submit" class="btn btn-link" data-dismiss="modal">Close</button> -->
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Submit <i class="icon-paperplane ml-2"></i>
 											</button>
@@ -419,13 +419,13 @@
 
 				$.each(data, function(i, v) {
 
-					var taskText = '<input type="text" class="form-control" id="taskText'+i+'" name="taskText'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.taskText+'" disabled="disabled">'
+				//	var taskText = '<input type="text" class="form-control" id="taskText'+i+'" name="taskText'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.taskText+'" disabled="disabled">'
 					
-					var employee = '<input type="text" class="form-control" id="emp'+i+'" name="emp'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.employees+'" disabled="disabled">'
+				//	var employee = '<input type="text" class="form-control" id="emp'+i+'" name="emp'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.employees+'" disabled="disabled">'
 					
-					var custFirmName = '<input type="text" class="form-control" id="custFirmName'+i+'" name="custFirmName'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.custFirmName+'" disabled="disabled">'
+				//	var custFirmName = '<input type="text" class="form-control" id="custFirmName'+i+'" name="custFirmName'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.custFirmName+'" disabled="disabled">'
 					
-					var workhrs = '<input type="text" class="form-control" placeholder="Enter Work Hours" id="workHr'+i+'" name="workHr'+i+'" autocomplete="off" onchange="trim(this)">'
+					var workhrs = '<input type="time" class="form-control" placeholder="Enter Work Hours" id="workHr'+i+'" name="workHr'+i+'" autocomplete="off" onchange="trim(this)">'
 					
 					var remark = '<input type="text" class="form-control" placeholder="Enter Remark" id="remark'+i+'" name="remark'+i+'" autocomplete="off" onchange="trim(this)">'
 					
@@ -435,11 +435,11 @@
 					
 					dataTable.row.add(
 							[ i + 1+' '+ chk, 
-								taskText, 
+								v.taskText, 
 								dtpkr, 
 								workhrs, 
-								employee, 
-								custFirmName, 
+								v.employees, 
+								v.custFirmName, 
 								remark					
 
 							]).draw();
