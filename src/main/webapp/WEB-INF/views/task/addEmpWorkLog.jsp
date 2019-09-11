@@ -538,12 +538,12 @@ $('.daterange-basic_new').daterangepicker({
 							<div class="modal-header">
 								<form action="addEmpWorkHrs" method="post">
 									<div class="form-group row">
+									
+										<input type="text" name="logId" id="logId"	value="${logList.workLogId}">
 
-										<input type="hidden" name="taskId" id="taskId"> <input
-											type="hidden" name="logId" id="logId"
-											value="${logList.workLogId}">
+										<input type="text" name="taskId" id="taskId" value="${logList.taskId}"> 
 
-										<input type="hidden" id="empId" name="empId">
+										<input type="text" id="empId" name="empId" value="${logList.empId}">
 										
 										<div class="form-group form-group-float col-md-2">
 											<label class="form-group-float-label">Work Date</label> <input

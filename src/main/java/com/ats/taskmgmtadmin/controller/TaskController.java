@@ -1379,6 +1379,13 @@ public class TaskController {
 			List<DailyWorkLog> logData = Constants.getRestTemplate().postForObject(Constants.url + "/addEmpWorkLogList",
 					workLogList, List.class);*/
 
+			int logId = 0;
+			try {
+				logId = Integer.parseInt(request.getParameter("logId"));
+			}catch (Exception e) {
+				e.getMessage();
+			}
+			
 			DailyWorkLog workLog = new DailyWorkLog();
 			String hrs = request.getParameter("workHour");
 			String  mnghr1=HoursConversion.convertHoursToMin(hrs);
@@ -1394,7 +1401,7 @@ public class TaskController {
 			workLog.setUpdateUsername(empSes.getEmpId());
 			workLog.setWorkDate(request.getParameter("workDate"));
 			workLog.setWorkHours(Float.parseFloat(mnghr1));
-			workLog.setWorkLogId(0);
+			workLog.setWorkLogId(logId);
 			workLog.setWorkRemark(request.getParameter("remark"));
 			System.out.println("Logssss------"+workLog);
 			DailyWorkLog logData = Constants.getRestTemplate().postForObject(Constants.url + "/addNewWorkLog",workLog, DailyWorkLog.class);
@@ -1489,11 +1496,11 @@ public class TaskController {
 	}
 	
 	@RequestMapping(value = "/editworkLog", method = RequestMethod.GET)
-	public @ResponseBody String getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, 
+	public @ResponseBody ModelAndView getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session,  Model model) {
-			List<DailyWorkLog> logList = null;
+		DailyWorkLog hrLog = null;
 			
-			String mav = "task/addEmpHrs";
+			ModelAndView mav = new ModelAndView("task/addEmpWorkLog");
 		try {
 			int logId = Integer.parseInt(request.getParameter("logId"));
 			System.out.println("editworkLog ----- Service Called "+ logId);
@@ -1505,18 +1512,19 @@ public class TaskController {
 			map = new LinkedMultiValueMap<>();
 			map.add("logId", logId);
 			
-			DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogById", map,
-					DailyWorkLog[].class);
-			 logList = new ArrayList<>(Arrays.asList(logArr));			 
+			 hrLog = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogById", map,
+					DailyWorkLog.class);
+				 
 			
-			 System.out.println("Log List----------"+logList.toString());
-			 model.addAttribute("isEdit", 1);
-			 model.addAttribute("logList", logList);
+			 System.out.println("Log List----------"+hrLog.toString());
+			mav.addObject("isEdit", 1);
+			mav.addObject("isEdit", 1);
+			mav.addObject("logList", hrLog);
 
 			 ServiceMaster[] srvsMstr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-				model.addAttribute("serviceList", srvcMstrList);
+				mav.addObject("serviceList", srvcMstrList);
 				
 				map = new LinkedMultiValueMap<>();
 				map.add("serviceId", srvcMstrList.get(0).getServId());
@@ -1524,17 +1532,17 @@ public class TaskController {
 				ActivityMaster[] activityArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAllEnrolledActivitesByServiceId", map, ActivityMaster[].class);
 				List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
-				model.addAttribute("actList", activityList);
+				mav.addObject("actList", activityList);
 
 				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
-				model.addAttribute("custHeadList", custHeadList);
+				mav.addObject("custHeadList", custHeadList);
 
 				EmployeeMaster[] employee = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-				model.addAttribute("epmList", epmList);
+				mav.addObject("epmList", epmList);
 			 
 		} catch (Exception e) {
 			System.err.println("Exce in editworkLog " + e.getMessage());
