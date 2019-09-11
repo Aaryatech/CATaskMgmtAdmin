@@ -279,19 +279,13 @@
 					</div>
 				</div>
 
-
-
-
 				<!-- /remote source -->
 
-
 				<!-- /content area -->
-
-
+				
 				<!-- Footer -->
 				<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 				<!-- /footer -->
-
 
 			</div>
 			<!-- /main content -->
@@ -304,33 +298,7 @@
 
 
 	<script>
-		$('#statutary_endDays').on(
-				'input',
-				function() {
-					this.value = this.value.replace(/[^0-9.]/g, '').replace(
-							/(\..*)\./g, '$1');
-				});
-
-		$('#mgBudgetHr').on(
-				'input',
-				function() {
-					this.value = this.value.replace(/[^0-9.]/g, '').replace(
-							/(\..*)\./g, '$1');
-				});
-
-		$('#empBudgetHr').on(
-				'input',
-				function() {
-					this.value = this.value.replace(/[^0-9.]/g, '').replace(
-							/(\..*)\./g, '$1');
-				});
-
-		$('#billAmt').on(
-				'input',
-				function() {
-					this.value = this.value.replace(/[^0-9.]/g, '').replace(
-							/(\..*)\./g, '$1');
-				});
+		
 
 		$(document).ready(function($) {
 
@@ -610,7 +578,7 @@ $('.daterange-basic_new').daterangepicker({
 										</div>
 
 									</div>
-									<input type="text" value="${isEdit}" id="editLogid">
+									<input type="hidden" value="${isEdit}" id="editLogid">
 								</form>
 
 
