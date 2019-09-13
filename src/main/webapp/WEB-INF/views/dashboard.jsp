@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,7 +232,9 @@ h5 {
 													<div class="progress rounded-round">
 														<div class="progress-bar bg-success"
 															style="width: ${per}%">
-															<span>${per}% Complete</span>
+															<span><fmt:formatNumber type="number"
+																	maxFractionDigits="2" minFractionDigits="2"
+																	value="${per}" />% Complete</span>
 														</div>
 													</div></td>
 											</tr>
@@ -249,10 +252,13 @@ h5 {
 												<td>${capacityDetailByEmpList.actWork}</td>
 												<td><c:set var="per"
 														value="${(capacityDetailByEmpList.actWork/capacityDetailByEmpList.allWork)*100}"></c:set>
+
 													<div class="progress rounded-round">
 														<div class="progress-bar bg-success"
 															style="width: ${per}%">
-															<span>${per}% Complete</span>
+															<span><fmt:formatNumber type="number"
+																	maxFractionDigits="2" minFractionDigits="2"
+																	value="${per}" />% Complete</span>
 														</div>
 													</div></td>
 											</tr>
@@ -569,7 +575,7 @@ h5 {
 																+ per
 																+ '%">'
 																+ '<span>'
-																+ per
+																+ per.toFixed(2)
 																+ '% Complete</span> </div> </div>'
 
 														var tr_data = '<tr>'
