@@ -1345,49 +1345,7 @@ public class TaskController {
 		try {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-
-			List<DailyWorkLog> workLogList = new ArrayList<DailyWorkLog>();
-
-			//int empId = Integer.parseInt(request.getParameter("employeeId"));
 			
-			/*for (int i = 0; i < taskList.size(); i++) {
-				String taskId = request.getParameter("TaskId" + i);
-				System.err.println(taskId + "taskId");
-
-				if (taskId != null && taskId != "" && taskId.equals("" + taskList.get(i).getTaskId())) {
-
-					String date = request.getParameter("workdate" + i);
-					String workHours = request.getParameter("workHr" + i);
-					String workHrs = workHours.replace(":", ".");
-
-					String remark = request.getParameter("remark" + i);
-					System.out.println("Info----------" + date + " " + workHours + "  " + remark);
-					DailyWorkLog log = new DailyWorkLog();
-
-					log.setTaskId(taskList.get(i).getTaskId());
-					log.setWorkHours(Float.parseFloat(workHrs));
-					log.setWorkRemark(remark);
-					log.setEmpId(empId);
-					log.setUpdateDatetime(curDateTime);
-					log.setUpdateUsername(empSes.getEmpId());
-					log.setExInt1(0);
-					log.setExInt2(0);
-					log.setExVar1("NA");
-					log.setExVar2("NA");
-					log.setWorkDate(date);
-					log.setDelStatus(1);
-					log.setWorkLogId(0);
-
-					workLogList.add(log);
-				}
-
-			}
-
-			System.err.println(workLogList + "workLogList");
-
-			List<DailyWorkLog> logData = Constants.getRestTemplate().postForObject(Constants.url + "/addEmpWorkLogList",
-					workLogList, List.class);*/
-
 			int logId = 0;
 			try {
 				logId = Integer.parseInt(request.getParameter("logId"));
@@ -1420,7 +1378,7 @@ public class TaskController {
 			e.printStackTrace();
 		}
 
-		return "task/addEmpHrs";
+		return "redirect:/addEmpHrs";
 
 	}
 	
@@ -1504,7 +1462,7 @@ public class TaskController {
 
 	}
 	
-	@RequestMapping(value = "/editworkLog", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/editworkLog", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session,  Model model) {
 		DailyWorkLog hrLog = null;
@@ -1526,8 +1484,7 @@ public class TaskController {
 				 
 			
 			 System.out.println("Log List----------"+hrLog.toString());
-			mav.addObject("isEdit", 1);
-			mav.addObject("isEdit", 1);
+			mav.addObject("isEdit", 1);			
 			mav.addObject("logList", hrLog);
 
 			 ServiceMaster[] srvsMstr = Constants.getRestTemplate()
@@ -1558,6 +1515,29 @@ public class TaskController {
 			e.printStackTrace();
 		}
 		return mav;
+	}*/
+	
+	@RequestMapping(value = "/getDailyWorkLogById", method = RequestMethod.GET)
+	public @ResponseBody DailyWorkLog getDailyWorkLogById(HttpServletRequest request, HttpServletResponse response) {
+		DailyWorkLog hrLog=null;
+		try {
+			int logId = Integer.parseInt(request.getParameter("logId"));
+			System.out.println("editworkLog ----- Service Called "+ logId);
+			MultiValueMap<String, Object> map =  new LinkedMultiValueMap<>();			
+			
+			map.add("logId", logId);
+			
+			 hrLog = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogHrsById", map,
+						DailyWorkLog.class);
+			String workHr = String.valueOf(hrLog.getWorkHours());			
+			
+			hrLog.setExVar1(workHr.replace(".", ":"));
+			
+		}catch (Exception e) {
+			System.err.println("Exce in getDailyWorkLogById " + e.getMessage());
+		}
+		return hrLog;
+		
 	}
 
 }

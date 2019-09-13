@@ -10,7 +10,8 @@
 
 </head>
 
-<body>
+<body>getDailyWorkLogById
+<c:url value="/getDailyWorkLogById" var="getDailyWorkLogById"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
 	<c:url value="/getEmpWorkHoursLogs" var="getEmpWorkHoursLogs"></c:url>
@@ -240,6 +241,7 @@
 							</div>
 						</div>
 						<form action="${pageContext.request.contextPath}/addEmpWorkHrs" method="post">
+						<input type="hidden" value="${isEdit}" id="editLogid">
 						<input type="hidden" id="employeeId" name="employeeId">
 						<div class="card">
 							<div class="card-body">
@@ -410,7 +412,7 @@
 					
 				//	var chk = '<input type="checkbox" id="TaskId'+i+'"  name="TaskId'+i+'" value="'+v.taskId+'" onchange="getValidate(this.value)">'
 					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+')"><i class="icon-add" style="color: black;">'+
-							'</i>   &nbsp;&nbsp;<a href="${pageContext.request.contextPath}/editworkLog?logId='+v.workLogId+'"><i class=" icon-pencil7" style="color: black;""></i>';	
+							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+')"><i class=" icon-pencil7" style="color: black;""></i>';	
 					dataTable.row.add(
 							[ i + 1,
 								v.taskText, 
@@ -483,8 +485,49 @@
 		
 	}
 		
-	
-	
+		
+		function editWorkLog(logId){
+			//alert(logId);
+			//$("#loader").show();
+			$
+					.getJSON(
+							'${getDailyWorkLogById}',
+							{
+								
+								logId : logId,				
+								ajax : 'true',
+
+							},
+							function(data) {
+								//alert(JSON.stringify(data));
+								document.getElementById("empId").value = data.empId;
+								document.getElementById("taskId").value = data.taskId;
+								document.getElementById("logId").value = data.workLogId;
+								document.getElementById("anytime-time").value = data.exVar1;
+								document.getElementById("remark").value = data.workRemark;
+								document.getElementById("workDate").value = data.workDate;
+								/* var dataTable = $('#work_log_table').DataTable();
+								dataTable.clear().draw();
+
+								$.each(data, function(i, v) {
+									//alert(JSON.stringify(v));
+			  											
+									dataTable.row.add(
+											[ 	i + 1,
+												v.exVar1,
+												 // v.workDate,
+												  v.workHours
+											//  acButton
+											
+											]).draw();
+								}); */
+								
+							});
+			
+			
+			$('#modal_small').modal('show');
+			
+		}
 	</script>
 	
 
@@ -539,16 +582,16 @@ $('.daterange-basic_new').daterangepicker({
 								<form action="addEmpWorkHrs" method="post">
 									<div class="form-group row">
 									
-										<input type="text" name="logId" id="logId"	value="${logList.workLogId}">
+										<input type="hidden" name="logId" id="logId">
 
-										<input type="text" name="taskId" id="taskId" value="${logList.taskId}"> 
+										<input type="hidden" name="taskId" id="taskId"> 
 
-										<input type="text" id="empId" name="empId" value="${logList.empId}">
+										<input type="hidden" id="empId" name="empId">
 										
 										<div class="form-group form-group-float col-md-2">
 											<label class="form-group-float-label">Work Date</label> <input
 												type="text" class="form-control datepickerclass"
-												value="${logList.workDate}" name="workDate" id="workDate"
+												 name="workDate" id="workDate"
 												placeholder="Work Date">
 										</div>
 
@@ -556,14 +599,14 @@ $('.daterange-basic_new').daterangepicker({
 										<div class="form-group form-group-float  col-md-2">
 											<label class="form-group-float-label">Hours </label> <input
 												type="text" class="form-control"
-												value="${logList.workHours}" name="workHour"
+												 name="workHour"
 												id="anytime-time" placeholder="Work Hour">
 										</div>
 
 										<div class="form-group form-group-float  col-md-6">
 											<label class="form-group-float-label"> Remark</label> <input
 												type="text" class="form-control"
-												value="${logList.workRemark}" placeholder="Enter Remark"
+												 placeholder="Enter Remark"
 												id="remark" name=remark autocomplete="off"
 												onchange="trim(this)">
 										</div>
@@ -578,24 +621,24 @@ $('.daterange-basic_new').daterangepicker({
 										</div>
 
 									</div>
-									<input type="hidden" value="${isEdit}" id="editLogid">
+									<%--  <input type="hidden" value="${isEdit}" id="editLogid"> --%>
 								</form>
 
 
 							</div>
-							<div class="table-responsive">
+							<!-- <div class="table-responsive">
 								<table class="table datatable-scroller1" id="work_log_table">
 									<thead>
 										<tr>
 											<th style="width: 350px; color: white;"></th>
 											<th style="width: 350px; color: white;">Employee</th>
-											<!-- <th style="width: 100px; color: white;">Date</th> -->
+											<th style="width: 100px; color: white;">Date</th>
 											<th style="width: 100px; color: white;">Actual Hours</th>
 
 										</tr>
 									</thead>
 								</table>
-							</div>
+							</div> -->
 
 
 							<div class="modal-footer" style="display: none;">
