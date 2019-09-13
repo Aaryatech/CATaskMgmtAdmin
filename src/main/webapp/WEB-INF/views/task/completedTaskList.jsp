@@ -174,7 +174,7 @@
 								</label>
 								<div class="col-lg-3">
 									<select name="customer" data-placeholder="Select Customer"
-										id="customer" multiple
+										id="customer" 
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 										 <option  value="-1">Select</option>
