@@ -369,14 +369,18 @@ public class HomeController<Task> {
 			mav.addObject("empType", empSes.getEmpType());
 			int dashStat = 0;
 			int type = 0;
+			int userId = 0;
+			
 
 			try {
 				dashStat = Integer.parseInt(request.getParameter("stat"));
 				type = Integer.parseInt(request.getParameter("type"));
+				userId=Integer.parseInt(request.getParameter("empId"));
 
 			} catch (Exception e) {
 				dashStat = 0;
 				type = 0;
+				userId=0;
 
 				 
 			}
@@ -389,6 +393,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("stat", dashStat);
+				map.add("userId", userId);
 
 				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getTaskListByEmpIdAndDashCountOverDue", map, TaskListHome[].class);
@@ -404,7 +409,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("stat", dashStat);
-
+				map.add("userId", userId);
 				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getTaskListByEmpIdAndDashCountDueToday", map, TaskListHome[].class);
 				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
@@ -419,7 +424,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("stat", dashStat);
-
+				map.add("userId", userId);
 				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getTaskListByEmpIdAndDashCountDueWeek", map, TaskListHome[].class);
 				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
@@ -434,7 +439,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("stat", dashStat);
-
+				map.add("userId", userId);
 				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getTaskListByEmpIdAndDashCountDueMonth", map, TaskListHome[].class);
 				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
@@ -449,8 +454,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("statusIds", Constants.statusIds);
-
-				TaskListHome[] taskArr = Constants.getRestTemplate()
+ 				TaskListHome[] taskArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getTaskListByEmpId", map, TaskListHome[].class);
 				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
 

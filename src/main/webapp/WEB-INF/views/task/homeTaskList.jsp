@@ -686,7 +686,7 @@ h5 {
 	
 	
 	function showEditTask(taskId) {
-		alert("HI"+taskId);
+		//alert("HI"+taskId);
 			
 			$
 					.getJSON(
@@ -698,7 +698,7 @@ h5 {
 							},
 							function(data) {
 								
-								alert(JSON.stringify(data));
+								//alert(JSON.stringify(data));
 								
 								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
 								document.getElementById("anytime-time2").value=data.task.empBudHr;

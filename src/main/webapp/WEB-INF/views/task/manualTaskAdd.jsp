@@ -118,11 +118,11 @@
 								<form action="${pageContext.request.contextPath}/addManualTask"
 									id="submitInsertClient" method="post">
 
- 
 
-<input type="hidden" name="taskId" value="${task.taskId}">
-<input type="hidden" name="taskType" value="${taskType}">
- 
+
+									<input type="hidden" name="taskId" value="${task.taskId}">
+									<input type="hidden" name="taskType" value="${taskType}">
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="locId2">
 											Employee <span style="color: red">* </span>:
@@ -152,7 +152,7 @@
 													</c:forEach>
 													<c:choose>
 														<c:when test="${flag==0}">
-															<option  value="${epmList.empId}">${epmList.empName}
+															<option value="${epmList.empId}">${epmList.empName}
 																-${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
 														</c:when>
 													</c:choose>
@@ -166,7 +166,7 @@
 									</div>
 
 
- 
+
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="service">
@@ -211,23 +211,23 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
 												onchange="getActivities(this.value)">
-												
+
 												<c:forEach items="${serviceList}" var="serviceList">
 
 													<c:choose>
 														<c:when test="${task.servId==serviceList.servId}">
-															<option  selected value="${serviceList.servId}">${serviceList.servName}</option>
-															 
+															<option selected value="${serviceList.servId}">${serviceList.servName}</option>
+
 														</c:when>
 														<c:otherwise>
-													<option value="${serviceList.servId}">${serviceList.servName}</option>
+															<option value="${serviceList.servId}">${serviceList.servName}</option>
 
 														</c:otherwise>
 													</c:choose>
 												</c:forEach>
-												
-												
-												 
+
+
+
 
 											</select>
 										</div>
@@ -246,8 +246,7 @@
 											<select name="activity" data-placeholder="Select Activity"
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"
-												onchange="getPeriodicity()">
+												data-fouc="" aria-hidden="true" onchange="getPeriodicity()">
 											</select>
 										</div>
 										<div class="col-lg-3">
@@ -270,9 +269,10 @@
 												placeholder="Periodicity">
 										</div>
 										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_periodicity1"
-												style="display: none;">Please Select Above Service & Activity
-												for corresponding Periodicity.</span>
+											<span class="validation-invalid-label"
+												id="error_periodicity1" style="display: none;">Please
+												Select Above Service & Activity for corresponding
+												Periodicity.</span>
 										</div>
 
 									</div>
@@ -294,27 +294,28 @@
 											</select>
 										</div>
 									</div> --%>
-									
-									
+
+
 									<c:if test="${isEdit==0}">
 
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="statutary_endDays">
-											Statutory End Days <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Statutory End Days" id="statutary_endDays"
-												name="statutary_endDays" autocomplete="off" value=0
-												onchange="trim(this)">
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label"
-												id="error_stat_endDays" style="display: none;">Please
-												enter statutory end days.</span>
-										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-lg-3"
+												for="statutary_endDays"> Statutory End Days <span
+												style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													placeholder="Statutory End Days" id="statutary_endDays"
+													name="statutary_endDays" autocomplete="off" value=0
+													onchange="trim(this)">
+											</div>
+											<div class="col-lg-3">
+												<span class="validation-invalid-label"
+													id="error_stat_endDays" style="display: none;">Please
+													enter statutory end days.</span>
+											</div>
 
-									</div>
+										</div>
 									</c:if>
 
 
@@ -328,12 +329,10 @@
 												value="${task.taskStartDate}" name="startDate"
 												id="startDate" placeholder="Start Date">
 										</div>
+
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_startDate"
-												style="display: none;">Please enter start date.</span> <span
-												class="validation-invalid-label" id="error_start_date"
-												style="display: none;">Start date must be greater
-												than end date.</span>
+												style="display: none;">Please enter end date.</span>
 										</div>
 
 									</div>
@@ -351,7 +350,10 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_endDate"
-												style="display: none;">This field is required.</span>
+												style="display: none;">This field is required.</span> <span
+												class="validation-invalid-label" id="error_start_date"
+												style="display: none;">Start date must be less than
+												end date.</span>
 										</div>
 									</div>
 
@@ -371,9 +373,9 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
-									
-										 
+
+
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="empHrs">Employee
 											Budget Hours<span style="color: red">* </span> :
@@ -399,17 +401,20 @@
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<c:if test="${taskType==1}">
- 											<a href="${pageContext.request.contextPath}/manualTaskList"><button type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
- 											</c:if>
- 											<c:if test="${taskType==2}">
-											<a href="${pageContext.request.contextPath}/inactiveTaskList"><button type="button" class="btn btn-primary">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Cancel
-												</button></a>
-												</c:if>
+												<a href="${pageContext.request.contextPath}/manualTaskList"><button
+														type="button" class="btn btn-primary">
+														<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+														Cancel
+													</button></a>
+											</c:if>
+											<c:if test="${taskType==2}">
+												<a
+													href="${pageContext.request.contextPath}/inactiveTaskList"><button
+														type="button" class="btn btn-primary">
+														<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+														Cancel
+													</button></a>
+											</c:if>
 										</div>
 									</div>
 								</form>
