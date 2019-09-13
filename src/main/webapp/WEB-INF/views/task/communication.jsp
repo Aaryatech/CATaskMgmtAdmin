@@ -9,6 +9,8 @@
 <c:url var="saveNewMessage" value="/saveNewMessage" />
 <c:url var="getAllCommunicationByTaskId"
 	value="/getAllCommunicationByTaskId" />
+	<c:url var="insertDeliverableLink" value="/insertDeliverableLink" />
+	
 </head>
 <style type="text/css">
 .media-chat-scrollable {
@@ -248,6 +250,22 @@
 									value="${communicationList.size()}"> <input
 									type="hidden" name="imgPath" id="imgPath" value="${imgViewUrl}">
 								<!-- </form> -->
+								
+							<%-- <form
+									action="${pageContext.request.contextPath}/insertDeliverableLink"
+									id="submitInsertDelivrableLink" method="post"> --%>
+										
+										<input type="hidden" name="taskId" id="task_id" value="${taskId}">
+									<input
+											name="link" id="link" class="form-control mb-3"
+											placeholder="Deliverable Link">
+											
+											<button type="button" id="submtbtn" class="btn bg-teal-400" onclick="addDeliverAbleLink()">
+												<b><i class="icon-paperplane"></i></b>
+											</button>
+									<!-- </form>  -->
+									
+									
 
 							</div>
 							<!-- /basic layout -->
@@ -547,6 +565,39 @@
 				return false;
 			});
 		});
+		
+		//deliverLink
+		function addDeliverAbleLink() {
+			var link = $("#link").val() 
+			var taskId = $("#task_id").val();//document.getElementById("taskId").value;
+			//alert(link+" "+taskId)
+			if (link != "") {
+
+				//document.getElementById("link").value = "";
+
+				$.post('${insertDeliverableLink}', {
+					link : link,
+					taskId : taskId,
+					ajax : 'true',
+				},
+
+				function(data) {
+
+					if (data.error == false) {
+
+						///chatList(1);
+						alert("Link dilivered");
+						window.location.href = "taskListForEmp";
+
+					} else {
+						alert("Link not dilivered");
+						window.location.href = "taskListForEmp";
+					}
+
+				});
+			}
+
+		}
 		//
 	</script>
 

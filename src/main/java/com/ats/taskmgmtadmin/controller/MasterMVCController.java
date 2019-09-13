@@ -2073,5 +2073,40 @@ public class MasterMVCController {
 		}
 		return redirect;
 	}
+	
+	/*********************************Add Deliverable Link******************************/
+	
+	@RequestMapping(value="/insertDeliverableLink", method=RequestMethod.POST)
+	public @ResponseBody Info addDeliverLink(HttpServletRequest request, HttpServletResponse response) {
+		Info info= null;
+		try {
+			int taskId = 0;
+			try {
+				 taskId = Integer.parseInt(request.getParameter("taskId"));
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		
+			
+			String link = request.getParameter("link");
+			
+			System.out.println("Data----------"+link+" "+taskId);
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("taskId", taskId);
+			map.add("link", link);
+			
+			 info = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskDeliverLink", map,
+					Info.class);
+			
+		}catch (Exception e) {
+			System.err.println("Exception in insertDeliverableLink : "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return info;
+		
+	}
 
 }
