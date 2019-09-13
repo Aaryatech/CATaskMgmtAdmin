@@ -334,7 +334,7 @@ h5 {
 												<td><c:choose>
 														<c:when test="${stswisetaskList.overdeu>0}">
 															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1">${stswisetaskList.overdeu}</a>
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1&empId=${empId}">${stswisetaskList.overdeu}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.overdeu}
@@ -343,7 +343,7 @@ h5 {
 												<td><c:choose>
 														<c:when test="${stswisetaskList.duetoday>0}">
 															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2">${stswisetaskList.duetoday}</a>
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2&empId=${empId}">${stswisetaskList.duetoday}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.duetoday}
@@ -352,7 +352,7 @@ h5 {
 												<td><c:choose>
 														<c:when test="${stswisetaskList.week>0}">
 															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3">${stswisetaskList.week}</a>
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3&empId=${empId}">${stswisetaskList.week}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.week}
@@ -361,7 +361,7 @@ h5 {
 												<td><c:choose>
 														<c:when test="${stswisetaskList.month>0}">
 															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4">${stswisetaskList.month}</a>
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4&empId=${empId}">${stswisetaskList.month}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.month}
@@ -462,26 +462,33 @@ h5 {
 														if (v.overdeu > 0) {
 															overdeu = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
 																	+ v.statusValue
-																	+ '&type=1">'
+																	+ '&type=1&empId='
+																	+ membrId
+																	+ '">'
 																	+ v.overdeu
 																	+ '</a>';
 														} else {
 															overdeu = v.overdeu;
 														}
-														 
+
 														if (v.duetoday > 0) {
 															duetoday = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
 																	+ v.statusValue
-																	+ '&type=2">'
-															v.duetoday + '</a>';
+																	+ '&type=2&empId='
+																	+ membrId
+																	+ '">'
+																	+ v.duetoday
+																	+ '</a>';
 														} else {
 															duetoday = v.duetoday;
 														}
-
+														//alert(duetoday)
 														if (v.week > 0) {
 															week = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
 																	+ v.statusValue
-																	+ '&type=3">'
+																	+ '&type=3&empId='
+																	+ membrId
+																	+ '">'
 																	+ v.week
 																	+ '</a>';
 														} else {
@@ -491,7 +498,9 @@ h5 {
 														if (v.month > 0) {
 															month = '<a href="${pageContext.request.contextPath}/taskListForEmp?stat='
 																	+ v.statusValue
-																	+ '&type=4">'
+																	+ '&type=4&empId='
+																	+ membrId
+																	+ '">'
 																	+ v.month
 																	+ '</a>';
 														} else {

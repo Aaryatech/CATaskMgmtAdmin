@@ -933,6 +933,7 @@ public class HomeController<Task> {
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empSes.getEmpId());
+			map.add("userId", empSes.getEmpId());
 			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
 			List<TaskCountByStatus> stswisetaskList = new ArrayList<TaskCountByStatus>(
@@ -1008,10 +1009,12 @@ public class HomeController<Task> {
 		List<TaskCountByStatus> stswisetaskList = new ArrayList<>();
 
 		try {
-
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			int empId = Integer.parseInt(request.getParameter("membrId"));
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
+			map.add("userId", empSes.getEmpId());
 			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
 			 stswisetaskList = new ArrayList<TaskCountByStatus>(
