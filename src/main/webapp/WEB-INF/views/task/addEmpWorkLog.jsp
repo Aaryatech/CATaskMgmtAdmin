@@ -140,7 +140,7 @@
 												id="customer"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
-												<option value="" selected>Select Service</option>
+												<option value="0">Select Customer</option>
 												<c:forEach items="${custHeadList}" var="custHeadList">
 
 													<option value="${custHeadList.custId}">${custHeadList.custFirmName}</option>
@@ -165,7 +165,7 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
 												onchange="getActivities(this.value)">
-												<option value="" selected>Select Service</option>
+												<option value="0">Select Service</option>
 												<c:forEach items="${serviceList}" var="service">
 
 													<option value="${service. servId}">${service. servName}</option>
@@ -209,7 +209,7 @@
 												id="employee" 
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true" onchange="getWorkLog()">
-												<option value="" selected>Select Service</option>
+												<option value="0">Select Employee</option>
 												<c:forEach items="${epmList}" var="epmList">
 
 													<option value="${epmList.empId}">${epmList.empName}</option>
@@ -348,9 +348,9 @@
 
 				function(data) {
 					var html;
-					var p = "";
+					var p = 0;
 					var q = "Select Activity";
-					html += '<option disabled value="'+p+'" selected>' + q
+					html += '<option value="'+p+'" selected>' + q
 							+ '</option>';
 					html += '</option>';
 
@@ -370,8 +370,8 @@
 
 			}//end of if
 		}
-		var emp1;
 		
+		var emp1;	//global Employee variable to fetch employee value.		
 
 		function getWorkLog() {
 			//alert("Hi")
@@ -380,6 +380,8 @@
 			var activity = $("#activity").val();
 			var customer = $("#customer").val();
 			var fromDate = $("#fromDate").val();
+			
+		//	alert("Data------" + emp + " " + service + " " + activity + " "+ customer);
 			emp1 = document.getElementById("employeeId").value = emp;
 			document.getElementById("employeeId").value = emp;
 
@@ -397,20 +399,7 @@
 				dataTable.clear().draw();
 
 				$.each(data, function(i, v) {
-
-				//	var taskText = '<input type="text" class="form-control" id="taskText'+i+'" name="taskText'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.taskText+'" disabled="disabled">'
 					
-				//	var employee = '<input type="text" class="form-control" id="emp'+i+'" name="emp'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.employees+'" disabled="disabled">'
-					
-				//	var custFirmName = '<input type="text" class="form-control" id="custFirmName'+i+'" name="custFirmName'+i+'" autocomplete="off" onchange="trim(this)" value="'+v.custFirmName+'" disabled="disabled">'
-					
-				//	var workhrs = '<input type="time" class="form-control" placeholder="Enter Work Hours" id="workHr'+i+'" name="workHr'+i+'" autocomplete="off" onchange="trim(this)">'
-					
-				//	var remark = '<input type="text" class="form-control" placeholder="Enter Remark" id="remark'+i+'" name="remark'+i+'" autocomplete="off" onchange="trim(this)">'
-					
-				//	var dtpkr = '<input type="text" class="form-control datepickerclass"  placeholder="Enter Work Date" id="workdate'+i+'" name="workdate'+i+'" autocomplete="off" onchange="trim(this)">'
-					
-				//	var chk = '<input type="checkbox" id="TaskId'+i+'"  name="TaskId'+i+'" value="'+v.taskId+'" onchange="getValidate(this.value)">'
 					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+')"><i class="icon-add" style="color: black;">'+
 							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+')"><i class=" icon-pencil7" style="color: black;""></i>';	
 					dataTable.row.add(

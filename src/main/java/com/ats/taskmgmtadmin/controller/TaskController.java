@@ -1431,37 +1431,44 @@ public class TaskController {
 	public @ResponseBody List<EmpWorkLogHrs> getEmpWorkHoursLogs(HttpServletRequest request) {
 		List<EmpWorkLogHrs> empWrkLogList = null;
 		try{
-			System.out.println("Hi");
-	
+			
+		int activity=0;
 		
 		int emp = Integer.parseInt(request.getParameter("emp"));
-		//int service = Integer.parseInt(request.getParameter("service"));
-		//int activity = Integer.parseInt(request.getParameter("activity"));
-		//int customer = Integer.parseInt(request.getParameter("customer"));
+		int service = Integer.parseInt(request.getParameter("service"));
+		
+		try {
+				activity = Integer.parseInt(request.getParameter("activity"));
+		}catch (Exception e) {
+			e.getMessage();
+		}
+		
+		int customer = Integer.parseInt(request.getParameter("customer"));
 		String fromDate = request.getParameter("fromDate");
 		
 		//System.out.println("Hi---------"+emp+" "+fromDate+" "+service+" "+" "+activity+" "+customer);
 		
 		String[] dates = fromDate.split("to");
 
-		System.out.println("Hi---------"+emp+" "+dates[0]+" "+dates[1]);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.add("stat", 9);
 		map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 		map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 		map.add("emp", emp);
-		///map.add("service", service);
-		//map.add("activity", activity);
-		//map.add("customer", customer);
+		map.add("service", service);
+		map.add("activity", activity);
+		map.add("customer", customer);
 
 		EmpWorkLogHrs[] empWrkLogArr = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskDailyWorkLog",
 				map, EmpWorkLogHrs[].class);
 
 		 empWrkLogList = new ArrayList<>(Arrays.asList(empWrkLogArr));
 
-		System.out.println("List Work log-----------"+empWrkLogList);
+		//System.out.println("List Work log-----------"+empWrkLogList);
 		}catch (Exception e) {
 			System.err.println("Exception in  getEmpWorkHoursLogs : "+e.getMessage());
+			e.printStackTrace();
+			
 		}
 		return empWrkLogList;
 
