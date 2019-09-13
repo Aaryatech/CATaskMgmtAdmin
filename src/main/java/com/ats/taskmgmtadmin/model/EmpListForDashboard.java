@@ -1,9 +1,13 @@
 package com.ats.taskmgmtadmin.model;
+
+import java.util.List;
  
 public class EmpListForDashboard {
 
 	private int empId; 
 	private String empName;
+	List<TaskCountByStatus> list;
+	
 	public int getEmpId() {
 		return empId;
 	}
@@ -16,9 +20,15 @@ public class EmpListForDashboard {
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
+	public List<TaskCountByStatus> getList() {
+		return list;
+	}
+	public void setList(List<TaskCountByStatus> list) {
+		this.list = list;
+	}
 	@Override
 	public String toString() {
-		return "EmpListForDashboard [empId=" + empId + ", empName=" + empName + "]";
+		return "EmpListForDashboard [empId=" + empId + ", empName=" + empName + ", list=" + list + "]";
 	}
 	
 	

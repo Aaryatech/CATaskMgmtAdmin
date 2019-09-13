@@ -38,6 +38,7 @@ import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmpListForDashboard;
+import com.ats.taskmgmtadmin.model.EmpListForDashboardByStatus;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.StatusMaster;
@@ -928,44 +929,62 @@ public class HomeController<Task> {
 	public String dashboard(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Model model) {
 
-		String mav = "dashboard";
+		String mav = new String();
 		try {
 
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("empId", empSes.getEmpId());
-			map.add("userId", empSes.getEmpId());
-			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
-			List<TaskCountByStatus> stswisetaskList = new ArrayList<TaskCountByStatus>(
-					Arrays.asList(taskCountByStatus));
+			if(empSes.getEmpType()==3) {
+				
+				mav = "managerDashboard";
+				 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+				map.add("userId", empSes.getEmpId());
+				EmpListForDashboard[] taskCountByStatus = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTaskCountByGroupBymanager",map, EmpListForDashboard[].class);
+				List<EmpListForDashboard> stswisetaskList = new ArrayList<EmpListForDashboard>(
+						Arrays.asList(taskCountByStatus)); 
+				model.addAttribute("stswisetaskList", stswisetaskList);
+				model.addAttribute("empId", empSes.getEmpId());
+				 
+			}else {
+				
+				mav = "dashboard";
+				
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("userId", empSes.getEmpId());
+				TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
+				List<TaskCountByStatus> stswisetaskList = new ArrayList<TaskCountByStatus>(
+						Arrays.asList(taskCountByStatus));
 
-			Date date = new Date();
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
- 
-			map = new LinkedMultiValueMap<>();
-			map.add("empId", empSes.getEmpId());
-			map.add("fromDate", sf.format(date));
-			map.add("toDate", sf.format(date));
-			map.add("empType", empSes.getEmpType()); 
-			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
-			List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
-					Arrays.asList(capacityDetailByEmp));
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+	 
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+				map.add("empType", empSes.getEmpType()); 
+				CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
+				List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
+						Arrays.asList(capacityDetailByEmp));
 
-			model.addAttribute("stswisetaskList", stswisetaskList);
-			model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
-			model.addAttribute("empId", empSes.getEmpId());
-			model.addAttribute("empSes", empSes);
+				model.addAttribute("stswisetaskList", stswisetaskList);
+				model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
+				model.addAttribute("empId", empSes.getEmpId());
+				model.addAttribute("empSes", empSes);
+				
+				 if(empSes.getEmpType()!=5) {
+					 EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
+								.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
+					 model.addAttribute("empList", empListForDashboard);
+				 }
+			}
 			
-			 if(empSes.getEmpType()!=5) {
-				 EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
-							.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
-				 model.addAttribute("empList", empListForDashboard);
-			 }
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1022,6 +1041,34 @@ public class HomeController<Task> {
 			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
 			 stswisetaskList = new ArrayList<TaskCountByStatus>(
+					Arrays.asList(taskCountByStatus));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return stswisetaskList;
+	}
+	
+	@RequestMapping(value = "/showManagerDetail", method = RequestMethod.GET)
+	public @ResponseBody List<EmpListForDashboardByStatus> showManagerDetail(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		List<EmpListForDashboardByStatus> stswisetaskList = new ArrayList<>();
+
+		try {
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			int status = Integer.parseInt(request.getParameter("status"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("userId", empSes.getEmpId());
+			map.add("status", status);
+			EmpListForDashboardByStatus[] taskCountByStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getTaskCountByManagerId", map, EmpListForDashboardByStatus[].class);
+			 stswisetaskList = new ArrayList<EmpListForDashboardByStatus>(
 					Arrays.asList(taskCountByStatus));
 
 		} catch (Exception e) {
