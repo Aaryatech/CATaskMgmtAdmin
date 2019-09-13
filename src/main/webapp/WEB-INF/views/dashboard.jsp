@@ -613,7 +613,7 @@ h5 {
 																+ per
 																+ '%">'
 																+ '<span>'
-																+ per
+																+ per.toFixed(2)
 																+ '% Complete</span> </div> </div>'
 
 														var tr_data = '<tr>'
