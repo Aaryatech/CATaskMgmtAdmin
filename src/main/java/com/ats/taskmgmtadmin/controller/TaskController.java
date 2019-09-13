@@ -1318,16 +1318,18 @@ public class TaskController {
 	@RequestMapping(value = "/getEmpWorkLogs", method = RequestMethod.GET)
 	public @ResponseBody List<GetTaskList> getEmpWorkLogs(HttpServletRequest request) {
 		int emp = Integer.parseInt(request.getParameter("emp"));
-		int service = Integer.parseInt(request.getParameter("service"));
-		int activity = Integer.parseInt(request.getParameter("activity"));
-		int customer = Integer.parseInt(request.getParameter("customer"));
+	//	int service = Integer.parseInt(request.getParameter("service"));
+	//	int activity = Integer.parseInt(request.getParameter("activity"));
+	//	int customer = Integer.parseInt(request.getParameter("customer"));
 
+	//	System.out.println("Vals---------"+emp+" "+service+" "+" "+activity+" "+customer);
+		
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.add("stat", 9);
 		map.add("emp", emp);
-		map.add("service", service);
-		map.add("activity", activity);
-		map.add("customer", customer);
+	//	map.add("service", service);
+	//	map.add("activity", activity);
+	//	map.add("customer", customer);
 
 		GetTaskList[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListForWorkLog",
 				map, GetTaskList[].class);
@@ -1431,12 +1433,13 @@ public class TaskController {
 	
 		
 		int emp = Integer.parseInt(request.getParameter("emp"));
-	//	int service = Integer.parseInt(request.getParameter("service"));
-	//	int activity = Integer.parseInt(request.getParameter("activity"));
-	//	int customer = Integer.parseInt(request.getParameter("customer"));
-
+		//int service = Integer.parseInt(request.getParameter("service"));
+		//int activity = Integer.parseInt(request.getParameter("activity"));
+		//int customer = Integer.parseInt(request.getParameter("customer"));
 		String fromDate = request.getParameter("fromDate");
-		System.out.println("Hi---------"+emp+" "+fromDate);
+		
+		//System.out.println("Hi---------"+emp+" "+fromDate+" "+service+" "+" "+activity+" "+customer);
+		
 		String[] dates = fromDate.split("to");
 
 		System.out.println("Hi---------"+emp+" "+dates[0]+" "+dates[1]);
@@ -1445,7 +1448,7 @@ public class TaskController {
 		map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 		map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 		map.add("emp", emp);
-		//map.add("service", service);
+		///map.add("service", service);
 		//map.add("activity", activity);
 		//map.add("customer", customer);
 
