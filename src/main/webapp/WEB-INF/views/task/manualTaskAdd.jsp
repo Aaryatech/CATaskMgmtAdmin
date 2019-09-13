@@ -319,6 +319,28 @@
 									</c:if>
 
 
+									<c:if test="${isEdit==1}">
+
+										<div class="form-group row">
+
+											<label class="col-form-label col-lg-3" for="startDate">Statutory Due Date
+											  <span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control datepickerclass"
+													value="${task.taskStatutoryDueDate}" name="statDate"
+													id="statDate" placeholder="Start Date">
+											</div>
+
+											<div class="col-lg-3">
+												<span class="validation-invalid-label" id="error_statDate"
+													style="display: none;">Please enter Statutory Due Date.</span>
+											</div>
+
+										</div>
+									</c:if>
+
+
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="startDate">Start
@@ -535,6 +557,21 @@
 												} else {
 													$("#error_startDate")
 															.hide()
+												}
+												
+												
+												
+												if(${isEdit}==1){
+												if (!$("#statDate").val()) {
+ 													isError = true;
+
+													$("#error_statDate")
+															.show()
+
+												} else {
+													$("#error_statDate")
+															.hide()
+												}
 												}
 
 												var from_date = document

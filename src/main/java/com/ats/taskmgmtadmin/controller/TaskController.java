@@ -748,6 +748,8 @@ public class TaskController {
 					map.add("activity", Integer.parseInt(request.getParameter("activity")));
 					map.add("userId", userId);
 					map.add("curDateTime", Constants.getCurDateTime());
+					map.add("statDate", request.getParameter("statDate"));
+
 
 					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
 							Info.class);
