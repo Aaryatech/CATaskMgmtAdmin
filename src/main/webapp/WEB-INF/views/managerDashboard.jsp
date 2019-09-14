@@ -25,8 +25,7 @@
 	href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900"
 	rel="stylesheet" type="text/css">
 <c:url var="getCapacityBuildingDetail" value="getCapacityBuildingDetail" />
-<c:url var="getTaskStatusbreakdownList"
-	value="getTaskStatusbreakdownList" />
+<c:url var="getCostDetail" value="getCostDetail" />
 <c:url var="showManagerDetail" value="showManagerDetail" />
 </head>
 
@@ -97,83 +96,188 @@ h5 {
 	display: none;
 }
 </style>
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Cost Dashboard</h5>
 
-
-
-
-
-
-				<!-- Capacity Details -->
-				<!-- <div class="card">
-					<div class="card-header header-elements-sm-inline">
-						<h6 class="card-title">Capacity Details</h6>
-						<div class="header-elements">
-							<a
-								class="text-default daterange-ranges font-weight-semibold cursor-pointer dropdown-toggle">
-								<i class="icon-calendar3 mr-2"></i> <span></span>
-							</a>
-						</div>
 					</div>
+					<div class="card-body">
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="fromDate">Select
+								Employee <span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-3">
+								<select name="membrId" id="membrId"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									data-fouc="" aria-hidden="true">
+									<c:forEach items="${empList}" var="empList">
+										<c:choose>
+											<c:when test="${empList.empId==empId}">
+												<option value="${empList.empId}" selected>${empList.empName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${empList.empId}">${empList.empName}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
 
-					<div class="card-body ">
-
-
-						<div class="row">
-
-							<div class=" col-sm-3 d-flex align-items-center mb-3 mb-md-0">
-								<a href="#"
-									class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
-									<i class="icon-alarm-add"></i>
-								</a>
-								<div class="ml-3">
-									<h5 class="font-weight-semibold mb-0">1,132</h5>
-									<span class="text-muted">Budgeted Capacity</span>
-								</div>
+								</select>
 							</div>
 
-							<div class=" col-sm-3 d-flex align-items-center mb-3 mb-md-0">
-								<a href="#"
-									class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
-									<i class="icon-tree7"></i>
-								</a>
-								<div class="ml-3">
-									<h5 class="font-weight-semibold mb-0">1,132</h5>
-									<span class="text-muted">Allocated Capacity</span>
-								</div>
+							<div class="col-lg-3">
+								<button type="button" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn" onclick="getCostDetail()">Search</button>
 							</div>
-
-							<div class=" col-sm-3 d-flex align-items-center mb-md-0">
-								<a href="#"
-									class="btn bg-transparent border-indigo-400 text-indigo-400 rounded-round border-2 btn-icon">
-									<i class=icon-history></i>
-								</a>
-								<div class="ml-3">
-									<h5 class="font-weight-semibold mb-0">06:25:00</h5>
-									<span class="text-muted">Actual Hours Worked</span>
-								</div>
-							</div>
-
-
-
-							<div class=" col-sm-3 align-items-center "
-								style="margin-top: 15px;">
-								<div class="progress rounded-round">
-									<div class="progress-bar bg-success" style="width: 35%">
-										<span>35% Complete</span>
-									</div>
-								</div>
-
-							</div>
-
 
 						</div>
+						<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
+						<div id="loader" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+
+						<div class="table-responsive">
+							<table class="table text-nowrap" id="costTab">
+								<thead>
+									<tr class="bg-blue">
+
+										<th>Particulars</th>
+										<th>Cost</th>
+
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td>Budgeted Cost</td>
+										<td><fmt:formatNumber type="number" maxFractionDigits="2"
+												minFractionDigits="2"
+												value="${bugetedAmtAndRevenue.bugetedCost}" /></td>
+									</tr>
+									<tr>
+										<td>Actual Cost</td>
+										<td><fmt:formatNumber type="number" maxFractionDigits="2"
+												minFractionDigits="2"
+												value="${bugetedAmtAndRevenue.actualCost}" /></td>
+									</tr>
+									<tr>
+										<td>Budgeted Revenue</td>
+										<td><fmt:formatNumber type="number" maxFractionDigits="2"
+												minFractionDigits="2"
+												value="${bugetedAmtAndRevenue.bugetedRev}" /></td>
+									</tr>
+									<tr>
+										<td>Actual Revenue</td>
+										<td><fmt:formatNumber type="number" maxFractionDigits="2"
+												minFractionDigits="2"
+												value="${bugetedAmtAndRevenue.actulRev}" /></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
 					</div>
-					card body
+				</div>
+				<%-- <div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Capacity Building</h5>
+
+					</div>
+					<div class="card-body">
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="fromDate">Select
+								Date <span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-3">
+								<input type="text" class="form-control daterange-basic_new"
+									placeholder="From Date" id="fromDate" name="fromDate"
+									autocomplete="off" onchange="trim(this)" value="">
+							</div>
+
+							<div class="col-lg-3">
+								<button type="button" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn" onclick="show()">Search</button>
+							</div>
+
+						</div>
+						<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
+						<div id="loader" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+
+						<div class="table-responsive">
+							<table class="table" id="capTable">
+								<thead>
+									<tr class="bg-blue">
+
+										<th style="width: 300px">Name</th>
+										<th style="width: 50px;">Budgeted Capacity</th>
+										<th style="width: 50px">Allocated Capacity</th>
+										<th style="width: 50px">Actual Hours Worked</th>
+										<th style="width: 50px">% completion bar</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${capacityDetailByEmpList}"
+										var="capacityDetailByEmpList" varStatus="count">
+										<c:if test="${capacityDetailByEmpList.empId==empId}">
+											<tr>
+
+												<td>${capacityDetailByEmpList.empName}</td>
+												<td>${capacityDetailByEmpList.bugetedCap}</td>
+												<td>${capacityDetailByEmpList.allWork}</td>
+												<td>${capacityDetailByEmpList.actWork}</td>
+												<td><c:set var="per"
+														value="${(capacityDetailByEmpList.actWork/capacityDetailByEmpList.allWork)*100}"></c:set>
+													<div class="progress rounded-round">
+														<div class="progress-bar bg-success"
+															style="width: ${per}%">
+															<span><fmt:formatNumber type="number"
+																	maxFractionDigits="2" minFractionDigits="2"
+																	value="${per}" />% Complete</span>
+														</div>
+													</div></td>
+											</tr>
+										</c:if>
+									</c:forEach>
+
+									<c:forEach items="${capacityDetailByEmpList}"
+										var="capacityDetailByEmpList" varStatus="count">
+										<c:if test="${capacityDetailByEmpList.empId!=empId}">
+											<tr>
+
+												<td>${capacityDetailByEmpList.empName}</td>
+												<td>${capacityDetailByEmpList.bugetedCap}</td>
+												<td>${capacityDetailByEmpList.allWork}</td>
+												<td>${capacityDetailByEmpList.actWork}</td>
+												<td><c:set var="per"
+														value="${(capacityDetailByEmpList.actWork/capacityDetailByEmpList.allWork)*100}"></c:set>
+
+													<div class="progress rounded-round">
+														<div class="progress-bar bg-success"
+															style="width: ${per}%">
+															<span><fmt:formatNumber type="number"
+																	maxFractionDigits="2" minFractionDigits="2"
+																	value="${per}" />% Complete</span>
+														</div>
+													</div></td>
+											</tr>
+										</c:if>
+									</c:forEach>
 
 
-				</div> -->
-				<!-- /support tickets -->
- 
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div> --%>
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Task Status breakdown</h5>
@@ -214,8 +318,7 @@ h5 {
 												test="${list.overdeu>0 || list.duetoday>0 || list.week>0 || list.month>0}">
 
 												<tr>
-													<td><a href="#"
-														onclick="showManagerDetail(${list.statusValue},${stswisetaskList.empId},'${list.statusText}')">${stswisetaskList.empName}</a></td>
+													<td>${stswisetaskList.empName}</td>
 
 													<td>${list.statusText}</td>
 													<td><c:choose>
@@ -360,67 +463,68 @@ h5 {
 			}
 		});
 	</script>
- 
+
 	<script type="text/javascript">
-		function showManagerDetail(value,empId, taskststext) {
+		function showManagerDetail(value, empId, taskststext) {
 
 			document.getElementById("taskststext").innerHTML = taskststext;
-			 $("#showManagerDetailloader").show();
-			 $('#modal_small').modal('show');
-			 
-			  $.getJSON('${showManagerDetail}', {
+			$("#showManagerDetailloader").show();
+			$('#modal_small').modal('show');
+
+			$.getJSON('${showManagerDetail}', {
 				status : value,
 				empId : empId,
 				ajax : 'true',
 
 			}, function(data) {
 
-				/* $("#taskDetailTab tbody").empty(); */
-
 				var dataTable = $('#taskDetailTab').DataTable();
 				dataTable.clear().draw();
-				
-				  $.each(data, function(i, v) {
-					  
-					/* var tr_data = '<tr>'
-						+ '<td  >'
-						+ v.empName
-						+ '</td>'
-						+ '<td  >'
-						+ v.overdeu
-						+ '</td>'
-						+ '<td  >'
-						+ v.duetoday
-						+ '</td>'
-						+ '<td  >'
-						+ v.week
-						+ '</td>'
-						+ '<td  >'
-						+ v.month 
-						+ '</td>'
-						+ '</tr>';
-				$(
-						'#taskDetailTab'
-								+ ' tbody')
-						.append(tr_data);
-				alert(tr_data) */
-				
-				dataTable.row.add(
-						[  
-						  v.empName,
-						  v.overdeu,
-						  v.duetoday,
-						  v.week,v.month
-						
-						]).draw();
-				
-				});  
-				
-				
-				$("#showManagerDetailloader").hide();
-			});  
 
-			
+				$.each(data, function(i, v) {
+
+					dataTable.row.add(
+							[ v.empName, v.overdeu, v.duetoday, v.week, v.month
+
+							]).draw();
+
+				});
+
+				$("#showManagerDetailloader").hide();
+			});
+
+		}
+
+		function getCostDetail() {
+
+			var membrId = document.getElementById("membrId").value;
+			$("#loader").show();
+			$.getJSON('${getCostDetail}', {
+				membrId : membrId,
+				ajax : 'true',
+
+			}, function(data) {
+
+				$("#costTab tbody").empty();
+
+				var bugetedCost = '<tr> <td>Budgeted Cost</td> <td>'
+						+ data.bugetedCost.toFixed(2) + '</td></tr>';
+				$('#costTab' + ' tbody').append(bugetedCost);
+
+				var actualCost = '<tr> <td>Actual Cost</td> <td>'
+						+ data.actualCost.toFixed(2) + '</td></tr>';
+				$('#costTab' + ' tbody').append(actualCost);
+
+				var bugetedRev = '<tr> <td>Budgeted Revenue</td> <td>'
+						+ data.bugetedRev.toFixed(2) + '</td></tr>';
+				$('#costTab' + ' tbody').append(bugetedRev);
+
+				var actualRev = '<tr> <td>Actual Revenue</td> <td>'
+						+ data.actulRev.toFixed(2) + '</td></tr>';
+				$('#costTab' + ' tbody').append(actualRev);
+				$("#loader").hide();
+			});
+
 		}
 	</script>
 

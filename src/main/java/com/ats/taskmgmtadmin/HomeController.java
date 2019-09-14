@@ -34,6 +34,7 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.TaskText;
+import com.ats.taskmgmtadmin.model.BugetedAmtAndRevenue;
 import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
@@ -371,19 +372,17 @@ public class HomeController<Task> {
 			int dashStat = 0;
 			int type = 0;
 			int userId = 0;
-			
 
 			try {
 				dashStat = Integer.parseInt(request.getParameter("stat"));
 				type = Integer.parseInt(request.getParameter("type"));
-				userId=Integer.parseInt(request.getParameter("empId"));
+				userId = Integer.parseInt(request.getParameter("empId"));
 
 			} catch (Exception e) {
 				dashStat = 0;
 				type = 0;
-				userId=0;
+				userId = 0;
 
-				 
 			}
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -455,7 +454,7 @@ public class HomeController<Task> {
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("statusIds", Constants.statusIds);
- 				TaskListHome[] taskArr = Constants.getRestTemplate()
+				TaskListHome[] taskArr = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getTaskListByEmpId", map, TaskListHome[].class);
 				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
 
@@ -935,23 +934,37 @@ public class HomeController<Task> {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 
-			if(empSes.getEmpType()==3) {
-				
+			if (empSes.getEmpType() == 2) {
+
 				mav = "managerDashboard";
-				 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("userId", empSes.getEmpId());
-				EmpListForDashboard[] taskCountByStatus = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getTaskCountByGroupBymanager",map, EmpListForDashboard[].class);
+				EmpListForDashboard[] taskCountByStatus = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskCountByGroupBymanager", map, EmpListForDashboard[].class);
 				List<EmpListForDashboard> stswisetaskList = new ArrayList<EmpListForDashboard>(
-						Arrays.asList(taskCountByStatus)); 
+						Arrays.asList(taskCountByStatus));
 				model.addAttribute("stswisetaskList", stswisetaskList);
 				model.addAttribute("empId", empSes.getEmpId());
+
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
+				model.addAttribute("empList", empListForDashboard);
+				
 				 
-			}else {
+				map.add("fromDate", "2019-09-01");
+				map.add("toDate", "2019-09-30");
+				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
+				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
 				
+				
+			} else {
+
 				mav = "dashboard";
-				
+
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("userId", empSes.getEmpId());
@@ -962,12 +975,12 @@ public class HomeController<Task> {
 
 				Date date = new Date();
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-	 
+
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
-				map.add("empType", empSes.getEmpType()); 
+				map.add("empType", empSes.getEmpType());
 				CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
 				List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
@@ -977,15 +990,14 @@ public class HomeController<Task> {
 				model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
 				model.addAttribute("empId", empSes.getEmpId());
 				model.addAttribute("empSes", empSes);
-				
-				 if(empSes.getEmpType()!=5) {
-					 EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
-								.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
-					 model.addAttribute("empList", empListForDashboard);
-				 }
+
+				if (empSes.getEmpType() != 5) {
+					EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
+							.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
+					model.addAttribute("empList", empListForDashboard);
+				}
 			}
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1024,7 +1036,7 @@ public class HomeController<Task> {
 
 		return capacityDetailByEmpList;
 	}
-	
+
 	@RequestMapping(value = "/getTaskStatusbreakdownList", method = RequestMethod.GET)
 	public @ResponseBody List<TaskCountByStatus> getTaskStatusbreakdownList(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -1040,8 +1052,7 @@ public class HomeController<Task> {
 			map.add("userId", empSes.getEmpId());
 			TaskCountByStatus[] taskCountByStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getTaskCountByStatus", map, TaskCountByStatus[].class);
-			 stswisetaskList = new ArrayList<TaskCountByStatus>(
-					Arrays.asList(taskCountByStatus));
+			stswisetaskList = new ArrayList<TaskCountByStatus>(Arrays.asList(taskCountByStatus));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1049,7 +1060,7 @@ public class HomeController<Task> {
 
 		return stswisetaskList;
 	}
-	
+
 	@RequestMapping(value = "/showManagerDetail", method = RequestMethod.GET)
 	public @ResponseBody List<EmpListForDashboardByStatus> showManagerDetail(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -1061,15 +1072,14 @@ public class HomeController<Task> {
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			int empId = Integer.parseInt(request.getParameter("empId"));
 			int status = Integer.parseInt(request.getParameter("status"));
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("userId", empSes.getEmpId());
 			map.add("status", status);
-			EmpListForDashboardByStatus[] taskCountByStatus = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getTaskCountByManagerId", map, EmpListForDashboardByStatus[].class);
-			 stswisetaskList = new ArrayList<EmpListForDashboardByStatus>(
-					Arrays.asList(taskCountByStatus));
+			EmpListForDashboardByStatus[] taskCountByStatus = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getTaskCountByManagerId", map, EmpListForDashboardByStatus[].class);
+			stswisetaskList = new ArrayList<EmpListForDashboardByStatus>(Arrays.asList(taskCountByStatus));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1078,6 +1088,28 @@ public class HomeController<Task> {
 		return stswisetaskList;
 	}
 	
+	@RequestMapping(value = "/getCostDetail", method = RequestMethod.GET)
+	public @ResponseBody BugetedAmtAndRevenue getCostDetail(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		BugetedAmtAndRevenue bugetedAmtAndRevenue = new BugetedAmtAndRevenue();
+
+		try {
+			 
+			int empId = Integer.parseInt(request.getParameter("membrId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", empId);
+			map.add("fromDate", "2019-09-01");
+			map.add("toDate", "2019-09-30");
+			bugetedAmtAndRevenue = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
+			  
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return bugetedAmtAndRevenue;
+	}
 	@RequestMapping(value = "/dashboard1", method = RequestMethod.GET)
 	public String dashboard1(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Model model) {
