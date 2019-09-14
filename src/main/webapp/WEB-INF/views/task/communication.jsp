@@ -258,7 +258,7 @@
 										<input type="hidden" name="taskId" id="task_id" value="${taskId}">
 									<input
 											name="link" id="link" class="form-control mb-3"
-											placeholder="Deliverable Link">
+											placeholder="Deliverable Link" value="${task.exVar1}">
 											
 											<button type="button" id="submtbtn" class="btn bg-teal-400" onclick="addDeliverAbleLink()">
 												<b><i class="icon-paperplane"></i></b>
@@ -599,6 +599,8 @@
 
 		}
 		//
+		
+		
 	</script>
 
 </body>
