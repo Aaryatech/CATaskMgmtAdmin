@@ -83,7 +83,7 @@ public class CustDetailController {
 			CustNameId cust= Constants.getRestTemplate().postForObject(Constants.url + "/getCustNameById",map, CustNameId.class);
 			mav.addObject("custName", cust.getCustName());			
 
-			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 

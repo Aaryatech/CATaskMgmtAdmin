@@ -715,7 +715,7 @@ public class MasterMVCController {
 				EmployeeMaster employee = new EmployeeMaster();
 				mav.addObject("employee", employee);
 
-				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEnrolledServices",
 						ServiceMaster[].class);
 				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
 

@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
@@ -32,6 +33,7 @@ import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.ExceUtil;
 import com.ats.taskmgmtadmin.common.ExportToExcel;
 import com.ats.taskmgmtadmin.common.ReportCostants;
+import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.report.CompletedTaskReport;
 import com.ats.taskmgmtadmin.model.report.TlTaskCompletReport;
 import com.ats.taskmgmtadmin.util.ItextPageEvent;
@@ -87,7 +89,9 @@ public class ReportController {
 		String reportName = "Task completed";
 	 
 		try {
-
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
 			 
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
@@ -95,8 +99,9 @@ public class ReportController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		 
-			map.add("fromDate", fromDate);
- 			map.add("toDate", toDate);
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+ 			map.add("toDate",  DateConvertor.convertToYMD(toDate));
+ 			map.add("empIds", String.valueOf(userId));
  			CompletedTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
 			List<CompletedTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));

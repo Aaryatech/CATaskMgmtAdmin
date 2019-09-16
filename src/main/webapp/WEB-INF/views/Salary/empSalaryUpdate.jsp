@@ -105,7 +105,7 @@
 										</div>
 
 										<label class="col-form-label col-lg-2" for="empService" align="right">Financial
-											Year :<span style="color: red">*
+											Year<span style="color: red">*
 										</span>: </label>
 										<div class="col-lg-3">
 											<select name="finYear"

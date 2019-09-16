@@ -110,17 +110,18 @@
 
 											</select>
 										</div>
-
 										<label class="col-form-label col-lg-2" for="activity">
-											Activity : </label>
+											Activity <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-4">
 											<select name="activity" data-placeholder="Select Activity"
-												id="activity"
-												class="form-control form-control-select21 select21-hidden-accessible"
-												data-fouc1="" aria-hidden1="true1">
+												id="activity" 
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+
+
 											</select>
 										</div>
-
 
 									</div>
 
@@ -435,7 +436,8 @@
 										</thead>
 										<tbody>
 
-											<c:forEach items="${custDetailList}" var="custDetail" varStatus="count">
+											<c:forEach items="${custDetailList}" var="custDetail"
+												varStatus="count">
 
 												<tr>
 													<td>${count.index+1}</td>
@@ -456,7 +458,8 @@
 													<td class="text-center"><a href="#"
 														onclick="showEdit(${custDetail.custDetailId})"
 														title="Edit"><i class="icon-pencil7"
-															style="color: black;"></i></a> <a href="${pageContext.request.contextPath}/deletCustDetail?custDetId=${custDetail.custDetailId}"
+															style="color: black;"></i></a> <a
+														href="${pageContext.request.contextPath}/deletCustDetail?custDetId=${custDetail.custDetailId}"
 														onClick="return confirm('Are you sure want to delete this record');"
 														title="Delete"><i class="icon-trash"
 															style="color: black;"></i> </a></td>
