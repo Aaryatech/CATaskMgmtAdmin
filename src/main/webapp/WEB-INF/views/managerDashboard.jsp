@@ -123,6 +123,9 @@ h5 {
 
 								</select>
 							</div>
+							<div class="col-lg-3">
+								 <input type="text" class="form-control datepickermonth" id="monthyear" name="monthyear"  value="${month}-${year}">
+							</div>
 
 							<div class="col-lg-3">
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
@@ -441,6 +444,18 @@ h5 {
 	<!-- /page content -->
 
 	<script type="text/javascript">
+	
+	   //datepickermonth
+	// Single picker
+		$('.datepickermonth').daterangepicker({
+			singleDatePicker : true,
+		 
+			showDropdowns : true ,
+			locale : {
+				format : 'MM-YYYY'
+			}
+			 
+		});
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -498,9 +513,12 @@ h5 {
 		function getCostDetail() {
 
 			var membrId = document.getElementById("membrId").value;
+			var monthyear = document.getElementById("monthyear").value;
+			 
 			$("#loader").show();
 			$.getJSON('${getCostDetail}', {
 				membrId : membrId,
+				monthyear : monthyear,
 				ajax : 'true',
 
 			}, function(data) {

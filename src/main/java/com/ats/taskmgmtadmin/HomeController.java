@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -953,13 +954,32 @@ public class HomeController<Task> {
 						.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
 				model.addAttribute("empList", empListForDashboard);
 				
+				 Date date = new Date();
+				 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 				 
-				map.add("fromDate", "2019-09-01");
-				map.add("toDate", "2019-09-30");
+				 Calendar c = Calendar.getInstance();   // this takes current date
+				 c.set(Calendar.DAY_OF_MONTH, 1);
+				// System.out.println(c.getTime());
+				    
+				 Calendar calendar = Calendar.getInstance();  
+			     calendar.setTime(date);  
+			     calendar.add(Calendar.MONTH, 1);  
+			     calendar.set(Calendar.DAY_OF_MONTH, 1);  
+			     calendar.add(Calendar.DATE, -1);  
+
+			     Date lastDayOfMonth = calendar.getTime();
+			        
+				map.add("fromDate", sf.format(c.getTime()));
+				map.add("toDate", sf.format(lastDayOfMonth));
 				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
 				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
 				
+				int year = c.get(Calendar.YEAR);
+				int month = c.get(Calendar.MONTH)+1;
+				 
+				model.addAttribute("year", year);
+				model.addAttribute("month", month);
 				
 			} else {
 
@@ -1097,10 +1117,24 @@ public class HomeController<Task> {
 		try {
 			 
 			int empId = Integer.parseInt(request.getParameter("membrId"));
+			String month = request.getParameter("monthyear"); 
+			String[] monthyear = month.split("-");
+			
+			String firstDate = "01-"+monthyear[0]+"-"+monthyear[1];
+			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			
+			Date date = sf.parse(firstDate); 
+			 Calendar calendar = Calendar.getInstance();  
+		     calendar.setTime(date);  
+		     calendar.add(Calendar.MONTH, 1);  
+		     calendar.set(Calendar.DAY_OF_MONTH, 1);  
+		     calendar.add(Calendar.DATE, -1);  
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
-			map.add("fromDate", "2019-09-01");
-			map.add("toDate", "2019-09-30");
+			map.add("fromDate", DateConvertor.convertToYMD(firstDate));
+			map.add("toDate", yy.format(calendar.getTime()));
 			bugetedAmtAndRevenue = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
 			  
