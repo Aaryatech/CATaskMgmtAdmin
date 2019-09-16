@@ -88,6 +88,28 @@
 
 
 							</div>
+							<c:if test="${userType==3 || userType==2}">
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="employee">
+									Employee <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-3">
+
+									<select data-placeholder="Select Employee"
+										name="empId" id="empId"
+										class="form-control form-control-sm select"
+										data-container-css-class="select-sm" data-fouc>
+										<option value="">Select Employee</option>
+										<c:forEach items="${epmList}" var="epmList">
+											<option value="${epmList.empId}">
+											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+										</c:forEach>
+
+									</select> <!-- <span class="validation-invalid-label" id="error_locId2"
+										style="display: none;">This field is required.</span> -->
+								</div>
+							</div>
+							</c:if>
 
 
 							<table
