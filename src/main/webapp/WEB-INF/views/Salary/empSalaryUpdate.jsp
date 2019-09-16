@@ -150,7 +150,7 @@
 												<td>${count.index+1}</td>
 
 												<td>${epmList.empName}</td>
-												<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td>
+												<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Team Leader' : epmList.empType==5 ? 'Employee' : ''}</td>
 												<td>${epmList.empDob}</td>
 												<td>${epmList.empEmail}</td>
 												<td>${epmList.empMob}</td>
