@@ -128,9 +128,9 @@
 										<td>1</td>
 										<td>Task Completed</td>
 										<td class="text-center"><a href="#"
-											onclick="getProgReport(1,'showCompletedTaskRep')"><i
+											onclick="getProgReport(1,'showCompletedTaskRep')" title="pdf"><i
 												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
-											href="#" onclick="getProgReport(0,'showCompletedTaskRep')"><i
+											href="#" onclick="getProgReport(0,'showCompletedTaskRep')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
 									
@@ -138,15 +138,28 @@
 										<td>2</td>
 										<td>Team Leader Task Completed</td>
 										<td class="text-center"><a href="#"
-											onclick="getProgReport(1,'getTeamLeadCompletTask')"><i
+											onclick="getProgReport(1,'getTeamLeadCompletTask')" title="pdf"><i
 												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
-											href="#" onclick="getProgReport(0,'getTeamLeadCompletTask')"><i
+											href="#" onclick="getProgReport(0,'getTeamLeadCompletTask')" title="excel"><i
+												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
+									</tr>
+									
+									<tr>
+										<td>3</td>
+										<td>Employee & Manager Performance</td>
+										
+										<td class="text-center"><a href="#" title="pdf"
+											onclick="getProgReport(1,'showEmpMngrPerformncRep')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+											href="#" onclick="getProgReport(0,'showEmpMngrPerformncRep')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
 
 								</tbody>
 							</table>
 							<input type="hidden" id="p" name="p" value="0">
+								<input type="hidden" id="emp_name" name="emp_name"
+											value="0"> 
 						</div>
 					</form>
 				</div>
@@ -177,6 +190,12 @@
 				document.getElementById("p").value = "1";
 			}
 
+			if ($("#empId option").length > 0) {
+				var elm = document.getElementById('empId');
+				var text = elm.options[elm.selectedIndex].innerHTML;
+				document.getElementById("emp_name").value = text;
+			}  
+			
 			var form = document.getElementById("reportForm");
 
 			form.setAttribute("target", "_blank");
