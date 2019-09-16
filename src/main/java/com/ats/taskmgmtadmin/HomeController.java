@@ -35,6 +35,7 @@ import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.TaskText;
+import com.ats.taskmgmtadmin.model.ActiveHomeTaskList;
 import com.ats.taskmgmtadmin.model.BugetedAmtAndRevenue;
 import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
 import com.ats.taskmgmtadmin.model.CustNameId;
@@ -312,51 +313,7 @@ public class HomeController<Task> {
 		return "redirect:/";
 	}
 
-	/*
-	 * @RequestMapping(value = "/employeeList", method = RequestMethod.GET) public
-	 * ModelAndView employeeListForm(Locale locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("master/employeeList");
-	 * 
-	 * return mav; }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/employeeAdd", method = RequestMethod.GET) public
-	 * ModelAndView employeeAddForm(Locale locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("master/employeeAdd");
-	 * 
-	 * return mav; }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/customerGroupList", method = RequestMethod.GET)
-	 * public ModelAndView customerGroupListForm(Locale locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("master/customerGroupList");
-	 * 
-	 * return mav; }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/customerGroupAdd", method = RequestMethod.GET)
-	 * public ModelAndView customerGroupAddForm(Locale locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("master/customerGroupAdd");
-	 * 
-	 * return mav; }
-	 */
-
-	/*
-	 * @RequestMapping(value = "/customerActivityAddMap", method =
-	 * RequestMethod.GET) public ModelAndView customerActivityAddMapForm(Locale
-	 * locale, Model model) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("master/customerActivityAddMap");
-	 * 
-	 * return mav; }
-	 */
+	/***********************************Home Task List***********************************************/
 
 	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
 	public ModelAndView taskListForEmpForm(HttpServletRequest request, HttpServletResponse response,
@@ -496,6 +453,148 @@ public class HomeController<Task> {
 		return mav;
 	}
 
+	/************************************Home Task List 2**************************************/
+	//Mahendra
+	// 16-09-2019
+	
+	@RequestMapping(value = "/activeTaskListForEmp", method = RequestMethod.GET)
+	public @ResponseBody ActiveHomeTaskList activeTaskListForEmp(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
+		ActiveHomeTaskList home=new ActiveHomeTaskList();
+		
+		List<TaskListHome> taskList = new ArrayList<TaskListHome>();
+
+		ModelAndView mav = new ModelAndView("task/homeTaskList");
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+			mav.addObject("empType", empSes.getEmpType());
+			int dashStat = 0;
+			int type = 0;
+			int userId = 0;
+
+			try {
+				dashStat = Integer.parseInt(request.getParameter("stat"));
+				type = Integer.parseInt(request.getParameter("type"));
+				userId = Integer.parseInt(request.getParameter("empId"));
+
+			} catch (Exception e) {
+				dashStat = 0;
+				type = 0;
+				userId = 0;
+
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			// dash
+
+			if (dashStat != 0 && type == 1) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+				map.add("userId", userId);
+
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountOverDue", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else if (dashStat != 0 && type == 2) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+				map.add("userId", userId);
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueToday", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else if (dashStat != 0 && type == 3) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+				map.add("userId", userId);
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueWeek", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else if (dashStat != 0 && type == 4) {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("stat", dashStat);
+				map.add("userId", userId);
+				TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getTaskListByEmpIdAndDashCountDueMonth", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			} else {
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("statusIds", Constants.statusIds);
+				TaskListHome[] taskArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTaskListByEmpId", map, TaskListHome[].class);
+				taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
+
+				for (int i = 0; i < taskList.size(); i++) {
+
+					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					taskList.get(i).setExVar2(FormValidation.Encrypt(String.valueOf(empSes.getEmpId())));
+				}
+
+			}
+
+			System.err.println("taskList-----" + taskList.toString());
+			
+			home.setTaskList(taskList);		 
+			
+			// dash
+			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
+					ServiceMaster[].class);
+			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+			home.setServicMstrList(srvcMstrList);
+
+			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
+					CustNameId[].class);
+			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
+			home.setCustList(custGrpList);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("empType", empSes.getEmpType());
+			StatusMaster[] statusMstr = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
+			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
+			home.setStatusMstrList(statusList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return home;
+	}
 	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
 	public ModelAndView fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
