@@ -259,6 +259,11 @@
 									<input
 											name="link" id="link" class="form-control mb-3"
 											placeholder="Deliverable Link" value="${task.exVar1}">
+									<div class="col-lg-6">
+											<span class="validation-invalid-label"
+												id="error_link" style="display: none;">Please
+												enter delivery link.</span>
+										</div>
 											
 											<button type="button" id="submtbtn" class="btn bg-teal-400" onclick="addDeliverAbleLink()">
 												<b><i class="icon-paperplane"></i></b>
@@ -572,7 +577,7 @@
 			var taskId = $("#task_id").val();//document.getElementById("taskId").value;
 			//alert(link+" "+taskId)
 			if (link != "") {
-
+				$("#error_link").hide()
 				//document.getElementById("link").value = "";
 
 				$.post('${insertDeliverableLink}', {
@@ -595,12 +600,20 @@
 					}
 
 				});
+			}else{
+				if (!$("#link").val()) {
+
+					isError = true;
+
+					$("#error_link").show()
+					//return false;
+				} else {
+					$("#error_link").hide()
+				}
 			}
 
 		}
-		//
-		
-		
+			
 	</script>
 
 </body>

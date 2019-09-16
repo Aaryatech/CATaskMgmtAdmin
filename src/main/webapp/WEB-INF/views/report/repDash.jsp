@@ -74,7 +74,7 @@
 									Date: </label>
 								<div class="col-lg-3">
 									<input type="text" class="form-control datepickerclass"
-										name="workDate" id="workDate" placeholder="Task End Date">
+										name="fromDate" id="fromDate" placeholder="Task End Date">
 								</div>
 
 
@@ -83,7 +83,7 @@
 									Date: </label>
 								<div class="col-lg-3">
 									<input type="text" class="form-control datepickerclass"
-										name="workDate" id="workDate" placeholder="Task End Date">
+										name="toDate" id="toDate" placeholder="Task End Date">
 								</div>
 
 
@@ -109,6 +109,16 @@
 											onclick="getProgReport(1,'showCompletedTaskRep')"><i
 												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
 											href="#" onclick="getProgReport(0,'showCompletedTaskRep')"><i
+												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
+									</tr>
+									
+									<tr>
+										<td>2</td>
+										<td>Team Leader Task Completed</td>
+										<td class="text-center"><a href="#"
+											onclick="getProgReport(1,'getTeamLeadCompletTask')"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+											href="#" onclick="getProgReport(0,'getTeamLeadCompletTask')"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
 
