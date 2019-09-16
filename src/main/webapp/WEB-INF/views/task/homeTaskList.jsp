@@ -599,7 +599,7 @@ h5 {
 
 
 										<td id="taskStatus${taskList.taskId}"
-											style="background-color: ${taskList.statusColor}">${taskList.taskStatus}</td>
+											style="color: ${taskList.statusColor};font-weight: bold;">${taskList.taskStatus}</td>
 										<td align="center"><select name="set_status"
 											onClick1="updateStatus_new(this.value, ${taskList.taskId })"
 											id="set_status${taskList.taskId}"

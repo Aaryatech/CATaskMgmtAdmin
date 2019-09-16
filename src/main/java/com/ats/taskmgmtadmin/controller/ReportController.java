@@ -221,8 +221,7 @@ public class ReportController {
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
 
-				table.addCell(hcell);
-
+ 
 				table.addCell(hcell);
 				hcell = new PdfPCell(new Phrase("Total Hrs Employee", tableHeaderFont));
 				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -284,14 +283,18 @@ public class ReportController {
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getTaskStatutoryDueDate(), headFontData));
+					
+					String[] splited = prog.getTaskStatutoryDueDate().split(" ");
+					//Date date=new SimpleDateFormat("dd/MM/yyyy").parse(prog.getTaskStatutoryDueDate()); 
+					cell = new PdfPCell(new Phrase("" +splited[0] , headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
 					table.addCell(cell);
+					String[] splited1 = prog.getTaskEndDate().split(" ");
 
-					cell = new PdfPCell(new Phrase("" + prog.getTaskEndDate(), headFontData));
+					//Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(prog.getTaskEndDate());  
+					cell = new PdfPCell(new Phrase("" +splited1[0], headFontData));
 					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
@@ -319,6 +322,7 @@ public class ReportController {
 				document.add(name);
 				document.add(new Paragraph("\n"));
 				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
+				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -410,7 +414,7 @@ public class ReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "From Date:" + fromDate + "",
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "From Date:" + fromDate + "   To Date:" + toDate + "",
 								"", 'L');
 
 						ExceUtil.autoSizeColumns(wb, 3);
