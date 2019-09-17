@@ -601,7 +601,7 @@ public class HomeController<Task> {
 		return home;
 	}
 
-	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
+	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.GET)
 	public @ResponseBody ActiveHomeTaskList fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model mav) {
 
 		ActiveHomeTaskList home = new ActiveHomeTaskList();
@@ -619,6 +619,7 @@ public class HomeController<Task> {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 			map.add("empId", empSes.getEmpId());
+			map.add("stats", Integer.parseInt(request.getParameter("stats")));
 			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("service", Integer.parseInt(request.getParameter("service")));
@@ -652,6 +653,7 @@ public class HomeController<Task> {
 
 		} catch (Exception e) {
 			System.err.println("Exce in fliterTaskList  " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return home;
