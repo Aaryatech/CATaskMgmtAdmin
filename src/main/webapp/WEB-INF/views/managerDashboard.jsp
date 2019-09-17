@@ -24,7 +24,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900"
 	rel="stylesheet" type="text/css">
-<c:url var="getCapacityBuildingDetail" value="getCapacityBuildingDetail" />
+<c:url var="searchManagerwiseCapacityBuilding"
+	value="searchManagerwiseCapacityBuilding" />
 <c:url var="getCostDetail" value="getCostDetail" />
 <c:url var="showManagerDetail" value="showManagerDetail" />
 </head>
@@ -124,7 +125,8 @@ h5 {
 								</select>
 							</div>
 							<div class="col-lg-3">
-								 <input type="text" class="form-control datepickermonth" id="monthyear" name="monthyear"  value="${month}-${year}">
+								<input type="text" class="form-control datepickermonth"
+									id="monthyear" name="monthyear" value="${month}-${year}">
 							</div>
 
 							<div class="col-lg-3">
@@ -183,7 +185,8 @@ h5 {
 						</div>
 					</div>
 				</div>
-				<%-- <div class="card">
+
+				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Capacity Building</h5>
 
@@ -196,17 +199,17 @@ h5 {
 							<div class="col-lg-3">
 								<input type="text" class="form-control daterange-basic_new"
 									placeholder="From Date" id="fromDate" name="fromDate"
-									autocomplete="off" onchange="trim(this)" value="">
+									autocomplete="off" onchange="trim(this)" value="${date}">
 							</div>
 
 							<div class="col-lg-3">
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
-									id="submtbtn" onclick="show()">Search</button>
+									id="submtbtn" onclick="searchManagerwiseCapacityBuilding()">Search</button>
 							</div>
 
 						</div>
-						<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
-						<div id="loader" style="display: none;">
+
+						<div id="loader2" style="display: none;">
 							<img
 								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
 								width="150px" height="150px"
@@ -227,17 +230,17 @@ h5 {
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${capacityDetailByEmpList}"
-										var="capacityDetailByEmpList" varStatus="count">
-										<c:if test="${capacityDetailByEmpList.empId==empId}">
+									<c:forEach items="${managerListWithEmpIds}"
+										var="managerListWithEmpIds" varStatus="count">
+										<c:if test="${managerListWithEmpIds.ids.size()>0}">
 											<tr>
 
-												<td>${capacityDetailByEmpList.empName}</td>
-												<td>${capacityDetailByEmpList.bugetedCap}</td>
-												<td>${capacityDetailByEmpList.allWork}</td>
-												<td>${capacityDetailByEmpList.actWork}</td>
+												<td>${managerListWithEmpIds.empName}</td>
+												<td>${managerListWithEmpIds.bugetedWork}</td>
+												<td>${managerListWithEmpIds.allWork}</td>
+												<td>${managerListWithEmpIds.actlWork}</td>
 												<td><c:set var="per"
-														value="${(capacityDetailByEmpList.actWork/capacityDetailByEmpList.allWork)*100}"></c:set>
+														value="${(managerListWithEmpIds.actlWork/managerListWithEmpIds.allWork)*100}"></c:set>
 													<div class="progress rounded-round">
 														<div class="progress-bar bg-success"
 															style="width: ${per}%">
@@ -249,38 +252,13 @@ h5 {
 											</tr>
 										</c:if>
 									</c:forEach>
-
-									<c:forEach items="${capacityDetailByEmpList}"
-										var="capacityDetailByEmpList" varStatus="count">
-										<c:if test="${capacityDetailByEmpList.empId!=empId}">
-											<tr>
-
-												<td>${capacityDetailByEmpList.empName}</td>
-												<td>${capacityDetailByEmpList.bugetedCap}</td>
-												<td>${capacityDetailByEmpList.allWork}</td>
-												<td>${capacityDetailByEmpList.actWork}</td>
-												<td><c:set var="per"
-														value="${(capacityDetailByEmpList.actWork/capacityDetailByEmpList.allWork)*100}"></c:set>
-
-													<div class="progress rounded-round">
-														<div class="progress-bar bg-success"
-															style="width: ${per}%">
-															<span><fmt:formatNumber type="number"
-																	maxFractionDigits="2" minFractionDigits="2"
-																	value="${per}" />% Complete</span>
-														</div>
-													</div></td>
-											</tr>
-										</c:if>
-									</c:forEach>
-
-
 
 								</tbody>
 							</table>
 						</div>
 					</div>
-				</div> --%>
+				</div>
+
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Task Status breakdown</h5>
@@ -444,17 +422,16 @@ h5 {
 	<!-- /page content -->
 
 	<script type="text/javascript">
-	
-	   //datepickermonth
-	// Single picker
+		//datepickermonth
+		// Single picker
 		$('.datepickermonth').daterangepicker({
 			singleDatePicker : true,
-		 
-			showDropdowns : true ,
+
+			showDropdowns : true,
 			locale : {
 				format : 'MM-YYYY'
 			}
-			 
+
 		});
 		// Single picker
 		$('.datepickerclass').daterangepicker({
@@ -480,6 +457,77 @@ h5 {
 	</script>
 
 	<script type="text/javascript">
+		function searchManagerwiseCapacityBuilding() {
+
+			//alert("Hi View Orders  ");
+
+			var fromDate = document.getElementById("fromDate").value;
+
+			$("#loader2").show();
+
+			$
+					.getJSON(
+							'${searchManagerwiseCapacityBuilding}',
+							{
+								fromDate : fromDate,
+								ajax : 'true',
+							},
+
+							function(data) {
+								//alert(data);
+
+								$("#capTable tbody").empty();
+
+								$
+										.each(
+												data,
+												function(i, v) {
+
+													try{
+														
+													
+													if (v.ids.length > 0) {
+														var per = (v.actlWork / v.allWork) * 100
+														var str = '<div class="progress rounded-round"> <div class="progress-bar bg-success" style="width: '
+																+ per
+																+ '%">'
+																+ '<span>'
+																+ per
+																		.toFixed(2)
+																+ '% Complete</span> </div> </div>';
+
+														var tr_data = '<tr>'
+																+ '<td  >'
+																+ v.empName
+																+ '</td>'
+																+ '<td  >'
+																+ v.bugetedWork 
+																+ '</td>'
+																+ '<td  >'
+																+ v.allWork 
+																+ '</td>'
+																+ '<td  >'
+																+ v.actlWork 
+																+ '</td>'
+																+ '<td  >'
+																+ str + '</td>'
+																+ '</tr>';
+														$(
+																'#capTable'
+																		+ ' tbody')
+																.append(tr_data);
+													}
+												}catch{
+														
+													}
+												});
+
+								$("#loader2").hide();
+
+							});
+
+		}
+
 		function showManagerDetail(value, empId, taskststext) {
 
 			document.getElementById("taskststext").innerHTML = taskststext;
@@ -514,7 +562,7 @@ h5 {
 
 			var membrId = document.getElementById("membrId").value;
 			var monthyear = document.getElementById("monthyear").value;
-			 
+
 			$("#loader").show();
 			$.getJSON('${getCostDetail}', {
 				membrId : membrId,

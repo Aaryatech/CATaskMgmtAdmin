@@ -43,6 +43,7 @@ import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmpListForDashboard;
 import com.ats.taskmgmtadmin.model.EmpListForDashboardByStatus;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.ManagerListWithEmpIds;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskCountByStatus;
@@ -313,7 +314,9 @@ public class HomeController<Task> {
 		return "redirect:/";
 	}
 
-	/***********************************Home Task List***********************************************/
+	/***********************************
+	 * Home Task List
+	 ***********************************************/
 
 	@RequestMapping(value = "/taskListForEmp", method = RequestMethod.GET)
 	public ModelAndView taskListForEmpForm(HttpServletRequest request, HttpServletResponse response,
@@ -453,15 +456,17 @@ public class HomeController<Task> {
 		return mav;
 	}
 
-	/************************************Home Task List 2**************************************/
-	//Mahendra
+	/************************************
+	 * Home Task List 2
+	 **************************************/
+	// Mahendra
 	// 16-09-2019
-	
+
 	@RequestMapping(value = "/activeTaskListForEmp", method = RequestMethod.GET)
-	public @ResponseBody ActiveHomeTaskList activeTaskListForEmp(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session) {
-		ActiveHomeTaskList home=new ActiveHomeTaskList();
-		
+	public @ResponseBody ActiveHomeTaskList activeTaskListForEmp(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		ActiveHomeTaskList home = new ActiveHomeTaskList();
+
 		List<TaskListHome> taskList = new ArrayList<TaskListHome>();
 
 		ModelAndView mav = new ModelAndView("task/homeTaskList");
@@ -568,9 +573,9 @@ public class HomeController<Task> {
 			}
 
 			System.err.println("taskList-----" + taskList.toString());
-			
-			home.setTaskList(taskList);		 
-			
+
+			home.setTaskList(taskList);
+
 			// dash
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
@@ -588,13 +593,14 @@ public class HomeController<Task> {
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			home.setStatusMstrList(statusList);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return home;
 	}
+
 	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
 	public ModelAndView fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
@@ -1052,34 +1058,43 @@ public class HomeController<Task> {
 				EmpListForDashboard[] empListForDashboard = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getTaskMemberIds", map, EmpListForDashboard[].class);
 				model.addAttribute("empList", empListForDashboard);
-				
-				 Date date = new Date();
-				 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				 
-				 Calendar c = Calendar.getInstance();   // this takes current date
-				 c.set(Calendar.DAY_OF_MONTH, 1);
-				// System.out.println(c.getTime());
-				    
-				 Calendar calendar = Calendar.getInstance();  
-			     calendar.setTime(date);  
-			     calendar.add(Calendar.MONTH, 1);  
-			     calendar.set(Calendar.DAY_OF_MONTH, 1);  
-			     calendar.add(Calendar.DATE, -1);  
 
-			     Date lastDayOfMonth = calendar.getTime();
-			        
+				Date date = new Date();
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+				Calendar c = Calendar.getInstance(); // this takes current date
+				c.set(Calendar.DAY_OF_MONTH, 1);
+				// System.out.println(c.getTime());
+
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				calendar.add(Calendar.MONTH, 1);
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.add(Calendar.DATE, -1);
+
+				Date lastDayOfMonth = calendar.getTime();
+
 				map.add("fromDate", sf.format(c.getTime()));
 				map.add("toDate", sf.format(lastDayOfMonth));
-				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
+				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(
+						Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
 				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
-				
+
+				ManagerListWithEmpIds[] managerListWithEmpIds = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getCapcityDetailForPartnerDashboard", map, ManagerListWithEmpIds[].class);
+				List<ManagerListWithEmpIds> managerlist = new ArrayList<ManagerListWithEmpIds>(
+						Arrays.asList(managerListWithEmpIds));
+				model.addAttribute("managerListWithEmpIds", managerlist);
+
 				int year = c.get(Calendar.YEAR);
-				int month = c.get(Calendar.MONTH)+1;
-				 
+				int month = c.get(Calendar.MONTH) + 1;
+
 				model.addAttribute("year", year);
 				model.addAttribute("month", month);
-				
+
+				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
+				model.addAttribute("date", dd.format(c.getTime()) + " to " + dd.format(lastDayOfMonth));
+
 			} else {
 
 				mav = "dashboard";
@@ -1122,6 +1137,37 @@ public class HomeController<Task> {
 		}
 
 		return mav;
+	}
+
+	@RequestMapping(value = "/searchManagerwiseCapacityBuilding", method = RequestMethod.GET)
+	public @ResponseBody List<ManagerListWithEmpIds> searchManagerwiseCapacityBuilding(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		List<ManagerListWithEmpIds> managerlist = new ArrayList<>();
+
+		try {
+
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			String date = request.getParameter("fromDate");
+			String[] dates = date.split(" to ");
+
+			map = new LinkedMultiValueMap<>();
+			map.add("empId", empSes.getEmpId());
+			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
+			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
+
+			ManagerListWithEmpIds[] managerListWithEmpIds = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getCapcityDetailForPartnerDashboard", map, ManagerListWithEmpIds[].class);
+			managerlist = new ArrayList<ManagerListWithEmpIds>(Arrays.asList(managerListWithEmpIds));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return managerlist;
 	}
 
 	@RequestMapping(value = "/getCapacityBuildingDetail", method = RequestMethod.GET)
@@ -1206,43 +1252,44 @@ public class HomeController<Task> {
 
 		return stswisetaskList;
 	}
-	
+
 	@RequestMapping(value = "/getCostDetail", method = RequestMethod.GET)
-	public @ResponseBody BugetedAmtAndRevenue getCostDetail(HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public @ResponseBody BugetedAmtAndRevenue getCostDetail(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 
 		BugetedAmtAndRevenue bugetedAmtAndRevenue = new BugetedAmtAndRevenue();
 
 		try {
-			 
+
 			int empId = Integer.parseInt(request.getParameter("membrId"));
-			String month = request.getParameter("monthyear"); 
+			String month = request.getParameter("monthyear");
 			String[] monthyear = month.split("-");
-			
-			String firstDate = "01-"+monthyear[0]+"-"+monthyear[1];
+
+			String firstDate = "01-" + monthyear[0] + "-" + monthyear[1];
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
-			
-			Date date = sf.parse(firstDate); 
-			 Calendar calendar = Calendar.getInstance();  
-		     calendar.setTime(date);  
-		     calendar.add(Calendar.MONTH, 1);  
-		     calendar.set(Calendar.DAY_OF_MONTH, 1);  
-		     calendar.add(Calendar.DATE, -1);  
-			
+
+			Date date = sf.parse(firstDate);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(Calendar.MONTH, 1);
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
+			calendar.add(Calendar.DATE, -1);
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("fromDate", DateConvertor.convertToYMD(firstDate));
 			map.add("toDate", yy.format(calendar.getTime()));
-			bugetedAmtAndRevenue = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map,BugetedAmtAndRevenue.class); 
-			  
+			bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(
+					Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return bugetedAmtAndRevenue;
 	}
+
 	@RequestMapping(value = "/dashboard1", method = RequestMethod.GET)
 	public String dashboard1(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			Model model) {
