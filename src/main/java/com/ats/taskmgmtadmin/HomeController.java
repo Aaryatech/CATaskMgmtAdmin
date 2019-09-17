@@ -1082,6 +1082,10 @@ public class HomeController<Task> {
 						Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
 				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
 
+				map = new LinkedMultiValueMap<>();
+				map.add("empId", empSes.getEmpId());
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
 				ManagerListWithEmpIds[] managerListWithEmpIds = Constants.getRestTemplate().postForObject(
 						Constants.url + "/getCapcityDetailForPartnerDashboard", map, ManagerListWithEmpIds[].class);
 				List<ManagerListWithEmpIds> managerlist = new ArrayList<ManagerListWithEmpIds>(
@@ -1095,7 +1099,7 @@ public class HomeController<Task> {
 				model.addAttribute("month", month);
 
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
-				model.addAttribute("date", dd.format(c.getTime()) + " to " + dd.format(lastDayOfMonth));
+				model.addAttribute("date", dd.format(date) + " to " + dd.format(date));
 
 			} else {
 
