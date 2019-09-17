@@ -22,18 +22,29 @@
 	width: auto !important;
 	height: auto !important;
 }
+#modal_remote{
+position: fixed !important;
+	bottom: 0 !important;
+	top: auto !important;
+	right: 0 !important;
+	left: auto !important;
+	margin: 0px !important;
+	width: 720px !important;
+	height: auto !important;
+}
 </style>
 </head>
 
-<body>
+<body  >
 	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
-
 	<c:url value="/submitUpdatedTask" var="submitUpdatedTask"></c:url>
 
-
+	<c:url value="/activeTaskListForEmp" var="activeTaskListForEmp"></c:url>
+	<c:url value="/fliterTaskList" var="fliterTaskList"></c:url>
+	<c:url value="/newWorkLog" var="newWorkLog"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -61,7 +72,7 @@ h5 {
 			<!-- Content area -->
 			<div class="content">
 
-				<div class="card">
+				<!-- <div class="card">
 
 					<div
 						class="card-body d-md-flex align-items-md-center justify-content-md-between flex-md-wrap">
@@ -197,7 +208,7 @@ h5 {
 
 					</div>
 
-				</div>
+				</div> -->
 
 
 
@@ -216,10 +227,10 @@ h5 {
 								<form id="filterForm">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="fromDate">Due
+										<label class="col-form-label col-md-2" for="fromDate">Due
 											Date Range <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-3">
+										<div class="col-md-8">
 											<input type="text" class="form-control daterange-basic_new"
 												id="fromDate" name="fromDate">
 										</div>
@@ -263,22 +274,14 @@ h5 {
 										<label class="col-form-label col-lg-2" for="status">
 											Select Status : </label>
 										<div class="col-lg-3">
-											<select name="sts" data-placeholder="Select Status" id="sts"
+											<select name="sts" data-placeholder="Select Status" id="stats"
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
+												data-fouc="" aria-hidden="true" name="stats">
 
-												<option value="1">All</option>
-												<option value="2">Generated</option>
-												<option value="3">Unallocated</option>
-												<option value="4">Critical</option>
-												<option value="4">Overdue</option>
-												<option value="4">Pending for Manager</option>
-												<option value="4">Pending for Partner</option>
-												<option value="4">Pending for Team Lead</option>
-												<option value="4">Pending for Client</option>
-												<option value="4">Completed</option>
-												<option value="4">Inactive</option>
-												<option value="4">Other</option>
+												<option value="">Select Status</option>
+												<c:forEach items="${statusList}" var="statusList">
+													<option value="${statusList.statusValue}">${statusList.statusText}</option>
+												</c:forEach>
 
 											</select>
 										</div>
@@ -339,7 +342,7 @@ h5 {
 							</div>
 
 							<div class="modal-header">
-								<form action="newWorkLog" method="post">
+								<!-- <form id="newWorkLog"> -->
 									<div class="form-group row">
 
 										<input type="hidden" name="taskId" id="taskId"> <input
@@ -373,14 +376,14 @@ h5 {
 										<div class="form-group  col-md-1">
 											<label class="form-group-float-label animate is-visible">
 											</label>
-											<button type="submit" id="submtbtn"
+											<button type="submit" id="submtbtn" onclick="addNewWorkLog()"
 												class="btn bg-info-400 legitRipple">
 												<b><i class="icon-paperplane"></i></b>
 											</button>
 										</div>
 
 									</div>
-								</form>
+								<!-- </form> -->
 
 
 							</div>
@@ -388,7 +391,7 @@ h5 {
 								<table class="table datatable-scroller1" id="work_log_table">
 									<thead>
 										<tr>
-											<th style="width: 350px; color: white;"></th>
+											<th style="width: 350px; color: white;">Sr.No.</th>
 											<th style="width: 350px; color: white;">Employee</th>
 											<!-- <th style="width: 100px; color: white;">Date</th> -->
 											<th style="width: 100px; color: white;">Actual Hours</th>
@@ -512,8 +515,22 @@ h5 {
 }
 </style>
 
+<!-- Basic tables title -->
+				<div class="mb-3 text-right">
+					 
+					<div class="fab-menu  fab-menu-absolute1 fab-menu-top-right1"
+							data-toggle="modal" data-target="#modal_remote">
+							<a title="Filter"
+								class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
+								<i class="fab-icon-open icon-filter3"></i>
+							</a>
+						</div>
+				</div>
+				<!-- /basic tables title -->
 				<!-- Hover rows -->
 				<div class="card">
+			 
+					
 					<%-- <div class="card-header header-elements-inline">
 						<h5 class="card-title">Task</h5>
 						<div class="header-elements">
@@ -535,24 +552,19 @@ h5 {
 }
 </style>
 
+
 					<div class=table-responsive>
 
-						<div class="fab-menu fab-menu-absolute fab-menu-top-right"
-							data-toggle="modal" data-target="#modal_remote">
-							<a title="Filter"
-								class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
-								<i class="fab-icon-open icon-filter3"></i>
-							</a>
-						</div>
+						
 
-						<table class="table datatable-basic table-hover" width="100%"
+						<table class="table datatable-basic1 datatable-generated table-hover" width="100%"
 							id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
 									<th style="background-color: white;">Customer</th>
 									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
-									<th style="background-color: white;">Task Name</th>
+									 <th style="background-color: white;">Task Name</th>
 
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
@@ -560,15 +572,15 @@ h5 {
 									<th style="background-color: white;">Budget Hrs</th>
 									<th style="background-color: white;">Task Status</th>
 									<th style="background-color: white;">Change Status</th>
-									<th class="text-center" style="background-color: white;">Actions</th>
+									<th class="text-center" style="background-color: white;">Actions</th>  
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${taskList}" var="taskList" varStatus="count">
+							<%-- <c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${taskList.custGroupName}</td>
-										<%-- data-toggle="modal" data-target="#modal_small" --%>
+										
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
 
@@ -577,7 +589,7 @@ h5 {
 										<td>${taskList.employees}</td>
 										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
 
-										<%-- <c:if test="${empType==5}">
+										<c:if test="${empType==5}">
 											<td>E-${taskList.empBudHr}</td>
 										</c:if>
 										<c:if test="${empType==3}">
@@ -592,7 +604,7 @@ h5 {
 										</c:if>
 										<c:if test="${empType==1}">
 											<td>NA</td>
-										</c:if> --%>
+										</c:if>
 
 										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
 										<!-- <td>0</td> -->
@@ -619,7 +631,7 @@ h5 {
 														</c:otherwise>
 
 													</c:choose>
-													<%-- <option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option> --%>
+													<option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option>
 												</c:forEach>
 
 												<!-- <option class="opt"
@@ -638,8 +650,8 @@ h5 {
 										</select></td>
 
 
-										<%-- <td><span class="badge badge-info"
-											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td> --%>
+										<td><span class="badge badge-info"
+											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
 
 										<td class="text-center"><a class="chatmodallink"
 											data-href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
@@ -650,7 +662,7 @@ h5 {
 												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
-								</c:forEach>
+								</c:forEach> --%>
 
 							</tbody>
 						</table>
@@ -680,11 +692,100 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+<script type="text/javascript">
+var status;
+function getActiveHomeTasks() {
+	//alert("Hi"+);
+	var emp = ${empType};
+	$("#loader").show();
+	
+	$
+			.getJSON(
+					'${activeTaskListForEmp}',
+					{
+
+						//empId : empId,
+						ajax : 'true',
+
+					},
+					function(data) {
+					
+						//alert(JSON.stringify(data.taskList))			
+						
+						$("#task_info_table tbody").empty();
+
+						 
+								
+								//alert("list2:"+JSON.stringify(data.statusMstrList));	
+								var sel_html ='';
+								if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
+								
+									for (var j = 0; j < data.statusMstrList.length; j++) {								
+									sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+	 									+ data.statusMstrList[j].statusText + '</option>';
+	                                 }
+								}else{
+									for (var j = 0; j < data.statusMstrList.length; j++) {								
+										sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+		 									+ data.statusMstrList[j].statusText + '</option>';
+		                                 }
+								} 
+								
+								
+						
+						for (var i = 0; i < data.taskList.length; i++) {
+							
+							
+							var tr_data = '<tr> <td>'+(i+1)+'</td>'+
+							'<td>'+data.taskList[i].custGroupName+'</td>'+
+							'data-toggle="modal" data-target="#modal_small"'+
+							'<td  onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')"><a href="#" onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')">'+data.taskList[i].taskText+'</a></td>'+
+							'<td>'+data.taskList[i].taskEndDate+'</td>'+
+							'<td>'+data.taskList[i].taskStatutoryDueDate+'</td>'+
+							'<td>'+data.taskList[i].employees+'</td>'+
+							'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
+							'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
+					
+ '<td class="container1"> <select onclick="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
+							
+ 
+ 
+ '<td class="text-center"><a class="chatmodallink" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
+ '&nbsp;&nbsp;<a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+							
+							$('#task_info_table' + ' tbody').append(tr_data);
+						
+						}
+						
+				
+	});
+
+}
+
+
+//var table = $('.datatable-generated').DataTable();
+
+</script>
+
 
 
 	<script type="text/javascript">
 	
-	
+	function showChatBox(var1,var2){
+		//alert(var1+':'+var2);
+		 
+		 var title = "Greetings";
+		   var body = "Welcome to ASPSnippets.com";
+		   
+		   $("#myModal .modal-title").html(title);
+		   //$("#myModal .modal-body").html(body);
+		   var strhref ="${pageContext.request.contextPath}/communication?taskId="+var1+"&empId="+var2;
+		   $("#modalbody").load(strhref);
+		   $("#myModal").modal("show");
+		   $('#myModal').on('hidden.bs.modal', function () {
+			$("#modalbody").html("");
+			}); 
+	}
 	function showEditTask(taskId) {
 		//alert("HI"+taskId);
 			
@@ -700,8 +801,8 @@ h5 {
 								
 								//alert(JSON.stringify(data));
 								
-								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
-								document.getElementById("anytime-time2").value=data.task.empBudHr;
+								document.getElementById("anytime-time2").value=data.task.mngrBudHr;
+								document.getElementById("anytime-time1").value=data.task.empBudHr;
   								//alert("errordata"+data.task.taskEndDate);
 								document.getElementById("workDate1").value=data.task.taskEndDate;
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
@@ -739,10 +840,6 @@ h5 {
 			
 		}
 	</script>
-
-
-
-
 
 
 	<script type="text/javascript">
@@ -792,7 +889,7 @@ h5 {
 				function(data) {
 
 					if (data.error == false) {
-
+						getActiveHomeTasks();
 						//alert("saved");
 					} else {
 						//alert("not saved");
@@ -806,7 +903,7 @@ h5 {
 	function updateStatus_new(statusId, taskId){
 	//alert(statusId+" "+taskId)
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
-        //var color =  $('#set_status'+taskId).val();
+        var color =  $('#set_status'+taskId).val();
         
       
 		$
@@ -821,19 +918,19 @@ h5 {
 						function(data) {
 							 
 							if(data.error==false){
+								getActiveHomeTasks();
 							//	alert("Task Status Updated Successfully!")
-                            document.getElementById("taskStatus"+taskId).innerHTML=selectedStatus;
-                            var color =  $('#set_status'+taskId).find('option:selected').attr('data-statusColor');
+                           // document.getElementById("taskStatus"+taskId).innerHTML=selectedStatus;
+                          // var color =  $('#set_status'+taskId).find('option:selected').attr('data-statusColor');
                           
-                            $('#taskStatus'+taskId).css('background', color); 
+                           //$('#taskStatus'+taskId).css('background', color); 
                             
 							}
 					      }); 
-		
 	}
 	
 	
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 	      // setColor();
 	      //set_status
 	      $('.ats_sel_status').change(function(e){
@@ -842,36 +939,24 @@ h5 {
 	    	  updateStatus_new(value, id)
 	      });
 	       
-	     /*  $('.ats_sel_status_nouse').change(function(){
-	    	  var id=$(this).attr('id');
-	    	  var color =  $('#'+id).find('option:selected').attr('id');
-	  	      $('#'+id).css('background', color); 
-	  	      //
-	  	      $('#taskStatus'+id).css('background', color); 
-	            // setColor();       
-	     });
-	      
-	      $('.ats_sel_status_nouse').each(function(){
-	    	  var id=$(this).attr('id');
-	    	  var color =  $('#'+id).find('option:selected').attr('id');
-	  	      $('#'+id).css('background', color); 
-
-	    	 }); */
+	    
 	});
-
+ 
 	function setColor()
 	{
 	   // var color =  $('.sel_status').find('option:selected').attr('id');
 	    //$('#'+id).css('background', color); 
 	}
-	    
-	function showTaskLogs(taskId, taskText) {
-		//alert("HI:"+taskText);
-		var empType = ${empType};
-		//alert("Emp Type------"+empType)
-		document.getElementById("taskId").value = taskId;
-		//document.getElementById("taskText").value = taskText;
-		document.getElementById("taskText").innerHTML = taskText;
+*/	    
+	var task;  //task Text 
+	function showTaskLogs(taskId,taskText) {
+		
+		var empType = ${empType};	
+		
+		document.getElementById("taskId").value = taskId;		
+		
+		task = document.getElementById("taskText").innerHTML = taskText;
+		
 		$("#loader").show();
 		$
 				.getJSON(
@@ -883,33 +968,72 @@ h5 {
 						},
 						function(data) {
 						
-
-							/* if (data == "") {
-								alert("No records found !!");						
-
-							} */
-
 							var dataTable = $('#work_log_table').DataTable();
 							dataTable.clear().draw();
 
 							$.each(data, function(i, v) {
-								//alert(JSON.stringify(v));
-		  											
+							
 								dataTable.row.add(
 										[ 	i + 1,
 											v.exVar1,
-											 // v.workDate,
-											  v.workHours
-										//  acButton
-										
+											v.workHours
 										]).draw();
-							});});
+							});
+						});
 		
-		
-		$('#modal_small').modal('show');
-		
+		document.getElementById("taskId").innerHTML = 0;
+		document.getElementById("logId").value = 0;
+		$('#modal_small').modal('show'); 
 	}
 	
+	
+	
+//Add Work Log
+function addNewWorkLog(){
+	var logId = $("#logId").val();
+	var taskId = $("#taskId").val();
+	var workHrs = $("#anytime-time").val();
+	var workDate = $("#workDate").val();
+	var remark = $("#remark").val();
+	//var workHrs = str.replace(":", ".");
+
+	//alert(logId+" "+workHrs+" "+workDate+"  "+remark+" "+taskId);
+	$("#loader").show();
+	$
+	.getJSON(
+			'${newWorkLog}',
+			{
+				taskId : taskId,
+				logId : logId,
+				workHrs : workHrs,
+				workDate : workDate,
+				remark : remark,				
+				ajax : 'true',
+
+			},
+			function(data) {
+				
+				//alert(JSON.stringify(data));
+				
+				var dataTable = $('#work_log_table').DataTable();
+							dataTable.clear().draw();
+
+							$.each(data, function(i, v) {
+							
+								dataTable.row.add(
+										[ 	i + 1,
+											v.exVar1,
+											v.workHours
+										]).draw();
+							});
+												
+							document.getElementById("taskText").innerHTML = task;			
+			
+		 });
+	$('#anytime-time').val('');
+	$('#remark').val('');
+	
+}
 	</script>
 
 
@@ -923,6 +1047,7 @@ h5 {
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
+			drops:'up',
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
@@ -931,8 +1056,10 @@ h5 {
 		//daterange-basic_new
 		// Basic initialization
 		$('.daterange-basic_new').daterangepicker({
-			applyClass : 'bg-slate-600',
-
+			//applyClass : 'bg-slate-600',
+			 autoApply:true,
+			 opens:'left',
+			 drops:'up', //up
 			cancelClass : 'btn-light',
 			locale : {
 				format : 'DD-MM-YYYY',
@@ -945,17 +1072,14 @@ h5 {
 	function dataFilter(){
 		
 		var fromDate = $("#fromDate").val();
-		//var toDate = $("#toDate").val();
-		
 		var service = $("#service").val();
 		var activity = $("#activity").val();
-		
 		var custId = $("#custId").val();		
-		
-		//alert("Dates="+fromDate+" "+toDate+"  "+service+"   "+activity+" "+custId);
-		
+		var stats = $("#stats").val();
+		alert("Dates="+fromDate+" "+service+"   "+activity+" "+custId+" "+stats);
+		/* 
 		document.getElementById("fromDate").value=fromDate;//create this
-		//document.getElementById("toDate").value=toDate;//create this
+		document.getElementById("toDate").value=toDate;//create this
 		document.getElementById("service").value=service;//create this
 		document.getElementById("activity").value=activity;//create this
 		document.getElementById("custId").value=custId;//create this
@@ -964,7 +1088,74 @@ h5 {
 	    form.setAttribute("method", "post");
 
 		form.action=("fliterTaskList");
-		form.submit();
+		form.submit(); */
+		
+		$("#loader").show();
+		
+		$
+				.getJSON(
+						'${fliterTaskList}',
+						{
+
+							fromDate : fromDate,
+							service : service,
+							activity : activity,
+							custId : custId,
+							ajax : 'true',
+
+						},
+						function(data) {
+						
+							//alert(JSON.stringify(data.taskList))			
+							
+							$("#task_info_table tbody").empty();
+
+							 
+									
+									//alert("list2:"+JSON.stringify(data.statusMstrList));	
+									var sel_html ='';
+									if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
+									
+										for (var j = 0; j < data.statusMstrList.length; j++) {								
+										sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+		 									+ data.statusMstrList[j].statusText + '</option>';
+		                                 }
+									}else{
+										for (var j = 0; j < data.statusMstrList.length; j++) {								
+											sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+			 									+ data.statusMstrList[j].statusText + '</option>';
+			                                 }
+									} 
+									
+									
+							
+							for (var i = 0; i < data.taskList.length; i++) {
+								
+								
+								var tr_data = '<tr> <td>'+(i+1)+'</td>'+
+								'<td>'+data.taskList[i].custGroupName+'</td>'+
+								'data-toggle="modal" data-target="#modal_small"'+
+								'<td  onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')"><a href="#" onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')">'+data.taskList[i].taskText+'</a></td>'+
+								'<td>'+data.taskList[i].taskEndDate+'</td>'+
+								'<td>'+data.taskList[i].taskStatutoryDueDate+'</td>'+
+								'<td>'+data.taskList[i].employees+'</td>'+
+								'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
+								'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
+						
+	 '<td class="container1"> <select onclick="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
+								
+	 
+	 
+	 '<td class="text-center"><a class="chatmodallink" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
+	 '&nbsp;&nbsp;<a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+								
+								$('#task_info_table' + ' tbody').append(tr_data);
+							
+							}
+							
+					
+		});
+
 	}
 	
 	
@@ -1044,6 +1235,9 @@ h5 {
 	$(document)
 			.ready(
 					function($) {
+						
+						getActiveHomeTasks();
+						
 				$("#filterForm")
 						.submit(
 								function(e) {
@@ -1077,7 +1271,7 @@ h5 {
 
 										var x = true;
 										if (x == true) {
-											alert("this");
+											//alert("this");
 											document
 													.getElementById("submtbtn").disabled = true;
 											return true;
@@ -1139,24 +1333,12 @@ h5 {
 	}
 	</script>
 	<script>
+	 
+	 
 $(document).ready(function(){
-	$('.chatmodallink').click(function(){
-		//alert(1);
-	var href=	$(this).attr("data-href") // will return the string "123"
-//alert(href);
-	   var title = "Greetings";
-       var body = "Welcome to ASPSnippets.com";
-
-       $("#myModal .modal-title").html(title);
-       //$("#myModal .modal-body").html(body);
-       $("#modalbody").load(href);
-       $("#myModal").modal("show");
-		
-	});
+	 
 	
-	$('#myModal').on('hidden.bs.modal', function () {
-		$("#modalbody").html("");
-		})
+	 
 });
 </script>
 	<!-- Modal HTML -->

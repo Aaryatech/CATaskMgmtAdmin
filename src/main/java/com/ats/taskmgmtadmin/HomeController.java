@@ -602,19 +602,19 @@ public class HomeController<Task> {
 	}
 
 	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.POST)
-	public ModelAndView fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public @ResponseBody ActiveHomeTaskList fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model mav) {
 
-		ModelAndView mav = new ModelAndView("task/homeTaskList");
+		ActiveHomeTaskList home = new ActiveHomeTaskList();
 		try {
 
 			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			//String toDate = request.getParameter("toDate");
 
 			String[] dates = fromDate.split("to");
 			System.err.println("Data---------" + dates[0] + "   " + dates[1]);
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			mav.addObject("empType", empSes.getEmpType());
+			mav.addAttribute("empType", empSes.getEmpType());
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
@@ -629,33 +629,33 @@ public class HomeController<Task> {
 			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListByFilters",
 					map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			System.out.println("taskList-----------" + taskList);
-			mav.addObject("taskList", taskList);
+			System.out.println("TaskList 1------------" + taskList);
+			home.setTaskList(taskList);
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
 					ServiceMaster[].class);
 			List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-			mav.addObject("serviceList", srvcMstrList);
+			home.setServicMstrList(srvcMstrList);
 
 			CustNameId[] custGrpArr = Constants.getRestTemplate().getForObject(Constants.url + "/getCustNames",
 					CustNameId[].class);
 			List<CustNameId> custGrpList = new ArrayList<CustNameId>(Arrays.asList(custGrpArr));
-			mav.addObject("custGrpList", custGrpList);
+			home.setCustList(custGrpList);
 
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("empType", empSes.getEmpId());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
-			mav.addObject("statusList", statusList);
+			home.setStatusMstrList(statusList);
+			
 
 		} catch (Exception e) {
 			System.err.println("Exce in fliterTaskList  " + e.getMessage());
 		}
 
-		return mav;
+		return home;
 	}
-
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
 	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
 		int subModId = Integer.parseInt(request.getParameter("subModId"));

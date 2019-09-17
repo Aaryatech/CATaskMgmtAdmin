@@ -71,8 +71,9 @@ public class DailyWorkLogMVCController {
 	
 	
 	
-	@RequestMapping(value = "/newWorkLog", method = RequestMethod.POST)
-	public String newWorkLog(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/newWorkLog", method = RequestMethod.GET)
+	public @ResponseBody List<DailyWorkLog> newWorkLog(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		List<DailyWorkLog> logList = null;
 		try {
 				int logId = 0;
 						try {
@@ -81,12 +82,15 @@ public class DailyWorkLogMVCController {
 							e.getMessage();
 						}
 			
+						
+						int taskId = Integer.parseInt(request.getParameter("taskId"));
+						
 				session = request.getSession();
 			
 				EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			
 				DailyWorkLog workLog = new DailyWorkLog();
-				String hrs = request.getParameter("workHour");
+				String hrs = request.getParameter("workHrs");
 				String  mnghr1=HoursConversion.convertHoursToMin(hrs);
 				 
 				workLog.setDelStatus(1);
@@ -95,7 +99,7 @@ public class DailyWorkLogMVCController {
 				workLog.setExInt2(0);
 				workLog.setExVar1("NA");
 				workLog.setExVar2("NA");
-				workLog.setTaskId(Integer.parseInt(request.getParameter("taskId")));
+				workLog.setTaskId(taskId);
 				workLog.setUpdateDatetime(curDateTime);
 				workLog.setUpdateUsername(empSes.getEmpId());
 				workLog.setWorkDate(request.getParameter("workDate"));
@@ -105,13 +109,20 @@ public class DailyWorkLogMVCController {
 				
 				DailyWorkLog logData = Constants.getRestTemplate().postForObject(Constants.url + "/addNewWorkLog",workLog, DailyWorkLog.class);
 				
+				
+				MultiValueMap<String, Object> map =  new LinkedMultiValueMap<String, Object>();	
+				map.add("taskId", taskId);
+				
+				DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
+						DailyWorkLog[].class);
+				 logList = new ArrayList<>(Arrays.asList(logArr));
 							
 		}catch (Exception e) {
 			System.err.println("Exce in newWorkLog " + e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return "redirect:/taskListForEmp";
+		return logList;
 		
 	}
 	
