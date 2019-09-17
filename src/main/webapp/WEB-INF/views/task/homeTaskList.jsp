@@ -588,36 +588,15 @@ h5 {
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
 										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
-
-										<c:if test="${empType==5}">
-											<td>E-${taskList.empBudHr}</td>
-										</c:if>
-										<c:if test="${empType==3}">
-											<td>M-Hr-${taskList.mngrBudHr}</td>
-										</c:if>
-
-										<c:if test="${empType==4}">
-											<td>NA</td>
-										</c:if>
-										<c:if test="${empType==2}">
-											<td>NA</td>
-										</c:if>
-										<c:if test="${empType==1}">
-											<td>NA</td>
-										</c:if>
-
-										<!-- <td data-toggle="modal" data-target="#modal_remote_log">0</td> -->
-										<!-- <td>0</td> -->
-
-
+										
 										<td id="taskStatus${taskList.taskId}"
 											style="color: ${taskList.statusColor};font-weight: bold;">${taskList.taskStatus}</td>
+									
 										<td align="center"><select name="set_status"
 											onClick1="updateStatus_new(this.value, ${taskList.taskId })"
 											id="set_status${taskList.taskId}"
 											data-id="${taskList.taskId}"
 											class="form-control  ats_sel_status ">
-
 												<c:forEach items="${statusList}" var="statusList">
 													<c:choose>
 														<c:when
@@ -633,29 +612,10 @@ h5 {
 													</c:choose>
 													<option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option>
 												</c:forEach>
-
-												<!-- <option class="opt"
-													style="background: blue; font-size: 20px;" value="1"
-													id="Blue">Allocated</option>
-												<option class="opt"
-													style="background: Orange; font-size: 20px;" value="2"
-													id="Orange">Pending For Manager</option>
-												<option class="opt"
-													style="background: Gray; font-size: 20px;" value="3"
-													selected id="Gray">Pending for TL</option>
-												<option class="opt"
-													style="background: Green; font-size: 20px;" value="4"
-													id="Green">Completed</option> -->
-
 										</select></td>
-
-
-										<td><span class="badge badge-info"
-											style="background-color:${taskList.statusColor}">${taskList.taskStatus}</span></td>
-
-										<td class="text-center"><a class="chatmodallink"
-											data-href="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
-											href1="${pageContext.request.contextPath}/communication?taskId=${taskList.exVar1}&empId=${taskList.exVar2}"
+										
+										<td class="text-center"><a class="chatmodallink" onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}')"
+											href="#"
 											title="Chat/Update"><i class="icon-comments"
 												style="color: green;"></i></a> &nbsp;&nbsp; <a href="#"
 											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
@@ -804,7 +764,7 @@ function append(data){
 			
 			//alert("list2:"+JSON.stringify(data.statusMstrList));	
 			var sel_html ='';
-			if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
+			/* if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
 			
 				for (var j = 0; j < data.statusMstrList.length; j++) {								
 				sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
@@ -815,12 +775,24 @@ function append(data){
 					sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
 							+ data.statusMstrList[j].statusText + '</option>';
                      }
-			} 
+			}  */
 			
 			
 	
 	for (var i = 0; i < data.taskList.length; i++) {
 		
+		for (var j = 0; j < data.statusMstrList.length; j++) {		
+			
+			if(data.taskList[i].exInt1==data.statusMstrList[j].statusValue){
+				
+				sel_html += '<option selected data-statusColor="'+data.statusMstrList[j].statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+				+ data.statusMstrList[j].statusText + '</option>';
+			}else{
+				
+				sel_html += '<option  data-statusColor="'+data.statusMstrList[j].statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+				+ data.statusMstrList[j].statusText + '</option>';
+			}
+		}
 		
 		var tr_data = '<tr> <td>'+(i+1)+'</td>'+
 		'<td>'+data.taskList[i].custGroupName+'</td>'+
@@ -1014,7 +986,7 @@ function append(data){
 	}
 	
 	
-	/* $(document).ready(function(){
+	 $(document).ready(function(){
 	      // setColor();
 	      //set_status
 	      $('.ats_sel_status').change(function(e){
@@ -1031,7 +1003,7 @@ function append(data){
 	   // var color =  $('.sel_status').find('option:selected').attr('id');
 	    //$('#'+id).css('background', color); 
 	}
-*/	    
+    
 	var task;  //task Text 
 	function showTaskLogs(taskId,taskText) {
 		
@@ -1229,7 +1201,7 @@ function addNewWorkLog(){
 			.ready(
 					function($) {
 						
-						getActiveHomeTasks();
+						//getActiveHomeTasks();
 						
 				$("#filterForm")
 						.submit(
