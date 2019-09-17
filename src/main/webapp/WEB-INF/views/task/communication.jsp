@@ -239,6 +239,31 @@
 
 										</td>
 									</tr>
+									<tr>
+									
+									<td>
+									<lable><h5 class="card-title">Deliverable Link</h5></lable>
+										<input type="hidden" name="taskId" id="task_id" value="${taskId}">
+										<input
+												name="link" id="link" class="form-control mb-3"
+												placeholder="Deliverable Link" value="${task.exVar1}">
+										<div class="col-lg-6">
+												<span class="validation-invalid-label"
+													id="error_link" style="display: none;">Please
+													enter delivery link.</span>
+											</div>
+									</td>
+									<td width="1%"></td>
+									<td width="10%" align="right">
+											<button type="button" id="delvrybtn" class="btn bg-teal-400"
+												onclick="addDeliverAbleLink()">
+												<b><i class="icon-paperplane"></i></b>
+											</button>
+
+
+										</td>
+									
+									</tr>
 								</table>
 
 
@@ -255,19 +280,9 @@
 									action="${pageContext.request.contextPath}/insertDeliverableLink"
 									id="submitInsertDelivrableLink" method="post"> --%>
 										
-										<input type="hidden" name="taskId" id="task_id" value="${taskId}">
-									<input
-											name="link" id="link" class="form-control mb-3"
-											placeholder="Deliverable Link" value="${task.exVar1}">
-									<div class="col-lg-6">
-											<span class="validation-invalid-label"
-												id="error_link" style="display: none;">Please
-												enter delivery link.</span>
-										</div>
+									
 											
-											<button type="button" id="submtbtn" class="btn bg-teal-400" onclick="addDeliverAbleLink()">
-												<b><i class="icon-paperplane"></i></b>
-											</button>
+										
 									<!-- </form>  -->
 									
 									
@@ -579,7 +594,7 @@
 			if (link != "") {
 				$("#error_link").hide()
 				//document.getElementById("link").value = "";
-
+				document.getElementById("delvrybtn").disabled = true;
 				$.post('${insertDeliverableLink}', {
 					link : link,
 					taskId : taskId,
@@ -592,11 +607,13 @@
 
 						///chatList(1);
 						alert("Link dilivered");
-						window.location.href = "taskListForEmp";
+						$("#myModal").modal("hide");
+						//window.open = "taskListForEmp";
 
 					} else {
 						alert("Link not dilivered");
-						window.location.href = "taskListForEmp";
+						$("#myModal").modal("hide");
+						//window.open = "taskListForEmp";
 					}
 
 				});
