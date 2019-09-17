@@ -278,7 +278,7 @@ h5 {
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true" name="stats">
 
-												<option value="">Select Status</option>
+												<option value="0">Select Status</option>
 												<c:forEach items="${statusList}" var="statusList">
 													<option value="${statusList.statusValue}">${statusList.statusText}</option>
 												</c:forEach>
@@ -711,8 +711,8 @@ function getActiveHomeTasks() {
 					function(data) {
 					
 						//alert(JSON.stringify(data.taskList))			
-						
-						$("#task_info_table tbody").empty();
+						append(data);
+						/* $("#task_info_table tbody").empty();
 
 						 
 								
@@ -755,13 +755,97 @@ function getActiveHomeTasks() {
 							
 							$('#task_info_table' + ' tbody').append(tr_data);
 						
-						}
+						} */
 						
 				
 	});
 
 }
+function dataFilter(){
+	
+	var fromDate = $("#fromDate").val();
+	var service = $("#service").val();
+	var activity = $("#activity").val();
+	var custId = $("#custId").val();		
+	var stats = $("#stats").val();
+	//alert("Dates="+fromDate+" "+service+"   "+activity+" "+custId);
+	
+	$("#loader").show();
+	
+	$
+			.getJSON(
+					'${fliterTaskList}',
+					{
 
+						fromDate : fromDate,
+						service : service,
+						activity : activity,
+						custId : custId,
+						stats : stats,
+						ajax : 'true',
+
+					},
+					function(data) {
+						append(data);
+					});
+	 $("#modal_remote").modal("hide");
+}
+
+
+
+function append(data){
+
+	
+	//alert(JSON.stringify(data.taskList))			
+	
+	$("#task_info_table tbody").empty();
+
+	 
+			
+			//alert("list2:"+JSON.stringify(data.statusMstrList));	
+			var sel_html ='';
+			if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
+			
+				for (var j = 0; j < data.statusMstrList.length; j++) {								
+				sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+						+ data.statusMstrList[j].statusText + '</option>';
+                 }
+			}else{
+				for (var j = 0; j < data.statusMstrList.length; j++) {								
+					sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+							+ data.statusMstrList[j].statusText + '</option>';
+                     }
+			} 
+			
+			
+	
+	for (var i = 0; i < data.taskList.length; i++) {
+		
+		
+		var tr_data = '<tr> <td>'+(i+1)+'</td>'+
+		'<td>'+data.taskList[i].custGroupName+'</td>'+
+		'data-toggle="modal" data-target="#modal_small"'+
+		'<td  onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')"><a href="#" onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')">'+data.taskList[i].taskText+'</a></td>'+
+		'<td>'+data.taskList[i].taskEndDate+'</td>'+
+		'<td>'+data.taskList[i].taskStatutoryDueDate+'</td>'+
+		'<td>'+data.taskList[i].employees+'</td>'+
+		'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
+		'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
+
+'<td class="container1"> <select onclick="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
+		
+
+
+'<td class="text-center"><a class="chatmodallink" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
+'&nbsp;&nbsp;<a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+		
+		$('#task_info_table' + ' tbody').append(tr_data);
+	
+	}
+	
+
+
+}
 
 //var table = $('.datatable-generated').DataTable();
 
@@ -1069,97 +1153,6 @@ function addNewWorkLog(){
 	</script>
 
 	<script type="text/javascript">
-	function dataFilter(){
-		
-		var fromDate = $("#fromDate").val();
-		var service = $("#service").val();
-		var activity = $("#activity").val();
-		var custId = $("#custId").val();		
-		var stats = $("#stats").val();
-		alert("Dates="+fromDate+" "+service+"   "+activity+" "+custId+" "+stats);
-		/* 
-		document.getElementById("fromDate").value=fromDate;//create this
-		document.getElementById("toDate").value=toDate;//create this
-		document.getElementById("service").value=service;//create this
-		document.getElementById("activity").value=activity;//create this
-		document.getElementById("custId").value=custId;//create this
-		
-		var form=document.getElementById("filterForm");
-	    form.setAttribute("method", "post");
-
-		form.action=("fliterTaskList");
-		form.submit(); */
-		
-		$("#loader").show();
-		
-		$
-				.getJSON(
-						'${fliterTaskList}',
-						{
-
-							fromDate : fromDate,
-							service : service,
-							activity : activity,
-							custId : custId,
-							ajax : 'true',
-
-						},
-						function(data) {
-						
-							//alert(JSON.stringify(data.taskList))			
-							
-							$("#task_info_table tbody").empty();
-
-							 
-									
-									//alert("list2:"+JSON.stringify(data.statusMstrList));	
-									var sel_html ='';
-									if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
-									
-										for (var j = 0; j < data.statusMstrList.length; j++) {								
-										sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
-		 									+ data.statusMstrList[j].statusText + '</option>';
-		                                 }
-									}else{
-										for (var j = 0; j < data.statusMstrList.length; j++) {								
-											sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
-			 									+ data.statusMstrList[j].statusText + '</option>';
-			                                 }
-									} 
-									
-									
-							
-							for (var i = 0; i < data.taskList.length; i++) {
-								
-								
-								var tr_data = '<tr> <td>'+(i+1)+'</td>'+
-								'<td>'+data.taskList[i].custGroupName+'</td>'+
-								'data-toggle="modal" data-target="#modal_small"'+
-								'<td  onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')"><a href="#" onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')">'+data.taskList[i].taskText+'</a></td>'+
-								'<td>'+data.taskList[i].taskEndDate+'</td>'+
-								'<td>'+data.taskList[i].taskStatutoryDueDate+'</td>'+
-								'<td>'+data.taskList[i].employees+'</td>'+
-								'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
-								'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
-						
-	 '<td class="container1"> <select onclick="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
-								
-	 
-	 
-	 '<td class="text-center"><a class="chatmodallink" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
-	 '&nbsp;&nbsp;<a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
-								
-								$('#task_info_table' + ' tbody').append(tr_data);
-							
-							}
-							
-					
-		});
-
-	}
-	
-	
-	
 	
 	
 	function getActivities(servId) {
