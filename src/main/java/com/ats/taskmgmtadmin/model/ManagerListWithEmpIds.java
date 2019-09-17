@@ -8,8 +8,8 @@ public class ManagerListWithEmpIds {
 	private String empName;
 	private String memberIds; 
 	private float bugetedWork; 
-	private float allWork; 
-	private float actlWork;
+	private String allWork; 
+	private String actlWork;
 	ArrayList<String> ids;
 	
 	public int getEmpId() {
@@ -36,16 +36,16 @@ public class ManagerListWithEmpIds {
 	public void setBugetedWork(float bugetedWork) {
 		this.bugetedWork = bugetedWork;
 	}
-	public float getAllWork() {
+	public String getAllWork() {
 		return allWork;
 	}
-	public void setAllWork(float allWork) {
+	public void setAllWork(String allWork) {
 		this.allWork = allWork;
 	}
-	public float getActlWork() {
+	public String getActlWork() {
 		return actlWork;
 	}
-	public void setActlWork(float actlWork) {
+	public void setActlWork(String actlWork) {
 		this.actlWork = actlWork;
 	}
 	public ArrayList<String> getIds() {

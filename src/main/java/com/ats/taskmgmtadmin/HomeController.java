@@ -1227,30 +1227,34 @@ public class HomeController<Task> {
 	}
 
 	@RequestMapping(value = "/showManagerDetail", method = RequestMethod.GET)
-	public @ResponseBody List<EmpListForDashboardByStatus> showManagerDetail(HttpServletRequest request,
+	public @ResponseBody List<CapacityDetailByEmp> showManagerDetail(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
 
-		List<EmpListForDashboardByStatus> stswisetaskList = new ArrayList<>();
+		List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<>();
 
 		try {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			int empId = Integer.parseInt(request.getParameter("empId"));
-			int status = Integer.parseInt(request.getParameter("status"));
-
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			int empId = Integer.parseInt(request.getParameter("empId")); 
+			String date = request.getParameter("fromDate");
+			String[] dates = date.split(" to ");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
+			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
+			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("userId", empSes.getEmpId());
-			map.add("status", status);
-			EmpListForDashboardByStatus[] taskCountByStatus = Constants.getRestTemplate().postForObject(
-					Constants.url + "/getTaskCountByManagerId", map, EmpListForDashboardByStatus[].class);
-			stswisetaskList = new ArrayList<EmpListForDashboardByStatus>(Arrays.asList(taskCountByStatus));
 
+			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getEmployeeCapacityDetailForManagerDashboard", map, CapacityDetailByEmp[].class);
+			capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(Arrays.asList(capacityDetailByEmp));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return stswisetaskList;
+		return capacityDetailByEmpList;
 	}
 
 	@RequestMapping(value = "/getCostDetail", method = RequestMethod.GET)

@@ -235,7 +235,8 @@ h5 {
 										<c:if test="${managerListWithEmpIds.ids.size()>0}">
 											<tr>
 
-												<td>${managerListWithEmpIds.empName}</td>
+												<td><a href="#"
+													onclick="showManagerDetail(${managerListWithEmpIds.empId},'${managerListWithEmpIds.empName}')">${managerListWithEmpIds.empName}</a></td>
 												<td>${managerListWithEmpIds.bugetedWork}</td>
 												<td>${managerListWithEmpIds.allWork}</td>
 												<td>${managerListWithEmpIds.actlWork}</td>
@@ -378,13 +379,10 @@ h5 {
 											<th style="background-color: white; width: 150px">Employee
 												Name</th>
 
-											<th style="background-color: white; width: 50px;">Overdue</th>
-											<th style="background-color: white; width: 50px">Due
-												Today</th>
-											<th style="background-color: white; width: 50px">Due
-												this Week</th>
-											<th style="background-color: white; width: 50px">Due
-												this Month</th>
+											<th style="background-color: white; width: 50px;">Budgeted Capacity</th>
+											<th style="background-color: white; width: 50px">Allocated Capacity</th>
+											<th style="background-color: white; width: 50px">Actual Hours Worked</th>
+											<th style="background-color: white; width: 50px">% completion bar</th>
 
 										</tr>
 									</thead>
@@ -487,6 +485,11 @@ h5 {
 														
 													
 													if (v.ids.length > 0) {
+														
+														var empDetailLink = '<a href="#"'+
+														'onclick="showManagerDetail('+v.empId+',\''+v.empName+'\')">'+v.empName+'</a>';
+														 
+														
 														var per = (v.actlWork / v.allWork) * 100
 														var str = '<div class="progress rounded-round"> <div class="progress-bar bg-success" style="width: '
 																+ per
@@ -498,7 +501,7 @@ h5 {
 
 														var tr_data = '<tr>'
 																+ '<td  >'
-																+ v.empName
+																+ empDetailLink
 																+ '</td>'
 																+ '<td  >'
 																+ v.bugetedWork 
@@ -528,14 +531,15 @@ h5 {
 
 		}
 
-		function showManagerDetail(value, empId, taskststext) {
-
-			document.getElementById("taskststext").innerHTML = taskststext;
+		function showManagerDetail(empId, empname) {
+			
+			var fromDate = document.getElementById("fromDate").value;
+			document.getElementById("taskststext").innerHTML = empname;
 			$("#showManagerDetailloader").show();
 			$('#modal_small').modal('show');
 
-			$.getJSON('${showManagerDetail}', {
-				status : value,
+			  $.getJSON('${showManagerDetail}', {
+				fromDate : fromDate,
 				empId : empId,
 				ajax : 'true',
 
@@ -545,9 +549,17 @@ h5 {
 				dataTable.clear().draw();
 
 				$.each(data, function(i, v) {
-
+ 
+					var per = (v.actWork / v.allWork) * 100
+					var str = '<div class="progress rounded-round"> <div class="progress-bar bg-success" style="width: '
+							+ per
+							+ '%">'
+							+ '<span>'
+							+ per.toFixed(2)
+							+ '% Complete</span> </div> </div>'
+							
 					dataTable.row.add(
-							[ v.empName, v.overdeu, v.duetoday, v.week, v.month
+							[ v.empName, v.bugetedCap, v.allWork, v.actWork, str
 
 							]).draw();
 
@@ -555,7 +567,7 @@ h5 {
 
 				$("#showManagerDetailloader").hide();
 			});
-
+ 
 		}
 
 		function getCostDetail() {
