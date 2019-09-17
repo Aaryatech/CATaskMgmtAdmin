@@ -606,12 +606,12 @@
 					if (data.error == false) {
 
 						///chatList(1);
-						alert("Link dilivered");
+						alert("Link delivered");
 						$("#myModal").modal("hide");
 						//window.open = "taskListForEmp";
 
 					} else {
-						alert("Link not dilivered");
+						alert("Link not delivered");
 						$("#myModal").modal("hide");
 						//window.open = "taskListForEmp";
 					}

@@ -35,7 +35,7 @@ position: fixed !important;
 </style>
 </head>
 
-<body  >
+<body>
 	<c:url value="/getDailyWorkLogByTaskId" var="getDailyWorkLogByTaskId"></c:url>
 	<c:url value="/updateTaskStatusByTaskId" var="updateTaskStatusByTaskId"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
@@ -576,7 +576,7 @@ h5 {
 								</tr>
 							</thead>
 							<tbody>
-							<%-- <c:forEach items="${taskList}" var="taskList" varStatus="count">
+							<c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${taskList.custGroupName}</td>
@@ -662,7 +662,7 @@ h5 {
 												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
-								</c:forEach> --%>
+								</c:forEach>
 
 							</tbody>
 						</table>
