@@ -857,8 +857,8 @@ function append(data){
 								
 								//alert(JSON.stringify(data));
 								
-								document.getElementById("anytime-time2").value=data.task.mngrBudHr;
-								document.getElementById("anytime-time1").value=data.task.empBudHr;
+								document.getElementById("anytime-time2").value=data.task.empBudHr;
+								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
   								//alert("errordata"+data.task.taskEndDate);
 								document.getElementById("workDate1").value=data.task.taskEndDate;
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
@@ -902,8 +902,8 @@ function append(data){
 	
 	function submitResponse(){
 		//alert("flag ***"+flag);
-		var empBudHr = document.getElementById("anytime-time1").value;
-			var manBudHr = document.getElementById("anytime-time2").value;
+		var empBudHr = document.getElementById("anytime-time2").value;
+			var manBudHr = document.getElementById("anytime-time1").value;
 			var workDate=document.getElementById("workDate1").value ;//create this
 			var dueDate=document.getElementById("dueDate").value;//create this
 			var taskId1=document.getElementById("taskId1").value ;
