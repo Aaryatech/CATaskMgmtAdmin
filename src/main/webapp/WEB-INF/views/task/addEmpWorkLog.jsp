@@ -127,7 +127,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control daterange-basic_new"
-												id="fromDate" name="fromDate">
+												id="fromDate" name="fromDate" onchange="getWorkLog()">
 										</div>
 									</div>
 									
@@ -137,7 +137,7 @@
 										</label>
 										<div class="col-lg-6">
 											<select name="customer" data-placeholder="Select Customer"
-												id="customer"
+												id="customer" onchange="getWorkLog()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 												<option value="0">Select Customer</option>
@@ -187,7 +187,7 @@
 										</label>
 										<div class="col-lg-6">
 											<select name="activity" data-placeholder="Select Activity"
-												id="activity"
+												id="activity" onchange="getWorkLog()"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 											</select>
