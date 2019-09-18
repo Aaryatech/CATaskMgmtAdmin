@@ -909,11 +909,7 @@ function append(data){
 			 
 			} else if (manBudHr == null || manBudHr == "") {
 				valid = false;
- 			}
- 			else if (workDate == null || workDate == "") {
-				valid = false;
- 			}
- 			else if (dueDate == null || dueDate == "") {
+ 			}else if (dueDate == null || dueDate == "") {
 				valid = false;
  			}
  			else if (taskId1 == 0 || taskId1 == "") {

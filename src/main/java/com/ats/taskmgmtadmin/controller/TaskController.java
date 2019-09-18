@@ -829,7 +829,8 @@ public class TaskController {
 			try {
 				task.setTaskEndDate(DateConvertor.convertToDMY(task.getTaskEndDate()));
 			}catch(Exception e) {
-				task.setTaskEndDate(DateConvertor.convertToDMY(""));
+				//task.setTaskEndDate(DateConvertor.convertToDMY(""));
+				task.setTaskEndDate("");
 			}
 		
 			logList.setTask(task);
@@ -891,13 +892,25 @@ public class TaskController {
 
 			String dueDate = request.getParameter("dueDate");
 			String workDate = request.getParameter("workDate");
+			System.err.println("date " + workDate);
+
 			String taskId = request.getParameter("taskId1");
+			 if(workDate!=null && workDate!="") {
+				 System.err.println("In if ");
+				 
+				 workDate=DateConvertor.convertToYMD(workDate);
+			 }else {
+				 System.err.println("In else ");
+				 workDate="null";
+			 }
+				
+			 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
 			map.add("empHr", emphr1);
 			map.add("mngHr", mnghr1);
 			map.add("dueDate", DateConvertor.convertToYMD(dueDate));
-			map.add("workDate", DateConvertor.convertToYMD(workDate));
+ 			map.add("workDate",workDate );
 			map.add("empId", items1);
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
