@@ -395,7 +395,7 @@
 
 					</div>
 
-					<div class="col-md-12">
+					<div class="col-md-12" id="custsiglist">
 
 						<div class="card">
 
@@ -499,6 +499,8 @@ function showAddForm(){
 	 var x = document.getElementById("abc");
 	  if (window.getComputedStyle(x).display == "none") {
 		  document.getElementById("abc").style.display="block";
+		  document.getElementById("custsiglist").style.display="none";
+		  
 	  }else {
 		  document.getElementById("abc").style.display="none";
 	  }
@@ -698,6 +700,7 @@ function hideAddForm(){
 		
 		if (window.getComputedStyle(x).display == "none") {
 		  document.getElementById("abc").style.display="block";
+		  document.getElementById("custsiglist").style.display="none";
 	
 			$
 			.getJSON(
