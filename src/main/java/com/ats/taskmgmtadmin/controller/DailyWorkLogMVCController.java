@@ -72,7 +72,8 @@ public class DailyWorkLogMVCController {
 	
 	
 	@RequestMapping(value = "/newWorkLog", method = RequestMethod.GET)
-	public @ResponseBody List<DailyWorkLog> newWorkLog(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public @ResponseBody List<DailyWorkLog> newWorkLog(HttpServletRequest request, HttpServletResponse response, 
+			HttpSession session, Model model) {
 		List<DailyWorkLog> logList = null;
 		try {
 				int logId = 0;
@@ -88,7 +89,8 @@ public class DailyWorkLogMVCController {
 				session = request.getSession();
 			
 				EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			
+				model.addAttribute("empType", empSes.getEmpType());
+				
 				DailyWorkLog workLog = new DailyWorkLog();
 				String hrs = request.getParameter("workHrs");
 				String  mnghr1=HoursConversion.convertHoursToMin(hrs);

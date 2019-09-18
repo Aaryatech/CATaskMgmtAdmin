@@ -376,7 +376,7 @@ h5 {
 										<div class="form-group  col-md-1">
 											<label class="form-group-float-label animate is-visible">
 											</label>
-											<button type="submit" id="submtbtn" onclick="addNewWorkLog()"
+											<button type="submit" id="submtbtnlog" onclick="addNewWorkLog()"
 												class="btn bg-info-400 legitRipple">
 												<b><i class="icon-paperplane"></i></b>
 											</button>
@@ -1029,11 +1029,47 @@ function append(data){
 
 							$.each(data, function(i, v) {
 							
-								dataTable.row.add(
-										[ 	i + 1,
-											v.exVar1,
-											v.workHours
-										]).draw();
+								if(empType==2){
+									if(v.exInt1!=1){
+										dataTable.row.add(
+												[ 	i + 1,
+													v.exVar1,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+								if(empType==3){
+									if(v.exInt1!=2 && v.exInt1!=1 ){
+										dataTable.row.add(
+												[ 	i + 1,
+													v.exVar1,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+									
+								if(empType==4){
+									if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+										dataTable.row.add(
+												[ 	i + 1,
+													v.exVar1,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+								if(empType==5){
+									if(v.exInt1==5){
+										dataTable.row.add(
+												[ 	i + 1,
+													v.exVar1,
+													v.workHours
+												]).draw();
+									}
+									
+								}
 							});
 						});
 		
@@ -1046,14 +1082,19 @@ function append(data){
 	
 //Add Work Log
 function addNewWorkLog(){
+	var empTyp = ${empType};
+	
 	var logId = $("#logId").val();
 	var taskId = $("#taskId").val();
 	var workHrs = $("#anytime-time").val();
 	var workDate = $("#workDate").val();
 	var remark = $("#remark").val();
-	//var workHrs = str.replace(":", ".");
-
-	//alert(logId+" "+workHrs+" "+workDate+"  "+remark+" "+taskId);
+	
+	if(workDate!=null && workDate==""){
+		alert("Please enter Work Date!");
+	}else if(workHrs!=null && workHrs==""){
+		alert("Please enter Work Hours!");
+	}else{
 	$("#loader").show();
 	$
 	.getJSON(
@@ -1073,29 +1114,59 @@ function addNewWorkLog(){
 				
 				var dataTable = $('#work_log_table').DataTable();
 							dataTable.clear().draw();
-
 							$.each(data, function(i, v) {
-							
-								dataTable.row.add(
-										[ 	i + 1,
-											v.exVar1,
-											v.workHours
-										]).draw();
+							if(empTyp==2){
+								if(v.exInt1!=1){
+									dataTable.row.add(
+											[ 	i + 1,
+												v.exVar1,
+												v.workHours
+											]).draw();
+								}
+								
+							}
+							if(empTyp==3){
+								if(v.exInt1!=2 && v.exInt1!=1 ){
+									dataTable.row.add(
+											[ 	i + 1,
+												v.exVar1,
+												v.workHours
+											]).draw();
+								}
+								
+							}
+								
+							if(empTyp==4){
+								if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+									dataTable.row.add(
+											[ 	i + 1,
+												v.exVar1,
+												v.workHours
+											]).draw();
+								}
+								
+							}
+							if(empTyp==5){
+								if(v.exInt1==5){
+									dataTable.row.add(
+											[ 	i + 1,
+												v.exVar1,
+												v.workHours
+											]).draw();
+								}
+								
+							}
 							});
 												
 							document.getElementById("taskText").innerHTML = task;			
 			
 		 });
+	
 	$('#anytime-time').val('');
 	$('#remark').val('');
-	
+	}
 }
-	</script>
-
-
-
-
-
+</script>
 
 	<script type="text/javascript">
 		// Single picker
@@ -1148,44 +1219,15 @@ function addNewWorkLog(){
 								html += '</option>';
 
 								var temp = 0;
-								//temp=document.getElementById("temp").value;
-								//alert("temp");
+								
 								var len = data.length;
 								for (var i = 0; i < len; i++) {
-
-									/* 	if(temp==data[i].infraAreaId){
-											 html += '<option selected value="' + data[i].infraAreaId + '">'
-									         + data[i].infraAreaName + '</option>';
-										}
-											
-											else{ */
-
 									html += '<option value="' + data[i].actiId + '">'
 											+ data[i].actiName
 											+ '</option>';
-									//}
 
 								}
 
-								/*        if(temp==0){
-								       	//alert("If temp==0");
-								       	  var x=0;
-								             var y="Any Other";
-								             html += '<option selected value="'+x+'">'
-								             +y+'</option>';
-								             html += '</option>';
-								             //document.getElementById("other_area").show();
-											$("#area_name_div").show();
-
-								            
-								       }else{
-								       	  /* var x=0;
-								             var y="Any Other";
-								             html += '<option value="'+x+'">'
-								             +y+'</option>';
-								             html += '</option>'; */
-
-								// } 
 								$('#activity').html(html);
 								$("#activity").trigger("chosen:updated");
 
