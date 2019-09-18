@@ -246,7 +246,7 @@ h5 {
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true"
 												onchange="getActivities(this.value)">
-
+												<option value="0">Select Service</option>
 												<c:forEach items="${serviceList}" var="serv">
 													<option value="${serv.servId}">${serv.servName}</option>
 												</c:forEach>
@@ -293,6 +293,7 @@ h5 {
 												id="custId"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
+												<option value="0">Select Customer</option>
 												<c:forEach items="${custGrpList}" var="custGrpList">
 													<option value="${custGrpList.custId}">${custGrpList.custName}</option>
 												</c:forEach>
@@ -1200,9 +1201,9 @@ function addNewWorkLog(){
 
 							function(data) {
 								var html;
-								var p = -1;
+								//var p = "0";
 								var q = "Select Activity";
-								html += '<option disabled value="'+p+'">'
+								html += '<option disabled value="0">'
 										+ q + '</option>';
 								html += '</option>';
 
