@@ -154,6 +154,40 @@
 											href="#" onclick="getProgReport(0,'showEmpMngrPerformncRep')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
+									
+									<tr>
+										<td>4</td>
+										<td>Inactive Task(Manager)</td>
+										
+										<td class="text-center"><a href="#" title="pdf"
+											onclick="getProgReport(1,'showInactiveTaskRepForManager')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+											href="#" onclick="getProgReport(0,'showInactiveTaskRepForManager')" title="excel"><i
+												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
+									</tr>
+									
+									
+									<tr>
+										<td>4</td>
+										<td>Completed Task(Manager)</td>
+										
+										<td class="text-center"><a href="#" title="pdf"
+											onclick="getProgReport(1,'showCompletedTaskRepForManager')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+											href="#" onclick="getProgReport(0,'showCompletedTaskRepForManager')" title="excel"><i
+												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
+									</tr>
+									
+									<tr>
+										<td>5</td>
+										<td>Employee And Manager Performance Hours(Manager)</td>
+										
+										<td class="text-center"><a href="#" title="pdf"
+											onclick="getProgReport(1,'showEmpAndMngPerformanceRep')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+											href="#" onclick="getProgReport(0,'showEmpAndMngPerformanceRep')" title="excel"><i
+												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
+									</tr>
 
 								</tbody>
 							</table>

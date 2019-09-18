@@ -23,16 +23,25 @@ public class HoursConversion {
 
 	public static String convertMinToHours(String minutes1) {
 		String min = new String();
-		//System.out.println("prev min**" + minutes1);
 		int minutes = Integer.parseInt(minutes1);
-		//System.out.println("prev min converted**" + minutes);
 
 		try {
-			int hrs = minutes / 60;
-			int rem = minutes % 60;
-			min = String.valueOf(hrs).concat(":").concat(String.valueOf(rem));
+			String hrs = String.valueOf(minutes / 60);
+			String rem = String.valueOf(minutes % 60);
+			System.out.println("prev hrs **" + hrs);
+			System.out.println("prev rem  **" + rem);
+			if (String.valueOf(hrs).length() == 1) {
+				hrs = "0".concat(hrs);
+				System.out.println("hrs after **" + hrs);
 
-			///System.out.println("final hrs**" + min);
+			}
+			if (String.valueOf(rem).length() == 1) {
+				rem = "0".concat(rem);
+				System.out.println("rem after **" + rem);
+ 			}
+ 			min = hrs.concat(":").concat(rem);
+
+			/// System.out.println("final hrs**" + min);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
