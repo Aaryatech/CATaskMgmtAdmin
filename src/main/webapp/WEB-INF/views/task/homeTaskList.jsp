@@ -610,7 +610,7 @@ h5 {
 														</c:otherwise>
 
 													</c:choose>
-													<option value="${statusList.statusValue}">${statusList.statusText}${taskList.taskStatus}</option>
+													
 												</c:forEach>
 										</select></td>
 										
@@ -764,7 +764,7 @@ function append(data){
 			
 			//alert("list2:"+JSON.stringify(data.statusMstrList));	
 			var sel_html ='';
-			/* if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){
+			/*if(data.statusMstrList[0].statusText == data.taskList[0].taskStatus){ 
 			
 				for (var j = 0; j < data.statusMstrList.length; j++) {								
 				sel_html += '<option selected data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
@@ -777,22 +777,14 @@ function append(data){
                      }
 			}  */
 			
-			
+			for (var j = 0; j < data.statusMstrList.length; j++) {								
+				sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
+						+ data.statusMstrList[j].statusText + '</option>';
+                 }		
 	
 	for (var i = 0; i < data.taskList.length; i++) {
 		
-		for (var j = 0; j < data.statusMstrList.length; j++) {		
-			
-			if(data.taskList[i].exInt1==data.statusMstrList[j].statusValue){
-				
-				sel_html += '<option selected data-statusColor="'+data.statusMstrList[j].statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
-				+ data.statusMstrList[j].statusText + '</option>';
-			}else{
-				
-				sel_html += '<option  data-statusColor="'+data.statusMstrList[j].statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
-				+ data.statusMstrList[j].statusText + '</option>';
-			}
-		}
+		
 		
 		var tr_data = '<tr> <td>'+(i+1)+'</td>'+
 		'<td>'+data.taskList[i].custGroupName+'</td>'+
