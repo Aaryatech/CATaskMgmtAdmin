@@ -103,7 +103,7 @@
 													name="selAll" id="selAll" checked /></th>
 											<th>Task</th>
  											<th>Statutory Due  Date</th>
-											<th>Work Date</th>
+											<th>Billing Amt</th>
  											<th>Manager Budget Hrs.</th>
 											<th>Emp Budget Hrs.</th>
 
@@ -119,7 +119,7 @@
 
 											<td>${taskList.taskText}</td>
  											<td>${taskList.taskStatutoryDueDate}</td>
-												<td>${taskList.taskEndDate}</td>
+												<td>${taskList.billingAmt}</td>
 											<td>${mHr}</td>
 											<td>${eHr}</td>
 											 
@@ -139,6 +139,13 @@
 									id="deleteId"
 									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Generate These Task');}"
 									style="align-content: center; width: 113px; margin-left: 40px;">
+									
+									<a
+													href="${pageContext.request.contextPath}/customerList"><button
+														type="button" class="btn btn-primary">
+														<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+														Cancel
+													</button></a>
 							</div>
 
 

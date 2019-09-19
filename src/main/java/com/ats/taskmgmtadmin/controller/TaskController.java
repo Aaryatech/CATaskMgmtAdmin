@@ -755,6 +755,7 @@ public class TaskController {
 					map.add("userId", userId);
 					map.add("curDateTime", Constants.getCurDateTime());
 					map.add("statDate", request.getParameter("statDate"));
+					map.add("billAmt", request.getParameter("billAmt"));
 
 
 					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
@@ -799,7 +800,8 @@ public class TaskController {
 				activityMapanual.setUpdateDatetime(Constants.getCurDateTime());
 				activityMapanual.setUpdateUsername(userId);
 				activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
-
+				activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
+				
 				System.out.println("Activity Map---------" + activityMapanual.toString());
 				Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
 						activityMapanual, Info.class);
@@ -1749,6 +1751,7 @@ public class TaskController {
 				task.setTaskText(String.valueOf(sb1));
 				task.setUpdateDatetime(Constants.getCurDateTime());
 				task.setUpdateUsername(userId);
+				task.setBillingAmt(request.getParameter("billAmt"));
 				taskTempList.add(task);
 
 			}

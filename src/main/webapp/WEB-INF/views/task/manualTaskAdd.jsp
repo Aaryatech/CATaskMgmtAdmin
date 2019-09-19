@@ -413,6 +413,23 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
+									
+									
+										<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="billAmt">Billing
+											Amount <span style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control" value="${task.billingAmt}"
+												placeholder="Enter Billing Amount" id="billAmt"
+												name="billAmt" autocomplete="off" onchange="trim(this)">
+										</div>
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_billAmt"
+												style="display: none;">Please enter billing amount.</span>
+										</div>
+
+									</div>
 
 
 									<div class="form-group row mb-0">
@@ -641,6 +658,19 @@
 												} else {
 													$("#error_empHrs").hide()
 												}
+												
+												if (!$("#billAmt").val()) {
+
+													isError = true;
+
+													$("#error_billAmt")
+															.show()
+
+												} else {
+													$("#error_billAmt")
+															.hide()
+												}  
+
 
 												if (!isError) {
 
