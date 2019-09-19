@@ -79,7 +79,7 @@ public class ReportController {
 			int userType = emp.getEmpType();
 			model.addObject("userType", userType);
 			model.addObject("empName", emp.getEmpName());
-			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getEmployees",
 					EmployeeMaster[].class);
 			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			model.addObject("epmList", epmList);
