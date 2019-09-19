@@ -427,8 +427,7 @@ h5 {
 
 							<div class="modal-body">
 
-								<!-- 								<form action="submitUpdatedTask" method="post">
- -->
+								<!-- <form action="submitUpdatedTask" method="post"> -->
 								<input type="hidden" id="taskId1" name="taskId1" value=0>
 								<div class="form-group row">
 									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
@@ -552,11 +551,14 @@ h5 {
 	top: 1rem;
 }
 </style>
-
-
+<%-- <div id="loader1" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+ --%>
 					<div class=table-responsive>
-
-						
 
 						<table class="table datatable-basic1 datatable-generated table-hover" width="100%"
 							id="task_info_table">
@@ -566,7 +568,6 @@ h5 {
 									<th style="background-color: white;">Customer</th>
 									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
 									 <th style="background-color: white;">Task Name</th>
-
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
@@ -949,7 +950,7 @@ function append(data){
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
         var color =  $('#set_status'+taskId).val();
         
-      
+        $("#loader1").show();
 		$
 				.getJSON(
 						'${updateTaskStatusByTaskId}',
