@@ -38,6 +38,7 @@ import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.ActiveHomeTaskList;
 import com.ats.taskmgmtadmin.model.BugetedAmtAndRevenue;
 import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
+import com.ats.taskmgmtadmin.model.ClientGroupList;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.EmpListForDashboard;
@@ -1071,9 +1072,9 @@ public class HomeController<Task> {
 				Date date = new Date();
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-				Calendar c = Calendar.getInstance(); // this takes current date
+				/*Calendar c = Calendar.getInstance(); // this takes current date
 				c.set(Calendar.DAY_OF_MONTH, 1);
-				// System.out.println(c.getTime());
+				 
 
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
@@ -1087,8 +1088,19 @@ public class HomeController<Task> {
 				map.add("toDate", sf.format(lastDayOfMonth));
 				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(
 						Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
-				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
+				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);*/
+				/*int year = c.get(Calendar.YEAR);
+				int month = c.get(Calendar.MONTH) + 1;
 
+				model.addAttribute("year", year);
+				model.addAttribute("month", month);*/
+				
+				ClientGroupList[] clientGroup  = Constants.getRestTemplate().getForObject(
+						Constants.url + "/getClientGroupList",  ClientGroupList[].class);
+				List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(
+						Arrays.asList(clientGroup));
+				model.addAttribute("clientGroupList", clientGroupList);
+				
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("fromDate", sf.format(date));
@@ -1098,13 +1110,7 @@ public class HomeController<Task> {
 				List<ManagerListWithEmpIds> managerlist = new ArrayList<ManagerListWithEmpIds>(
 						Arrays.asList(managerListWithEmpIds));
 				model.addAttribute("managerListWithEmpIds", managerlist);
-
-				int year = c.get(Calendar.YEAR);
-				int month = c.get(Calendar.MONTH) + 1;
-
-				model.addAttribute("year", year);
-				model.addAttribute("month", month);
-
+ 
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
 				model.addAttribute("date", dd.format(date) + " to " + dd.format(date));
 
@@ -1152,6 +1158,31 @@ public class HomeController<Task> {
 		return mav;
 	}
 
+	@RequestMapping(value = "/getClientList", method = RequestMethod.GET)
+	public @ResponseBody List<ClientGroupList> getClientList(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		List<ClientGroupList> clientGroupList = new ArrayList<>();
+
+		try {
+
+			int groupId = Integer.parseInt(request.getParameter("groupId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+			map.add("groupId",groupId);
+			ClientGroupList[] clientGroup  = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getClinetListByGroupId",map,  ClientGroupList[].class);
+			 clientGroupList = new ArrayList<ClientGroupList>(
+					Arrays.asList(clientGroup));
+			 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return clientGroupList;
+	}
+	
 	@RequestMapping(value = "/searchManagerwiseCapacityBuilding", method = RequestMethod.GET)
 	public @ResponseBody List<ManagerListWithEmpIds> searchManagerwiseCapacityBuilding(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -1281,7 +1312,10 @@ public class HomeController<Task> {
 			int empId = Integer.parseInt(request.getParameter("membrId"));
 			String month = request.getParameter("monthyear");
 			String[] monthyear = month.split("-");
-
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			int groupId = Integer.parseInt(request.getParameter("groupId"));
+			int clientId = Integer.parseInt(request.getParameter("clientId"));
+			
 			String firstDate = "01-" + monthyear[0] + "-" + monthyear[1];
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
@@ -1295,6 +1329,9 @@ public class HomeController<Task> {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
+			map.add("typeId", typeId);
+			map.add("groupId", groupId);
+			map.add("clientId", clientId);
 			map.add("fromDate", DateConvertor.convertToYMD(firstDate));
 			map.add("toDate", yy.format(calendar.getTime()));
 			bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(

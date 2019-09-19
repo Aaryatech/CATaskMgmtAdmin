@@ -28,6 +28,7 @@
 	value="searchManagerwiseCapacityBuilding" />
 <c:url var="getCostDetail" value="getCostDetail" />
 <c:url var="showManagerDetail" value="showManagerDetail" />
+<c:url var="getClientList" value="getClientList" />
 </head>
 
 <body>
@@ -104,7 +105,7 @@ h5 {
 					</div>
 					<div class="card-body">
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="fromDate">Select
+							<label class="col-form-label col-lg-2" for="membrId">Select
 								Employee <span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-3">
@@ -124,11 +125,61 @@ h5 {
 
 								</select>
 							</div>
+							<div class="col-lg-1"></div>
+							<label class="col-form-label col-lg-2" for="monthyear">Select
+								Month <span style="color: red">* </span>:
+							</label>
 							<div class="col-lg-3">
 								<input type="text" class="form-control datepickermonth"
-									id="monthyear" name="monthyear" value="${month}-${year}">
+									id="monthyear" name="monthyear">
 							</div>
 
+						</div>
+
+						<div class="form-group row">
+							<label class="col-form-label col-lg-2" for="membrId">Select
+								Type <span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-3">
+								<select name="typeId" id="typeId"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									onchange="disableGroupList()" aria-hidden="true">
+									<option value="0" selected>Group</option>
+									<option value="1">Individual</option>
+								</select>
+							</div>
+							<div class="col-lg-1"></div>
+							<label class="col-form-label col-lg-2" for="groupId">Select
+								Group <span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-3">
+								<select name="groupId" id="groupId"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									data-fouc="" aria-hidden="true"
+									onchange="getClientList(this.value)">
+
+									<option value="-1" selected>Select Group</option>
+
+									<c:forEach items="${clientGroupList}" var="clientGroupList">
+										<option value="${clientGroupList.id}">${clientGroupList.name}</option>
+									</c:forEach>
+								</select>
+							</div>
+
+						</div>
+
+						<div class="form-group row">
+
+							<label class="col-form-label col-lg-2" for="clientId">Select
+								Client<span style="color: red">* </span>:
+							</label>
+							<div class="col-lg-2">
+								<select name="clientId" id="clientId"
+									class="form-control form-control-select2 select2-hidden-accessible"
+									data-fouc="" aria-hidden="true">
+									<option disabled value="-1">Select Client</option>
+								</select>
+							</div>
 							<div class="col-lg-3">
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn" onclick="getCostDetail()">Search</button>
@@ -379,10 +430,14 @@ h5 {
 											<th style="background-color: white; width: 150px">Employee
 												Name</th>
 
-											<th style="background-color: white; width: 50px;">Budgeted Capacity</th>
-											<th style="background-color: white; width: 50px">Allocated Capacity</th>
-											<th style="background-color: white; width: 50px">Actual Hours Worked</th>
-											<th style="background-color: white; width: 50px">% completion bar</th>
+											<th style="background-color: white; width: 50px;">Budgeted
+												Capacity</th>
+											<th style="background-color: white; width: 50px">Allocated
+												Capacity</th>
+											<th style="background-color: white; width: 50px">Actual
+												Hours Worked</th>
+											<th style="background-color: white; width: 50px">%
+												completion bar</th>
 
 										</tr>
 									</thead>
@@ -574,11 +629,35 @@ h5 {
 
 			var membrId = document.getElementById("membrId").value;
 			var monthyear = document.getElementById("monthyear").value;
-
+			var typeId = document.getElementById("typeId").value;
+			var groupId = document.getElementById("groupId").value;
+			var clientId = document.getElementById("clientId").value;
+			
+			var flag=1;
+			
+			if(typeId==1){
+				groupId=-1;
+			}else{
+				
+				if(groupId==-1){
+					alert("Select Group");
+					flag=0;
+				}
+			}
+			 
+			if(clientId==-1 || clientId==""){
+				alert("Select Client");
+				flag=0;
+			}
+			
+			if(flag==1){
 			$("#loader").show();
 			$.getJSON('${getCostDetail}', {
 				membrId : membrId,
 				monthyear : monthyear,
+				typeId : typeId,
+				groupId : groupId,
+				clientId : clientId,
 				ajax : 'true',
 
 			}, function(data) {
@@ -602,10 +681,62 @@ h5 {
 				$('#costTab' + ' tbody').append(actualRev);
 				$("#loader").hide();
 			});
+			}
+		}
+		
+		function disableGroupList() {
+			var typeId = document.getElementById("typeId").value;
+			
+			if(typeId==1){  
+				document.getElementById("groupId").disabled=true;
+				getClientList(0);
+			}else{
+				 
+				var groupId = document.getElementById("groupId").value; 
+				document.getElementById("groupId").disabled=false;
+				var html; 
+				html += '<option disabled value="0">Select Client</option>'; 
+				$('#clientId').html(html);
+				$("#clientId").trigger("chosen:updated");
+				getClientList(groupId);
+			}
 
 		}
+		
+		function getClientList(groupId) {
+			   
+				$
+						.getJSON(
+								'${getClientList}',
+								{
+									groupId : groupId,
+									ajax : 'true',
+								},
+
+								function(data) {
+									var html;
+									 
+									html += '<option disabled value="-1">Select Client</option>'; 
+									var len = data.length;
+									
+									if(groupId>0 && len>0){
+										
+										html += '<option value="0" selected>All</option>'; 
+									}
+									for (var i = 0; i < len; i++) {
+										html += '<option value="' + data[i].id + '">'
+												+ data[i].name
+												+ '</option>';
+
+									}
+
+									$('#clientId').html(html);
+									$("#clientId").trigger("chosen:updated");
+
+								});
+
+			 
+		}
 	</script>
-
-
 </body>
 </html>
