@@ -166,7 +166,7 @@
 									</div>
 									
 									
-									<div class="form-group row" id="hideFirm">
+									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
 											Name <span style="color: red">*</span>:
 										</label>
@@ -517,12 +517,10 @@
 											function(e) {
 												var isError = false;
 												var errMsg = "";
-												var radioValue = $("input[name='custType']:checked").val();
-									
-										//alert("radioValue---"+radioValue);
-											if(radioValue==0){
+												
+											
 												if (!$("#firmName").val()) {
-/
+
 													isError = true;
 
 													$("#error_firmName").show()
@@ -530,7 +528,7 @@
 												} else {
 													$("#error_firmName").hide()
 												} 
-											}
+											
 											
 											if (!$("#assesseeName").val()) {
 										

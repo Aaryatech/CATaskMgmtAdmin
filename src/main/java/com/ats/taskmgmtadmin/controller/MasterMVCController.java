@@ -1293,13 +1293,8 @@ public class MasterMVCController {
 			cust.setOwnerEmpId(Integer.parseInt(request.getParameter("ownerPartner")));
 
 			cust.setCustType(custType);
-			if (custType == 1) {
-				cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));
-				cust.setCustFirmName("");
-			} else {
-				cust.setCustGroupId(0);
-				cust.setCustFirmName(request.getParameter("firmName"));
-			}
+			cust.setCustGroupId(Integer.parseInt(request.getParameter("clientGrp")));
+			cust.setCustFirmName(request.getParameter("firmName"));
 			cust.setCustAssesseeTypeId(Integer.parseInt(request.getParameter("assesseeType")));
 			cust.setCustAssesseeName(request.getParameter("assesseeName"));
 			cust.setCustPanNo(request.getParameter("panNo"));
