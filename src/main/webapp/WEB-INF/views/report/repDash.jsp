@@ -64,7 +64,7 @@
 				<div class="card">
 					<div class="card-header header-elements-inline">
 
-						<h5 class="card-title">Service - Activity Mapping</h5>
+						<h5 class="card-title">Reports</h5>
 					</div>
 					<form method="post" id="reportForm">
 						<div class="card-body">
