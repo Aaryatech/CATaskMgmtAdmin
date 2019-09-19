@@ -122,20 +122,18 @@
 									<input type="hidden" id="custId" name="custId" value="">
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="fromDate">Due
-											Date Range <span style="color: red">* </span>:
+										<label class="col-form-label col-sm-1" for="fromDate">Date
+										  <span style="color: red"></span>:
 										</label>
-										<div class="col-lg-6">
+										<div class="col-sm-3">
 											<input type="text" class="form-control daterange-basic_new"
 												id="fromDate" name="fromDate" onchange="getWorkLog()">
 										</div>
-									</div>
 									
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="custName">Customer
-											Name <span style="color: red">* </span>:
+										<label class="col-form-label col-sm-1" for="custName">Customer
+											 <span style="color: red"> </span>:
 										</label>
-										<div class="col-lg-6">
+										<div class="col-sm-3">
 											<select name="customer" data-placeholder="Select Customer"
 												id="customer" onchange="getWorkLog()"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -149,62 +147,11 @@
 
 											</select>
 										</div>
-										<div class="col-lg-3"></div>
-
-									</div>
-
-
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="service">
-											Service <span style="color: red">* </span>:
+										
+										<label class="col-form-label col-sm-1" for="custName">Employee
+											 <span style="color: red"> </span>:
 										</label>
-										<div class="col-lg-6">
-											<select name="service" data-placeholder="Select Service"
-												id="service"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true"
-												onchange="getActivities(this.value)">
-												<option value="0">Select Service</option>
-												<c:forEach items="${serviceList}" var="service">
-
-													<option value="${service. servId}">${service. servName}</option>
-
-												</c:forEach>
-
-											</select>
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_service"
-												style="display: none;">Please select service.</span>
-										</div>
-
-									</div>
-									<div class="form-group row">
-
-										<label class="col-form-label col-lg-3" for="activity">
-											Activity <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
-											<select name="activity" data-placeholder="Select Activity"
-												id="activity" onchange="getWorkLog()"
-												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true">
-											</select>
-										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_activity"
-												style="display: none;">Please select above service
-												for corresponding activity.</span>
-										</div>
-
-									</div>
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="custName">Employee
-											Name <span style="color: red">* </span>:
-										</label>
-										<div class="col-lg-6">
+										<div class="col-sm-3">
 											<select name="employee" data-placeholder="Select Employee"
 												id="employee" 
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -219,8 +166,57 @@
 											</select>
 										</div>
 										<div class="col-lg-3"></div>
+										<div class="col-lg-3"></div>
 
 									</div>
+
+
+
+									<div class="form-group row">
+										<label class="col-form-label col-sm-1" for="service">
+											Service <span style="color: red"> </span>:
+										</label>
+										<div class="col-sm-3">
+											<select name="service" data-placeholder="Select Service"
+												id="service"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true"
+												onchange="getActivities(this.value)">
+												<option value="0">Select Service</option>
+												<c:forEach items="${serviceList}" var="service">
+
+													<option value="${service. servId}">${service. servName}</option>
+
+												</c:forEach>
+
+											</select>
+										</div>
+										<!-- <div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_service"
+												style="display: none;">Please select service.</span>
+										</div> -->
+
+								
+
+										<label class="col-form-label col-sm-1" for="activity">
+											Activity <span style="color: red"></span>:
+										</label>
+										<div class="col-sm-3">
+											<select name="activity" data-placeholder="Select Activity"
+												id="activity" onchange="getWorkLog()"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true">
+											</select>
+										</div>
+										<!-- <div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_activity"
+												style="display: none;">Please select above service
+												for corresponding activity.</span>
+										</div> -->
+
+									</div>
+
+									
 
 									<%-- <div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
@@ -250,8 +246,8 @@
 										id=worklogdatatable>
 										<thead>
 											<tr>
-												<th style="color: white;">Sr. No.<input type="checkbox"
-																name="selAll" id="selAll" /></th>
+												<th style="color: white;">Sr. No.<!-- <input type="checkbox"
+																name="selAll" id="selAll" /> --></th>
 												<th style="color: white;">Task Name</th>
 												<th style="color: white;">Work Date</th>
 												<th style="color: white;">Work Hours</th> 
@@ -268,12 +264,12 @@
 								</div>
 								<br>
 
-								<div class="modal-footer">
-									<!-- <button type="submit" class="btn btn-link" data-dismiss="modal">Close</button> -->
+								<!-- <div class="modal-footer">
+									<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Submit <i class="icon-paperplane ml-2"></i>
 											</button>
-								</div>
+								</div> -->
 
 							</div>
 						</div>
@@ -400,8 +396,8 @@
 
 				$.each(data, function(i, v) {
 					
-					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+')"><i class="icon-add" style="color: black;">'+
-							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+')"><i class=" icon-pencil7" style="color: black;""></i>';	
+					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+',\''+v.taskText+'\')"><i class="icon-add" style="color: black;">'+
+							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+', \''+v.taskText+'\')"><i class=" icon-pencil7" style="color: black;""></i>';	
 					dataTable.row.add(
 							[ i + 1,
 								v.taskText, 
@@ -475,9 +471,10 @@
 	}
 		
 		
-		function editWorkLog(logId){
+		function editWorkLog(logId, taskText){
 			//alert(logId);
 			//$("#loader").show();
+			document.getElementById("taskText").innerHTML = taskText;
 			$
 					.getJSON(
 							'${getDailyWorkLogById}',
@@ -586,7 +583,7 @@ $('.daterange-basic_new').daterangepicker({
 
 
 										<div class="form-group form-group-float  col-md-2">
-											<label class="form-group-float-label">Hours </label> <input
+											<label class="form-group-float-label">Work Hours </label> <input
 												type="text" class="form-control"
 												 name="workHour"
 												id="anytime-time" placeholder="Work Hour">

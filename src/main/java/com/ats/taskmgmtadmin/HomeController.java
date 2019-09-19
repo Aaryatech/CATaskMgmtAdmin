@@ -627,7 +627,7 @@ public class HomeController<Task> {
 
 
 			String[] dates = fromDate.split("to");
-			System.err.println("Data---------" + dates[0] + "   " + dates[1]);
+			//System.err.println("Data---------" + dates[0] + "   " + dates[1]);
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addAttribute("empType", empSes.getEmpType());

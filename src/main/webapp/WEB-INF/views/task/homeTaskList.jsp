@@ -517,7 +517,7 @@ h5 {
 </style>
 
 <!-- Basic tables title -->
-				<div class="mb-3 text-right">
+				<div class="mb-3 text-right" style="position: fixed; z-index: 55555555;  margin-left: 75%;">
 					 
 					<div class="fab-menu  fab-menu-absolute1 fab-menu-top-right1"
 							data-toggle="modal" data-target="#modal_remote">

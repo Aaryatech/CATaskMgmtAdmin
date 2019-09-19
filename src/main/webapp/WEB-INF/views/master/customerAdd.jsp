@@ -244,17 +244,16 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<!-- <option value="">Select Assessee Type</option> -->
+												<option value="0">Select Assessee Type</option>
 												<option value="1" ${custHead. custAssesseeTypeId == 1 ? 'selected' : ''}>Individual</option>
 												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
 												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
 												<option value="4" ${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public Limited</option>
-
-
-												<%-- <c:forEach items="${locationList}" var="locationList">
-													<option value="${locationList.locId}">${locationList.locName}</option>
-												</c:forEach> --%>
 											</select>
+											<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_assessee_type"
+												style="display: none;">Please enter assessee type.</span>
+										</div>
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
@@ -270,7 +269,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
-												style="display: none;">Please Enter Date of Birth Properly.</span>
+												style="display: none;">Please enter date of birth.</span>
 										</div>
 									</div>
 
@@ -286,7 +285,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emailId"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter email-Id.</span>
 										</div>
 									</div>
 
@@ -302,7 +301,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_phone"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter phone No.</span>
 										</div>
 									</div>
 
@@ -317,7 +316,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_address1"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter address.</span>
 										</div>
 									</div>
 
@@ -343,13 +342,13 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_city"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter city.</span>
 										</div>
 									</div>
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="city">Pin
+										<label class="col-form-label col-lg-3" for="pin">Pin
 											code <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
@@ -359,7 +358,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_pincode"
-												style="display: none;">This field is required.</span>
+												style="display: none;">Please enter pin.</span>
 										</div>
 									</div>
 
@@ -421,18 +420,14 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">Owner
-											Partner :</label>
-										<div class="col-lg-6">
-											<!-- <input type="text" class="form-control"
-												placeholder="Enter Owner Partner" id="ownerPartner"
-												name="ownerPartner" autocomplete="off" onchange="trim(this)"> -->
-
+											Partner <span style="color: red">*</span>:</label>
+										<div class="col-lg-6">	
 											<select name="ownerPartner"
 												data-placeholder="Select Owner Partner" id="ownerPartner"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-											<!-- 	<option value="">Select Owner Partner</option> -->
+											<option value="0">Select Owner Partner</option> 
 												<c:forEach items="${epmList}" var="epmList">
 												 <c:choose>
 														<c:when test="${epmList.empId==custHead.ownerEmpId}">
@@ -446,7 +441,10 @@
 												</c:forEach>
 												
 											</select>
-
+											<div class="col-lg-3">
+												<span class="validation-invalid-label" id="error_owner_part"
+													style="display: none;">Please select owner partner.</span>
+										</div>
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
@@ -467,6 +465,8 @@
 										</div>
 									</div>
 								</form>
+								<p class="desc text-danger fontsize11">Notice : * Fields are
+									mandatory.</p>
 							</div>
 						</div>
 
@@ -617,6 +617,26 @@
 												} else {
 													$("#error_dob").hide()
 												}
+												
+											if ($("#ownerPartner").val()==0 || !$("#ownerPartner").val()) {
+													
+													isError = true;
+
+													$("#error_owner_part").show()
+
+												} else {
+													$("#error_owner_part").hide()
+												}
+											
+											if ($("#assesseeType").val()==0 || !$("#assesseeType").val()) {
+												
+												isError = true;
+
+												$("#error_assessee_type").show()
+
+											} else {
+												$("#error_assessee_type").hide()
+											}
 												if (!isError) {
 
 													var x = true;
