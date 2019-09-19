@@ -1202,7 +1202,7 @@ public class MasterMVCController {
 				List<CustomerGroupMaster> custGrpList = new ArrayList<CustomerGroupMaster>(Arrays.asList(custGrpArr));
 				mav.addObject("custGrpList", custGrpList);
 
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getEmployees",
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
