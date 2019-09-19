@@ -610,13 +610,21 @@ public class HomeController<Task> {
 
 			String fromDate = request.getParameter("fromDate");
 			//String toDate = request.getParameter("toDate");
-			int act = 0;
+			String act = request.getParameter("activity");
+			int activity = 0;
+			System.out.println("Act----"+act);
 			try {
-				 act = Integer.parseInt(request.getParameter("activity"));
+				 
+				 if(act==null || act==""){
+					 activity = 0;
+				 }else {
+					 activity = Integer.parseInt(act);
+				 }
 			}catch (Exception e) {
 				e.printStackTrace();
 				// TODO: handle exception
 			}
+
 
 			String[] dates = fromDate.split("to");
 			System.err.println("Data---------" + dates[0] + "   " + dates[1]);
@@ -631,7 +639,7 @@ public class HomeController<Task> {
 			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("service", Integer.parseInt(request.getParameter("service")));
-			map.add("activity", act);
+			map.add("activity", activity);
 			map.add("custId", Integer.parseInt(request.getParameter("custId")));
 			map.add("statusIds", Constants.statusIds);
 

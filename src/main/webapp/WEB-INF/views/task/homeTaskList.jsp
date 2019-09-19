@@ -730,7 +730,6 @@ function dataFilter(){
 	var custId = $("#custId").val();		
 	var stats = $("#stats").val();
 	//alert("Dates="+fromDate+" "+service+"   "+activity+" "+custId);
-	
 	$("#loader").show();
 	
 	$
@@ -1201,9 +1200,9 @@ function addNewWorkLog(){
 
 							function(data) {
 								var html;
-								//var p = "0";
+								var p = "0";
 								var q = "Select Activity";
-								html += '<option disabled value="0">'
+								html += '<option value="'+p+'">'
 										+ q + '</option>';
 								html += '</option>';
 
