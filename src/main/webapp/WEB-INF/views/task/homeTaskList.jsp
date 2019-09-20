@@ -12,6 +12,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
 <style>
+
 .modal {
 	position: fixed !important;
 	bottom: 0 !important;
@@ -31,6 +32,10 @@ position: fixed !important;
 	margin: 0px !important;
 	width: 720px !important;
 	height: auto !important;
+}
+.AnyTime-win {
+    height: 320px;
+    overflow-y: auto;
 }
 </style>
 </head>
@@ -750,6 +755,8 @@ function dataFilter(){
 						append(data);
 					});
 	 $("#modal_remote").modal("hide");
+	 $("#modal_edit").modal("hide");
+	 
 }
 
 
@@ -811,8 +818,6 @@ function append(data){
 
 
 }
-
-//var table = $('.datatable-generated').DataTable();
 
 </script>
 
@@ -934,7 +939,8 @@ function append(data){
 				function(data) {
 
 					if (data.error == false) {
-						getActiveHomeTasks();
+						//getActiveHomeTasks();
+						dataFilter();
 						//alert("saved");
 					} else {
 						//alert("not saved");

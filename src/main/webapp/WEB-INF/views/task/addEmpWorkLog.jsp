@@ -10,7 +10,7 @@
 
 </head>
 
-<body>getDailyWorkLogById
+<body>
 <c:url value="/getDailyWorkLogById" var="getDailyWorkLogById"></c:url>
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
@@ -166,7 +166,7 @@
 											</select>
 										</div>
 										<div class="col-lg-3"></div>
-										<div class="col-lg-3"></div>
+										
 
 									</div>
 
