@@ -34,8 +34,8 @@ position: fixed !important;
 	height: auto !important;
 }
 .AnyTime-win {
-    height: 320px;
-    overflow-y: auto;
+    height: 320px !important;
+    overflow-y: auto !important;
 }
 </style>
 </head>
