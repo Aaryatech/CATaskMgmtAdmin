@@ -166,7 +166,7 @@ public class ReportController {
 	
 	@RequestMapping(value = "/showMangPerfHeadListDetail", method = RequestMethod.POST)
 	public void showMangPerfHeadListDetail(HttpServletRequest request, HttpServletResponse response) {
-
+//
 		String reportName = "Task completed";
 
 		try {
