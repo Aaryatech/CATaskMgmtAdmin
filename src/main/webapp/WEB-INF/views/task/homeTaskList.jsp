@@ -564,7 +564,14 @@ h5 {
 						</div>
  --%>
 					<div class=table-responsive>
-
+					<!-- <input type="text" id="search" placeholder="Type to search"> -->
+					
+					<div id="work_log_table_filter" class="dataTables_filter">
+						<label><span>Search:</span> 
+							<input type="text" class="" id="search" placeholder="Type to search..." aria-controls="work_log_table">
+						</label>
+					</div>
+					
 						<table class="table datatable-basic1 datatable-generated table-hover" width="100%"
 							id="task_info_table">
 							<thead>
@@ -1336,10 +1343,21 @@ function addNewWorkLog(){
 	</script>
 	<script>
 	 
-	 
-$(document).ready(function(){
-	 
-	
+	//Search Filter 
+	var $rows = $('#task_info_table tr');
+$('#search').keyup(function() {
+    
+    var val = '^(?=.*\\b' + $.trim($(this).val()).split(/\s+/).join('\\b)(?=.*\\b') + ').*$',
+        reg = RegExp(val, 'i'),
+        text;
+    
+    $rows.show().filter(function() {
+        text = $(this).text().replace(/\s+/g, ' ');
+        return !reg.test(text);
+    }).hide();
+});
+
+$(document).ready(function(){	
 	 
 });
 </script>
