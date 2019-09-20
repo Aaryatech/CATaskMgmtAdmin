@@ -1,96 +1,103 @@
 package com.ats.taskmgmtadmin.model.report;
- 
 
- public class EmpAndMngPerformanceRep {
+import java.util.Date;
+
+public class EmpAndMngPerformanceRep {
 	
-	
- 	private int empId;
-	
-	private String empName;
-	
-	private String noOfTask;
-	
-	private String empWorkHours;
-	
-	private String workHours;
-	
-	private String totAvailHrs;
-	
-	private String tillDate;
-	
-	private String exVar1;
+	 private int empId;
+		
+		private String empName;
+		
+		private int empType;
 
-	public int getEmpId() {
-		return empId;
-	}
+		private String taskCount;
+		
+		private String allWork;
+		
+		private String actWork;
+		
+		private String budgetedCap;
+		
+		private String tillDate;
+		
+		private String exVar1;
 
-	public void setEmpId(int empId) {
-		this.empId = empId;
-	}
+		public int getEmpId() {
+			return empId;
+		}
 
-	public String getEmpName() {
-		return empName;
-	}
+		public void setEmpId(int empId) {
+			this.empId = empId;
+		}
 
-	public void setEmpName(String empName) {
-		this.empName = empName;
-	}
+		public String getEmpName() {
+			return empName;
+		}
 
-	public String getNoOfTask() {
-		return noOfTask;
-	}
+		public void setEmpName(String empName) {
+			this.empName = empName;
+		}
 
-	public void setNoOfTask(String noOfTask) {
-		this.noOfTask = noOfTask;
-	}
+		public int getEmpType() {
+			return empType;
+		}
 
-	public String getEmpWorkHours() {
-		return empWorkHours;
-	}
+		public void setEmpType(int empType) {
+			this.empType = empType;
+		}
 
-	public void setEmpWorkHours(String empWorkHours) {
-		this.empWorkHours = empWorkHours;
-	}
+		public String getTaskCount() {
+			return taskCount;
+		}
 
-	public String getWorkHours() {
-		return workHours;
-	}
+		public void setTaskCount(String taskCount) {
+			this.taskCount = taskCount;
+		}
 
-	public void setWorkHours(String workHours) {
-		this.workHours = workHours;
-	}
+		public String getAllWork() {
+			return allWork;
+		}
 
-	public String getTotAvailHrs() {
-		return totAvailHrs;
-	}
+		public void setAllWork(String allWork) {
+			this.allWork = allWork;
+		}
 
-	public void setTotAvailHrs(String totAvailHrs) {
-		this.totAvailHrs = totAvailHrs;
-	}
-	
- 	public String getTillDate() {
-		return tillDate;
-	}
+		public String getActWork() {
+			return actWork;
+		}
 
-	public void setTillDate(String tillDate) {
-		this.tillDate = tillDate;
-	}
+		public void setActWork(String actWork) {
+			this.actWork = actWork;
+		}
 
-	public String getExVar1() {
-		return exVar1;
-	}
+		public String getBudgetedCap() {
+			return budgetedCap;
+		}
 
-	public void setExVar1(String exVar1) {
-		this.exVar1 = exVar1;
-	}
+		public void setBudgetedCap(String budgetedCap) {
+			this.budgetedCap = budgetedCap;
+		}
 
-	@Override
-	public String toString() {
-		return "EmpAndMngPerformanceRep [empId=" + empId + ", empName=" + empName + ", noOfTask=" + noOfTask
-				+ ", empWorkHours=" + empWorkHours + ", workHours=" + workHours + ", totAvailHrs=" + totAvailHrs
-				+ ", tillDate=" + tillDate + ", exVar1=" + exVar1 + "]";
-	}
-	
-	
+		public String getTillDate() {
+			return tillDate;
+		}
 
+		public void setTillDate(String tillDate) {
+			this.tillDate = tillDate;
+		}
+
+		public String getExVar1() {
+			return exVar1;
+		}
+
+		public void setExVar1(String exVar1) {
+			this.exVar1 = exVar1;
+		}
+
+		@Override
+		public String toString() {
+			return "EmpAndMngPerformanceRep [empId=" + empId + ", empName=" + empName + ", empType=" + empType
+					+ ", taskCount=" + taskCount + ", allWork=" + allWork + ", actWork=" + actWork + ", budgetedCap="
+					+ budgetedCap + ", tillDate=" + tillDate + ", exVar1=" + exVar1 + "]";
+		}
 }

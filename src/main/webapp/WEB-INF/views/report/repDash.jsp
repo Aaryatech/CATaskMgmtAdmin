@@ -100,6 +100,7 @@
 										class="form-control form-control-sm select"
 										data-container-css-class="select-sm" data-fouc>
 										<option value="">Select Employee</option>
+										<option value="0">All</option>
 										<c:forEach items="${epmList}" var="epmList">
 											<option value="${epmList.empId}">
 											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
@@ -180,14 +181,15 @@
 									
 									<tr>
 										<td>5</td>
-										<td>Employee And Manager Performance Hours(Manager)</td>
+										<td>Employee And Manager Performance Hours(Manager) Header</td>
 										
 										<td class="text-center"><a href="#" title="pdf"
-											onclick="getProgReport(1,'showEmpAndMngPerformanceRep')" title="pdf"><i
+											onclick="getProgReport(1,'showMangPerfHeadList')" title="pdf"><i
 												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
-											href="#" onclick="getProgReport(0,'showEmpAndMngPerformanceRep')" title="excel"><i
+											href="#" onclick="getProgReport(0,'showMangPerfHeadList')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
+
 
 								</tbody>
 							</table>
@@ -238,6 +240,7 @@
 			form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
 
 			form.submit();
+			
 			document.getElementById("p").value = "0";
 		}
 	</script>
