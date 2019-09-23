@@ -366,7 +366,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 						}
 					}
 				} else {
-
+					String compltDate = null;
 					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
 					ExportToExcel expoExcel = new ExportToExcel();
@@ -404,8 +404,15 @@ public class TlCompletedGTaskReportMVCCntrl {
 						rowData.add("" + ttlList.get(i).getManagerName());
 						rowData.add("" + ttlList.get(i).getTeamLeadName());
 						rowData.add("" + ttlList.get(i).getDueDate());
-						rowData.add("" + ttlList.get(i).getCompletionDate());
-						rowData.add("" + ttlList.get(i).getEmpBudHr());
+						 compltDate = ttlList.get(i).getCompletionDate();
+						if(compltDate!=null) {
+							compltDate=ttlList.get(i).getCompletionDate();
+						}else {
+							compltDate="-";
+						}
+						rowData.add("" + compltDate);
+						String empHr = ttlList.get(i).getEmpBudHr().replace(".", ":");
+						rowData.add("" + empHr);
 						rowData.add("" + ttlList.get(i).getTtlEmpHrs());
 						rowData.add("" + ttlList.get(i).getTlTotalHrs());
 						rowData.add("" + ttlList.get(i).getTlPeriodHrs());
@@ -761,7 +768,8 @@ public class TlCompletedGTaskReportMVCCntrl {
 						rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 						rowData.add("" + progList.get(i).getTaskEndDate());
 						rowData.add("" + progList.get(i).getEmpBudHr());
-						rowData.add("" + progList.get(i).getWorkHours());
+						String wrk_hr = progList.get(i).getWorkHours().replace(".", ":");
+						rowData.add("" + wrk_hr);
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
