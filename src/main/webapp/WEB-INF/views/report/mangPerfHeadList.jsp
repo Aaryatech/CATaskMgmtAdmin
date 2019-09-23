@@ -149,9 +149,6 @@
 
 									</tr>
 								</c:forEach>
-
-
-
 							</table>
 
 							<input type="hidden" name="fromDate" id="fromDate"
@@ -215,7 +212,7 @@
 	<script type="text/javascript">
 		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
 		function getProgReportNew(prm, mapping) {
-			alert("hii");
+			//alert("hii");
 			if (prm == 1) {
 				document.getElementById("p").value = "1";
 			}

@@ -136,7 +136,7 @@ public class ReportController {
 						.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 
-				System.out.println("emp are**********" + epmList.toString());
+				//System.out.println("emp are**********" + epmList.toString());
 				for (int i = 0; i < epmList.size(); i++) {
 					empIdList = empIdList + "," + epmList.get(i).getEmpId();
 				}
@@ -153,7 +153,7 @@ public class ReportController {
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 			List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.err.println("getInactiveTaskReport**" + progList.toString());
+			//System.err.println("getInactiveTaskReport**" + progList.toString());
 			mav.addObject("progList", progList);
 			mav.addObject("fromDate", fromDate);
 			mav.addObject("toDate", toDate);
@@ -167,7 +167,7 @@ public class ReportController {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/showEmpAndMngPerformanceRep", method = RequestMethod.POST)
 	public void showEmpAndMngPerformanceRep(HttpServletRequest request, HttpServletResponse response) {
 
@@ -484,7 +484,6 @@ public class ReportController {
 
 	}
 
-
 	@RequestMapping(value = "/showMangPerfHeadListDetail", method = RequestMethod.POST)
 	public void showMangPerfHeadListDetail(HttpServletRequest request, HttpServletResponse response) {
 //
@@ -498,7 +497,7 @@ public class ReportController {
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 			String empId = request.getParameter("empId");
-			//System.out.println("prm are:::" + empId + fromDate + toDate);
+			// System.out.println("prm are:::" + empId + fromDate + toDate);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -791,7 +790,6 @@ public class ReportController {
 					rowData.add("Total Employee hrs for selected period");
 					rowData.add("Total TL hrs for selected period");
 					rowData.add("Google drive Link");
-					
 
 					expoExcel.setRowData(rowData);
 					exportToExcelList.add(expoExcel);
@@ -811,17 +809,30 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getPartner());
 						rowData.add("" + progList.get(i).getEmployee());
 						rowData.add("" + progList.get(i).getTeamLeader());
-						String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
-						rowData.add("" + DateConvertor.convertToDMY(splited1[0]));
-						String[] splited2 = progList.get(i).getTaskEndDate().split("T");
-						rowData.add("" + DateConvertor.convertToDMY(splited2[0]));
+
+						if (progList.get(i).getTaskStatutoryDueDate() != ""
+								&& progList.get(i).getTaskStatutoryDueDate() != null) {
+							String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
+							rowData.add("" + DateConvertor.convertToDMY(splited1[0]));
+						} else {
+							rowData.add("" + "-");
+						}
+						if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
+							String[] splited2 = progList.get(i).getTaskEndDate().split("T");
+							rowData.add("" + DateConvertor.convertToDMY(splited2[0]));
+						} else {
+							rowData.add("" + "-");
+						}
+
 						rowData.add("" + progList.get(i).getStatusText());
-						System.out.println("******"+progList.get(i).getTaskCompletionDate());
-						if(progList.get(i).getTaskCompletionDate()!="" && progList.get(i).getTaskCompletionDate()!=null ) {
+						if (progList.get(i).getTaskCompletionDate() != ""
+								&& progList.get(i).getTaskCompletionDate() != null) {
 							String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
 							rowData.add("" + DateConvertor.convertToDMY(splited3[0]));
+						} else {
+							rowData.add("" + "-");
 						}
-						rowData.add("" + "");
+
 						rowData.add("" + progList.get(i).getEmpBudHr());
 						rowData.add("" + progList.get(i).getEmployeeHrs());
 						rowData.add("" + progList.get(i).getTeamLeaderHrs());
@@ -877,7 +888,6 @@ public class ReportController {
 
 	}
 
-	
 	@RequestMapping(value = "/showCompletedTaskRep", method = RequestMethod.POST)
 	public void showStudentParticipatedNssNccReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1159,6 +1169,7 @@ public class ReportController {
 					List<String> rowData = new ArrayList<String>();
 
 					rowData.add("Sr. No");
+					rowData.add("Task Text");
 					rowData.add("Client Name");
 					rowData.add("Service");
 					rowData.add("Activity");
@@ -1180,6 +1191,7 @@ public class ReportController {
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
+						rowData.add("" + progList.get(i).getTaskText());
 						rowData.add("" + progList.get(i).getCustFirmName());
 						rowData.add("" + progList.get(i).getServName());
 						rowData.add("" + progList.get(i).getActiName());
@@ -1187,8 +1199,24 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getPartner());
 						rowData.add("" + progList.get(i).getManager());
 						rowData.add("" + progList.get(i).getTeamLeader());
-						rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
-						rowData.add("" + progList.get(i).getTaskEndDate());
+						//System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
+						//System.out.println("end date" + progList.get(i).getTaskEndDate());
+						if (progList.get(i).getTaskStatutoryDueDate() != " "
+								&& progList.get(i).getTaskStatutoryDueDate() != null) {
+							String[] splited3 = progList.get(i).getTaskStatutoryDueDate().split(" ");
+							rowData.add("" + DateConvertor.convertToDMY(splited3[0]));
+						} else {
+							rowData.add("" + "-");
+						}
+
+						if (progList.get(i).getTaskStatutoryDueDate() != " "
+								&& progList.get(i).getTaskStatutoryDueDate() != null) {
+							String[] splited4 = progList.get(i).getTaskEndDate().split(" ");
+							rowData.add("" + DateConvertor.convertToDMY(splited4[0]));
+						} else {
+							rowData.add("" + "-");
+						}
+
 						rowData.add("" + progList.get(i).getEmpBudHr());
 						rowData.add("" + progList.get(i).getWorkHours());
 
@@ -1201,7 +1229,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'L');
+								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'M');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1579,6 +1607,7 @@ public class ReportController {
 					List<String> rowData = new ArrayList<String>();
 
 					rowData.add("Sr. No");
+					rowData.add("Task Text");
 					rowData.add("Client Name");
 					rowData.add("Service");
 					rowData.add("Activity");
@@ -1605,6 +1634,7 @@ public class ReportController {
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
+						rowData.add("" + progList.get(i).getTaskText());
 						rowData.add("" + progList.get(i).getCustFirmName());
 						rowData.add("" + progList.get(i).getServName());
 						rowData.add("" + progList.get(i).getActiName());
@@ -1615,8 +1645,12 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getTeamLeader());
 						String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
 						rowData.add("" + splited[0]);
-						String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
-						rowData.add("" + splited1[0]);
+						if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
+							String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
+							rowData.add("" + splited1[0]);
+						} else {
+							rowData.add("" + "-");
+						}
 						rowData.add("" + progList.get(i).getEmpBudHr());
 						rowData.add("" + progList.get(i).getEmployeeHrs());
 						rowData.add("" + progList.get(i).getTeamLeaderHrs());
@@ -1634,7 +1668,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'Q');
+								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2012,6 +2046,7 @@ public class ReportController {
 					List<String> rowData = new ArrayList<String>();
 
 					rowData.add("Sr. No");
+					rowData.add("Task Text");
 					rowData.add("Client Name");
 					rowData.add("Service");
 					rowData.add("Activity");
@@ -2038,6 +2073,7 @@ public class ReportController {
 						cnt = cnt + i;
 
 						rowData.add("" + (i + 1));
+						rowData.add("" + progList.get(i).getTaskText());
 						rowData.add("" + progList.get(i).getCustFirmName());
 						rowData.add("" + progList.get(i).getServName());
 						rowData.add("" + progList.get(i).getActiName());
@@ -2048,8 +2084,12 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getTeamLeader());
 						String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
 						rowData.add("" + splited[0]);
-						String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
-						rowData.add("" + splited1[0]);
+						if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
+							String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
+							rowData.add("" + splited1[0]);
+						} else {
+							rowData.add("" + "-");
+						}
 						rowData.add("" + progList.get(i).getEmpBudHr());
 						rowData.add("" + progList.get(i).getEmployeeHrs());
 						rowData.add("" + progList.get(i).getTeamLeaderHrs());
@@ -2067,7 +2107,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'Q');
+								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
