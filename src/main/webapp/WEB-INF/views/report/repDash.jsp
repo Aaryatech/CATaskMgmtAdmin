@@ -128,9 +128,9 @@
 									<tr>
 										<td>1</td>
 										<td>Task Completed</td>
-										<td class="text-center"><a href="#"
+										<td class="text-center"><!-- <a href="#"
 											onclick="getProgReport(1,'showCompletedTaskRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; --> <a
 											href="#" onclick="getProgReport(0,'showCompletedTaskRep')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
@@ -138,9 +138,9 @@
 									<tr>
 										<td>2</td>
 										<td>Team Leader Task Completed</td>
-										<td class="text-center"><a href="#"
+										<td class="text-center"><!-- <a href="#"
 											onclick="getProgReport(1,'getTeamLeadCompletTask')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
 											href="#" onclick="getProgReport(0,'getTeamLeadCompletTask')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
@@ -149,9 +149,9 @@
 										<td>3</td>
 										<td>Employee & Manager Performance</td>
 										
-										<td class="text-center"><a href="#" title="pdf"
+										<td class="text-center"><!-- <a href="#" title="pdf"
 											onclick="getProgReport(1,'showEmpMngrPerformncRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
 											href="#" onclick="getProgReport(0,'showEmpMngrPerformncRep')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
@@ -160,9 +160,9 @@
 										<td>4</td>
 										<td>Inactive Task(Manager)</td>
 										
-										<td class="text-center"><a href="#" title="pdf"
+										<td class="text-center"><!-- <a href="#" title="pdf"
 											onclick="getProgReport(1,'showInactiveTaskRepForManager')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; --> <a
 											href="#" onclick="getProgReport(0,'showInactiveTaskRepForManager')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
@@ -172,9 +172,9 @@
 										<td>5</td>
 										<td>Completed Task(Manager)</td>
 										
-										<td class="text-center"><a href="#" title="pdf"
+										<td class="text-center"><!-- <a href="#" title="pdf"
 											onclick="getProgReport(1,'showCompletedTaskRepForManager')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
 											href="#" onclick="getProgReport(0,'showCompletedTaskRepForManager')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
