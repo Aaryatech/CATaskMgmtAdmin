@@ -19,6 +19,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -89,14 +90,39 @@ public class ExceUtil {
 	       
      
          System.err.println("Excel size  " +exportToExcelList.size());
-         
+         CellStyle cellStyle=wb.createCellStyle();
 		for (int rowIndex = 0; rowIndex < exportToExcelList.size(); rowIndex++) {
 			XSSFRow row = sheet.createRow(rowIndex+3);
 			for (int j = 0; j < exportToExcelList.get(rowIndex).getRowData().size(); j++) {
 
 				XSSFCell cell = row.createCell(j);
 
-				cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+				//cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+				
+				try 
+			       { 
+			           // checking valid integer using parseInt() method 
+			          int value=Integer.parseInt(exportToExcelList.get(rowIndex).getRowData().get(j)); 
+			           cell.setCellValue(value);
+			       }  
+			       catch (NumberFormatException e)  
+			       { 
+			       	try
+			            { 
+			                // checking valid float using parseInt() method
+			       	XSSFDataFormat xssfDataFormat = wb.createDataFormat(); 
+			               double value=Double.parseDouble(exportToExcelList.get(rowIndex).getRowData().get(j)); 
+			               cellStyle.setDataFormat(xssfDataFormat.getFormat("#,##0.00"));
+			               cell.setCellStyle(cellStyle);
+			               cell.setCellValue(value);
+			               
+			            }  
+			            catch (NumberFormatException e1) 
+			            { 
+			           	cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+			            } 
+			              
+			       } 
 				if ((rowIndex+3) == 3)
 		           cell.setCellStyle(createHeaderStyleNew(wb));  
 			}
