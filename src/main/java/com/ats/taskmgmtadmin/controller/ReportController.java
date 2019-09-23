@@ -153,7 +153,17 @@ public class ReportController {
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 			List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-			//System.err.println("getInactiveTaskReport**" + progList.toString());
+			
+			for(int i=0;i<progList.size();i++) {
+				float a= Float.parseFloat(progList.get(i).getActWork());
+				float b=Float.parseFloat(progList.get(i).getBudgetedCap());
+				float c=b-a;
+				
+				progList.get(i).setExVar1(String.valueOf(c));
+				
+			}
+			
+			
 			mav.addObject("progList", progList);
 			mav.addObject("fromDate", fromDate);
 			mav.addObject("toDate", toDate);
@@ -190,7 +200,7 @@ public class ReportController {
 						.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 
-				System.out.println("emp are**********" + epmList.toString());
+				//System.out.println("emp are**********" + epmList.toString());
 				for (int i = 0; i < epmList.size(); i++) {
 					empIdList = empIdList + "," + epmList.get(i).getEmpId();
 				}
@@ -207,7 +217,10 @@ public class ReportController {
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 			List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.err.println("getInactiveTaskReport**" + progList.toString());
+			//System.err.println("getInactiveTaskReport**" + progList.toString());
+			
+			
+			
 			Document document = new Document(PageSize.A4);
 			document.setMargins(50, 45, 50, 60);
 			document.setMarginMirroring(false);
@@ -435,9 +448,12 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getEmpName());
 						rowData.add("" + progList.get(i).getTaskCount());
 						rowData.add("" + progList.get(i).getAllWork());
-						rowData.add("" + 0);
+						rowData.add("" + progList.get(i).getBudgetedCap());
 						rowData.add("" + progList.get(i).getActWork());
-						rowData.add("" + 0);
+						float a= Float.parseFloat(progList.get(i).getActWork());
+						float b=Float.parseFloat(progList.get(i).getBudgetedCap());
+						float c=a-b;
+						rowData.add("" +c);
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);

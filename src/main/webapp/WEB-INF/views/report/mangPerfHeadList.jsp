@@ -138,9 +138,9 @@
 										<td>${progList.empName}</td>
 										<td>${progList.taskCount}</td>
 										<td>${progList.allWork}</td>
-										<td>0</td>
+										<td>${progList.budgetedCap}</td>
 										<td>${progList.actWork}</td>
-										<td>0</td>
+										<td>${progList.exVar1}</td>
 										<td><a href="#"
 											onclick="getProgReport(0,'showMangPerfHeadListDetail',${progList.empId})"
 											title="excel"><i class="icon-file-spreadsheet  "

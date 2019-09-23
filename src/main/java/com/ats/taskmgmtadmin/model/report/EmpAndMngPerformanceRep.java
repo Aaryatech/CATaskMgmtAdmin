@@ -1,7 +1,6 @@
 package com.ats.taskmgmtadmin.model.report;
 
-import java.util.Date;
-
+ 
 public class EmpAndMngPerformanceRep {
 	
 	 private int empId;
