@@ -1755,6 +1755,7 @@ public class TaskController {
 				taskTempList.add(task);
 
 			}
+			
 			mav.addObject("taskList", taskTempList);
 			mav.addObject("mHr",request.getParameter("mgBudgetHr"));
 			mav.addObject("eHr",request.getParameter("empBudgetHr"));
