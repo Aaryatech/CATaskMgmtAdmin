@@ -169,7 +169,7 @@
 									
 									
 									<tr>
-										<td>4</td>
+										<td>5</td>
 										<td>Completed Task(Manager)</td>
 										
 										<td class="text-center"><a href="#" title="pdf"
@@ -180,12 +180,10 @@
 									</tr>
 									
 									<tr>
-										<td>5</td>
+										<td>6</td>
 										<td>Employee And Manager Performance Hours(Manager) Header</td>
 										
-										<td class="text-center"><a href="#" title="pdf"
-											onclick="getProgReport(1,'showMangPerfHeadList')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; <a
+										<td class="text-center"><a
 											href="#" onclick="getProgReport(0,'showMangPerfHeadList')" title="excel"><i
 												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
 									</tr>
