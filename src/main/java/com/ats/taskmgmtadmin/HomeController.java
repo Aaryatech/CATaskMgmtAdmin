@@ -2,6 +2,8 @@ package com.ats.taskmgmtadmin;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -713,13 +715,14 @@ public class HomeController<Task> {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			System.out.println("status-------------" + statusId + " " + taskId);
+		
 			MultiValueMap<String, Object> map = null;
-
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
 			map.add("statusVal", statusId);
 			map.add("userId", userId);
 			map.add("curDateTime", Constants.getCurDateTime());
+			map.add("compltnDate", Constants.getCurDateTime());
 
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
@@ -741,6 +744,8 @@ public class HomeController<Task> {
 
 		} catch (Exception e) {
 			System.err.println("Exception in updateTaskStatusByTaskId : " + e.getMessage());
+			e.printStackTrace();
+			
 		}
 
 		return info;

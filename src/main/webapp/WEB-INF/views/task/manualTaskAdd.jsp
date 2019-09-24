@@ -355,6 +355,11 @@
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_startDate"
 												style="display: none;">Please enter end date.</span>
+												
+												<span
+												class="validation-invalid-label" id="error_start_date"
+												style="display: none;">Start date must be smaller than
+												end date.</span>
 										</div>
 
 									</div>
@@ -373,9 +378,9 @@
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_endDate"
 												style="display: none;">This field is required.</span> <span
-												class="validation-invalid-label" id="error_start_date"
-												style="display: none;">Start date must be less than
-												end date.</span>
+												class="validation-invalid-label" id="error_end_date"
+												style="display: none;">End date must be greater than
+												start date.</span>
 										</div>
 									</div>
 
