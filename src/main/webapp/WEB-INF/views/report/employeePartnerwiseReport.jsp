@@ -50,26 +50,7 @@
 		<div class="content-wrapper">
 
 
-			<!-- Page header -->
-			<div class="page-header page-header-light" style="display: none;">
 
-
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="progress">
-							<div class="progress-bar bg-success" style="width: 35%">
-								<span>35% Complete</span>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
-
-
-			</div>
-			<!-- /page header -->
 
 
 			<style type="text/css">
@@ -100,88 +81,51 @@ h5 {
 </style>
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Client wise Task Cost Report</h5>
+						<h5 class="card-title">Employee Partner Grid</h5>
 
 					</div>
 					<div class="card-body">
-						<form method="post" id="reportFormDet">
-							<div class="form-group row">
-
-								<label class="col-form-label col-lg-2" for="monthyear">Select
-									Date <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<input type="text" class="form-control daterange-basic_new"
-										id="monthyear" name="monthyear">
-								</div>
-								<div class="col-lg-1"></div>
-								<label class="col-form-label col-lg-2" for="clientId">Select
-									Rate Type<span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<select name="rateType" id="rateType"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true">
-										<option value="0">Budgeted Rate</option>
-										<option value="1">Actual Rate</option>
-									</select>
-								</div>
-
-							</div>
+						<form
+							action="${pageContext.request.contextPath}/employeePartnerwiseReport"
+							id="submitInsertActivity" method="get">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="membrId">Select
-									Type <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<select name="typeId" id="typeId"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										onchange="disableGroupList()" aria-hidden="true">
-										<option value="0" selected>Group</option>
-										<option value="1">Individual</option>
-									</select>
-								</div>
-								<div class="col-lg-1"></div>
-								<label class="col-form-label col-lg-2" for="groupId">Select
-									Group <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<select name="groupId" id="groupId"
-										class="form-control form-control-select2 select2-hidden-accessible"
-										data-fouc="" aria-hidden="true"
-										onchange="getClientList(this.value)">
-
-										<option value="-1" selected>Select Group</option>
-
-										<c:forEach items="${clientGroupList}" var="clientGroupList">
-											<option value="${clientGroupList.id}">${clientGroupList.name}</option>
-										</c:forEach>
-									</select>
-								</div>
-
-							</div>
-
-							<div class="form-group row">
-
-								<label class="col-form-label col-lg-2" for="clientId">Select
-									Client<span style="color: red">* </span>:
+								<label class="col-form-label col-lg-1" for="monthyear">Select
+									Month <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-2">
-									<select name="clientId" id="clientId"
+									<input type="text" class="form-control daterange-basic_new"
+										id="monthyear" name="monthyear" value="${fromDate}">
+								</div>
+								<div class="col-lg-1"></div>
+								<label class="col-form-label col-lg-2" for="partnerType">Select
+									Parter Filter<span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-2">
+									<select name="partnerType" id="partnerType"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										<option disabled value="-1">Select Client</option>
+
+										<c:choose>
+											<c:when test="${partnerType==1}">
+												<option value="0">Execution Partner wise</option>
+												<option value="1" selected>Owner Partner wise</option>
+											</c:when>
+											<c:otherwise>
+												<option value="0" selected>Execution Partner wise</option>
+												<option value="1">Owner Partner wise</option>
+											</c:otherwise>
+										</c:choose>
+
 									</select>
 								</div>
-								<div class="col-lg-3">
-									<button type="button" class="btn bg-blue ml-3 legitRipple"
-										id="submtbtn"
-										onclick="getCostDetail('clientwisetaskcostreport')">Export
-										Excel</button>
-								</div>
+								<div class="col-lg-1"></div>
+								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+									id="submtbtn">Search</button>
 
 							</div>
-							<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
+
+
 							<div id="loader" style="display: none;">
 								<img
 									src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
@@ -189,42 +133,46 @@ h5 {
 									style="display: block; margin-left: auto; margin-right: auto">
 							</div>
 						</form>
-						<!-- <div class="table-responsive">
+						<div class="table-responsive">
 							<table class="table" id="capTable">
 								<thead>
 									<tr class="bg-blue">
 
 										<th width="7%">SR.No.</th>
-										<th>Client Name</th>
-										<th>Task Name</th>
-										<th>Service</th>
-										<th>Activity</th>
-										<th>Periodicity</th>
-										<th>Owner Partner</th>
-										<th>Execution Partner</th>
 										<th>Employee Name</th>
-										<th>Employee Budgeted Hrs</th>
-										<th>Employee Budgeted Cost</th>
-										<th>Employee Actual Hrs</th>
-										<th>Employee Actual Cost</th>
-										<th>Manager Budgeted Hrs</th>
-										<th>Manager Budgeted Cost</th>
-										<th>Manager Actual Hrs</th>
-										<th>Manager Actual Cost</th>
-										<th>TL Name</th>
-										<th>TL Hrs</th>
-										<th>TL Cost</th>
-										<th>Budgeted Revenue</th>
-										<th>Actual Revenue</th>
-										<th>Google Drive link</th>
+										<th>Total Hours</th>
+										<th>Worked Hours</th>
+										<th>Idle Time</th>
+										<th>Overtime</th>
+										<c:forEach items="${partnerList}" var="partnerList"
+											varStatus="count">
+
+											<th>${partnerList.empName}</th>
+
+										</c:forEach>
 									</tr>
 								</thead>
 								<tbody>
 
+									<c:forEach items="${empwithpartnerlist}"
+										var="empwithpartnerlist" varStatus="count">
+										<tr>
+											<td>${count.index+1}</td>
+											<td>${empwithpartnerlist.empName}</td>
+											<td>${empwithpartnerlist.bugetedHrs}</td>
+											<td>${empwithpartnerlist.workedHrs}</td>
+											<td>${empwithpartnerlist.idealtime}</td>
+											<td>${empwithpartnerlist.overtime}</td>
+											<c:forEach items="${empwithpartnerlist.list}" var="list">
+												<td>${list.totalHrs}</td>
+											</c:forEach>
+										</tr>
+									</c:forEach>
+
 
 								</tbody>
 							</table>
-						</div> -->
+						</div>
 					</div>
 				</div>
 

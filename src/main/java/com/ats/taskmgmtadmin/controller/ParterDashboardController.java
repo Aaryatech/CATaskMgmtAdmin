@@ -29,7 +29,9 @@ import com.ats.taskmgmtadmin.common.ExportToExcel;
 import com.ats.taskmgmtadmin.model.BugetedAmtAndRevenue;
 import com.ats.taskmgmtadmin.model.ClientGroupList;
 import com.ats.taskmgmtadmin.model.ClientWiseTaskReport;
+import com.ats.taskmgmtadmin.model.EmpIdNameList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.EmpwithPartnerList;
 
 @Controller
 @Scope("session")
@@ -209,6 +211,51 @@ public class ParterDashboardController {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@RequestMapping(value = "/employeePartnerwiseReport", method = RequestMethod.GET)
+	public String employeePartnerwiseReport(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "report/employeePartnerwiseReport";
+			
+			String monthyear = request.getParameter("monthyear"); 
+			
+			EmpIdNameList[] empIdNameList = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getPartnerList",  EmpIdNameList[].class);
+			List<EmpIdNameList> partnerList = new ArrayList<>(Arrays.asList(empIdNameList));
+			model.addAttribute("partnerList",partnerList);
+			
+			
+			if(monthyear!=null) {
+				 
+				String[] fromDate = monthyear.split(" to ");
+				int partnerType = Integer.parseInt(request.getParameter("partnerType"));
+				 
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("partnerType", partnerType); 
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+				map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+				
+				EmpwithPartnerList[] empwithPartnerList = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/employeepartnerwiseworkreport",map,  EmpwithPartnerList[].class);
+				List<EmpwithPartnerList> empwithpartnerlist = new ArrayList<>(Arrays.asList(empwithPartnerList));
+				model.addAttribute("empwithpartnerlist",empwithpartnerlist);
+				
+				model.addAttribute("fromDate",monthyear);
+				model.addAttribute("partnerType",partnerType);
+			}
+			
+			
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
 	}
 
 }
