@@ -762,7 +762,7 @@ function dataFilter(){
 						append(data);
 					});
 	 $("#modal_remote").modal("hide");
-	 $("#modal_edit").modal("hide");
+	// $("#modal_edit").modal("hide");
 	 
 }
 
