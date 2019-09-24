@@ -89,28 +89,48 @@
 
 							</div>
 							<c:if test="${userType==3 || userType==2}">
-							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="employee">
-									Employee <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
+								<div class="form-group row">
+									<label class="col-form-label col-lg-2" for="employee">
+										Employee <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-3">
 
-									<select data-placeholder="Select Employee"
-										name="empId" id="empId"
-										class="form-control form-control-sm select"
-										data-container-css-class="select-sm" data-fouc>
-										<option value="">Select Employee</option>
-										<option value="0">All</option>
-										<c:forEach items="${epmList}" var="epmList">
-											<option value="${epmList.empId}">
-											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
-										</c:forEach>
+										<select data-placeholder="Select Employee" name="empId"
+											id="empId" class="form-control form-control-sm select"
+											data-container-css-class="select-sm" data-fouc>
+											<option value="">Select Employee</option>
+											<option value="0">All</option>
+											<c:forEach items="${epmList}" var="epmList">
+												<option value="${epmList.empId}">
+													${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+											</c:forEach>
 
-									</select> <!-- <span class="validation-invalid-label" id="error_locId2"
+										</select>
+										<!-- <span class="validation-invalid-label" id="error_locId2"
 										style="display: none;">This field is required.</span> -->
+									</div>
 								</div>
-							</div>
 							</c:if>
+
+							<c:if test="${userType==2}">
+								<div class="form-group row">
+									<label class="col-form-label col-lg-2" for="partner">
+										Partner Type <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-3">
+
+										<select data-placeholder="Select Partner" name="partner"
+											id="partner" class="form-control form-control-sm select"
+											data-container-css-class="select-sm" data-fouc>
+											<option value="">Select Partner</option>
+											<option value="1">Owner Partner</option>
+											<option value="2">Execution Partner</option>
+
+										</select>
+									</div>
+								</div>
+							</c:if>
+
 
 
 							<table
@@ -125,75 +145,99 @@
 								</thead>
 
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Task Completed</td>
-										<td class="text-center"><!-- <a href="#"
+									<c:if test="${userType==5}">
+										<tr>
+											<td>1</td>
+											<td>Task Completed</td>
+											<td class="text-center">
+												<!-- <a href="#"
 											onclick="getProgReport(1,'showCompletedTaskRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; --> <a
-											href="#" onclick="getProgReport(0,'showCompletedTaskRep')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
-									
-									<tr>
-										<td>2</td>
-										<td>Team Leader Task Completed</td>
-										<td class="text-center"><!-- <a href="#"
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; -->
+												<a href="#"
+												onclick="getProgReport(0,'showCompletedTaskRep')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${userType==4}">
+										<tr>
+											<td>2</td>
+											<td>Team Leader Task Completed</td>
+											<td class="text-center">
+												<!-- <a href="#"
 											onclick="getProgReport(1,'getTeamLeadCompletTask')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
-											href="#" onclick="getProgReport(0,'getTeamLeadCompletTask')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
-									
-									<tr>
-										<td>3</td>
-										<td>Employee & Manager Performance</td>
-										
-										<td class="text-center"><!-- <a href="#" title="pdf"
-											onclick="getProgReport(1,'showEmpMngrPerformncRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
-											href="#" onclick="getProgReport(0,'showEmpMngrPerformncRep')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
-									
-									<tr>
-										<td>4</td>
-										<td>Inactive Task(Manager)</td>
-										
-										<td class="text-center"><!-- <a href="#" title="pdf"
-											onclick="getProgReport(1,'showInactiveTaskRepForManager')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; --> <a
-											href="#" onclick="getProgReport(0,'showInactiveTaskRepForManager')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
-									
-									
-									<tr>
-										<td>5</td>
-										<td>Completed Task(Manager)</td>
-										
-										<td class="text-center"><!-- <a href="#" title="pdf"
-											onclick="getProgReport(1,'showCompletedTaskRepForManager')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  --><a
-											href="#" onclick="getProgReport(0,'showCompletedTaskRepForManager')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
-									
-									<tr>
-										<td>6</td>
-										<td>Employee And Manager Performance Hours(Manager) Header</td>
-										
-										<td class="text-center"><a
-											href="#" onclick="getProgReport(0,'showMangPerfHeadList')" title="excel"><i
-												class="icon-file-spreadsheet  " style="color: black;"></i></a></td>
-									</tr>
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  -->
+												<a href="#"
+												onclick="getProgReport(0,'getTeamLeadCompletTask')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${userType==3}">
+										<tr>
+											<td>3</td>
+											<td>Employee & Manager Performance</td>
 
+											<td class="text-center">
+												<!-- <a href="#" title="pdf"
+											onclick="getProgReport(1,'showEmpMngrPerformncRep')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  -->
+												<a href="#"
+												onclick="getProgReport(0,'showEmpMngrPerformncRep')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
+										</tr>
+
+										<tr>
+											<td>4</td>
+											<td>Inactive Task(Manager)</td>
+
+											<td class="text-center">
+												<!-- <a href="#" title="pdf"
+											onclick="getProgReport(1,'showInactiveTaskRepForManager')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; -->
+												<a href="#"
+												onclick="getProgReport(0,'showInactiveTaskRepForManager')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
+										</tr>
+
+
+										<tr>
+											<td>5</td>
+											<td>Completed Task(Manager)</td>
+
+											<td class="text-center">
+												<!-- <a href="#" title="pdf"
+											onclick="getProgReport(1,'showCompletedTaskRepForManager')" title="pdf"><i
+												class="icon-file-pdf " style="color: black;"></i></a> &nbsp;  -->
+												<a href="#"
+												onclick="getProgReport(0,'showCompletedTaskRepForManager')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
+										</tr>
+
+										<tr>
+											<td>6</td>
+											<td>Employee And Manager Performance Hours(Manager)
+												Header</td>
+
+											<td class="text-center"><a href="#"
+												onclick="getProgReport(0,'showMangPerfHeadList')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a></td>
+										</tr>
+									</c:if>
 
 								</tbody>
 							</table>
-							<input type="hidden" id="p" name="p" value="0">
-								<input type="hidden" id="emp_name" name="emp_name"
-											value="0"> 
+							<input type="hidden" id="p" name="p" value="0"> <input
+								type="hidden" id="emp_name" name="emp_name" value="0">
 						</div>
 					</form>
 				</div>
@@ -228,8 +272,8 @@
 				var elm = document.getElementById('empId');
 				var text = elm.options[elm.selectedIndex].innerHTML;
 				document.getElementById("emp_name").value = text;
-			}  
-			
+			}
+
 			var form = document.getElementById("reportForm");
 
 			form.setAttribute("target", "_blank");
@@ -238,7 +282,7 @@
 			form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
 
 			form.submit();
-			
+
 			document.getElementById("p").value = "0";
 		}
 	</script>
