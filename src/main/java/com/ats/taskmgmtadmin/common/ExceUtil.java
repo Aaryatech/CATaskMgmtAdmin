@@ -167,7 +167,7 @@ public class ExceUtil {
 	        style.setWrapText(true);
 	       // style.setFillForegroundColor(new XSSFColor(new java.awt.Color(247, 161, 103)));
 	        
-	        style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+	        style.setFillForegroundColor(IndexedColors.TEAL.getIndex());
 
 
 	        style.setFillPattern(CellStyle.SOLID_FOREGROUND);

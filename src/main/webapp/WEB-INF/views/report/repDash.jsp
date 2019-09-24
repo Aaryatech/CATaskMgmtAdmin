@@ -150,9 +150,7 @@
 											<td>1</td>
 											<td>Task Completed</td>
 											<td class="text-center">
-												<!-- <a href="#"
-											onclick="getProgReport(1,'showCompletedTaskRep')" title="pdf"><i
-												class="icon-file-pdf " style="color: black;"></i></a> &nbsp; -->
+											
 												<a href="#"
 												onclick="getProgReport(0,'showCompletedTaskRep')"
 												title="excel"><i class="icon-file-spreadsheet  "
@@ -231,6 +229,19 @@
 												onclick="getProgReport(0,'showMangPerfHeadList')"
 												title="excel"><i class="icon-file-spreadsheet  "
 													style="color: black;"></i></a></td>
+										</tr>
+									</c:if>
+									<c:if test="${userType==2}">
+										<tr>
+											<td>2</td>
+											<td>Employee Partner Grid</td>
+											<td class="text-center">
+												
+												<a href="#"
+												onclick="getProgReport(0,'showEmployeePartnerGrid')"
+												title="excel"><i class="icon-file-spreadsheet  "
+													style="color: black;"></i></a>
+											</td>
 										</tr>
 									</c:if>
 
