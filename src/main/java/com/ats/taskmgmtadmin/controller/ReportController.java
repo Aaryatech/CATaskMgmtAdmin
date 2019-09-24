@@ -450,7 +450,7 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getActWork());
 						float a = Float.parseFloat(progList.get(i).getActWork());
 						float b = Float.parseFloat(progList.get(i).getBudgetedCap());
-						float c = a - b;
+						float c = b-a;
 						rowData.add("" + c);
 
 						expoExcel.setRowData(rowData);
@@ -911,7 +911,7 @@ public class ReportController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-
+			
 			String fromDate = request.getParameter("fromDate");
 			String toDate = request.getParameter("toDate");
 
@@ -1240,9 +1240,9 @@ public class ReportController {
 
 					XSSFWorkbook wb = null;
 					try {
-
+						
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'M');
+								"Emp Name:" + emp.getEmpName() + "From Date:" + fromDate + "   To Date:" + toDate + "", "", 'M');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1681,7 +1681,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
+								"Manager Name:" + emp.getEmpName() +"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2120,7 +2120,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
+								"Manager Name:" + emp.getEmpName() +"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
