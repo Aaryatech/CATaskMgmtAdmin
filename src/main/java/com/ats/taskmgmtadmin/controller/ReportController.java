@@ -23,6 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -121,6 +122,187 @@ public class ReportController {
 
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/showCompTaskReportForEmp", method = RequestMethod.GET)
+	public String clientWiseReport(HttpServletRequest request, HttpServletResponse response,HttpSession session,
+			Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "report/Employee/compTaskReportForEmp";
+			String yearrange = request.getParameter("monthyear");	
+			System.out.println("yearrange***"+yearrange);
+			if(yearrange!=null) {
+				
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
+				
+				String[] fromDate = yearrange.split(" to ");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+				map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+				map.add("empIds", String.valueOf(userId));
+				CompletedTaskReport[] resArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
+				List<CompletedTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
+				System.out.println("cmpTaskList***"+cmpTaskList.toString());
+				for (int i = 0; i < cmpTaskList.size(); i++) {
+				if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
+						&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
+					cmpTaskList.get(i).setTaskStatutoryDueDate("-");
+					
+				} 
+
+				if (cmpTaskList.get(i).getTaskEndDate() == " " && cmpTaskList.get(i).getTaskEndDate() == null) {
+					cmpTaskList.get(i).setTaskEndDate("-");
+				} 
+				}
+
+				model.addAttribute("cmpTaskList", cmpTaskList);
+				model.addAttribute("fromDate", fromDate[0]);
+				model.addAttribute("toDate", fromDate[1]);
+				
+				
+			}
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/showCompletedTaskRep", method = RequestMethod.GET)
+	public void showStudentParticipatedNssNccReport(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Task Completed For Employee";
+
+		
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("empIds", String.valueOf(userId));
+			CompletedTaskReport[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
+			List<CompletedTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
+
+			String header = "";
+			String title = "                 ";
+
+			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+			String repDate = DF2.format(new Date());
+
+		try {
+				
+				
+
+				
+					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+					ExportToExcel expoExcel = new ExportToExcel();
+					List<String> rowData = new ArrayList<String>();
+
+					rowData.add("Sr. No");
+					rowData.add("Task Text");
+					rowData.add("Client Name");
+					rowData.add("Service");
+					rowData.add("Activity");
+					rowData.add("Task/ Periodicity");
+					rowData.add("Execution Partner");
+					rowData.add("Manager Name");
+					rowData.add("TL Name");
+					rowData.add("Due Date");
+					rowData.add("Completion Date");
+					rowData.add("Employee Budgeted Hrs");
+					rowData.add("Total Hrs Employee");
+
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+					int cnt = 1;
+					for (int i = 0; i < progList.size(); i++) {
+						expoExcel = new ExportToExcel();
+						rowData = new ArrayList<String>();
+						cnt = cnt + i;
+
+						rowData.add("" + (i + 1));
+						rowData.add("" + progList.get(i).getTaskText());
+						rowData.add("" + progList.get(i).getCustFirmName());
+						rowData.add("" + progList.get(i).getServName());
+						rowData.add("" + progList.get(i).getActiName());
+						rowData.add("" + progList.get(i).getPeriodicityName());
+						rowData.add("" + progList.get(i).getPartner());
+						rowData.add("" + progList.get(i).getManager());
+						rowData.add("" + progList.get(i).getTeamLeader());
+						// System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
+						// System.out.println("end date" + progList.get(i).getTaskEndDate());
+						if (progList.get(i).getTaskStatutoryDueDate() != " "
+								&& progList.get(i).getTaskStatutoryDueDate() != null) {
+
+							rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
+						} else {
+							rowData.add("" + "-");
+						}
+
+						if (progList.get(i).getTaskEndDate() != " " && progList.get(i).getTaskEndDate() != null) {
+							rowData.add("" + progList.get(i).getTaskEndDate());
+						} else {
+							rowData.add("" + "-");
+						}
+
+						rowData.add("" + progList.get(i).getEmpBudHr());
+						rowData.add("" + progList.get(i).getWorkHours());
+
+						expoExcel.setRowData(rowData);
+						exportToExcelList.add(expoExcel);
+
+					}
+
+					XSSFWorkbook wb = null;
+					try {
+
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+								"Emp Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "",
+								"", 'M');
+
+						ExceUtil.autoSizeColumns(wb, 3);
+						response.setContentType("application/vnd.ms-excel");
+						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+						response.setHeader("Content-disposition",
+								"attachment; filename=" + reportName + "-" + date + ".xlsx");
+						wb.write(response.getOutputStream());
+
+					} catch (IOException ioe) {
+						throw new RuntimeException("Error writing spreadsheet to output stream");
+					} finally {
+						if (wb != null) {
+							wb.close();
+						}
+					}
+
+				
+
+			
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+
 
 	@RequestMapping(value = "/showMangPerfHeadList", method = RequestMethod.POST)
 	public ModelAndView mangPerfHeadList(HttpServletRequest request, HttpServletResponse response) {
@@ -912,379 +1094,7 @@ public class ReportController {
 
 	}
 
-	@RequestMapping(value = "/showCompletedTaskRep", method = RequestMethod.POST)
-	public void showStudentParticipatedNssNccReport(HttpServletRequest request, HttpServletResponse response) {
-
-		String reportName = "Task completed";
-
-		try {
-			HttpSession session = request.getSession();
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-			int userId = emp.getEmpId();
-			String yearrange = request.getParameter("yearrange");
-			String[] fromDate = yearrange.split(" to ");
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
-			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
-			map.add("empIds", String.valueOf(userId));
-			CompletedTaskReport[] resArray = Constants.getRestTemplate()
-					.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
-			List<CompletedTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-
-			Document document = new Document(PageSize.A4);
-			document.setMargins(50, 45, 50, 60);
-			document.setMarginMirroring(false);
-
-			String FILE_PATH = Constants.REPORT_SAVE;
-			File file = new File(FILE_PATH);
-
-			PdfWriter writer = null;
-
-			FileOutputStream out = new FileOutputStream(FILE_PATH);
-			try {
-				writer = PdfWriter.getInstance(document, out);
-			} catch (DocumentException e) {
-
-				e.printStackTrace();
-			}
-
-			String header = "";
-			String title = "                 ";
-
-			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
-			String repDate = DF2.format(new Date());
-
-			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
-
-			writer.setPageEvent(event);
-			// writer.add(new Paragraph("Curricular Aspects"));
-
-			PdfPTable table = new PdfPTable(12);
-
-			table.setHeaderRows(1);
-
-			try {
-				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f, 2.3f });
-				Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
-				// BaseColor.BLACK);
-				Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
-																		// BaseColor.BLACK);
-				tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
-
-				PdfPCell hcell = new PdfPCell();
-				hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-
-				hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Client Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Service", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Activity", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Task/ Periodicity", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Execution partner", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Manager Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("TL Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Due Date", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Completion Date", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-				hcell = new PdfPCell(new Phrase("Employee Budgeted Hrs", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-				hcell = new PdfPCell(new Phrase("Total Hrs Employee", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				int index = 0;
-				for (int i = 0; i < progList.size(); i++) {
-					// System.err.println("I " + i);
-					CompletedTaskReport prog = progList.get(i);
-
-					index++;
-					PdfPCell cell;
-					cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getCustFirmName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getServName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getActiName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getPeriodicityName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getPartner(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getManager(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getTeamLeader(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					String[] splited = prog.getTaskStatutoryDueDate().split(" ");
-					// Date date=new
-					// SimpleDateFormat("dd/MM/yyyy").parse(prog.getTaskStatutoryDueDate());
-					cell = new PdfPCell(new Phrase("" + splited[0], headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-					String[] splited1 = prog.getTaskEndDate().split(" ");
-
-					// Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(prog.getTaskEndDate());
-					cell = new PdfPCell(new Phrase("" + splited1[0], headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getEmpBudHr(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getWorkHours(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-				}
-
-				document.open();
-				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
-
-				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_CENTER);
-				document.add(name);
-				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
-				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
-				document.add(new Paragraph("\n"));
-
-				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-
-				document.add(table);
-
-				int totalPages = writer.getPageNumber();
-
-				// System.out.println("Page no " + totalPages);
-
-				document.close();
-				int p = Integer.parseInt(request.getParameter("p"));
-				// System.err.println("p " + p);
-
-				if (p == 1) {
-
-					if (file != null) {
-
-						String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-
-						if (mimeType == null) {
-
-							mimeType = "application/pdf";
-
-						}
-
-						response.setContentType(mimeType);
-
-						response.addHeader("content-disposition",
-								String.format("inline; filename=\"%s\"", file.getName()));
-
-						response.setContentLength((int) file.length());
-
-						InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
-						try {
-							FileCopyUtils.copy(inputStream, response.getOutputStream());
-						} catch (IOException e) {
-							// System.out.println("Excep in Opening a Pdf File");
-							e.printStackTrace();
-						}
-					}
-				} else {
-
-					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
-
-					ExportToExcel expoExcel = new ExportToExcel();
-					List<String> rowData = new ArrayList<String>();
-
-					rowData.add("Sr. No");
-					rowData.add("Task Text");
-					rowData.add("Client Name");
-					rowData.add("Service");
-					rowData.add("Activity");
-					rowData.add("Task/ Periodicity");
-					rowData.add("Execution Partner");
-					rowData.add("Manager Name");
-					rowData.add("TL Name");
-					rowData.add("Due Date");
-					rowData.add("Completion Date");
-					rowData.add("Employee Budgeted Hrs");
-					rowData.add("Total Hrs Employee");
-
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-					int cnt = 1;
-					for (int i = 0; i < progList.size(); i++) {
-						expoExcel = new ExportToExcel();
-						rowData = new ArrayList<String>();
-						cnt = cnt + i;
-
-						rowData.add("" + (i + 1));
-						rowData.add("" + progList.get(i).getTaskText());
-						rowData.add("" + progList.get(i).getCustFirmName());
-						rowData.add("" + progList.get(i).getServName());
-						rowData.add("" + progList.get(i).getActiName());
-						rowData.add("" + progList.get(i).getPeriodicityName());
-						rowData.add("" + progList.get(i).getPartner());
-						rowData.add("" + progList.get(i).getManager());
-						rowData.add("" + progList.get(i).getTeamLeader());
-						// System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
-						// System.out.println("end date" + progList.get(i).getTaskEndDate());
-						if (progList.get(i).getTaskStatutoryDueDate() != " "
-								&& progList.get(i).getTaskStatutoryDueDate() != null) {
-
-							rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
-						} else {
-							rowData.add("" + "-");
-						}
-
-						if (progList.get(i).getTaskEndDate() != " " && progList.get(i).getTaskEndDate() != null) {
-							rowData.add("" + progList.get(i).getTaskEndDate());
-						} else {
-							rowData.add("" + "-");
-						}
-
-						rowData.add("" + progList.get(i).getEmpBudHr());
-						rowData.add("" + progList.get(i).getWorkHours());
-
-						expoExcel.setRowData(rowData);
-						exportToExcelList.add(expoExcel);
-
-					}
-
-					XSSFWorkbook wb = null;
-					try {
-
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"Emp Name:" + emp.getEmpName() + " From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "",
-								"", 'M');
-
-						ExceUtil.autoSizeColumns(wb, 3);
-						response.setContentType("application/vnd.ms-excel");
-						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
-						wb.write(response.getOutputStream());
-
-					} catch (IOException ioe) {
-						throw new RuntimeException("Error writing spreadsheet to output stream");
-					} finally {
-						if (wb != null) {
-							wb.close();
-						}
-					}
-
-				}
-
-			} catch (DocumentException ex) {
-
-				// System.out.println("Pdf Generation Error: " + ex.getMessage());
-
-				ex.printStackTrace();
-
-			}
-
-		} catch (Exception e) {
-
-			System.err.println("Exce in showProgReport " + e.getMessage());
-			e.printStackTrace();
-
-		}
-
-	}
+	
 
 	@RequestMapping(value = "/showInactiveTaskRepForManager", method = RequestMethod.POST)
 	public void showInactiveTaskRep(HttpServletRequest request, HttpServletResponse response) {
@@ -1723,6 +1533,64 @@ public class ReportController {
 		}
 
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/showCompTaskReportFormanager", method = RequestMethod.GET)
+	public String showCompTaskReportFormanager(HttpServletRequest request, HttpServletResponse response,HttpSession session,
+			Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "report/Manager/compTaskReportForManager";
+			String yearrange = request.getParameter("monthyear");	
+			System.out.println("yearrange***"+yearrange);
+			if(yearrange!=null) {
+				
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
+				
+				
+				String[] fromDate = yearrange.split(" to ");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("fromDate1", DateConvertor.convertToYMD(fromDate[0]));
+				map.add("toDate1", DateConvertor.convertToYMD(fromDate[1]));
+				map.add("empIds", String.valueOf(userId));
+				map.add("status", 9);
+				InactiveTaskReport[] resArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
+				List<InactiveTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
+				for (int i = 0; i < cmpTaskList.size(); i++) {
+				if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
+						&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
+					cmpTaskList.get(i).setTaskStatutoryDueDate("-");
+					
+				} 
+
+				if (cmpTaskList.get(i).getTaskEndDate() == " " && cmpTaskList.get(i).getTaskEndDate() == null) {
+					cmpTaskList.get(i).setTaskEndDate("-");
+				} 
+				}
+
+				model.addAttribute("cmpTaskList", cmpTaskList);
+				model.addAttribute("fromDate", fromDate[0]);
+				model.addAttribute("toDate", fromDate[1]);
+				
+				
+			}
+			
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
 
 	@RequestMapping(value = "/showCompletedTaskRepForManager", method = RequestMethod.POST)
 	public void showCompletedTaskRepForManager(HttpServletRequest request, HttpServletResponse response) {
@@ -1734,331 +1602,18 @@ public class ReportController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			String yearrange = request.getParameter("yearrange");
-			String[] fromDate = yearrange.split(" to ");
-
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate1", DateConvertor.convertToYMD(fromDate[0]));
-			map.add("toDate1", DateConvertor.convertToYMD(fromDate[1]));
+			map.add("fromDate1", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate1", DateConvertor.convertToYMD(toDate));
 			map.add("empIds", String.valueOf(userId));
 			map.add("status", 9);
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
 			System.err.println("getInactiveTaskReport**" + progList.toString());
-
-			Document document = new Document(PageSize.A4);
-			document.setMargins(50, 45, 50, 60);
-			document.setMarginMirroring(false);
-
-			String FILE_PATH = Constants.REPORT_SAVE;
-			File file = new File(FILE_PATH);
-
-			PdfWriter writer = null;
-
-			FileOutputStream out = new FileOutputStream(FILE_PATH);
-			try {
-				writer = PdfWriter.getInstance(document, out);
-			} catch (DocumentException e) {
-
-				e.printStackTrace();
-			}
-
-			String header = "";
-			String title = "                 ";
-
-			DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
-			String repDate = DF2.format(new Date());
-
-			ItextPageEvent event = new ItextPageEvent(header, title, "", "");
-
-			writer.setPageEvent(event);
-			// writer.add(new Paragraph("Curricular Aspects"));
-
-			PdfPTable table = new PdfPTable(17);
-
-			table.setHeaderRows(1);
-
-			try {
-				table.setWidthPercentage(100);
-				table.setWidths(new float[] { 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f, 4.3f,
-						4.3f, 4.3f, 4.3f, 4.3f, 4.3f });
-				Font headFontData = ReportCostants.headFontData;// new Font(FontFamily.TIMES_ROMAN, 12, Font.NORMAL,
-				// BaseColor.BLACK);
-				Font tableHeaderFont = ReportCostants.tableHeaderFont; // new Font(FontFamily.HELVETICA, 12, Font.BOLD,
-																		// BaseColor.BLACK);
-				tableHeaderFont.setColor(ReportCostants.tableHeaderFontBaseColor);
-
-				PdfPCell hcell = new PdfPCell();
-				hcell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-
-				hcell = new PdfPCell(new Phrase("Sr.No.", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Client Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Service", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Activity", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Task/ Periodicity", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Owner Partner", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Execution partner", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Employee Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("TL Name", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Due Date", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Completed Date", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-				hcell = new PdfPCell(new Phrase("Employee Budgeted Hrs", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-				hcell = new PdfPCell(new Phrase("Total Hrs Employee", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("TL Total Hrs", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Manager Budgeted Hrs", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Manager Total Hrs", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				hcell = new PdfPCell(new Phrase("Google Drive Link", tableHeaderFont));
-				hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				hcell.setBackgroundColor(ReportCostants.baseColorTableHeader);
-
-				table.addCell(hcell);
-
-				int index = 0;
-				for (int i = 0; i < progList.size(); i++) {
-					// System.err.println("I " + i);
-					InactiveTaskReport prog = progList.get(i);
-
-					index++;
-					PdfPCell cell;
-					cell = new PdfPCell(new Phrase(String.valueOf(index), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getCustFirmName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getServName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getActiName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getPeriodicityName(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getOwnerPartner(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getPartner(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getEmployee(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getTeamLeader(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					String[] splited = prog.getTaskStatutoryDueDate().split(" ");
-
-					cell = new PdfPCell(new Phrase("" + splited[0], headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-					String[] splited1 = prog.getTaskEndDate().split(" ");
-
-					cell = new PdfPCell(new Phrase("" + splited1[0], headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getEmpBudHr(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getEmployeeHrs(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getTeamLeaderHrs(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getMngrBudHr(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getManagerHrs(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-					cell = new PdfPCell(new Phrase("" + prog.getExVar1(), headFontData));
-					cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-					table.addCell(cell);
-
-				}
-
-				document.open();
-				Font hf = new Font(FontFamily.TIMES_ROMAN, 12.0f, Font.UNDERLINE, BaseColor.BLACK);
-
-				Paragraph name = new Paragraph(reportName, hf);
-				name.setAlignment(Element.ALIGN_CENTER);
-				document.add(name);
-				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
-				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
-				document.add(new Paragraph("\n"));
-
-				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
-
-				document.add(table);
-
-				int totalPages = writer.getPageNumber();
-
-				// System.out.println("Page no " + totalPages);
-
-				document.close();
-				int p = Integer.parseInt(request.getParameter("p"));
-				// System.err.println("p " + p);
-
-				if (p == 1) {
-
-					if (file != null) {
-
-						String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-
-						if (mimeType == null) {
-
-							mimeType = "application/pdf";
-
-						}
-
-						response.setContentType(mimeType);
-
-						response.addHeader("content-disposition",
-								String.format("inline; filename=\"%s\"", file.getName()));
-
-						response.setContentLength((int) file.length());
-
-						InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
-						try {
-							FileCopyUtils.copy(inputStream, response.getOutputStream());
-						} catch (IOException e) {
-							// System.out.println("Excep in Opening a Pdf File");
-							e.printStackTrace();
-						}
-					}
-				} else {
 
 					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -2127,7 +1682,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Manager Name:"
-								+ emp.getEmpName() + " From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
+								+ emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2144,15 +1699,9 @@ public class ReportController {
 						}
 					}
 
-				}
+				
 
-			} catch (DocumentException ex) {
-
-				// System.out.println("Pdf Generation Error: " + ex.getMessage());
-
-				ex.printStackTrace();
-
-			}
+			
 
 		} catch (Exception e) {
 
