@@ -18,6 +18,8 @@ public class GetTaskList {
 	private String taskStartDate;
 
 	private String taskEndDate;
+	
+	private String taskCompletionDate;
 
 	private String taskStatutoryDueDate;
 
@@ -249,33 +251,29 @@ public class GetTaskList {
 	public void setExInt2(int exInt2) {
 		this.exInt2 = exInt2;
 	}
+	
+	
+
+	public String getTaskCompletionDate() {
+		return taskCompletionDate;
+	}
+
+	public void setTaskCompletionDate(String taskCompletionDate) {
+		this.taskCompletionDate = taskCompletionDate;
+	}
 
 	@Override
 	public String toString() {
 		return "GetTaskList [taskId=" + taskId + ", taskCode=" + taskCode + ", mappingId=" + mappingId
 				+ ", taskSubline=" + taskSubline + ", taskFyId=" + taskFyId + ", taskText=" + taskText
-				+ ", taskStartDate=" + taskStartDate + ", taskEndDate=" + taskEndDate + ", taskStatutoryDueDate="
-				+ taskStatutoryDueDate + ", mngrBudHr=" + mngrBudHr + ", empBudHr=" + empBudHr + ", employees="
-				+ employees + ", custId=" + custId + ", periodicityId=" + periodicityId + ", actvId=" + actvId
-				+ ", servId=" + servId + ", periodicity_name=" + periodicity_name + ", actiName=" + actiName
-				+ ", servName=" + servName + ", custFirmName=" + custFirmName + ", finYearName=" + finYearName
-				+ ", exVar1=" + exVar1 + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", getTaskId()=" + getTaskId()
-				+ ", getTaskCode()=" + getTaskCode() + ", getMappingId()=" + getMappingId() + ", getTaskSubline()="
-				+ getTaskSubline() + ", getTaskFyId()=" + getTaskFyId() + ", getTaskText()=" + getTaskText()
-				+ ", getTaskStartDate()=" + getTaskStartDate() + ", getTaskEndDate()=" + getTaskEndDate()
-				+ ", getTaskStatutoryDueDate()=" + getTaskStatutoryDueDate() + ", getMngrBudHr()=" + getMngrBudHr()
-				+ ", getEmpBudHr()=" + getEmpBudHr() + ", getCustId()=" + getCustId() + ", getPeriodicityId()="
-				+ getPeriodicityId() + ", getActvId()=" + getActvId() + ", getServId()=" + getServId()
-				+ ", getPeriodicity_name()=" + getPeriodicity_name() + ", getActiName()=" + getActiName()
-				+ ", getServName()=" + getServName() + ", getCustFirmName()=" + getCustFirmName()
-				+ ", getFinYearName()=" + getFinYearName() + ", getExVar1()=" + getExVar1() + ", getExInt1()="
-				+ getExInt1() + ", getEmployees()=" + getEmployees() + ", getExInt2()=" + getExInt2() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", taskStartDate=" + taskStartDate + ", taskEndDate=" + taskEndDate + ", taskCompletionDate="
+				+ taskCompletionDate + ", taskStatutoryDueDate=" + taskStatutoryDueDate + ", mngrBudHr=" + mngrBudHr
+				+ ", empBudHr=" + empBudHr + ", employees=" + employees + ", custId=" + custId + ", periodicityId="
+				+ periodicityId + ", actvId=" + actvId + ", servId=" + servId + ", periodicity_name=" + periodicity_name
+				+ ", actiName=" + actiName + ", servName=" + servName + ", custFirmName=" + custFirmName
+				+ ", finYearName=" + finYearName + ", exVar1=" + exVar1 + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
+				+ "]";
 	}
 
-	 
-
-	 
-
-
+	
 }

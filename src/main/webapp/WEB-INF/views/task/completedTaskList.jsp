@@ -272,12 +272,14 @@
 									<th width="10%">Sr.no<input type="checkbox"
 													name="selAll" id="selAll" /></th>
 									<th>Customer Name</th>
-									<th>Service Name</th>
 									<th>Task Text</th>
- 									<th>Team</th>
-									<th>Statutory Due Date</th>
-									<th>Work Date</th>
 									<th>Periodicity</th>
+ 									<th>Team</th>
+ 									<th>Completion Date</th>
+ 									<th>Work Date</th>
+									<th>Statutory Due Date</th>
+									
+								
 									<th>Status</th>
 
 									<!-- <th class="text-center" width="10%">Actions</th> -->
@@ -289,12 +291,14 @@
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all"  ></td>
 									<td>${taskList.custFirmName}</td>
-									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
+										<td>${taskList.periodicity_name}</td>
  									<td>${taskList.employees}</td>
+ 									<td>${taskList.taskCompletionDate}</td>		
+ 									<td>${taskList.taskEndDate}</td>		
 									<td>${taskList.taskStatutoryDueDate}</td>
-									<td>${taskList.taskEndDate}</td>									
-								<td>${taskList.periodicity_name}</td>
+																
+							
 									<td>${taskList.exInt2==1 ? 'Non Billable' : taskList.exInt2==2 ? 'Invoiced' : taskList.exInt2==3 ? '-' : ''}</td>
 	 
 								<%-- 	<td><a

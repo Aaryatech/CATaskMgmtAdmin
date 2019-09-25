@@ -491,7 +491,7 @@ public class TaskController {
 						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 
-				System.out.println("cust is " + custHeadList.toString());
+				//System.out.println("cust is " + custHeadList.toString());
 				mav.addObject("custList", custHeadList);
 
 				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
@@ -553,7 +553,7 @@ public class TaskController {
 				String base64encodedString = request.getParameter("taskId");
 				int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
 
-				System.out.println("flag is" + flag);
+				//System.out.println("flag is" + flag);
 				mav.addObject("taskType", flag);
 				mav.addObject("isEdit", 1);
 
@@ -582,7 +582,7 @@ public class TaskController {
 						.getForObject(Constants.url + "/getAllCustomerInfoActiveInactive", CustomerDetails[].class);
 				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
 
-				System.out.println("cust is " + custHeadList.toString());
+				//System.out.println("cust is " + custHeadList.toString());
 				mav.addObject("custList", custHeadList);
 
 				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
@@ -720,8 +720,8 @@ public class TaskController {
 			String emphr = request.getParameter("empBudgetHr");
 			String mnghr1 = HoursConversion.convertHoursToMin(mnghr);
 			String emphr1 = HoursConversion.convertHoursToMin(emphr);
-			System.out.println("mnghr1" + mnghr1);
-			System.out.println("emphr1" + emphr1);
+			//System.out.println("mnghr1" + mnghr1);
+			//System.out.println("emphr1" + emphr1);
 			int userId = emp.getEmpId();
 			int taskType = Integer.parseInt(request.getParameter("taskType"));
 			CustmrActivityMap activityMapanual = new CustmrActivityMap();
@@ -739,7 +739,7 @@ public class TaskController {
 				taskId = Integer.parseInt(request.getParameter("taskId"));
 
 				if (taskId != 0) {
-					System.out.println("in task edit");
+					//System.out.println("in task edit");
 					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 					map.add("taskId", taskId);
@@ -783,7 +783,7 @@ public class TaskController {
 
 			if (taskId == 0) {
 				a = "redirect:/manualTaskList";
-				System.out.println("in task add");
+				//System.out.println("in task add");
 				activityMapanual.setMappingId(0);
 				activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
 				activityMapanual.setActvStartDate(request.getParameter("startDate"));
@@ -802,7 +802,7 @@ public class TaskController {
 				activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
 				activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
 				
-				System.out.println("Activity Map---------" + activityMapanual.toString());
+				//System.out.println("Activity Map---------" + activityMapanual.toString());
 				Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
 						activityMapanual, Info.class);
 			}
@@ -1120,7 +1120,7 @@ public class TaskController {
 					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 				}
 				mav.addObject("taskList", taskList);
-				System.out.println("CompletedTakList***" + taskList.toString());
+				//System.out.println("CompletedTakList***" + taskList.toString());
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
 				e.printStackTrace();
@@ -1213,7 +1213,7 @@ public class TaskController {
 			for (int i = 0; i < TaskId.length; i++) {
 				sb = sb.append(TaskId[i] + ",");
 
-				System.out.println("task id are**" + TaskId[i]);
+				//System.out.println("task id are**" + TaskId[i]);
 
 			}
 
@@ -1359,7 +1359,7 @@ public class TaskController {
 
 		taskList = new ArrayList<>(Arrays.asList(holListArray));
 
-		System.out.println("List Work log-----------" + taskList);
+		//System.out.println("List Work log-----------" + taskList);
 		return taskList;
 
 	}
@@ -1395,7 +1395,7 @@ public class TaskController {
 			workLog.setWorkHours(Float.parseFloat(mnghr1));
 			workLog.setWorkLogId(logId);
 			workLog.setWorkRemark(request.getParameter("remark"));
-			System.out.println("Logssss------"+workLog);
+			//System.out.println("Logssss------"+workLog);
 			DailyWorkLog logData = Constants.getRestTemplate().postForObject(Constants.url + "/addNewWorkLog",workLog, DailyWorkLog.class);
 
 		} catch (Exception e) {
@@ -1555,7 +1555,7 @@ public class TaskController {
 		DailyWorkLog hrLog=null;
 		try {
 			int logId = Integer.parseInt(request.getParameter("logId"));
-			System.out.println("editworkLog ----- Service Called "+ logId);
+			//System.out.println("editworkLog ----- Service Called "+ logId);
 			MultiValueMap<String, Object> map =  new LinkedMultiValueMap<>();			
 			
 			map.add("logId", logId);
@@ -1676,7 +1676,7 @@ public class TaskController {
 
 			ActivityMaster actv = Constants.getRestTemplate().postForObject(Constants.url + "/getActivityById", map,
 					ActivityMaster.class);
-			System.out.println("Ativity=" + actv);
+			//System.out.println("Ativity=" + actv);
 			mav.addObject("activity", actv);
 
 			map = new LinkedMultiValueMap<>();

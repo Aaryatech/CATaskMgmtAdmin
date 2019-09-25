@@ -2245,7 +2245,7 @@ public class ReportController {
 			try {
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-						"Partner Type:" + part + 	" From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", userLetter);
+						"Partner Type:" + part + 	"  From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", userLetter);
 
 				ExceUtil.autoSizeColumns(wb, 3);
 				response.setContentType("application/vnd.ms-excel");
