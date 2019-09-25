@@ -68,15 +68,14 @@ public class TlCompletedGTaskReportMVCCntrl {
 		try {
 
 			 
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
-			 System.out.println("Dates--------"+fromDate+" to "+toDate);
-
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			String fDate = DateConvertor.convertToYMD(fromDate);
-			String tDate = DateConvertor.convertToYMD(toDate);
-			map.add("fromDate", fDate.concat("  00:00:01"));
- 			map.add("toDate", tDate.concat("  23:59:59"));
+			String fDate = DateConvertor.convertToYMD(fromDate[0]);
+			String tDate = DateConvertor.convertToYMD(fromDate[1]);
+			map.add("fromDate", fDate);
+ 			map.add("toDate", tDate);
 
 			TlTaskCompletReport[] ttlArr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getTlCompletedTeskRepot", map, TlTaskCompletReport[].class);
@@ -322,7 +321,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Date:" + fromDate+ " to "+toDate));
+				document.add(new Paragraph("Date:" + fromDate[0]+ " to "+fromDate[1]));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -426,7 +425,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Date:" +fromDate+" to "+toDate  + "", "", 'L');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Date:" +fromDate[0]+" to "+fromDate[1]  + "", "", 'L');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -468,14 +467,14 @@ public class TlCompletedGTaskReportMVCCntrl {
 		String reportName = "Employee & Manager Performance Report";
 		
 		try {				
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 			String empId = request.getParameter("empId");
 			String empName = request.getParameter("emp_name");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIds", empId);
 			CompletedTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
@@ -684,7 +683,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Employee : "+empName+"      Date : "+fromDate+ " to " +toDate));
+				document.add(new Paragraph("Employee : "+empName+"      Date : "+fromDate[0]+ " to " +fromDate[1]));
 				document.add(new Paragraph("\n"));
 				//document.add(new Paragraph("Date : "+fromDate+ " to " +toDate)); 
 				document.add(new Paragraph("\n"));
@@ -767,9 +766,8 @@ public class TlCompletedGTaskReportMVCCntrl {
 						rowData.add("" + progList.get(i).getTeamLeader());
 						rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 						rowData.add("" + progList.get(i).getTaskEndDate());
-						rowData.add("" + progList.get(i).getEmpBudHr());
-						String wrk_hr = progList.get(i).getWorkHours().replace(".", ":");
-						rowData.add("" + wrk_hr);
+						rowData.add("" + progList.get(i).getEmpBudHr());						
+						rowData.add("" + progList.get(i).getWorkHours());
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
@@ -779,7 +777,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Employee:"+ empName +"       Date:" +fromDate+" to "+toDate+ "",
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Employee:"+ empName +"       Date:" +fromDate[0]+" to "+fromDate[1]+ "",
 								"", 'L');
 
 						ExceUtil.autoSizeColumns(wb, 3);
