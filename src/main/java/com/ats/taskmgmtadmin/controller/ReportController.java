@@ -38,6 +38,7 @@ import com.ats.taskmgmtadmin.common.ExceUtil;
 import com.ats.taskmgmtadmin.common.ExportToExcel;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.ReportCostants;
+import com.ats.taskmgmtadmin.model.ClientGroupList;
 import com.ats.taskmgmtadmin.model.EmpIdNameList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
 import com.ats.taskmgmtadmin.model.EmpwithPartnerList;
@@ -105,6 +106,11 @@ public class ReportController {
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				model.addObject("epmList", epmList);
 			}
+			
+			ClientGroupList[] clientGroup = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getClientGroupList", ClientGroupList[].class);
+			List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(Arrays.asList(clientGroup));
+			model.addObject("clientGroupList", clientGroupList);
 
 		} catch (Exception e) {
 
@@ -511,15 +517,16 @@ public class ReportController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			String yearrange = request.getParameter("yearrange");
-			String[] fromDate = yearrange.split(" to ");
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
 			String empId = request.getParameter("empId");
 			// System.out.println("prm are:::" + empId + fromDate + toDate);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
-			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
 			map.add("empId", empId);
 			map.add("status", 9);
 			EmpAndMangPerfRepDetail[] resArray = Constants.getRestTemplate().postForObject(
@@ -733,8 +740,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
-				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
+				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -869,7 +876,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'W');
+								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'W');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1242,7 +1249,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"Emp Name:" + emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "",
+								"Emp Name:" + emp.getEmpName() + " From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "",
 								"", 'M');
 
 						ExceUtil.autoSizeColumns(wb, 3);
@@ -1681,7 +1688,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Manager Name:"
-								+ emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
+								+ emp.getEmpName() + " From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2120,7 +2127,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Manager Name:"
-								+ emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
+								+ emp.getEmpName() + " From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2166,9 +2173,18 @@ public class ReportController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-
+			String part=null;
+			
+			
+			int part1 = Integer.parseInt(request.getParameter("partner"));
 			String yearrange = request.getParameter("yearrange");
 			String[] fromDate = yearrange.split(" to ");
+			
+			if(part1==1) {
+				part="Owner Partner";
+			}else {
+				part="Execution Partner";
+			}
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
 			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
@@ -2187,9 +2203,10 @@ public class ReportController {
 
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
-			char userLetter = 'E';
+			char userLetter = 'F';
 			rowData.add("Sr. No");
 			rowData.add("Name of Employee/ Manager/ TL");
+			rowData.add("Total Hrs");
 			rowData.add("Hrs worked");
 			rowData.add("Idle time");
 			rowData.add("Overtime");
@@ -2210,6 +2227,7 @@ public class ReportController {
 
 				rowData.add("" + (i + 1));
 				rowData.add("" + empwithpartnerlist.get(i).getEmpName());
+				rowData.add("" + empwithpartnerlist.get(i).getBugetedHrs());
 				rowData.add("" + empwithpartnerlist.get(i).getWorkedHrs());
 				rowData.add("" + empwithpartnerlist.get(i).getIdealtime());
 				rowData.add("" + empwithpartnerlist.get(i).getOvertime());
@@ -2227,7 +2245,7 @@ public class ReportController {
 			try {
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-						"From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", userLetter);
+						"Partner Type:" + part + 	" From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", userLetter);
 
 				ExceUtil.autoSizeColumns(wb, 3);
 				response.setContentType("application/vnd.ms-excel");
