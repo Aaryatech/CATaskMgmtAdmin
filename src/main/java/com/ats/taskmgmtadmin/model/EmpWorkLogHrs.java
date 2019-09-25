@@ -4,7 +4,7 @@ public class EmpWorkLogHrs {
 
 	private int workLogId;
 	private String workDate;		
-	private float workHours;
+	private String workHours;
 	private String workRemark;
 	private int exInt1;
 	private int exInt2;
@@ -30,10 +30,10 @@ public class EmpWorkLogHrs {
 	public void setWorkDate(String workDate) {
 		this.workDate = workDate;
 	}
-	public float getWorkHours() {
+	public String getWorkHours() {
 		return workHours;
 	}
-	public void setWorkHours(float workHours) {
+	public void setWorkHours(String workHours) {
 		this.workHours = workHours;
 	}
 	public String getWorkRemark() {
