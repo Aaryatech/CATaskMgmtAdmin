@@ -1,6 +1,7 @@
 package com.ats.taskmgmtadmin.controller;
 
 import java.io.BufferedInputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,7 +38,9 @@ import com.ats.taskmgmtadmin.common.ExceUtil;
 import com.ats.taskmgmtadmin.common.ExportToExcel;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.ReportCostants;
+import com.ats.taskmgmtadmin.model.EmpIdNameList;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.EmpwithPartnerList;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.report.CompletedTaskReport;
 import com.ats.taskmgmtadmin.model.report.EmpAndMangPerfRepDetail;
@@ -124,8 +127,8 @@ public class ReportController {
 			mav = new ModelAndView("report/mangPerfHeadList");
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 			String empIdList = new String();
 			int empId = Integer.parseInt(request.getParameter("empId"));
 			if (empId == 0) {
@@ -148,8 +151,8 @@ public class ReportController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIdList", empIdList);
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
@@ -165,8 +168,8 @@ public class ReportController {
 			}
 
 			mav.addObject("progList", progList);
-			mav.addObject("fromDate", fromDate);
-			mav.addObject("toDate", toDate);
+			mav.addObject("fromDate", fromDate[0]);
+			mav.addObject("toDate", fromDate[1]);
 			mav.addObject("emps", empId);
 
 		} catch (Exception e) {
@@ -187,8 +190,8 @@ public class ReportController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 			String empIdList = new String();
 			int empId = Integer.parseInt(request.getParameter("emps"));
 			if (empId == 0) {
@@ -211,8 +214,8 @@ public class ReportController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIdList", empIdList);
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
@@ -375,8 +378,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
-				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
+				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -450,7 +453,7 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getActWork());
 						float a = Float.parseFloat(progList.get(i).getActWork());
 						float b = Float.parseFloat(progList.get(i).getBudgetedCap());
-						float c = b-a;
+						float c = b - a;
 						rowData.add("" + c);
 
 						expoExcel.setRowData(rowData);
@@ -462,7 +465,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'G');
+								"From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'G');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -508,15 +511,15 @@ public class ReportController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 			String empId = request.getParameter("empId");
 			// System.out.println("prm are:::" + empId + fromDate + toDate);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empId", empId);
 			map.add("status", 9);
 			EmpAndMangPerfRepDetail[] resArray = Constants.getRestTemplate().postForObject(
@@ -730,8 +733,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
-				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
+				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -866,7 +869,7 @@ public class ReportController {
 					try {
 
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'W');
+								"From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'W');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -911,14 +914,12 @@ public class ReportController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
-
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIds", String.valueOf(userId));
 			CompletedTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
@@ -1131,8 +1132,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
-				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
+				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1213,19 +1214,18 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getPartner());
 						rowData.add("" + progList.get(i).getManager());
 						rowData.add("" + progList.get(i).getTeamLeader());
-						//System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
-						//System.out.println("end date" + progList.get(i).getTaskEndDate());
+						// System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
+						// System.out.println("end date" + progList.get(i).getTaskEndDate());
 						if (progList.get(i).getTaskStatutoryDueDate() != " "
 								&& progList.get(i).getTaskStatutoryDueDate() != null) {
-							
+
 							rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 						} else {
 							rowData.add("" + "-");
 						}
 
-						if (progList.get(i).getTaskEndDate() != " "
-								&& progList.get(i).getTaskEndDate() != null) {
-							rowData.add("" +  progList.get(i).getTaskEndDate());
+						if (progList.get(i).getTaskEndDate() != " " && progList.get(i).getTaskEndDate() != null) {
+							rowData.add("" + progList.get(i).getTaskEndDate());
 						} else {
 							rowData.add("" + "-");
 						}
@@ -1240,9 +1240,10 @@ public class ReportController {
 
 					XSSFWorkbook wb = null;
 					try {
-						
+
 						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"Emp Name:" + emp.getEmpName() + "From Date:" + fromDate + "   To Date:" + toDate + "", "", 'M');
+								"Emp Name:" + emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "",
+								"", 'M');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1287,14 +1288,13 @@ public class ReportController {
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate1", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate1", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate1", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate1", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIds", String.valueOf(userId));
 			map.add("status", 7);
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
@@ -1568,8 +1568,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
-				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
+				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -1680,8 +1680,8 @@ public class ReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"Manager Name:" + emp.getEmpName() +"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Manager Name:"
+								+ emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -1727,13 +1727,13 @@ public class ReportController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("fromDate1", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate1", DateConvertor.convertToYMD(toDate));
+			map.add("fromDate1", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate1", DateConvertor.convertToYMD(fromDate[1]));
 			map.add("empIds", String.valueOf(userId));
 			map.add("status", 9);
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
@@ -2007,8 +2007,8 @@ public class ReportController {
 				name.setAlignment(Element.ALIGN_CENTER);
 				document.add(name);
 				document.add(new Paragraph("\n"));
-				document.add(new Paragraph("Start Date:" + fromDate + "" + "    "));
-				document.add(new Paragraph("End Date:" + toDate + "" + "    "));
+				document.add(new Paragraph("Start Date:" + fromDate[0] + "" + "    "));
+				document.add(new Paragraph("End Date:" + fromDate[1] + "" + "    "));
 				document.add(new Paragraph("\n"));
 
 				DateFormat DF = new SimpleDateFormat("dd-MM-yyyy");
@@ -2119,8 +2119,8 @@ public class ReportController {
 					XSSFWorkbook wb = null;
 					try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"Manager Name:" + emp.getEmpName() +"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
+						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Manager Name:"
+								+ emp.getEmpName() + "From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", 'R');
 
 						ExceUtil.autoSizeColumns(wb, 3);
 						response.setContentType("application/vnd.ms-excel");
@@ -2162,113 +2162,86 @@ public class ReportController {
 		String reportName = "Employee Partner Grid";
 
 		try {
-			List<EmployeeMaster>  empList=new ArrayList<EmployeeMaster>();
+			List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
 			HttpSession session = request.getSession();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
-			String fromDate = request.getParameter("fromDate");
-			String toDate = request.getParameter("toDate");
+			String yearrange = request.getParameter("yearrange");
+			String[] fromDate = yearrange.split(" to ");
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+			map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+			map.add("partnerType", Integer.parseInt(request.getParameter("partner")));
 
-			map.add("fromDate1", DateConvertor.convertToYMD(fromDate));
-			map.add("toDate1", DateConvertor.convertToYMD(toDate));
-			map.add("empIds", String.valueOf(userId));
-			map.add("status", 9);
-			InactiveTaskReport[] resArray = Constants.getRestTemplate()
-					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
-			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.err.println("getInactiveTaskReport**" + progList.toString());
-			
-			if(request.getParameter("partner").equals("1")) {
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getEmployees",
-						EmployeeMaster[].class);
-				empList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-			}else {
-				EmployeeMaster[] employee1 = Constants.getRestTemplate().getForObject(Constants.url + "/getExecutionPartner",
-						EmployeeMaster[].class);
-				empList = new ArrayList<EmployeeMaster>(Arrays.asList(employee1));
-			} 
-		
-				 float[] arr =  {1f, 5f, 3f, 2f, 9f};
-				 
-				 for(int i=0;i<empList.size();i++){
-					 ArrayUtils.add(arr,4.2f );
-				 }
-				 
-					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			EmpwithPartnerList[] empwithPartnerList = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/employeepartnerwiseworkreport", map, EmpwithPartnerList[].class);
+			List<EmpwithPartnerList> empwithpartnerlist = new ArrayList<>(Arrays.asList(empwithPartnerList));
 
-					ExportToExcel expoExcel = new ExportToExcel();
-					List<String> rowData = new ArrayList<String>();
+			EmpIdNameList[] empIdNameList = Constants.getRestTemplate().getForObject(Constants.url + "/getPartnerList",
+					EmpIdNameList[].class);
+			List<EmpIdNameList> partnerList = new ArrayList<>(Arrays.asList(empIdNameList));
 
-					rowData.add("Sr. No");
-					rowData.add("Name of Employee/ Manager/ TL");
-					rowData.add("Hrs worked");
-					rowData.add("Idle time");
-					rowData.add("Overtime");
-					for(int i=1;i<=empList.size();i++){
-						 
-						 rowData.add("Partner"+i);
-					 }
-					 
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-					int cnt = 1;
-					for (int i = 0; i < progList.size(); i++) {
-						expoExcel = new ExportToExcel();
-						rowData = new ArrayList<String>();
-						cnt = cnt + i;
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+			char userLetter = 'E';
+			rowData.add("Sr. No");
+			rowData.add("Name of Employee/ Manager/ TL");
+			rowData.add("Hrs worked");
+			rowData.add("Idle time");
+			rowData.add("Overtime");
+			for (int i = 0; i < partnerList.size(); i++) {
 
-						rowData.add("" + (i + 1));
-						rowData.add("" + progList.get(i).getTaskText());
-						rowData.add("" + progList.get(i).getCustFirmName());
-						rowData.add("" + progList.get(i).getServName());
-						rowData.add("" + progList.get(i).getActiName());
-						
-						 for(int j=0;j<empList.size();j++){
-							 
-							 if(empList.get(j).getEmpId()==progList.get(i).getTaskId()) {
-								 
-								 rowData.add("" + empList.get(j).getEmpName());
-							 }
-							 else {
-								 rowData.add("" + "-");
-						        }
-							 }
-						 
-						 
-						
+				rowData.add(partnerList.get(i).getEmpName());
+				userLetter++;
+			}
 
-						expoExcel.setRowData(rowData);
-						exportToExcelList.add(expoExcel);
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
 
-					}
+			for (int i = 0; i < empwithpartnerlist.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
 
-					XSSFWorkbook wb = null;
-					try {
+				rowData.add("" + (i + 1));
+				rowData.add("" + empwithpartnerlist.get(i).getEmpName());
+				rowData.add("" + empwithpartnerlist.get(i).getWorkedHrs());
+				rowData.add("" + empwithpartnerlist.get(i).getIdealtime());
+				rowData.add("" + empwithpartnerlist.get(i).getOvertime());
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'R');
+				for (int j = 0; j < empwithpartnerlist.get(i).getList().size(); j++) {
+					rowData.add("" + empwithpartnerlist.get(i).getList().get(j).getTotalHrs());
 
-						ExceUtil.autoSizeColumns(wb, 3);
-						response.setContentType("application/vnd.ms-excel");
-						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
-						wb.write(response.getOutputStream());
+				}
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
 
-					} catch (IOException ioe) {
-						throw new RuntimeException("Error writing spreadsheet to output stream");
-					} finally {
-						if (wb != null) {
-							wb.close();
-						}
-					}
+			}
+			//System.out.println("userLetter***" + userLetter);
+			XSSFWorkbook wb = null;
+			try {
 
-				
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"From Date:" + fromDate[0] + "   To Date:" + fromDate[1] + "", "", userLetter);
 
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
 
 		} catch (Exception e) {
 
@@ -2643,4 +2616,3 @@ public class ReportController {
 										 * 
 										 * }
 										 */
-

@@ -91,7 +91,7 @@ h5 {
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-1" for="monthyear">Select
-									Month <span style="color: red">* </span>:
+									Date <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"

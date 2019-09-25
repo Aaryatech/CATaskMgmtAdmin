@@ -70,22 +70,26 @@
 						<div class="card-body">
 							<div class="form-group row">
 
-								<label class="col-form-label col-lg-2" for="startDate">Start
+								<!-- <label class="col-form-label col-lg-2" for="startDate">Start
 									Date: </label>
 								<div class="col-lg-3">
 									<input type="text" class="form-control datepickerclass"
 										name="fromDate" id="fromDate" placeholder="Task End Date">
-								</div>
+								</div> -->
 
-
-
-								<label class="col-form-label col-lg-2" for="startDate">End
+								<!-- <label class="col-form-label col-lg-2" for="startDate">End
 									Date: </label>
 								<div class="col-lg-3">
 									<input type="text" class="form-control datepickerclass"
 										name="toDate" id="toDate" placeholder="Task End Date">
+								</div> -->
+								<label class="col-form-label col-lg-1" for="monthyear">Select
+									Date <span style="color: red">* </span>:
+								</label>
+								<div class="col-lg-2">
+									<input type="text" class="form-control daterange-basic_new"
+										id="yearrange" name="yearrange">
 								</div>
-
 
 							</div>
 							<c:if test="${userType==3 || userType==2}">
@@ -149,18 +153,15 @@
 										<tr>
 											<td>1</td>
 											<td>Task Completed</td>
-											<td class="text-center">
-											
-												<a href="#"
+											<td class="text-center"><a href="#"
 												onclick="getProgReport(0,'showCompletedTaskRep')"
 												title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a>
-											</td>
+													style="color: black;"></i></a></td>
 										</tr>
 									</c:if>
 									<c:if test="${userType==4}">
 										<tr>
-											<td>2</td>
+											<td>1</td>
 											<td>Team Leader Task Completed</td>
 											<td class="text-center">
 												<!-- <a href="#"
@@ -175,7 +176,7 @@
 									</c:if>
 									<c:if test="${userType==3}">
 										<tr>
-											<td>3</td>
+											<td>1</td>
 											<td>Employee & Manager Performance</td>
 
 											<td class="text-center">
@@ -190,7 +191,7 @@
 										</tr>
 
 										<tr>
-											<td>4</td>
+											<td>2</td>
 											<td>Inactive Task(Manager)</td>
 
 											<td class="text-center">
@@ -206,7 +207,7 @@
 
 
 										<tr>
-											<td>5</td>
+											<td>3</td>
 											<td>Completed Task(Manager)</td>
 
 											<td class="text-center">
@@ -221,7 +222,7 @@
 										</tr>
 
 										<tr>
-											<td>6</td>
+											<td>4</td>
 											<td>Employee And Manager Performance Hours(Manager)
 												Header</td>
 
@@ -233,15 +234,12 @@
 									</c:if>
 									<c:if test="${userType==2}">
 										<tr>
-											<td>2</td>
+											<td>1</td>
 											<td>Employee Partner Grid</td>
-											<td class="text-center">
-												
-												<a href="#"
+											<td class="text-center"><a href="#"
 												onclick="getProgReport(0,'showEmployeePartnerGrid')"
 												title="excel"><i class="icon-file-spreadsheet  "
-													style="color: black;"></i></a>
-											</td>
+													style="color: black;"></i></a></td>
 										</tr>
 									</c:if>
 
