@@ -41,7 +41,7 @@
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Generated Task List</h5>
 						<div class="header-elements">
-						<%-- 	<div class="list-icons">
+							<%-- 	<div class="list-icons">
 
 								<a href="#" title="Chat/Update" data-toggle="modal"
 									data-target="#modal_remote"><img
@@ -57,39 +57,38 @@
 						id="submitInsertEmpType" method="post">
 						<div class="card-body">
 							<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="serviceDesc">Service
-											  : </label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" value="${service.servName}"
-											 
-												readonly>
-										</div>
-										
-										<label class="col-form-label col-lg-2" for="serviceDesc">Activity
-											  : </label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" value="${activity.actiName}"
-											readonly	>
-										</div>
-									</div>
-									
-									
-									<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="serviceDesc">Customer
-											  : </label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" value="${custName}"
-												readonly>
-										</div>
-										
-										<label class="col-form-label col-lg-2" for="serviceDesc">Periodicity
-											  : </label>
-										<div class="col-lg-3">
-											<input type="text" class="form-control" value="${per.periodicityName}"
-												readonly>
-										</div>
-									 
-									</div>
+								<label class="col-form-label col-lg-2" for="serviceDesc">Service
+									: </label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control"
+										value="${service.servName}" readonly>
+								</div>
+
+								<label class="col-form-label col-lg-2" for="serviceDesc">Activity
+									: </label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control"
+										value="${activity.actiName}" readonly>
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<label class="col-form-label col-lg-2" for="serviceDesc">Customer
+									: </label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control" value="${custName}"
+										readonly>
+								</div>
+
+								<label class="col-form-label col-lg-2" for="serviceDesc">Periodicity
+									: </label>
+								<div class="col-lg-3">
+									<input type="text" class="form-control"
+										value="${per.periodicityName}" readonly>
+								</div>
+
+							</div>
 
 
 							<div class="table-responsive">
@@ -100,11 +99,11 @@
 									<thead>
 										<tr class="bg-blue">
 											<th width="10%">Sr.no<input type="checkbox"
-													name="selAll" id="selAll" checked /></th>
+												name="selAll" id="selAll" checked /></th>
 											<th>Task</th>
- 											<th>Statutory Due  Date</th>
+											<th>Statutory Due Date</th>
 											<th>Billing Amt</th>
- 											<th>Manager Budget Hrs.</th>
+											<th>Manager Budget Hrs.</th>
 											<th>Emp Budget Hrs.</th>
 
 
@@ -118,11 +117,11 @@
 												name="TaskId" class="select_all" checked></td>
 
 											<td>${taskList.taskText}</td>
- 											<td>${taskList.taskStatutoryDueDate}</td>
-												<td>${taskList.billingAmt}</td>
+											<td>${taskList.taskStatutoryDueDate}</td>
+											<td>${taskList.billingAmt}</td>
 											<td>${mHr}</td>
 											<td>${eHr}</td>
-											 
+
 
 
 
@@ -139,13 +138,12 @@
 									id="deleteId"
 									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Generate These Task');}"
 									style="align-content: center; width: 113px; margin-left: 40px;">
-									
-									<a
-													href="${pageContext.request.contextPath}/customerList"><button
-														type="button" class="btn btn-primary">
-														<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-														Cancel
-													</button></a>
+
+								<a href="${pageContext.request.contextPath}/customerList"><button
+										type="button" class="btn btn-primary">
+										<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+										Cancel
+									</button></a>
 							</div>
 
 
@@ -183,21 +181,16 @@
 							});
 				});
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
+		function setDate() {
 
-function setDate(){
-	
-	
-	document
-	.getElementById("workDate").value="";
-}
-
-</script>
+			document.getElementById("workDate").value = "";
+		}
+	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
 	<script type="text/javascript">
-	
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
