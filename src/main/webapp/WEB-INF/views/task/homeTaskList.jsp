@@ -399,19 +399,83 @@ h5 {
 
 
 							</div>
-							<div class="table-responsive">
+							<!-- <div class="table-responsive">
 								<table class="table datatable-scroller1" id="work_log_table">
 									<thead>
 										<tr>
 											<th style="width: 350px; color: white;">Sr.No.</th>
 											<th style="width: 350px; color: white;">Employee</th>
-											<!-- <th style="width: 100px; color: white;">Date</th> -->
+											<th style="width: 100px; color: white;">Date</th>
 											<th style="width: 100px; color: white;">Actual Hours</th>
 
 										</tr>
 									</thead>
 								</table>
-							</div>
+							</div> -->
+							
+							<!-- Solid tabs title -->
+		<!-- <div class="mb-3 mt-2">
+		<h6 class="mb-0 font-weight-semibold">
+		Solid tabs
+		</h6>
+		<span class="text-muted d-block">Add visual difference to the tabs</span>
+		</div> -->
+<!-- /solid tabs title -->
+
+
+<!-- Solid tabs -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<!-- <div class="card-header header-elements-inline">
+					<h6 class="card-title">Solid tabs</h6>
+				</div> -->
+
+	<div class="card-body">
+		<ul class="nav nav-tabs nav-tabs-solid border-0">
+			<li class="nav-item"><a href="#solid-tab1" class="nav-link active" data-toggle="tab">Total Log</a></li>
+			<li class="nav-item"><a href="#solid-tab2" class="nav-link" data-toggle="tab">Date Wise Log</a></li>	
+		</ul>
+
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="solid-tab1">
+				<%-- Add solid background color to the tabs with <code>.nav-tabs-solid .border-0</code> classes. --%>
+				<div class="table-responsive">
+					<table class="table datatable-scroller1" id="work_log_table1">
+						<thead>
+							<tr>
+								<th style="width: 350px; color: white;">Sr.No.</th>
+								<th style="width: 350px; color: white;">Employee</th>				
+								<th style="width: 100px; color: white;">Actual Hours</th>
+								</tr>
+						</thead>
+					</table>
+				</div> 
+			</div>
+
+		<div class="tab-pane fade" id="solid-tab2">
+			<!-- Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin. -->
+			<div class="table-responsive">
+					<table class="table datatable-scroller1" id="work_log_table2">
+						<thead>
+							<tr>
+								<th style="width: 80px; color: white;">Sr.No.</th>
+								<th style="width: 150px; color: white;">Date</th>
+								<th style="width: 350px; color: white;">Employee</th>				
+								<th style="width: 80px; color: white;">Daily Work Hours</th>
+								</tr>
+						</thead>			
+					</table>
+				</div> 
+		</div>
+
+
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- /solid tabs -->
 
 
 							<div class="modal-footer" style="display: none;">
@@ -958,8 +1022,8 @@ function append(data){
 				function(data) {
 
 					if (data.error == false) {
-						//getActiveHomeTasks();
-						dataFilter();
+						getActiveHomeTasks();
+						//dataFilter();
 						//alert("saved");
 					} else {
 						//alert("not saved");
@@ -1024,7 +1088,7 @@ function append(data){
 	var task;  //task Text 
 	function showTaskLogs(taskId,taskText) {
 		
-		var empType = ${empType};	
+		var empTyp = ${empType};	
 		
 		document.getElementById("taskId").value = taskId;		
 		
@@ -1040,13 +1104,12 @@ function append(data){
 
 						},
 						function(data) {
-						
-							var dataTable = $('#work_log_table').DataTable();
+							//alert("LogList:"+JSON.stringify(data.logList));
+							var dataTable = $('#work_log_table1').DataTable();
 							dataTable.clear().draw();
-
-							$.each(data, function(i, v) {
 							
-								if(empType==2){
+							$.each(data.logList, function(i, v) {
+								if(empTyp==2){
 									if(v.exInt1!=1){
 										dataTable.row.add(
 												[ 	i + 1,
@@ -1056,7 +1119,7 @@ function append(data){
 									}
 									
 								}
-								if(empType==3){
+								if(empTyp==3){
 									if(v.exInt1!=2 && v.exInt1!=1 ){
 										dataTable.row.add(
 												[ 	i + 1,
@@ -1067,7 +1130,7 @@ function append(data){
 									
 								}
 									
-								if(empType==4){
+								if(empTyp==4){
 									if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
 										dataTable.row.add(
 												[ 	i + 1,
@@ -1077,7 +1140,7 @@ function append(data){
 									}
 									
 								}
-								if(empType==5){
+								if(empTyp==5){
 									if(v.exInt1==5){
 										dataTable.row.add(
 												[ 	i + 1,
@@ -1087,7 +1150,63 @@ function append(data){
 									}
 									
 								}
-							});
+								});
+							
+							var dataTable2 = $('#work_log_table2').DataTable();
+							dataTable2.clear().draw();
+							
+							$.each(data.perDayLog, function(i, v) {
+								if(empTyp==2){
+									if(v.empType!=1){
+										
+										dataTable2.row.add(
+												[ 	i + 1,
+													v.workDate,
+													v.empName,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+								if(empTyp==3){
+									
+									if(v.empType!=2 && v.empType!=1 ){
+										
+										dataTable2.row.add(
+												[ 	i + 1,
+													v.workDate,
+													v.empName,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+									
+								if(empTyp==4){
+									if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
+										
+										dataTable2.row.add(
+												[ 	i + 1,
+													v.workDate,
+													v.empName,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+								if(empTyp==5){
+									if(v.empType==5){
+										
+										dataTable2.row.add(
+												[ 	i + 1,
+													v.workDate,
+													v.empName,
+													v.workHours
+												]).draw();
+									}
+									
+								}
+								});						
 						});
 		
 		document.getElementById("taskId").innerHTML = 0;
@@ -1125,56 +1244,109 @@ function addNewWorkLog(){
 				ajax : 'true',
 
 			},
-			function(data) {
+			function(data) {var dataTable = $('#work_log_table1').DataTable();
+			dataTable.clear().draw();
+			
+			$.each(data.logList, function(i, v) {
+				if(empTyp==2){
+					if(v.exInt1!=1){
+						dataTable.row.add(
+								[ 	i + 1,
+									v.exVar1,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+				if(empTyp==3){
+					if(v.exInt1!=2 && v.exInt1!=1 ){
+						dataTable.row.add(
+								[ 	i + 1,
+									v.exVar1,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+					
+				if(empTyp==4){
+					if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+						dataTable.row.add(
+								[ 	i + 1,
+									v.exVar1,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+				if(empTyp==5){
+					if(v.exInt1==5){
+						dataTable.row.add(
+								[ 	i + 1,
+									v.exVar1,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+				});
+			
+			var dataTable2 = $('#work_log_table2').DataTable();
+			dataTable2.clear().draw();
+			
+			$.each(data.perDayLog, function(i, v) {
+				if(empTyp==2){
+					if(v.empType!=1){
+						
+						dataTable2.row.add(
+								[ 	i + 1,
+									v.workDate,
+									v.empName,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+				if(empTyp==3){
+					
+					if(v.empType!=2 && v.empType!=1 ){
+						
+						dataTable2.row.add(
+								[ 	i + 1,
+									v.workDate,
+									v.empName,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+					
+				if(empTyp==4){
+					if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
+						
+						dataTable2.row.add(
+								[ 	i + 1,
+									v.workDate,
+									v.empName,
+									v.workHours
+								]).draw();
+					}
+					
+				}
+				if(empTyp==5){
+					if(v.empType==5){
+						
+						dataTable2.row.add(
+								[ 	i + 1,
+									v.workDate,
+									v.empName,
+									v.workHours
+								]).draw();
+					}
+					
+				}
 				
-				//alert(JSON.stringify(data));
-				
-				var dataTable = $('#work_log_table').DataTable();
-							dataTable.clear().draw();
-							$.each(data, function(i, v) {
-							if(empTyp==2){
-								if(v.exInt1!=1){
-									dataTable.row.add(
-											[ 	i + 1,
-												v.exVar1,
-												v.workHours
-											]).draw();
-								}
-								
-							}
-							if(empTyp==3){
-								if(v.exInt1!=2 && v.exInt1!=1 ){
-									dataTable.row.add(
-											[ 	i + 1,
-												v.exVar1,
-												v.workHours
-											]).draw();
-								}
-								
-							}
-								
-							if(empTyp==4){
-								if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
-									dataTable.row.add(
-											[ 	i + 1,
-												v.exVar1,
-												v.workHours
-											]).draw();
-								}
-								
-							}
-							if(empTyp==5){
-								if(v.exInt1==5){
-									dataTable.row.add(
-											[ 	i + 1,
-												v.exVar1,
-												v.workHours
-											]).draw();
-								}
-								
-							}
-							});
-												
+			});								
 							document.getElementById("taskText").innerHTML = task;			
 			 
 		 });

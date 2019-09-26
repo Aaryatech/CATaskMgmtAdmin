@@ -28,7 +28,9 @@ import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.DailyWorkLog;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.PerDayWorkLog;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.WorkLogBean;
 
 @Controller
 @SessionScope
@@ -72,9 +74,11 @@ public class DailyWorkLogMVCController {
 	
 	
 	@RequestMapping(value = "/newWorkLog", method = RequestMethod.GET)
-	public @ResponseBody List<DailyWorkLog> newWorkLog(HttpServletRequest request, HttpServletResponse response, 
+	public @ResponseBody WorkLogBean newWorkLog(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Model model) {
 		List<DailyWorkLog> logList = null;
+		List<PerDayWorkLog> dayLogList = null;
+		WorkLogBean log= new WorkLogBean();	
 		try {
 				int logId = 0;
 						try {
@@ -118,20 +122,31 @@ public class DailyWorkLogMVCController {
 				DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
 						DailyWorkLog[].class);
 				 logList = new ArrayList<>(Arrays.asList(logArr));
+				 log.setLogList(logList);
+				 
+				 map.add("taskId", taskId);
+				 PerDayWorkLog[] dayLogArr =  Constants.getRestTemplate().postForObject(Constants.url + "/getPerDayWorkLogs", map,
+						 PerDayWorkLog[].class);				 
+				 dayLogList = new ArrayList<>(Arrays.asList(dayLogArr));
+				 log.setPerDayLog(dayLogList);
 							
 		}catch (Exception e) {
 			System.err.println("Exce in newWorkLog " + e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return logList;
+		return log;
 		
 	}
 	
 	@RequestMapping(value = "/getDailyWorkLogByTaskId", method = RequestMethod.GET)
-	public @ResponseBody List<DailyWorkLog> getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public @ResponseBody WorkLogBean getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 			List<DailyWorkLog> logList = null;
+			List<PerDayWorkLog> dayLogList = null;
+			WorkLogBean log= new WorkLogBean();	
 		try {
+			
+					
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			System.out.println("getDailyWorkLogByEmpId ----- Service Called "+ taskId);
 			MultiValueMap<String, Object> map =  new LinkedMultiValueMap<String, Object>();	
@@ -143,24 +158,24 @@ public class DailyWorkLogMVCController {
 			
 			DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
 					DailyWorkLog[].class);
-			 logList = new ArrayList<>(Arrays.asList(logArr));
-			 
-			 
+			 logList = new ArrayList<>(Arrays.asList(logArr));			 
 			 System.out.println("Log List----------"+logList.toString());
-			/*
-			 * for (int i = 0; i < logList.size(); i++) {
-			 * 
-			 * logList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(logList.get(i)
-			 * .getWorkLogId())));
-			 * 
-			 * }
-			 */
+			 log.setLogList(logList);
+			 
+			 map.add("taskId", taskId);
+			 PerDayWorkLog[] dayLogArr =  Constants.getRestTemplate().postForObject(Constants.url + "/getPerDayWorkLogs", map,
+					 PerDayWorkLog[].class);
+			 
+			 dayLogList = new ArrayList<>(Arrays.asList(dayLogArr));
+			 System.out.println("Day Log List----------"+dayLogList.toString());
+			 log.setPerDayLog(dayLogList);
 
+			 System.err.println("Loggggggggggsssssssssss="+log);
 		} catch (Exception e) {
-			System.err.println("Exce in workLogList " + e.getMessage());
+			System.err.println("Exce in getDailyWorkLogByTaskId " + e.getMessage());
 			e.printStackTrace();
 		}
-		return logList;
+		return log;
 	}
 	
 	@RequestMapping(value = "/editWorkLogById", method = RequestMethod.GET)
