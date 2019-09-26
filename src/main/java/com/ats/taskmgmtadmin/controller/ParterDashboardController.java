@@ -44,7 +44,7 @@ public class ParterDashboardController {
 		String mav = new String();
 		try {
 
-			mav = "report/clientWiseReport";
+			mav = "report/Partner/clientWiseReport";
 
 			ClientGroupList[] clientGroup = Constants.getRestTemplate()
 					.getForObject(Constants.url + "/getClientGroupList", ClientGroupList[].class);
@@ -220,7 +220,7 @@ public class ParterDashboardController {
 		String mav = new String();
 		try {
 
-			mav = "report/employeePartnerwiseReport";
+			mav = "report/Partner/employeePartnerwiseReport";
 			
 			String monthyear = request.getParameter("monthyear"); 
 			

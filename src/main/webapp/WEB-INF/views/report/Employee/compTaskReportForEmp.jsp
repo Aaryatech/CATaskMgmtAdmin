@@ -111,7 +111,7 @@ h5 {
 								</label>
 								<div class="col-lg-3">
 									<input type="text" class="form-control daterange-basic_new"
-										id="monthyear" name="monthyear">
+										id="monthyear" name="monthyear"  value="${yearrange}">
 								</div>
 								<div class="col-lg-1"></div>
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
@@ -175,7 +175,7 @@ h5 {
 											<td>${cmpTaskList.partner}</td>
 											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
-											<td>${cmpTaskList.taskEndDate}</td>
+											<td>${cmpTaskList.taskStartDate}</td>
 											<td>${cmpTaskList.empBudHr}</td>
 											<td>${cmpTaskList.workHours}</td>
 

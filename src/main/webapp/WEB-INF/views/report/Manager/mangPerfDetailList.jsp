@@ -97,46 +97,24 @@ h5 {
 </style>
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee Task Completed Report</h5>
-
+						<h5 class="card-title">Employee Manager Performance Detail Report</h5>
+<a
+									href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
+										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
+									</button></a>
 					</div>
 					<div class="card-body">
 						<form
-							action="${pageContext.request.contextPath}/showCompTaskReportFormanager"
+							action="${pageContext.request.contextPath}/showMangPerfHeadListDetail"
 							id="submitInsertActivity" method="get">
 							<div class="form-group row">
-
-								<label class="col-form-label col-lg-2" for="monthyear">Select
-									Date <span style="color: red">* </span>:
-								</label>
-								<div class="col-lg-3">
-									<input type="text" class="form-control daterange-basic_new"
-										id="monthyear" name="monthyear" value="${yearrange}">
-								</div>
+								
 								<div class="col-lg-1"></div>
-								<button type="submit" class="btn bg-blue ml-3 legitRipple"
-									id="submtbtn">Search</button>
-
-								<div class="col-lg-1"></div>
-								<a
-									href="${pageContext.request.contextPath}/showCompletedTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
-										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
-									</button></a>
+								
 
 							</div>
-							<div class="form-group row"></div>
 
 
-							<input type="hidden" name="fromDate" id="fromDate"
-								value="${fromDate}"> <input type="hidden" name="toDate"
-								id="toDate" value="${toDate}">
-
-							<div id="loader" style="display: none;">
-								<img
-									src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
-									width="150px" height="150px"
-									style="display: block; margin-left: auto; margin-right: auto">
-							</div>
 						</form>
 
 
@@ -144,6 +122,8 @@ h5 {
 						<div class="table-responsive">
 							<table class="table" id="capTable">
 								<thead>
+
+
 									<tr class="bg-blue">
 										<th>Sr.No.</th>
 										<th>Task Text</th>
@@ -162,13 +142,16 @@ h5 {
 										<th>TL Total Hrs</th>
 										<th>Manager Budgeted Hrs</th>
 										<th>Manager Total Hrs</th>
+										<th>Total manager hrs for selected period</th>
+										<th>Total Employee hrs for selected period</th>
+										<th>Total TL hrs for selected period</th>
 										<th>Google Drive Link</th>
 
 									</tr>
 								</thead>
 								<tbody>
 
-									<c:forEach items="${cmpTaskList}" var="cmpTaskList"
+									<c:forEach items="${perfList}" var="cmpTaskList"
 										varStatus="count">
 										<tr>
 											<td>${count.index+1}</td>
@@ -188,6 +171,9 @@ h5 {
 											<td>${cmpTaskList.teamLeaderHrs}</td>
 											<td>${cmpTaskList.mngrBudHr}</td>
 											<td>${cmpTaskList.managerHrs}</td>
+											<td>${cmpTaskList.managerBetHrs}</td>
+											<td>${cmpTaskList.empBetHrs}</td>
+											<td>${cmpTaskList.tlBetHrs}</td>
 											<td>${cmpTaskList.exVar1}</td>
 
 										</tr>

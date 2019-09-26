@@ -31,7 +31,7 @@
 <c:url var="getClientList" value="getClientList" />
 </head>
 
-<body>
+<body onload="chkData()">
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -122,6 +122,11 @@ h5 {
 								<div class="col-lg-1"></div>
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Search</button>
+									<div class="col-lg-1"></div>
+									<a
+									href="${pageContext.request.contextPath}/showEmployeePartnerGrid?fromDate=${fromDate}&partner=${partnerType}"><button
+										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
+									</button></a>
 
 							</div>
 
@@ -192,6 +197,17 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+		<script type="text/javascript">
+		function chkData() {
+			var x = document.getElementById("capTable").rows.length;
+			//alert(x);
+			if (x == 1) {
+
+				document.getElementById("excel").disabled = true;
+			}
+		}
+	</script>
+	
 
 	<script type="text/javascript">
 		//datepickermonth

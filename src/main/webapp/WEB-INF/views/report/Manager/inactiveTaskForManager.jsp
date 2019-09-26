@@ -102,7 +102,7 @@ h5 {
 					</div>
 					<div class="card-body">
 						<form
-							action="${pageContext.request.contextPath}/showCompTaskReportFormanager"
+							action="${pageContext.request.contextPath}/showInactiveTaskReportForManagerForm"
 							id="submitInsertActivity" method="get">
 							<div class="form-group row">
 
@@ -119,7 +119,7 @@ h5 {
 
 								<div class="col-lg-1"></div>
 								<a
-									href="${pageContext.request.contextPath}/showCompletedTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
+									href="${pageContext.request.contextPath}/showInactiveTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
 										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
 
@@ -156,7 +156,7 @@ h5 {
 										<th>Employee Name</th>
 										<th>TL Name</th>
 										<th>Due Date</th>
-										<th>Completion Date</th>
+										<th>Inactive Date</th>
 										<th>Employee Budgeted Hrs</th>
 										<th>Total Hrs Employee</th>
 										<th>TL Total Hrs</th>
@@ -182,7 +182,7 @@ h5 {
 											<td>${cmpTaskList.employee}</td>
 											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
-											<td>${cmpTaskList.taskStartDate}</td>
+											<td>${cmpTaskList.taskEndDate}</td>
 											<td>${cmpTaskList.empBudHr}</td>
 											<td>${cmpTaskList.employeeHrs}</td>
 											<td>${cmpTaskList.teamLeaderHrs}</td>
