@@ -1175,7 +1175,7 @@ function addNewWorkLog(){
 							});
 												
 							document.getElementById("taskText").innerHTML = task;			
-			
+			 
 		 });
 	
 	$('#anytime-time').val('');
