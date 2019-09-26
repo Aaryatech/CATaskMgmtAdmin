@@ -4,7 +4,7 @@ body{
   font-family: 'Mukta', sans-serif;
 	height:100vh;
 	min-height:550px;
-	 background-image: url(https://www.cmaexamtraining.com/wp-content/uploads/2018/08/CMA-for-Non-Accounts-Finance-Background.jpg); 
+	 background-image: url("${pageContext.request.contextPath}/resources/assets/images/cma.jpg"); 
 	background-repeat: no-repeat;
 	background-size:cover;
 	background-position:center;
