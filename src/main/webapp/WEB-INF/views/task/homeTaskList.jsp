@@ -12,7 +12,6 @@
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
 <style>
-
 .modal {
 	position: fixed !important;
 	bottom: 0 !important;
@@ -20,11 +19,16 @@
 	right: 0 !important;
 	left: auto !important;
 	margin: 0px !important;
-	width: auto !important;
-	height: auto !important;
+	/* width: auto !important;
+	height: auto !important; */
+	
+	width: 600px;;
+	height: 700px;
 }
-#modal_remote{
-position: fixed !important;
+
+
+#modal_remote {
+	position: fixed !important;
 	bottom: 0 !important;
 	top: auto !important;
 	right: 0 !important;
@@ -33,9 +37,10 @@ position: fixed !important;
 	width: 720px !important;
 	height: auto !important;
 }
+
 .AnyTime-win {
-    height: 320px !important;
-    overflow-y: auto !important;
+	height: 320px !important;
+	overflow-y: auto !important;
 }
 </style>
 </head>
@@ -279,7 +284,8 @@ h5 {
 										<label class="col-form-label col-lg-2" for="status">
 											Select Status : </label>
 										<div class="col-lg-3">
-											<select name="sts" data-placeholder="Select Status" id="stats"
+											<select name="sts" data-placeholder="Select Status"
+												id="stats"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true" name="stats">
 
@@ -349,46 +355,45 @@ h5 {
 
 							<div class="modal-header">
 								<!-- <form id="newWorkLog"> -->
-									<div class="form-group row">
+								<div class="form-group row">
 
-										<input type="hidden" name="taskId" id="taskId"> <input
-											type="hidden" name="logId" id="logId"
-											value="${workLog.workLogId}">
-
-
-										<div class="form-group form-group-float col-md-2">
-											<label class="form-group-float-label">Work Date</label> <input
-												type="text" class="form-control datepickerclass"
-												value="${workLog.workDate}" name="workDate" id="workDate"
-												placeholder="Work Date">
-										</div>
+									<input type="hidden" name="taskId" id="taskId"> <input
+										type="hidden" name="logId" id="logId"
+										value="${workLog.workLogId}">
 
 
-										<div class="form-group form-group-float  col-md-2">
-											<label class="form-group-float-label">Hours </label> <input
-												type="text" class="form-control"
-												value="${workLog.workHours}" name="workHour"
-												id="anytime-time" placeholder="Work Hour">
-										</div>
-
-										<div class="form-group form-group-float  col-md-6">
-											<label class="form-group-float-label"> Remark</label> <input
-												type="text" class="form-control"
-												value="${workLog.workRemark}" placeholder="Enter Remark"
-												id="remark" name=remark autocomplete="off"
-												onchange="trim(this)">
-										</div>
-
-										<div class="form-group  col-md-1">
-											<label class="form-group-float-label animate is-visible">
-											</label>
-											<button type="submit" id="submtbtnlog" onclick="addNewWorkLog()"
-												class="btn bg-info-400 legitRipple">
-												<b><i class="icon-paperplane"></i></b>
-											</button>
-										</div>
-
+									<div class="form-group form-group-float col-md-2">
+										<label class="form-group-float-label">Work Date</label> <input
+											type="text" class="form-control datepickerclass"
+											value="${workLog.workDate}" name="workDate" id="workDate"
+											placeholder="Work Date">
 									</div>
+
+
+									<div class="form-group form-group-float  col-md-2">
+										<label class="form-group-float-label">Hours </label> <input
+											type="text" class="form-control" value="${workLog.workHours}"
+											name="workHour" id="anytime-time" placeholder="Work Hour">
+									</div>
+
+									<div class="form-group form-group-float  col-md-6">
+										<label class="form-group-float-label"> Remark</label> <input
+											type="text" class="form-control"
+											value="${workLog.workRemark}" placeholder="Enter Remark"
+											id="remark" name=remark autocomplete="off"
+											onchange="trim(this)">
+									</div>
+
+									<div class="form-group  col-md-1">
+										<label class="form-group-float-label animate is-visible">
+										</label>
+										<button type="submit" id="submtbtnlog"
+											onclick="addNewWorkLog()" class="btn bg-info-400 legitRipple">
+											<b><i class="icon-paperplane"></i></b>
+										</button>
+									</div>
+
+								</div>
 								<!-- </form> -->
 
 
@@ -520,22 +525,23 @@ h5 {
 }
 </style>
 
-<!-- Basic tables title -->
-				<div class="mb-3 text-right" style="position: fixed; z-index: 55555555;  margin-left: 75%;">
-					 
+				<!-- Basic tables title -->
+				<div class="mb-3 text-right"
+					style="position: fixed; z-index: 55555555; margin-left: 75%;">
+
 					<div class="fab-menu  fab-menu-absolute1 fab-menu-top-right1"
-							data-toggle="modal" data-target="#modal_remote">
-							<a title="Filter"
-								class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
-								<i class="fab-icon-open icon-filter3"></i>
-							</a>
-						</div>
+						data-toggle="modal" data-target="#modal_remote">
+						<a title="Filter"
+							class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
+							<i class="fab-icon-open icon-filter3"></i>
+						</a>
+					</div>
 				</div>
 				<!-- /basic tables title -->
 				<!-- Hover rows -->
 				<div class="card">
-			 
-					
+
+
 					<%-- <div class="card-header header-elements-inline">
 						<h5 class="card-title">Task</h5>
 						<div class="header-elements">
@@ -556,7 +562,7 @@ h5 {
 	top: 1rem;
 }
 </style>
-<%-- <div id="loader1" style="display: none;">
+					<%-- <div id="loader1" style="display: none;">
 							<img
 								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
 								width="150px" height="150px"
@@ -564,37 +570,38 @@ h5 {
 						</div>
  --%>
 					<div class=table-responsive>
-					<!-- <input type="text" id="search" placeholder="Type to search"> -->
-					
-					<div id="work_log_table_filter" class="dataTables_filter">
-						<label><span>Search:</span> 
-							<input type="text" class="" id="search" placeholder="Type to search..." aria-controls="work_log_table">
-						</label>
-					</div>
-					
-						<table class="table datatable-basic1 datatable-generated table-hover" width="100%"
-							id="task_info_table">
+						<!-- <input type="text" id="search" placeholder="Type to search"> -->
+
+						<div id="work_log_table_filter" class="dataTables_filter">
+							<label><span>Search:</span> <input type="text" class=""
+								id="search" placeholder="Type to search..."
+								aria-controls="work_log_table"> </label>
+						</div>
+
+						<table
+							class="table datatable-basic1 datatable-generated table-hover"
+							width="100%" id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
 									<th style="background-color: white;">Customer</th>
 									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
-									 <th style="background-color: white;">Task Name</th>
+									<th style="background-color: white;">Task Name</th>
 									<th style="background-color: white;">Work Date</th>
 									<th style="background-color: white;">Statutary Due Date</th>
 									<th style="background-color: white;">Task Team</th>
 									<th style="background-color: white;">Budget Hrs</th>
 									<th style="background-color: white;">Task Status</th>
 									<th style="background-color: white;">Change Status</th>
-									<th class="text-center" style="background-color: white;">Actions</th>  
+									<th class="text-center" style="background-color: white;">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
-							<c:forEach items="${taskList}" var="taskList" varStatus="count">
+								<c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
 										<td>${taskList.custGroupName}</td>
-										
+
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
 
@@ -602,16 +609,19 @@ h5 {
 										<td>${taskList.taskStatutoryDueDate}</td>
 										<td>${taskList.employees}</td>
 										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
-										
+
 										<td id="taskStatus${taskList.taskId}"
 											style="color: ${taskList.statusColor};font-weight: bold;">${taskList.taskStatus}</td>
-									
+
 										<td align="center"><select name="set_status"
-											onClick1="updateStatus_new(this.value, ${taskList.taskId })"
+											onClick1="updateStatus_new11(this.value, ${taskList.taskId })"
 											id="set_status${taskList.taskId}"
 											data-id="${taskList.taskId}"
 											class="form-control  ats_sel_status ">
+											<option selected disabled data-statusColor="black"
+																value="-1">Select Status</option>
 												<c:forEach items="${statusList}" var="statusList">
+												
 													<c:choose>
 														<c:when
 															test="${statusList.statusText eq taskList.taskStatus}">
@@ -624,14 +634,14 @@ h5 {
 														</c:otherwise>
 
 													</c:choose>
-													
+
 												</c:forEach>
 										</select></td>
-										
-										<td class="text-center"><a class="chatmodallink" onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}')"
-											href="#"
-											title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> &nbsp;&nbsp; <a href="#"
+
+										<td class="text-center"><a class="chatmodallink mr-2"
+											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}')"
+											href="#" title="Chat/Update"><i class="icon-comments"
+												style="color: green;"></i></a>  <a href="#"
 											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
 												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
@@ -666,10 +676,10 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
-<script type="text/javascript">
+	<script type="text/javascript">
 var status;
 function getActiveHomeTasks() {
-	//alert("Hi"+);
+	//alert("In getActiveHomeTasks 675");
 	var emp = ${empType};
 	$("#loader").show();
 	
@@ -770,7 +780,7 @@ function dataFilter(){
 
 function append(data){
 
-	
+	//alert("In append");
 	//alert(JSON.stringify(data.taskList))			
 	
 	$("#task_info_table tbody").empty();
@@ -792,6 +802,7 @@ function append(data){
                      }
 			}  */
 			
+			sel_html += '<option  data-statusColor="black" disabled selected value="-1">Select Status</option>';
 			for (var j = 0; j < data.statusMstrList.length; j++) {								
 				sel_html += '<option  data-statusColor="'+data.statusMstrList.statusColor+'" value="' +data.statusMstrList[j].statusValue + '">'
 						+ data.statusMstrList[j].statusText + '</option>';
@@ -811,12 +822,12 @@ function append(data){
 		'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
 		'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
 
-'<td class="container1"> <select onclick="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
+'<td class="container1"> <select onchange="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control ats_sel_status1 id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
 		
 
 
-'<td class="text-center"><a class="chatmodallink" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
-'&nbsp;&nbsp;<a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+'<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
+' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
 		
 		$('#task_info_table' + ' tbody').append(tr_data);
 	
@@ -960,6 +971,7 @@ function append(data){
 	
 	function updateStatus_new(statusId, taskId){
 	//alert(statusId+" "+taskId)
+	//alert(" In updateStatus_new +966");
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
         var color =  $('#set_status'+taskId).val();
         
@@ -974,7 +986,7 @@ function append(data){
 
 						},
 						function(data) {
-							 
+							// alert("data "+JSON.stringify(data));
 							if(data.error==false){
 								getActiveHomeTasks();
 							//	alert("Task Status Updated Successfully!")
@@ -992,6 +1004,8 @@ function append(data){
 	      // setColor();
 	      //set_status
 	      $('.ats_sel_status').change(function(e){
+	    		//alert(" In ats_sel_status change +999");
+
 	    	  var id = $(this).data("id") // will return the number 123
 	    	  var value = $("#set_status"+id).val();
 	    	  updateStatus_new(value, id)
