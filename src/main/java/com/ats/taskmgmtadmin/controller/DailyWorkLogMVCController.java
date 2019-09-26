@@ -105,7 +105,7 @@ public class DailyWorkLogMVCController {
 				workLog.setUpdateDatetime(curDateTime);
 				workLog.setUpdateUsername(empSes.getEmpId());
 				workLog.setWorkDate(request.getParameter("workDate"));
-				workLog.setWorkHours(Float.parseFloat(mnghr1));
+				workLog.setWorkHours(mnghr1);
 				workLog.setWorkLogId(logId);
 				workLog.setWorkRemark(request.getParameter("remark"));
 				

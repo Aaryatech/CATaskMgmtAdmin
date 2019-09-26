@@ -6,7 +6,7 @@ public class DailyWorkLog{
 	private String workDate;
 	private int empId;
 	private int taskId;
-	private float workHours;
+	private String workHours;
 	private String workRemark;
 	private int delStatus;
 	private String updateDatetime;
@@ -40,10 +40,10 @@ public class DailyWorkLog{
 	public void setTaskId(int taskId) {
 		this.taskId = taskId;
 	}
-	public float getWorkHours() {
+	public String getWorkHours() {
 		return workHours;
 	}
-	public void setWorkHours(float workHours) {
+	public void setWorkHours(String workHours) {
 		this.workHours = workHours;
 	}
 	public String getWorkRemark() {
