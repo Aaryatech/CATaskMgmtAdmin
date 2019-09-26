@@ -6,7 +6,7 @@ public class EmpWorkLogHrs {
 	private String workDate;		
 	private String workHours;
 	private String workRemark;
-	private int exInt1;
+	private int exInt1;	// emp_id stored
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;	

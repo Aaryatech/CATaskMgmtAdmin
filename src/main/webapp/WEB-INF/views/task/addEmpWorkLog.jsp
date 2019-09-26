@@ -7,7 +7,12 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 
-
+<style type="text/css">
+.AnyTime-win {
+    height: 430px !important;
+    overflow-y: auto !important;
+}
+</style>
 </head>
 
 <body>
@@ -295,41 +300,7 @@
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
-	<script>
-		
-
-		$(document).ready(function($) {
-
-			$("#submitInsertClient").submit(function(e) {
-				var isError = false;
-				var errMsg = "";
-
-				if ($("#service").val() == "") {
-
-					isError = true;
-
-					$("#error_service").show()
-
-				} else {
-					$("#error_service").hide()
-				}
-
-				if (!isError) {
-
-					var x = true;
-					if (x == true) {
-
-						document.getElementById("submtbtn").disabled = true;
-						document.getElementById("cancelbtn").disabled = true;
-						return true;
-					}
-					//end ajax send this to php page
-				}
-				return false;
-			});
-		});
-		//
-	</script>
+	
 
 
 	<script>
@@ -396,8 +367,8 @@
 
 				$.each(data, function(i, v) {
 					
-					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+',\''+v.taskText+'\')"><i class="icon-add" style="color: black;">'+
-							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+', \''+v.taskText+'\')"><i class=" icon-pencil7" style="color: black;""></i>';	
+					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+',\''+v.taskText+'\','+v.exInt1+')"><i class="icon-add" style="color: black;">'+
+							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+', \''+v.taskText+'\','+v.exInt1+')"><i class=" icon-pencil7" style="color: black;""></i>';	
 					dataTable.row.add(
 							[ i + 1,
 								v.taskText, 
@@ -430,9 +401,9 @@
 		
 		
 		//
-		function showTaskLogs(taskId, taskText) {
+		function showTaskLogs(taskId, taskText, emplyeId) {
 			//alert(taskId+" "+taskText)
-		document.getElementById("empId").value = emp1;
+		document.getElementById("empId").value = emplyeId;
 		
 		document.getElementById("taskId").value = taskId;
 		//document.getElementById("taskText").value = taskText;
@@ -565,7 +536,7 @@ $('.daterange-basic_new').daterangepicker({
 							</div>
 
 							<div class="modal-header">
-								<form action="addEmpWorkHrs" method="post">
+								<form action="addEmpWorkHrs" method="post" id="addEmpWorkHrs">
 									<div class="form-group row">
 									
 										<input type="hidden" name="logId" id="logId">
@@ -582,11 +553,16 @@ $('.daterange-basic_new').daterangepicker({
 										</div>
 
 
-										<div class="form-group form-group-float  col-md-2">
+										<div class="form-group form-group-float col-md-2">
 											<label class="form-group-float-label">Work Hours </label> <input
 												type="text" class="form-control"
 												 name="workHour"
 												id="anytime-time" placeholder="Work Hour">
+												<div class="col-md-2">
+													<span class="validation-invalid-label"
+													id="err_wrk_log" style="display: none; width: 180px;">Please
+													enter employee work hours.</span>
+												</div>
 										</div>
 
 										<div class="form-group form-group-float  col-md-6">
@@ -635,6 +611,39 @@ $('.daterange-basic_new').daterangepicker({
 						</div>
 					</div>
 				</div>
+<script>
+		
 
+		$(document).ready(function($) {
+			$("#addEmpWorkHrs").submit(function(e) {
+				var isError = false;
+				var errMsg = "";
+
+				if (!$("#anytime-time").val() || $("#anytime-time").val() == "") {
+
+					isError = true;
+
+					$("#err_wrk_log").show()
+
+				} else {
+					$("#err_wrk_log").hide()
+				}
+
+				if (!isError) {
+
+					var x = true;
+					if (x == true) {
+
+						document.getElementById("submtbtn").disabled = true;
+						//document.getElementById("cancelbtn").disabled = true;
+						return true;
+					}
+					//end ajax send this to php page
+				}
+				return false;
+			});
+		});
+		//
+	</script>
 </body>
 </html>
