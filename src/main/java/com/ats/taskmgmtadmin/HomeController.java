@@ -182,6 +182,18 @@ public class HomeController<Task> {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/welcomePage", method = RequestMethod.GET)
+	public ModelAndView welcomePage(Locale locale, Model model,HttpSession session) {
+
+		
+		ModelAndView mav = new ModelAndView("welcome");
+		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		String  userName = emp.getEmpName();
+		model.addAttribute("userName", userName);
+
+		return mav;
+	}
 
 	@RequestMapping(value = "/taskPeriodicityAdd", method = RequestMethod.GET)
 	public ModelAndView taskPeriodicityAddForm(Locale locale, Model model) {
@@ -218,7 +230,7 @@ public class HomeController<Task> {
 
 				if (empLogin.getExInt1() != 0) {
 					System.err.println("already login ");
-					mav = "redirect:/dashboard";
+					mav = "redirect:/welcomePage";
 
 					session = request.getSession();
 
