@@ -31,7 +31,7 @@
 <c:url var="getClientList" value="getClientList" />
 </head>
 
-<body>
+<body onload="chkData()">
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -176,7 +176,12 @@ h5 {
 								<div class="col-lg-3">
 									<button type="button" class="btn bg-blue ml-3 legitRipple"
 										id="submtbtn"
-										onclick="getCostDetail('clientwisetaskcostreport')">Export
+										onclick="getCostDetail()">Search
+										</button>
+										
+										<button type="button" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn1"
+										onclick="getProgReportNew('showClientwisetaskcostreport')">Export
 										Excel</button>
 								</div>
 
@@ -189,7 +194,7 @@ h5 {
 									style="display: block; margin-left: auto; margin-right: auto">
 							</div>
 						</form>
-						<!-- <div class="table-responsive">
+						<div class="table-responsive">
 							<table class="table" id="capTable">
 								<thead>
 									<tr class="bg-blue">
@@ -224,7 +229,7 @@ h5 {
 
 								</tbody>
 							</table>
-						</div> -->
+						</div>
 					</div>
 				</div>
 
@@ -244,7 +249,20 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+<script type="text/javascript">
+		function chkData() {
+			var x = document.getElementById("capTable").rows.length;
+			
+			if (x == 1) {
+				//alert(x);
 
+				document.getElementById("submtbtn1").disabled = true;
+			}
+			else{
+				document.getElementById("submtbtn1").disabled = false;
+			}
+		}
+	</script>
 	<script type="text/javascript">
 		//datepickermonth
 		// Single picker
@@ -281,7 +299,7 @@ h5 {
 	</script>
 
 	<script type="text/javascript">
-		function getCostDetail(mapping) {
+		function getCostDetail() {
 
 			var rateType = document.getElementById("rateType").value;
 			var monthyear = document.getElementById("monthyear").value;
@@ -307,7 +325,7 @@ h5 {
 			}
 
 			if (flag == 1) {
-				/* $("#loader").show();
+				 $("#loader").show();
 				$.getJSON('${clientwisetaskcostreport}', {
 					rateType : rateType,
 					monthyear : monthyear,
@@ -353,8 +371,9 @@ h5 {
 					});
 
 					$("#loader").hide();
-				}); */
-				getProgReportNew(mapping);
+					chkData();
+				}); 
+				
 			}
 		}
 
@@ -422,5 +441,6 @@ h5 {
 
 		}
 	</script>
+	
 </body>
 </html>

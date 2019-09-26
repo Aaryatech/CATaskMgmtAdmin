@@ -1,6 +1,7 @@
 package com.ats.taskmgmtadmin.controller;
 
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +59,72 @@ public class ParterDashboardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/clientwisetaskcostreport", method = RequestMethod.POST)
-	public void clientwisetaskcostreport(HttpServletRequest request, HttpServletResponse response,
+	@RequestMapping(value = "/clientwisetaskcostreport", method = RequestMethod.GET)
+	public @ResponseBody List<ClientWiseTaskReport> clientwisetaskcostreport(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
+
+		List<ClientWiseTaskReport> list = new ArrayList<>();
+
+		try {
+
+			int rateType = Integer.parseInt(request.getParameter("rateType"));
+			String month = request.getParameter("monthyear");
+			String[] monthyear = month.split(" to ");
+			int typeId = Integer.parseInt(request.getParameter("typeId"));
+			int groupId = 0;
+			String serchby = new String();
+			String rateserchby = new String();
+
+			try {
+
+				groupId = Integer.parseInt(request.getParameter("groupId"));
+
+			} catch (Exception e) {
+				// e.printStackTrace();
+				groupId = -1;
+			}
+			int clientId = Integer.parseInt(request.getParameter("clientId"));
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("rateType", rateType);
+			map.add("yearId", 5);
+			map.add("groupId", groupId);
+			map.add("clientId", clientId);
+			map.add("fromDate", DateConvertor.convertToYMD(monthyear[0]));
+			map.add("toDate", DateConvertor.convertToYMD(monthyear[1]));
+			ClientWiseTaskReport[] clientWiseTaskReport = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/clientWiseTaskReport", map, ClientWiseTaskReport[].class);
+			list = new ArrayList<>(Arrays.asList(clientWiseTaskReport));
+
+			// exel code
+			String reportName = "Cliet Wise Task Cost Report";
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			if (typeId == 0) {
+				serchby = "Search Type : Group";
+			} else {
+				serchby = "Search Type : Individual";
+			}
+
+			if (rateType == 0) {
+				rateserchby = "Rate Type : Budgeted Rate";
+			} else {
+				rateserchby = "Rate Type : Actual Rate";
+			}
+			
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+	
+	
+	
+	@RequestMapping(value = "/showClientwisetaskcostreport", method = RequestMethod.POST)
+	public void showClientwisetaskcostreport(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
 
 		List<ClientWiseTaskReport> list = new ArrayList<>();
