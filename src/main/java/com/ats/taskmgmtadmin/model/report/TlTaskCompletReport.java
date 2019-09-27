@@ -6,8 +6,8 @@ public class TlTaskCompletReport {
 
 	private int taskId;
 	private String clientName;
-	private String Service;
-	private String Activity;
+	private String service;
+	private String activity;
 	private String taskPeriodicity;
 	private String executionPartner;
 	private String managerName;
@@ -37,17 +37,18 @@ public class TlTaskCompletReport {
 	public void setClientName(String clientName) {
 		this.clientName = clientName;
 	}
+
 	public String getService() {
-		return Service;
+		return service;
 	}
 	public void setService(String service) {
-		Service = service;
+		this.service = service;
 	}
 	public String getActivity() {
-		return Activity;
+		return activity;
 	}
 	public void setActivity(String activity) {
-		Activity = activity;
+		this.activity = activity;
 	}
 	public String getTaskPeriodicity() {
 		return taskPeriodicity;
@@ -148,8 +149,8 @@ public class TlTaskCompletReport {
 	}
 	@Override
 	public String toString() {
-		return "TlTaskCompletReport [taskId=" + taskId + ", clientName=" + clientName + ", Service=" + Service
-				+ ", Activity=" + Activity + ", taskPeriodicity=" + taskPeriodicity + ", executionPartner="
+		return "TlTaskCompletReport [taskId=" + taskId + ", clientName=" + clientName + ", Service=" + service
+				+ ", Activity=" + activity + ", taskPeriodicity=" + taskPeriodicity + ", executionPartner="
 				+ executionPartner + ", managerName=" + managerName + ", teamLeadName=" + teamLeadName + ", dueDate="
 				+ dueDate + ", completionDate=" + completionDate + ", startDate=" + startDate + ", empBudHr=" + empBudHr
 				+ ", mngrBudHr=" + mngrBudHr + ", admin=" + admin + ", employee=" + employee + ", ttlEmpHrs="

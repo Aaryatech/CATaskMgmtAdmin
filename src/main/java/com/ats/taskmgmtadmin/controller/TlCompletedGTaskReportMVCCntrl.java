@@ -56,11 +56,370 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Controller
 @Scope("session")
 public class TlCompletedGTaskReportMVCCntrl {
+	
+	@RequestMapping(value = "/employeeMangrPerfrmnce", method = RequestMethod.GET)
+	public String employeeMangrPerfrmnce(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+		MultiValueMap<String, Object> map = null;
+		String mav = new String();
+		try {
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+			 map = new LinkedMultiValueMap<String, Object>();
+			map.add("empId", userId);
+			EmployeeMaster[] employee = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
+			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+			
+			model.addAttribute("epmList", epmList);
+			
+			mav = "report/Employee/empMngrPerfmncReprt";
+			String yearrange = request.getParameter("monthyear");
+			System.out.println("yearrange***" + yearrange);
+			int empId = Integer.parseInt(request.getParameter("empId"));
+			
+			if (yearrange != null) {
+				String[] fromDate = yearrange.split(" to ");
+				 map = new LinkedMultiValueMap<String, Object>();
 
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+				map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+				map.add("empIds", empId);
+				CompletedTaskReport[] resArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
+				List<CompletedTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
+
+				System.out.println("cmpTaskList***" + cmpTaskList.toString());
+				for (int i = 0; i < cmpTaskList.size(); i++) {
+					if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
+							&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
+						cmpTaskList.get(i).setTaskStatutoryDueDate("-");
+
+					}
+
+					if (cmpTaskList.get(i).getTaskStartDate() == " " && cmpTaskList.get(i).getTaskStartDate() == null) {
+						cmpTaskList.get(i).setTaskStartDate("-");
+					}
+				}
+
+				model.addAttribute("cmpTaskList", cmpTaskList);
+				model.addAttribute("fromDate", fromDate[0]);
+				model.addAttribute("toDate", fromDate[1]);
+				model.addAttribute("yearrange", yearrange);
+				model.addAttribute("empId", empId);
+				
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/showEmpMngrPerfrmncRep", method = RequestMethod.GET)
+	public void showEmpMngrPerfrmncRep(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Employee & Manager Performance Report";
+
+		HttpSession session = request.getSession();
+		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		int userId = emp.getEmpId();
+		String fromDate = request.getParameter("fromDate");
+		String toDate = request.getParameter("toDate");
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+		map.add("empIds", Integer.parseInt(request.getParameter("empId")));
+		CompletedTaskReport[] resArray = Constants.getRestTemplate()
+				.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
+		List<CompletedTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
+
+		String header = "";
+		String title = "                 ";
+
+		DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+		String repDate = DF2.format(new Date());
+
+		try {
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Task Text");
+			rowData.add("Client Name");
+			rowData.add("Service");
+			rowData.add("Activity");
+			rowData.add("Task/ Periodicity");
+			rowData.add("Execution Partner");
+			rowData.add("Manager Name");
+			rowData.add("TL Name");
+			rowData.add("Due Date");
+			rowData.add("Completion Date");
+			rowData.add("Employee Budgeted Hrs");
+			rowData.add("Total Hrs Employee");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < progList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+
+				rowData.add("" + (i + 1));
+				rowData.add("" + progList.get(i).getTaskText());
+				rowData.add("" + progList.get(i).getCustFirmName());
+				rowData.add("" + progList.get(i).getServName());
+				rowData.add("" + progList.get(i).getActiName());
+				rowData.add("" + progList.get(i).getPeriodicityName());
+				rowData.add("" + progList.get(i).getPartner());
+				rowData.add("" + progList.get(i).getManager());
+				rowData.add("" + progList.get(i).getTeamLeader());
+				// System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
+				// System.out.println("end date" + progList.get(i).getTaskEndDate());
+				if (progList.get(i).getTaskStatutoryDueDate() != " "
+						&& progList.get(i).getTaskStatutoryDueDate() != null) {
+
+					rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
+				} else {
+					rowData.add("" + "-");
+				}
+
+				if (progList.get(i).getTaskEndDate() != " " && progList.get(i).getTaskEndDate() != null) {
+					rowData.add("" + progList.get(i).getTaskEndDate());
+				} else {
+					rowData.add("" + "-");
+				}
+
+				rowData.add("" + progList.get(i).getEmpBudHr());
+				rowData.add("" + progList.get(i).getWorkHours());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"Emp Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
+						'M');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+	
+	/***********************Team Leader Task Completed********************************/
+
+	@RequestMapping(value = "/showCompTaskReportForTeamLead", method = RequestMethod.GET)
+	public String showCompTaskReportForTeamLead(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "report/team_leader/teamLeadCompletTaskReprt";
+			String yearrange = request.getParameter("monthyear");
+			System.out.println("yearrange--------" + yearrange);
+			if (yearrange != null) {
+
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
+
+				String[] fromDate = yearrange.split(" to ");
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
+				map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
+				
+				TlTaskCompletReport[] ttlArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getTlCompletedTeskRepot", map, TlTaskCompletReport[].class);
+				List<TlTaskCompletReport> cmpTaskList = new ArrayList<TlTaskCompletReport>(Arrays.asList(ttlArr));
+				System.out.println("cmpTaskList***" + cmpTaskList.toString());
+				
+				for (int i = 0; i < cmpTaskList.size(); i++) {
+					if (cmpTaskList.get(i).getDueDate() == " " && cmpTaskList.get(i).getDueDate() == null) {
+						cmpTaskList.get(i).setDueDate("-");
+
+					}
+
+					if (cmpTaskList.get(i).getCompletionDate() == " " && cmpTaskList.get(i).getCompletionDate() == null) {
+						cmpTaskList.get(i).setCompletionDate("-");
+					}
+					
+					if (cmpTaskList.get(i).getStartDate() == " " && cmpTaskList.get(i).getStartDate() == null) {
+						cmpTaskList.get(i).setStartDate("-");
+					}
+				}
+
+				model.addAttribute("cmpTaskList", cmpTaskList);
+				model.addAttribute("fromDate", fromDate[0]);
+				model.addAttribute("toDate", fromDate[1]);
+				model.addAttribute("yearrange", yearrange);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+	
+	@RequestMapping(value = "/showTLTaskCompltRep", method = RequestMethod.GET)
+	public void showTLTaskCompltRep(HttpServletRequest request, HttpServletResponse response) {
+
+		String reportName = "Team Leader Task Completed Report";
+
+		HttpSession session = request.getSession();
+		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		int userId = emp.getEmpId();
+		String fromDate = request.getParameter("fromDate");
+		String toDate = request.getParameter("toDate");
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+		map.add("toDate", DateConvertor.convertToYMD(toDate));
+
+		TlTaskCompletReport[] ttlArr = Constants.getRestTemplate()
+				.postForObject(Constants.url + "/getTlCompletedTeskRepot", map, TlTaskCompletReport[].class);
+		List<TlTaskCompletReport> progList = new ArrayList<TlTaskCompletReport>(Arrays.asList(ttlArr));
+
+		String header = "";
+		String title = "                 ";
+
+		DateFormat DF2 = new SimpleDateFormat("dd-MM-yyyy");
+		String repDate = DF2.format(new Date());
+
+		try {
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Task Text");
+			rowData.add("Client Name");
+			rowData.add("Service");
+			rowData.add("Activity");
+			rowData.add("Task/ Periodicity");
+			rowData.add("Execution Partner");
+			rowData.add("Manager Name");
+			rowData.add("TL Name");
+			rowData.add("Due Date");
+			rowData.add("Completion Date");
+			rowData.add("Employee Budgeted Hrs");
+			rowData.add("Total Hrs Employee");
+			rowData.add("TL Hrs total");
+			rowData.add("L Hrs for the selected period");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < progList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+
+				rowData.add("" + (i + 1));
+				rowData.add("" + progList.get(i).getTaskText());
+				rowData.add("" + progList.get(i).getClientName());
+				rowData.add("" + progList.get(i).getService());
+				rowData.add("" + progList.get(i).getActivity());
+				rowData.add("" + progList.get(i).getTaskPeriodicity());
+				rowData.add("" + progList.get(i).getExecutionPartner());
+				rowData.add("" + progList.get(i).getManagerName());
+				rowData.add("" + progList.get(i).getTeamLeadName());
+				// System.out.println("stat date" + progList.get(i).getTaskStatutoryDueDate());
+				// System.out.println("end date" + progList.get(i).getTaskEndDate());
+				if (progList.get(i).getDueDate() != " " && progList.get(i).getDueDate() != null) {
+
+					rowData.add("" + progList.get(i).getDueDate());
+				} else {
+					rowData.add("" + "-");
+				}
+
+				if (progList.get(i).getCompletionDate() != " " && progList.get(i).getCompletionDate() != null) {
+					rowData.add("" + progList.get(i).getCompletionDate());
+				} else {
+					rowData.add("" + "-");
+				}
+
+				rowData.add("" + progList.get(i).getEmpBudHr());
+				rowData.add("" + progList.get(i).getWorkHours());
+				rowData.add("" + progList.get(i).getTlTotalHrs());
+				rowData.add("" + progList.get(i).getTlPeriodHrs());
+
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"Emp Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
+						'M');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+	
+	
 	
 	
 	/***********************Team Leader Task Completed********************************/
-	@RequestMapping(value = "/getTeamLeadCompletTask", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/getTeamLeadCompletTask", method = RequestMethod.POST)
 	public void getTeamLeadCompletTaskReport(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Team Leader Task Completed";
@@ -459,9 +818,9 @@ public class TlCompletedGTaskReportMVCCntrl {
 
 		}
 
-	}
+	}*/
 	/***********************Employee & Manager Performance Report********************************/
-	@RequestMapping(value = "/showEmpMngrPerformncRep", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/showEmpMngrPerformncRep", method = RequestMethod.POST)
 	public void showStudentParticipatedNssNccReport(HttpServletRequest request, HttpServletResponse response) {
 
 		String reportName = "Employee & Manager Performance Report";
@@ -812,5 +1171,5 @@ public class TlCompletedGTaskReportMVCCntrl {
 
 		}
 
-	}
+	}*/
 }
