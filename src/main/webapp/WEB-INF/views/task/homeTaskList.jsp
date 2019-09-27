@@ -43,6 +43,9 @@
 	overflow-y: auto !important;
 	width: 300px;
 }
+.form-group {
+    margin-bottom: 0.25rem !important;
+}
 </style>
 </head>
 
@@ -455,16 +458,25 @@ h5 {
 
 		<div class="tab-pane fade" id="solid-tab2">
 			<!-- Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin. -->
-			<div class="table-responsive">
+			<div class="table-responsive" style="height:300px!important">
 					<table class="table datatable-scroller1" id="work_log_table2">
 						<thead>
 							<tr>
 								<th style="width: 80px; color: white;">Sr.No.</th>
 								<th style="width: 150px; color: white;">Date</th>
-								<th style="width: 350px; color: white;">Employee</th>				
-								<th style="width: 80px; color: white;">Daily Work Hours</th>
+								<th style="width: 250px; color: white;">Employee</th>				
+								<th style="width: 150px; color: white;">Work Hours</th>
 								</tr>
-						</thead>			
+						</thead>	
+						
+					<!-- 	<tfoot>
+						<tr>
+								<th style="width: 80px; color: white;">Sr.No.</th>
+								<th style="width: 150px; color: white;">Date</th>
+								<th style="width: 250px; color: white;">Employee</th>				
+								<th style="width: 150px; color: white;">Work Hours</th>
+								</tr>
+						</tfoot>		 -->
 					</table>
 				</div> 
 		</div>
