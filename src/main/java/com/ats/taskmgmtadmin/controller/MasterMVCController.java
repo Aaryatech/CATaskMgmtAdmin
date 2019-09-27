@@ -866,12 +866,7 @@ public class MasterMVCController {
 				System.err.println("EmpSrvcList-------" + employee.getEmpDesc());
 				mav.addObject("employee", employee);
 
-				List<Integer> empSrvc = Stream.of(employee.getEmpDesc().split(",")).map(Integer::parseInt)
-						.collect(Collectors.toList());
-
-				System.out.println("Res------------" + empSrvc);
-
-				mav.addObject("empSrvcIds", empSrvc);
+				
 				mav.addObject("imageUrl", Constants.imageViewUrl);
 
 				ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
@@ -888,6 +883,18 @@ public class MasterMVCController {
 				mav.addObject("isEdit", 1);
 
 				mav.addObject("title", "Edit Employee");
+				
+				
+				List<Integer> empSrvc=new ArrayList<>();
+				try {
+				
+					empSrvc= Stream.of(employee.getEmpDesc().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+				}catch (Exception e) {
+					mav.addObject("empSrvcIds", empSrvc.add(0));
+				}
+				System.out.println("Res------------" + empSrvc);
+				mav.addObject("empSrvcIds", empSrvc);
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editEmployee " + e.getMessage());
