@@ -22,6 +22,10 @@ text-shadow: 1px 1px 1px #000;
 font-weight: bold;
 font-size: 25px;
 }
+.profile-cover-img{
+opacity: 0.5;
+ background-image: url(/taskmgmtadmin/resources/global_assets/images/kppm.png);
+}
 </style>
 </head>
 
@@ -86,7 +90,7 @@ font-size: 25px;
 						
 						<!-- Cover area -->
 				<div class="profile-cover">
-					<div class="profile-cover-img" style="opacity: 0.5; background-image: url(/taskmgmtadmin/resources/global_assets/images/kppm.png)"></div>
+					<div class="profile-cover-img"></div>
 					<div class="media align-items-center text-center text-md-left flex-column flex-md-row m-0">
 						<div class="mr-md-3 mb-2 mb-md-0">
 							<!-- <a href="#" class="profile-thumb">

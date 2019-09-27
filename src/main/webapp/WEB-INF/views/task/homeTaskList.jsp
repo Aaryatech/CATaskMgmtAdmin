@@ -37,7 +37,9 @@
 	width: 720px !important;
 	height: auto !important;
 }
-
+.modal-dialog {
+    padding-top: 80px !important;
+ }
 .AnyTime-win {
 	height: 320px !important;
 	overflow-y: auto !important;
@@ -604,7 +606,7 @@ h5 {
 
 				<!-- Basic tables title -->
 				<div class="mb-3 text-right"
-					style="position: fixed; z-index: 55555555; margin-left: 75%;">
+					style="position: fixed; z-index: 55555555; margin-left: 75%; margin-top:29%;">
 
 					<div class="fab-menu  fab-menu-absolute1 fab-menu-top-right1"
 						data-toggle="modal" data-target="#modal_remote">
