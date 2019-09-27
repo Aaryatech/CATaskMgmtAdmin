@@ -142,7 +142,7 @@
 								 
 									
 									<c:if test="${not empty epmList.empPic}">
-													<img src="${imageUrl}${employee.empPic}"
+													<img src="${imageUrl}${epmList.empPic}"
 														class="rounded-circle" width="36" height="36" alt="">
 												</c:if>
 									</td> 
