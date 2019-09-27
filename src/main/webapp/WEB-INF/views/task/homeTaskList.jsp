@@ -522,7 +522,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
-											onchange="submitResponse()" name="manBudHr"
+											 name="manBudHr" onchange="submitResponse()"
 											autocomplete="off">
 									</div>
 
@@ -533,7 +533,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
-											id="anytime-time2" onchange="submitResponse()"
+											id="anytime-time2"  onchange="submitResponse()"
 											name="empBudHr" autocomplete="off">
 									</div>
 
@@ -576,13 +576,13 @@ h5 {
 
 								</div>
 
-								<!-- <div class="modal-footer">
-										<button type="button" class="btn btn-link"
+								<!--  <div class="modal-footer">
+										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
+											Changes</button><button type="button" class="btn btn-link"
 											data-dismiss="modal">Close</button>
-										<button type="submit" class="btn bg-primary">Save
-											changes</button>
-									</div>
-								</form> -->
+										
+									</div> -->
+								<!-- </form> -->
 							</div>
 						</div>
 					</div>
@@ -1035,7 +1035,7 @@ function append(data){
 
 					if (data.error == false) {
 						getActiveHomeTasks();
-						//dataFilter();
+						//$('#modal_edit').modal('hide')
 						//alert("saved");
 					} else {
 						//alert("not saved");
