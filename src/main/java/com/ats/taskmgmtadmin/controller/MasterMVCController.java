@@ -946,6 +946,35 @@ public class MasterMVCController {
 		}
 		return redirect;
 	}
+	
+	@RequestMapping(value="/checkEmailText", method = RequestMethod.POST)
+	@ResponseBody 
+	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
+		
+		int resEmail=0;
+		try {			
+			String email = request.getParameter("email");
+			System.out.println("Emp ----------"+email);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("email", email);
+			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/checkEmployeeEmail",
+					map, EmployeeMaster.class);
+					if(employee!=null) {
+						resEmail=1;
+					}else {
+						resEmail=0;
+					}
+			System.out.println("Res-------"+resEmail+"---"+employee);
+			
+		}catch (Exception e) {
+			System.err.println("Exception in checkEmailText : "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resEmail;
+		
+	}
 
 	@RequestMapping(value = "/updateIsActive", method = RequestMethod.GET)
 	public String updateIsActive(HttpServletRequest request, HttpServletResponse response) {

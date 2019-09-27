@@ -682,7 +682,7 @@ h5 {
 										<td>${taskList.custGroupName}</td>
 
 										<td><a href="#"
-											onclick="showTaskLogs(${taskList.taskId }, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
+											onclick="showTaskLogs(${taskList.taskId}, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
 
 										<td>${taskList.taskEndDate}</td>
 										<td>${taskList.taskStatutoryDueDate}</td>

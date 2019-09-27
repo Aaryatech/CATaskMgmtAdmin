@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+<c:url value="/checkEmailText" var="checkEmailText"></c:url>
 
 
 	<!-- Main navbar -->
@@ -320,7 +320,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												value="${employee.empEmail}"
+												value="${employee.empEmail}" onchange="validateEmail1(this.value)"
 												placeholder="Enter Email Address" id="email" name="email"
 												autocomplete="off" onchange="trim(this)">
 
@@ -423,6 +423,34 @@
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
+ <script type="text/javascript"> 
+ function validateEmail1(email){
+	// alert("Got It"+email);
+	
+		 var valid = true;
+			if (email == null || email == "") {
+				valid = false;
+			} 
+
+			if(valid == true){
+				$.post('${checkEmailText}', {
+					email : email,					
+					ajax : 'true',
+				},
+
+				function(data) {
+					
+					if (data==1) {
+						alert("This email-id is already exists.");
+						document.getElementById("email").value = " ";
+					} 
+
+				});
+			} 
+		  
+	}
+ </script>
+ 
  
 	<script>
 		$('#empSal').on(
