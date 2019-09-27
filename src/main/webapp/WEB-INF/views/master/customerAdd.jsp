@@ -117,6 +117,7 @@
 									id="submitInsertClient" method="post">
 
 									<input type="hidden" value="${custHead.custId}" name="cust_head_id">
+									<input type="hidden" value="${custHead.isActive}" name="isActv">
 									
 									
 									<div class="form-group row">

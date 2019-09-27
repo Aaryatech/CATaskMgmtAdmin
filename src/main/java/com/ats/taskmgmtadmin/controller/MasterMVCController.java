@@ -1287,6 +1287,9 @@ public class MasterMVCController {
 			if (custHeadId == 0) {
 				cust.setIsActive(1);
 			}
+			else {
+				cust.setIsActive(Integer.parseInt(request.getParameter("isActv")));
+			}
 			int custType = Integer.parseInt(request.getParameter("custType"));
 
 			cust.setCustId(custHeadId);
