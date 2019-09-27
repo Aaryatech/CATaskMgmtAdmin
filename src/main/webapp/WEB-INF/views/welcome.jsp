@@ -5,7 +5,24 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
-
+<style type="text/css">
+div.card-title{
+text-transform:uppercase;
+font-size: medium;
+}
+.mb-0{
+text-transform:uppercase;
+font-weight: bold;
+font-size: 50px;
+background:rgba(0,0,0,0.6);
+font-family: cursive;
+text-shadow: 1px 1px 1px #000;
+}
+.greet{
+font-weight: bold;
+font-size: 25px;
+}
+</style>
 </head>
 
 <body >
@@ -53,9 +70,11 @@
 						<!-- /title -->
 
 
-						<div class="card">
+						<%-- <div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Welcome ${userName}</h6>
+								<div class="card-title">Welcome	
+									<span class="user">${userName}</span>
+								</div>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -63,8 +82,34 @@
 								</div> -->
 							</div>
 
-							
+						</div> --%>
+						
+						<!-- Cover area -->
+				<div class="profile-cover">
+					<div class="profile-cover-img" style="opacity: 0.5; background-image: url(/taskmgmtadmin/resources/global_assets/images/kppm.png)"></div>
+					<div class="media align-items-center text-center text-md-left flex-column flex-md-row m-0">
+						<div class="mr-md-3 mb-2 mb-md-0">
+							<a href="#" class="profile-thumb">
+								<img src="../../../../global_assets/images/demo/users/face11.jpg" class="border-white rounded-circle" width="48" height="48" alt="">
+							</a>
 						</div>
+
+						<div class="media-body text-white">
+						
+				    		<span class="greet">Welcome aboard</span>
+				    		<h1 class="mb-0"> ${userName}</h1>
+				    		<!-- <span class="d-block">UX/UI designer</span> -->
+						</div>
+
+						<!-- <div class="ml-md-3 mt-2 mt-md-0">
+							<ul class="list-inline list-inline-condensed mb-0">
+								<li class="list-inline-item"><a href="#" class="btn btn-light border-transparent"><i class="icon-file-picture mr-2"></i> Cover image</a></li>
+								<li class="list-inline-item"><a href="#" class="btn btn-light border-transparent"><i class="icon-file-stats mr-2"></i> Statistics</a></li>
+							</ul>
+						</div> -->
+					</div>
+				</div>
+				<!-- /cover area -->
 
 
 					</div>

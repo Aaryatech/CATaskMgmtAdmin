@@ -1101,6 +1101,8 @@ function append(data){
 	function showTaskLogs(taskId,taskText) {
 		
 		var empTyp = ${empType};	
+		var sesEmp = ${sessEmpId};
+		
 		
 		document.getElementById("taskId").value = taskId;		
 		
@@ -1153,7 +1155,7 @@ function append(data){
 									
 								}
 								if(empTyp==5){
-									if(v.exInt1==5){
+									if(v.exInt1==5 && sesEmp==v.empId){
 										dataTable.row.add(
 												[ 	i + 1,
 													v.exVar1,
@@ -1207,7 +1209,7 @@ function append(data){
 									
 								}
 								if(empTyp==5){
-									if(v.empType==5){
+									if(v.empType==5 && sesEmp==v.empId){
 										
 										dataTable2.row.add(
 												[ 	i + 1,
@@ -1231,6 +1233,8 @@ function append(data){
 //Add Work Log
 function addNewWorkLog(){
 	var empTyp = ${empType};
+	var sesEmp = ${sessEmpId};
+	
 	
 	var logId = $("#logId").val();
 	var taskId = $("#taskId").val();
@@ -1292,7 +1296,7 @@ function addNewWorkLog(){
 					
 				}
 				if(empTyp==5){
-					if(v.exInt1==5){
+					if(v.exInt1==5 && sesEmp==v.empId){
 						dataTable.row.add(
 								[ 	i + 1,
 									v.exVar1,
@@ -1346,7 +1350,7 @@ function addNewWorkLog(){
 					
 				}
 				if(empTyp==5){
-					if(v.empType==5){
+					if(v.empType==5 && sesEmp==v.empId){
 						
 						dataTable2.row.add(
 								[ 	i + 1,

@@ -345,6 +345,7 @@ public class HomeController<Task> {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addObject("empType", empSes.getEmpType());
+			mav.addObject("sessEmpId", empSes.getEmpId());
 			int dashStat = 0;
 			int type = 0;
 			int userId = 0;
