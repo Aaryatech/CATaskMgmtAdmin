@@ -89,9 +89,9 @@ font-size: 25px;
 					<div class="profile-cover-img" style="opacity: 0.5; background-image: url(/taskmgmtadmin/resources/global_assets/images/kppm.png)"></div>
 					<div class="media align-items-center text-center text-md-left flex-column flex-md-row m-0">
 						<div class="mr-md-3 mb-2 mb-md-0">
-							<a href="#" class="profile-thumb">
+							<!-- <a href="#" class="profile-thumb">
 								<img src="../../../../global_assets/images/demo/users/face11.jpg" class="border-white rounded-circle" width="48" height="48" alt="">
-							</a>
+							</a> -->
 						</div>
 
 						<div class="media-body text-white">
