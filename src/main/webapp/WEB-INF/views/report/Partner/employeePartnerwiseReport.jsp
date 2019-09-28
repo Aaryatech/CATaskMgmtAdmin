@@ -81,7 +81,7 @@ h5 {
 </style>
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee Partner Grid</h5>
+						<h5 class="card-title">Employee Partner Grid Report</h5>
 
 					</div>
 					<div class="card-body">

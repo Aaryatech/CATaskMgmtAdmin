@@ -97,20 +97,21 @@ h5 {
 </style>
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee Manager Performance Detail Report</h5>
-<a
-									href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
-										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
-									</button></a>
+						<h5 class="card-title">Employee Manager Performance Detail
+							Report</h5>
+						<a
+							href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
+								type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
+							</button></a>
 					</div>
 					<div class="card-body">
 						<form
 							action="${pageContext.request.contextPath}/showMangPerfHeadListDetail"
 							id="submitInsertActivity" method="get">
 							<div class="form-group row">
-								
+
 								<div class="col-lg-1"></div>
-								
+
 
 							</div>
 
@@ -146,6 +147,7 @@ h5 {
 										<th>Total Employee hrs for selected period</th>
 										<th>Total TL hrs for selected period</th>
 										<th>Google Drive Link</th>
+										<th>Status</th>
 
 									</tr>
 								</thead>
@@ -175,6 +177,7 @@ h5 {
 											<td>${cmpTaskList.empBetHrs}</td>
 											<td>${cmpTaskList.tlBetHrs}</td>
 											<td>${cmpTaskList.exVar1}</td>
+											<td>${cmpTaskList.statusText}</td>
 
 										</tr>
 									</c:forEach>

@@ -122,14 +122,21 @@ public class EmpSalaryController {
 			List<TempSalList> salList = new ArrayList<TempSalList>();
 
 			for (int i = 0; i < epmList.size(); i++) {
-				//System.out.println("salList in for "+i);
+				System.out.println("salList in for "+i);
 				TempSalList temp=new TempSalList();
 				newsal = request.getParameter("currSal" + epmList.get(i).getEmpId());
 				empId = epmList.get(i).getEmpId();
 
 				temp.setCurDateTime(Constants.getCurDateTime());
 				temp.setEmpId(empId);
-				temp.setEmpSalary(Float.parseFloat(newsal));
+				try {
+					temp.setEmpSalary(Float.parseFloat(newsal));
+				}catch (Exception e) {
+
+					temp.setEmpSalary(0);
+				}
+
+				
 				temp.setFinYear(finYear);
 				temp.setMonth(month);
 				temp.setUserId(userId);

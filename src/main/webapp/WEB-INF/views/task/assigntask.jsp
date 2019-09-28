@@ -166,7 +166,7 @@
 								</label>
 								<div class="col-lg-6">
 									<input type="text" class="form-control datepickerclass"
-										name="workDate" id="workDate" placeholder="Task End Date">
+										name="workDate" id="workDate" placeholder="Task Work Date">
 								</div>
 								<div class="col-lg-3">
 									<span class="validation-invalid-label" id="error_startDate"
@@ -205,7 +205,7 @@
 									id="printtable1">
 									<thead>
 										<tr class="bg-blue">
-											<th width="10%">Sr.no<input type="checkbox"
+											<th width="10%">Sr.no<input type="checkbox" checked
 																name="selAll" id="selAll" /></th>
 											<th>Task</th>
 											<th>Customer</th>

@@ -323,8 +323,8 @@
 
 										<div class="form-group row">
 
-											<label class="col-form-label col-lg-3" for="startDate">Statutory Due Date
-											  <span style="color: red">* </span>:
+											<label class="col-form-label col-lg-3" for="startDate">Statutory
+												Due Date <span style="color: red">* </span>:
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control datepickerclass"
@@ -334,7 +334,8 @@
 
 											<div class="col-lg-3">
 												<span class="validation-invalid-label" id="error_statDate"
-													style="display: none;">Please enter Statutory Due Date.</span>
+													style="display: none;">Please enter Statutory Due
+													Date.</span>
 											</div>
 
 										</div>
@@ -354,35 +355,34 @@
 
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_startDate"
-												style="display: none;">Please enter end date.</span>
-												
-												<span
+												style="display: none;">Please enter end date.</span> <span
 												class="validation-invalid-label" id="error_start_date"
-												style="display: none;">Start date must be smaller than
-												end date.</span>
+												style="display: none;">Start date must be smaller
+												than Work date.</span>
 										</div>
 
 									</div>
 
 
+									<c:if test="${isEdit==0}">
 
-
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="endDate">Task
-											End Date </label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
-												value="${task.taskEndDate}" name="endDate" id="endDate"
-												placeholder="Task End Date">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-3" for="endDate">Task
+												Work Date </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control datepickerclass"
+													value="${task.taskEndDate}" name="endDate" id="endDate"
+													placeholder="Task End Date">
+											</div>
+											<div class="col-lg-3">
+												<span class="validation-invalid-label" id="error_endDate"
+													style="display: none;">This field is required.</span> <span
+													class="validation-invalid-label" id="error_end_date"
+													style="display: none;">Work date must be greater than
+													start date.</span>
+											</div>
 										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_endDate"
-												style="display: none;">This field is required.</span> <span
-												class="validation-invalid-label" id="error_end_date"
-												style="display: none;">End date must be greater than
-												start date.</span>
-										</div>
-									</div>
+									</c:if>
 
 
 									<div class="form-group row">
@@ -418,14 +418,15 @@
 												style="display: none;">This field is required.</span>
 										</div>
 									</div>
-									
-									
-										<div class="form-group row">
+
+
+									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="billAmt">Billing
 											Amount <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${task.billingAmt}"
+											<input type="text" class="form-control"
+												value="${task.billingAmt}"
 												placeholder="Enter Billing Amount" id="billAmt"
 												name="billAmt" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -509,6 +510,14 @@
 					this.value = this.value.replace(/[^0-9.]/g, '').replace(
 							/(\..*)\./g, '$1');
 				});
+		
+		$('#billAmt').on(
+				'input',
+				function() {
+					this.value = this.value.replace(/[^0-9.]/g, '').replace(
+							/(\..*)\./g, '$1');
+				});
+		
 
 		$(document)
 				.ready(
@@ -595,6 +604,7 @@
 															.hide()
 												}
 												}
+												if(${isEdit}==0){
 
 												var from_date = document
 														.getElementById("startDate").value;
@@ -628,7 +638,7 @@
 													$("#error_end_date").hide();
 												}
 												////////
-
+												}
 												if(${isEdit}==0){
 												if (!$("#statutary_endDays")
 														.val()) {

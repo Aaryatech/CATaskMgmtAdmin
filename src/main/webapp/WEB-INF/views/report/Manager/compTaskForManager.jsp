@@ -97,7 +97,7 @@ h5 {
 </style>
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee Task Completed Report</h5>
+						<h5 class="card-title">Manager Task Completed Report</h5>
 
 					</div>
 					<div class="card-body">

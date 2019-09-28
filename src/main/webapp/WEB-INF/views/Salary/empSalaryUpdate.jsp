@@ -154,10 +154,10 @@
 												<td>${epmList.empDob}</td>
 												<td>${epmList.empEmail}</td>
 												<td>${epmList.empMob}</td>
-												<td><input type="text" name="prevSal${epmList.empId}"
+												<td><input type="text" name="prevSal${epmList.empId}" 	value="0"
 													id="prevSal${epmList.empId}" class="form-control" readonly></td>
-												<td><input type="text" name="currSal${epmList.empId}"
-													id="currSal${epmList.empId}" class="form-control"></td>
+												<td><input type="text" name="currSal${epmList.empId}" maxlength="7"
+													value="0" id="currSal${epmList.empId}" class="form-control"></td>
 
 											</tr>
 										</c:forEach>
@@ -308,13 +308,18 @@
 			});
 
 		}
+		
+		$('.form-control').on('input', function() {
+			 this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
 	</script>
 	<script>
 		$(document).ready(function($) {
 
 			$("#submitInsertClient").submit(function(e) {
 				var isError = false;
-				var errMsg = "";
+				var errMsg = "";form
+				
 
 				if ($("#finYear").val() == "") {
 

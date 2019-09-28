@@ -224,7 +224,7 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="endDate">End
+										<label class="col-form-label col-lg-3" for="endDate">Work
 											Date : </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
@@ -232,10 +232,10 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_endDate"
-												style="display: none;">Please enter end date.</span>
+												style="display: none;">Please enter work date.</span>
 												
 											<span class="validation-invalid-label" id="error_end_date"
-												style="display: none;">Snd date must be smaller than start date.</span>
+												style="display: none;">work date must be smaller than start date.</span>
 										</div>
 
 									</div>
