@@ -950,29 +950,41 @@ public class MasterMVCController {
 	@RequestMapping(value="/checkEmailText", method = RequestMethod.POST)
 	@ResponseBody 
 	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
-		
-		int resEmail=0;
-		try {			
+		EmployeeMaster employee = new EmployeeMaster();
+		Info info = new Info();
+		int res = 0;
+				try {	
+				
 			String email = request.getParameter("email");
+			int eid = Integer.parseInt(request.getParameter("eid"));
+			int edit = Integer.parseInt(request.getParameter("edit"));
 			System.out.println("Emp ----------"+email);
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-
+			MultiValueMap<String, Object> map = null;
+			
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			
 			map.add("email", email);
-			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/checkEmployeeEmail",
-					map, EmployeeMaster.class);
-					if(employee!=null) {
-						resEmail=1;
-					}else {
-						resEmail=0;
-					}
-			System.out.println("Res-------"+resEmail+"---"+employee);
+			map.add("edit", edit);
+			map.add("eid", eid);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/checkEmployeeEmail",
+			map, Info.class);
+					System.out.println("Info"+info);
+			if(info.isError()==false) {
+				res=1;
+				System.out.println("1"+res);
+			}else {
+				res=0;
+				System.out.println("0"+res);
+			}
+		
 			
 		}catch (Exception e) {
 			System.err.println("Exception in checkEmailText : "+e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return resEmail;
+		return res;
 		
 	}
 

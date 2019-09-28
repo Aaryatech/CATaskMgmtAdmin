@@ -118,7 +118,7 @@
 									enctype="multipart/form-data">
 
 									<input type="hidden" value="${employee.empId}"
-										name="employee_id">
+										name="employee_id" id="employee_id">
 										
 										<input type="hidden" value="${employee.empPic}"
 										name="profPic">
@@ -319,10 +319,14 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
+										<input type="hidden" class="form-control"
+												value="${employee.empEmail}"  
+												 id="email_old" name="email_old"
+												 >
 											<input type="text" class="form-control"
-												value="${employee.empEmail}" onchange="validateEmail1(this.value)"
+												value="${employee.empEmail}" onchange="uniqueEmail()"
 												placeholder="Enter Email Address" id="email" name="email"
-												autocomplete="off" onchange="trim(this)">
+												autocomplete="off" onchange11="trim(this)">
 
 										</div>
 										<div class="col-lg-3">
@@ -391,6 +395,7 @@
 												</button></a>
 										</div>
 									</div>
+									
 								</form>
 								<p class="desc text-danger fontsize11">Notice : * Fields are
 									mandatory.</p>
@@ -424,31 +429,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
  <script type="text/javascript"> 
- function validateEmail1(email){
-	// alert("Got It"+email);
-	
-		 var valid = true;
-			if (email == null || email == "") {
-				valid = false;
-			} 
-
-			if(valid == true){
-				$.post('${checkEmailText}', {
-					email : email,					
-					ajax : 'true',
-				},
-
-				function(data) {
-					
-					if (data==1) {
-						alert("This email-id is already exists.");
-						document.getElementById("email").value = " ";
-					} 
-
-				});
-			} 
-		  
-	}
+ 
  </script>
  
  
@@ -466,6 +447,48 @@
 				var isError = false;
 				var errMsg = "";
 
+			/* 	var check=checkEmail();	
+				
+				if(parseInt(check)==1){
+					isError = true;
+				}else{
+					isError = false;
+				} */
+			
+					/* var check=1;
+					var edit = ${isEdit};
+					var eid = $("#employee_id").val();
+					var email = $("#email").val();
+					
+					//alert("Got It"+email+" "+eid);
+						 var valid = true;
+							if (email == null || email == "") {
+								valid = false;
+							} 
+
+							if(valid == true){
+								$.post('${checkEmailText}', {
+									email : email,	
+									eid : eid,
+									edit : edit,
+									ajax : 'true',
+								},
+
+								function(data) {
+									//alert("LogList:"+JSON.stringify(data));
+									
+									 if(parseInt(data)==1){										
+										alert("This email-id is already exists.");
+										document.getElementById("email").value = " "; 
+										isError = true;
+									}
+									else{		
+										alert("in else")										
+										isError = false;
+										}
+								});
+							}  */
+						 
 				if ($("#empType").val() == "") {
 
 					isError = true;
@@ -475,16 +498,6 @@
 				} else {
 					$("#error_empType").hide()
 				}
-
-				/* if (!$("#empService").val() || $("#empService").val()=="") {
-
-					isError = true;
-
-					$("#error_empService").show()
-
-				} else {
-					$("#error_empService").hide()
-				}  */
 
 				if (!$("#empNickname").val()) {
 
@@ -555,8 +568,19 @@
 				} else {
 					$("#error_dob").hide()
 				}
-
 				
+				uniqueEmail();
+				//alert(check);
+				
+	/*  var check=checkEmail();	
+	if(check==0){
+		alert("x0= "+check);
+		return true;
+	}else{
+		alert("x1= "+check);
+		return false;
+	}   */  
+	
 
 				if (!isError) {
 
@@ -572,6 +596,101 @@
 				return false;
 			});
 		});
+		
+////////////////////////////////////
+function uniqueEmail(){
+	 $("#error_email").html("Please enter email.");
+	 $("#error_email").hide();
+	 document.getElementById("submtbtn").disabled = false;
+	 document.getElementById("cancelbtn").disabled = false;
+		
+	var edit = ${isEdit};
+	var eid = $("#employee_id").val();
+	var email = $("#email").val();
+	var email_old = $("#email_old").val();
+	
+	if(email=="" && eid!=0){
+		 $("#error_email").html("Please enter email.");
+		 $("#error_email").show();
+		 return false;
+	}
+	if(email_old!=email){
+		 var valid = true;
+			if (email == null || email == "") {
+				valid = false;
+			} 
+
+			if(valid == true){
+				$.post('${checkEmailText}', {
+					email : email,	
+					eid : eid,
+					edit : edit,
+					ajax : 'true',
+				},
+
+				function(data) {
+					//alert("LogList:"+JSON.stringify(data));
+					
+					 if(parseInt(data)==1){		
+						 
+						 $("#error_email").html("This email-id is already exists.");
+							$("#error_email").show();
+							document.getElementById("submtbtn").disabled = true;
+							document.getElementById("cancelbtn").disabled = true;						
+						
+						return false;
+					}
+					 
+				});
+			} 
+			return true;
+	}
+	//alert("Got It"+email+" "+eid);
+		
+}
+
+function   checkEmail1(){
+	var check=1;
+	
+	var edit = ${isEdit};
+	var eid = $("#employee_id").val();
+	var email = $("#email").val();
+	
+	//alert("Got It"+email+" "+eid);
+		 var valid = true;
+			if (email == null || email == "") {
+				valid = false;
+			} 
+
+			if(valid == true){
+				$.post('${checkEmailText}', {
+					email : email,	
+					eid : eid,
+					edit : edit,
+					ajax : 'true',
+				},
+
+				function(data) {
+					alert("LogList:"+JSON.stringify(data));
+					
+					 if(parseInt(data)==1){
+						 document.getElementById("email").value = " "; 
+						 alert("This email-id is already exists.");
+							
+							//$("#error_email").show();
+							
+					}
+					else{		
+						alert("in else")
+							
+						}
+				});
+			} 
+	}
+
+
+
+///////////////////////////////////
 		//
 		function checkDOB(dateEntered) {
 		//	alert("hii"+dateEntered);
