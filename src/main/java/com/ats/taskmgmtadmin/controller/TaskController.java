@@ -1642,6 +1642,12 @@ public class TaskController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 
 			int userId = emp.getEmpId();
+			String edate=new String();
+			try {
+				edate=request.getParameter("endDate");
+			}catch(Exception e){
+				
+			}
 
 			activityMap = new CustmrActivityMap();
 

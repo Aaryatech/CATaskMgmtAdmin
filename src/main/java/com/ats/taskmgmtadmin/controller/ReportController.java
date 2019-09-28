@@ -609,14 +609,14 @@ public class ReportController {
 
 						if (progList.get(i).getTaskStatutoryDueDate() != ""
 								&& progList.get(i).getTaskStatutoryDueDate() != null) {
-							String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
-							rowData.add("" + DateConvertor.convertToDMY(splited1[0]));
+							//String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
+							rowData.add("" + progList.get(i).getTaskStatutoryDueDate() );
 						} else {
 							rowData.add("" + "-");
 						}
 						if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
-							String[] splited2 = progList.get(i).getTaskEndDate().split("T");
-							rowData.add("" + DateConvertor.convertToDMY(splited2[0]));
+							//String[] splited2 = progList.get(i).getTaskEndDate().split("T");
+							rowData.add("" + progList.get(i).getTaskEndDate());
 						} else {
 							rowData.add("" + "-");
 						}
@@ -624,8 +624,8 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getStatusText());
 						if (progList.get(i).getTaskCompletionDate() != ""
 								&& progList.get(i).getTaskCompletionDate() != null) {
-							String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
-							rowData.add("" + DateConvertor.convertToDMY(splited3[0]));
+							//String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
+							rowData.add("" +progList.get(i).getTaskCompletionDate());
 						} else {
 							rowData.add("" + "-");
 						}
@@ -792,11 +792,11 @@ public class ReportController {
 				rowData.add("" + progList.get(i).getPartner());
 				rowData.add("" + progList.get(i).getEmployee());
 				rowData.add("" + progList.get(i).getTeamLeader());
-				String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
-				rowData.add("" + splited[0]);
+				//String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
+				rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 				if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
-					String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
-					rowData.add("" + splited1[0]);
+					//String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
+					rowData.add("" + progList.get(i).getTaskEndDate());
 				} else {
 					rowData.add("" + "-");
 				}
@@ -959,11 +959,11 @@ public class ReportController {
 				rowData.add("" + progList.get(i).getPartner());
 				rowData.add("" + progList.get(i).getEmployee());
 				rowData.add("" + progList.get(i).getTeamLeader());
-				String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
-				rowData.add("" + splited[0]);
+				//String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
+				rowData.add("" +  progList.get(i).getTaskStatutoryDueDate());
 				if (progList.get(i).getTaskStartDate() != "" && progList.get(i).getTaskStartDate() != null) {
-					String[] splited1 = progList.get(i).getTaskStartDate().split(" ");
-					rowData.add("" + splited1[0]);
+					//String[] splited1 = progList.get(i).getTaskStartDate().split(" ");
+					rowData.add("" + progList.get(i).getTaskStartDate());
 				} else {
 					rowData.add("" + "-");
 				}

@@ -224,10 +224,10 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="endDate">Work
+										<label class="col-form-label col-lg-3" for="endDate">End
 											Date : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass"
+											<input type="text" class="form-control datepickerclass1"
 												name="endDate" id="endDate" placeholder="End Date">
 										</div>
 										<div class="col-lg-3">
@@ -507,21 +507,12 @@
 														}											 
 													 
 
-														if (!$("#endDate").val()) {
-
-															isError = true;
-
-															$("#error_endDate")
-																	.show()
-
-														} else {
-															$("#error_endDate")
-																	.hide()
-														}
+														
 														
 														var from_date = document.getElementById("startDate").value;
 										 				var to_date = document.getElementById("endDate").value;
 										 				
+										 				if(endDate!=null && endDate!=""){
 										 		        var fromdate = from_date.split('-');
 										 		        from_date = new Date();
 										 		        from_date.setFullYear(fromdate[2],fromdate[1]-1,fromdate[0]);
@@ -540,6 +531,7 @@
 										 					$("#error_start_date").hide();
 										 					$("#error_end_date").hide();
 										 				}
+												}
 														////////
 														
 														if (!$("#statutary_endDays").val()) {
@@ -687,7 +679,27 @@ function getPeriodicity(actvityId){
 					format : 'DD-MM-YYYY'
 				}
 			});
+			
+			$('.datepickerclass1').daterangepicker({
+				singleDatePicker : true,
+				selectMonths : true,
+				selectYears : true,
+				autoUpdateInput:false,
+				//autoApply:false,
+				//startDate :NULL,
+				locale : {
+					format : 'DD-MM-YYYY'
+					
+				}
+			});
+			
+			  $('input[name="endDate"]').on('apply.daterangepicker', function(ev, picker) {
+			      $(this).val(picker.startDate.format('DD-MM-YYYY') );
+			  });
 
+			  $('input[name="endDate"]').on('cancel.daterangepicker', function(ev, picker) {
+			      $(this).val('');
+			  });
 			//daterange-basic_new
 			// Basic initialization
 			$('.daterange-basic_new').daterangepicker({
