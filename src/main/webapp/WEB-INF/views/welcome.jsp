@@ -100,7 +100,7 @@ opacity: 0.5;
 
 						<div class="media-body text-white">
 						
-				    		<span class="greet">Welcome aboard</span>
+				    		<span class="greet">Welcome</span>
 				    		<h1 class="mb-0"> ${userName}</h1>
 				    		<!-- <span class="d-block">UX/UI designer</span> -->
 						</div>
