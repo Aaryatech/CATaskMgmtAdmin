@@ -66,6 +66,16 @@
 
 
 						<div class="card">
+						 <c:if test="${sessionScope.errMsg!=null}"> 
+							<div class="alert alert-danger border-0 alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+									<span class="font-weight-semibold">${sessionScope.errMsg}</span>
+							    </div>
+							     <%session=request.getSession();
+        	                    
+        	                     session.removeAttribute("errMsg");
+        	                     %>
+					</c:if>
 							<div class="card-header header-elements-inline">
 								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
@@ -395,7 +405,6 @@
 												</button></a>
 										</div>
 									</div>
-									
 								</form>
 								<p class="desc text-danger fontsize11">Notice : * Fields are
 									mandatory.</p>
@@ -446,49 +455,7 @@
 			$("#submitInsertClient").submit(function(e) {
 				var isError = false;
 				var errMsg = "";
-
-			/* 	var check=checkEmail();	
-				
-				if(parseInt(check)==1){
-					isError = true;
-				}else{
-					isError = false;
-				} */
-			
-					/* var check=1;
-					var edit = ${isEdit};
-					var eid = $("#employee_id").val();
-					var email = $("#email").val();
-					
-					//alert("Got It"+email+" "+eid);
-						 var valid = true;
-							if (email == null || email == "") {
-								valid = false;
-							} 
-
-							if(valid == true){
-								$.post('${checkEmailText}', {
-									email : email,	
-									eid : eid,
-									edit : edit,
-									ajax : 'true',
-								},
-
-								function(data) {
-									//alert("LogList:"+JSON.stringify(data));
-									
-									 if(parseInt(data)==1){										
-										alert("This email-id is already exists.");
-										document.getElementById("email").value = " "; 
-										isError = true;
-									}
-									else{		
-										alert("in else")										
-										isError = false;
-										}
-								});
-							}  */
-						 
+ 
 				if ($("#empType").val() == "") {
 
 					isError = true;
@@ -569,19 +536,7 @@
 					$("#error_dob").hide()
 				}
 				
-				uniqueEmail();
-				//alert(check);
-				
-	/*  var check=checkEmail();	
-	if(check==0){
-		alert("x0= "+check);
-		return true;
-	}else{
-		alert("x1= "+check);
-		return false;
-	}   */  
-	
-
+				//uniqueEmail();
 				if (!isError) {
 
 					var x = true;
@@ -602,8 +557,7 @@ function uniqueEmail(){
 	 $("#error_email").html("Please enter email.");
 	 $("#error_email").hide();
 	 document.getElementById("submtbtn").disabled = false; 
-		
-	var edit = ${isEdit};
+	 
 	var eid = $("#employee_id").val();
 	var email = $("#email").val();
 	var email_old = $("#email_old").val();
@@ -623,7 +577,6 @@ function uniqueEmail(){
 				$.post('${checkEmailText}', {
 					email : email,	
 					eid : eid,
-					edit : edit,
 					ajax : 'true',
 				},
 
@@ -632,7 +585,7 @@ function uniqueEmail(){
 					
 					 if(parseInt(data)==1){		
 						 
-						 $("#error_email").html("This email-id is already exists.");
+						 $("#error_email").html("This email-id is already exist.");
 							$("#error_email").show();
 							document.getElementById("submtbtn").disabled = true;
 													

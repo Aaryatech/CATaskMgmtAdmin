@@ -65,7 +65,7 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee</h5></td>
+								<td width="60%"><h5 class="card-title">Employee ${sessionScope.errorMsg}</h5></td>
 								<td width="40%" align="right">
 								<c:if test="${addAccess==0}">
 								<a
@@ -147,7 +147,7 @@
 												</c:if>
 									</td> 
 								<td>${epmList.empName}</td>
-								<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Tesm Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
+								<td>${epmList.empType==1 ? 'Admin': epmList.empType==2 ? 'Partner' : epmList.empType==3 ? 'Manager' : epmList.empType==4 ? 'Team Leader' : epmList.empType==5 ? 'Employee' : ''}</td> 
 								<td>${epmList.empDob}</td>
 								<td>${epmList.empEmail}</td>
 								<td>${epmList.empMob}</td>

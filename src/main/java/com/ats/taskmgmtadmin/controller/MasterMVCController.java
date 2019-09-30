@@ -1,7 +1,5 @@
 package com.ats.taskmgmtadmin.controller;
 
-import java.text.Collator;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,7 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,57 +18,40 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ats.task.mgmtadmin.communication.model.GetAllCommunicationByTaskId;
 import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
-import com.ats.taskmgmtadmin.common.DateConvertor;
-import com.ats.taskmgmtadmin.common.DateValues;
-
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.FormValidation;
-import com.ats.taskmgmtadmin.common.HoursConversion;
-import com.ats.taskmgmtadmin.common.PeriodicityDates;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.CustNameId;
-import com.ats.taskmgmtadmin.model.CustmrActivityMap;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
 import com.ats.taskmgmtadmin.model.CustomerHeaderMaster;
 import com.ats.taskmgmtadmin.model.DevPeriodicityMaster;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
-import com.ats.taskmgmtadmin.model.FinancialYear;
 import com.ats.taskmgmtadmin.model.FirmType;
 import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
-import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
 import com.ats.taskmgmtadmin.model.StatusMaster;
-import com.ats.taskmgmtadmin.model.TaskListHome;
-import com.ats.taskmgmtadmin.model.TaskPeriodicityMaster;
-import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
-import com.ats.taskmgmtadmin.task.model.TempTaskSave;
 
 @Controller
 @Scope("session")
@@ -641,6 +621,7 @@ public class MasterMVCController {
 		ModelAndView mav = null;
 		try {
 			HttpSession session = request.getSession();
+			
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 
 			Info view = AccessControll.checkAccess("employeeList", "employeeList", "1", "0", "0", "0", newModuleList);
@@ -737,104 +718,210 @@ public class MasterMVCController {
 	@RequestMapping(value = "/addNewEmployee", method = RequestMethod.POST)
 	public String addNwEmployee(@RequestParam("profilePic") List<MultipartFile> profilePic, HttpServletRequest request,
 			HttpServletResponse response) {
+		String redirect = null;
 		try {
-
+			MultiValueMap<String, Object> map = null;
 			Date date = new Date();
-
-			session = request.getSession();
+			
+			 HttpSession sess = request.getSession(true);
+			
 			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			EmployeeMaster emp = (EmployeeMaster) sess.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 			VpsImageUpload upload = new VpsImageUpload();
 			EmployeeMaster employee = new EmployeeMaster();
 			String imageName = new String();
 			int empId = 0;
 			int roleId = 0;
-
+			
 			try {
 				empId = Integer.parseInt(request.getParameter("employee_id"));
 				roleId = Integer.parseInt(request.getParameter("roleId"));
 			} catch (Exception e) {
 				e.getMessage();
 			}
+			
+			String email = request.getParameter("email");
+			Info info = new Info();
+			
+			if(empId>0) {
+				
+				map = new LinkedMultiValueMap<String, Object>();
+				
+				map.add("email", email);
+				map.add("eid", empId);
+				info = Constants.getRestTemplate().postForObject(Constants.url + "/checkEmployeeEmail",	map, Info.class);
+				System.out.println("Info"+info);
+								
+						if(info.isError()==false) {		
+							String msg = "Operation Failed ! This email-id is already exist.";
+							sess.setAttribute("errMsg", msg);
+														
+							redirect = "redirect:/editEmployee?empId="+empId;
+							
+						}else {							
+							
+							String servicesList = null;
+							try {
+								String[] services = request.getParameterValues("empService");
 
-			String servicesList = null;
-			try {
-				String[] services = request.getParameterValues("empService");
+								StringBuilder sb = new StringBuilder();
 
-				StringBuilder sb = new StringBuilder();
+								for (int i = 0; i < services.length; i++) {
+									sb = sb.append(services[i] + ",");
 
-				for (int i = 0; i < services.length; i++) {
-					sb = sb.append(services[i] + ",");
+								}
+								servicesList = sb.toString();
+								System.out.println("Serviceas:" + servicesList);
+							} catch (Exception e) {
 
-				}
-				servicesList = sb.toString();
-				System.out.println("Serviceas:" + servicesList);
-			} catch (Exception e) {
+								servicesList = "NA";
+								e.printStackTrace();
+								// System.out.println("Serviceas:" + servicesList);
+							}
 
-				servicesList = "NA";
-				// System.out.println("Serviceas:" + servicesList);
+							if (profilePic.get(0).getOriginalFilename() != "") {
+								imageName = dateTimeInGMT.format(date) + "_" + profilePic.get(0).getOriginalFilename();
+								if (profilePic.get(0).getOriginalFilename() != null) {
+									try {
+										upload.saveUploadedImge(profilePic.get(0), Constants.imageSaveUrl, imageName, Constants.values,
+												0, 0, 0, 0, 0);
+
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+							} else {
+
+								imageName = request.getParameter("profPic");
+								System.out.println(imageName);
+							}
+
+							employee.setEmpPic(imageName);
+
+							employee.setEmpId(empId);
+							employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
+							employee.setEmpName(request.getParameter("empName"));
+							employee.setEmpNickname(request.getParameter("empNickname"));
+							employee.setEmpDob(request.getParameter("dob"));
+
+							if (empId != 0) {
+								employee.setEmpRoleId(roleId);
+								map = new LinkedMultiValueMap<>();
+								map.add("empId", empId);
+								EmployeeMaster empMst = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
+										map, EmployeeMaster.class);
+								employee.setIsActive(empMst.getIsActive());
+							} else {
+								employee.setEmpRoleId(0);
+								employee.setIsActive(1);
+							}
+							employee.setEmpMob(request.getParameter("phone"));
+							employee.setEmpEmail(email);
+							employee.setEmpPass(request.getParameter("pwd"));
+							employee.setEmpDesc(servicesList);
+							employee.setEmpPic(imageName);
+							employee.setEmpSalary(request.getParameter("empSal"));
+							employee.setDelStatus(1);
+							employee.setUpdateDatetime(curDateTime);
+							employee.setUpdateUsername(userId);
+							employee.setExInt1(0); // isEnroll
+							employee.setExInt2(0);
+							employee.setExVar1("NA");
+							employee.setExVar2("NA");
+
+							System.err.println("employee " + employee.toString());
+							EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
+									employee, EmployeeMaster.class);
+						
+								redirect = "redirect:/employeeList";
+						}
+			}else {
+					System.out.println("--------------New Record");
+							String servicesList = null;
+							try {
+								String[] services = request.getParameterValues("empService");
+
+								StringBuilder sb = new StringBuilder();
+
+								for (int i = 0; i < services.length; i++) {
+									sb = sb.append(services[i] + ",");
+
+								}
+								servicesList = sb.toString();
+								System.out.println("Serviceas:" + servicesList);
+							} catch (Exception e) {
+
+								servicesList = "NA";
+								// System.out.println("Serviceas:" + servicesList);
+							}
+
+							if (profilePic.get(0).getOriginalFilename() != "") {
+								imageName = dateTimeInGMT.format(date) + "_" + profilePic.get(0).getOriginalFilename();
+								if (profilePic.get(0).getOriginalFilename() != null) {
+									try {
+										upload.saveUploadedImge(profilePic.get(0), Constants.imageSaveUrl, imageName, Constants.values,
+												0, 0, 0, 0, 0);
+
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+							} else {
+
+								imageName = request.getParameter("profPic");
+								System.out.println(imageName);
+							}
+
+							employee.setEmpPic(imageName);
+
+							employee.setEmpId(empId);
+							employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
+							employee.setEmpName(request.getParameter("empName"));
+							employee.setEmpNickname(request.getParameter("empNickname"));
+							employee.setEmpDob(request.getParameter("dob"));
+
+							if (empId != 0) {
+								employee.setEmpRoleId(roleId);
+								map = new LinkedMultiValueMap<>();
+								map.add("empId", empId);
+								EmployeeMaster empMst = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
+										map, EmployeeMaster.class);
+								employee.setIsActive(empMst.getIsActive());
+							} else {
+								employee.setEmpRoleId(0);
+								employee.setIsActive(1);
+							}
+							employee.setEmpMob(request.getParameter("phone"));
+							employee.setEmpEmail(email);
+							employee.setEmpPass(request.getParameter("pwd"));
+							employee.setEmpDesc(servicesList);
+							employee.setEmpPic(imageName);
+							employee.setEmpSalary(request.getParameter("empSal"));
+							employee.setDelStatus(1);
+							employee.setUpdateDatetime(curDateTime);
+							employee.setUpdateUsername(userId);
+							employee.setExInt1(0); // isEnroll
+							employee.setExInt2(0);
+							employee.setExVar1("NA");
+							employee.setExVar2("NA");
+
+							System.err.println("employee " + employee.toString());
+							EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
+									employee, EmployeeMaster.class);
+							
+							redirect = "redirect:/employeeList";
+						
+			
 			}
-
-			if (profilePic.get(0).getOriginalFilename() != "") {
-				imageName = dateTimeInGMT.format(date) + "_" + profilePic.get(0).getOriginalFilename();
-				if (profilePic.get(0).getOriginalFilename() != null) {
-					try {
-						upload.saveUploadedImge(profilePic.get(0), Constants.imageSaveUrl, imageName, Constants.values,
-								0, 0, 0, 0, 0);
-
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
-				}
-			} else {
-
-				imageName = request.getParameter("profPic");
-				System.out.println(imageName);
-			}
-
-			employee.setEmpPic(imageName);
-
-			employee.setEmpId(empId);
-			employee.setEmpType(Integer.parseInt(request.getParameter("empType")));
-			employee.setEmpName(request.getParameter("empName"));
-			employee.setEmpNickname(request.getParameter("empNickname"));
-			employee.setEmpDob(request.getParameter("dob"));
-
-			if (empId != 0) {
-				employee.setEmpRoleId(roleId);
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("empId", empId);
-				EmployeeMaster empMst = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
-						map, EmployeeMaster.class);
-				employee.setIsActive(empMst.getIsActive());
-			} else {
-				employee.setEmpRoleId(0);
-				employee.setIsActive(1);
-			}
-			employee.setEmpMob(request.getParameter("phone"));
-			employee.setEmpEmail(request.getParameter("email"));
-			employee.setEmpPass(request.getParameter("pwd"));
-			employee.setEmpDesc(servicesList);
-			employee.setEmpPic(imageName);
-			employee.setEmpSalary(request.getParameter("empSal"));
-			employee.setDelStatus(1);
-			employee.setUpdateDatetime(curDateTime);
-			employee.setUpdateUsername(userId);
-			employee.setExInt1(0); // isEnroll
-			employee.setExInt2(0);
-			employee.setExVar1("NA");
-			employee.setExVar2("NA");
-
-			System.err.println("employee " + employee.toString());
-			EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
-					employee, EmployeeMaster.class);
+			
+			
 
 		} catch (Exception e) {
 			System.err.println("Exce in addNwEmployee " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/employeeList";
+		return redirect;
 	}
 
 	@RequestMapping(value = "/editEmployee", method = RequestMethod.GET)
@@ -950,22 +1037,23 @@ public class MasterMVCController {
 	@RequestMapping(value="/checkEmailText", method = RequestMethod.POST)
 	@ResponseBody 
 	public int checkEmailText(HttpServletRequest request, HttpServletResponse response) {
-		EmployeeMaster employee = new EmployeeMaster();
+		
 		Info info = new Info();
 		int res = 0;
-				try {	
+		int eid = 0;
+		try {	
+			try {
+				eid = Integer.parseInt(request.getParameter("eid"));
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 				
 			String email = request.getParameter("email");
-			int eid = Integer.parseInt(request.getParameter("eid"));
-			int edit = Integer.parseInt(request.getParameter("edit"));
-			System.out.println("Emp ----------"+email);
-			MultiValueMap<String, Object> map = null;
 			
 			
-			map = new LinkedMultiValueMap<String, Object>();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			
 			map.add("email", email);
-			map.add("edit", edit);
 			map.add("eid", eid);
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/checkEmployeeEmail",
 			map, Info.class);
@@ -1682,7 +1770,7 @@ public class MasterMVCController {
 
 			if (view.isError() == true) {
 
-				redirect = "rediredt:/accessDenied";
+				redirect = "redirect:/accessDenied";
 
 			} else {
 				MultiValueMap<String, Object> map = null;
