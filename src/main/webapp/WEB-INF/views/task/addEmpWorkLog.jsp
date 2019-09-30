@@ -456,28 +456,14 @@
 
 							},
 							function(data) {
-								//alert(JSON.stringify(data));
+								document.getElementById("workHour").value = data.exVar1;
+								//alert(JSON.stringify(data.exVar1));
 								document.getElementById("empId").value = data.empId;
 								document.getElementById("taskId").value = data.taskId;
 								document.getElementById("logId").value = data.workLogId;
-								document.getElementById("anytime-time").value = data.exVar1;
+								///document.getElementById("workHour").value = data.exVar1;
 								document.getElementById("remark").value = data.workRemark;
 								document.getElementById("workDate").value = data.workDate;
-								/* var dataTable = $('#work_log_table').DataTable();
-								dataTable.clear().draw();
-
-								$.each(data, function(i, v) {
-									//alert(JSON.stringify(v));
-			  											
-									dataTable.row.add(
-											[ 	i + 1,
-												v.exVar1,
-												 // v.workDate,
-												  v.workHours
-											//  acButton
-											
-											]).draw();
-								}); */
 								
 							});
 			
@@ -545,7 +531,7 @@ $('.daterange-basic_new').daterangepicker({
 
 										<input type="hidden" id="empId" name="empId">
 										
-										<div class="form-group form-group-float col-md-2">
+										<div class="form-group form-group-float col-md-3">
 											<label class="form-group-float-label">Work Date</label> <input
 												type="text" class="form-control datepickerclass"
 												 name="workDate" id="workDate"
@@ -553,11 +539,11 @@ $('.daterange-basic_new').daterangepicker({
 										</div>
 
 
-										<div class="form-group form-group-float col-md-2">
+										<div class="form-group form-group-float col-md-3">
 											<label class="form-group-float-label">Work Hours </label> <input
-												type="text" class="form-control"
+												type="time" class="form-control"
 												 name="workHour"
-												id="anytime-time" placeholder="Work Hour">
+												id="workHour" placeholder="Work Hour">
 												<div class="col-md-2">
 													<span class="validation-invalid-label"
 													id="err_wrk_log" style="display: none; width: 180px;">Please
@@ -565,7 +551,7 @@ $('.daterange-basic_new').daterangepicker({
 												</div>
 										</div>
 
-										<div class="form-group form-group-float  col-md-6">
+										<div class="form-group form-group-float  col-md-4">
 											<label class="form-group-float-label"> Remark</label> <input
 												type="text" class="form-control"
 												 placeholder="Enter Remark"
@@ -619,7 +605,7 @@ $('.daterange-basic_new').daterangepicker({
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#anytime-time").val() || $("#anytime-time").val() == "") {
+				if (!$("#workHour").val() || $("#workHour").val() == "") {
 
 					isError = true;
 

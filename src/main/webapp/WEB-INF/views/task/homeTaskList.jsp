@@ -378,8 +378,8 @@ h5 {
 
 									<div class="form-group form-group-float  col-md-2">
 										<label class="form-group-float-label">Hours </label> <input
-											type="text" class="form-control" value="${workLog.workHours}"
-											name="workHour" id="anytime-time" placeholder="Work Hour">
+											type="time" class="form-control" value="${workLog.workHours}"
+											name="workHour" id="any_time" placeholder="Work Hour">
 									</div>
 
 									<div class="form-group form-group-float  col-md-6">
@@ -522,8 +522,8 @@ h5 {
 									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="text" class="form-control"
-											placeholder="Enter Manager Budgeted Hours" id="anytime-time1"
+										<input type="time" class="form-control"
+											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
 											 name="manBudHr" onchange="submitResponse()"
 											autocomplete="off">
 									</div>
@@ -533,9 +533,9 @@ h5 {
 									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="text" class="form-control"
+										<input type="time" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
-											id="anytime-time2"  onchange="submitResponse()"
+											id="edit_emptime"  onchange="submitResponse()"
 											name="empBudHr" autocomplete="off">
 									</div>
 
@@ -952,8 +952,8 @@ function append(data){
 								
 								//alert(JSON.stringify(data));
 								
-								document.getElementById("anytime-time2").value=data.task.empBudHr;
-								document.getElementById("anytime-time1").value=data.task.mngrBudHr;
+								document.getElementById("edit_emptime").value=data.task.empBudHr;
+								document.getElementById("edit_mngrtime").value=data.task.mngrBudHr;
   								//alert("errordata"+data.task.taskEndDate);
 								document.getElementById("workDate1").value=data.task.taskEndDate;
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
@@ -997,8 +997,8 @@ function append(data){
 	
 	function submitResponse(){
 		//alert("flag ***"+flag);
-		var empBudHr = document.getElementById("anytime-time2").value;
-			var manBudHr = document.getElementById("anytime-time1").value;
+		var empBudHr = document.getElementById("edit_emptime").value;
+			var manBudHr = document.getElementById("edit_mngrtime").value;
 			var workDate=document.getElementById("workDate1").value ;//create this
 			var dueDate=document.getElementById("dueDate").value;//create this
 			var taskId1=document.getElementById("taskId1").value ;
@@ -1240,7 +1240,8 @@ function addNewWorkLog(){
 	
 	var logId = $("#logId").val();
 	var taskId = $("#taskId").val();
-	var workHrs = $("#anytime-time").val();
+	var workHrs = $("#any_time").val();
+	alert(workHrs);
 	var workDate = $("#workDate").val();
 	var remark = $("#remark").val();
 	
