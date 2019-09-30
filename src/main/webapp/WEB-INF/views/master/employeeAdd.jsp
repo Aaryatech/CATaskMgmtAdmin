@@ -494,7 +494,7 @@
 					isError = true;
 
 					$("#error_empType").show()
-					//return false;
+					
 				} else {
 					$("#error_empType").hide()
 				}
