@@ -373,6 +373,11 @@ h5 {
 											type="text" class="form-control datepickerclass"
 											value="${workLog.workDate}" name="workDate" id="workDate"
 											placeholder="Work Date">
+												<div class="col-md-2">
+													<span class="validation-invalid-label"
+													id="err_wrkdate_log" style="display: none; width: 180px;">Please
+													enter employee work hours.</span>
+												</div>
 									</div>
 
 
@@ -380,6 +385,12 @@ h5 {
 										<label class="form-group-float-label">Hours </label> <input
 											type="time" class="form-control" value="${workLog.workHours}"
 											name="workHour" id="any_time" placeholder="Work Hour">
+											<div class="col-md-2">
+													<span class="validation-invalid-label"
+													id="err_wrk_log" style="display: none; width: 180px;">Please
+													enter employee work hours.</span>
+												</div>
+											
 									</div>
 
 									<div class="form-group form-group-float  col-md-6">
@@ -1241,15 +1252,19 @@ function addNewWorkLog(){
 	var logId = $("#logId").val();
 	var taskId = $("#taskId").val();
 	var workHrs = $("#any_time").val();
-	alert(workHrs);
 	var workDate = $("#workDate").val();
 	var remark = $("#remark").val();
 	
 	if(workDate!=null && workDate==""){
-		alert("Please enter Work Date!");
-	}else if(workHrs!=null && workHrs==""){
-		alert("Please enter Work Hours!");
+	//	alert("Please enter Work Date!");
+		$("#err_wrkdate_log").show()
+	}
+	if(workHrs!=null && workHrs==""){
+		//alert("Please enter Work Hours!");
+		$("#err_wrk_log").show()
 	}else{
+		$("#err_wrkdate_log").hide()
+		$("#err_wrk_log").hide()
 	$("#loader").show();
 	$
 	.getJSON(

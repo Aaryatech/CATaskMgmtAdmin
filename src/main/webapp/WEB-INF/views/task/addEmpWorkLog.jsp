@@ -456,12 +456,11 @@
 
 							},
 							function(data) {
-								document.getElementById("workHour").value = data.exVar1;
-								//alert(JSON.stringify(data.exVar1));
+								document.getElementById("work_hr").value = data.exVar1;
+								//alert(JSON.stringify(data));
 								document.getElementById("empId").value = data.empId;
 								document.getElementById("taskId").value = data.taskId;
 								document.getElementById("logId").value = data.workLogId;
-								///document.getElementById("workHour").value = data.exVar1;
 								document.getElementById("remark").value = data.workRemark;
 								document.getElementById("workDate").value = data.workDate;
 								
@@ -543,7 +542,7 @@ $('.daterange-basic_new').daterangepicker({
 											<label class="form-group-float-label">Work Hours </label> <input
 												type="time" class="form-control"
 												 name="workHour"
-												id="workHour" placeholder="Work Hour">
+												id="work_hr" placeholder="Work Hour">
 												<div class="col-md-2">
 													<span class="validation-invalid-label"
 													id="err_wrk_log" style="display: none; width: 180px;">Please
@@ -605,7 +604,7 @@ $('.daterange-basic_new').daterangepicker({
 				var isError = false;
 				var errMsg = "";
 
-				if (!$("#workHour").val() || $("#workHour").val() == "") {
+				if (!$("#work_hr").val() || $("#work_hr").val() == "") {
 
 					isError = true;
 
