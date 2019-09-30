@@ -601,8 +601,7 @@
 function uniqueEmail(){
 	 $("#error_email").html("Please enter email.");
 	 $("#error_email").hide();
-	 document.getElementById("submtbtn").disabled = false;
-	 document.getElementById("cancelbtn").disabled = false;
+	 document.getElementById("submtbtn").disabled = false; 
 		
 	var edit = ${isEdit};
 	var eid = $("#employee_id").val();
@@ -636,7 +635,7 @@ function uniqueEmail(){
 						 $("#error_email").html("This email-id is already exists.");
 							$("#error_email").show();
 							document.getElementById("submtbtn").disabled = true;
-							document.getElementById("cancelbtn").disabled = true;						
+													
 						
 						return false;
 					}
