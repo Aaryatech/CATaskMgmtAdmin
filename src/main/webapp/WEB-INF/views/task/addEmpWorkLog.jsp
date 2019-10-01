@@ -430,7 +430,7 @@
 										[ 	i + 1,
 											v.exVar1,
 											 // v.workDate,
-											  v.workHours
+											 v.workHours
 										//  acButton
 										
 										]).draw();
@@ -456,8 +456,9 @@
 
 							},
 							function(data) {
-								document.getElementById("work_hr").value = data.exVar1;
+
 								//alert(JSON.stringify(data));
+								document.getElementById("work_hr").value = data.workHours;
 								document.getElementById("empId").value = data.empId;
 								document.getElementById("taskId").value = data.taskId;
 								document.getElementById("logId").value = data.workLogId;
@@ -540,9 +541,8 @@ $('.daterange-basic_new').daterangepicker({
 
 										<div class="form-group form-group-float col-md-3">
 											<label class="form-group-float-label">Work Hours </label> <input
-												type="time" class="form-control"
-												 name="workHour"
-												id="work_hr" placeholder="Work Hour">
+												type="text" class="form-control" name="workHour" data-mask="99:99"
+												id="work_hr" placeholder="Work Hour" value="">
 												<div class="col-md-2">
 													<span class="validation-invalid-label"
 													id="err_wrk_log" style="display: none; width: 180px;">Please
@@ -596,6 +596,7 @@ $('.daterange-basic_new').daterangepicker({
 						</div>
 					</div>
 				</div>
+	<!-- End Daily Work Log modal -->
 <script>
 		
 

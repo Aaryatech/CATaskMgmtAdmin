@@ -1604,10 +1604,7 @@ public class TaskController {
 
 			hrLog = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogHrsById", map,
 					DailyWorkLog.class);
-			String workHr = String.valueOf(hrLog.getWorkHours());
-
-			hrLog.setExVar1(workHr.replace(".", ":"));
-
+			
 		} catch (Exception e) {
 			System.err.println("Exce in getDailyWorkLogById " + e.getMessage());
 		}

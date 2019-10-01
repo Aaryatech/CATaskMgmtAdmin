@@ -48,6 +48,11 @@
 .form-group {
     margin-bottom: 0.25rem !important;
 }
+
+.daterangepicker dropdown-menu ltr single opensright show-calendar dropup {
+   
+   padding-top: 70% !important;
+}
 </style>
 </head>
 
@@ -368,12 +373,12 @@ h5 {
 										value="${workLog.workLogId}">
 
 
-									<div class="form-group form-group-float col-md-2">
+									<div class="form-group form-group-float col-md-3">
 										<label class="form-group-float-label">Work Date</label> <input
 											type="text" class="form-control datepickerclass"
 											value="${workLog.workDate}" name="workDate" id="workDate"
 											placeholder="Work Date">
-												<div class="col-md-2">
+												<div class="col-md-3">
 													<span class="validation-invalid-label"
 													id="err_wrkdate_log" style="display: none; width: 180px;">Please
 													enter employee work hours.</span>
@@ -381,10 +386,11 @@ h5 {
 									</div>
 
 
-									<div class="form-group form-group-float  col-md-2">
+									<div class="form-group form-group-float  col-md-3">
 										<label class="form-group-float-label">Hours </label> <input
-											type="time" class="form-control" value="${workLog.workHours}"
-											name="workHour" id="any_time" placeholder="Work Hour">
+											type="text" class="form-control" value="${workLog.workHours}"
+											name="workHour" id="any_time" placeholder="Work Hour"
+											data-mask="99:99">
 											<div class="col-md-2">
 													<span class="validation-invalid-label"
 													id="err_wrk_log" style="display: none; width: 180px;">Please
@@ -393,7 +399,7 @@ h5 {
 											
 									</div>
 
-									<div class="form-group form-group-float  col-md-6">
+									<div class="form-group form-group-float  col-md-3">
 										<label class="form-group-float-label"> Remark</label> <input
 											type="text" class="form-control"
 											value="${workLog.workRemark}" placeholder="Enter Remark"
@@ -442,7 +448,7 @@ h5 {
 <!-- Solid tabs -->
 	<div class="row">
 		<div class="col-md-12">
-			<div class="card">
+			<!-- <div class="card"> -->
 				<!-- <div class="card-header header-elements-inline">
 					<h6 class="card-title">Solid tabs</h6>
 				</div> -->
@@ -497,7 +503,7 @@ h5 {
 
 			</div>
 		</div>
-		</div>
+		<!-- </div> -->
 	</div>
 </div>
 <!-- /solid tabs -->
@@ -533,7 +539,7 @@ h5 {
 									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="time" class="form-control"
+										<input type="text" class="form-control" data-mask="99:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
 											 name="manBudHr" onchange="submitResponse()"
 											autocomplete="off">
@@ -544,7 +550,7 @@ h5 {
 									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="time" class="form-control"
+										<input type="text" data-mask="99:99" class="form-control"
 											placeholder="Enter Employee Budgeted Hours"
 											id="edit_emptime"  onchange="submitResponse()"
 											name="empBudHr" autocomplete="off">
@@ -1240,7 +1246,6 @@ function append(data){
 		document.getElementById("logId").value = 0;
 		$('#modal_small').modal('show'); 
 	}
-	
 	
 	
 	
