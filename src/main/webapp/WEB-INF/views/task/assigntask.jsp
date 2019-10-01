@@ -267,7 +267,14 @@
 										style="display: none;">Please Select the Employees.</span>
 								</div>
 							</div>
-
+<br>
+							<div style="text-align: center;">
+								<input type="submit" class="btn btn-primary" value="Assign Task"
+									id="deleteId"
+									style="align-content: center; width: 113px; margin-left: 40px;">
+							</div>
+							<br>
+							
 							<div class="table-responsive">
 
 								<table
