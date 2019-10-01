@@ -88,8 +88,39 @@ public class TaskController {
 
 			} else {
 				mav = new ModelAndView("task/assigntask");
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				mav.addObject("serviceList", srvcMstrList);
+
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+				mav.addObject("custList", custHeadList);
+				
+				String custId="0";
+				String servId="0";
+				
+				if(request.getParameter("customer")!="" && request.getParameter("customer")!=null ) {
+					custId=request.getParameter("customer");
+				}else {
+					custId="0";
+				}
+				
+				if(request.getParameter("service")!="" && request.getParameter("service")!=null ) {
+					servId=request.getParameter("service");
+				}else {
+					servId="0";
+				}
+				mav.addObject("servId", servId);
+				mav.addObject("custId", custId);
+				
+				
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("stat", 0);
+				map.add("servId", Integer.parseInt(servId));
+				map.add("custId", Integer.parseInt(custId));
 				GetTaskList[] holListArray = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAllTaskList", map, GetTaskList[].class);
 

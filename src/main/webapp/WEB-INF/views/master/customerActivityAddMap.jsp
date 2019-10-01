@@ -263,8 +263,8 @@
 											Budget Hours <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Manager Budget Hours" id="anytime-time1"
+											<input type="time" class="form-control"
+												placeholder="Enter Manager Budget Hours" id="abc"
 												name="mgBudgetHr" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">

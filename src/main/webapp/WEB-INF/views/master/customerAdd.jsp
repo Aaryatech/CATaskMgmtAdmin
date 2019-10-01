@@ -250,10 +250,14 @@
 												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
 												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
 												<option value="4" ${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public Limited</option>
+												<option value="5" ${custHead. custAssesseeTypeId == 5 ? 'selected' : ''}>Trust</option>
+												<option value="6" ${custHead. custAssesseeTypeId == 6 ? 'selected' : ''}>AOP</option>
+												<option value="7" ${custHead. custAssesseeTypeId == 7 ? 'selected' : ''}>LA</option>
+												<option value="8" ${custHead. custAssesseeTypeId == 8 ? 'selected' : ''}>LLC</option>
 											</select>
 											<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_assessee_type"
-												style="display: none;">Please enter assessee type.</span>
+												style="display: none;">Please enter Assessee type.</span>
 										</div>
 										</div>
 										<div class="col-lg-3"></div>

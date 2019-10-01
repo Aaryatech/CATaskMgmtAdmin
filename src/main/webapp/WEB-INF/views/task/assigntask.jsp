@@ -144,7 +144,7 @@
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Assign Task</h5>
 						<div class="header-elements">
-						<%-- 	<div class="list-icons">
+							<%-- 	<div class="list-icons">
 
 								<a href="#" title="Chat/Update" data-toggle="modal"
 									data-target="#modal_remote"><img
@@ -155,33 +155,110 @@
 						</div>
 					</div>
 
-					<form
-						action="${pageContext.request.contextPath}/submitTaskAssignment"
-						id="submitInsertEmpType" method="post">
+
+					<form action="${pageContext.request.contextPath}/assignTask"
+						id="submitInsertEmpType1">
 						<div class="card-body">
-						<div class="form-group row">
 
-								<label class="col-form-label col-lg-3" for="startDate">Work
-									Date:
+							<div class="form-group row">
+								<label class="col-form-label col-lg-1" for="service">
+									Service<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-6">
-									<input type="text" class="form-control datepickerclass"
-										name="workDate" id="workDate" placeholder="Task Work Date">
-								</div>
 								<div class="col-lg-3">
-									<span class="validation-invalid-label" id="error_startDate"
-										style="display: none;">Please Enter Work Date.</span>
+									<select name="service" data-placeholder="Select Service"
+										id="service"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
 
+										<option value="0">All</option>
+										<c:forEach items="${serviceList}" var="serviceList">
+											<c:choose>
+												<c:when test="${serviceList.servId==servId}">
+													<option selected value="${serviceList.servId}">${serviceList.servName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${serviceList.servId}">${serviceList.servName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_periodicity"
+										style="display: none;"> Select Service</span>
+								</div>
+
+								<label class="col-form-label col-lg-1" for="service">
+									Customer<span style="color: red">* </span> :
+								</label>
+								<div class="col-lg-3">
+									<select name="customer" data-placeholder="Select Customer"
+										id="customer"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+
+										<option value="0">All</option>
+										<c:forEach items="${custList}" var="custList">
+
+											<c:choose>
+												<c:when test="${custId==custList.custId}">
+													<option selected value="${custList.custId}"><c:out
+															value="${custList.custFirmName}" /></option>
+
+												</c:when>
+												<c:otherwise>
+													<option value="${custList.custId}"><c:out
+															value="${custList.custFirmName}" /></option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+
+
+
+
+									</select>
+								</div>
+								<div class="col-lg-2">
+									<span class="validation-invalid-label" id="error_cust"
+										style="display: none;"> Select customer </span>
 								</div>
 
 							</div>
 
 
+							<div class="form-group row mb-0">
+								<div class="col-lg-12" align="center">
+									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn">
+										Search <i class="icon-paperplane ml-2"></i>
+									</button>
+
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<form
+						action="${pageContext.request.contextPath}/submitTaskAssignment"
+						id="submitInsertAssignTask" method="post">
+						<div class="card-body">
 							<div class="form-group row">
-								<label class="col-form-label col-lg-3" for="locId2">
+
+								<label class="col-form-label col-lg-2" for="startDate">Work
+									Date: </label>
+								<div class="col-lg-4">
+									<input type="text" class="form-control datepickerclass1"
+										name="workDate" id="workDate" placeholder="Task Work Date"
+										autocomplete="off">
+								</div>
+
+
+								<label class="col-form-label col-lg-2" for="locId2">
 									Employee <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-6">
+								<div class="col-lg-4">
 
 									<select multiple="multiple" data-placeholder="Select Employee"
 										name="empId2" id="empId2"
@@ -189,12 +266,12 @@
 										data-container-css-class="select-sm" data-fouc>
 										<option value="">Select Employee</option>
 										<c:forEach items="${epmList}" var="epmList">
-											<option value="${epmList.empId}">
-											${epmList.empName} -${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
+											<option value="${epmList.empId}">${epmList.empName}
+												-${epmList.empType==1 ? 'ADM': epmList.empType==2 ? 'PT' : epmList.empType==3 ? 'MG' : epmList.empType==4 ? 'TL' : epmList.empType==5 ? 'EMP' : ''}</option>
 										</c:forEach>
 
 									</select> <span class="validation-invalid-label" id="error_locId2"
-										style="display: none;">This field is required.</span>
+										style="display: none;">Please Select the Employees.</span>
 								</div>
 							</div>
 
@@ -206,7 +283,7 @@
 									<thead>
 										<tr class="bg-blue">
 											<th width="10%">Sr.no<input type="checkbox" checked
-																name="selAll" id="selAll" /></th>
+												name="selAll" id="selAll" /></th>
 											<th>Task</th>
 											<th>Customer</th>
 											<th>Activity</th>
@@ -221,7 +298,7 @@
 
 									<c:forEach items="${taskList}" var="taskList" varStatus="count">
 										<tr>
-											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox" 
+											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all" checked></td>
 
@@ -240,13 +317,13 @@
 									</tbody>
 
 								</table>
-
+								<span class="validation-invalid-label" id="error_chk"
+									style="display: none;">Please Select the Tasks.</span>
 							</div>
 							<br>
 							<div style="text-align: center;">
 								<input type="submit" class="btn btn-primary" value="Assign Task"
 									id="deleteId"
-									onClick="var checkedVals = $('.select_all:checkbox:checked').map(function() { return this.value;}).get();checkedVals=checkedVals.join(',');if(checkedVals==''){alert('No Rows Selected');return false;	}else{   return confirm('Are you sure want to Assign These Task');}"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 
@@ -271,7 +348,50 @@
 
 	</div>
 	<!-- /page content -->
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function($) {
+							$("#submitInsertAssignTask")
+									.submit(
+											function(e) {
 
+												var isError = false;
+												var errMsg = "";
+												var emps = $("#empId2").val();
+
+												var checked = $("#submitInsertAssignTask input:checked").length > 0;
+												if (!checked) {
+													$("#error_chk").show()
+													isError = true;
+												} else {
+													$("#error_chk").hide()
+													isError = false;
+												}
+												//alert("checked" +checked);
+												if (emps == null || emps == "") {
+													isError = true;
+													$("#error_locId2").show()
+												} else {
+													$("#error_locId2").hide()
+												}
+
+												if (!isError) {
+
+													var x = true;
+													if (x == true) {
+
+														document
+																.getElementById("deleteId").disabled = true;
+
+														return true;
+													}
+													//end ajax send this to php page
+												}
+												return false;
+											});
+						});
+	</script>
 
 	<script type="text/javascript">
 		$(document).ready(
@@ -285,21 +405,17 @@
 							});
 				});
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
+		function setDate() {
 
-function setDate(){
-	
-	
-	document
-	.getElementById("workDate").value="";
-}
-
-</script>
+			document.getElementById("workDate").value = "";
+		}
+	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+
 	<script type="text/javascript">
-	
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -310,6 +426,28 @@ function setDate(){
 			}
 		});
 
+		$('.datepickerclass1').daterangepicker({
+			singleDatePicker : true,
+			selectMonths : true,
+			selectYears : true,
+			autoUpdateInput : false,
+			//autoApply:false,
+			//startDate :NULL,
+			locale : {
+				format : 'DD-MM-YYYY'
+
+			}
+		});
+
+		$('input[name="workDate"]').on('apply.daterangepicker',
+				function(ev, picker) {
+					$(this).val(picker.startDate.format('DD-MM-YYYY'));
+				});
+
+		$('input[name="workDate"]').on('cancel.daterangepicker',
+				function(ev, picker) {
+					$(this).val('');
+				});
 		//daterange-basic_new
 		// Basic initialization
 		$('.daterange-basic_new').daterangepicker({
