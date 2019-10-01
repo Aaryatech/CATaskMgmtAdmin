@@ -1398,7 +1398,7 @@ function addNewWorkLog(){
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
-			drops:'up',
+			drops:'down',
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
