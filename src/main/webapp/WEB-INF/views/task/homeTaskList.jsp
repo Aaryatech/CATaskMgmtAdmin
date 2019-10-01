@@ -48,11 +48,6 @@
 .form-group {
     margin-bottom: 0.25rem !important;
 }
-
-.daterangepicker dropdown-menu ltr single opensright show-calendar dropup {
-   
-   padding-top: 70% !important;
-}
 </style>
 </head>
 
