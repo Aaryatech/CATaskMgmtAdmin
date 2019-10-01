@@ -23,8 +23,8 @@ font-weight: bold;
 font-size: 25px;
 }
 .profile-cover-img{
-opacity: 0.5;
- background-image: url(/taskmgmtadmin/resources/global_assets/images/kppm.png);
+ opacity: 0.5;
+ background-image: url("${pageContext.request.contextPath}/resources/global_assets/images/kppm.png");
 }
 </style>
 </head>
