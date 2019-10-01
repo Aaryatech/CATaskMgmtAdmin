@@ -263,9 +263,9 @@
 											Budget Hours <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="time" class="form-control"
-												placeholder="Enter Manager Budget Hours" id="abc"
-												name="mgBudgetHr" autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
+												name="mgBudgetHr" autocomplete="off" onchange="trim(this)" data-mask="99:99">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
@@ -281,7 +281,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Employee Budget Hours" id="anytime-time2"
+												placeholder="Enter Employee Budget Hours" id="empBudgetHr"  data-mask="99:99"
 												name="empBudgetHr" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
@@ -436,11 +436,11 @@
 			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 			});
 
-		$('#anytime-time1').on('input', function() {
+		$('#mgBudgetHr').on('input', function() {
 			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 			});
 
-		$('#anytime-time2').on('input', function() {
+		$('#empBudgetHr').on('input', function() {
 			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 			});
 
@@ -547,7 +547,7 @@
 														}
 														
 																												
-														if (!$("#anytime-time1").val()) {
+														if (!$("#mgBudgetHr").val()) {
 
 															isError = true;
 
@@ -559,7 +559,7 @@
 																	.hide()
 														}	
 													
-													if (!$("#anytime-time2")
+													if (!$("#empBudgetHr")
 															.val()) {
 
 														isError = true;

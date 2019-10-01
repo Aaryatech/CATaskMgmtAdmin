@@ -1677,20 +1677,27 @@ public class TaskController {
 
 			int userId = emp.getEmpId();
 			String edate = new String();
-			try {
-				edate = request.getParameter("endDate");
-			} catch (Exception e) {
-
-			}
-
+			String edate1 = new String();
 			activityMap = new CustmrActivityMap();
+			if(request.getParameter("endDate")!="" && request.getParameter("endDate")!=null) {
+				edate = DateConvertor.convertToYMD(request.getParameter("endDate"));
+				edate1=request.getParameter("endDate");
+				activityMap.setActvEndDate(edate1);
+			} else {
+				FinancialYear srvsMstr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getCurrentFinYear", FinancialYear.class);
+				edate=srvsMstr.getFinEndDate();
+				activityMap.setActvEndDate(DateConvertor.convertToDMY(edate));
+			}
+			
+		
 
 			activityMap.setMappingId(0);
 			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
 			activityMap.setActvEmpBudgHr(
 					Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("empBudgetHr"))));
 			activityMap.setActvStartDate(request.getParameter("startDate"));
-			activityMap.setActvEndDate(request.getParameter("endDate"));
+			
 			activityMap.setActvManBudgHr(
 					Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("mgBudgetHr"))));
 			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
@@ -1730,7 +1737,7 @@ public class TaskController {
 
 			String strDate = DateConvertor.convertToYMD((request.getParameter("startDate")));
 			// System.out.println("Converted String str: " + strDate);
-			String endDate = DateConvertor.convertToYMD((request.getParameter("endDate")));
+			String endDate = edate;
 			// System.out.println("Converted String end: " + endDate);
 			// System.out.println("perId: " + perId);
 			List<DateValues> listDate = PeriodicityDates.getDates(strDate, endDate, perId);
