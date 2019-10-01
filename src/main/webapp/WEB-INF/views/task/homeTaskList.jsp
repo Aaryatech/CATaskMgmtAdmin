@@ -1243,6 +1243,7 @@ function append(data){
 	
 	
 	
+	
 //Add Work Log
 function addNewWorkLog(){
 	var empTyp = ${empType};
