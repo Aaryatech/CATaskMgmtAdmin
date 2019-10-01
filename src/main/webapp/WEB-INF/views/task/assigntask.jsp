@@ -161,10 +161,10 @@
 						<div class="card-body">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-1" for="service">
+								<label class="col-form-label col-lg-2" for="service">
 									Service<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<select name="service" data-placeholder="Select Service"
 										id="service"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -184,15 +184,11 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
-									<span class="validation-invalid-label" id="error_periodicity"
-										style="display: none;"> Select Service</span>
-								</div>
-
-								<label class="col-form-label col-lg-1" for="service">
+								
+								<label class="col-form-label col-lg-2" for="service">
 									Customer<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<select name="customer" data-placeholder="Select Customer"
 										id="customer"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -219,10 +215,7 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
-									<span class="validation-invalid-label" id="error_cust"
-										style="display: none;"> Select customer </span>
-								</div>
+								
 
 							</div>
 
@@ -320,12 +313,7 @@
 								<span class="validation-invalid-label" id="error_chk"
 									style="display: none;">Please Select the Tasks.</span>
 							</div>
-							<br>
-							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary" value="Assign Task"
-									id="deleteId"
-									style="align-content: center; width: 113px; margin-left: 40px;">
-							</div>
+							
 
 
 
