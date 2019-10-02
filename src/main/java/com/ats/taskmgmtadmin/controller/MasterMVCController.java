@@ -94,16 +94,16 @@ public class MasterMVCController {
 						newModuleList);
 
 				if (add.isError() == false) {
-					// //System.out.println(" add Accessable ");
+					 //System.out.println(" add Accessable ");
 					mav.addObject("addAccess", 0);
 
 				}
 				if (edit.isError() == false) {
-					// //System.out.println(" edit Accessable ");
+					 //System.out.println(" edit Accessable ");
 					mav.addObject("editAccess", 0);
 				}
 				if (delete.isError() == false) {
-					// //System.out.println(" delete Accessable ");
+					//System.out.println(" delete Accessable ");
 					mav.addObject("deleteAccess", 0);
 
 				}
@@ -291,7 +291,7 @@ public class MasterMVCController {
 				Info add = AccessControll.checkAccess("activity", "activity", "0", "1", "0", "0", newModuleList);
 
 				if (add.isError() == false) {
-					// //System.out.println(" add Accessable ");
+					
 					mav.addObject("addAccess", 0);
 
 				}
@@ -307,16 +307,7 @@ public class MasterMVCController {
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-			// HttpSession session = request.getSession();
-			// List<ModuleJson> newModuleList = (List<ModuleJson>)
-			// session.getAttribute("newModuleList");
-			/// Info info = AccessControll.checkAccess("activityAdd", "activityAdd","1","0",
-			// "0", "0", newModuleList);
-			// if (info.isError() == true) {
-
-			// mav = new ModelAndView("accessDenied");
-
-			// } else {
+			
 			mav = new ModelAndView("master/activityAdd");
 			ActivityMaster activity = new ActivityMaster();
 			mav.addObject("activity", activity);
@@ -349,23 +340,7 @@ public class MasterMVCController {
 
 			mav.addObject("title", "Add Activity");
 
-			// Info edit = AccessControll.checkAccess("activityAdd", "activityAdd", "0",
-			// "0", "1", "0",
-			// newModuleList);
-			// Info delete = AccessControll.checkAccess("activityAdd", "activityAdd", "0",
-			// "0", "0", "1",
-			// newModuleList);
-
-			// if (edit.isError() == false) {
-			// //System.out.println(" edit Accessable ");
-			// mav.addObject("editAccess", 0);
-			//// }
-			// if (delete.isError() == false) {
-			// //System.out.println(" delete Accessable ");
-			// mav.addObject("deleteAccess", 0);
-
-			// }
-			// }
+			
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();
@@ -561,7 +536,6 @@ public class MasterMVCController {
 						map, ActivityMaster.class);
 
 				serviceId = activity.getServId();
-				// System.out.println("In Act Del="+activity+" "+serviceId);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("userId", userId);
@@ -777,7 +751,6 @@ public class MasterMVCController {
 
 								servicesList = "NA";
 								e.printStackTrace();
-								// System.out.println("Serviceas:" + servicesList);
 							}
 
 							if (profilePic.get(0).getOriginalFilename() != "") {
@@ -853,7 +826,6 @@ public class MasterMVCController {
 							} catch (Exception e) {
 
 								servicesList = "NA";
-								// System.out.println("Serviceas:" + servicesList);
 							}
 
 							if (profilePic.get(0).getOriginalFilename() != "") {
@@ -938,8 +910,7 @@ public class MasterMVCController {
 
 				mav = new ModelAndView("accessDenied");
 
-			} else {
-				List empEditSrvcs = new ArrayList();
+			} else {			
 
 				mav = new ModelAndView("master/employeeAdd");
 
@@ -1492,7 +1463,6 @@ public class MasterMVCController {
 				MultiValueMap<String, Object> map = null;
 				mav = new ModelAndView("master/customerAdd");
 
-				// int custId = Integer.parseInt(request.getParameter("custId"));
 
 				String base64encodedString = request.getParameter("custId");
 				String custId = FormValidation.DecodeKey(base64encodedString);
@@ -1617,7 +1587,6 @@ public class MasterMVCController {
 				List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 				mav.addObject("statusList", statusList);
 
-				// logger.info("Service List"+srvcMstrList);
 				Info add = AccessControll.checkAccess("statusList", "statusList", "0", "1", "0", "0", newModuleList);
 				Info edit = AccessControll.checkAccess("statusList", "statusList", "0", "0", "1", "0", newModuleList);
 				Info delete = AccessControll.checkAccess("statusList", "statusList", "0", "0", "0", "1", newModuleList);
@@ -1750,7 +1719,6 @@ public class MasterMVCController {
 				mav.addObject("isEdit", 1);
 
 				mav.addObject("title", "Edit Status");
-				// logger.info("Service List"+srvcMstrList);
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in statusList " + e.getMessage());
@@ -1805,8 +1773,6 @@ public class MasterMVCController {
 
 			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-
-			// System.err.println("Id / Value--------------" + taskId + " / " + statusVal);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
