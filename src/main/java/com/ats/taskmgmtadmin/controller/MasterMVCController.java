@@ -1565,7 +1565,7 @@ public class MasterMVCController {
 		return redirect;
 	}
 
-	/**********************************************************************/
+	/********************************** Periodicity ************************************/
 
 	@RequestMapping(value = "/getPeridicityByActivity", method = RequestMethod.GET)
 	public @ResponseBody GetActivityPeriodicity getPeridicityByActivity(HttpServletRequest request,
