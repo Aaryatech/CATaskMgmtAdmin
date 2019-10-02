@@ -1528,7 +1528,7 @@ public class TaskController {
 
 			empWrkLogList = new ArrayList<>(Arrays.asList(empWrkLogArr));
 
-			// System.out.println("List Work log-----------"+empWrkLogList);
+			 System.out.println("List Work log-----------"+empWrkLogList);
 		} catch (Exception e) {
 			System.err.println("Exception in  getEmpWorkHoursLogs : " + e.getMessage());
 			e.printStackTrace();

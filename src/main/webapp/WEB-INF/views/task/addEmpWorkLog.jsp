@@ -364,15 +364,29 @@
 			function(data) {
 				var dataTable = $('#worklogdatatable').DataTable();
 				dataTable.clear().draw();
-
+				var wrkDt=0;
 				$.each(data, function(i, v) {
 					
+					
 					var acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+',\''+v.taskText+'\','+v.exInt1+')"><i class="icon-add" style="color: black;">'+
-							'</i>   &nbsp;&nbsp;<a href="#" onclick="editWorkLog('+v.workLogId+', \''+v.taskText+'\','+v.exInt1+')"><i class=" icon-pencil7" style="color: black;""></i>';	
+							'</i>   &nbsp;&nbsp;<a href="#" id="edButton'+v.taskId+'" onclick="editWorkLog('+v.workLogId+', \''+v.taskText+'\','+v.exInt1+')"><i class=" icon-pencil7" style="color: black;""></i>';
+							
+					 if(v.workDate == '09-09-9999'){
+						  wrkDt = '';
+						 // $('#edButton'+v.taskId).setAttribute("disabled",true) ;
+						 // element.setAttribute(attributename, attributevalue)
+						 
+						acButton = '&nbsp;&nbsp;<a href="#" onclick="showTaskLogs('+v.taskId+',\''+v.taskText+'\','+v.exInt1+')"><i class="icon-add" style="color: black;">'+
+							'</i>   &nbsp;&nbsp;';
+							
+					 }else{
+						 wrkDt=v.workDate;
+					 }
+					
 					dataTable.row.add(
 							[ i + 1,
 								v.taskText, 
-								v.workDate, 
+								wrkDt, 
 								v.workHours, 
 								v.employees, 
 								v.custFirmName, 
