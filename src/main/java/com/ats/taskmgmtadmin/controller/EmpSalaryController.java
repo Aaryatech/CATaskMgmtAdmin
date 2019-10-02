@@ -51,14 +51,15 @@ public class EmpSalaryController {
 	// Harsha 21 Aug 2019
 	List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>();
 	List<EmpSalary> epmSalList = new ArrayList<EmpSalary>();
+
 	@RequestMapping(value = "/employeeListForSalaryUpdate", method = RequestMethod.GET)
 	public ModelAndView employeeListForm(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		ModelAndView mav = null;
-		
-		
+
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-		Info view = AccessControll.checkAccess("employeeListForSalaryUpdate", "employeeListForSalaryUpdate", "1", "0", "0", "0", newModuleList);
+		Info view = AccessControll.checkAccess("employeeListForSalaryUpdate", "employeeListForSalaryUpdate", "1", "0",
+				"0", "0", newModuleList);
 		try {
 
 			if (view.isError() == true) {
@@ -66,28 +67,44 @@ public class EmpSalaryController {
 				mav = new ModelAndView("accessDenied");
 
 			} else {
-	 
-			mav = new ModelAndView("Salary/empSalaryUpdate");
 
-			EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
-					EmployeeMaster[].class);
-			epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				mav = new ModelAndView("Salary/empSalaryUpdate");
+				int month = 0;
+				int finYear = 0;
+				try {
+					
+					month = Integer.parseInt(request.getParameter("month"));
+					finYear = Integer.parseInt(request.getParameter("finYear"));
+					System.out.println("prm are in try" + month + finYear);
+				} catch (Exception e) {
+					month = 1;
+					finYear = 1;
+					e.printStackTrace();
+				}
+				mav.addObject("month", month);
+				mav.addObject("finYear", finYear);
+				System.out.println("prm are" + month + finYear);
 
-			for (int i = 0; i < epmList.size(); i++) {
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+						EmployeeMaster[].class);
+				epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 
-				epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
-			}
+				for (int i = 0; i < epmList.size(); i++) {
 
-			FinancialYear[] fin = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFinYear",
-					FinancialYear[].class);
-			List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
-			mav.addObject("fyList", fyList);
+					epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
+				}
 
-			for (int i = 0; i < epmList.size(); i++) {
+				FinancialYear[] fin = Constants.getRestTemplate().getForObject(Constants.url + "/getAllFinYear",
+						FinancialYear[].class);
+				List<FinancialYear> fyList = new ArrayList<FinancialYear>(Arrays.asList(fin));
+				mav.addObject("fyList", fyList);
 
-				epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
-			}
-			mav.addObject("epmList", epmList);
+				for (int i = 0; i < epmList.size(); i++) {
+
+					epmList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(epmList.get(i).getEmpId())));
+				}
+				mav.addObject("epmList", epmList);
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in employeeList " + e.getMessage());
@@ -100,30 +117,29 @@ public class EmpSalaryController {
 	// Harsha 22 Aug 2019
 
 	@RequestMapping(value = "/updateEmpsalary", method = RequestMethod.GET)
-	public String selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response
-			) {
+	public String selectEmployeeToAssigTask(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+		int month = 0;
+		int finYear = 0;
 
-	 
-		
 		try {
-		int month = Integer.parseInt(request.getParameter("month"));
-		int finYear = Integer.parseInt(request.getParameter("finYear"));
-		int userId = emp.getEmpId();
-		System.out.println("inside "+month+finYear);
+			month = Integer.parseInt(request.getParameter("month"));
+			finYear = Integer.parseInt(request.getParameter("finYear"));
+			int userId = emp.getEmpId();
+			// System.out.println("inside "+month+finYear);
 
-		String newsal = null;
-		int empId = 0;
+			String newsal = null;
+			int empId = 0;
 
-		RestTemplate restTemplate = new RestTemplate();
-		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			RestTemplate restTemplate = new RestTemplate();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			List<TempSalList> salList = new ArrayList<TempSalList>();
 
 			for (int i = 0; i < epmList.size(); i++) {
-				System.out.println("salList in for "+i);
-				TempSalList temp=new TempSalList();
+				System.out.println("salList in for " + i);
+				TempSalList temp = new TempSalList();
 				newsal = request.getParameter("currSal" + epmList.get(i).getEmpId());
 				empId = epmList.get(i).getEmpId();
 
@@ -131,19 +147,18 @@ public class EmpSalaryController {
 				temp.setEmpId(empId);
 				try {
 					temp.setEmpSalary(Float.parseFloat(newsal));
-				}catch (Exception e) {
+				} catch (Exception e) {
 
 					temp.setEmpSalary(0);
 				}
 
-				
 				temp.setFinYear(finYear);
 				temp.setMonth(month);
 				temp.setUserId(userId);
 				salList.add(temp);
-				//System.out.println("salList in for "+salList.toString());
+				// System.out.println("salList in for "+salList.toString());
 			}
-			  
+
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSalRecord", salList,
 					Info.class);
 
@@ -151,36 +166,31 @@ public class EmpSalaryController {
 
 			e.printStackTrace();
 		}
-
-		return "redirect:/employeeListForSalaryUpdate";
+		System.out.println("prm before sending" +finYear +month);
+		return "redirect:/employeeListForSalaryUpdate?finYear="+finYear+"&month="+month;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/getPrevSalList", method = RequestMethod.GET)
-	public @ResponseBody SalaryHis getFreeEmployeeList(HttpServletRequest request,
-			HttpServletResponse response) {
+	public @ResponseBody SalaryHis getFreeEmployeeList(HttpServletRequest request, HttpServletResponse response) {
 		SalaryHis empListTot = new SalaryHis();
 
 		try {
 
-			 
 			int year = Integer.parseInt(request.getParameter("finYear"));
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			 
+
 			map.add("year", year);
-			
-			EmpSalary[] holListArray = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getEmpSalByYear", map, EmpSalary[].class);
+
+			EmpSalary[] holListArray = Constants.getRestTemplate().postForObject(Constants.url + "/getEmpSalByYear",
+					map, EmpSalary[].class);
 
 			epmSalList = new ArrayList<>(Arrays.asList(holListArray));
-		System.out.println("data in ajax **"+epmSalList.toString());
-			empListTot.setEmpList(epmList);;
+			// System.out.println("data in ajax **"+epmSalList.toString());
+			empListTot.setEmpList(epmList);
+			;
 			empListTot.setEmpSalList(epmSalList);
-			
-			
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();

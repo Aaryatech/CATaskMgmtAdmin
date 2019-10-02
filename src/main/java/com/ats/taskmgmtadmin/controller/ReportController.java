@@ -147,7 +147,7 @@ public class ReportController {
 				CompletedTaskReport[] resArray = Constants.getRestTemplate()
 						.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
 				List<CompletedTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
-				System.out.println("cmpTaskList***" + cmpTaskList.toString());
+				//System.out.println("cmpTaskList***" + cmpTaskList.toString());
 				for (int i = 0; i < cmpTaskList.size(); i++) {
 					if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
 							&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
@@ -504,7 +504,7 @@ public class ReportController {
 			String toDate = request.getParameter("toDate");
 
 			String empId = request.getParameter("empId");
-			System.out.println("prm are:::" + empId + fromDate + toDate);
+			//System.out.println("prm are:::" + empId + fromDate + toDate);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -545,7 +545,7 @@ public class ReportController {
 			String toDate = request.getParameter("toDate");
 
 			String empId = request.getParameter("empId");
-		 System.out.println("prm are:::" + empId + fromDate + toDate);
+		// System.out.println("prm are:::" + empId + fromDate + toDate);
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -556,7 +556,7 @@ public class ReportController {
 			EmpAndMangPerfRepDetail[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportDetail", map, EmpAndMangPerfRepDetail[].class);
 			List<EmpAndMangPerfRepDetail> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.out.println("perfList task**"+progList.size());
+			//System.out.println("perfList task**"+progList.size());
 
 			
 					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
@@ -748,7 +748,7 @@ public class ReportController {
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.err.println("getInactiveTaskReport**" + progList.toString());
+			//System.err.println("getInactiveTaskReport**" + progList.toString());
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -915,7 +915,7 @@ public class ReportController {
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-			System.err.println("getInactiveTaskReport**" + progList.toString());
+			//System.err.println("getInactiveTaskReport**" + progList.toString());
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -1050,6 +1050,10 @@ public class ReportController {
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
 			char userLetter = 'F';
+			//char userLetter1 = 'Z';
+			//char userLetter2 = userLetter1++;
+			
+			//System.out.println("cahr is "+userLetter2);
 			rowData.add("Sr. No");
 			rowData.add("Name of Employee/ Manager/ TL");
 			rowData.add("Total Hrs");
