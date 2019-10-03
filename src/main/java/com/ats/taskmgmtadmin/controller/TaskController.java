@@ -2,6 +2,7 @@ package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,6 @@ import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.common.PeriodicityDates;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
-import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustmrActivityMap;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
@@ -51,7 +51,6 @@ import com.ats.taskmgmtadmin.model.FinancialYear;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.ShowCustActiMapped;
-import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.model.TaskListHome;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.task.model.Task;
@@ -66,7 +65,6 @@ public class TaskController {
 	List<EmployeeMaster> empList = new ArrayList<EmployeeMaster>();
 	EmployeeFreeBsyList empListTot = new EmployeeFreeBsyList();
 	List<EmployeeMaster> empListNew = new ArrayList<EmployeeMaster>();
-	RestTemplate rest = new RestTemplate();
 	Date now = new Date();
 	String curDate = dateFormat.format(new Date());
 	String dateTime = dateFormat.format(now);
@@ -280,7 +278,6 @@ public class TaskController {
 	@RequestMapping(value = "/submitTaskAssignment", method = RequestMethod.POST)
 	public String addCustLoginDetail(HttpServletRequest request, HttpServletResponse response) {
 
-		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
