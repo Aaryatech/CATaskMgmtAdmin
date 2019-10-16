@@ -10,8 +10,6 @@
 
 <body onload="showDiv(${custHead.custType})">
 
-
-
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
