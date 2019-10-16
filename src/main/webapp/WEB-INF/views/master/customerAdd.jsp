@@ -14,6 +14,7 @@
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
 
+ 
 
 	<!-- Page content -->
 	<div class="page-content">

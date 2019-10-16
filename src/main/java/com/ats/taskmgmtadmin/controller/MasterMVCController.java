@@ -67,7 +67,7 @@ public class MasterMVCController {
 	HttpSession session = null;
 	List<Task> empListNew = new ArrayList<Task>();
 
-	/********************** Service Master **********************/
+	/**************************** Service Master ************************/
 	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model, HttpServletRequest request) {
 
