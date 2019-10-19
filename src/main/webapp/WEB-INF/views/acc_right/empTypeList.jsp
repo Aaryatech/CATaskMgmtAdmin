@@ -27,7 +27,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
+			<%-- <div class="page-header page-header-light">
 
 
 				<div
@@ -54,7 +54,7 @@
 
 
 				</div>
-			</div>
+			</div> --%>
 			<!-- /page header -->
 
 
@@ -71,6 +71,14 @@
 								<a class="list-icons-item" data-action="collapse"></a>
 							</div>
 						</div> -->
+						
+						<c:if test="${addAccess==0}">
+								<a
+									href="${pageContext.request.contextPath}/empTypeAdd"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary"> Add Employee Type </button>
+								</a>
+								</c:if>
 					</div>
 
 					<div class="card-body">

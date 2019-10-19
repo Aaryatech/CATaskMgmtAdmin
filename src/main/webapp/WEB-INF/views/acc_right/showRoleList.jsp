@@ -81,7 +81,7 @@
 							</div>
 
 							<div class="card-body">
-								<%
+								<%-- <%
 									if (session.getAttribute("errorMsg") != null) {
 								%>
 								<div
@@ -115,7 +115,7 @@
 								<%
 									session.removeAttribute("successMsg");
 									}
-								%>
+								%> --%>
 
 								<form
 									action="${pageContext.request.contextPath}/submitCreateRole"

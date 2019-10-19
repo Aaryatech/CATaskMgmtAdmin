@@ -27,7 +27,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<jsp:include page="/WEB-INF/views/include/breadcrum.jsp"></jsp:include>
+		<%-- 	<jsp:include page="/WEB-INF/views/include/breadcrum.jsp"></jsp:include> --%>
 			<!-- /page header -->
 
 
