@@ -376,7 +376,6 @@ h5 {
 								
 								<div class="col-lg-12" style="display: none;" id="sucessmsg">
     						         <div class="alert alert-success border-0 alert-dismissible">
-            							   <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
              						  <span class="font-weight-semibold">Work log saved successfully.</span></div>
         	                     </div> 
 
@@ -483,6 +482,8 @@ h5 {
 								<th style="width: 100px; color: white;">Actual Hours</th>
 								</tr>
 						</thead>
+						<tbody>
+						</tbody>
 					</table>
 				</div> 
 			</div>
@@ -1141,6 +1142,7 @@ function append(data){
 		
 		try{
 			$("#sucessmsg").hide();
+			 
 			}catch (e) {
 				// TODO: handle exception
 			}
@@ -1273,6 +1275,9 @@ function append(data){
 	
 //Add Work Log
 function addNewWorkLog(){
+	
+	document.getElementById("submtbtnlog").disabled = true;
+	
 	var empTyp = ${empType};
 	var sesEmp = ${sessEmpId};
 	
@@ -1293,6 +1298,7 @@ function addNewWorkLog(){
 	}else{
 		$("#err_wrkdate_log").hide()
 		$("#err_wrk_log").hide()
+		
 	$("#loader").show();
 	$
 	.getJSON(
@@ -1306,10 +1312,16 @@ function addNewWorkLog(){
 				ajax : 'true',
 
 			},
-			function(data) {var dataTable = $('#work_log_table1').DataTable();
+			function(data) {
+				
+			var dataTable = $('#work_log_table1').DataTable();
 			dataTable.clear().draw();
 			
 			 $("#sucessmsg").show();
+			 if(data!=null){
+				 document.getElementById("submtbtnlog").disabled = false;
+				 
+			 }
 			
 			$.each(data.logList, function(i, v) {
 				if(empTyp==2){
@@ -1417,7 +1429,9 @@ function addNewWorkLog(){
 	
 	$('#anytime-time').val('');
 	$('#remark').val('');
+	document.getElementById("submtbtnlog").disabled = false;
 	}
+	
 }
 </script>
 
