@@ -27,8 +27,8 @@
 		<!-- Main content -->
 		<div class="content-wrapper">
 
-			<!-- <!-- Page header -->
-			<div class="page-header page-header-light">
+			 <!-- Page header -->
+			<!-- <div class="page-header page-header-light">
 
 
 				<div
@@ -46,7 +46,7 @@
 
 
 				</div>
-			</div> -->
+			</div>  --> <!--  -->
 			<!-- /page header -->
 
 

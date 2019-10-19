@@ -27,7 +27,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
+			<!-- <div class="page-header page-header-light">
 
 
 				<div
@@ -43,15 +43,11 @@
 							class="icon-more"></i></a>
 					</div>
 
-					<div class="breadcrumb justify-content-center">
-						<a href="${pageContext.request.contextPath}/showHolidayList"
-							class="breadcrumb-elements-item"> Holiday List</a>
-
-					</div>
+					
 
 
 				</div>
-			</div>
+			</div> -->
 			<!-- /page header -->
 
 
@@ -71,12 +67,21 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Holiday</h6>
-							<!-- 	<div class="header-elements">
-									<div class="list-icons">
-										<a class="list-icons-item" data-action="collapse"></a>
-									</div>
-								</div> -->
+							 
+						<table width="100%">
+							<tr width="100%">
+								<td width="60%"><h5 class="card-title">Add Holiday
+										</h5></td>
+							 
+									<td width="40%" align="right"><a
+										href="${pageContext.request.contextPath}/showHolidayList"
+										class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-primary">Holiday List
+												</button>
+									</a></td>
+								 
+							</tr>
+						</table>
 							</div>
 
 							<div class="card-body">
