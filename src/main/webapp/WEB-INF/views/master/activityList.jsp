@@ -30,7 +30,7 @@
 			<div class="page-header page-header-light" style="display: none;">
 
 
-				<div
+				<%-- <div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
@@ -44,14 +44,14 @@
 
 					</div>
 					<div class="breadcrumb justify-content-center">
-						<%-- <c:if test="${addAccess == 0}"> 
+						<c:if test="${addAccess == 0}"> 
 							<a href="${pageContext.request.contextPath}/service"
 								class="breadcrumb-elements-item"> Add Service </a>
-						</c:if> --%>
+						</c:if>
 
 					</div>
 
-				</div>
+				</div> --%>
 			</div>
 			<!-- /page header -->
 
