@@ -1,39 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<%-- <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include> --%>
+ 
 <c:url var="saveNewMessage" value="/saveNewMessage" />
 <c:url var="getAllCommunicationByTaskId"
 	value="/getAllCommunicationByTaskId" />
 	<c:url var="insertDeliverableLink" value="/insertDeliverableLink" />
 	
-</head>
+ 
 <style type="text/css">
 .media-chat-scrollable {
 	max-height: 209px;
 	overflow: auto;
 }
 </style>
-<body onload="onloadActive()">
-
-
-
-	<!-- Main navbar -->
-	<%-- <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include> --%>
-	<!-- /main navbar -->
-
+ 
 
 	<!-- Page content -->
 	<div class="page-content">
 
-		<!-- Main sidebar -->
-		<%-- <jsp:include page="/WEB-INF/views/include/left.jsp"></jsp:include> --%>
-		<!-- /main sidebar -->
-
+		 
 
 		<!-- Main content -->
 		<div class="content-wrapper">
@@ -43,73 +29,7 @@
 			<!-- Content area -->
 			<div class="content">
 
-				<div class="row">
-					<div class="col-md-12">
-
-						<table style="background-color: #4CAF50;" width="100%">
-
-							<tr>
-								<td style="color: white; padding: .8rem 1rem;" align="left"
-									width="80%">
-									<h5>
-										Task Name - <span
-											class="font-weight-semibold">${task.taskText} </span> <small
-											class="d-block opacity-75">Owner Partner - ${task.ownerPartner} </small>
-									</h5>
-								</td>
-								<td style="color: white; padding: .8rem 1rem;">
-									<div align="center">
-										<div class="btn" style="background-color: white;">${task.taskStatus}</div>
-										<normal class="d-block opacity-75" style="color: white;">Current
-										Status</normal>
-									</div>
-								</td>
-								<td style="color: white; padding: .8rem 1rem;">	<%-- <a href="${pageContext.request.contextPath}/taskListForEmp"><button
-													type="button" class="btn btn-primary" id="cancelbtn">
-													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
-													Back
-												</button></a> --%></td>
-							</tr>
-
-						</table>
-						
-						
-
-						<br>
-
-
-						<!-- <div class="page-header page-header-dark" style="height: 6rem;">
-							<div class="page-header-content header-elements-inline">
-								<div class="page-title">
-									<h5>
-										<i class="icon-arrow-left52 mr-2"></i> Task ID -<span
-											class="font-weight-semibold"> 1 </span> &nbsp;&nbsp; Name - <span
-											class="font-weight-semibold"> GST </span> <small
-											class="d-block opacity-75">Owner Partner - Prakash</small>
-									</h5>
-								</div>
-
-								<div class="header-elements d-flex align-items-center">
-									<div align="center">
-										<div class="btn" style="background-color: white;">Pending</div>
-										<normal class="d-block opacity-75">Current Status</normal>
-									</div>
-
-								</div>
-							</div>
-
-
-							<div
-								class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-
-							</div>
-
-						</div> -->
-
-					</div>
-				</div>
-
-
+				 
 
 				<div class="row">
 					<div class="col">
@@ -632,6 +552,4 @@
 		}
 			
 	</script>
-
-</body>
-</html>
+ 

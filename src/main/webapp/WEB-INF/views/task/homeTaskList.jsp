@@ -25,8 +25,19 @@
 	width: 600px;;
 	height: 700px;
 }
-
-
+/* .modal-body-one{padding: 0px;}
+.content-one {padding: 0.25rem 1.25rem;}
+.modal-header-one .close { color: inherit; position: absolute; right: 10px; 
+top: 10px; font-size: 26px; z-index: 10; background: #FFF; padding: 10px; 
+border-radius: 50%; display: inline-block; height: 40px; opacity: 1; 
+width: 40px; line-height: 0px; text-align: center;} */
+/* 
+.modal-body{padding: 0px !important;}
+.content {padding: 0.25rem 1.25rem !important;}
+.modal-header .close { color: inherit !important; position: absolute !important; right: 10px !important; 
+top: 10px !important; font-size: 26px !important; z-index: 10 !important; background: #FFF !important; padding: 10px !important; 
+border-radius: 50% !important; display: inline-block !important; height: 40px !important; opacity: 1 !important; 
+width: 40px; line-height: 0px !important; text-align: center !important;} */
 #modal_remote {
 	position: fixed !important;
 	bottom: 0 !important;
@@ -238,7 +249,7 @@ h5 {
 								<h5 class="modal-title">Filter</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
-<!--  -->
+
 							<div class="modal-body">
 								<form id="filterForm">
 
@@ -730,7 +741,7 @@ h5 {
 										</select></td>
 
 										<td class="text-center"><a class="chatmodallink mr-2"
-											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}')"
+											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}','${taskList.taskText}','${taskList.ownerPartner}','${taskList.taskStatus}')"
 											href="#" title="Chat/Update"><i class="icon-comments"
 												style="color: green;"></i></a>  <a href="#"
 											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
@@ -917,7 +928,7 @@ function append(data){
 		
 
 
-'<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
+'<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\',\''+data.taskList[i].taskText+'\',\''+data.taskList[i].ownerPartner+'\',\''+data.taskList[i].taskStatus+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
 ' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
 		
 		$('#task_info_table' + ' tbody').append(tr_data);
@@ -928,20 +939,25 @@ function append(data){
 
 }
 
-</script>
+</script>	
 
 
 
 	<script type="text/javascript">
 	
-	function showChatBox(var1,var2){
+	function showChatBox(var1,var2,var3,var4,var5){
 		//alert(var1+':'+var2);
 		 
-		 var title = "Greetings";
-		   var body = "Welcome to ASPSnippets.com";
+		 //   var title = "var3;
+		 //   var title = "Greetings";
+		 //   var body = "Welcome to ASPSnippets.com";
+		  // mdTaskName
+		  $("#mdTaskName").html(var3);
+		   $("#mdOwnerPartner").html(var4);
+		   $("#mdTaskStatus").html(var5);
 		   
-		   $("#myModal .modal-title").html(title);
-		   //$("#myModal .modal-body").html(body);
+		  //  $("#myModal .modal-title").html(title);
+		  //  $("#myModal .modal-body").html(body);
 		   var strhref ="${pageContext.request.contextPath}/communication?taskId="+var1+"&empId="+var2;
 		   $("#modalbody").load(strhref);
 		   $("#myModal").modal("show");
@@ -1587,19 +1603,45 @@ $(document).ready(function(){
 	<div id="myModal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<!--   <h5 class="modal-title">Ajax Loading Demo</h5> -->
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
+				<div class="modal-header bg-success">
+								<table style="background-color: #4CAF50;" width="100%">
+
+							<tr>
+								<td  
+									width="80%">
+									<h5>
+										Task Name - <span id="mdTaskName"
+											class="font-weight-semibold">  </span> <small
+											class="d-block opacity-75" id="mdOwnerPartner">Owner Partner - ${task.ownerPartner} </small>
+									</h5>
+								</td>
+								<td  >
+									<div align="center">
+										<div class="btn" style="background-color: white;" id="mdTaskStatus">${task.taskStatus}</div>
+										<normal class="d-block opacity-75" style="color: white;">Current
+										Status</normal>
+									</div>
+								</td>
+								<td style="color: white; padding: .8rem 1rem;">	<%-- <a href="${pageContext.request.contextPath}/taskListForEmp"><button
+													type="button" class="btn btn-primary" id="cancelbtn">
+													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
+													Back
+												</button></a> --%></td>
+							</tr>
+
+						</table>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
 				<div class="modal-body" id="modalbody">
 					<!-- Content will be loaded here from "remote.php" file -->
 					Wait...
 				</div>
-				<div class="modal-footer">
+				<!-- <div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
