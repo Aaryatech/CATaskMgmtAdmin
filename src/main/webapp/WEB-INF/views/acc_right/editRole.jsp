@@ -27,7 +27,7 @@
 		<!-- Main content -->
 		<div class="content-wrapper">
 
-			<!-- Page header -->
+		<%-- 	<!-- Page header -->
 			<div class="page-header page-header-light">
 
 
@@ -44,15 +44,15 @@
 							class="icon-more"></i></a>
 					</div>
 
-					<%-- <div class="breadcrumb justify-content-center">
+					<div class="breadcrumb justify-content-center">
 						<a href="${pageContext.request.contextPath}/showEmpTypeList"
 							class="breadcrumb-elements-item"> Employee Type List</a>
 
-					</div> --%>
+					</div>
 
 
 				</div>
-			</div>
+			</div> --%>
 			<!-- /page header -->
 
 

@@ -30,7 +30,7 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
+			<%-- <div class="page-header page-header-light">
 
 
 				<div
@@ -47,15 +47,15 @@
 
 					</div>
 					<div class="breadcrumb justify-content-center">
-						<%-- <c:if test="${addAccess == 0}"> 
+						<c:if test="${addAccess == 0}"> 
 							<a href="${pageContext.request.contextPath}/service"
 								class="breadcrumb-elements-item"> Add Service </a>
-						</c:if> --%>
+						</c:if>
 
 					</div>
 
 				</div>
-			</div>
+			</div> --%>
 			<!-- /page header -->
 
 
