@@ -182,19 +182,37 @@ public class AccessRightController {
 
 		try {
 
-			/*
-			 * HttpSession session = request.getSession(); List<ModuleJson> newModuleList =
-			 * (List<ModuleJson>) session.getAttribute("newModuleList"); Info info =
-			 * AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",
-			 * "0", newModuleList);
-			 */
-			Info info = new Info();
-			if (info.isError() == false) {
+			
+			  HttpSession session = request.getSession(); 
+			  List<ModuleJson> newModuleList =  (List<ModuleJson>) session.getAttribute("newModuleList"); 
+			  Info info1 = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",  "0", newModuleList);
+			
+			if (info1.isError() == false) {
 				CreatedRoleList createdRoleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllAccessRole",
 						CreatedRoleList.class);
 				System.out.println("Access List " + createdRoleList.toString());
 				model.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
 				model.addObject("title", "Roles List");
+				
+				Info add = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "1", "0", "0", newModuleList);
+				Info edit = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "1", "0", newModuleList);
+				Info delete = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "0", "1",
+						newModuleList);
+
+				if (add.isError() == false) {
+					// System.out.println(" add Accessable ");
+					model.addObject("addAccess", 0);
+
+				}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					model.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					model.addObject("deleteAccess", 0);
+
+				}
 			} else {
 				model = new ModelAndView("accessDenied");
 			}

@@ -141,11 +141,11 @@
 																		<tr>
 																			<td style="text-align: center; "><c:out value="${count.index+1}" /></td>
 																			<td><c:out value="${createdRoleList.roleName}" /></td>
-																			<td style="text-align: center; "><a title="Edit" rel="tooltip"
+																			<td style="text-align: center; "><c:if test="${editAccess==0}"><a title="Edit" rel="tooltip"
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn "
 																				href="${pageContext.request.contextPath}/editAccessRole/${createdRoleList.roleId}"
-																				  data-original-title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></td>
+																				  data-original-title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if></td>
 																		</tr>
 
 
