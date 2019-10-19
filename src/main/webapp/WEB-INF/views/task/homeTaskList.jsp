@@ -373,6 +373,12 @@ h5 {
 							<div class="modal-header">
 								<!-- <form id="newWorkLog"> -->
 								<div class="form-group row">
+								
+								<div class="col-lg-12" style="display: none;" id="sucessmsg">
+    						         <div class="alert alert-success border-0 alert-dismissible">
+            							   <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+             						  <span class="font-weight-semibold">Work log saved successfully.</span></div>
+        	                     </div> 
 
 									<input type="hidden" name="taskId" id="taskId"> <input
 										type="hidden" name="logId" id="logId"
@@ -1133,6 +1139,11 @@ function append(data){
 		var empTyp = ${empType};	
 		var sesEmp = ${sessEmpId};
 		
+		try{
+			$("#sucessmsg").hide();
+			}catch (e) {
+				// TODO: handle exception
+			}
 		
 		document.getElementById("taskId").value = taskId;		
 		
@@ -1297,6 +1308,8 @@ function addNewWorkLog(){
 			},
 			function(data) {var dataTable = $('#work_log_table1').DataTable();
 			dataTable.clear().draw();
+			
+			 $("#sucessmsg").show();
 			
 			$.each(data.logList, function(i, v) {
 				if(empTyp==2){

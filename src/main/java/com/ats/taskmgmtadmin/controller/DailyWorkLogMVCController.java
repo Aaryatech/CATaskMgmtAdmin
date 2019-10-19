@@ -115,6 +115,10 @@ public class DailyWorkLogMVCController {
 				
 				DailyWorkLog logData = Constants.getRestTemplate().postForObject(Constants.url + "/addNewWorkLog",workLog, DailyWorkLog.class);
 				
+				if(logData!=null) {
+					session.setAttribute("successMsg", "Work Log saved sucessfully");
+					System.out.println("MSG=============="+session.getAttribute("successMsg"));
+				}
 				
 				MultiValueMap<String, Object> map =  new LinkedMultiValueMap<String, Object>();	
 				map.add("taskId", taskId);
