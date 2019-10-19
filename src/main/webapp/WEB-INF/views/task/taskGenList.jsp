@@ -117,7 +117,7 @@
 												name="TaskId" class="select_all" checked></td>
 
 											<td>${taskList.taskText}</td>
-											<td>${taskList.taskStatutoryDueDate}</td>
+											<td>${taskList.exVar1}</td>
 											<td>${taskList.billingAmt}</td>
 											<td>${mHr}</td>
 											<td>${eHr}</td>

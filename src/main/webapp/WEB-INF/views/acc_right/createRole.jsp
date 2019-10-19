@@ -265,7 +265,7 @@
 											id="submtbtn">
 											Submit <i class="icon-paperplane ml-2"></i>
 										</button>
-										<a href="${pageContext.request.contextPath}/showEmpTypeList"><button
+										<a href="${pageContext.request.contextPath}/showRoleList"><button
 												type="button" class="btn btn-primary">Cancel</button></a>
 
 									</div>

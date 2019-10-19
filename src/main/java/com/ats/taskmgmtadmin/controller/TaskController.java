@@ -1798,6 +1798,7 @@ public class TaskController {
 				task.setUpdateDatetime(Constants.getCurDateTime());
 				task.setUpdateUsername(userId);
 				task.setBillingAmt(request.getParameter("billAmt"));
+				task.setExVar1(DateConvertor.convertToDMY(task.getTaskStatutoryDueDate()));
 				taskTempList.add(task);
 
 			}
@@ -1846,6 +1847,8 @@ public class TaskController {
 			for (int i = 0; i < TaskId.length; i++) {
 
 				for (int j = 0; j < taskTempList.size(); j++) {
+					taskTempList.get(j).setExVar1("NA");
+					
 					if (Integer.parseInt(TaskId[i]) == taskTempList.get(j).getTaskId()) {
 
 						taskFinalList.add(taskTempList.get(j));
