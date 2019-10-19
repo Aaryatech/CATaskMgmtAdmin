@@ -59,6 +59,28 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
 .form-group {
     margin-bottom: 0.25rem !important;
 }
+
+
+.datatable-scroller1 tbody{
+ 
+  overflow: auto;
+  height: 100px;
+}
+
+.datatable-scroller1 thead{
+ 
+  overflow: auto;
+  height: 100px;
+}
+.datatable-scroller1 th, .datatable-scroller1 td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+}
+
+
+
+
 </style>
 </head>
 
@@ -296,8 +318,6 @@ h5 {
 
 									<div class="form-group row">
 
-
-
 										<label class="col-form-label col-lg-2" for="status">
 											Select Status : </label>
 										<div class="col-lg-3">
@@ -370,12 +390,13 @@ h5 {
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<div class="modal-header">
+							<div class="modal-header" id="divElement">
 								<!-- <form id="newWorkLog"> -->
 								<div class="form-group row">
 								
 								<div class="col-lg-12" style="display: none;" id="sucessmsg">
     						         <div class="alert alert-success border-0 alert-dismissible">
+    						        <!--  <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button> -->
              						  <span class="font-weight-semibold">Work log saved successfully.</span></div>
         	                     </div> 
 
@@ -1266,8 +1287,7 @@ function append(data){
 								});						
 						});
 		
-		document.getElementById("taskId").innerHTML = 0;
-		document.getElementById("logId").value = 0;
+		
 		$('#modal_small').modal('show'); 
 	}
 	
@@ -1276,17 +1296,18 @@ function append(data){
 //Add Work Log
 function addNewWorkLog(){
 	
-	document.getElementById("submtbtnlog").disabled = true;
+	document.getElementById("submtbtnlog").disabled = true;	
 	
 	var empTyp = ${empType};
-	var sesEmp = ${sessEmpId};
-	
+	var sesEmp = ${sessEmpId};	
 	
 	var logId = $("#logId").val();
 	var taskId = $("#taskId").val();
 	var workHrs = $("#any_time").val();
 	var workDate = $("#workDate").val();
 	var remark = $("#remark").val();
+	
+	
 	
 	if(workDate!=null && workDate==""){
 	//	alert("Please enter Work Date!");
@@ -1314,10 +1335,13 @@ function addNewWorkLog(){
 			},
 			function(data) {
 				
-			var dataTable = $('#work_log_table1').DataTable();
-			dataTable.clear().draw();
 			
-			 $("#sucessmsg").show();
+				
+			var dataTable = $('#work_log_table1').DataTable();
+			dataTable.clear().draw();			
+			
+			showMsg();//show success message
+			
 			 if(data!=null){
 				 document.getElementById("submtbtnlog").disabled = false;
 				 
@@ -1426,12 +1450,12 @@ function addNewWorkLog(){
 							document.getElementById("taskText").innerHTML = task;			
 			 
 		 });
-	
-	$('#anytime-time').val('');
-	$('#remark').val('');
-	document.getElementById("submtbtnlog").disabled = false;
+	$("#any_time").val('');
+	$("#workDate").val('');
+	$("#remark").val('');
 	}
 	
+	//document.getElementById("submtbtnlog").disabled = false;
 }
 </script>
 
@@ -1461,6 +1485,17 @@ function addNewWorkLog(){
 			}
 		});
 	</script>
+	
+	<script type="text/javascript">	
+	function showMsg(){
+		setTimeout(function(){
+			$('#sucessmsg').fadeOut('fast');
+		//	document.getElementById('sucessmsg').style.display = 'block';
+			}, 3000);
+		 $("#sucessmsg").show();
+	}
+	</script>
+	
 
 	<script type="text/javascript">
 	
