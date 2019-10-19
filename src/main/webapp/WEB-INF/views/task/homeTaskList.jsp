@@ -238,7 +238,7 @@ h5 {
 								<h5 class="modal-title">Filter</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
-
+<!--  -->
 							<div class="modal-body">
 								<form id="filterForm">
 
