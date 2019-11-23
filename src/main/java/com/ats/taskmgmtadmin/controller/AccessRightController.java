@@ -223,18 +223,19 @@ public class AccessRightController {
 		return model;
 	}
 
-	@RequestMapping(value = "/deleteRole/{roleId}", method = RequestMethod.GET)
-	public String deleteFlavour(@PathVariable int roleId) {
+	@RequestMapping(value = "/deleteRole", method = RequestMethod.GET)
+	public String deleteFlavour(HttpServletRequest request, HttpServletResponse response) {
 
+		int roleId=Integer.parseInt(request.getParameter("accRole"));
 		ModelAndView mav = new ModelAndView("accessRight/roleList");
 
 		RestTemplate restTemplate = new RestTemplate();
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		map.add("roleId", roleId);
 
-		Info errorResponse = restTemplate.postForObject(Constants.url + "deleteRole", map, Info.class);
+		Info errorResponse = Constants.getRestTemplate().postForObject(Constants.url + "deleteRole", map, Info.class);
 		System.out.println(errorResponse.toString());
-
+		
 		if (errorResponse.isError()) {
 			return "redirect:/showRoleList";
 
