@@ -66,8 +66,9 @@ public class MasterMVCController {
 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 	HttpSession session = null;
 	List<Task> empListNew = new ArrayList<Task>();
-	
-	String redirect=null;
+
+	String redirect = null;
+
 	/**************************** Service Master ************************/
 	@RequestMapping(value = "/serviceList", method = RequestMethod.GET)
 	public ModelAndView serviceListForm(Locale locale, Model model, HttpServletRequest request) {
@@ -187,19 +188,19 @@ public class MasterMVCController {
 			ServiceMaster saveSrvc = Constants.getRestTemplate().postForObject(Constants.url + "/saveService", service,
 					ServiceMaster.class);
 
-			if(saveSrvc!=null) {
+			if (saveSrvc != null) {
 				session.setAttribute("successMsg", Constants.Sucessmsg);
 				redirect = "redirect:/serviceList";
-			}else {
+			} else {
 				session.setAttribute("errorMsg", Constants.Failmsg);
 				redirect = "redirect:/serviceList";
 			}
-					
+
 		} catch (Exception e) {
 			System.err.println("Exce in addService " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return redirect;
 	}
 
@@ -265,10 +266,10 @@ public class MasterMVCController {
 				map.add("serviceId", serviceId);
 
 				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteService", map, Info.class);
-				if(del.isError()) {					
+				if (del.isError()) {
 					session.setAttribute("errorMsg", "Failed to Delete");
 					redirect = "redirect:/serviceList";
-				}else {
+				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					redirect = "redirect:/serviceList";
 				}
@@ -451,10 +452,10 @@ public class MasterMVCController {
 
 			ActivityMaster actMastr = Constants.getRestTemplate().postForObject(Constants.url + "/saveActivity",
 					activity, ActivityMaster.class);
-			if(actMastr!=null){
+			if (actMastr != null) {
 				session.setAttribute("successMsg", Constants.Sucessmsg);
 				redirect = "redirect:/activity";
-			}else {				
+			} else {
 				session.setAttribute("errorMsg", Constants.Failmsg);
 				redirect = "redirect:/activity";
 			}
@@ -829,14 +830,14 @@ public class MasterMVCController {
 					EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 							employee, EmployeeMaster.class);
 
-					if(empl!=null){
+					if (empl != null) {
 						sess.setAttribute("successMsg", Constants.Sucessmsg);
 						redirect = "redirect:/employeeList";
-					}else {				
+					} else {
 						sess.setAttribute("errorMsg", Constants.Failmsg);
 						redirect = "redirect:/employeeList";
 					}
-					
+
 				}
 			} else {
 				System.out.println("--------------New Record");
@@ -911,11 +912,10 @@ public class MasterMVCController {
 				EmployeeMaster empl = Constants.getRestTemplate().postForObject(Constants.url + "/saveNewEmployee",
 						employee, EmployeeMaster.class);
 
-
-				if(empl!=null){
+				if (empl != null) {
 					sess.setAttribute("successMsg", Constants.Sucessmsg);
 					redirect = "redirect:/employeeList";
-				}else {				
+				} else {
 					sess.setAttribute("errorMsg", Constants.Failmsg);
 					redirect = "redirect:/employeeList";
 				}
@@ -1027,14 +1027,14 @@ public class MasterMVCController {
 
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteEmployee", map,
 						Info.class);
-				if(info.isError()) {
+				if (info.isError()) {
 					session.setAttribute("errorMsg", "Failed to Delete");
 					redirect = "redirect:/employeeList";
-				}else{
+				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					redirect = "redirect:/employeeList";
 				}
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteEmployee " + e.getMessage());
@@ -1106,12 +1106,12 @@ public class MasterMVCController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateEmployeeActiveness", map,
 					Info.class);
-			
-			if (info.isError()) {			
-				session.setAttribute("errorMsg", "Status Not Changed");
-				return "redirect:/employeeList";			
 
-			} else {			
+			if (info.isError()) {
+				session.setAttribute("errorMsg", "Status Not Changed");
+				return "redirect:/employeeList";
+
+			} else {
 				session.setAttribute("successMsg", "Status Changed ");
 				return "redirect:/employeeList";
 			}
@@ -1240,20 +1240,20 @@ public class MasterMVCController {
 			CustomerGroupMaster custGrp = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/saveNewCustomerGroup", cust, CustomerGroupMaster.class);
 
-			if (custGrp!=null) {			
+			if (custGrp != null) {
 				session.setAttribute("successMsg", Constants.Sucessmsg);
-				return "redirect:/customerGroupList";			
+				return "redirect:/customerGroupList";
 
-			} else {			
+			} else {
 				session.setAttribute("errorMsg", Constants.Failmsg);
 				return "redirect:/customerGroupList";
 			}
-			
+
 		} catch (Exception e) {
 			System.err.println("Exce in newCustomerGroup " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return redirect;
 
 	}
@@ -1328,17 +1328,16 @@ public class MasterMVCController {
 
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerGroup", map,
 						Info.class);
-				
-				if (info.isError()) {			
-					session.setAttribute("errorMsg", "Failed to Delete");
-					redirect = "redirect:/customerGroupList";	
 
-				} else {			
+				if (info.isError()) {
+					session.setAttribute("errorMsg", "Failed to Delete");
+					redirect = "redirect:/customerGroupList";
+
+				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					redirect = "redirect:/customerGroupList";
 				}
-				
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deleteCustGrp " + e.getMessage());
@@ -1378,6 +1377,7 @@ public class MasterMVCController {
 				mav.addObject("epmList", epmList);
 
 				mav.addObject("title", "Add Customer");
+				mav.addObject("custId", 0);
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
@@ -1505,13 +1505,12 @@ public class MasterMVCController {
 			CustomerHeaderMaster custHead = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/saveNewCustomerHeader", cust, CustomerHeaderMaster.class);
 
-			if(custHead!=null)
-			{
+			if (custHead != null) {
 				session.setAttribute("successMsg", Constants.Sucessmsg);
 				redirect = "redirect:/customerList";
-			}else {
+			} else {
 				session.setAttribute("errorMsg", Constants.Failmsg);
-				redirect = "redirect:/customerList";			
+				redirect = "redirect:/customerList";
 
 			}
 		} catch (Exception e) {
@@ -1564,6 +1563,7 @@ public class MasterMVCController {
 				mav.addObject("custGrpList", custGrpList);
 
 				mav.addObject("title", "Edit Customer");
+				mav.addObject("custId", custId);
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());
@@ -1600,12 +1600,11 @@ public class MasterMVCController {
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerHeader", map,
 						Info.class);
 
-				
-				if (info.isError()) {			
+				if (info.isError()) {
 					session.setAttribute("errorMsg", "Fail to Delete");
-					redirect = "redirect:/customerList";			
+					redirect = "redirect:/customerList";
 
-				} else {			
+				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					redirect = "redirect:/customerList";
 				}
@@ -1767,16 +1766,16 @@ public class MasterMVCController {
 
 			StatusMaster actMastr = Constants.getRestTemplate().postForObject(Constants.url + "/saveStatus", status,
 					StatusMaster.class);
-			
-			if (actMastr!=null) {
-				session.setAttribute("successMsg", Constants.Sucessmsg);
-				redirect = "redirect:/statusList";		
 
-			} else {			
+			if (actMastr != null) {
+				session.setAttribute("successMsg", Constants.Sucessmsg);
+				redirect = "redirect:/statusList";
+
+			} else {
 				session.setAttribute("errorMsg", Constants.Failmsg);
 				redirect = "redirect:/statusList";
 			}
-			
+
 		} catch (Exception e) {
 			System.err.println("Exce in addStatus " + e.getMessage());
 			e.printStackTrace();
@@ -1848,15 +1847,15 @@ public class MasterMVCController {
 
 				Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteStatusById", map,
 						Info.class);
-				if (info.isError()) {			
+				if (info.isError()) {
 					session.setAttribute("errorMsg", "Fail to Deleted");
-					redirect = "redirect:/statusList";			
+					redirect = "redirect:/statusList";
 
-				} else {			
+				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");
 					redirect = "redirect:/statusList";
 				}
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
@@ -1937,7 +1936,7 @@ public class MasterMVCController {
 
 	@RequestMapping(value = "/updateCustomerIsActiveStatus", method = RequestMethod.POST)
 	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response) {
-		session=request.getSession();
+		session = request.getSession();
 		try {
 
 			int custId = Integer.parseInt(request.getParameter("custId"));
@@ -1963,14 +1962,14 @@ public class MasterMVCController {
 
 			Info updateIsActiveStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/updateCustomerIsActiveStatus", map, Info.class);
-			if (updateIsActiveStatus.isError()) {			
+			if (updateIsActiveStatus.isError()) {
 				session.setAttribute("errorMsg", Constants.Failmsg);
-				redirect = "redirect:/customerList";		
+				redirect = "redirect:/customerList";
 
-			} else {	
-				if(isActiveStatus==1){
+			} else {
+				if (isActiveStatus == 1) {
 					session.setAttribute("successMsg", "Status is Active");
-				}else {
+				} else {
 					session.setAttribute("successMsg", "Status is InActive");
 				}
 				redirect = "redirect:/customerList";
@@ -2002,16 +2001,15 @@ public class MasterMVCController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteCustomerDetail", map,
 					Info.class);
-			
-			if (info.isError()) {			
-				session.setAttribute("errorMsg", "Fail to Deleted");
-				redirect = "redirect:/customerDetailList";			
 
-			} else {			
+			if (info.isError()) {
+				session.setAttribute("errorMsg", "Fail to Deleted");
+				redirect = "redirect:/customerDetailList";
+
+			} else {
 				session.setAttribute("successMsg", "Deleted Successfully");
 				redirect = "redirect:/customerDetailList";
 			}
-			
 
 		} catch (Exception e) {
 			System.err.println("Exce in deletCust " + e.getMessage());
@@ -2054,5 +2052,30 @@ public class MasterMVCController {
 		return info;
 
 	}
+
+	// checkUniquePan
+
+	@RequestMapping(value = "/checkUniquePan", method = RequestMethod.POST)
+	public @ResponseBody Info checkUniquePan(HttpServletRequest request, HttpServletResponse response) {
+		Info info = null;
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			String panNo = request.getParameter("panNo");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("panNo", panNo);
+			map.add("custId", custId);
+
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/checkUniquePan", map, Info.class);
+			System.err.println(info.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+
+	}
+
+	// 544
 
 }

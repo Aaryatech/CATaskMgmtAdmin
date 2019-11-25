@@ -9,7 +9,7 @@
 </head>
 
 <body onload="showDiv(${custHead.custType})">
-
+<c:url value="/checkUniquePan" var="checkUniquePan"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -209,12 +209,16 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"  value="${custHead.custPanNo}"
 												placeholder="Enter Permanent Account Number (PAN)"
-												id="panNo" name="panNo" autocomplete="off"
+												id="panNo" name="panNo" autocomplete="off" oninput="checkUnique(this.value)"
 												onchange="trim(this)" maxlength="10" style="text-transform: uppercase;">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_panNo"
 												style="display: none;">Please enter PAN No.</span>
+												
+												<span class="validation-invalid-label" id="error_exist_panNo"
+												style="display: none;">Customer with this PAN Already Exist</span>
+												
 										</div>
 									</div>
 
@@ -299,9 +303,9 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Phone Number" id="phone" name="phone"
+												placeholder="Enter Phone Number (11 digit phone or 10 digit mobile no)" id="phone" name="phone"
 												autocomplete="off" value="${custHead.custPhoneNo}"
-												oninput="validateMobileEnterOnlyDigits(this)" maxlength="10">
+												 maxlength="11">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_phone"
@@ -497,17 +501,45 @@
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
+
 	<script>
 	$('#aadhar').on('input', function() {
 		  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 		});
-	
+	function checkUnique(panNo){
+		var custId=${custId};
+		//alert(isEdit);
+		var x=validatePAN(panNo);
+		if(x==true){
+											
+							$.post('${checkUniquePan}', {
+								panNo : panNo,
+								custId : custId,
+								ajax : 'true',
+							},
+
+							function(data) {
+								//alert("LogList:"+JSON.stringify(data));
+								
+								 if(data.error==true){
+									// document.getElementById("panNo").value = " "; 
+									// alert("This PAN No already exists.");
+										$("#error_exist_panNo").show();
+										//document.getElementById("submtbtn").style="display:none";
+								}
+								else{		
+									$("#error_exist_panNo").hide();
+								//	document.getElementById("submtbtn").style.display="block";
+									}
+							});
+						
+			
+		}//end of x==true
+	}
 	function validatePAN(pan) {
 		 var regex1=/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
 		if (regex1.test($.trim(pan)) == false) {
 			return false;
-			
-			
 		}
 		return true;
 	}
@@ -687,14 +719,14 @@
 
 		}
 		function validateMobile(mobile) {
-			var mob = /^[1-9]{1}[0-9]{9}$/;
+			/* var mob = /^[0-9]{1}[0-9]{9}$/;
 
 			if (mob.test($.trim(mobile)) == false) {
 
 				//alert("Please enter a valid email address .");
 				return false;
 
-			}
+			} */
 			return true;
 
 		}
@@ -715,6 +747,8 @@ function showDiv(typdId){
 			document.getElementById("hideFirm").style = "visible"
 	}
 }
+
+
 
 	
 </script>

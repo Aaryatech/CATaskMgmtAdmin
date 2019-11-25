@@ -1030,7 +1030,7 @@ public class TaskController {
 			} else {
 				// model = new ModelAndView("login");
 				c = "redirect:/";
-				session.setAttribute("errorPassMsg", "Password has been sent to your Email & Contact Number");
+				session.setAttribute("errorPassMsg", "Password has been sent to your Email.");
 				// model.addObject("msg", "Password has been sent to your email");
 
 			}
@@ -1162,12 +1162,12 @@ public class TaskController {
 
 				for (int i = 0; i < taskList.size(); i++) {
 
-					taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					//taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 				}
 				mav.addObject("taskList", taskList);
-				// System.out.println("CompletedTakList***" + taskList.toString());
+				 System.out.println("CompletedTakList***Sac" + taskList.toString());
 			} catch (Exception e) {
-				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				System.err.println("Exce in CompletedTakList " + e.getMessage());
 				e.printStackTrace();
 			}
 

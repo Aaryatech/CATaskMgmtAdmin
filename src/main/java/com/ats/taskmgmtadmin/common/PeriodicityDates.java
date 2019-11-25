@@ -222,17 +222,18 @@ public class PeriodicityDates {
 					}
 				} else {
 					if (c.get(Calendar.DAY_OF_MONTH) == 31 && c.get(Calendar.MONTH) == 2) {
-						//System.out.println("Hello  Yearly   " + dddate.format(j));
+						System.out.println("Hello  Yearly   " + dddate.format(j));
 						arryadate.add(dddate.format(j));
 						
 						
 						DateValues dv = new DateValues();
 						dv.setDate(c.getTime());
-						
-						String myString= String.valueOf(c.get(Calendar.YEAR));
+						//String myString= String.valueOf(c.get(Calendar.YEAR));//Previous
+						String myString= String.valueOf(c.get(Calendar.YEAR)-1); // Please see Below Line
+						//-1 to tackle with If period is selected as 01-04-2018 and periodicity as "yearly". The task is created for FY 2019-20 instead of FY 2018-19. Rest days are considered by software correctly.
 					    myString = myString.substring(myString.indexOf('0')+1);
  						String n = "FY ".concat(myString).concat("-").concat(String.valueOf((Integer.parseInt(myString) + 1)));
-						//System.err.println("Final String is" + n);
+						System.err.println("Final String is" + n);
 
 						dv.setValue(n);
 						dateList.add(dv);
@@ -256,7 +257,7 @@ public class PeriodicityDates {
 
 	public static String addDaysToGivenDate(String oldDate, int daysToAdd) {
 
-		System.out.println("Date before Addition: " + oldDate);
+		//System.out.println("Date before Addition: " + oldDate);
 		// Specifying date format that matches the given date
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
@@ -272,7 +273,7 @@ public class PeriodicityDates {
 		// Date after adding the days to the given date
 		String newDate = sdf.format(c.getTime());
 		// Displaying the new Date after addition of Days
-		System.out.println("Date after Addition: " + newDate);
+		//System.out.println("Date after Addition: " + newDate);
 
 		return newDate;
 	}

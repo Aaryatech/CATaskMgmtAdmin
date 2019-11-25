@@ -269,9 +269,9 @@
 							<thead>
 
 								<tr class="bg-blue">
-									<th width="10%">Sr.no<input type="checkbox"
+									<th width="10%">Sr.no</th>
+									<th>Customer Name <input type="checkbox"
 													name="selAll" id="selAll" /></th>
-									<th>Customer Name</th>
 									<th>Task Text</th>
 									<th>Periodicity</th>
  									<th>Team</th>
@@ -280,17 +280,17 @@
 									<th>Statutory Due Date</th>
 									
 								
-									<th>Status</th>
+									<th>Status </th>
 
 									<!-- <th class="text-center" width="10%">Actions</th> -->
 								</tr>
 							</thead>
 							<c:forEach items="${taskList}" var="taskList" varStatus="count">
 								<tr>
-									<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox" 
+									<td>${count.index+1}</td>
+									<td>${taskList.custFirmName} &nbsp;<input type="checkbox" 
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all"  ></td>
-									<td>${taskList.custFirmName}</td>
 									<td>${taskList.taskText}</td>
 										<td>${taskList.periodicity_name}</td>
  									<td>${taskList.employees}</td>
