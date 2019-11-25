@@ -327,6 +327,14 @@ public class TaskController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
 					Info.class);
+			
+			if (info.isError()) {			
+				session.setAttribute("errorMsg", "Unable to Assign Task");							
+
+			} else {			
+				session.setAttribute("successMsg", "Task Assigned Successfully");
+				
+			}
 
 			if (info.isError() == false) {
 
@@ -714,7 +722,7 @@ public class TaskController {
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateManualTaskByTaskId", map,
 					Task.class);
 			if (task != null) {
-
+				
 				if (stat == 1) {
 					FormValidation.updateTaskLog(TaskText.taskTex6, userId, taskId);
 				} else if (stat == 0) {
@@ -1271,6 +1279,10 @@ public class TaskController {
 				for (int i = 0; i < TaskId.length; i++) {
 					FormValidation.updateTaskLog(TaskText.taskTex8, userId, Integer.parseInt(TaskId[i]));
 				}
+				session.setAttribute("successMsg", Constants.Sucessmsg);
+			}else {
+				
+				session.setAttribute("errorMsg", Constants.Failmsg);
 			}
 
 		} catch (Exception e) {

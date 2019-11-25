@@ -225,7 +225,13 @@ public class LeaveController {
 
 				LeaveApply res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveApply",
 						leaveSummary, LeaveApply.class);
-
+				
+				if(res!=null) {
+					session.setAttribute("successMsg", Constants.Sucessmsg);
+				}else {
+					session.setAttribute("errorMsg", Constants.Failmsg);
+				}
+				
 			} else {
 				session.setAttribute("errorMsg", "Failed to Insert Record");
 			}
