@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,8 @@ public class CustDetailController {
 	// detail
 	// and cust signatory
 	// Sachin
+	String redirect;
+	
 	@RequestMapping(value = "/customerDetailList", method = RequestMethod.GET)
 	public ModelAndView clientDetailListForm(Locale locale, Model model) {
 		
@@ -209,12 +212,23 @@ public class CustDetailController {
 			
 			CustomerDetailMaster custDetailSaveRes = Constants.getRestTemplate().postForObject(Constants.url+"/saveNewCustomerDetail", custDetail, CustomerDetailMaster.class);
 
+			HttpSession session = request.getSession();
+			if (custDetailSaveRes!=null) {			
+				session.setAttribute("successMsg", Constants.Sucessmsg);
+				redirect = "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));		
+
+			} else {			
+				
+				session.setAttribute("errorMsg", Constants.Failmsg);
+				redirect = "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));		
+			}
+			
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));
+		return redirect;
 	}
 
 	
@@ -257,7 +271,7 @@ public class CustDetailController {
 
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		//ModelAndView mav = new ModelAndView("master/customerDetailList");//customerDetailAdd
-		
+		HttpSession session = request.getSession();
 		int custId = 0;
 		try {
 
@@ -307,13 +321,21 @@ public class CustDetailController {
 			custSign.setUpdateUsername(1);
 			
 			CustSignatoryMaster custDetailSaveRes = Constants.getRestTemplate().postForObject(Constants.url+"/saveCustSignatory", custSign, CustSignatoryMaster.class);
+			if (custDetailSaveRes!=null) {							
+				session.setAttribute("successMsg", Constants.Sucessmsg);
+				redirect = "redirect:/customerDetailAdd?custId="+custId;			
 
+			} else {			
+				session.setAttribute("errorMsg", Constants.Failmsg);
+				redirect = "redirect:/customerDetailAdd?custId="+custId;
+			}
+			
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " +e.getMessage());
 			e.printStackTrace();
 		}
 		
-		return "redirect:/customerDetailAdd?custId="+custId;
+		return redirect;
 	}
 	
 	

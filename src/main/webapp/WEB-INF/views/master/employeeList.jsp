@@ -85,7 +85,7 @@
 							</button>
 							<span class="font-weight-semibold">Oh snap!</span>
 							<%
-								session.removeAttribute("errorMsg");
+								out.println(session.getAttribute("errorMsg"));
 							%>
 						</div>
 
@@ -103,7 +103,7 @@
 							</button>
 							<span class="font-weight-semibold">Well done!</span>
 							<%
-								session.removeAttribute("successMsg");
+								out.println(session.getAttribute("successMsg"));
 							%>
 						</div>
 						<%

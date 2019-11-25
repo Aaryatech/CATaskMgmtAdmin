@@ -11,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -236,12 +237,14 @@ public class AccessRightController {
 		Info errorResponse = Constants.getRestTemplate().postForObject(Constants.url + "deleteRole", map, Info.class);
 		System.out.println(errorResponse.toString());
 		
-		if (errorResponse.isError()) {
-			return "redirect:/showRoleList";
+		HttpSession session = request.getSession();
+		if (errorResponse.isError()) {			
+			session.setAttribute("errorMsg", "Failed to Delete");
+			return "redirect:/showRoleList";			
 
-		} else {
+		} else {			
+			session.setAttribute("successMsg", "Deleted Successfully");
 			return "redirect:/showRoleList";
-
 		}
 	}
 

@@ -161,6 +161,12 @@ public class EmpSalaryController {
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateSalRecord", salList,
 					Info.class);
+			
+			if (info != null) {
+				session.setAttribute("successMsg", "Record Inserted Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Insert Record");
+			}
 
 		} catch (Exception e) {
 

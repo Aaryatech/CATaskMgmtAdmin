@@ -81,7 +81,7 @@
 							</div>
 
 							<div class="card-body">
-								<%-- <%
+								 <%
 									if (session.getAttribute("errorMsg") != null) {
 								%>
 								<div
@@ -107,7 +107,7 @@
 									<button type="button" class="close" data-dismiss="alert">
 										<span>×</span>
 									</button>
-									<span class="font-weight-semibold">Well done!</span>
+									<span class="font-weight-semibold">Well Done!</span>
 									<%
 										out.println(session.getAttribute("successMsg"));
 									%>
@@ -115,7 +115,7 @@
 								<%
 									session.removeAttribute("successMsg");
 									}
-								%> --%>
+								%> 
 
 								<form
 									action="${pageContext.request.contextPath}/submitCreateRole"
@@ -147,11 +147,11 @@
 																				href="${pageContext.request.contextPath}/editAccessRole/${createdRoleList.roleId}"
 																				  data-original-title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if>
 																		
-																		 <c:if test="${deleteAccess==0}"><a title="Edit" rel="tooltip"
+																		 <%-- <c:if test="${deleteAccess==0}"> --%><a title="Edit" rel="tooltip"
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn "
 																				href="${pageContext.request.contextPath}/deleteRole?accRole=${createdRoleList.roleId}"
-																				  data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a></c:if></td>
+																				  data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a><%-- </c:if> --%></td>
 																		</tr>
 
 

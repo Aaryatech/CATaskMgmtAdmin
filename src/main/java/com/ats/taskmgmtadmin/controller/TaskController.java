@@ -70,7 +70,7 @@ public class TaskController {
 	String dateTime = dateFormat.format(now);
 
 	String curDateTime = dateFormat.format(cal.getTime());
-
+	String redirect;
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public ModelAndView assignTask(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
@@ -1836,7 +1836,7 @@ public class TaskController {
 		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		String custId = null;
-
+		String redirect=null;
 		try {
 			TempTaskSave tsk = new TempTaskSave();
 			List<Task> taskFinalList = new ArrayList<Task>();
@@ -1864,12 +1864,21 @@ public class TaskController {
 			tsk.setTskList(taskFinalList);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", tsk, Info.class);
+			
+			if (info.isError()) {			
+				session.setAttribute("errorMsg", Constants.Failmsg);
+				redirect = "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);		
 
+			} else {			
+				session.setAttribute("successMsg", Constants.Sucessmsg);
+				redirect =  "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
+			}
+			
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
+		return redirect;
 
 	}
 

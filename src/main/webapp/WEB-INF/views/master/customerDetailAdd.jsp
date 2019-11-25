@@ -65,18 +65,52 @@
 
 				<div class="row">
 
-
-
 					<div class="col-md-12">
 
-
-						<div class="card">
+						<div class="card">		
 
 							<div class="card-header header-elements-inline">
 								<h6 class="card-title">Customer Detail</h6>
 							</div>
 
 							<div class="card-body">
+							
+							<%
+									if (session.getAttribute("errorMsg") != null) {
+								%>
+								<div
+									class="alert bg-danger text-white alert-styled-left alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert">
+										<span>×</span>
+									</button>
+									<span class="font-weight-semibold">Oh snap!</span>
+									<%
+										out.println(session.getAttribute("errorMsg"));
+									%>
+								</div>
+
+								<%
+									session.removeAttribute("errorMsg");
+									}
+								%>
+								<%
+									if (session.getAttribute("successMsg") != null) {
+								%>
+								<div
+									class="alert bg-success text-white alert-styled-left alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert">
+										<span>×</span>
+									</button>
+									<span class="font-weight-semibold">Well Done!</span>
+									<%
+										out.println(session.getAttribute("successMsg"));
+									%>
+								</div>
+								<%
+									session.removeAttribute("successMsg");
+									}
+								%> 
+								
 								<form method="post"
 									action="${pageContext.request.contextPath}/addCustLoginDetail"
 									id="submitInsertActivity">
