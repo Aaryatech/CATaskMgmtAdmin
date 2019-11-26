@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,9 +104,11 @@ font-size: 25px;
 						
 				    		<span class="greet">Welcome</span>
 				    		<h1 class="mb-0" style="background-color: #7caf5f"> &nbsp;&nbsp;${userName}</h1>
+				    		<c:if test="${taskCount>0}">
 				    		<br>
 				    		<h4 align="center" style="color: black;  text-transform: uppercase;
 				    		">You have been assigned <span class="badge badge-primary badge-pill" style="background-color: #01669b">${taskCount}</span>  tasks. Kindly plan work date for the same.</h4>
+				    		</c:if>
 				    		<!-- <span class="d-block">UX/UI designer</span> -->
 						</div>
 
