@@ -744,8 +744,8 @@ public class HomeController<Task> {
 		try {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
-			System.out.println("status-------------" + statusId + " " + taskId);
-		
+			System.out.println("status-------------now " + statusId + " " + taskId);
+		String statusText=request.getParameter("selectedStatus");
 			MultiValueMap<String, Object> map = null;
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
@@ -757,7 +757,7 @@ public class HomeController<Task> {
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
 			if (info != null) {
-				FormValidation.updateTaskLog(TaskText.taskTex3, userId, taskId);
+				FormValidation.updateTaskLog(TaskText.taskTex3+"-"+statusText, userId, taskId);
 
 			}
 

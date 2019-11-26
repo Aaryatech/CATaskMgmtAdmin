@@ -95,6 +95,10 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
 	<c:url value="/activeTaskListForEmp" var="activeTaskListForEmp"></c:url>
 	<c:url value="/fliterTaskList" var="fliterTaskList"></c:url>
 	<c:url value="/newWorkLog" var="newWorkLog"></c:url>
+	
+		<c:url value="/completeAndDeliverTask" var="completeAndDeliverTask"></c:url>
+	
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -845,6 +849,33 @@ h5 {
 
 			</div>
 			<!-- /content area -->
+<!-- Sachin 26-11-2019 <button type="button" class="btn btn-light"  data-toggle="modal" data-target="#modal_form_inline"><i class="icon-play3 ml-2"></i></button>
+ -->
+<div id="modal_form_inline" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Add a deliverable link to complete Task</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<form action="#" class="row modal-body form-horizontal">
+								<!-- <label>Deliverable link</label> -->
+								<div class="col-md-9">
+								<input type="hidden" id="task_comp_id" name="task_comp_id" value="0">
+								
+							<input type="hidden" id="task_comp_text" name="task_comp_text" value="0">
+								
+								<input type="text" id="del_link" name="del_link" placeholder="deliverable link" class="form-control">
+							 	<!-- <textarea class="form-control" wrap="soft"   placeholder="deliverable link" id="del_link" name="del_link" class="form-control mb-4 mr-sm-2 ml-sm-4 mb-sm-0"></textarea> -->
+							 	</div>
+							 	<div class="col-md-3">
+							 	<button type="button" onclick="completeAndDelLink()" class="btn bg-primary ml-sm-2 mb-sm-0">Save<i class="icon-plus22	"></i></button>
+							 	</div>
+							</form>
+						</div>
+					</div>
+				</div>
 
 
 			<!-- Footer -->
@@ -1162,7 +1193,11 @@ function append(data){
 	//alert(" In updateStatus_new +966");
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
         var color =  $('#set_status'+taskId).val();
-        
+        if(statusId==9){
+  		  $('#modal_form_inline').modal('show');
+  			document.getElementById("task_comp_id").value = taskId;		
+  	  }else{
+  		
         $("#loader1").show();
 		$
 				.getJSON(
@@ -1170,6 +1205,7 @@ function append(data){
 						{
 							taskId : taskId,
 							statusId: statusId,
+							selectedStatus : selectedStatus,
 							ajax : 'true',
 
 						},
@@ -1185,23 +1221,60 @@ function append(data){
                             
 							}
 					      }); 
+  	  }//end of else
 	}
 	
 	
-	 $(document).ready(function(){
+	$(document).ready(function(){
 	      // setColor();
 	      //set_status
 	      $('.ats_sel_status').change(function(e){
 	    		//alert(" In ats_sel_status change +999");
-
 	    	  var id = $(this).data("id") // will return the number 123
+	    	 // alert("Id " +id);
 	    	  var value = $("#set_status"+id).val();
-	    	  updateStatus_new(value, id)
+	    	  alert(value)
+	    	 var statusText = $("#set_status"+id+" option:selected").text();
+	    	  
+	    	 // alert("statusText " +statusText);
+	    	  //Sachin 26-11-2019
+	    	  if(value==9){
+	    		  $('#modal_form_inline').modal('show');
+	    			document.getElementById("task_comp_id").value = id;	
+	    			document.getElementById("task_comp_text").value = statusText;	
+	    	  }else{
+	    		  updateStatus_new(value, id);
+	    	  }
+	    	 // 
+	    	  
 	      });
-	       
-	    
 	});
- 
+ function completeAndDelLink(){
+	var taskId= document.getElementById("task_comp_id").value;
+	var delLink= document.getElementById("del_link").value;
+	var selectedStatus=document.getElementById("task_comp_text").value;
+if(delLink==null || delLink==""){
+	alert("Please provide deliverable link");
+}else{
+	
+
+	$
+	.getJSON(
+			'${completeAndDeliverTask}',
+			{
+				taskId : taskId,
+				delLink : delLink,
+				selectedStatus : selectedStatus,
+				ajax : 'true',
+			},
+			function(data) {
+				//alert(JSON.stringify(data));
+				
+				 $('#modal_form_inline').modal('hide');
+				getActiveHomeTasks();
+			});
+}//end of else
+ }
 	function setColor()
 	{
 	   // var color =  $('.sel_status').find('option:selected').attr('id');

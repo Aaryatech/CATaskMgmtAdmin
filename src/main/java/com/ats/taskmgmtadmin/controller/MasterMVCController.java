@@ -2079,20 +2079,62 @@ public class MasterMVCController {
 	// Sachin 26-11-2019
 	@RequestMapping(value = "/getCountofManagers", method = RequestMethod.GET)
 	public @ResponseBody Object getCountofManagers(HttpServletRequest request, HttpServletResponse response) {
-		int count=0;
+		int count = 0;
 		try {
 
 			String empIds = request.getParameter("empIds");
-			System.err.println("empIds"+empIds.toString());
-			empIds=empIds.substring(1, empIds.length()-1);
-			empIds=empIds.replaceAll("\"", "");
-			
-			
+			System.err.println("empIds" + empIds.toString());
+			empIds = empIds.substring(1, empIds.length() - 1);
+			empIds = empIds.replaceAll("\"", "");
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empIdList", empIds);
 
 			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofManagers", map, int.class);
-			//System.err.println(count);
+			// System.err.println(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+
+	}
+
+	// completeAndDeliverTask Sachin 26-11-2019
+	@RequestMapping(value = "/completeAndDeliverTask", method = RequestMethod.GET)
+	public @ResponseBody Object completeAndDeliverTask(HttpServletRequest request, HttpServletResponse response) {
+		int count = 0;
+		try {
+session=request.getSession();
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			String delLink = request.getParameter("delLink");
+			String statusText=request.getParameter("selectedStatus");
+System.err.println("statusText " +statusText);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			map = new LinkedMultiValueMap<>();
+			map.add("taskId", taskId);
+			map.add("link", delLink);
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskDeliverLink", map, Info.class);
+
+			
+			map = new LinkedMultiValueMap<>();
+			map.add("taskId", taskId);
+			map.add("statusVal", 9);
+			map.add("userId", userId);
+			map.add("curDateTime", Constants.getCurDateTime());
+			map.add("compltnDate", Constants.getCurDateTime());
+
+			 info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
+			System.err.println(info.toString());
+			if (info != null) {
+				FormValidation.updateTaskLog(TaskText.taskTex8+"-"+statusText, userId, taskId);
+				count=1;
+			}
+			 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
