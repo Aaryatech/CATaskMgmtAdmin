@@ -14,6 +14,10 @@
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
 	<c:url value="/getPeridicityByActivity" var="getPeridicityByActivity"></c:url>
+	
+	
+	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -162,6 +166,9 @@
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emp"
 												style="display: none;">Please Select Employee.</span>
+												<span class="validation-invalid-label" id="error_emp_mng"
+												style="display: none;">Please Select a Manager (MG).</span>
+												
 										</div>
 									</div>
 
@@ -489,7 +496,15 @@
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
 
+
 	<script>
+	$('#empId2').on(
+			'change',
+			function() {
+				//alert("JJ");
+				//alert($("#empId2").val());
+			});
+	
 		$('#statutary_endDays').on(
 				'input',
 				function() {
@@ -686,7 +701,27 @@
 															.hide()
 												}  
 
+												var empIds=$("#empId2").val();
+												
+												$.getJSON('${getCountofManagers}',
+								{
+									empIds : JSON.stringify(empIds),
+									ajax : 'true',
+								},
 
+								function(data) {
+									//alert(JSON.stringify(data));
+									if (data == 0) {
+											isError = true;
+										$("#error_emp_mng").show()
+
+									} else {
+										$("#error_emp_mng").hide()
+									}
+								});
+
+												
+												
 												if (!isError) {
 
 													var x = true;

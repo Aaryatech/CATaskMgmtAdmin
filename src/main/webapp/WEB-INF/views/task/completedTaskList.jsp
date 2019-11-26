@@ -256,13 +256,15 @@
 												<option value="2" ${task.exInt2 == 2 ? 'selected' : ''}>Invoiced</option>
 												<option value="3" ${task.exInt2 == 3 ? 'selected' : ''}>-</option>
 
-
 											</select>
-
+											
 										</div>
+										<div class="col-lg-2">
+										<input type="checkbox"
+													name="selAll" id="selAll" /> Select All Task
+													</div>
 									</div>
-									
-									
+								
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -270,8 +272,7 @@
 
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
-									<th>Customer Name <input type="checkbox"
-													name="selAll" id="selAll" /></th>
+									<th>Customer Name </th>
 									<th>Task Text</th>
 									<th>Periodicity</th>
  									<th>Team</th>

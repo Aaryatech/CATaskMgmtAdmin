@@ -2053,7 +2053,7 @@ public class MasterMVCController {
 
 	}
 
-	// checkUniquePan
+	// checkUniquePan Sachin 25-11-2019
 
 	@RequestMapping(value = "/checkUniquePan", method = RequestMethod.POST)
 	public @ResponseBody Info checkUniquePan(HttpServletRequest request, HttpServletResponse response) {
@@ -2076,6 +2076,28 @@ public class MasterMVCController {
 
 	}
 
-	// 544
+	// Sachin 26-11-2019
+	@RequestMapping(value = "/getCountofManagers", method = RequestMethod.GET)
+	public @ResponseBody Object getCountofManagers(HttpServletRequest request, HttpServletResponse response) {
+		int count=0;
+		try {
+
+			String empIds = request.getParameter("empIds");
+			System.err.println("empIds"+empIds.toString());
+			empIds=empIds.substring(1, empIds.length()-1);
+			empIds=empIds.replaceAll("\"", "");
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empIdList", empIds);
+
+			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofManagers", map, int.class);
+			System.err.println(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+
+	}
 
 }
