@@ -79,7 +79,7 @@
 								</a></td> --%>
 								
 								<td width="40%" align="right">
-								<input type="button" id="datePop" value="Date" onclick="showDate()">
+								<a href="#" title="Delete Task by Date"><i class="icon-calendar52 mr-3 icon-2x" style="color: black;" data-toggle="modal" data-target="#modal_small"></i></a>
 								<!-- Small modal -->
 				<div id="modal_small" class="modal fade" tabindex="-1">
 					<div class="modal-dialog modal-sm">
@@ -250,8 +250,6 @@
 function getData() {
 	
 	var date = $("#sel_date").val();
-	alert("------------------"+date);
-	
 	$
 			.getJSON(
 					'${deleteActMapByDate}',
@@ -262,25 +260,21 @@ function getData() {
 
 					},
 					function(data) {
-						alert("LogList:"+JSON.stringify(data));
+						//alert("LogList:"+JSON.stringify(data));
 						
-						if(data.isError==false){
-							$('#modal_small').modal('hide')
-							alert("1")
-							showMsg();
-							
+						if(!data.isError){
+							$('#modal_small').modal('hide')							
+							showMsg();							
 						}else{
-							$('#modal_small').modal('hide')
-							alert("2")
-							showFailMsg();
-							
+							$('#modal_small').modal('hide')							
+							showFailMsg();							
 						}
 					});
 }
 
-function showDate(){
+/* function showDate(){
 	$('#modal_small').modal('show')	
-}
+} */
 
 function showMsg(){
 	setTimeout(function(){

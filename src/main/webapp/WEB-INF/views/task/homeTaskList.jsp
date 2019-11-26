@@ -644,6 +644,8 @@ h5 {
 									</div>
 
 								</div>
+								<c:choose>
+								<c:when test="${empType==5}">
 
 								<div class="form-group row">
 
@@ -652,13 +654,33 @@ h5 {
 									</label>
 									<div class="col-lg-6">
 										<select name="emp" data-placeholder="Select Activity"
-											onchange="submitResponse()" id="emp" multiple
+											onchange="submitResponse()" id="emp" multiple disabled="disabled"
 											class="form-control form-control-select2 select2-hidden-accessible"
 											data-fouc="" aria-hidden="true">
 										</select>
 									</div>
 
 								</div>
+								
+								</c:when>
+								<c:when test="${empType!=5}">
+									<div class="form-group row">
+
+									<label class="col-form-label col-lg-6" for="activity">
+										Employee <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-6">
+										<select name="emp" data-placeholder="Select Activity"
+											onchange="submitResponse()" id="emp" multiple 
+											class="form-control form-control-select2 select2-hidden-accessible"
+											data-fouc="" aria-hidden="true">
+										</select>
+									</div>
+
+								</div>
+								</c:when>
+								</c:choose>
+								
 
 								<!--  <div class="modal-footer">
 										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
@@ -1793,7 +1815,7 @@ function addNewWorkLog(){
 //
 	</script>
 
-	<script type="text/javascript">
+	<script type="text/javascript">	
 	function getDataTaskWise() {
 		//alert("Hi");
 		$("#loader").show();
