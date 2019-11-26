@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+ 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
