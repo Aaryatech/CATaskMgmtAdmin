@@ -11,6 +11,7 @@
 </head>
 
 <body>
+<c:url value="/deleteActMapByDate" var="deleteActMapByDate"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -77,7 +78,39 @@
 											Customer</button>
 								</a></td> --%>
 								
-								<td width="40%" align="right"><a
+								<td width="40%" align="right">
+								<input type="button" id="datePop" value="Date" onclick="showDate()">
+								<!-- Small modal -->
+				<div id="modal_small" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h5 class="modal-title" align="center">Select Date</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							
+							<div class="modal-body">
+								<div class="form-group form-group-float col-md-12">
+									<!-- 	<label class="form-group-float-label">Work Date</label> --> <input
+											type="text" class="form-control datepickerclass"
+											name="sel_date" id="sel_date"
+											placeholder="Work Date">
+												
+									</div>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+								<button type="button" class="btn bg-primary" onclick="getData()">Save changes</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+								
+								
+								<a
 									href="${pageContext.request.contextPath}/customerList"
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Back
@@ -89,41 +122,29 @@
 
 					<div class="card-body">
 
-						<%
-							if (session.getAttribute("errorMsg") != null) {
-						%>
-						<div
-							class="alert bg-danger text-white alert-styled-left alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert">
-								<span>×</span>
-							</button>
-							<span class="font-weight-semibold">Oh snap!</span>
-							<%
-								session.removeAttribute("errorMsg");
-							%>
+						<div style="display: none;" id="failmsg">						
+							<div
+								class="alert bg-danger text-white alert-styled-left alert-dismissible">
+								<button type="button" class="close" data-dismiss="alert">
+									<span>×</span>
+								</button>
+								<span class="font-weight-semibold">Oh snap! Fail to deleted successfully</span>
+								
+							</div>
 						</div>
 
-						<%
-							session.removeAttribute("errorMsg");
-							}
-						%>
-						<%
-							if (session.getAttribute("successMsg") != null) {
-						%>
-						<div
-							class="alert bg-success text-white alert-styled-left alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert">
-								<span>×</span>
-							</button>
-							<span class="font-weight-semibold">Well done!</span>
-							<%
-								session.removeAttribute("successMsg");
-							%>
+						
+						<div style="display: none;" id="sucssmsg">
+							<div
+								class="alert bg-success text-white alert-styled-left alert-dismissible" >
+								<button type="button" class="close" data-dismiss="alert">
+									<span>×</span>
+								</button>
+								<span class="font-weight-semibold">Well done! Task deleted successfully</span>
+								
+							</div>
 						</div>
-						<%
-							session.removeAttribute("successMsg");
-							}
-						%>
+						
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -225,6 +246,82 @@
 
 	</div>
 	<!-- /page content -->
+<script type="text/javascript">
+function getData() {
+	
+	var date = $("#sel_date").val();
+	alert("------------------"+date);
+	
+	$
+			.getJSON(
+					'${deleteActMapByDate}',
+					{
 
+						date : date,
+						ajax : 'true',
+
+					},
+					function(data) {
+						alert("LogList:"+JSON.stringify(data));
+						
+						if(data.isError==false){
+							$('#modal_small').modal('hide')
+							alert("1")
+							showMsg();
+							
+						}else{
+							$('#modal_small').modal('hide')
+							alert("2")
+							showFailMsg();
+							
+						}
+					});
+}
+
+function showDate(){
+	$('#modal_small').modal('show')	
+}
+
+function showMsg(){
+	setTimeout(function(){
+		$('#sucssmsg').fadeOut('fast');
+		}, 3000);
+	 $("#sucssmsg").show();
+}
+
+function showFailMsg(){
+	setTimeout(function(){
+		$('#failmsg').fadeOut('fast');
+		}, 3000);
+	 $("#failmsg").show();
+}
+
+
+
+// Single picker
+$('.datepickerclass').daterangepicker({
+	singleDatePicker : true,
+	selectMonths : true,
+	selectYears : true,
+	drops:'down',
+	locale : {
+		format : 'DD-MM-YYYY'
+	}
+});
+
+//daterange-basic_new
+// Basic initialization
+$('.daterange-basic_new').daterangepicker({
+	//applyClass : 'bg-slate-600',
+	 autoApply:true,
+	 opens:'left',
+	 drops:'up', //up
+	cancelClass : 'btn-light',
+	locale : {
+		format : 'DD-MM-YYYY',
+		separator : ' to '
+	}
+});
+</script>
 </body>
 </html>

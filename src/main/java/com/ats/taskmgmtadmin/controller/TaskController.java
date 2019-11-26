@@ -1464,9 +1464,17 @@ public class TaskController {
 	/********************** Add Emp Hours2 **********************************/
 
 	@RequestMapping(value = "/addEmpHrs", method = RequestMethod.GET)
-	public String addEmpHrs(HttpServletRequest request, HttpServletResponse response, Model model) {
-
-		String mav = "task/addEmpWorkLog";
+	public String addEmpHrs(HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
+		String mav = null;
+		
+		session = request.getSession();
+		EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+		
+		if(empSes.getEmpType()==1) {
+		 mav = "task/addEmpWorkLog";
+		}else {
+			mav = "accessDenied";
+		}
 		try {
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate()
@@ -1921,4 +1929,36 @@ public class TaskController {
 	}
 //**************************************************************************
 
+	
+
+	@RequestMapping(value = "/deleteActMapByDate", method = RequestMethod.GET)
+	public @ResponseBody Info  deleteActMapByDate(HttpServletRequest request, HttpServletResponse response) {
+		Info info =new Info();
+		try {
+				HttpSession session = request.getSession();
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int userId = emp.getEmpId();
+				
+				RestTemplate rest = new RestTemplate();
+			 	String spfDate = request.getParameter("date");
+			 	System.out.println("Date---------"+spfDate);
+			 	
+			 	System.out.println("Param-----------"+DateConvertor.convertToYMD(spfDate)+" - "+userId);
+			 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			 	
+				map.add("date", DateConvertor.convertToYMD(spfDate));
+				map.add("userId", userId);
+				
+			 	 info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteAllActMappByDate", map, Info.class);
+			System.out.println("res="+info);
+			 	
+		}catch (Exception e) {
+			System.err.println("Exce in deleteActMapByDate " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return info;
+		
+	}
+	
 }
