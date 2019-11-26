@@ -1175,7 +1175,33 @@ public class TaskController {
 		return mav;
 
 	}
-
+	
+	@RequestMapping(value = "/reopenTaskStatus", method = RequestMethod.GET)
+	public String reopenTaskStatus(HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			HttpSession session = request.getSession();
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("taskId", taskId);
+			
+			Info info = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/reopenTaskByTaskId", map, Info.class);
+			
+			if (info.isError()==false) {				
+				session.setAttribute("successMsg", "Task Reopened Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed to Reopened Task");
+			}
+		}catch (Exception e) {
+			System.err.println("Exce in reopenTaskStatus " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return "redirect:/completedTaskList";
+		
+	}
+	
 	@RequestMapping(value = "/updateCompletedTaskStatus", method = RequestMethod.GET)
 	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response, Model model) {
 

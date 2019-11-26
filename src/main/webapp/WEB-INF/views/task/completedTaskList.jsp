@@ -279,9 +279,8 @@
  									<th>Completion Date</th>
  									<th>Work Date</th>
 									<th>Statutory Due Date</th>
-									
-								
 									<th>Status </th>
+									<th>Reopen</th>
 
 									<!-- <th class="text-center" width="10%">Actions</th> -->
 								</tr>
@@ -298,10 +297,12 @@
  									<td>${taskList.taskCompletionDate}</td>		
  									<td>${taskList.taskEndDate}</td>		
 									<td>${taskList.taskStatutoryDueDate}</td>
-																
-							
 									<td>${taskList.exInt2==1 ? 'Non Billable' : taskList.exInt2==2 ? 'Invoiced' : taskList.exInt2==3 ? '-' : ''}</td>
 	 
+	 								<td><a
+										href="${pageContext.request.contextPath}/reopenTaskStatus?taskId=${taskList.taskId}"
+										title="Reopen Task"><i class="icon-checkmark2 mr-3 icon-2x"
+											style="color: black;"></i></a></td>
 								<%-- 	<td><a
 										href="${pageContext.request.contextPath}/updateCompletedTaskStatus?taskId=${taskList.exVar1}"
 										title="Change Task Status"><i class="icon-cog5 "
