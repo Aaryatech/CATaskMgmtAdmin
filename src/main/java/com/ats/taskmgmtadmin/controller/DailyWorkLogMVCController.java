@@ -1,12 +1,15 @@
 package com.ats.taskmgmtadmin.controller;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.Info;
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
 import com.ats.taskmgmtadmin.common.HoursConversion;
 import com.ats.taskmgmtadmin.model.CustNameId;
@@ -139,6 +144,87 @@ public class DailyWorkLogMVCController {
 		
 	}
 	
+	@RequestMapping(value = "/deleteWorkLog", method = RequestMethod.GET)
+	public @ResponseBody WorkLogBean  deleteWorkLog(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	
+		List<DailyWorkLog> logList = null;
+		List<PerDayWorkLog> dayLogList = null;
+		WorkLogBean log= new WorkLogBean();	
+		
+		try {
+			MultiValueMap<String, Object> map =  null;
+			 session = request.getSession();
+
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+				int userId = emp.getEmpId();
+			
+				int logId = Integer.parseInt(request.getParameter("logId"));
+				int taskId = Integer.parseInt(request.getParameter("taskId"));
+				
+				//String dt = Math.a
+				map =  new LinkedMultiValueMap<String, Object>();	
+				map.add("logId", logId);
+				DailyWorkLog wrkLog = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogHrsById", map,
+				DailyWorkLog.class);
+				
+				String wrkDat = wrkLog.getUpdateDatetime();
+				System.out.println("WorkDt--------------------------"+wrkDat);
+				
+				String spltDat = wrkDat.substring(0,wrkDat.indexOf(' '));
+				System.out.println("After Split--------------------------"+spltDat);
+				
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy");
+				Calendar cal = Calendar.getInstance();
+				String curDateTime = dateFormat.format(cal.getTime());
+				System.out.println("ToDay Date---------------"+curDateTime);
+				
+				SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyy");
+				
+				
+				Date date1 = myFormat.parse(DateConvertor.convertToDMY(spltDat));
+				Date date2 = myFormat.parse(curDateTime);
+				
+				long diff = date2.getTime() - date1.getTime();				
+				int result = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				System.out.println("Date Diff-----------"+result); 
+				
+				if(result>2) {
+					session.setAttribute("msg", "Record not deleted");
+					
+				}else {				
+				
+				map =  new LinkedMultiValueMap<String, Object>();	
+				map.add("logId", logId);
+				map.add("userId", userId);
+					Info info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteWorkLogById", map,
+							 Info.class);
+					if(info.isError()==false) {
+						map =  new LinkedMultiValueMap<String, Object>();	
+						map.add("taskId", taskId);					 
+						 
+						 DailyWorkLog[] logArr = Constants.getRestTemplate().postForObject(Constants.url + "/getAllDailyWorkLogs", map,
+									DailyWorkLog[].class);
+							 logList = new ArrayList<>(Arrays.asList(logArr));
+							 log.setLogList(logList);
+							 
+							 map.add("taskId", taskId);
+							 PerDayWorkLog[] dayLogArr =  Constants.getRestTemplate().postForObject(Constants.url + "/getPerDayWorkLogs", map,
+									 PerDayWorkLog[].class);				 
+							 dayLogList = new ArrayList<>(Arrays.asList(dayLogArr));
+							 log.setPerDayLog(dayLogList);
+					}
+				
+				}
+		}catch (Exception e) {
+			System.err.println("Exce in deleteWorkLog " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return log;
+		
+	}
+	
 	@RequestMapping(value = "/getDailyWorkLogByTaskId", method = RequestMethod.GET)
 	public @ResponseBody WorkLogBean getDailyWorkLogByEmpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 			List<DailyWorkLog> logList = null;
@@ -209,6 +295,23 @@ public class DailyWorkLogMVCController {
 		}
 		return mav;
 	}
-	
+	public int difffun(String date1, String date2) {
+
+		SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyy");
+
+		int result = 0;
+
+		try {
+			Date date3 = myFormat.parse(date1);
+			Date date4 = myFormat.parse(date2);
+			long diff = date4.getTime() - date3.getTime();
+			result = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		} catch (Exception e) {
+
+		}
+
+		return result + 1;
+	}
+
 	
 }

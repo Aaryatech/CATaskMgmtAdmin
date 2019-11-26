@@ -90,6 +90,7 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
 	<c:url value="/submitUpdatedTask" var="submitUpdatedTask"></c:url>
+	<c:url value="/deleteWorkLog" var="deleteWorkLog"></c:url>	
 
 	<c:url value="/activeTaskListForEmp" var="activeTaskListForEmp"></c:url>
 	<c:url value="/fliterTaskList" var="fliterTaskList"></c:url>
@@ -399,6 +400,35 @@ h5 {
     						        <!--  <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button> -->
              						  <span class="font-weight-semibold">Work log saved successfully.</span></div>
         	                     </div> 
+        	                     
+        	                    <%
+									if (session.getAttribute("msg") != null) {
+								%>
+								<div class="col-lg-12" style="display: none;" id="del_sucess_msg">
+									<div
+										class="alert bg-danger text-white alert-styled-left alert-dismissible" id="del_sucess_msg">
+										<button type="button" class="close" data-dismiss="alert">
+											<span>×</span>
+										</button>
+										<span class="font-weight-semibold">Oh snap!</span>
+										<%
+											out.println(session.getAttribute("msg"));
+										%>
+									</div>
+								</div>
+
+								<%
+									session.removeAttribute("msg");
+									}else{%>
+										<div class="col-lg-12" style="display: none;" id="del_sucess_msg">
+    						         <div class="alert alert-danger border-0 alert-dismissible">
+    						        <!--  <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button> -->
+             						  <span class="font-weight-semibold">Work log deleted successfully.</span></div>             						  
+             						  
+        	                     </div> 
+									<%}
+								%>
+        	                     
 
 									<input type="hidden" name="taskId" id="taskId"> <input
 										type="hidden" name="logId" id="logId"
@@ -519,6 +549,7 @@ h5 {
 								<th style="width: 150px; color: white;">Date</th>
 								<th style="width: 250px; color: white;">Employee</th>				
 								<th style="width: 150px; color: white;">Work Hours</th>
+								<th style="width: 100px; color: white;">Action</th>
 								</tr>
 						</thead>	
 						
@@ -1163,6 +1194,8 @@ function append(data){
 		
 		try{
 			$("#sucessmsg").hide();
+			$("#del_sucess_msg").hide();
+			
 			 
 			}catch (e) {
 				// TODO: handle exception
@@ -1186,7 +1219,7 @@ function append(data){
 							var dataTable = $('#work_log_table1').DataTable();
 							dataTable.clear().draw();
 							
-							$.each(data.logList, function(i, v) {
+							$.each(data.logList, function(i, v) {								
 								if(empTyp==2){
 									if(v.exInt1!=1){
 										dataTable.row.add(
@@ -1230,10 +1263,12 @@ function append(data){
 								}
 								});
 							
-							var dataTable2 = $('#work_log_table2').DataTable();
+							var dataTable2 = $('#work_log_table2').DataTable();										
 							dataTable2.clear().draw();
 							
 							$.each(data.perDayLog, function(i, v) {
+								var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
+								'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
 								if(empTyp==2){
 									if(v.empType!=1){
 										
@@ -1241,7 +1276,8 @@ function append(data){
 												[ 	i + 1,
 													v.workDate,
 													v.empName,
-													v.workHours
+													v.workHours,
+													acButton
 												]).draw();
 									}
 									
@@ -1254,7 +1290,8 @@ function append(data){
 												[ 	i + 1,
 													v.workDate,
 													v.empName,
-													v.workHours
+													v.workHours,
+													acButton
 												]).draw();
 									}
 									
@@ -1279,7 +1316,8 @@ function append(data){
 												[ 	i + 1,
 													v.workDate,
 													v.empName,
-													v.workHours
+													v.workHours,
+													acButton
 												]).draw();
 									}
 									
@@ -1291,7 +1329,153 @@ function append(data){
 		$('#modal_small').modal('show'); 
 	}
 	
+// Delete Work Log
+function calDelWorkLog(logId, taskId) {	
+	//alert(logId+" - "+taskId)
 	
+	var empTyp = ${empType};
+	var sesEmp = ${sessEmpId};
+	
+	if(logId!=0){
+		confirm("Are you sure want to delete this record");
+	}
+	$
+	.getJSON(
+			'${deleteWorkLog}',
+			{				
+				logId : logId,
+				taskId : taskId,
+				ajax : 'true',
+
+			},
+			function(data) {
+				
+				
+				
+				var dataTable = $('#work_log_table1').DataTable();
+				dataTable.clear().draw();
+				
+				showDelMsg();// delete Sucess Full
+				$.each(data.logList, function(i, v) {								
+					if(empTyp==2){
+						if(v.exInt1!=1){
+							dataTable.row.add(
+									[ 	i + 1,
+										v.exVar1,
+										v.workHours
+									]).draw();
+						}
+						
+					}
+					if(empTyp==3){
+						if(v.exInt1!=2 && v.exInt1!=1 ){
+							dataTable.row.add(
+									[ 	i + 1,
+										v.exVar1,
+										v.workHours
+									]).draw();
+						}
+						
+					}
+						
+					if(empTyp==4){
+						if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+							dataTable.row.add(
+									[ 	i + 1,
+										v.exVar1,
+										v.workHours
+									]).draw();
+						}
+						
+					}
+					if(empTyp==5){
+						if(v.exInt1==5 && sesEmp==v.empId){
+							dataTable.row.add(
+									[ 	i + 1,
+										v.exVar1,
+										v.workHours
+									]).draw();
+						}
+						
+					}
+					});
+				
+				var dataTable2 = $('#work_log_table2').DataTable();										
+				dataTable2.clear().draw();
+				
+				$.each(data.perDayLog, function(i, v) {
+					var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
+					'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
+					if(empTyp==2){
+						if(v.empType!=1){
+							
+							dataTable2.row.add(
+									[ 	i + 1,
+										v.workDate,
+										v.empName,
+										v.workHours,
+										acButton
+									]).draw();
+						}
+						
+					}
+					if(empTyp==3){
+						
+						if(v.empType!=2 && v.empType!=1 ){
+							
+							dataTable2.row.add(
+									[ 	i + 1,
+										v.workDate,
+										v.empName,
+										v.workHours,
+										acButton
+									]).draw();
+						}
+						
+					}
+						
+					if(empTyp==4){
+						if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
+							
+							dataTable2.row.add(
+									[ 	i + 1,
+										v.workDate,
+										v.empName,
+										v.workHours
+									]).draw();
+						}
+						
+					}
+					if(empTyp==5){
+						if(v.empType==5 && sesEmp==v.empId){
+							
+							dataTable2.row.add(
+									[ 	i + 1,
+										v.workDate,
+										v.empName,
+										v.workHours,
+										acButton
+									]).draw();
+						}
+						
+					}
+					});	
+			});
+	
+}
+//Edit Work Log
+function calEditWorkLog(logId, taskId, workDate, workHr, workRemark) {
+	
+	//alert("Log Id---------------"+logId+" - "+taskId+" - "+workDate+" - "+workHr);
+	var empTyp = ${empType};
+	var sesEmp = ${sessEmpId};	
+	
+	$("#logId").val(logId);
+	$("#taskId").val(taskId);
+	$("#any_time").val(workHr);
+	$("#workDate").val(workDate);
+	$("#remark").val(workRemark);
+}
 	
 //Add Work Log
 function addNewWorkLog(){
@@ -1395,6 +1579,8 @@ function addNewWorkLog(){
 			dataTable2.clear().draw();
 			
 			$.each(data.perDayLog, function(i, v) {
+				var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
+				'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
 				if(empTyp==2){
 					if(v.empType!=1){
 						
@@ -1402,7 +1588,8 @@ function addNewWorkLog(){
 								[ 	i + 1,
 									v.workDate,
 									v.empName,
-									v.workHours
+									v.workHours,
+									acButton
 								]).draw();
 					}
 					
@@ -1415,7 +1602,8 @@ function addNewWorkLog(){
 								[ 	i + 1,
 									v.workDate,
 									v.empName,
-									v.workHours
+									v.workHours,
+									acButton
 								]).draw();
 					}
 					
@@ -1428,7 +1616,8 @@ function addNewWorkLog(){
 								[ 	i + 1,
 									v.workDate,
 									v.empName,
-									v.workHours
+									v.workHours,
+									acButton
 								]).draw();
 					}
 					
@@ -1440,7 +1629,8 @@ function addNewWorkLog(){
 								[ 	i + 1,
 									v.workDate,
 									v.empName,
-									v.workHours
+									v.workHours,
+									acButton
 								]).draw();
 					}
 					
@@ -1453,6 +1643,7 @@ function addNewWorkLog(){
 	$("#any_time").val('');
 	$("#workDate").val('');
 	$("#remark").val('');
+	$("#logId").val(0);
 	}
 	
 	//document.getElementById("submtbtnlog").disabled = false;
@@ -1494,6 +1685,15 @@ function addNewWorkLog(){
 			}, 3000);
 		 $("#sucessmsg").show();
 	}
+	
+	function showDelMsg(){
+		setTimeout(function(){
+			$('#del_sucess_msg').fadeOut('fast');
+		//	document.getElementById('sucessmsg').style.display = 'block';
+			}, 3000);
+		 $("#del_sucess_msg").show();
+	}
+	
 	</script>
 	
 
