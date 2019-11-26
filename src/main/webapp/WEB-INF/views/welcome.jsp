@@ -24,7 +24,7 @@ font-size: 25px;
 }
 .profile-cover-img{
  opacity: 0.5;
- background-image: url("${pageContext.request.contextPath}/resources/global_assets/images/kppm.png");
+ background-image: url("${pageContext.request.contextPath}/resources/global_assets/images/kppm2.png");
 }
 </style>
 </head>
@@ -98,10 +98,13 @@ font-size: 25px;
 							</a> -->
 						</div>
 
-						<div class="media-body text-white">
+						<div class="media-body text-white" >
 						
 				    		<span class="greet">Welcome</span>
-				    		<h1 class="mb-0"> ${userName}</h1>
+				    		<h1 class="mb-0" style="background-color: #7caf5f"> &nbsp;&nbsp;${userName}</h1>
+				    		<br>
+				    		<h4 align="center" style="color: black;  text-transform: uppercase;
+				    		">You have been assigned <span class="badge badge-primary badge-pill" style="background-color: #01669b">${taskCount}</span>  tasks. Kindly plan work date for the same.</h4>
 				    		<!-- <span class="d-block">UX/UI designer</span> -->
 						</div>
 

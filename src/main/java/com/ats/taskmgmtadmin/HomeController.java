@@ -191,6 +191,23 @@ public class HomeController<Task> {
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		String  userName = emp.getEmpName();
 		model.addAttribute("userName", userName);
+		
+		
+		int count=0;
+		try {
+
+			
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empId", emp.getEmpId());
+
+			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofLoginEmpTask", map, int.class);
+			//System.err.println(count);
+			model.addAttribute("taskCount", count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 
 		return mav;
 	}
