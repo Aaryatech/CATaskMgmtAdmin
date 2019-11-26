@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.HomeController;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
@@ -71,6 +74,7 @@ public class TaskController {
 
 	String curDateTime = dateFormat.format(cal.getTime());
 	String redirect;
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public ModelAndView assignTask(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
@@ -1180,10 +1184,18 @@ public class TaskController {
 	public String reopenTaskStatus(HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			HttpSession session = request.getSession();
-			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+			int userId = emp.getEmpId();
+			
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			logger.info("TaskId----------------"+taskId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
+			map.add("empId", userId);
+			map.add("updateUserName", userId);
+			map.add("updateDateTime", Constants.getCurDateTime());
 			
 			Info info = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/reopenTaskByTaskId", map, Info.class);
