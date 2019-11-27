@@ -844,7 +844,7 @@ public class TaskController {
 					Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
 							activityMapanual, Info.class);
 
-					if (map != null) {
+					if (map.isError()==false) {
 						session.setAttribute("successMsg", "Manual Task Added Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Add Manual Task");

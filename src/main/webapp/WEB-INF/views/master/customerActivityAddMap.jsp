@@ -204,7 +204,7 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="startDate">Start
+										<label class="col-form-label col-lg-3" for="startDate" id="lable_startDate">Start
 											Date <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
@@ -224,7 +224,7 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="endDate">End
+										<label class="col-form-label col-lg-3" for="endDate" id="lable_endDate">End
 											Date : </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass1"
@@ -243,7 +243,7 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="statutary_endDays">
+										<label class="col-form-label col-lg-3" for="statutary_endDays" id="lable_statutary_endDays">
 											Statutory End Days <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
@@ -438,6 +438,7 @@
 			return;
 		}
 		
+		
 		$('#statutary_endDays').on('input', function() {
 			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
 			});
@@ -514,7 +515,7 @@
 													 
 
 														
-														
+													
 														var from_date = document.getElementById("startDate").value;
 										 				var to_date = document.getElementById("endDate").value;
 										 				
@@ -669,8 +670,25 @@ function getPeriodicity(actvityId){
 							//alert(JSON.stringify(data));
 							document.getElementById("periodicity").value = data.periodicityName;
 							document.getElementById("periodicityId").value = data.periodicityId;
+							if(data.periodicityId==7){
+								 document.getElementById("lable_startDate").innerHTML="Due Date <span style='color: red'>* </span>:";
+								 document.getElementById("startDate").placeholder = "Task Due Date"; 
+								 document.getElementById("lable_endDate").style.display = "none";
+								 document.getElementById("endDate").style.display = "none";
+								 document.getElementById("statutary_endDays").value=0;
+								 document.getElementById("statutary_endDays").style.display = "none";
+								 document.getElementById("lable_statutary_endDays").style.display = "none";
+							}else{
+								 document.getElementById("lable_startDate").innerHTML="Start Date <span style='color: red'>* </span>:";
+								 document.getElementById("startDate").placeholder = "Start Date"; 
+								 document.getElementById("lable_endDate").style.display = "block";
+								 document.getElementById("endDate").style.display = "block";
+								 document.getElementById("statutary_endDays").value=0;
+								 document.getElementById("statutary_endDays").style.display = "block";
+								 document.getElementById("lable_statutary_endDays").style.display = "block";
+							}
+							
 						});
-
 	}//end of if
 }
 </script>
