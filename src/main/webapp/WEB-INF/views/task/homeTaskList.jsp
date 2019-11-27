@@ -77,10 +77,20 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
   text-align: left;
   width: 200px;
 }
+h5 {
+	margin-bottom: 0;
+}
+.datatable-footer {
+	display: none;
+}
 
-
-
-
+.dataTables_length {
+	display: none;
+}
+.fab-menu-bottom-right, .fab-menu-top-right {
+	right: 1.25rem;
+	top: 1rem;
+}
 </style>
 </head>
 
@@ -114,14 +124,6 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
 
 		<!-- Main content -->
 		<div class="content-wrapper">
-
-
-			<style type="text/css">
-h5 {
-	margin-bottom: 0;
-}
-</style>
-
 
 			<!-- Content area -->
 			<div class="content">
@@ -253,20 +255,8 @@ h5 {
 								</div>
 							</div>
 						</div>
-
-
-
-
-
-
-
 					</div>
-
 				</div> -->
-
-
-
-				<!--/////////////////////////////////////////////////////  -->
 
 				<!-- Remote source -->
 				<div id="modal_remote" class="modal" tabindex="-1">
@@ -368,7 +358,6 @@ h5 {
 				</div>
 				<!-- /remote source -->
 
-
 				<!-- Highlighting rows and columns -->
 				<!-- <div class="card-header header-elements-inline">
 
@@ -379,11 +368,8 @@ h5 {
 							</tr>
 						</table>
 					</div> -->
-
-
-
-
-
+					
+					
 				<!-- Daily Work Log modal -->
 				<div id="modal_small" class="modal fade" tabindex="-1">
 					<div class="modal-dialog modal-dialog-scrollable">
@@ -400,39 +386,27 @@ h5 {
 								<div class="form-group row">
 								
 								<div class="col-lg-12" style="display: none;" id="sucessmsg">
-    						         <div class="alert alert-success border-0 alert-dismissible">
-    						        <!--  <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button> -->
-             						  <span class="font-weight-semibold">Work log saved successfully.</span></div>
-        	                     </div> 
+    						         <div class="alert bg-success text-white alert-styled-left alert-dismissible">
+    						         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+             						  <span class="font-weight-semibold">Work Log Saved successfully.</span></div>
+        	                     </div>  
         	                     
-        	                    <%
-									if (session.getAttribute("msg") != null) {
-								%>
-								<div class="col-lg-12" style="display: none;" id="del_sucess_msg">
+        	                     <div class="col-lg-12" style="display: none;" id="del_sucess_msg">
+    						         <div class="alert bg-success text-white alert-styled-left alert-dismissible">
+    						         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+             						  <span class="font-weight-semibold">Work Log Deleted successfully.</span></div>
+        	                     </div>  
+        	                     
+        	                     
+        	                     <div class="col-lg-12" style="display: none;" id="del_fail_msg">
 									<div
-										class="alert bg-danger text-white alert-styled-left alert-dismissible" id="del_sucess_msg">
+										class="alert bg-danger text-white alert-styled-left alert-dismissible">
 										<button type="button" class="close" data-dismiss="alert">
 											<span>×</span>
 										</button>
-										<span class="font-weight-semibold">Oh snap!</span>
-										<%
-											out.println(session.getAttribute("msg"));
-										%>
+										<span class="font-weight-semibold">Oh snap! Work Log Fail to Deleted</span>										
 									</div>
-								</div>
-
-								<%
-									session.removeAttribute("msg");
-									}else{%>
-										<div class="col-lg-12" style="display: none;" id="del_sucess_msg">
-    						         <div class="alert alert-danger border-0 alert-dismissible">
-    						        <!--  <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button> -->
-             						  <span class="font-weight-semibold">Work log deleted successfully.</span></div>             						  
-             						  
-        	                     </div> 
-									<%}
-								%>
-        	                     
+								</div>        	                     
 
 									<input type="hidden" name="taskId" id="taskId"> <input
 										type="hidden" name="logId" id="logId"
@@ -510,7 +484,6 @@ h5 {
 		</div> -->
 <!-- /solid tabs title -->
 
-
 <!-- Solid tabs -->
 	<div class="row">
 		<div class="col-md-12">
@@ -577,7 +550,6 @@ h5 {
 </div>
 <!-- /solid tabs -->
 
-
 							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
 								<button type="button" class="btn bg-primary">Save
@@ -587,8 +559,6 @@ h5 {
 					</div>
 				</div>
 				<!-- /Daily Work Log modal -->
-
-
 
 				<!-- Task Edit modal -->
 				<div id="modal_edit" class="modal fade" tabindex="-1">
@@ -683,8 +653,7 @@ h5 {
 
 								</div>
 								</c:when>
-								</c:choose>
-								
+								</c:choose>								
 
 								<!--  <div class="modal-footer">
 										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
@@ -698,19 +667,6 @@ h5 {
 					</div>
 				</div>
 				<!-- /Task Edit Log modal -->
-
-
-
-
-				<style type="text/css">
-.datatable-footer {
-	display: none;
-}
-
-.dataTables_length {
-	display: none;
-}
-</style>
 
 				<!-- Basic tables title -->
 				<div class="mb-3 text-right"
@@ -743,12 +699,6 @@ h5 {
 						</div>
 					</div> --%>
 
-					<style type="text/css">
-.fab-menu-bottom-right, .fab-menu-top-right {
-	right: 1.25rem;
-	top: 1rem;
-}
-</style>
 					<%-- <div id="loader1" style="display: none;">
 							<img
 								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
@@ -840,11 +790,7 @@ h5 {
 					</div>
 				</div>
 				<!-- /hover rows -->
-
-
-
-
-
+				
 				<!-- /highlighting rows and columns -->
 
 			</div>
@@ -1285,6 +1231,7 @@ if(delLink==null || delLink==""){
 		try{
 			$("#sucessmsg").hide();
 			$("#del_sucess_msg").hide();
+			$("#del_fail_msg").hide();
 			
 			 
 			}catch (e) {
@@ -1445,7 +1392,6 @@ function calDelWorkLog(logId, taskId) {
 				var dataTable = $('#work_log_table1').DataTable();
 				dataTable.clear().draw();
 				
-				showDelMsg();// delete Sucess Full
 				$.each(data.logList, function(i, v) {								
 					if(empTyp==2){
 						if(v.exInt1!=1){
@@ -1492,6 +1438,12 @@ function calDelWorkLog(logId, taskId) {
 				
 				var dataTable2 = $('#work_log_table2').DataTable();										
 				dataTable2.clear().draw();
+				
+				if(data.inf.error){
+					delFailMsg(); 	
+				}else{
+					showDelMsg();					
+				}
 				
 				$.each(data.perDayLog, function(i, v) {
 					var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
@@ -1771,7 +1723,6 @@ function addNewWorkLog(){
 	function showMsg(){
 		setTimeout(function(){
 			$('#sucessmsg').fadeOut('fast');
-		//	document.getElementById('sucessmsg').style.display = 'block';
 			}, 3000);
 		 $("#sucessmsg").show();
 	}
@@ -1779,10 +1730,17 @@ function addNewWorkLog(){
 	function showDelMsg(){
 		setTimeout(function(){
 			$('#del_sucess_msg').fadeOut('fast');
-		//	document.getElementById('sucessmsg').style.display = 'block';
 			}, 3000);
 		 $("#del_sucess_msg").show();
 	}
+	
+	function delFailMsg(){
+		setTimeout(function(){
+			$('#del_fail_msg').fadeOut('fast');
+			}, 3000);
+		 $("#del_fail_msg").show();
+	}
+	
 	
 	</script>
 	
