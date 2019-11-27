@@ -21,7 +21,6 @@
 	margin: 0px !important;
 	/* width: auto !important;
 	height: auto !important; */
-	
 	width: 600px;;
 	height: 700px;
 }
@@ -48,38 +47,41 @@ width: 40px; line-height: 0px !important; text-align: center !important;} */
 	width: 720px !important;
 	height: auto !important;
 }
+
 .modal-dialog {
-    padding-top: 80px !important;
- }
+	padding-top: 80px !important;
+}
+
 .AnyTime-win {
 	height: 320px !important;
 	overflow-y: auto !important;
 	width: 300px;
 }
+
 .form-group {
-    margin-bottom: 0.25rem !important;
+	margin-bottom: 0.25rem !important;
 }
 
-
-.datatable-scroller1 tbody{
- 
-  overflow: auto;
-  height: 100px;
+.datatable-scroller1 tbody {
+	overflow: auto;
+	height: 100px;
 }
 
-.datatable-scroller1 thead{
- 
-  overflow: auto;
-  height: 100px;
+.datatable-scroller1 thead {
+	overflow: auto;
+	height: 100px;
 }
+
 .datatable-scroller1 th, .datatable-scroller1 td {
-  padding: 5px;
-  text-align: left;
-  width: 200px;
+	padding: 5px;
+	text-align: left;
+	width: 200px;
 }
+
 h5 {
 	margin-bottom: 0;
 }
+
 .datatable-footer {
 	display: none;
 }
@@ -87,6 +89,7 @@ h5 {
 .dataTables_length {
 	display: none;
 }
+
 .fab-menu-bottom-right, .fab-menu-top-right {
 	right: 1.25rem;
 	top: 1rem;
@@ -100,15 +103,15 @@ h5 {
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 	<c:url value="/getTaskByTaskIdForEdit" var="getTaskByTaskIdForEdit"></c:url>
 	<c:url value="/submitUpdatedTask" var="submitUpdatedTask"></c:url>
-	<c:url value="/deleteWorkLog" var="deleteWorkLog"></c:url>	
+	<c:url value="/deleteWorkLog" var="deleteWorkLog"></c:url>
 
 	<c:url value="/activeTaskListForEmp" var="activeTaskListForEmp"></c:url>
 	<c:url value="/fliterTaskList" var="fliterTaskList"></c:url>
 	<c:url value="/newWorkLog" var="newWorkLog"></c:url>
-	
-		<c:url value="/completeAndDeliverTask" var="completeAndDeliverTask"></c:url>
-	
-	
+
+	<c:url value="/completeAndDeliverTask" var="completeAndDeliverTask"></c:url>
+
+
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -368,8 +371,8 @@ h5 {
 							</tr>
 						</table>
 					</div> -->
-					
-					
+
+
 				<!-- Daily Work Log modal -->
 				<div id="modal_small" class="modal fade" tabindex="-1">
 					<div class="modal-dialog modal-dialog-scrollable">
@@ -384,29 +387,41 @@ h5 {
 							<div class="modal-header" id="divElement">
 								<!-- <form id="newWorkLog"> -->
 								<div class="form-group row">
-								
-								<div class="col-lg-12" style="display: none;" id="sucessmsg">
-    						         <div class="alert bg-success text-white alert-styled-left alert-dismissible">
-    						         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-             						  <span class="font-weight-semibold">Work Log Saved successfully.</span></div>
-        	                     </div>  
-        	                     
-        	                     <div class="col-lg-12" style="display: none;" id="del_sucess_msg">
-    						         <div class="alert bg-success text-white alert-styled-left alert-dismissible">
-    						         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-             						  <span class="font-weight-semibold">Work Log Deleted successfully.</span></div>
-        	                     </div>  
-        	                     
-        	                     
-        	                     <div class="col-lg-12" style="display: none;" id="del_fail_msg">
-									<div
-										class="alert bg-danger text-white alert-styled-left alert-dismissible">
-										<button type="button" class="close" data-dismiss="alert">
-											<span>×</span>
-										</button>
-										<span class="font-weight-semibold">Oh snap! Work Log Fail to Deleted</span>										
+
+									<div class="col-lg-12" style="display: none;" id="sucessmsg">
+										<div
+											class="alert bg-success text-white alert-styled-left alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+											<span class="font-weight-semibold">Work Log Saved
+												successfully.</span>
+										</div>
 									</div>
-								</div>        	                     
+
+									<div class="col-lg-12" style="display: none;"
+										id="del_sucess_msg">
+										<div
+											class="alert bg-success text-white alert-styled-left alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+											<span class="font-weight-semibold">Work Log Deleted
+												successfully.</span>
+										</div>
+									</div>
+
+
+									<div class="col-lg-12" style="display: none;" id="del_fail_msg">
+										<div
+											class="alert bg-danger text-white alert-styled-left alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert">
+												<span>×</span>
+											</button>
+											<span class="font-weight-semibold">Oh snap! Work Log
+												Fail to Deleted</span>
+										</div>
+									</div>
 
 									<input type="hidden" name="taskId" id="taskId"> <input
 										type="hidden" name="logId" id="logId"
@@ -415,14 +430,14 @@ h5 {
 
 									<div class="form-group form-group-float col-md-3">
 										<label class="form-group-float-label">Work Date</label> <input
-											type="text" class="form-control datepickerclass"
+											type="text" class="form-control datepickerclass1"
 											value="${workLog.workDate}" name="workDate" id="workDate"
 											placeholder="Work Date">
-												<div class="col-md-3">
-													<span class="validation-invalid-label"
-													id="err_wrkdate_log" style="display: none; width: 180px;">Please
-													enter employee work hours.</span>
-												</div>
+										<div class="col-md-3">
+											<span class="validation-invalid-label" id="err_wrkdate_log"
+												style="display: none; width: 180px;">Please enter
+												employee work hours.</span>
+										</div>
 									</div>
 
 
@@ -431,12 +446,12 @@ h5 {
 											type="text" class="form-control" value="${workLog.workHours}"
 											name="workHour" id="any_time" placeholder="Work Hour"
 											data-mask="99:99">
-											<div class="col-md-2">
-													<span class="validation-invalid-label"
-													id="err_wrk_log" style="display: none; width: 180px;">Please
-													enter employee work hours.</span>
-												</div>
-											
+										<div class="col-md-2">
+											<span class="validation-invalid-label" id="err_wrk_log"
+												style="display: none; width: 180px;">Please enter
+												employee work hours.</span>
+										</div>
+
 									</div>
 
 									<div class="form-group form-group-float  col-md-3">
@@ -474,63 +489,69 @@ h5 {
 									</thead>
 								</table>
 							</div> -->
-							
+
 							<!-- Solid tabs title -->
-		<!-- <div class="mb-3 mt-2">
+							<!-- <div class="mb-3 mt-2">
 		<h6 class="mb-0 font-weight-semibold">
 		Solid tabs
 		</h6>
 		<span class="text-muted d-block">Add visual difference to the tabs</span>
 		</div> -->
-<!-- /solid tabs title -->
+							<!-- /solid tabs title -->
 
-<!-- Solid tabs -->
-	<div class="row">
-		<div class="col-md-12">
-			<!-- <div class="card"> -->
-				<!-- <div class="card-header header-elements-inline">
+							<!-- Solid tabs -->
+							<div class="row">
+								<div class="col-md-12">
+									<!-- <div class="card"> -->
+									<!-- <div class="card-header header-elements-inline">
 					<h6 class="card-title">Solid tabs</h6>
 				</div> -->
 
-	<div class="card-body">
-		<ul class="nav nav-tabs nav-tabs-solid border-0">
-			<li class="nav-item"><a href="#solid-tab1" class="nav-link active" data-toggle="tab">Total Log</a></li>
-			<li class="nav-item"><a href="#solid-tab2" class="nav-link" data-toggle="tab">Date Wise Log</a></li>	
-		</ul>
+									<div class="card-body">
+										<ul class="nav nav-tabs nav-tabs-solid border-0">
+											<li class="nav-item"><a href="#solid-tab1"
+												class="nav-link active" data-toggle="tab">Total Log</a></li>
+											<li class="nav-item"><a href="#solid-tab2"
+												class="nav-link" data-toggle="tab">Date Wise Log</a></li>
+										</ul>
 
-		<div class="tab-content">
-			<div class="tab-pane fade show active" id="solid-tab1">
-				<%-- Add solid background color to the tabs with <code>.nav-tabs-solid .border-0</code> classes. --%>
-				<div class="table-responsive">
-					<table class="table datatable-scroller1" id="work_log_table1">
-						<thead>
-							<tr>
-								<th style="width: 350px; color: white;">Sr.No.</th>
-								<th style="width: 350px; color: white;">Employee</th>				
-								<th style="width: 100px; color: white;">Actual Hours</th>
-								</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div> 
-			</div>
+										<div class="tab-content">
+											<div class="tab-pane fade show active" id="solid-tab1">
+												<%-- Add solid background color to the tabs with <code>.nav-tabs-solid .border-0</code> classes. --%>
+												<div class="table-responsive">
+													<table class="table datatable-scroller1"
+														id="work_log_table1">
+														<thead>
+															<tr>
+																<th style="width: 350px; color: white;">Sr.No.</th>
+																<th style="width: 350px; color: white;">Employee</th>
+																<th style="width: 100px; color: white;">Actual
+																	Hours</th>
+															</tr>
+														</thead>
+														<tbody>
+														</tbody>
+													</table>
+												</div>
+											</div>
 
-		<div class="tab-pane fade" id="solid-tab2">
-			<!-- Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin. -->
-			<div class="table-responsive" style="height:300px!important">
-					<table class="table datatable-scroller1" id="work_log_table2">
-						<thead>
-							<tr>
-								<th style="width: 80px; color: white;">Sr.No.</th>
-								<th style="width: 150px; color: white;">Date</th>
-								<th style="width: 250px; color: white;">Employee</th>				
-								<th style="width: 150px; color: white;">Work Hours</th>
-								<th style="width: 100px; color: white;">Action</th>
-								</tr>
-						</thead>	
-						
-					<!-- 	<tfoot>
+											<div class="tab-pane fade" id="solid-tab2">
+												<!-- Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin. -->
+												<div class="table-responsive"
+													style="height: 300px !important">
+													<table class="table datatable-scroller1"
+														id="work_log_table2">
+														<thead>
+															<tr>
+																<th style="width: 80px; color: white;">Sr.No.</th>
+																<th style="width: 150px; color: white;">Date</th>
+																<th style="width: 250px; color: white;">Employee</th>
+																<th style="width: 150px; color: white;">Work Hours</th>
+																<th style="width: 100px; color: white;">Action</th>
+															</tr>
+														</thead>
+
+														<!-- 	<tfoot>
 						<tr>
 								<th style="width: 80px; color: white;">Sr.No.</th>
 								<th style="width: 150px; color: white;">Date</th>
@@ -538,17 +559,17 @@ h5 {
 								<th style="width: 150px; color: white;">Work Hours</th>
 								</tr>
 						</tfoot>		 -->
-					</table>
-				</div> 
-		</div>
+													</table>
+												</div>
+											</div>
 
 
-			</div>
-		</div>
-		<!-- </div> -->
-	</div>
-</div>
-<!-- /solid tabs -->
+										</div>
+									</div>
+									<!-- </div> -->
+								</div>
+							</div>
+							<!-- /solid tabs -->
 
 							<div class="modal-footer" style="display: none;">
 								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
@@ -580,7 +601,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control" data-mask="99:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											 name="manBudHr" onchange="submitResponse()"
+											name="manBudHr" onchange="submitResponse()"
 											autocomplete="off">
 									</div>
 
@@ -590,9 +611,9 @@ h5 {
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
 										<input type="text" data-mask="99:99" class="form-control"
-											placeholder="Enter Employee Budgeted Hours"
-											id="edit_emptime"  onchange="submitResponse()"
-											name="empBudHr" autocomplete="off">
+											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
+											onchange="submitResponse()" name="empBudHr"
+											autocomplete="off">
 									</div>
 
 								</div>
@@ -619,41 +640,42 @@ h5 {
 
 								</div>
 								<c:choose>
-								<c:when test="${empType==5}">
+									<c:when test="${empType==5}">
 
-								<div class="form-group row">
+										<div class="form-group row">
 
-									<label class="col-form-label col-lg-6" for="activity">
-										Employee <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-6">
-										<select name="emp" data-placeholder="Select Activity"
-											onchange="submitResponse()" id="emp" multiple disabled="disabled"
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-										</select>
-									</div>
+											<label class="col-form-label col-lg-6" for="activity">
+												Employee <span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<select name="emp" data-placeholder="Select Activity"
+													onchange="submitResponse()" id="emp" multiple
+													disabled="disabled"
+													class="form-control form-control-select2 select2-hidden-accessible"
+													data-fouc="" aria-hidden="true">
+												</select>
+											</div>
 
-								</div>
-								
-								</c:when>
-								<c:when test="${empType!=5}">
-									<div class="form-group row">
+										</div>
 
-									<label class="col-form-label col-lg-6" for="activity">
-										Employee <span style="color: red">* </span>:
-									</label>
-									<div class="col-lg-6">
-										<select name="emp" data-placeholder="Select Activity"
-											onchange="submitResponse()" id="emp" multiple 
-											class="form-control form-control-select2 select2-hidden-accessible"
-											data-fouc="" aria-hidden="true">
-										</select>
-									</div>
+									</c:when>
+									<c:when test="${empType!=5}">
+										<div class="form-group row">
 
-								</div>
-								</c:when>
-								</c:choose>								
+											<label class="col-form-label col-lg-6" for="activity">
+												Employee <span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<select name="emp" data-placeholder="Select Activity"
+													onchange="submitResponse()" id="emp" multiple
+													class="form-control form-control-select2 select2-hidden-accessible"
+													data-fouc="" aria-hidden="true">
+												</select>
+											</div>
+
+										</div>
+									</c:when>
+								</c:choose>
 
 								<!--  <div class="modal-footer">
 										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
@@ -669,7 +691,7 @@ h5 {
 				<!-- /Task Edit Log modal -->
 
 				<!-- Basic tables title -->
-				<div class="mb-3 text-right"
+				<!-- <div class="mb-3 text-right"
 					style="position: fixed; z-index: 55555555; margin-left: 75%; margin-top:29%;">
 
 					<div class="fab-menu  fab-menu-absolute1 fab-menu-top-right1"
@@ -679,7 +701,7 @@ h5 {
 							<i class="fab-icon-open icon-filter3"></i>
 						</a>
 					</div>
-				</div>
+				</div> -->
 				<!-- /basic tables title -->
 				<!-- Hover rows -->
 				<div class="card">
@@ -708,12 +730,30 @@ h5 {
  --%>
 					<div class=table-responsive>
 						<!-- <input type="text" id="search" placeholder="Type to search"> -->
+						<div class="row">
+							<div class="col-md-6">
+								<div id="work_log_table_filter" class="dataTables_filter">
+									<label><span>Search:</span> <input type="text" class=""
+										id="search" placeholder="Type to search..."
+										aria-controls="work_log_table"> </label>
+								</div>
+							</div>
+							<div class="col-md-6   "> 
+								<!-- Basic tables title -->
+								<div class="  text-right" >
 
-						<div id="work_log_table_filter" class="dataTables_filter">
-							<label><span>Search:</span> <input type="text" class=""
-								id="search" placeholder="Type to search..."
-								aria-controls="work_log_table"> </label>
+									<div class="pr-1 pt-1 fab-menu  fab-menu-absolute1 fab-menu-top-right1"
+										data-toggle="modal" data-target="#modal_remote">
+										<a title="Filter"
+											class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
+											<i class="fab-icon-open icon-filter3"></i>
+										</a>
+									</div>
+								</div>
+								<!-- /basic tables title -->
+							</div>
 						</div>
+
 
 						<table
 							class="table datatable-basic1 datatable-generated table-hover"
@@ -755,10 +795,10 @@ h5 {
 											id="set_status${taskList.taskId}"
 											data-id="${taskList.taskId}"
 											class="form-control  ats_sel_status ">
-											<option selected disabled data-statusColor="black"
-																value="-1">Select Status</option>
+												<option selected disabled data-statusColor="black"
+													value="-1">Select Status</option>
 												<c:forEach items="${statusList}" var="statusList">
-												
+
 													<c:choose>
 														<c:when
 															test="${statusList.statusText eq taskList.taskStatus}">
@@ -778,7 +818,7 @@ h5 {
 										<td class="text-center"><a class="chatmodallink mr-2"
 											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}','${taskList.taskText}','${taskList.ownerPartner}','${taskList.taskStatus}')"
 											href="#" title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a>  <a href="#"
+												style="color: green;"></i></a> <a href="#"
 											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
 												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
@@ -790,35 +830,41 @@ h5 {
 					</div>
 				</div>
 				<!-- /hover rows -->
-				
+
 				<!-- /highlighting rows and columns -->
 
 			</div>
 			<!-- /content area -->
-<!-- Sachin 26-11-2019 <button type="button" class="btn btn-light"  data-toggle="modal" data-target="#modal_form_inline"><i class="icon-play3 ml-2"></i></button>
+			<!-- Sachin 26-11-2019 <button type="button" class="btn btn-light"  data-toggle="modal" data-target="#modal_form_inline"><i class="icon-play3 ml-2"></i></button>
  -->
-<div id="modal_form_inline" class="modal fade" tabindex="-1">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Add a deliverable link to complete Task</h5>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
-
-							<form action="#" class="row modal-body form-horizontal">
-								<!-- <label>Deliverable link</label> -->
-								<div class="col-md-9">
-								<input type="hidden" id="task_comp_id" name="task_comp_id" value="0">
-								<input type="text" id="del_link" name="del_link" placeholder="deliverable link" class="form-control">
-							 	<!-- <textarea class="form-control" wrap="soft"   placeholder="deliverable link" id="del_link" name="del_link" class="form-control mb-4 mr-sm-2 ml-sm-4 mb-sm-0"></textarea> -->
-							 	</div>
-							 	<div class="col-md-3">
-							 	<button type="button" onclick="completeAndDelLink()" class="btn bg-primary ml-sm-2 mb-sm-0">Save<i class="icon-plus22	"></i></button>
-							 	</div>
-							</form>
+			<div id="modal_form_inline" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Add a deliverable link to complete
+								Task</h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
 						</div>
+
+						<form action="#" class="row modal-body form-horizontal">
+							<!-- <label>Deliverable link</label> -->
+							<div class="col-md-9">
+								<input type="hidden" id="task_comp_id" name="task_comp_id"
+									value="0"> <input type="text" id="del_link"
+									name="del_link" placeholder="deliverable link"
+									class="form-control">
+								<!-- <textarea class="form-control" wrap="soft"   placeholder="deliverable link" id="del_link" name="del_link" class="form-control mb-4 mr-sm-2 ml-sm-4 mb-sm-0"></textarea> -->
+							</div>
+							<div class="col-md-3">
+								<button type="button" onclick="completeAndDelLink()"
+									class="btn bg-primary ml-sm-2 mb-sm-0">
+									Save<i class="icon-plus22	"></i>
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
+			</div>
 
 
 			<!-- Footer -->
@@ -994,7 +1040,7 @@ function append(data){
 
 }
 
-</script>	
+</script>
 
 
 
@@ -1693,6 +1739,23 @@ function addNewWorkLog(){
 </script>
 
 	<script type="text/javascript">
+	
+	//For Work Log
+	var start = moment().subtract(3, 'days');
+    var end = moment();
+$('.datepickerclass1').daterangepicker({
+	singleDatePicker : true,
+	selectMonths : true,
+	selectYears : true,
+	minDate: start,
+	maxDate: end,
+	drops:'down',
+	locale : {
+		format : 'DD-MM-YYYY'
+	}
+});
+
+
 		// Single picker
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
@@ -1718,7 +1781,7 @@ function addNewWorkLog(){
 			}
 		});
 	</script>
-	
+
 	<script type="text/javascript">	
 	function showMsg(){
 		setTimeout(function(){
@@ -1743,7 +1806,7 @@ function addNewWorkLog(){
 	
 	
 	</script>
-	
+
 
 	<script type="text/javascript">
 	
@@ -1914,34 +1977,36 @@ $(document).ready(function(){
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-success">
-								<table style="background-color: #4CAF50;" width="100%">
+					<table style="background-color: #4CAF50;" width="100%">
 
-							<tr>
-								<td  
-									width="80%">
-									<h5>
-										Task Name - <span id="mdTaskName"
-											class="font-weight-semibold">  </span> <small
-											class="d-block opacity-75" id="mdOwnerPartner">Owner Partner - ${task.ownerPartner} </small>
-									</h5>
-								</td>
-								<td  >
-									<div align="center">
-										<div class="btn" style="background-color: white;" id="mdTaskStatus">${task.taskStatus}</div>
-										<normal class="d-block opacity-75" style="color: white;">Current
-										Status</normal>
-									</div>
-								</td>
-								<td style="color: white; padding: .8rem 1rem;">	<%-- <a href="${pageContext.request.contextPath}/taskListForEmp"><button
+						<tr>
+							<td width="80%">
+								<h5>
+									Task Name - <span id="mdTaskName" class="font-weight-semibold">
+									</span> <small class="d-block opacity-75" id="mdOwnerPartner">Owner
+										Partner - ${task.ownerPartner} </small>
+								</h5>
+							</td>
+							<td>
+								<div align="center">
+									<div class="btn" style="background-color: white;"
+										id="mdTaskStatus">${task.taskStatus}</div>
+									<normal class="d-block opacity-75" style="color: white;">Current
+									Status</normal>
+								</div>
+							</td>
+							<td style="color: white; padding: .8rem 1rem;">
+								<%-- <a href="${pageContext.request.contextPath}/taskListForEmp"><button
 													type="button" class="btn btn-primary" id="cancelbtn">
 													<i class="${sessionScope.cancelIcon}" aria-hidden="true"></i>&nbsp;&nbsp;
 													Back
-												</button></a> --%></td>
-							</tr>
+												</button></a> --%>
+							</td>
+						</tr>
 
-						</table>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
+					</table>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
 
 				<div class="modal-body" id="modalbody">
 					<!-- Content will be loaded here from "remote.php" file -->
