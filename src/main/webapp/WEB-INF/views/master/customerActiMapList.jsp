@@ -105,7 +105,7 @@
 								<button type="button" class="btn btn-link" data-dismiss="modal" id="btn1">Close</button>
 								<button type="button" class="btn bg-primary" onclick="getData()" id="btn2">Delete Tasks</button>
 							</div>
-							<p class="desc text-danger fontsize11" align="left">Notice : All tasks will be deleted, created after selected date.</p>
+							<p class="desc text-danger fontsize11" align="left">Notice : All tasks will be deleted, generated after selected date.</p>
 						</div>
 					</div>
 				</div>
