@@ -91,6 +91,7 @@
 							</div>
 							
 							<div class="modal-body">
+							<input type="hidden" value="${custId}" id="cust_id" name="cust_id"> 
 								<div class="form-group form-group-float col-md-12">
 									<!-- 	<label class="form-group-float-label">Work Date</label> --> <input
 											type="text" class="form-control datepickerclass"
@@ -101,10 +102,10 @@
 							</div>
 
 							<div class="modal-footer">
-								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="button" class="btn bg-primary" onclick="getData()">Save changes</button>
+								<button type="button" class="btn btn-link" data-dismiss="modal" id="btn1">Close</button>
+								<button type="button" class="btn bg-primary" onclick="getData()" id="btn2">Delete Tasks</button>
 							</div>
-							
+							<p class="desc text-danger fontsize11" align="left">Notice : All tasks will be deleted, created after selected date.</p>
 						</div>
 					</div>
 				</div>
@@ -248,14 +249,20 @@
 	<!-- /page content -->
 <script type="text/javascript">
 function getData() {
-	
+	document.getElementById("btn2").disabled = true;
 	var date = $("#sel_date").val();
+	var custId = $("#cust_id").val();
+	
+	if(date!=null && custId!=0){
+		confirm("Are you sure want to delete record");
+	}
 	$
 			.getJSON(
 					'${deleteActMapByDate}',
 					{
 
 						date : date,
+						custId : custId,
 						ajax : 'true',
 
 					},
@@ -270,6 +277,7 @@ function getData() {
 							showFailMsg();							
 						}
 					});
+	document.getElementById("btn2").disabled = false;
 }
 
 /* function showDate(){

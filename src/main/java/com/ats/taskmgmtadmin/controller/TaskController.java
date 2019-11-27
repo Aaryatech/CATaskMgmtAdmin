@@ -1958,7 +1958,7 @@ public class TaskController {
 					.postForObject(Constants.url + "/getAllCustActivityMapped", map, ShowCustActiMapped[].class);
 			List<ShowCustActiMapped> custActMapList = new ArrayList<ShowCustActiMapped>(Arrays.asList(custHeadArr));
 			mav.addObject("custActMapList", custActMapList);
-
+			mav.addObject("custId", Integer.parseInt(custId));
 		} catch (Exception e) {
 			System.err.println("Exce in showCustomerActivityMap " + e.getMessage());
 			e.printStackTrace();
@@ -1970,33 +1970,35 @@ public class TaskController {
 	
 
 	@RequestMapping(value = "/deleteActMapByDate", method = RequestMethod.GET)
-	public @ResponseBody Info  deleteActMapByDate(HttpServletRequest request, HttpServletResponse response) {
-		Info info =new Info();
+	public @ResponseBody Info deleteActMapByDate(HttpServletRequest request, HttpServletResponse response) {
+		Info info = new Info();
 		try {
-				HttpSession session = request.getSession();
-				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-				int userId = emp.getEmpId();
-				
-				RestTemplate rest = new RestTemplate();
-			 	String spfDate = request.getParameter("date");
-			 	System.out.println("Date---------"+spfDate);
-			 	
-			 	System.out.println("Param-----------"+DateConvertor.convertToYMD(spfDate)+" - "+userId);
-			 	MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			 	
-				map.add("date", DateConvertor.convertToYMD(spfDate));
-				map.add("userId", userId);
-				
-			 	 info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteAllActMappByDate", map, Info.class);
-			System.out.println("res="+info);
-			 	
-		}catch (Exception e) {
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			String spfDate = request.getParameter("date");
+			System.out.println("Date---------" + spfDate + " - " + custId);
+
+			System.out.println("Param-----------" + DateConvertor.convertToYMD(spfDate) + " - " + userId);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			map.add("date", DateConvertor.convertToYMD(spfDate));
+			map.add("userId", userId);
+			map.add("custId", custId);
+
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/deleteAllActMappByDate", map,
+					Info.class);
+			System.out.println("res=" + info);
+
+		} catch (Exception e) {
 			System.err.println("Exce in deleteActMapByDate " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return info;
-		
+
 	}
 	
 }

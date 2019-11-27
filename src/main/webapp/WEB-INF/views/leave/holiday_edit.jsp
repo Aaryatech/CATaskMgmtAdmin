@@ -28,11 +28,9 @@
 
 			<!-- Page header -->
 			<div class="page-header page-header-light">
-
-
-				<div
+				<%-- <div
 					class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-					<div class="d-flex">
+					<!-- <div class="d-flex">
 						<div class="breadcrumb">
 							<a href="index.html" class="breadcrumb-item"><i
 								class="icon-home2 mr-2"></i> Home</a> <span
@@ -41,16 +39,15 @@
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i
 							class="icon-more"></i></a>
-					</div>
+					</div> -->
 
 					<div class="breadcrumb justify-content-center">
 						<a href="${pageContext.request.contextPath}/showHolidayList"
 							class="breadcrumb-elements-item"> Holiday List</a>
 
 					</div>
-
-
-				</div>
+				</div> --%>
+				
 			</div>
 			<!-- /page header -->
 

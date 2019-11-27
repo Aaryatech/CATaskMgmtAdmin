@@ -65,10 +65,15 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Employee ${sessionScope.errorMsg}</h5></td>
-								<td width="40%" align="right">
-								
-								</td>
+								<td width="60%"><h5 class="card-title">Employee</h5></td>
+								<c:if test="${addAccess==0}">
+									<td width="40%" align="right"><a
+										href="${pageContext.request.contextPath}/employeeAdd"
+										class="breadcrumb-elements-item">
+											<button type="button" class="btn btn-primary">Add
+												Employee</button>
+									</a></td>
+								</c:if>
 							</tr>
 						</table>
 					</div>
@@ -154,10 +159,10 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></c:if>
 								
-								<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
+								<c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
 									onClick="return confirm('Are you sure want to Chage Status');"
 									title="Active/Deactive"><i class="icon-cog5" style="color: black;"></i>
-								</a></td>
+								</a></c:if></td>
 
 							</tr>					
 							</c:forEach>
