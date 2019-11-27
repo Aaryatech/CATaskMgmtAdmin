@@ -381,7 +381,7 @@ h5 {
 								<h5 class="modal-title">
 									<span id="taskText"></span>
 								</h5>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<button type="button" class="close" data-dismiss="modal" onclick="hideValidtn()">&times;</button>
 							</div>
 
 							<div class="modal-header" id="divElement">
@@ -1735,6 +1735,12 @@ function addNewWorkLog(){
 	}
 	
 	//document.getElementById("submtbtnlog").disabled = false;
+}
+
+function hideValidtn(){
+	$("#err_wrkdate_log").hide()
+	$("#err_wrk_log").hide()
+	document.getElementById("submtbtnlog").disabled = false;
 }
 </script>
 

@@ -323,6 +323,14 @@ public class MasterMVCController {
 	public ModelAndView activityAddForm(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info info = AccessControll.checkAccess("activity", "activity", "1", "0", "0", "0", newModuleList);
+			if (info.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			}else { 
 
 			mav = new ModelAndView("master/activityAdd");
 			ActivityMaster activity = new ActivityMaster();
@@ -355,7 +363,21 @@ public class MasterMVCController {
 			mav.addObject("periodList", periodList);
 
 			mav.addObject("title", "Add Activity");
+			
+			Info edit = AccessControll.checkAccess("activity", "activity", "0", "0", "1", "0", newModuleList);
+			Info delete = AccessControll.checkAccess("activity", "activity", "0", "0", "0", "1",
+					newModuleList);
 
+			if (edit.isError() == false) {
+				// System.out.println(" edit Accessable ");
+				mav.addObject("editAccess", 0);
+			}
+			if (delete.isError() == false) {
+				// System.out.println(" delete Accessable ");
+				mav.addObject("deleteAccess", 0);
+
+			}
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
 			e.printStackTrace();

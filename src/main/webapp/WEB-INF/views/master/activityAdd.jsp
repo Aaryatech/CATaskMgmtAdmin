@@ -244,14 +244,17 @@
 															Active
 															</c:otherwise>
 															</c:choose></td>
-														<td><a
+														<td><c:if test="${editAccess==0}"><a
 															href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}"
 															title="Edit"><i class="icon-pencil7"
-																style="color: black;"></i></a> <a
+																style="color: black;"></i></a> </c:if>
+															<c:if test="${deleteAccess==0}"><a
 															href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
 															onClick="return confirm('Are you sure want to delete this record');"
 															title="Delete"><i class="icon-trash"
-																style="color: black;"></i> </a> <c:choose>
+																style="color: black;"></i></a></c:if>
+														<c:if test="${editAccess==0}">		
+														 <c:choose>
 																<c:when test="${actList.exInt1==1}">
 																	<a
 																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
@@ -262,7 +265,7 @@
 																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
 																		class="fas fa-toggle-off" style="color: red;"></i> </a>
 																</c:otherwise>
-															</c:choose></td>
+															</c:choose></c:if></td>
 													</tr>
 												</c:forEach>
 											</tbody>
