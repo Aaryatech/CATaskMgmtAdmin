@@ -159,7 +159,7 @@
 
 										</td>
 									</tr>
-									<tr>
+								<%-- 	<tr>
 									
 									<td>
 									<lable><h5 class="card-title">Deliverable Link</h5></lable>
@@ -183,7 +183,7 @@
 
 										</td>
 									
-									</tr>
+									</tr> --%>
 								</table>
 
 

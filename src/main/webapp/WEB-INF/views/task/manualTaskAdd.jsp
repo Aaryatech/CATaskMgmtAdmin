@@ -448,7 +448,7 @@
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											<button type="button" name="btn-Submit" id="btn-Submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
@@ -537,10 +537,10 @@
 		$(document)
 				.ready(
 						function($) {
+//btn-Submit
 
-							$("#submitInsertClient")
-									.submit(
-											function(e) {
+ $('#btn-Submit').click(function(){
+ 
 											//	alert("in submit");
 												var isError = false;
 												var errMsg = "";
@@ -707,38 +707,40 @@
 								{
 									empIds : JSON.stringify(empIds),
 									ajax : 'true',
+									 //async: false,
 								},
 
 								function(data) {
 									//alert(JSON.stringify(data));
 									if (data == 0) {
 											isError = true;
-										$("#error_emp_mng").show()
+										$("#error_emp_mng").show();
+										//alert(11);
+										return false;
 
 									} else {
-										$("#error_emp_mng").hide()
+										$("#error_emp_mng").hide();
+										$("#submitInsertClient")
+										.submit();
 									}
 								});
-
-												
-												
+//alert(isError)
 												if (!isError) {
 
-													var x = true;
-													if (x == true) {
-
-														document
-																.getElementById("submtbtn").disabled = true;
-														document
-																.getElementById("cancelbtn").disabled = true;
-														return true;
-													}
-													//end ajax send this to php page
+													document
+													.getElementById("submtbtn").disabled = true;
+											document
+													.getElementById("cancelbtn").disabled = true;
+											return true;
+													
 												}
 												return false;
 											});
 						});
 		//
+		function getActivities(servId) {
+			
+		}
 	</script>
 
 
