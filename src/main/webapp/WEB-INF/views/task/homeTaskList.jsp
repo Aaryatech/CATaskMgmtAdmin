@@ -1414,14 +1414,13 @@ if(delLink==null || delLink==""){
 	
 // Delete Work Log
 function calDelWorkLog(logId, taskId) {	
-	//alert(logId+" - "+taskId)
-	
 	var empTyp = ${empType};
 	var sesEmp = ${sessEmpId};
-	
+	var x=false;
 	if(logId!=0){
-		confirm("Are you sure want to delete this record");
+		x=confirm("Are you sure want to delete this record");
 	}
+	if(x==true)
 	$
 	.getJSON(
 			'${deleteWorkLog}',

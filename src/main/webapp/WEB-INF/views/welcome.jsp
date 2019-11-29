@@ -28,6 +28,12 @@ font-size: 25px;
  opacity: 0.5;
  background-image: url("${pageContext.request.contextPath}/resources/global_assets/images/kppm2.png");
 }
+.profile-cover-img {
+    /* background-position: 50% 50%; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 10.88rem;
+}
 </style>
 </head>
 
@@ -100,7 +106,7 @@ font-size: 25px;
 							</a> -->
 						</div>
 
-						<div class="media-body text-white" >
+						<div class="text-white">
 						
 				    		<span class="greet">Welcome</span>
 				    		<h1 class="mb-0" style="background-color: #7caf5f"> &nbsp;&nbsp;${userName}</h1>

@@ -246,7 +246,7 @@
 												<th style="color: white;">Task Name</th>
 												<th style="color: white;">Work Date</th>
 												<th style="color: white;">Work Hours</th> 
-												<th style="color: white;">EmpLoyee Name</th>
+												<th style="color: white;">Employee Name</th>
 												<th style="color: white;">Customer Name</th>
 												<th style="color: white;">Remark</th> 
 												<!-- <th style="color: white;">Budget Hrs</th> -->

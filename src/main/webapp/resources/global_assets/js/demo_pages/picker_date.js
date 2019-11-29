@@ -451,16 +451,22 @@ var DateTimePickers = function() {
 
         // Time picker
         $('#anytime-time').AnyTime_picker({
-            format: '%H:%i'
+            format: '%H:%i',
+            opens: 'up'
         });
         
         $('#anytime-time1').AnyTime_picker({
-            format: '%H:%i'
+            format: '%H:%i',
+        	drops: 'up'
         });
         
         
         $('#anytime-time2').AnyTime_picker({
-            format: '%H:%i'
+            format: '%H:%i',
+        	drops: 'up',
+          
+
+        	        		
         });
 
 

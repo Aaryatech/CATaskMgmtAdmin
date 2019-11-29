@@ -389,8 +389,24 @@ public class MasterMVCController {
 	public ModelAndView activityBackPage(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
 		try {
-
 			mav = new ModelAndView("master/activityAdd");
+
+			session=request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
+			if (info.isError() == true) {
+				mav.addObject("editAccess", 1);
+			}else {
+				mav.addObject("editAccess", 0);
+			}
+			
+			info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "0", "1", newModuleList);
+			if (info.isError() == true) {
+				mav.addObject("deleteAccess", 1);
+			}else {
+				mav.addObject("deleteAccess", 0);
+			}
+			
 			ActivityMaster activity = new ActivityMaster();
 			mav.addObject("activity", activity);
 			MultiValueMap<String, Object> map = null;
@@ -504,6 +520,23 @@ public class MasterMVCController {
 			} else {
 				mav = new ModelAndView("master/activityAdd");
 
+				 info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
+				if (info.isError() == true) {
+					mav.addObject("editAccess", 1);
+				}else {
+					mav.addObject("editAccess", 0);
+				}
+				
+				info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "0", "1", newModuleList);
+				if (info.isError() == true) {
+					mav.addObject("deleteAccess", 1);
+				}else {
+					mav.addObject("deleteAccess", 0);
+				}
+				
+				
+
+				
 				MultiValueMap<String, Object> map = null;
 
 				int activityId = Integer.parseInt(request.getParameter("actiId"));

@@ -484,6 +484,7 @@ var DateTimePickers = function() {
         // Time picker
         $('#anytime-time').AnyTime_picker({
             format: '%H:%i'
+            	
         });
 
         // Display hours only

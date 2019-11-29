@@ -127,18 +127,18 @@
 									<input type="hidden" id="custId" name="custId" value="">
 
 									<div class="form-group row">
-										<label class="col-form-label col-sm-1" for="fromDate">Date
+										<label class="col-form-label col-xl-1" for="fromDate">Date
 										  <span style="color: red"></span>:
 										</label>
-										<div class="col-sm-3">
+										<div class="col-xl-3">
 											<input type="text" class="form-control daterange-basic_new"
 												id="fromDate" name="fromDate" onchange="getWorkLog()">
 										</div>
 									
-										<label class="col-form-label col-sm-1" for="custName">Customer
+										<label class="col-form-label col-xl-1" for="custName">Customer
 											 <span style="color: red"> </span>:
 										</label>
-										<div class="col-sm-3">
+										<div class="col-xl-3">
 											<select name="customer" data-placeholder="Select Customer"
 												id="customer" onchange="getWorkLog()"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -153,10 +153,10 @@
 											</select>
 										</div>
 										
-										<label class="col-form-label col-sm-1" for="custName">Employee
+										<label class="col-form-label col-xl-1" for="custName">Employee
 											 <span style="color: red"> </span>:
 										</label>
-										<div class="col-sm-3">
+										<div class="col-xl-3">
 											<select name="employee" data-placeholder="Select Employee"
 												id="employee" 
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -170,7 +170,7 @@
 
 											</select>
 										</div>
-										<div class="col-lg-3"></div>
+									
 										
 
 									</div>
@@ -178,10 +178,10 @@
 
 
 									<div class="form-group row">
-										<label class="col-form-label col-sm-1" for="service">
+										<label class="col-form-label col-xl-1" for="service">
 											Service <span style="color: red"> </span>:
 										</label>
-										<div class="col-sm-3">
+										<div class="col-xl-3">
 											<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -203,10 +203,10 @@
 
 								
 
-										<label class="col-form-label col-sm-1" for="activity">
+										<label class="col-form-label col-xl-1" for="activity">
 											Activity <span style="color: red"></span>:
 										</label>
-										<div class="col-sm-3">
+										<div class="col-xl-3">
 											<select name="activity" data-placeholder="Select Activity"
 												id="activity" onchange="getWorkLog()"
 												class="form-control form-control-select2 select2-hidden-accessible"
