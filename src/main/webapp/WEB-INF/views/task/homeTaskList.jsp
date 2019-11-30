@@ -1258,6 +1258,7 @@ if(delLink==null || delLink==""){
 				//alert(JSON.stringify(data));
 				
 				 $('#modal_form_inline').modal('hide');
+				 document.getElementById("del_link").value="";
 				getActiveHomeTasks();
 			});
 }//end of else
@@ -1278,8 +1279,6 @@ if(delLink==null || delLink==""){
 			$("#sucessmsg").hide();
 			$("#del_sucess_msg").hide();
 			$("#del_fail_msg").hide();
-			
-			 
 			}catch (e) {
 				// TODO: handle exception
 			}
@@ -1301,12 +1300,13 @@ if(delLink==null || delLink==""){
 							//alert("LogList:"+JSON.stringify(data.logList));
 							var dataTable = $('#work_log_table1').DataTable();
 							dataTable.clear().draw();
-							
+							var sr=0;
 							$.each(data.logList, function(i, v) {								
 								if(empTyp==2){
 									if(v.exInt1!=1){
+										sr=sr+1;
 										dataTable.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.exVar1,
 													v.workHours
 												]).draw();
@@ -1315,8 +1315,9 @@ if(delLink==null || delLink==""){
 								}
 								if(empTyp==3){
 									if(v.exInt1!=2 && v.exInt1!=1 ){
+										sr=sr+1;
 										dataTable.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.exVar1,
 													v.workHours
 												]).draw();
@@ -1326,8 +1327,9 @@ if(delLink==null || delLink==""){
 									
 								if(empTyp==4){
 									if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+										sr=sr+1;
 										dataTable.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.exVar1,
 													v.workHours
 												]).draw();
@@ -1336,8 +1338,9 @@ if(delLink==null || delLink==""){
 								}
 								if(empTyp==5){
 									if(v.exInt1==5 && sesEmp==v.empId){
+										sr=sr+1;
 										dataTable.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.exVar1,
 													v.workHours
 												]).draw();
@@ -1348,15 +1351,15 @@ if(delLink==null || delLink==""){
 							
 							var dataTable2 = $('#work_log_table2').DataTable();										
 							dataTable2.clear().draw();
-							
+							sr=0;
 							$.each(data.perDayLog, function(i, v) {
 								var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
 								'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
 								if(empTyp==2){
 									if(v.empType!=1){
-										
+										sr=sr+1;
 										dataTable2.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.workDate,
 													v.empName,
 													v.workHours,
@@ -1366,11 +1369,11 @@ if(delLink==null || delLink==""){
 									
 								}
 								if(empTyp==3){
-									
+								
 									if(v.empType!=2 && v.empType!=1 ){
-										
+										sr=sr+1;
 										dataTable2.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.workDate,
 													v.empName,
 													v.workHours,
@@ -1382,9 +1385,9 @@ if(delLink==null || delLink==""){
 									
 								if(empTyp==4){
 									if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
-										
+										sr=sr+1;
 										dataTable2.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.workDate,
 													v.empName,
 													v.workHours
@@ -1394,9 +1397,9 @@ if(delLink==null || delLink==""){
 								}
 								if(empTyp==5){
 									if(v.empType==5 && sesEmp==v.empId){
-										
+										sr=sr+1;
 										dataTable2.row.add(
-												[ 	i + 1,
+												[ 	sr,
 													v.workDate,
 													v.empName,
 													v.workHours,
@@ -1436,12 +1439,14 @@ function calDelWorkLog(logId, taskId) {
 				
 				var dataTable = $('#work_log_table1').DataTable();
 				dataTable.clear().draw();
-				
+				var sr=0;
 				$.each(data.logList, function(i, v) {								
 					if(empTyp==2){
+						
 						if(v.exInt1!=1){
+							sr=sr+1;
 							dataTable.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.exVar1,
 										v.workHours
 									]).draw();
@@ -1450,8 +1455,9 @@ function calDelWorkLog(logId, taskId) {
 					}
 					if(empTyp==3){
 						if(v.exInt1!=2 && v.exInt1!=1 ){
+							sr=sr+1;
 							dataTable.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.exVar1,
 										v.workHours
 									]).draw();
@@ -1461,8 +1467,9 @@ function calDelWorkLog(logId, taskId) {
 						
 					if(empTyp==4){
 						if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+							sr=sr+1;
 							dataTable.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.exVar1,
 										v.workHours
 									]).draw();
@@ -1471,8 +1478,9 @@ function calDelWorkLog(logId, taskId) {
 					}
 					if(empTyp==5){
 						if(v.exInt1==5 && sesEmp==v.empId){
+							sr=sr+1;
 							dataTable.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.exVar1,
 										v.workHours
 									]).draw();
@@ -1489,15 +1497,15 @@ function calDelWorkLog(logId, taskId) {
 				}else{
 					showDelMsg();					
 				}
-				
+				sr=0;
 				$.each(data.perDayLog, function(i, v) {
 					var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
 					'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
 					if(empTyp==2){
 						if(v.empType!=1){
-							
+							sr=sr+1;
 							dataTable2.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.workDate,
 										v.empName,
 										v.workHours,
@@ -1509,9 +1517,9 @@ function calDelWorkLog(logId, taskId) {
 					if(empTyp==3){
 						
 						if(v.empType!=2 && v.empType!=1 ){
-							
+							sr=sr+1;
 							dataTable2.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.workDate,
 										v.empName,
 										v.workHours,
@@ -1523,9 +1531,9 @@ function calDelWorkLog(logId, taskId) {
 						
 					if(empTyp==4){
 						if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
-							
+							sr=sr+1;
 							dataTable2.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.workDate,
 										v.empName,
 										v.workHours
@@ -1535,9 +1543,9 @@ function calDelWorkLog(logId, taskId) {
 					}
 					if(empTyp==5){
 						if(v.empType==5 && sesEmp==v.empId){
-							
+							sr=sr+1;
 							dataTable2.row.add(
-									[ 	i + 1,
+									[ 	sr,
 										v.workDate,
 										v.empName,
 										v.workHours,
@@ -1617,12 +1625,13 @@ function addNewWorkLog(){
 				 document.getElementById("submtbtnlog").disabled = false;
 				 
 			 }
-			
+			var sr=0;
 			$.each(data.logList, function(i, v) {
 				if(empTyp==2){
 					if(v.exInt1!=1){
+						sr=sr+1;
 						dataTable.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.exVar1,
 									v.workHours
 								]).draw();
@@ -1631,8 +1640,9 @@ function addNewWorkLog(){
 				}
 				if(empTyp==3){
 					if(v.exInt1!=2 && v.exInt1!=1 ){
+						sr=sr+1;
 						dataTable.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.exVar1,
 									v.workHours
 								]).draw();
@@ -1642,8 +1652,9 @@ function addNewWorkLog(){
 					
 				if(empTyp==4){
 					if(v.exInt1!=3 && v.exInt1!=2 && v.exInt1!=1 ){
+						sr=sr+1;
 						dataTable.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.exVar1,
 									v.workHours
 								]).draw();
@@ -1652,8 +1663,9 @@ function addNewWorkLog(){
 				}
 				if(empTyp==5){
 					if(v.exInt1==5 && sesEmp==v.empId){
+						sr=sr+1;
 						dataTable.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.exVar1,
 									v.workHours
 								]).draw();
@@ -1664,15 +1676,15 @@ function addNewWorkLog(){
 			
 			var dataTable2 = $('#work_log_table2').DataTable();
 			dataTable2.clear().draw();
-			
+			sr=0;
 			$.each(data.perDayLog, function(i, v) {
 				var acButton='<td class="text-center"><a href="#" onclick="calEditWorkLog('+v.workLogId+','+v.taskId+',\''+v.workDate+'\', \''+v.workHours+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal"></i></a>'+
 				'&nbsp;&nbsp;<a href="#" onClick="calDelWorkLog('+v.workLogId+', '+v.taskId+')" title="Delete"><i class="icon-trash" style="color: black;" data-toggle="modal"></i></a></td>'
 				if(empTyp==2){
 					if(v.empType!=1){
-						
+						sr=sr+1;
 						dataTable2.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.workDate,
 									v.empName,
 									v.workHours,
@@ -1684,9 +1696,9 @@ function addNewWorkLog(){
 				if(empTyp==3){
 					
 					if(v.empType!=2 && v.empType!=1 ){
-						
+						sr=sr+1;
 						dataTable2.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.workDate,
 									v.empName,
 									v.workHours,
@@ -1698,9 +1710,9 @@ function addNewWorkLog(){
 					
 				if(empTyp==4){
 					if(v.empType!=3 && v.empType!=2 && v.empType!=1 ){
-						
+						sr=sr+1;
 						dataTable2.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.workDate,
 									v.empName,
 									v.workHours,
@@ -1711,9 +1723,9 @@ function addNewWorkLog(){
 				}
 				if(empTyp==5){
 					if(v.empType==5 && sesEmp==v.empId){
-						
+						sr=sr+1;
 						dataTable2.row.add(
-								[ 	i + 1,
+								[ 	sr,
 									v.workDate,
 									v.empName,
 									v.workHours,

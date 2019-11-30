@@ -719,9 +719,171 @@
 										return false;
 
 									} else {
+										
+										
 										$("#error_emp_mng").hide();
-										$("#submitInsertClient")
-										.submit();
+										
+										
+										// start
+										
+										if ($("#service").val() == "") {
+											 
+											isError = true;
+
+											$("#error_service").show()
+
+										} else {
+											$("#error_service").hide()
+										}
+
+										if ($("#empId2").val() == "") {
+												isError = true;
+
+											$("#error_emp").show()
+
+										} else {
+											$("#error_emp").hide()
+										}
+
+										if ($("#customer").val() == "") {
+												isError = true;
+
+											$("#error_cust").show()
+
+										} else {
+											$("#error_cust").hide()
+										}
+
+										if (!$("#periodicity").val()
+												|| $("#activity").val() == "") {
+												isError = true;
+
+											$("#error_activity").show()
+
+										} else {
+											$("#error_activity").hide()
+										}
+
+										if (!$("#periodicity").val()) {
+												isError = true;
+
+											$("#error_periodicity1")
+													.show()
+
+										} else {
+											$("#error_periodicity1")
+													.hide()
+										}
+
+										if (!$("#startDate").val()) {
+												isError = true;
+
+											$("#error_startDate")
+													.show()
+
+										} else {
+											$("#error_startDate")
+													.hide()
+										}
+										
+										if(${isEdit}==1){
+										if (!$("#statDate").val()) {
+												isError = true;
+
+											$("#error_statDate")
+													.show()
+
+										} else {
+											$("#error_statDate")
+													.hide()
+										}
+										}
+										if(${isEdit}==0){
+
+										var from_date = document
+												.getElementById("startDate").value;
+										var to_date = document
+												.getElementById("endDate").value;
+
+										var fromdate = from_date
+												.split('-');
+										from_date = new Date();
+										from_date.setFullYear(
+												fromdate[2],
+												fromdate[1] - 1,
+												fromdate[0]);
+										var todate = to_date.split('-');
+										to_date = new Date();
+										to_date.setFullYear(todate[2],
+												todate[1] - 1,
+												todate[0]);
+										if (from_date > to_date) {
+												$("#error_start_date")
+													.show();
+											$("#error_end_date").show();
+											$("#error_startDate")
+													.hide();
+											$("#error_endDate").hide();
+											return false;
+
+										} else {
+											$("#error_start_date")
+													.hide();
+											$("#error_end_date").hide();
+										}
+										////////
+										}
+										if(${isEdit}==0){
+										if (!$("#statutary_endDays")
+												.val()) {
+											//alert("in statutary_endDays");
+											isError = true;
+
+											$("#error_stat_endDays")
+													.show()
+
+										} else {
+											$("#error_stat_endDays")
+													.hide()
+										}
+										}
+
+										if (!$("#mgBudgetHr").val()) {
+												isError = true;
+
+											$("#error_mgBudgetHr")
+													.show()
+
+										} else {
+											$("#error_mgBudgetHr")
+													.hide()
+										}
+
+										if (!$("#empBudgetHr").val()) {
+
+											isError = true;
+												$("#error_empHrs").show()
+
+										} else {
+											$("#error_empHrs").hide()
+										}
+										
+										if (!$("#billAmt").val()) {
+
+											isError = true;
+
+											$("#error_billAmt")
+													.show()
+
+										} else {
+											$("#error_billAmt")
+													.hide()
+										} 
+										
+										
+										//end
+										if(isError==false)
+										$("#submitInsertClient").submit();
 									}
 								});
 //alert(isError)

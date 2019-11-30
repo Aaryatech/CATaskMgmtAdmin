@@ -147,7 +147,7 @@
 																				href="${pageContext.request.contextPath}/editAccessRole/${createdRoleList.roleId}"
 																				  data-original-title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if>
 																		
-																		 <%-- <c:if test="${deleteAccess==0}"> --%><a title="Edit" rel="tooltip"
+																		 <%-- <c:if test="${deleteAccess==0}"> --%><a title="Delete" rel="tooltip"
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn "
 																				href="${pageContext.request.contextPath}/deleteRole?accRole=${createdRoleList.roleId}"
