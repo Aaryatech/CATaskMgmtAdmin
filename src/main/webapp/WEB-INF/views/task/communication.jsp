@@ -154,8 +154,12 @@
 											<button type="button" id="submtbtn" class="btn bg-teal-400"
 												onclick="chat()">
 												<b><i class="icon-paperplane"></i></b>
-											</button>
-
+											</button></b>
+											
+											<b><i class="icon-bubbles10
+" title="Email This Line"></i></b><input type="checkbox" id="check_email" name="check_email">
+												
+											
 
 										</td>
 									</tr>

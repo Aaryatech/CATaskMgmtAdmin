@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
+
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -14,10 +14,10 @@
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
 	<c:url value="/getPeridicityByActivity" var="getPeridicityByActivity"></c:url>
-	
-	
+
+
 	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
-	
+
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -93,7 +93,7 @@
 									</button>
 									<span class="font-weight-semibold">Oh snap!</span>
 									<%
-									session.getAttribute("successMsg");
+										session.getAttribute("successMsg");
 									%>
 								</div>
 
@@ -111,7 +111,7 @@
 									</button>
 									<span class="font-weight-semibold">Well done!</span>
 									<%
-									session.getAttribute("successMsg");
+										session.getAttribute("successMsg");
 									%>
 								</div>
 								<%
@@ -165,10 +165,10 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emp"
-												style="display: none;">Please Select Employee.</span>
-												<span class="validation-invalid-label" id="error_emp_mng"
+												style="display: none;">Please Select Employee.</span> <span
+												class="validation-invalid-label" id="error_emp_mng"
 												style="display: none;">Please Select a Manager (MG).</span>
-												
+
 										</div>
 									</div>
 
@@ -307,8 +307,8 @@
 
 										<div class="form-group row">
 											<label class="col-form-label col-lg-3"
-												for="statutary_endDays" id="lable_statutary_endDays"> Statutory End Days <span
-												style="color: red">* </span>:
+												for="statutary_endDays" id="lable_statutary_endDays">
+												Statutory End Days <span style="color: red">* </span>:
 											</label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control"
@@ -351,8 +351,9 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-3" for="startDate" id="lable_startDate">Start
-											Date <span style="color: red">* </span>:
+										<label class="col-form-label col-lg-3" for="startDate"
+											id="lable_startDate">Start Date <span
+											style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control datepickerclass"
@@ -374,8 +375,8 @@
 									<c:if test="${isEdit==0}">
 
 										<div class="form-group row">
-											<label class="col-form-label col-lg-3" for="endDate" id="lable_endDate">Task
-												Work Date </label>
+											<label class="col-form-label col-lg-3" for="endDate"
+												id="lable_endDate">Task Work Date </label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control datepickerclass"
 													value="${task.taskEndDate}" name="endDate" id="endDate"
@@ -385,29 +386,36 @@
 												<span class="validation-invalid-label" id="error_endDate"
 													style="display: none;">This field is required.</span> <span
 													class="validation-invalid-label" id="error_end_date"
-													style="display: none;">Work date must be greater than
-													start date.</span>
+													style="display: none;">Work date must be greater
+													than start date.</span>
 											</div>
 										</div>
 									</c:if>
 
+									<c:if test="${empType!=5}">
 
-									<div class="form-group row">
-										<label class="col-form-label col-lg-3" for="manHrs">Manager
-											Budget Hours<span style="color: red">* </span> :
-										</label>
-										<div class="col-lg-6">
-											<input type="text" class="form-control"
-												placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
-												value="${task.mngrBudHr}" name="mgBudgetHr" data-mask="99:99"
-												autocomplete="off" onchange="trim(this)">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-3" for="manHrs">Manager
+												Budget Hours<span style="color: red">* </span> :
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
+													value="${task.mngrBudHr}" name="mgBudgetHr"
+													data-mask="99:99" autocomplete="off" onchange="trim(this)">
+											</div>
+											<div class="col-lg-3">
+												<span class="validation-invalid-label" id="error_mgBudgetHr"
+													style="display: none;">This field is required.</span>
+											</div>
 										</div>
-										<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_mgBudgetHr"
-												style="display: none;">This field is required.</span>
-										</div>
-									</div>
-
+									</c:if>
+									<c:if test="${empType==5}">
+									
+									<input type="hidden" 
+													value="${task.mngrBudHr}" name="mgBudgetHr" id="mgBudgetHr"
+													data-mask="99:99" onchange="trim(this)">
+									</c:if>
 
 
 									<div class="form-group row">
@@ -417,8 +425,8 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Employee Budget Hours" id="empBudgetHr"
-												value="${task.empBudHr}" name="empBudgetHr" data-mask="99:99"
-												autocomplete="off" onchange="trim(this)">
+												value="${task.empBudHr}" name="empBudgetHr"
+												data-mask="99:99" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empHrs"
@@ -426,7 +434,7 @@
 										</div>
 									</div>
 
-
+<c:if test="${empType!=5}">
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="billAmt">Billing
 											Amount <span style="color: red">* </span>:
@@ -443,13 +451,22 @@
 										</div>
 
 									</div>
+									</c:if>
+									
+									<c:if test="${empType==5}">
+									
+									<input type="hidden" id="billAmt"
+													value="${task.billingAmt}" name="billAmt"
+													data-mask="99:99" onchange="trim(this)">
+									</c:if>
+									
 
 
 									<div class="form-group row mb-0">
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-											<button type="button" name="btn-Submit" id="btn-Submit" class="btn bg-blue ml-3 legitRipple"
-												id="submtbtn">
+											<button type="button" name="btn-Submit" id="btn-Submit"
+												class="btn bg-blue ml-3 legitRipple" id="submtbtn">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<c:if test="${taskType==1}">
@@ -508,7 +525,7 @@
 		$('#statutary_endDays').on(
 				'input',
 				function() {
-					this.value = this.value.replace(/[^0-9.]/g, '').replace(
+					this.value = this.value.replace(/[^0-9-]/g, '').replace(
 							/(\..*)\./g, '$1');
 				});
 
@@ -669,6 +686,7 @@
 												}
 												}
 
+												if(${empType}!=5){
 												if (!$("#mgBudgetHr").val()) {
  													isError = true;
 
@@ -678,6 +696,7 @@
 												} else {
 													$("#error_mgBudgetHr")
 															.hide()
+												}
 												}
 
 												if (!$("#empBudgetHr").val()) {
@@ -689,6 +708,7 @@
 													$("#error_empHrs").hide()
 												}
 												
+												if(${empType}!=5){
 												if (!$("#billAmt").val()) {
 
 													isError = true;
@@ -700,6 +720,7 @@
 													$("#error_billAmt")
 															.hide()
 												}  
+												}
 
 												var empIds=$("#empId2").val();
 												
@@ -847,7 +868,7 @@
 													.hide()
 										}
 										}
-
+										if(${empType}!=5){
 										if (!$("#mgBudgetHr").val()) {
 												isError = true;
 
@@ -857,6 +878,7 @@
 										} else {
 											$("#error_mgBudgetHr")
 													.hide()
+										}
 										}
 
 										if (!$("#empBudgetHr").val()) {
@@ -868,17 +890,21 @@
 											$("#error_empHrs").hide()
 										}
 										
-										if (!$("#billAmt").val()) {
+										if(${empType}!=5){
+											if (!$("#billAmt").val()) {
 
-											isError = true;
+												isError = true;
 
-											$("#error_billAmt")
-													.show()
+												$("#error_billAmt")
+														.show()
 
-										} else {
-											$("#error_billAmt")
-													.hide()
-										} 
+											} else {
+												$("#error_billAmt")
+														.hide()
+											}
+											
+										}
+									 
 										
 										
 										//end

@@ -731,12 +731,14 @@ h5 {
 					<div class=table-responsive>
 						<!-- <input type="text" id="search" placeholder="Type to search"> -->
 						<div class="row">
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div id="work_log_table_filter" class="dataTables_filter">
 									<label><span>Search:</span> <input type="text" class=""
 										id="search" placeholder="Type to search..."
 										aria-controls="work_log_table"> </label>
 								</div>
+							</div> -->
+							<div class="col-md-6">
 							</div>
 							<div class="col-md-6   "> 
 								<!-- Basic tables title -->
@@ -756,7 +758,7 @@ h5 {
 
 
 						<table
-							class="table datatable-basic1 datatable-generated table-hover"
+							class="table datatable-basic datatable-generated table-hover"
 							width="100%" id="task_info_table">
 							<thead>
 								<tr>

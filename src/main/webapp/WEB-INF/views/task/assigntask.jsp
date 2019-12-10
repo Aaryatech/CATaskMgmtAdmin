@@ -314,13 +314,13 @@
 							<div class="table-responsive">
 
 								<table
-									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 									id="printtable1">
 									<thead>
 										<tr class="bg-blue">
-											<th width="10%">Sr.no<input type="checkbox" checked
+											<th width="10%">Sr.no</th>
+											<th>Task <input type="checkbox" checked
 												name="selAll" id="selAll" /></th>
-											<th>Task</th>
 											<th>Customer</th>
 											<th>Activity</th>
 											<th>Year</th>
@@ -334,11 +334,11 @@
 
 									<c:forEach items="${taskList}" var="taskList" varStatus="count">
 										<tr>
-											<td>${count.index+1}&nbsp;&nbsp;<input type="checkbox"
+											<td>${count.index+1}</td>
+
+											<td>${taskList.taskText}&nbsp;&nbsp;<input type="checkbox"
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all" checked></td>
-
-											<td>${taskList.taskText}</td>
 											<td>${taskList.custFirmName}</td>
 											<td>${taskList.actiName}</td>
 											<td>${taskList.finYearName}</td>

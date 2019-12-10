@@ -551,6 +551,12 @@ public class TaskController {
 				mav.addObject("epmList", epmList);
 				Task task = new Task();
 				mav.addObject("task", task);
+				
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int empType = emp.getEmpType();
+				mav.addObject("empType", empType);
+				
+				
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
 				e.printStackTrace();
@@ -757,7 +763,12 @@ public class TaskController {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			String mnghr = request.getParameter("mgBudgetHr");
 			String emphr = request.getParameter("empBudgetHr");
-			String mnghr1 = HoursConversion.convertHoursToMin(mnghr);
+			String mnghr1=null;
+			try {
+			 mnghr1 = HoursConversion.convertHoursToMin(mnghr);
+			}catch (Exception e) {
+				
+			}
 			String emphr1 = HoursConversion.convertHoursToMin(emphr);
 			// System.out.println("mnghr1" + mnghr1);
 			// System.out.println("emphr1" + emphr1);
@@ -826,7 +837,8 @@ public class TaskController {
 					activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
 					activityMapanual.setActvStartDate(request.getParameter("startDate"));
 					activityMapanual.setActvEndDate(request.getParameter("endDate"));
-					activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
+					
+					//activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
 					activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
 					activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
 					activityMapanual.setDelStatus(1);
@@ -838,7 +850,17 @@ public class TaskController {
 					activityMapanual.setUpdateDatetime(Constants.getCurDateTime());
 					activityMapanual.setUpdateUsername(userId);
 					activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
-					activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
+					try {
+						activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
+					}catch (Exception e) {
+						activityMapanual.setActvBillingAmt(0);
+					}
+					
+					try {
+						activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
+					}catch (Exception e) {
+						activityMapanual.setActvManBudgHr(0);
+					}
 
 					// System.out.println("Activity Map---------" + activityMapanual.toString());
 					Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
@@ -1508,7 +1530,7 @@ public class TaskController {
 		session = request.getSession();
 		EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 		
-		if(empSes.getEmpType()==1) {
+		if(empSes.getEmpType()==1 ||empSes.getEmpType()==2) {
 		 mav = "task/addEmpWorkLog";
 		}else {
 			mav = "accessDenied";

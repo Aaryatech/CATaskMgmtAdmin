@@ -152,9 +152,9 @@
 
 									<br>
 									<div class="form-group row">
+										<div class="col-lg-12" align="center">
 										<table
-											class="table table-bordered table-hover datatable-highlight1 "
-											id="printtable1">
+											class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"id="printtable1">
 											<thead>
 
 												<tr class="bg-blue">
@@ -184,17 +184,19 @@
 
 
 										</table>
+										</div>	
 									</div>
 									<div class="form-group row">
+									<div class="col-lg-12" align="center">
 										<table
-											class="table table-bordered table-hover datatable-highlight1 "
-											id="printtable2">
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable2">
 											<thead>
 
 												<tr class="bg-blue">
-													<th width="10%">Sr.no&nbsp;<input type="checkbox"
+													<th width="10%">Sr.no</th>
+													<th>Task Name&nbsp;<input type="checkbox"
 													name="selAll" id="selAll" /></th>
-													<th>Task Name</th>
 													<th width="10%">Status</th>
 												</tr>
 											</thead>
@@ -202,10 +204,10 @@
 												<c:forEach items="${taskList}" var="taskList"
 													varStatus="count">
 													<tr>
-														<td>${count.index+1}&nbsp;<input type="checkbox"
+														<td>${count.index+1}</td>
+														<td>${taskList.taskText}&nbsp;<input type="checkbox"
 															name="taskIds" id="empIds${taskList.taskId}" class="chk"
 															value="${taskList.taskId}"></td>
-														<td>${taskList.taskText}</td>
 
 														<td><c:choose>
 																<c:when test="${taskList.isActive==0}">
@@ -221,6 +223,7 @@
 
 
 										</table>
+										</div>
 									</div>
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">

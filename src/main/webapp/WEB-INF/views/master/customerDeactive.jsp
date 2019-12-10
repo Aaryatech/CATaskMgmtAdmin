@@ -142,8 +142,10 @@
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="1" ${custName.isActive == 1 ? 'selected' : ''}>Active</option>
-												<option value="0" ${custName.isActive == 0 ? 'selected' : ''}>InActive</option>
+												<option value="1"
+													${custName.isActive == 1 ? 'selected' : ''}>Active</option>
+												<option value="0"
+													${custName.isActive == 0 ? 'selected' : ''}>InActive</option>
 
 
 											</select>
@@ -186,43 +188,45 @@
 
 										</table>
 									</div>  --%>
-									 <div class="form-group row">
-										<table
-											class="table table-bordered table-hover datatable-highlight1 "
-											id="printtable2">
-											<thead>
+									<div class="form-group row">
+										<div class="col-lg-12" align="center">
+											<table
+												class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+												id="printtable2">
+												<thead>
 
-												<tr class="bg-blue">
-													<th width="10%">Sr.no<input type="checkbox"
-													name="selAll" id="selAll" /></th>
-													<th>Task Name</th>
-													<th width="10%">Status</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${taskList}" var="taskList"
-													varStatus="count">
-													<tr>
-														<td>${count.index+1}&nbsp;<input type="checkbox"
-															name="taskIds" id="empIds${taskList.taskId}" class="chk"
-															value="${taskList.taskId}"></td>
-														<td>${taskList.taskText}</td>
+													<tr class="bg-blue">
+														<th width="10%">Sr.no</th>
+														<th>Task Name <input type="checkbox"
+															name="selAll" id="selAll" /></th>
+														<th width="10%">Status</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${taskList}" var="taskList"
+														varStatus="count">
+														<tr>
+															<td>${count.index+1}</td>
+															<td>${taskList.taskText}&nbsp;<input type="checkbox"
+																name="taskIds" id="empIds${taskList.taskId}" class="chk"
+																value="${taskList.taskId}"></td>
 
-														<td><c:choose>
-																<c:when test="${taskList.isActive==0}">
+															<td><c:choose>
+																	<c:when test="${taskList.isActive==0}">
 															InActive
 															</c:when>
-																<c:otherwise>
+																	<c:otherwise>
 															Active
 															</c:otherwise>
-															</c:choose></td>
-													</tr>
-												</c:forEach>
-											</tbody>
+																</c:choose></td>
+														</tr>
+													</c:forEach>
+												</tbody>
 
 
-										</table>
-									</div> 
+											</table>
+										</div>
+									</div>
 									<div class="form-group row mb-0">
 										<div class="col-lg-12" align="center">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
@@ -261,20 +265,19 @@
 	<!-- /page content -->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
-<script type="text/javascript">
- $(document).ready(
-			function() {
-				//$('#bootstrap-data-table-export').DataTable();
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					//$('#bootstrap-data-table-export').DataTable();
 
-				$("#selAll").click(
-						function() {
-							$('#printtable2 tbody input[type="checkbox"]')
-									.prop('checked', this.checked);
-						});
-			});
-	
+					$("#selAll").click(
+							function() {
+								$('#printtable2 tbody input[type="checkbox"]')
+										.prop('checked', this.checked);
+							});
+				});
 	</script>
- 
+
 
 </body>
 </html>

@@ -288,23 +288,8 @@ public class Task {
 				+ delStatus + ", updateDatetime=" + updateDatetime + ", updateUsername=" + updateUsername + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", custId=" + custId
 				+ ", periodicityId=" + periodicityId + ", actvId=" + actvId + ", servId=" + servId + ", isActive="
-				+ isActive + ", getTaskId()=" + getTaskId() + ", getTaskCode()=" + getTaskCode() + ", getMappingId()="
-				+ getMappingId() + ", getTaskSubline()=" + getTaskSubline() + ", getTaskFyId()=" + getTaskFyId()
-				+ ", getTaskText()=" + getTaskText() + ", getTaskEmpIds()=" + getTaskEmpIds() + ", getTaskStartDate()="
-				+ getTaskStartDate() + ", getTaskEndDate()=" + getTaskEndDate() + ", getTaskStatutoryDueDate()="
-				+ getTaskStatutoryDueDate() + ", getTaskStatus()=" + getTaskStatus() + ", getMngrBudHr()="
-				+ getMngrBudHr() + ", getEmpBudHr()=" + getEmpBudHr() + ", getDelStatus()=" + getDelStatus()
-				+ ", getUpdateDatetime()=" + getUpdateDatetime() + ", getUpdateUsername()=" + getUpdateUsername()
-				+ ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2() + ", getExVar1()=" + getExVar1()
-				+ ", getExVar2()=" + getExVar2() + ", getCustId()=" + getCustId() + ", getPeriodicityId()="
-				+ getPeriodicityId() + ", getActvId()=" + getActvId() + ", getServId()=" + getServId()
-				+ ", getIsActive()=" + getIsActive() + ", getTaskCompletionDate()=" + getTaskCompletionDate()
-				+ ", getBillingAmt()=" + getBillingAmt() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ isActive + "]";
 	}
-
-	 
-
 
 
 }

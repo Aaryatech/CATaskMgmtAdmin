@@ -237,13 +237,14 @@
 						<div class="card">
 							<div class="card-body">
 								<div class=table-responsive>
-									<table class="table datatable-basic table-hover"
+									<table class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+									
 										id=worklogdatatable>
 										<thead>
 											<tr>
-												<th style="color: white;">Sr. No.<input type="checkbox"
+												<th style="color: white;">Sr. No.</th>
+												<th style="color: white;">Task Name <input type="checkbox"
 																name="selAll" id="selAll" /></th>
-												<th style="color: white;">Task Name</th>
 												<th style="color: white;">Work Date</th>
 												<th style="color: white;">Work Hours</th> 
 												<th style="color: white;">Employee Name</th>
@@ -434,8 +435,8 @@
 					var chk = '<input type="checkbox" id="TaskId'+i+'"  name="TaskId'+i+'" value="'+v.taskId+'" onchange="getValidate(this.value)">'
 					
 					dataTable.row.add(
-							[ i + 1+' '+ chk, 
-								v.taskText, 
+							[ i + 1, 
+								v.taskText+' '+chk, 
 								dtpkr, 
 								workhrs, 
 								v.employees, 

@@ -167,9 +167,9 @@
 
 									</div>
 									<br>
-
+	<div class="col-lg-12" align="center">
 									<table
-										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 										id="printtable1">
 										<thead>
 											<tr class="bg-blue">
@@ -185,9 +185,9 @@
 											<c:forEach items="${empList}" var="empList" varStatus="count">
 												<tr>
 													<td style="text-align: center;"><c:out
-															value="${count.index+1}" />&nbsp;<input type="checkbox"
+															value="${count.index+1}" /></td>
+													<td><c:out value="${empList.empName}" />&nbsp;<input type="checkbox"
 														name="empIds" id="empIds${empList.empId}" class="chk" value="${empList.empId}"></td>
-													<td><c:out value="${empList.empName}" /></td>
 													<td><c:out value="${empList.exVar2}" /></td>
 												</tr>
 
@@ -197,6 +197,7 @@
 
 										</tbody>
 									</table>
+									</div>
 									<span class="validation-invalid-label" id="error_table1"
 										style="display: none;">Please select one record.</span>
 								</form>

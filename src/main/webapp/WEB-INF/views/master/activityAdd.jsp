@@ -154,7 +154,8 @@
 									</div>
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="periodicity">
-											Periodicity<span style="color: red">* </span> : </label>
+											Periodicity<span style="color: red">* </span> :
+										</label>
 										<div class="col-lg-6">
 											<select name="periodicity"
 												data-placeholder="Select Periodicity" id="periodicity"
@@ -214,64 +215,70 @@
 
 									<br>
 									<div class="form-group row">
-										<table
-											class="table table-bordered table-hover datatable-highlight1 "
-											id="printtable1">
-											<thead>
+										<div class="col-lg-12" align="center">
+											<table
+												class="table table-bordered table-hover datatable-button-html5-basic  datatable-button-print-columns1"
+												id="printtable1">
+												<thead>
 
-												<tr class="bg-blue">
-													<th width="10%">Sr.no</th>
-													<th>Activity Name</th>
-													<th>Description</th>
-													<th>Periodicity</th>
-													<th>Status</th>
-													<th class="text-center" width="10%">Actions</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${actList}" var="actList"
-													varStatus="count">
-													<tr>
-														<td>${count.index+1}</td>
-														<td>${actList.actiName}</td>
-														<td>${actList.actiDesc}</td>
-														<td>${actList.periodicityName}</td>
-														<td><c:choose>
-																<c:when test="${actList.exInt1==0}">
+													<tr class="bg-blue">
+														<th width="10%">Sr.no</th>
+														<th>Activity Name</th>
+														<th>Description</th>
+														<th>Periodicity</th>
+														<th>Status</th>
+														<th class="text-center" width="10%">Actions</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach items="${actList}" var="actList"
+														varStatus="count">
+														<tr>
+															<td>${count.index+1}</td>
+															<td>${actList.actiName}</td>
+															<td>${actList.actiDesc}</td>
+															<td>${actList.periodicityName}</td>
+															<td><c:choose>
+																	<c:when test="${actList.exInt1==0}">
 															InActive
 															</c:when>
-																<c:otherwise>
+																	<c:otherwise>
 															Active
 															</c:otherwise>
-															</c:choose></td>
-														<td><c:if test="${editAccess==0}"><a
-															href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}"
-															title="Edit"><i class="icon-pencil7"
-																style="color: black;"></i></a> </c:if>
-															<c:if test="${deleteAccess==0}"><a
-															href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
-															onClick="return confirm('Are you sure want to delete this record');"
-															title="Delete"><i class="icon-trash"
-																style="color: black;"></i></a></c:if>
-														<c:if test="${editAccess==0}">		
-														 <c:choose>
-																<c:when test="${actList.exInt1==1}">
+																</c:choose></td>
+															<td><c:if test="${editAccess==0}">
 																	<a
-																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
-																		class="fas fa-toggle-on" style="color: green;"></i> </a>
-																</c:when>
-																<c:otherwise>
+																		href="${pageContext.request.contextPath}/editActivity?actiId=${actList.actiId}"
+																		title="Edit"><i class="icon-pencil7"
+																		style="color: black;"></i></a>
+																</c:if> <c:if test="${deleteAccess==0}">
 																	<a
-																		href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
-																		class="fas fa-toggle-off" style="color: red;"></i> </a>
-																</c:otherwise>
-															</c:choose></c:if></td>
-													</tr>
-												</c:forEach>
-											</tbody>
+																		href="${pageContext.request.contextPath}/deleteActivity/${actList.actiId}"
+																		onClick="return confirm('Are you sure want to delete this record');"
+																		title="Delete"><i class="icon-trash"
+																		style="color: black;"></i></a>
+																</c:if> <c:if test="${editAccess==0}">
+																	<c:choose>
+																		<c:when test="${actList.exInt1==1}">
+																			<a
+																				href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
+																				class="fas fa-toggle-on" style="color: green;"></i>
+																			</a>
+																		</c:when>
+																		<c:otherwise>
+																			<a
+																				href="${pageContext.request.contextPath}/activeDeactiveActivity?actiId=${actList.actiId}"><i
+																				class="fas fa-toggle-off" style="color: red;"></i> </a>
+																		</c:otherwise>
+																	</c:choose>
+																</c:if></td>
+														</tr>
+													</c:forEach>
+												</tbody>
 
 
-										</table>
+											</table>
+										</div>
 									</div>
 
 								</form>

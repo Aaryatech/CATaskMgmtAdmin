@@ -183,8 +183,9 @@
 									</div> -->
 
 									<table
-										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
-										id="printtable1">
+										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="printtable1">
+										
 										<thead>
 											<tr class="bg-blue">
 												<th width="10%">Sr. No.</th>

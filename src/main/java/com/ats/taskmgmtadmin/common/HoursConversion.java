@@ -6,10 +6,14 @@ public class HoursConversion {
 		String min = new String();
 
 		try {
-
+			int minutes=0;
 			String[] result = str.split(":");
 			int hours = Integer.parseInt(result[0]);
-			int minutes = Integer.parseInt(result[1]);
+			try {
+			 minutes = Integer.parseInt(result[1]);
+			}catch (Exception e) {
+				minutes=0;
+			}
 			min = String.valueOf((hours * 60) + minutes);
 
 		} catch (Exception e) {
