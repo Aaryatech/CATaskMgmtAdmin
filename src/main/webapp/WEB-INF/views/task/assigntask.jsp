@@ -325,8 +325,8 @@
 											<th>Activity</th>
 											<th>Year</th>
 											<th>Statutory Due Date</th>
-											<th>Budget Hrs</th>
-											<th>Actual Hrs</th>
+											<th>Budget Hrs MNG</th>
+											<th>Budget Hrs EMP</th>
 
 
 										</tr>
