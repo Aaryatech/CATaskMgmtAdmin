@@ -402,7 +402,7 @@
 												<input type="text" class="form-control"
 													placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
 													value="${task.mngrBudHr}" name="mgBudgetHr"
-													data-mask="99:99" autocomplete="off" onchange="trim(this)">
+													data-mask="999:99" autocomplete="off" onchange="trim(this)">
 											</div>
 											<div class="col-lg-3">
 												<span class="validation-invalid-label" id="error_mgBudgetHr"
@@ -414,7 +414,7 @@
 									
 									<input type="hidden" 
 													value="${task.mngrBudHr}" name="mgBudgetHr" id="mgBudgetHr"
-													data-mask="99:99" onchange="trim(this)">
+													data-mask="999:99" onchange="trim(this)">
 									</c:if>
 
 
@@ -426,7 +426,7 @@
 											<input type="text" class="form-control"
 												placeholder="Enter Employee Budget Hours" id="empBudgetHr"
 												value="${task.empBudHr}" name="empBudgetHr"
-												data-mask="99:99" autocomplete="off" onchange="trim(this)">
+												data-mask="999:99" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empHrs"
@@ -457,7 +457,7 @@
 									
 									<input type="hidden" id="billAmt"
 													value="${task.billingAmt}" name="billAmt"
-													data-mask="99:99" onchange="trim(this)">
+													onchange="trim(this)">
 									</c:if>
 									
 

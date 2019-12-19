@@ -595,38 +595,101 @@ h5 {
 
 								<!-- <form action="submitUpdatedTask" method="post"> -->
 								<input type="hidden" id="taskId1" name="taskId1" value=0>
-								<div class="form-group row">
+								<c:if test="${empType==5}">
+								<input type="hidden" readonly class="form-control" data-mask="999:99"
+											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
+											name="manBudHr"
+											autocomplete="off">
+											
+											<input type="hidden" readonly data-mask="999:99" class="form-control"
+											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
+											 name="empBudHr"
+											autocomplete="off">
+											
+											<input type="hidden" readonly class="form-control datepickerclass"
+											onchange="submitResponse()"
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off">
+											
+								</c:if>
+								<c:choose>
+								<c:when test="${empType==5}">
+								<div class="form-group row" id="div1" style="display: none">
 									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="text" class="form-control" data-mask="99:99"
+										<input type="text" class="form-control" data-mask="999:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
 											name="manBudHr" onchange="submitResponse()"
 											autocomplete="off">
 									</div>
 
 								</div>
+								</c:when>
+								
+								<c:otherwise>
+								
 								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control" data-mask="999:99"
+											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
+											name="manBudHr" onchange="submitResponse()"
+											autocomplete="off">
+									</div>
+
+								</div>
+								
+								</c:otherwise>
+								</c:choose>
+								<c:choose>
+								<c:when test="${empType==5}">
+								
+								<div class="form-group row" id="div2" style="display: none">
 									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
 										Budgeted Hours : </label>
 									<div class="col-lg-6">
-										<input type="text" data-mask="99:99" class="form-control"
+										<input type="text" data-mask="999:99" class="form-control"
 											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
 											onchange="submitResponse()" name="empBudHr"
 											autocomplete="off">
 									</div>
 
 								</div>
-
-
+								</c:when>
+								
+								<c:otherwise>
+								
 								<div class="form-group row">
-									<label class="col-form-label col-lg-6">Work Date : </label>
+									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" data-mask="999:99" class="form-control"
+											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
+											onchange="submitResponse()" name="empBudHr"
+											autocomplete="off">
+									</div>
+
+								</div>
+								</c:otherwise>
+								</c:choose>
+								<c:choose>
+								<c:when test="${empType==5}">
+										<div class="form-group row" id="div3" style="display: none">
+
+									<label class="col-form-label col-lg-6">Statutory Due
+										Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											placeholder="Enter Work Date" onchange="submitResponse()"
-											id="workDate1" name="workDate" autocomplete="off">
+											onchange="submitResponse()"
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off">
 									</div>
+
 								</div>
+								</c:when>
+								<c:otherwise>
 								<div class="form-group row">
 
 									<label class="col-form-label col-lg-6">Statutory Due
@@ -639,10 +702,23 @@ h5 {
 									</div>
 
 								</div>
+								
+								</c:otherwise>
+							
+								</c:choose>
+								
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6">Work Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Work Date" onchange="submitResponse()"
+											id="workDate1" name="workDate" autocomplete="off">
+									</div>
+								</div>
 								<c:choose>
 									<c:when test="${empType==5}">
 
-										<div class="form-group row">
+										<div class="form-group row" style="display:none">
 
 											<label class="col-form-label col-lg-6" for="activity">
 												Employee <span style="color: red">* </span>:
@@ -659,6 +735,7 @@ h5 {
 										</div>
 
 									</c:when>
+									
 									<c:when test="${empType!=5}">
 										<div class="form-group row">
 
@@ -1033,9 +1110,12 @@ function append(data){
 
 '<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\',\''+data.taskList[i].taskText+'\',\''+data.taskList[i].ownerPartner+'\',\''+data.taskList[i].taskStatus+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
 ' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+	
+
+		
 		
 		$('#task_info_table' + ' tbody').append(tr_data);
-	
+		
 	}
 	
 
@@ -1070,7 +1150,7 @@ function append(data){
 	}
 	function showEditTask(taskId) {
 		//alert("HI"+taskId);
-			
+			//alert("jj");
 			$
 					.getJSON(
 							'${getTaskByTaskIdForEdit}',
@@ -1082,7 +1162,12 @@ function append(data){
 							function(data) {
 								
 								//alert(JSON.stringify(data));
-								
+								/* if(${empType!=5}){
+								  document.getElementById("div1").style.display = "block";
+								  document.getElementById("div2").style.display = "block";
+								  document.getElementById("div3").style.display = "block";
+								} */
+
 								document.getElementById("edit_emptime").value=data.task.empBudHr;
 								document.getElementById("edit_mngrtime").value=data.task.mngrBudHr;
   								//alert("errordata"+data.task.taskEndDate);

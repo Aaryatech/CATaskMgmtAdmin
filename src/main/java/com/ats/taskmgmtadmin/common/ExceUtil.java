@@ -167,7 +167,7 @@ public class ExceUtil {
 	        style.setWrapText(true);
 	       // style.setFillForegroundColor(new XSSFColor(new java.awt.Color(247, 161, 103)));
 	        
-	        style.setFillForegroundColor(IndexedColors.SEA_GREEN.getIndex());
+	        style.setFillForegroundColor(IndexedColors.GOLD.getIndex());
 
 
 	        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
@@ -186,6 +186,8 @@ public class ExceUtil {
 	       
 	        org.apache.poi.ss.usermodel.Font font =workbook.createFont();
 	        font.setFontName("Times New Roman");
+	        font.setFontHeightInPoints((short)12);
+	       
 	        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 	        font.setBold(true);
 	        font.setColor(HSSFColor.WHITE.index);

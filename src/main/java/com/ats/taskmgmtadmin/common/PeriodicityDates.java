@@ -148,7 +148,7 @@ public class PeriodicityDates {
 						} else if (c.get(Calendar.MONTH) == 2) {
 							monthName = "Mar";
 						} else if (c.get(Calendar.MONTH) == 3) {
-							monthName = "April";
+							monthName = "Apr";
 						} else if (c.get(Calendar.MONTH) == 4) {
 							monthName = "Jun";
 						} else if (c.get(Calendar.MONTH) == 5) {

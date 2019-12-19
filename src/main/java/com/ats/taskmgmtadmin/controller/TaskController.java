@@ -773,6 +773,7 @@ public class TaskController {
 			// System.out.println("mnghr1" + mnghr1);
 			// System.out.println("emphr1" + emphr1);
 			int userId = emp.getEmpId();
+			int userType=emp.getEmpType();
 			int taskType = Integer.parseInt(request.getParameter("taskType"));
 			CustmrActivityMap activityMapanual = new CustmrActivityMap();
 			StringBuilder sbEmp = new StringBuilder();
@@ -811,8 +812,9 @@ public class TaskController {
 							Info.class);
 
 					if (taskType == 1) {
-
+						if(userType!=5)
 						a = "redirect:/manualTaskList";
+						else a="redirect:/manualTaskAdd";
 						if (temp != null) {
 							System.out.println("successMsg");
 							session.setAttribute("successMsg", "Manual Task Updated Successfully");
@@ -822,7 +824,11 @@ public class TaskController {
 						}
 
 					} else {
+						if(userType!=5)
 						a = "redirect:/inactiveTaskList";
+						else {
+							a = "redirect:/taskListForEmp";
+						}
 					}
 				} catch (Exception e) {
 					System.err.println("Exce in addCustomerActMap " + e.getMessage());
@@ -831,7 +837,11 @@ public class TaskController {
 
 			} else {
 				try {
+					if(userType!=5)
 					a = "redirect:/manualTaskList";
+					else {
+						a = "redirect:/taskListForEmp";
+					}
 					System.out.println("in task add");
 					activityMapanual.setMappingId(0);
 					activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));

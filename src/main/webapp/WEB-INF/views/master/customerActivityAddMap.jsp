@@ -265,7 +265,7 @@
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
 												placeholder="Enter Manager Budget Hours" id="mgBudgetHr"
-												name="mgBudgetHr" autocomplete="off" onchange="trim(this)" data-mask="99:99">
+												name="mgBudgetHr" autocomplete="off" onchange="trim(this)" data-mask="999:99">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_mgBudgetHr"
@@ -281,7 +281,7 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Employee Budget Hours" id="empBudgetHr"  data-mask="99:99"
+												placeholder="Enter Employee Budget Hours" id="empBudgetHr"  data-mask="999:99"
 												name="empBudgetHr" autocomplete="off" onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
