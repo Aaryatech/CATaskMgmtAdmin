@@ -73,7 +73,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">${title}</h6>
+								<h6 class="card-title">${title}11</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -324,7 +324,12 @@
 
 										</div>
 									</c:if>
-
+<c:if test="${isEdit==1}">
+<input type="hidden" class="form-control"
+													placeholder="Statutory End Days"  id="statutary_endDays"
+													name="statutary_endDays" autocomplete="off" value="0"
+													onchange="trim(this)">
+</c:if>
 
 									<c:if test="${isEdit==1}">
 
@@ -390,6 +395,11 @@
 													than start date.</span>
 											</div>
 										</div>
+									</c:if>
+									<c:if test="${isEdit==1}">
+									<input type="hidden" class="form-control datepickerclass"
+													value="${task.taskEndDate}" name="endDate" id="endDate"
+													placeholder="Task End Date">
 									</c:if>
 
 									<c:if test="${empType!=5}">
@@ -466,7 +476,7 @@
 										<div class="col-lg-10 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="button" name="btn-Submit" id="btn-Submit"
-												class="btn bg-blue ml-3 legitRipple" id="submtbtn">
+												class="btn bg-blue ml-3 legitRipple">
 												Submit <i class="icon-paperplane ml-2"></i>
 											</button>
 											<c:if test="${taskType==1}">
@@ -515,12 +525,6 @@
 
 
 	<script>
-	$('#empId2').on(
-			'change',
-			function() {
-				//alert("JJ");
-				//alert($("#empId2").val());
-			});
 	
 		$('#statutary_endDays').on(
 				'input',
@@ -550,15 +554,14 @@
 							/(\..*)\./g, '$1');
 				});
 		
+</script>
+<script>
 
-		$(document)
-				.ready(
-						function($) {
 //btn-Submit
 
  $('#btn-Submit').click(function(){
  
-											//	alert("in submit");
+												//alert("in submit");
 												var isError = false;
 												var errMsg = "";
 
@@ -625,6 +628,7 @@
 												
 												
 												if(${isEdit}==1){
+													//alert("1")
 												if (!$("#statDate").val()) {
  													isError = true;
 
@@ -637,7 +641,7 @@
 												}
 												}
 												if(${isEdit}==0){
-
+													//alert("2")
 												var from_date = document
 														.getElementById("startDate").value;
 												var to_date = document
@@ -655,7 +659,7 @@
 												to_date.setFullYear(todate[2],
 														todate[1] - 1,
 														todate[0]);
-												if (from_date > to_date) {
+												/* if (from_date > to_date) {
  													$("#error_start_date")
 															.show();
 													$("#error_end_date").show();
@@ -668,7 +672,7 @@
 													$("#error_start_date")
 															.hide();
 													$("#error_end_date").hide();
-												}
+												} */
 												////////
 												}
 												if(${isEdit}==0){
@@ -838,7 +842,7 @@
 										to_date.setFullYear(todate[2],
 												todate[1] - 1,
 												todate[0]);
-										if (from_date > to_date) {
+										/* if (from_date > to_date) {
 												$("#error_start_date")
 													.show();
 											$("#error_end_date").show();
@@ -851,7 +855,7 @@
 											$("#error_start_date")
 													.hide();
 											$("#error_end_date").hide();
-										}
+										} */
 										////////
 										}
 										if(${isEdit}==0){
@@ -905,7 +909,7 @@
 											
 										}
 									 
-										
+										//alert(isError);
 										
 										//end
 										if(isError==false)
@@ -916,19 +920,16 @@
 												if (!isError) {
 
 													document
-													.getElementById("submtbtn").disabled = true;
-											document
-													.getElementById("cancelbtn").disabled = true;
+													.getElementById("btn-Submit").disabled = true;
+										
 											return true;
 													
 												}
 												return false;
 											});
-						});
+						
 		//
-		function getActivities(servId) {
-			
-		}
+		
 	</script>
 
 

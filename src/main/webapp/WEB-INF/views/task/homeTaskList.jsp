@@ -832,10 +832,12 @@ h5 {
 								<!-- /basic tables title -->
 							</div>
 						</div>
-
-
-						<table
+	<!-- <table
 							class="table datatable-basic datatable-generated table-hover"
+							width="100%" id="task_info_table"> -->
+	
+						<table
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							width="100%" id="task_info_table">
 							<thead>
 								<tr>

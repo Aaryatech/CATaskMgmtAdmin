@@ -9,6 +9,7 @@
 </head>
 
 <body onload="setDate()">
+	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -86,7 +87,7 @@
 									</div>
 
 									<label class="col-form-label col-lg-2" for="periodicity">
-										Select Service <span style="color: red">* </span>:
+										Select  <span style="color: red">* </span>:
 									</label>
 									<div class="col-lg-3">
 										<select name="serviceId" data-placeholder="Select Service"
@@ -197,10 +198,34 @@
 						<div class="card-body">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-2" for="service">
+								<label class="col-form-label col-lg-1" for="periodicityId">Periodicity<span style="color: red">* </span> :
+								</label>
+								<div class="col-lg-2">
+									<select name="periodicityId" data-placeholder="Select Service"
+										id="periodicityId"
+										class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
+
+										<option selected value="0"></option>
+										<c:forEach items="${periodList}" var="periodList">
+											<c:choose>
+												<c:when test="${periodList.periodicityId==perdId}">
+													<option selected value="${periodList.periodicityId}">${periodList.periodicityName}</option>
+												</c:when>
+												<c:otherwise>
+													<option value="${periodList.periodicityId}">${periodList.periodicityName}</option>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+
+									</select>
+								</div>
+								
+								
+								<label class="col-form-label col-lg-1" for="service">
 									Service<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-4">
+								<div class="col-lg-2">
 									<select name="service" data-placeholder="Select Service"
 										id="service"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -301,16 +326,21 @@
 
 									</select> <span class="validation-invalid-label" id="error_locId2"
 										style="display: none;">Please Select the Employees.</span>
+										<span
+												class="validation-invalid-label" id="error_emp_mng"
+												style="display: none;">Please Select a Manager (MG).</span>
+										
 								</div>
 							</div>
 <br>
 							<div style="text-align: center;">
-								<input type="submit" class="btn btn-primary" value="Assign Task"
+								<input type="button" class="btn btn-primary" value="Assign Task"
 									id="deleteId"
 									style="align-content: center; width: 113px; margin-left: 40px;">
 							</div>
 							<br>
-							
+							<span class="validation-invalid-label" id="error_chk"
+									style="display: none;">Please Select the Tasks.</span>
 							<div class="table-responsive">
 
 								<table
@@ -353,8 +383,7 @@
 									</tbody>
 
 								</table>
-								<span class="validation-invalid-label" id="error_chk"
-									style="display: none;">Please Select the Tasks.</span>
+								
 							</div>
 							
 
@@ -380,13 +409,9 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
-		$(document)
-				.ready(
-						function($) {
-							$("#submitInsertAssignTask")
-									.submit(
-											function(e) {
-
+	
+							$("#deleteId")
+									.click(function(){
 												var isError = false;
 												var errMsg = "";
 												var emps = $("#empId2").val();
@@ -406,21 +431,49 @@
 												} else {
 													$("#error_locId2").hide()
 												}
+												
+												$.getJSON('${getCountofManagers}',
+														{
+															empIds : JSON.stringify(emps),
+															ajax : 'true',
+															 //async: false,
+														},
 
-												if (!isError) {
+														function(data) {
+															//alert(JSON.stringify(data));
+															if (data == 0) {
+																	isError = true;
+																$("#error_emp_mng").show();
+																//alert(11);
+																return false;
 
-													var x = true;
-													if (x == true) {
+															} else {
+																$("#error_emp_mng").hide();
+																isError = false;
+																var errMsg = "";
+																var emps = $("#empId2").val();
 
-														document
-																.getElementById("deleteId").disabled = true;
-
-														return true;
-													}
-													//end ajax send this to php page
-												}
-												return false;
-											});
+																var checked = $("#submitInsertAssignTask input:checked").length > 0;
+																if (!checked) {
+																	$("#error_chk").show()
+																	isError = true;
+																} else {
+																	$("#error_chk").hide()
+																	isError = false;
+																}
+																//alert("checked" +checked);
+																if (emps == null || emps == "") {
+																	isError = true;
+																	$("#error_locId2").show()
+																} else {
+																	$("#error_locId2").hide()
+																}
+															}
+														
+												if(isError==false)
+													$("#submitInsertAssignTask").submit();
+														});
+												
 						});
 	</script>
 

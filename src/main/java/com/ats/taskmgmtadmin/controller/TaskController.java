@@ -103,9 +103,14 @@ public class TaskController {
 
 				String custId = "0";
 				String servId = "0";
-
+int periodicityId=0;
 				if (request.getParameter("customer") != "" && request.getParameter("customer") != null) {
 					custId = request.getParameter("customer");
+					try {
+						periodicityId=Integer.parseInt(request.getParameter("periodicityId"));
+					}catch (Exception e) {
+						periodicityId=0;
+					}
 				} else {
 					custId = "0";
 				}
@@ -117,11 +122,13 @@ public class TaskController {
 				}
 				mav.addObject("servId", servId);
 				mav.addObject("custId", custId);
+				mav.addObject("perdId", periodicityId);
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("stat", 0);
 				map.add("servId", Integer.parseInt(servId));
 				map.add("custId", Integer.parseInt(custId));
+				map.add("periodicityId", periodicityId);
 				GetTaskList[] holListArray = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/getAllTaskList", map, GetTaskList[].class);
 
@@ -136,7 +143,11 @@ public class TaskController {
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
-
+				
+				DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+				List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+				mav.addObject("periodList", periodList);
 			}
 		} catch (Exception e) {
 
@@ -646,6 +657,10 @@ public class TaskController {
 						.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
+				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+				int empType = emp.getEmpType();
+				mav.addObject("empType", empType);
+				
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
 				e.printStackTrace();
@@ -1881,7 +1896,7 @@ public class TaskController {
 				task.setTaskCode("NA");
 				task.setTaskEmpIds("0");
 				task.setTaskFyId(fin.getFinYearId());
-				// task.setTaskEndDate(dateFormat.format(date));
+				 task.setTaskEndDate(task.getTaskStatutoryDueDate());
 				task.setTaskStatus(0);
 				task.setTaskSubline("NA");
 				task.setTaskText(String.valueOf(sb1));
