@@ -769,6 +769,111 @@ int periodicityId=0;
 		return redirect;
 	}
 
+	/*
+	 * @RequestMapping(value = "/addManualTask", method = RequestMethod.POST) public
+	 * String submitUpdatedTask(Model model, HttpServletRequest request,
+	 * HttpServletResponse response) { String a = null; try { HttpSession session =
+	 * request.getSession();
+	 * 
+	 * EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+	 * String mnghr = request.getParameter("mgBudgetHr"); String emphr =
+	 * request.getParameter("empBudgetHr"); String mnghr1=null; try { mnghr1 =
+	 * HoursConversion.convertHoursToMin(mnghr); }catch (Exception e) {
+	 * 
+	 * } String emphr1 = HoursConversion.convertHoursToMin(emphr); //
+	 * System.out.println("mnghr1" + mnghr1); // System.out.println("emphr1" +
+	 * emphr1); int userId = emp.getEmpId(); int userType=emp.getEmpType(); int
+	 * taskType = Integer.parseInt(request.getParameter("taskType"));
+	 * CustmrActivityMap activityMapanual = new CustmrActivityMap(); StringBuilder
+	 * sbEmp = new StringBuilder(); String[] locId2 =
+	 * request.getParameterValues("empId2"); // System.err.println("emp id are " +
+	 * locId2); for (int j = 0; j < locId2.length; j++) { sbEmp =
+	 * sbEmp.append(locId2[j] + ",");
+	 * 
+	 * } String items1 = sbEmp.toString(); items1 = items1.substring(0,
+	 * items1.length() - 1); int taskId = 0;
+	 * 
+	 * taskId = Integer.parseInt(request.getParameter("taskId"));
+	 * 
+	 * if (taskId != 0) { try { System.out.println("in task edit");
+	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
+	 * Object>();
+	 * 
+	 * map.add("taskId", taskId); map.add("items1", items1); map.add("empBudgetHr",
+	 * Integer.parseInt(emphr1)); map.add("mgBudgetHr", Integer.parseInt(mnghr1));
+	 * map.add("startDate", request.getParameter("statDate")); map.add("customer",
+	 * Integer.parseInt(request.getParameter("customer"))); map.add("service",
+	 * Integer.parseInt(request.getParameter("service"))); map.add("periodicityId",
+	 * Integer.parseInt(request.getParameter("periodicityId"))); map.add("activity",
+	 * Integer.parseInt(request.getParameter("activity"))); map.add("userId",
+	 * userId); map.add("curDateTime", Constants.getCurDateTime());
+	 * map.add("statDate", request.getParameter("statDate")); map.add("billAmt",
+	 * request.getParameter("billAmt"));
+	 * 
+	 * Info temp = Constants.getRestTemplate().postForObject(Constants.url +
+	 * "/submitEditMannualTask", map, Info.class);
+	 * 
+	 * if (taskType == 1) { if(userType!=5) a = "redirect:/manualTaskList"; else
+	 * a="redirect:/manualTaskAdd"; if (temp != null) {
+	 * System.out.println("successMsg"); session.setAttribute("successMsg",
+	 * "Manual Task Updated Successfully"); } else { System.out.println("errorMsg");
+	 * session.setAttribute("errorMsg", "Failed to Update Manual Task"); }
+	 * 
+	 * } else { if(userType!=5) a = "redirect:/inactiveTaskList"; else { a =
+	 * "redirect:/taskListForEmp"; } } } catch (Exception e) {
+	 * System.err.println("Exce in addCustomerActMap " + e.getMessage());
+	 * e.printStackTrace(); }
+	 * 
+	 * } else { try { if(userType!=5) a = "redirect:/manualTaskList"; else { a =
+	 * "redirect:/taskListForEmp"; } System.out.println("in task add");
+	 * activityMapanual.setMappingId(0);
+	 * activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
+	 * activityMapanual.setActvStartDate(request.getParameter("statDate"));
+	 * activityMapanual.setActvEndDate(request.getParameter("endDate"));
+	 * 
+	 * //activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
+	 * activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter(
+	 * "statutary_endDays")));
+	 * activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer"))
+	 * ); activityMapanual.setDelStatus(1);
+	 * activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")))
+	 * ; activityMapanual.setExInt2(0); activityMapanual.setExVar1(items1);
+	 * activityMapanual.setExVar2("NA");
+	 * activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter(
+	 * "periodicityId")));
+	 * activityMapanual.setUpdateDatetime(Constants.getCurDateTime());
+	 * activityMapanual.setUpdateUsername(userId);
+	 * activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity"))
+	 * ); try {
+	 * activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter(
+	 * "billAmt"))); }catch (Exception e) { activityMapanual.setActvBillingAmt(0); }
+	 * 
+	 * try { activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1)); }catch
+	 * (Exception e) { activityMapanual.setActvManBudgHr(0); }
+	 * 
+	 * // System.out.println("Activity Map---------" + activityMapanual.toString());
+	 * Info map = Constants.getRestTemplate().postForObject(Constants.url +
+	 * "/saveMannualTask", activityMapanual, Info.class);
+	 * 
+	 * if (map.isError()==false) { session.setAttribute("successMsg",
+	 * "Manual Task Added Successfully"); } else { session.setAttribute("errorMsg",
+	 * "Failed to Add Manual Task"); }
+	 * 
+	 * } catch (Exception e) { System.err.println("Exce in addCustomerActMap " +
+	 * e.getMessage()); e.printStackTrace(); }
+	 * 
+	 * }
+	 * 
+	 * } catch (Exception e) { System.err.println("Exce in addCustomerActMap " +
+	 * e.getMessage()); e.printStackTrace(); }
+	 * 
+	 * return a;
+	 * 
+	 * }
+	 */
+	
+	//Sachin 29-12-2019
+	
 	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
 	public String submitUpdatedTask(Model model, HttpServletRequest request, HttpServletResponse response) {
 		String a = null;
@@ -813,7 +918,7 @@ int periodicityId=0;
 					map.add("items1", items1);
 					map.add("empBudgetHr", Integer.parseInt(emphr1));
 					map.add("mgBudgetHr", Integer.parseInt(mnghr1));
-					map.add("startDate", request.getParameter("startDate"));
+					map.add("startDate", request.getParameter("endDate"));
 					map.add("customer", Integer.parseInt(request.getParameter("customer")));
 					map.add("service", Integer.parseInt(request.getParameter("service")));
 					map.add("periodicityId", Integer.parseInt(request.getParameter("periodicityId")));
@@ -858,9 +963,33 @@ int periodicityId=0;
 						a = "redirect:/taskListForEmp";
 					}
 					System.out.println("in task add");
+					
+					/*
+					 * Task task=new Task();
+					 * task.setActvId(Integer.parseInt(request.getParameter("activity")));
+					 * 
+					 * task.setBillingAmt(request.getParameter("billAmt"));
+					 * task.setCustId(Integer.parseInt(request.getParameter("customer")));
+					 * task.setDelStatus(1); task.setEmpBudHr(emphr1); task.setExInt1(1);
+					 * task.setExInt2(1); task.setExVar1("NA"); task.setIsActive(1);
+					 * task.setMappingId(18); task.setMngrBudHr(mnghr);
+					 * task.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId"))
+					 * ); task.setServId(servId); task.setTaskCode(taskCode);
+					 * task.setTaskCompletionDate(taskCompletionDate); task.setTaskEmpIds(items1);
+					 * task.setTaskEndDate(taskEndDate); task.setTaskFyId(taskFyId);
+					 * task.setTaskId(0); task.setTaskStartDate(taskStartDate);
+					 * task.setTaskStatus(taskStatus);
+					 * task.setTaskStatutoryDueDate(taskStatutoryDueDate);
+					 * task.setTaskSubline("na"); task.setTaskText(taskText);
+					 * task.setUpdateDatetime(updateDatetime);
+					 * 
+					 * task.setUpdateUsername();
+					 */
+					
+					
 					activityMapanual.setMappingId(0);
 					activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
-					activityMapanual.setActvStartDate(request.getParameter("startDate"));
+					activityMapanual.setActvStartDate(request.getParameter("statDate"));
 					activityMapanual.setActvEndDate(request.getParameter("endDate"));
 					
 					//activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
@@ -913,6 +1042,7 @@ int periodicityId=0;
 
 	}
 
+	
 	// ******************Home task list task edit*********************************
 
 	@RequestMapping(value = "/getTaskByTaskIdForEdit", method = RequestMethod.GET)

@@ -97,11 +97,11 @@ public class PeriodicityDates {
 						} else if (c.get(Calendar.MONTH) == 2) {
 							monthName = "Mar";
 						} else if (c.get(Calendar.MONTH) == 3) {
-							monthName = "April";
+							monthName = "Apr";
 						} else if (c.get(Calendar.MONTH) == 4) {
-							monthName = "Jun";
+							monthName = "May";
 						} else if (c.get(Calendar.MONTH) == 5) {
-							monthName = "Feb";
+							monthName = "Jun";
 						} else if (c.get(Calendar.MONTH) == 6) {
 							monthName = "Jul";
 						} else if (c.get(Calendar.MONTH) == 7) {
@@ -150,9 +150,9 @@ public class PeriodicityDates {
 						} else if (c.get(Calendar.MONTH) == 3) {
 							monthName = "Apr";
 						} else if (c.get(Calendar.MONTH) == 4) {
-							monthName = "Jun";
+							monthName = "May";
 						} else if (c.get(Calendar.MONTH) == 5) {
-							monthName = "Feb";
+							monthName = "Jun";
 						} else if (c.get(Calendar.MONTH) == 6) {
 							monthName = "Jul";
 						} else if (c.get(Calendar.MONTH) == 7) {

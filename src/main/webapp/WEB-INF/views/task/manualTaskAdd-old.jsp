@@ -73,7 +73,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">${title} new</h6>
+								<h6 class="card-title">${title}11</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -109,7 +109,7 @@
 									<button type="button" class="close" data-dismiss="alert">
 										<span>×</span>
 									</button>
-									<span class="font-weight-semibold"></span>
+									<span class="font-weight-semibold">Well done!</span>
 									<%
 										session.getAttribute("successMsg");
 									%>
@@ -283,17 +283,59 @@
 										</div>
 
 									</div>
-				
 
-																			<input type="hidden" class="form-control"
+
+									<%-- 	<div class="form-group row">
+										<label class="col-form-label col-lg-3" for="service">
+											Financial Year : </label>
+										<div class="col-lg-6">
+											<select name="fyYear" data-placeholder="Select Year"
+												id="fyYear"
+												class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true"
+												onchange="getActivities(this.value)"><c:forEach
+													items="${fyList}" var="fyList">
+													<option value="${fyList.finYearId}">${fyList.finYearName}</option>
+												</c:forEach>
+
+											</select>
+										</div>
+									</div> --%>
+
+
+									<c:if test="${isEdit==0}">
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-3"
+												for="statutary_endDays" id="lable_statutary_endDays">
+												Statutory End Days <span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control"
+													placeholder="Statutory End Days" id="statutary_endDays"
+													name="statutary_endDays" autocomplete="off" value=0
+													onchange="trim(this)">
+											</div>
+											<div class="col-lg-3">
+												<span class="validation-invalid-label"
+													id="error_stat_endDays" style="display: none;">Please
+													enter statutory end days.</span>
+											</div>
+
+										</div>
+									</c:if>
+									<c:if test="${isEdit==1}">
+										<input type="hidden" class="form-control"
 											placeholder="Statutory End Days" id="statutary_endDays"
 											name="statutary_endDays" autocomplete="off" value="0"
 											onchange="trim(this)">
-									
-									
+									</c:if>
+
+									<c:if test="${isEdit==1}">
+
 										<div class="form-group row">
 
-											<label class="col-form-label col-lg-3" for="statDate">Statutory
+											<label class="col-form-label col-lg-3" for="startDate">Statutory
 												Due Date <span style="color: red">* </span>:
 											</label>
 											<div class="col-lg-6">
@@ -309,14 +351,37 @@
 											</div>
 
 										</div>
-									
+									</c:if>
 
-									
 
+									<div class="form-group row">
+
+										<label class="col-form-label col-lg-3" for="startDate"
+											id="lable_startDate">Start Date <span
+											style="color: red">* </span>:
+										</label>
+										<div class="col-lg-6">
+											<input type="text" class="form-control datepickerclass"
+												value="${task.taskStartDate}" name="startDate"
+												id="startDate" placeholder="Start Date">
+										</div>
+
+										<div class="col-lg-3">
+											<span class="validation-invalid-label" id="error_startDate"
+												style="display: none;">Please enter end date.</span> <span
+												class="validation-invalid-label" id="error_start_date"
+												style="display: none;">Start date must be smaller
+												than Work date.</span>
+										</div>
+
+									</div>
+
+
+									<c:if test="${isEdit==0}">
 
 										<div class="form-group row">
 											<label class="col-form-label col-lg-3" for="endDate"
-												id="lable_endDate">Task Work Date <span style="color: red">* </span> : </label>
+												id="lable_endDate">Task Work Date </label>
 											<div class="col-lg-6">
 												<input type="text" class="form-control datepickerclass"
 													value="${task.taskEndDate}" name="endDate" id="endDate"
@@ -330,7 +395,12 @@
 													than start date.</span>
 											</div>
 										</div>
-										
+									</c:if>
+									<c:if test="${isEdit==1}">
+										<input type="hidden" class="form-control datepickerclass"
+											value="${task.taskEndDate}" name="endDate" id="endDate"
+											placeholder="Task End Date">
+									</c:if>
 
 									<c:if test="${empType!=5}">
 
@@ -451,8 +521,17 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 
+
+
 	<script>
-		
+	
+		$('#statutary_endDays').on(
+				'input',
+				function() {
+					this.value = this.value.replace(/[^0-9-]/g, '').replace(
+							/(\..*)\./g, '$1');
+				});
+
 		$('#mgBudgetHr').on(
 				'input',
 				function() {
@@ -534,7 +613,7 @@
 															.hide()
 												}
 
-												if (!$("#statDate").val()) {
+												if (!$("#startDate").val()) {
  													isError = true;
 
 													$("#error_startDate")
@@ -560,8 +639,56 @@
 															.hide()
 												}
 												}
-												
-												
+												if(${isEdit}==0){
+													//alert("2")
+												var from_date = document
+														.getElementById("startDate").value;
+												var to_date = document
+														.getElementById("endDate").value;
+
+												var fromdate = from_date
+														.split('-');
+												from_date = new Date();
+												from_date.setFullYear(
+														fromdate[2],
+														fromdate[1] - 1,
+														fromdate[0]);
+												var todate = to_date.split('-');
+												to_date = new Date();
+												to_date.setFullYear(todate[2],
+														todate[1] - 1,
+														todate[0]);
+												/* if (from_date > to_date) {
+ 													$("#error_start_date")
+															.show();
+													$("#error_end_date").show();
+													$("#error_startDate")
+															.hide();
+													$("#error_endDate").hide();
+													return false;
+
+												} else {
+													$("#error_start_date")
+															.hide();
+													$("#error_end_date").hide();
+												} */
+												////////
+												}
+												if(${isEdit}==0){
+												if (!$("#statutary_endDays")
+														.val()) {
+													//alert("in statutary_endDays");
+													isError = true;
+
+													$("#error_stat_endDays")
+															.show()
+
+												} else {
+													$("#error_stat_endDays")
+															.hide()
+												}
+												}
+
 												if(${empType}!=5){
 												if (!$("#mgBudgetHr").val()) {
  													isError = true;
@@ -617,7 +744,12 @@
 
 									} else {
 										
+										
 										$("#error_emp_mng").hide();
+										
+										
+										// start
+										
 										if ($("#service").val() == "") {
 											 
 											isError = true;
@@ -667,7 +799,7 @@
 													.hide()
 										}
 
-										if (!$("#statDate").val()) {
+										if (!$("#startDate").val()) {
 												isError = true;
 
 											$("#error_startDate")
@@ -690,8 +822,55 @@
 													.hide()
 										}
 										}
+										if(${isEdit}==0){
 
-										
+										var from_date = document
+												.getElementById("startDate").value;
+										var to_date = document
+												.getElementById("endDate").value;
+
+										var fromdate = from_date
+												.split('-');
+										from_date = new Date();
+										from_date.setFullYear(
+												fromdate[2],
+												fromdate[1] - 1,
+												fromdate[0]);
+										var todate = to_date.split('-');
+										to_date = new Date();
+										to_date.setFullYear(todate[2],
+												todate[1] - 1,
+												todate[0]);
+										/* if (from_date > to_date) {
+												$("#error_start_date")
+													.show();
+											$("#error_end_date").show();
+											$("#error_startDate")
+													.hide();
+											$("#error_endDate").hide();
+											return false;
+
+										} else {
+											$("#error_start_date")
+													.hide();
+											$("#error_end_date").hide();
+										} */
+										////////
+										}
+										if(${isEdit}==0){
+										if (!$("#statutary_endDays")
+												.val()) {
+											//alert("in statutary_endDays");
+											isError = true;
+
+											$("#error_stat_endDays")
+													.show()
+
+										} else {
+											$("#error_stat_endDays")
+													.hide()
+										}
+										}
 										if(${empType}!=5){
 										if (!$("#mgBudgetHr").val()) {
 												isError = true;
@@ -728,11 +907,15 @@
 											}
 											
 										}
+									 
+										//alert(isError);
+										
 										//end
 										if(isError==false)
 										$("#submitInsertClient").submit();
 									}
 								});
+//alert(isError)
 												if (!isError) {
 
 													document
@@ -743,8 +926,13 @@
 												}
 												return false;
 											});
+						
 		//
+		
 	</script>
+
+
+
 
 	<script type="text/javascript">
 		// Single picker
@@ -847,7 +1035,7 @@
 									
 									if(data.periodicityId==7){
 										 document.getElementById("lable_startDate").innerHTML="Due Date <span style='color: red'>* </span>:";
-										 document.getElementById("statDate").placeholder = "Task Due Date"; 
+										 document.getElementById("startDate").placeholder = "Task Due Date"; 
 										 document.getElementById("lable_endDate").style.display = "none";
 										 document.getElementById("endDate").style.display = "none";
 										 document.getElementById("statutary_endDays").value=0;
@@ -855,13 +1043,14 @@
 										 document.getElementById("lable_statutary_endDays").style.display = "none";
 									}else{
 										 document.getElementById("lable_startDate").innerHTML="Start Date <span style='color: red'>* </span>:";
-										 document.getElementById("statDate").placeholder = "Start Date"; 
+										 document.getElementById("startDate").placeholder = "Start Date"; 
 										 document.getElementById("lable_endDate").style.display = "block";
 										 document.getElementById("endDate").style.display = "block";
 										 document.getElementById("statutary_endDays").value=0;
 										 document.getElementById("statutary_endDays").style.display = "block";
 										 document.getElementById("lable_statutary_endDays").style.display = "block";
 									}
+									
 									
 								});
 
