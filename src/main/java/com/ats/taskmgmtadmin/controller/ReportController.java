@@ -221,6 +221,7 @@ public class ReportController {
 			rowData.add("Completion Date");
 			rowData.add("Employee Budgeted Hrs");
 			rowData.add("Total Hrs Employee");
+			rowData.add("Google Drive Link");
 
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
@@ -257,6 +258,7 @@ public class ReportController {
 
 				rowData.add("" + progList.get(i).getEmpBudHr());
 				rowData.add("" + progList.get(i).getWorkHours());
+				rowData.add(progList.get(i).getExVar1());
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);

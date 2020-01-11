@@ -69,7 +69,7 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Employee
-										Manager Performance Report(Header)</h5></td>
+										Manager Performance Report (Header)</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -208,8 +208,9 @@
 											<td>${progList.empName}</td>
 											<td>${progList.taskCount}</td>
 											<td>${progList.allWork}</td>
-											<td>${progList.budgetedCap}</td>
 											<td>${progList.actWork}</td>
+											<td>${progList.budgetedCap}</td>
+											
 											<td>${progList.exVar1}</td>
 											<td><a
 												href="showMangPerfHeadListDetailForm?fromDate=${fromDate}&toDate=${toDate}&empId=${progList.empId}"

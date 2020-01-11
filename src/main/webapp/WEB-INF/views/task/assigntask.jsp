@@ -9,7 +9,10 @@
 </head>
 
 <body onload="setDate()">
+	<c:url value="/getCountofPartner" var="getCountofPartner"></c:url>
+
 	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
+
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -328,7 +331,7 @@
 										style="display: none;">Please Select the Employees.</span>
 										<span
 												class="validation-invalid-label" id="error_emp_mng"
-												style="display: none;">Please Select a Manager (MG).</span>
+												style="display: none;">Please Select a Partner (PT).</span>
 										
 								</div>
 							</div>
@@ -344,14 +347,15 @@
 							<div class="table-responsive">
 
 								<table
-									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
-									id="printtable1">
+									class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic1  datatable-button-print-columns1"
+									id="printtable_assignTask">
 									<thead>
 										<tr class="bg-blue">
 											<th width="10%">Sr.no</th>
-											<th>Task <input type="checkbox" checked
-												name="selAll" id="selAll" /></th>
+											<th>Task </th>
 											<th>Customer</th>
+											<th><input type="checkbox"  
+												name="selAll" id="selAll" /></th>
 											<th>Activity</th>
 											<th>Year</th>
 											<th>Statutory Due Date</th>
@@ -366,11 +370,13 @@
 										<tr>
 											<td>${count.index+1}</td>
 
-											<td>${taskList.taskText}&nbsp;&nbsp;<input type="checkbox"
-												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
-												name="TaskId" class="select_all" checked></td>
+											<td>${taskList.taskText}&nbsp;&nbsp;</td>
 											<td>${taskList.custFirmName}</td>
+											<td><input type="checkbox"
+												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
+												name="TaskId" class="select_all"  ></td>
 											<td>${taskList.actiName}</td>
+											
 											<td>${taskList.finYearName}</td>
 											<td>${taskList.taskStatutoryDueDate}</td>
 											<td>${taskList.mngrBudHr}</td>
@@ -432,7 +438,7 @@
 													$("#error_locId2").hide()
 												}
 												
-												$.getJSON('${getCountofManagers}',
+												$.getJSON('${getCountofPartner}',
 														{
 															empIds : JSON.stringify(emps),
 															ajax : 'true',
@@ -478,15 +484,60 @@
 	</script>
 
 	<script type="text/javascript">
+	/* var rows_selected = [];
+	var countChecked = function($table, checkboxClass) {
+		  if ($table) {
+		    // Find all elements with given class
+		    var chkAll = $table.find(checkboxClass);
+		    // Count checked checkboxes
+		    var checked = chkAll.filter(':checked').length;
+		    // Count total
+		    var total = chkAll.length;    
+		    // Return an object with total and checked values
+		    return {
+		      total: total,
+		      checked: checked
+		    }
+		  }
+		}
+		$(document).on('click', '.select_all', function() {
+		  var result = countChecked($('#printtable1'), '.select_all');
+		   alert(result.checked+":"+result.total);
+		  
+		});
+		$(document).on('click', '#selAll', function() {
+			  var result = countChecked($('#printtable1'), '.select_all');
+			   alert(result.checked+":"+result.total);
+			  
+			}); */
+			
+			
 		$(document).ready(
+		
 				function() {
+					
+					//
+					$('#printtable_assignTask').dataTable({
+					    "bPaginate": false,
+					  	dom: 'Bfrtip',
+					    buttons: [
+				            'copyHtml5',
+				            'excelHtml5',
+				            'csvHtml5',
+				            'pdfHtml5'
+				        ]
+					});
+					//
+					
 					//	$('#printtable').DataTable();
-
+			
 					$("#selAll").click(
 							function() {
-								$('#printtable1 tbody input[type="checkbox"]')
+								$('#printtable_assignTask tbody input[type="checkbox"]')
 										.prop('checked', this.checked);
+								 
 							});
+					 
 				});
 	</script>
 	<script type="text/javascript">
@@ -543,6 +594,9 @@
 				separator : ' to '
 			}
 		});
+		
+		
+		
 	</script>
 </body>
 </html>

@@ -1128,6 +1128,7 @@ int periodicityId=0;
 			String dueDate = request.getParameter("dueDate");
 			String workDate = request.getParameter("workDate");
 			System.err.println("date " + workDate);
+			String bilAmt = request.getParameter("bilAmt");
 
 			String taskId = request.getParameter("taskId1");
 			if (workDate != null && workDate != "") {
@@ -1148,6 +1149,8 @@ int periodicityId=0;
 			map.add("empId", items1);
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
+			
+			map.add("bilAmt", bilAmt);
 
 			res = Constants.getRestTemplate().postForObject(Constants.url + "/updateEditTsk", map, Info.class);
 

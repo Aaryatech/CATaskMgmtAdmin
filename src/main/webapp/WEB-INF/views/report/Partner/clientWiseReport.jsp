@@ -370,10 +370,11 @@ h5 {
 
 					});
 
-					$("#loader").hide();
+					
 					chkData();
+					
 				}); 
-				
+				$("#loader").hide();
 			}
 		}
 

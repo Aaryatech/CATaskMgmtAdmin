@@ -157,6 +157,7 @@ h5 {
 										<th>Completion Date</th>
 										<th>Employee Budgeted Hrs</th>
 										<th>Total Hrs Employee</th>
+										<th>Google Drive Link</th>
 
 
 									</tr>
@@ -178,6 +179,7 @@ h5 {
 											<td>${cmpTaskList.taskStartDate}</td>
 											<td>${cmpTaskList.empBudHr}</td>
 											<td>${cmpTaskList.workHours}</td>
+											<td>${cmpTaskList.exVar1}</td>
 
 
 										</tr>

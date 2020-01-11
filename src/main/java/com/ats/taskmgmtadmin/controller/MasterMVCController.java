@@ -330,53 +330,52 @@ public class MasterMVCController {
 
 				mav = new ModelAndView("accessDenied");
 
-			}else { 
+			} else {
 
-			mav = new ModelAndView("master/activityAdd");
-			ActivityMaster activity = new ActivityMaster();
-			mav.addObject("activity", activity);
-			MultiValueMap<String, Object> map = null;
+				mav = new ModelAndView("master/activityAdd");
+				ActivityMaster activity = new ActivityMaster();
+				mav.addObject("activity", activity);
+				MultiValueMap<String, Object> map = null;
 
-			int serviceId = Integer.parseInt(request.getParameter("map_service_id"));
-			System.out.println("Mapping Service Id = " + serviceId);
+				int serviceId = Integer.parseInt(request.getParameter("map_service_id"));
+				System.out.println("Mapping Service Id = " + serviceId);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("serviceId", serviceId);
+				map = new LinkedMultiValueMap<>();
+				map.add("serviceId", serviceId);
 
-			ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
-					map, ServiceMaster.class);
+				ServiceMaster servicemMap = Constants.getRestTemplate().postForObject(Constants.url + "/getServiceById",
+						map, ServiceMaster.class);
 
-			mav.addObject("service", servicemMap);
+				mav.addObject("service", servicemMap);
 
-			map = new LinkedMultiValueMap<>();
-			map.add("serviceId", serviceId);
+				map = new LinkedMultiValueMap<>();
+				map.add("serviceId", serviceId);
 
-			ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
-			List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
-			System.out.println("Act List:" + activityList);
-			mav.addObject("actList", activityList);
+				ActivityPeriodDetails[] activityArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getActivityDetails", map, ActivityPeriodDetails[].class);
+				List<ActivityPeriodDetails> activityList = new ArrayList<>(Arrays.asList(activityArr));
+				System.out.println("Act List:" + activityList);
+				mav.addObject("actList", activityList);
 
-			DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
-					.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
-			List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
-			mav.addObject("periodList", periodList);
+				DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
+				List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
+				mav.addObject("periodList", periodList);
 
-			mav.addObject("title", "Add Activity");
-			
-			Info edit = AccessControll.checkAccess("activity", "activity", "0", "0", "1", "0", newModuleList);
-			Info delete = AccessControll.checkAccess("activity", "activity", "0", "0", "0", "1",
-					newModuleList);
+				mav.addObject("title", "Add Activity");
 
-			if (edit.isError() == false) {
-				// System.out.println(" edit Accessable ");
-				mav.addObject("editAccess", 0);
-			}
-			if (delete.isError() == false) {
-				// System.out.println(" delete Accessable ");
-				mav.addObject("deleteAccess", 0);
+				Info edit = AccessControll.checkAccess("activity", "activity", "0", "0", "1", "0", newModuleList);
+				Info delete = AccessControll.checkAccess("activity", "activity", "0", "0", "0", "1", newModuleList);
 
-			}
+				if (edit.isError() == false) {
+					// System.out.println(" edit Accessable ");
+					mav.addObject("editAccess", 0);
+				}
+				if (delete.isError() == false) {
+					// System.out.println(" delete Accessable ");
+					mav.addObject("deleteAccess", 0);
+
+				}
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in activityAdd " + e.getMessage());
@@ -391,22 +390,22 @@ public class MasterMVCController {
 		try {
 			mav = new ModelAndView("master/activityAdd");
 
-			session=request.getSession();
+			session = request.getSession();
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 			Info info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
 			if (info.isError() == true) {
 				mav.addObject("editAccess", 1);
-			}else {
+			} else {
 				mav.addObject("editAccess", 0);
 			}
-			
+
 			info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "0", "1", newModuleList);
 			if (info.isError() == true) {
 				mav.addObject("deleteAccess", 1);
-			}else {
+			} else {
 				mav.addObject("deleteAccess", 0);
 			}
-			
+
 			ActivityMaster activity = new ActivityMaster();
 			mav.addObject("activity", activity);
 			MultiValueMap<String, Object> map = null;
@@ -520,23 +519,20 @@ public class MasterMVCController {
 			} else {
 				mav = new ModelAndView("master/activityAdd");
 
-				 info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
+				info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "1", "0", newModuleList);
 				if (info.isError() == true) {
 					mav.addObject("editAccess", 1);
-				}else {
+				} else {
 					mav.addObject("editAccess", 0);
 				}
-				
+
 				info = AccessControll.checkAccess("editActivity", "activity", "0", "0", "0", "1", newModuleList);
 				if (info.isError() == true) {
 					mav.addObject("deleteAccess", 1);
-				}else {
+				} else {
 					mav.addObject("deleteAccess", 0);
 				}
-				
-				
 
-				
 				MultiValueMap<String, Object> map = null;
 
 				int activityId = Integer.parseInt(request.getParameter("actiId"));
@@ -2154,16 +2150,59 @@ public class MasterMVCController {
 
 	}
 
+	// Sachin 11-01-2020
+	@RequestMapping(value = "/getCountofPartner", method = RequestMethod.GET)
+	public @ResponseBody Object getCountofPartner(HttpServletRequest request, HttpServletResponse response) {
+		int count = 0;
+		try {
+
+			String empIds = request.getParameter("empIds");
+			System.err.println("empIds" + empIds.toString());
+			empIds = empIds.substring(1, empIds.length() - 1);
+			empIds = empIds.replaceAll("\"", "");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("empIdList", empIds);
+
+			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofPartner", map, int.class);
+			// System.err.println(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+
+	}
+
+	@RequestMapping(value = "/getDailyWorkLogCountForTask", method = RequestMethod.GET)
+	public @ResponseBody Object getDailyWorkLogCountForTask(HttpServletRequest request, HttpServletResponse response) {
+		int count = 0;
+		try {
+
+			int taskId = Integer.parseInt(request.getParameter("taskId"));
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("taskId", taskId);
+
+			count = Constants.getRestTemplate().postForObject(Constants.url + "/getDailyWorkLogCountForTask", map,
+					int.class);
+			// System.err.println(count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+
+	}
+
 	// completeAndDeliverTask Sachin 26-11-2019
 	@RequestMapping(value = "/completeAndDeliverTask", method = RequestMethod.GET)
 	public @ResponseBody Object completeAndDeliverTask(HttpServletRequest request, HttpServletResponse response) {
 		int count = 0;
 		try {
-session=request.getSession();
+			session = request.getSession();
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			String delLink = request.getParameter("delLink");
-			String statusText=request.getParameter("selectedStatus");
-System.err.println("statusText " +statusText);
+			String statusText = request.getParameter("selectedStatus");
+			System.err.println("statusText " + statusText);
+			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -2172,9 +2211,9 @@ System.err.println("statusText " +statusText);
 			map.add("taskId", taskId);
 			map.add("link", delLink);
 
-			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskDeliverLink", map, Info.class);
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateTaskDeliverLink", map,
+					Info.class);
 
-			
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
 			map.add("statusVal", 9);
@@ -2182,14 +2221,16 @@ System.err.println("statusText " +statusText);
 			map.add("curDateTime", Constants.getCurDateTime());
 			map.add("compltnDate", Constants.getCurDateTime());
 
-			 info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
 			if (info != null) {
-				FormValidation.updateTaskLog(TaskText.taskTex8+"-"+statusText, userId, taskId);
-				count=1;
+				if(statusText==null) {
+					statusText="Completed";
+				}
+				FormValidation.updateTaskLog(TaskText.taskTex8 + "-" + statusText, userId, taskId);
+				count = 1;
 			}
-			 
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

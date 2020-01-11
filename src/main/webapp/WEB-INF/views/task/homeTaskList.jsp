@@ -111,6 +111,7 @@ h5 {
 
 	<c:url value="/completeAndDeliverTask" var="completeAndDeliverTask"></c:url>
 
+<c:url value="/getDailyWorkLogCountForTask" var="getDailyWorkLogCountForTask"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -739,15 +740,52 @@ h5 {
 									<c:when test="${empType!=5}">
 										<div class="form-group row">
 
-											<label class="col-form-label col-lg-6" for="activity">
-												Employee <span style="color: red">* </span>:
+											<label class="col-form-label col-lg-6" for="emp">
+												Employee :
 											</label>
 											<div class="col-lg-6">
-												<select name="emp" data-placeholder="Select Activity"
+												<select name="emp" data-placeholder="Select Employee"
 													onchange="submitResponse()" id="emp" multiple
 													class="form-control form-control-select2 select2-hidden-accessible"
 													data-fouc="" aria-hidden="true">
 												</select>
+											</div>
+
+										</div>
+									</c:when>
+								</c:choose>
+								
+								<!--Add/Edit Billing Amount 11-01-2020 -->
+								<c:choose>
+									<c:when test="${empType==5}">
+
+										<div class="form-group row" style="display:none">
+
+											<label class="col-form-label col-lg-6" for="bilAmt">
+												Billing Amount :
+											</label>
+											<div class="col-lg-6">
+												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
+													onchange="submitResponse()" id="bilAmt"
+													readonly="readonly">
+												
+											</div>
+
+										</div>
+
+									</c:when>
+									
+									<c:when test="${empType!=5}">
+										<div class="form-group row">
+
+										<label class="col-form-label col-lg-6" for="bilAmt">
+												Billing Amount :
+											</label>
+											<div class="col-lg-6">
+												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
+													onchange="submitResponse()" id="bilAmt" value=""
+													class="form-control">
+												
 											</div>
 
 										</div>
@@ -1177,6 +1215,7 @@ function append(data){
 								document.getElementById("dueDate").value=data.task.taskStatutoryDueDate;
 								
 								document.getElementById("taskId1").value=data.task.taskId;
+								document.getElementById("bilAmt").value=data.task.billingAmt;
 								var html;
 								 
 								var len = data.empList.length;
@@ -1222,6 +1261,7 @@ function append(data){
 			var taskId1=document.getElementById("taskId1").value ;
 			//var emp=document.getElementById("emp").value ;
 			var emp=$("#emp").val();
+			var bilAmt=document.getElementById("bilAmt").value ;
 			//alert("Hi " +JSON.stringify(emp));
 			
  		 var valid = true;
@@ -1248,6 +1288,7 @@ function append(data){
 					dueDate  : dueDate,
 					taskId1  : taskId1,
 					emp      : JSON.stringify(emp),
+					bilAmt   : bilAmt,
 					ajax : 'true',
 				},
 
@@ -1330,27 +1371,53 @@ function append(data){
  function completeAndDelLink(){
 	var taskId= document.getElementById("task_comp_id").value;
 	var delLink= document.getElementById("del_link").value;
-if(delLink==null || delLink==""){
-	alert("Please provide deliverable link");
-}else{
 	
-
+	
+	
 	$
 	.getJSON(
-			'${completeAndDeliverTask}',
+			'${getDailyWorkLogCountForTask}',
 			{
 				taskId : taskId,
-				delLink : delLink,
 				ajax : 'true',
 			},
 			function(data) {
 				//alert(JSON.stringify(data));
-				
-				 $('#modal_form_inline').modal('hide');
-				 document.getElementById("del_link").value="";
-				getActiveHomeTasks();
+				if(data==0){
+					alert("Please add entry in work log for the selected task")
+				}
+				else{
+				if(delLink==null || delLink==""){
+					alert("Please provide deliverable link");
+				}else{
+					
+
+					$
+					.getJSON(
+							'${completeAndDeliverTask}',
+							{
+								taskId : taskId,
+								delLink : delLink,
+								 
+								
+								ajax : 'true',
+							},
+							function(data) {
+								//alert(JSON.stringify(data));
+								
+								 $('#modal_form_inline').modal('hide');
+								 document.getElementById("del_link").value="";
+								getActiveHomeTasks();
+							});
+				}//end of else
+					
+				}//end of else one
 			});
-}//end of else
+	
+	
+	
+	
+
  }
 	function setColor()
 	{

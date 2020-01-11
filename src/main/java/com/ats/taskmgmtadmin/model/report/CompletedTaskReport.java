@@ -35,6 +35,11 @@ package com.ats.taskmgmtadmin.model.report;
 	private String  teamLeader;
 	
  	private String  employee;
+ 	
+ 	private	String exVar1;//Sachin 11-01-2020 for Showing deliverable Link to Employee Completed Task report
+
+ 	
+ 	
 
 	public int getTaskId() {
 		return taskId;
@@ -172,7 +177,13 @@ package com.ats.taskmgmtadmin.model.report;
 		this.employee = employee;
 	}
  	
- 	
+	public String getExVar1() {
+		return exVar1;
+	}
+
+	public void setExVar1(String exVar1) {
+		this.exVar1 = exVar1;
+	}
  	
  	
 	
