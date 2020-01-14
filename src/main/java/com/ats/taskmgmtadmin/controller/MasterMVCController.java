@@ -143,6 +143,7 @@ public class MasterMVCController {
 
 		return mav;
 	}
+	
 
 	@RequestMapping(value = "/addService", method = RequestMethod.GET)
 	public String addService(HttpServletRequest request, HttpServletResponse response) {
@@ -176,6 +177,9 @@ public class MasterMVCController {
 			}
 			service.setServId(servcId);
 			service.setServName(request.getParameter("serviceName"));
+			
+			
+			
 			service.setServDesc(request.getParameter("serviceDesc"));
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
