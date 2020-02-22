@@ -2,6 +2,7 @@ package com.ats.taskmgmtadmin.model;
  
 public class BugetedAmtAndRevenue {
  
+	private int empId; 
 	private float bugetedHrs; 
 	private float actualHrs; 
 	private float bugetedRev; 
@@ -45,11 +46,17 @@ public class BugetedAmtAndRevenue {
 	public void setActualCost(float actualCost) {
 		this.actualCost = actualCost;
 	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
 	@Override
 	public String toString() {
-		return "BugetedAmtAndRevenue [bugetedHrs=" + bugetedHrs + ", actualHrs=" + actualHrs + ", bugetedRev="
-				+ bugetedRev + ", actulRev=" + actulRev + ", bugetedCost=" + bugetedCost + ", actualCost=" + actualCost
-				+ "]";
+		return "BugetedAmtAndRevenue [empId=" + empId + ", bugetedHrs=" + bugetedHrs + ", actualHrs=" + actualHrs
+				+ ", bugetedRev=" + bugetedRev + ", actulRev=" + actulRev + ", bugetedCost=" + bugetedCost
+				+ ", actualCost=" + actualCost + "]";
 	}
 	 
 	

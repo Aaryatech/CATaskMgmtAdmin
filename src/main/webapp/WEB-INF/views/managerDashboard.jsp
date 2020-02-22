@@ -112,15 +112,16 @@ h5 {
 								<select name="membrId" id="membrId"
 									class="form-control form-control-select2 select2-hidden-accessible"
 									data-fouc="" aria-hidden="true">
+									<option value="0" selected>All</option>
 									<c:forEach items="${empList}" var="empList">
-										<c:choose>
+										<%-- <c:choose>
 											<c:when test="${empList.empId==empId}">
 												<option value="${empList.empId}" selected>${empList.empName}</option>
 											</c:when>
-											<c:otherwise>
-												<option value="${empList.empId}">${empList.empName}</option>
-											</c:otherwise>
-										</c:choose>
+											<c:otherwise> --%>
+										<option value="${empList.empId}">${empList.empName}</option>
+										<%-- </c:otherwise>
+										</c:choose> --%>
 									</c:forEach>
 
 								</select>
@@ -200,7 +201,7 @@ h5 {
 									<tr class="bg-blue">
 
 										<th>Particulars</th>
-										<th>Cost</th>
+										<th style="text-align: right;">Cost</th>
 
 									</tr>
 								</thead>
@@ -662,21 +663,22 @@ h5 {
 
 			}, function(data) {
 
+				//alert(JSON.stringify(data))
 				$("#costTab tbody").empty();
 
-				var bugetedCost = '<tr> <td>Budgeted Cost</td> <td>'
+				var bugetedCost = '<tr> <td>Budgeted Cost</td> <td align="right">'
 						+ data.bugetedCost.toFixed(2) + '</td></tr>';
 				$('#costTab' + ' tbody').append(bugetedCost);
 
-				var actualCost = '<tr> <td>Actual Cost</td> <td>'
+				var actualCost = '<tr> <td>Actual Cost</td> <td align="right">'
 						+ data.actualCost.toFixed(2) + '</td></tr>';
 				$('#costTab' + ' tbody').append(actualCost);
 
-				var bugetedRev = '<tr> <td>Budgeted Revenue</td> <td>'
+				var bugetedRev = '<tr> <td>Budgeted Revenue</td> <td align="right">'
 						+ data.bugetedRev.toFixed(2) + '</td></tr>';
 				$('#costTab' + ' tbody').append(bugetedRev);
 
-				var actualRev = '<tr> <td>Actual Revenue</td> <td>'
+				var actualRev = '<tr> <td>Actual Revenue</td> <td align="right">'
 						+ data.actulRev.toFixed(2) + '</td></tr>';
 				$('#costTab' + ' tbody').append(actualRev);
 				$("#loader").hide();
