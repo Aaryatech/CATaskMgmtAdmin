@@ -127,7 +127,7 @@
 									<th>Weekly Off Type</th>
 									<!-- 	<th>Weekly Off Presently</th> -->
 									<th>Day</th>
-									<th width="10%" class="text-center">Actions</th>
+									<!-- <th width="10%" class="text-center">Actions</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -208,14 +208,14 @@
 												</c:otherwise>
 											</c:choose></td>
 
-										<td class="text-center"><a
+									<%-- 	<td class="text-center"><a
 											href="${pageContext.request.contextPath}/editWeeklyOff?woId=${week.exVar1}"
 											title="Edit"><i class="icon-pencil7"
 												style="color: black;"></i></a> <a
 											href="${pageContext.request.contextPath}/deleteWeeklyOff?woId=${week.exVar1}"
 											onClick="return confirm('Are you sure want to delete this record');"
 											title="Delete"><i class="icon-trash"
-												style="color: black;"></i> </a></td>
+												style="color: black;"></i> </a></td> --%>
 									</tr>
 								</c:forEach>
 

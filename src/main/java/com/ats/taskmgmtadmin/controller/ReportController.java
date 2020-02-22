@@ -353,17 +353,20 @@ public class ReportController {
 				EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 						Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 				List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-
-				for (int i = 0; i < progList.size(); i++) {
-					float a = Float.parseFloat(progList.get(i).getActWork());
-					float b = Float.parseFloat(progList.get(i).getBudgetedCap());
-					float c = b - a;
-
-					progList.get(i).setExVar1(String.valueOf(c));
-
-				}
-
+				System.err.println("progList 1"+progList);
 				mav.addObject("progList", progList);
+
+				/*
+				 * for (int i = 0; i < progList.size(); i++) { float a =
+				 * Float.parseFloat(progList.get(i).getActWork()); float b =
+				 * Float.parseFloat(progList.get(i).getBudgetedCap()); float c = b - a;
+				 * 
+				 * progList.get(i).setExVar1(String.valueOf(c));
+				 * 
+				 * }
+				 */
+				System.err.println("progList 2"+progList);
+
 				mav.addObject("fromDate", fromDate[0]);
 				mav.addObject("toDate", fromDate[1]);
 				mav.addObject("emps", empId);
@@ -380,7 +383,7 @@ public class ReportController {
 	@RequestMapping(value = "/showEmpAndMngPerformanceRep", method = RequestMethod.GET)
 	public void showEmpAndMngPerformanceRep(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Employee And Manager Performance Report";
+		String reportName = "Employee And Manager Performance Report Header";
 		try {
 
 			HttpSession session = request.getSession();
@@ -444,12 +447,15 @@ public class ReportController {
 						rowData.add("" + progList.get(i).getEmpName());
 						rowData.add("" + progList.get(i).getTaskCount());
 						rowData.add("" + progList.get(i).getAllWork());
-						rowData.add("" + progList.get(i).getBudgetedCap());
 						rowData.add("" + progList.get(i).getActWork());
-						float a = Float.parseFloat(progList.get(i).getActWork());
-						float b = Float.parseFloat(progList.get(i).getBudgetedCap());
-						float c = b - a;
-						rowData.add("" + c);
+						rowData.add("" + progList.get(i).getExVar1());
+
+						rowData.add("" + progList.get(i).getBudgetedCap());
+				/*
+				 * float a = Float.parseFloat(progList.get(i).getActWork()); float b =
+				 * Float.parseFloat(progList.get(i).getBudgetedCap()); float c = b - a;
+				 * rowData.add("" + c);
+				 */
 
 						expoExcel.setRowData(rowData);
 						exportToExcelList.add(expoExcel);
@@ -519,7 +525,7 @@ public class ReportController {
 			List<EmpAndMangPerfRepDetail> perfList = new ArrayList<>(Arrays.asList(resArray));
 			
 			//System.out.println("perfList task**"+perfList.size());
-			//System.out.println("perfList task**"+perfList.toString());
+			System.out.println("perfList task**"+perfList.toString());
 			model.addAttribute("perfList",perfList);
 			model.addAttribute("fromDate", fromDate);
 			model.addAttribute("toDate", toDate);
@@ -581,13 +587,14 @@ public class ReportController {
 					rowData.add("Status");
 					rowData.add("Completion Date");
 					rowData.add("Employee Budgeted Hrs");
-					rowData.add("Total Hrs Employee");
-					rowData.add("TL Total Hrs");
-					rowData.add("Manager Budgeted Hrs");
-					rowData.add("Manager Total Hrs");
-					rowData.add("Total manager hrs for selected period");
-					rowData.add("Total Employee hrs for selected period");
-					rowData.add("Total TL hrs for selected period");
+					//rowData.add("Total Hrs Employee");
+					//rowData.add("TL Total Hrs");
+					//rowData.add("Manager Budgeted Hrs");
+					//rowData.add("Manager Total Hrs");
+					//rowData.add("Total manager hrs for selected period");
+					rowData.add("Employee hrs for selected period");
+					//rowData.add("Total TL hrs for selected period");
+					rowData.add("Actual Till Date");
 					rowData.add("Google drive Link");
 
 					expoExcel.setRowData(rowData);
@@ -624,6 +631,7 @@ public class ReportController {
 						}
 
 						rowData.add("" + progList.get(i).getStatusText());
+						
 						if (progList.get(i).getTaskCompletionDate() != ""
 								&& progList.get(i).getTaskCompletionDate() != null) {
 							//String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
@@ -633,13 +641,14 @@ public class ReportController {
 						}
 
 						rowData.add("" + progList.get(i).getEmpBudHr());
-						rowData.add("" + progList.get(i).getEmployeeHrs());
-						rowData.add("" + progList.get(i).getTeamLeaderHrs());
-						rowData.add("" + progList.get(i).getMngrBudHr());
-						rowData.add("" + progList.get(i).getManagerHrs());
-						rowData.add("" + progList.get(i).getManagerBetHrs());
-						rowData.add("" + progList.get(i).getEmpBetHrs());
-						rowData.add("" + progList.get(i).getTlBetHrs());
+						//rowData.add("" + progList.get(i).getTeamLeaderHrs());
+						//rowData.add("" + progList.get(i).getMngrBudHr());
+						//rowData.add("" + progList.get(i).getManagerHrs());
+						//rowData.add("" + progList.get(i).getManagerBetHrs());
+						rowData.add("" + progList.get(i).getEmpBetHrs());//act bet sel date 
+						rowData.add("" + progList.get(i).getEmployeeHrs());//act till date
+
+						//rowData.add("" + progList.get(i).getTlBetHrs());
 						rowData.add("" + progList.get(i).getExVar1());
 
 						expoExcel.setRowData(rowData);

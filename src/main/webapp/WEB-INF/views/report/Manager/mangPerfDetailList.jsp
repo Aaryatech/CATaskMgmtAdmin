@@ -137,17 +137,20 @@ h5 {
 										<th>Employee Name</th>
 										<th>TL Name</th>
 										<th>Due Date</th>
+										<th>Work Date</th>
+										<th>Status</th>
 										<th>Completion Date</th>
-										<th>Employee Budgeted Hrs</th>
-										<th>Total Hrs Employee</th>
-										<th>TL Total Hrs</th>
-										<th>Manager Budgeted Hrs</th>
+										<th>Emp Budgeted Hrs</th>
+										<th>Emp hrs for selected period</th>
+										<th>Actual Till Date</th>
+										<th>Google Drive Link</th>
+									<!-- 	<th>Manager Budgeted Hrs</th>
 										<th>Manager Total Hrs</th>
 										<th>Total manager hrs for selected period</th>
 										<th>Total Employee hrs for selected period</th>
-										<th>Total TL hrs for selected period</th>
-										<th>Google Drive Link</th>
-										<th>Status</th>
+										<th>Total TL hrs for selected period</th> -->
+										
+									<!-- 	<th>Status</th> -->
 
 									</tr>
 								</thead>
@@ -167,17 +170,27 @@ h5 {
 											<td>${cmpTaskList.employee}</td>
 											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
-											<td>${cmpTaskList.taskStartDate}</td>
+											<td>${cmpTaskList.taskEndDate}</td>
+											<td>${cmpTaskList.statusText}</td>
+											<c:set var="compDate" value="-"></c:set>
+											<c:if test="${cmpTaskList.taskCompletionDate!='' or cmpTaskList.taskCompletionDate!=null}">
+											<c:set var="compDate" value="${cmpTaskList.taskCompletionDate}"></c:set>
+											</c:if>
+											<td>${compDate}</td>
+											
 											<td>${cmpTaskList.empBudHr}</td>
+											<td>${cmpTaskList.empBetHrs}</td>
 											<td>${cmpTaskList.employeeHrs}</td>
-											<td>${cmpTaskList.teamLeaderHrs}</td>
+											<td>${cmpTaskList.exVar1}</td>
+											
+											<%-- <td>${cmpTaskList.teamLeaderHrs}</td>
 											<td>${cmpTaskList.mngrBudHr}</td>
 											<td>${cmpTaskList.managerHrs}</td>
 											<td>${cmpTaskList.managerBetHrs}</td>
 											<td>${cmpTaskList.empBetHrs}</td>
 											<td>${cmpTaskList.tlBetHrs}</td>
 											<td>${cmpTaskList.exVar1}</td>
-											<td>${cmpTaskList.statusText}</td>
+											<td>${cmpTaskList.statusText}</td> --%>
 
 										</tr>
 									</c:forEach>

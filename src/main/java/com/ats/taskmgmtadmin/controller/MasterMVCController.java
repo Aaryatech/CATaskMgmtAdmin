@@ -620,6 +620,11 @@ public class MasterMVCController {
 
 				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteActivity", map,
 						Info.class);
+				if(del.isError()==true)
+				session.setAttribute("errorMsg",del.getMsg());
+				else
+					session.setAttribute("successMsg",del.getMsg());
+
 				redirect = "redirect:/activity";
 			}
 		} catch (Exception e) {
@@ -863,6 +868,9 @@ public class MasterMVCController {
 						EmployeeMaster empMst = Constants.getRestTemplate()
 								.postForObject(Constants.url + "/getEmployeeById", map, EmployeeMaster.class);
 						employee.setIsActive(empMst.getIsActive());
+						employee.setExInt1(empMst.getExInt1()); // isEnroll
+						employee.setExInt2(empMst.getExInt2()); // isEnroll
+
 					} else {
 						employee.setEmpRoleId(0);
 						employee.setIsActive(1);
@@ -876,8 +884,7 @@ public class MasterMVCController {
 					employee.setDelStatus(1);
 					employee.setUpdateDatetime(curDateTime);
 					employee.setUpdateUsername(userId);
-					employee.setExInt1(0); // isEnroll
-					employee.setExInt2(0);
+				//	employee.setExInt2(0);
 					employee.setExVar1("NA");
 					employee.setExVar2("NA");
 
@@ -1882,7 +1889,7 @@ public class MasterMVCController {
 			HttpSession session = request.getSession();
 
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
-			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "1", "0", newModuleList);
+			Info view = AccessControll.checkAccess("editStatus", "statusList", "0", "0", "0", "1", newModuleList);
 
 			if (view.isError() == true) {
 

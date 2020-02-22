@@ -20,7 +20,7 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) throws IOException {
 
-    	 
+    	// System.err.println("request.getServletPath() " +request.getServletPath());
     	    	
     	HttpSession session = request.getSession();
 
@@ -64,9 +64,9 @@ public class CheckUserInterceptor extends HandlerInterceptorAdapter {
          
          
          try {
-         if(request.getServletPath().equals("/") || request.getServletPath().equals("/loginProcess") ||request.getServletPath().equals("/logout") ||request.getServletPath().equals("/login")
-        		 ||request.getServletPath().equals("/showForgotPass")  ||request.getServletPath().equals("/checkUserPassword") ||request.getServletPath().equals("/chngPassword") 
-        		 ||request.getServletPath().equals("/chngNewPassword")){ //||request.getServletPath().equals("/logout")
+         if(request.getServletPath().equals("/") || request.getServletPath().equals("/loginProcess") ||request.getServletPath().equals("/logout") ||request.getServletPath().equals("/login")||request.getServletPath().equals("/chngPassword")||
+        		request.getServletPath().equals("/showForgotPass")  ||request.getServletPath().equals("/checkUserPassword") ||request.getServletPath().equals("/chngPassword")||request.getServletPath().equals("/validateOTP") 
+        		 ||request.getServletPath().equals("/chngNewPassword")||request.getServletPath().equals("/changePass")||request.getServletPath().equals("/showOTPPage") ||request.getServletPath().equals("/checkUserAndSendOtpEmail")){ //||request.getServletPath().equals("/logout")
         	// System.out.println("Login request");// /reGenOtp1 
              return true;
          }

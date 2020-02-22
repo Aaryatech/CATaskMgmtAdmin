@@ -2,6 +2,7 @@ package com.ats.taskmgmtadmin.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateConvertor {
@@ -75,7 +76,32 @@ public class DateConvertor {
 		}
 
 		
+	public static Calendar getTimePlusSpecMin(int interval) {
+
 		
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		Calendar cal30 = Calendar.getInstance();
+
+		System.out.println("Time " + String.valueOf(df.format(cal30.getTime())));
+
+		cal30.add(Calendar.MINUTE, interval);
+		// return String.valueOf(df.format(cal30.getTime()));
+		return cal30;
+	}
+
+	public static Calendar getCurTime() {
+
+		int interval = 0;
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		Calendar curCal = Calendar.getInstance();
+
+		System.out.println("Time " + String.valueOf(df.format(curCal.getTime())));
+
+		curCal.add(Calendar.MINUTE, interval);
+		// return String.valueOf(df.format(curCal.getTime()));
+		return curCal;
+
+	}
 
 	}
 

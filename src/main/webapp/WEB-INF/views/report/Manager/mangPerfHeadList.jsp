@@ -209,9 +209,10 @@
 											<td>${progList.taskCount}</td>
 											<td>${progList.allWork}</td>
 											<td>${progList.actWork}</td>
+											<td>${progList.exVar1}</td>
+											
 											<td>${progList.budgetedCap}</td>
 											
-											<td>${progList.exVar1}</td>
 											<td><a
 												href="showMangPerfHeadListDetailForm?fromDate=${fromDate}&toDate=${toDate}&empId=${progList.empId}"
 												title="Task List"><i class="icon-list"

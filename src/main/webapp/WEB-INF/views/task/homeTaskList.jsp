@@ -11,6 +11,12 @@
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/components_modals.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
+	<style type="text/css">
+	.select2-search--dropdown.select2-search--hide{
+	display: block;
+	}
+	
+	</style>
 <style>
 .modal {
 	position: fixed !important;
@@ -82,14 +88,14 @@ h5 {
 	margin-bottom: 0;
 }
 
-.datatable-footer {
+/* .datatable-footer {
+	display: none;
+} */
+
+/* .dataTables_length {
 	display: none;
 }
-
-.dataTables_length {
-	display: none;
-}
-
+ */
 .fab-menu-bottom-right, .fab-menu-top-right {
 	right: 1.25rem;
 	top: 1rem;
@@ -836,13 +842,13 @@ h5 {
 						</div>
 					</div> --%>
 
-					<%-- <div id="loader1" style="display: none;">
+					<div id="loader1" style="display: none;">
 							<img
 								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
 								width="150px" height="150px"
 								style="display: block; margin-left: auto; margin-right: auto">
 						</div>
- --%>
+
 					<div class=table-responsive>
 						<!-- <input type="text" id="search" placeholder="Type to search"> -->
 						<div class="row">
@@ -873,10 +879,8 @@ h5 {
 	<!-- <table
 							class="table datatable-basic datatable-generated table-hover"
 							width="100%" id="task_info_table"> -->
-	
-						<table
-							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
-							width="100%" id="task_info_table">
+		<div class="table-responsive">
+						<table class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1" width="100%" id="task_info_table">
 							<thead>
 								<tr>
 									<th style="background-color: white;">Sr. No.</th>
@@ -946,6 +950,7 @@ h5 {
 
 							</tbody>
 						</table>
+						</div>
 					</div>
 				</div>
 				<!-- /hover rows -->
@@ -998,12 +1003,14 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+	
+	
 	<script type="text/javascript">
 var status;
 function getActiveHomeTasks() {
 	//alert("In getActiveHomeTasks 675");
 	var emp = ${empType};
-	$("#loader").show();
+	$("#loader1").show();
 	
 	$
 			.getJSON(
@@ -1075,7 +1082,7 @@ function dataFilter(){
 	var custId = $("#custId").val();		
 	var stats = $("#stats").val();
 	//alert("Dates="+fromDate+" "+service+"   "+activity+" "+custId);
-	$("#loader").show();
+	$("#loader1").show();
 	
 	$
 			.getJSON(
@@ -1101,12 +1108,18 @@ function dataFilter(){
 
 
 function append(data){
-
+	//$("#loader1").show();
 	//alert("In append");
-	//alert(JSON.stringify(data.taskList))			
-	
-	$("#task_info_table tbody").empty();
-
+	//alert(JSON.stringify(data))	;
+	//alert(data.taskList.length)
+	if(data.taskList.length<1){
+		$("#loader1").hide();
+	}
+	//$("#task_info_table tbody").empty();
+	$("#task_info_table").empty();
+	$('#task_info_table').DataTable().destroy();
+	 
+	$('#task_info_table').append($('<tbody>'));  
 	 
 			
 			//alert("list2:"+JSON.stringify(data.statusMstrList));	
@@ -1154,10 +1167,19 @@ function append(data){
 
 		
 		
-		$('#task_info_table' + ' tbody').append(tr_data);
+	//	$('#task_info_table' + ' tbody').append(tr_data);
+		$('#task_info_table').find('tbody').append(tr_data); 
 		
+		 
 	}
 	
+	$("#loader1").hide();
+	//$('#task_info_table').addClass('datatable-button-html5-basic');
+	$('#task_info_table').DataTable().draw();
+	 
+
+	 
+
 
 
 }
@@ -1281,6 +1303,7 @@ function append(data){
  			}
 
 			if(valid == true){
+				$("#loader1").show();
 				$.post('${submitUpdatedTask}', {
 					empBudHr : empBudHr,
 					manBudHr : manBudHr,
@@ -1308,7 +1331,7 @@ function append(data){
 	}
 	
 	function updateStatus_new(statusId, taskId){
-	//alert(statusId+" "+taskId)
+	//alert(statusId+" "+taskId);
 	//alert(" In updateStatus_new +966");
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
         var color =  $('#set_status'+taskId).val();
@@ -2075,6 +2098,11 @@ $('.datepickerclass1').daterangepicker({
 					});
 });
 //
+	</script>
+	<script type="text/javascript">
+	
+	
+	
 	</script>
 
 	<script type="text/javascript">	

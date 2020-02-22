@@ -233,6 +233,10 @@ a{
 						<a
 						href="${pageContext.request.contextPath}/showForgotPass"
 						style="align: right">Forgot password?</a>
+						&nbsp;&nbsp;
+							<a
+						href="${pageContext.request.contextPath}/changePass"
+						style="align: right">Change Password</a>
 
 				</form>
 			</div>

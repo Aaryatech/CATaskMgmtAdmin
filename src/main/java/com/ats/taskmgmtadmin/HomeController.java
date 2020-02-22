@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,7 +36,9 @@ import com.ats.taskmgmtadmin.acsrights.Info;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
+import com.ats.taskmgmtadmin.common.EmailUtility;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.SessionKeyGen;
 import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.ActiveHomeTaskList;
 import com.ats.taskmgmtadmin.model.BugetedAmtAndRevenue;
@@ -104,6 +107,142 @@ public class HomeController<Task> {
 	 * 
 	 * return mav; }
 	 */
+//A
+	LinkedHashMap<String, String> userOtpMap = new LinkedHashMap<>();
+	LinkedHashMap<String, Calendar> userTimeMap = new LinkedHashMap<>();
+
+	@RequestMapping(value = "/checkUserAndSendOtpEmail", method = RequestMethod.POST)
+	public String checkUserAndSendOtpEmail(HttpServletRequest request, HttpServletResponse response) {
+		String c = null;
+		System.err.println("Hiii  checkValue  ");
+		Info info = new Info();
+		ModelAndView model = new ModelAndView();
+		HttpSession session = request.getSession();
+
+		String token = request.getParameter("token");
+		String key = (String) session.getAttribute("generatedKey");
+
+		if (token.trim().equals(key.trim())) {
+			try {
+				// model = new ModelAndView("forgotPassword");
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				String inputValue = request.getParameter("username");
+				System.err.println("Info inputValue  " + inputValue);
+
+				map.add("email", inputValue);
+				EmployeeMaster empMast = Constants.getRestTemplate()
+						.postForObject(Constants.url + "getEmpForChangePass", map, EmployeeMaster.class);
+				if (empMast != null) {
+//Email OTP Send Logic;
+					String genOTP=EmailUtility.getOTP(6);
+					
+					userOtpMap.put(empMast.getEmpEmail(), genOTP);
+					userTimeMap.put(empMast.getEmpEmail(), DateConvertor.getTimePlusSpecMin(2));
+
+					EmailUtility.sendEmailWithSubMsgAndToAdd("OTP For Change Password Request ", " Enter the OTP as " + genOTP + ". do not share otp with anyone. OTP valid for 2 Minutes.", empMast.getEmpEmail());
+					
+					c = "redirect:/showOTPPage";
+					System.err.println("OTP send ");
+					session.setAttribute("errorPassMsg", "OTP sent to your Email");
+					session.setAttribute("userId", empMast.getEmpId());
+					session.setAttribute("userEmail", empMast.getEmpEmail());
+				} else {
+					// model.addObject("msg", "Password has been sent to your email");
+
+					// model = new ModelAndView("forgotPassword");
+					c = "redirect:/changePass";
+					// model.addObject("msg", "Invalid User Name");
+					session.setAttribute("errorPassMsg", "Invalid User Name !");
+				}
+				SessionKeyGen.changeSessionKey(request);
+			} catch (Exception e) {
+				SessionKeyGen.changeSessionKey(request);
+				System.err.println("Exce in checkUserAndSendOtpEmail  " + e.getMessage());
+				e.printStackTrace();
+			}
+		} else {
+			SessionKeyGen.changeSessionKey(request);
+			c = "redirect:/accessDenied";
+		}
+		return c;
+
+	}
+
+	// B
+	@RequestMapping(value = "/changePass", method = RequestMethod.GET)
+	public ModelAndView changePass(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		System.err.println("Inside changePass ");
+		ModelAndView mav = new ModelAndView("changePass");
+		return mav;
+	}
+
+	// C
+	@RequestMapping(value = "/showOTPPage", method = RequestMethod.GET)
+	public ModelAndView showOTPPage(Locale locale, Model model) {
+		ModelAndView mav = new ModelAndView("otpPage");
+		return mav;
+	}
+
+	// D
+	
+	@RequestMapping(value = "/validateOTP", method = RequestMethod.POST)
+	public String validateOTP(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("otpPage");
+		HttpSession session = request.getSession();
+		String c = new String();
+		String token = request.getParameter("token");
+		String key = (String) session.getAttribute("generatedKey");
+		try {
+			if (token.trim().equals(key.trim())) {
+
+				String otp = request.getParameter("otp");
+				String userKey=(String) session.getAttribute("userEmail");
+				
+				Calendar time = Calendar.getInstance();
+				time = DateConvertor.getCurTime();
+				try {
+					time = userTimeMap.get(userKey);
+				} catch (Exception e) {
+					time = DateConvertor.getCurTime();
+					System.err.println("in catch " + e.getMessage());
+					e.printStackTrace();
+				}
+				int valid=0;
+				if (DateConvertor.getCurTime().getTime().after(time.getTime())) {
+					System.err.println("time exceed");
+					valid=-1;
+					System.err.println("OTP Time out !!");
+					c = "redirect:/changePass";
+					// model.addObject("msg", "Invalid User Name");
+					session.setAttribute("errorPassMsg", "OTP Time out !!");
+				}
+				if(valid<0) {
+					
+				}
+				else if(userOtpMap.get(userKey).equals(otp)) {
+					System.err.println("OTP Matched");
+					//session.setAttribute("userId", empLogin.getEmpId());
+					c = "redirect:/chngPassword";
+				}else {
+					System.err.println("OTP Not Matched");
+					c = "redirect:/changePass";
+					// model.addObject("msg", "Invalid User Name");
+					session.setAttribute("errorPassMsg", "OTP Not Matched");
+				}
+				
+			} else {
+				c = "redirect:/accessDenied";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return c;
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale, Model model) {
@@ -182,32 +321,28 @@ public class HomeController<Task> {
 
 		return mav;
 	}
-	
-	@RequestMapping(value = "/welcomePage", method = RequestMethod.GET)
-	public ModelAndView welcomePage(Locale locale, Model model,HttpSession session) {
 
-		
+	@RequestMapping(value = "/welcomePage", method = RequestMethod.GET)
+	public ModelAndView welcomePage(Locale locale, Model model, HttpSession session) {
+
 		ModelAndView mav = new ModelAndView("welcome");
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
-		String  userName = emp.getEmpName();
+		String userName = emp.getEmpName();
 		model.addAttribute("userName", userName);
-		
-		
-		int count=0;
+
+		int count = 0;
 		try {
 
-			
-			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("empId", emp.getEmpId());
 
-			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofLoginEmpTask", map, int.class);
-			//System.err.println(count);
+			count = Constants.getRestTemplate().postForObject(Constants.url + "/getCountofLoginEmpTask", map,
+					int.class);
+			// System.err.println(count);
 			model.addAttribute("taskCount", count);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
 		return mav;
 	}
@@ -246,7 +381,7 @@ public class HomeController<Task> {
 				System.err.println("Successful Login******" + empLogin.getExInt1());
 
 				if (empLogin.getExInt1() != 0) {
-					System.err.println("already login ");
+					//System.err.println("already login ");
 					mav = "redirect:/welcomePage";
 
 					session = request.getSession();
@@ -300,7 +435,7 @@ public class HomeController<Task> {
 	}
 
 	@RequestMapping(value = "/chngNewPassword", method = RequestMethod.POST)
-	public String changePassForm(HttpServletRequest request, HttpServletResponse response) {
+	public String changePassForm(HttpServletRequest request, HttpServletResponse response, Model model) {
 		System.out.println("Got me");
 
 		try {
@@ -314,7 +449,9 @@ public class HomeController<Task> {
 			map.add("userId", userId);
 
 			Info errMsg = Constants.getRestTemplate().postForObject(Constants.url + "/changePass", map, Info.class);
+			session.removeAttribute("userId");
 
+			session.setAttribute("errorPassMsg", "Password Changed Successfully");
 			session.invalidate();
 
 		} catch (Exception e) {
@@ -325,6 +462,7 @@ public class HomeController<Task> {
 			HttpSession session = request.getSession();
 			session.invalidate();
 		}
+		model.addAttribute("errorPassMsg", "Password Changed Successfully");
 
 		return "redirect:/";
 
@@ -461,7 +599,7 @@ public class HomeController<Task> {
 			}
 
 			mav.addObject("taskList", taskList);
-			System.err.println("taskList-----" + taskList.toString());
+			System.err.println("taskList-----" + taskList.size());
 
 			// dash
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
@@ -605,7 +743,7 @@ public class HomeController<Task> {
 
 			}
 
-			System.err.println("taskList-----" + taskList.toString());
+			System.err.println("taskList-----" + taskList.size());
 
 			home.setTaskList(taskList);
 
@@ -630,36 +768,40 @@ public class HomeController<Task> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("TaskList Size-----------" + taskList.size());
 
 		return home;
 	}
-/************************************Home Page Filter Task**************************************/
+
+	/************************************
+	 * Home Page Filter Task
+	 **************************************/
 	@RequestMapping(value = "/fliterTaskList", method = RequestMethod.GET)
-	public @ResponseBody ActiveHomeTaskList fliterTaskList(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model mav) {
+	public @ResponseBody ActiveHomeTaskList fliterTaskList(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, Model mav) {
 
 		ActiveHomeTaskList home = new ActiveHomeTaskList();
 		try {
 
 			String fromDate = request.getParameter("fromDate");
-			//String toDate = request.getParameter("toDate");
+			// String toDate = request.getParameter("toDate");
 			String act = request.getParameter("activity");
 			int activity = 0;
-			System.out.println("Act----"+act);
+			System.out.println("Act----" + act);
 			try {
-				 
-				 if(act==null || act==""){
-					 activity = 0;
-				 }else {
-					 activity = Integer.parseInt(act);
-				 }
-			}catch (Exception e) {
+
+				if (act == null || act == "") {
+					activity = 0;
+				} else {
+					activity = Integer.parseInt(act);
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO: handle exception
 			}
 
-
 			String[] dates = fromDate.split("to");
-			//System.err.println("Data---------" + dates[0] + "   " + dates[1]);
+			// System.err.println("Data---------" + dates[0] + " " + dates[1]);
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
 			mav.addAttribute("empType", empSes.getEmpType());
@@ -678,7 +820,7 @@ public class HomeController<Task> {
 			TaskListHome[] taskArr = Constants.getRestTemplate().postForObject(Constants.url + "/getTaskListByFilters",
 					map, TaskListHome[].class);
 			List<TaskListHome> taskList = new ArrayList<TaskListHome>(Arrays.asList(taskArr));
-			System.out.println("TaskList 1------------" + taskList);
+			System.out.println("TaskList Size-----------" + taskList.size());
 			home.setTaskList(taskList);
 
 			ServiceMaster[] srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getAllServices",
@@ -692,13 +834,12 @@ public class HomeController<Task> {
 			home.setCustList(custGrpList);
 
 			map = new LinkedMultiValueMap<String, Object>();
-			map.add("empType", empSes.getEmpId());
+			map.add("empType", empSes.getEmpType());
 			StatusMaster[] statusMstr = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getStatusByEmpTypeIds", map, StatusMaster[].class);
 			List<StatusMaster> statusList = new ArrayList<>(Arrays.asList(statusMstr));
 			home.setStatusMstrList(statusList);
-			
-
+System.err.println("statusList " +statusList.toString());
 		} catch (Exception e) {
 			System.err.println("Exce in fliterTaskList  " + e.getMessage());
 			e.printStackTrace();
@@ -706,6 +847,7 @@ public class HomeController<Task> {
 
 		return home;
 	}
+
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
 	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
 		int subModId = Integer.parseInt(request.getParameter("subModId"));
@@ -745,7 +887,7 @@ public class HomeController<Task> {
 			int statusId = Integer.parseInt(request.getParameter("statusId"));
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			System.out.println("status-------------now " + statusId + " " + taskId);
-		String statusText=request.getParameter("selectedStatus");
+			String statusText = request.getParameter("selectedStatus");
 			MultiValueMap<String, Object> map = null;
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
@@ -757,7 +899,7 @@ public class HomeController<Task> {
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
 			if (info != null) {
-				FormValidation.updateTaskLog(TaskText.taskTex3+"-"+statusText, userId, taskId);
+				FormValidation.updateTaskLog(TaskText.taskTex3 + "-" + statusText, userId, taskId);
 
 			}
 
@@ -775,7 +917,7 @@ public class HomeController<Task> {
 		} catch (Exception e) {
 			System.err.println("Exception in updateTaskStatusByTaskId : " + e.getMessage());
 			e.printStackTrace();
-			
+
 		}
 
 		return info;
@@ -1115,35 +1257,34 @@ public class HomeController<Task> {
 				Date date = new Date();
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
-				/*Calendar c = Calendar.getInstance(); // this takes current date
-				c.set(Calendar.DAY_OF_MONTH, 1);
-				 
+				/*
+				 * Calendar c = Calendar.getInstance(); // this takes current date
+				 * c.set(Calendar.DAY_OF_MONTH, 1);
+				 * 
+				 * 
+				 * Calendar calendar = Calendar.getInstance(); calendar.setTime(date);
+				 * calendar.add(Calendar.MONTH, 1); calendar.set(Calendar.DAY_OF_MONTH, 1);
+				 * calendar.add(Calendar.DATE, -1);
+				 * 
+				 * Date lastDayOfMonth = calendar.getTime();
+				 * 
+				 * map.add("fromDate", sf.format(c.getTime())); map.add("toDate",
+				 * sf.format(lastDayOfMonth)); BugetedAmtAndRevenue bugetedAmtAndRevenue =
+				 * Constants.getRestTemplate().postForObject( Constants.url +
+				 * "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
+				 * model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);
+				 */
+				/*
+				 * int year = c.get(Calendar.YEAR); int month = c.get(Calendar.MONTH) + 1;
+				 * 
+				 * model.addAttribute("year", year); model.addAttribute("month", month);
+				 */
 
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(date);
-				calendar.add(Calendar.MONTH, 1);
-				calendar.set(Calendar.DAY_OF_MONTH, 1);
-				calendar.add(Calendar.DATE, -1);
-
-				Date lastDayOfMonth = calendar.getTime();
-
-				map.add("fromDate", sf.format(c.getTime()));
-				map.add("toDate", sf.format(lastDayOfMonth));
-				BugetedAmtAndRevenue bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(
-						Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);
-				model.addAttribute("bugetedAmtAndRevenue", bugetedAmtAndRevenue);*/
-				/*int year = c.get(Calendar.YEAR);
-				int month = c.get(Calendar.MONTH) + 1;
-
-				model.addAttribute("year", year);
-				model.addAttribute("month", month);*/
-				
-				ClientGroupList[] clientGroup  = Constants.getRestTemplate().getForObject(
-						Constants.url + "/getClientGroupList",  ClientGroupList[].class);
-				List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(
-						Arrays.asList(clientGroup));
+				ClientGroupList[] clientGroup = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getClientGroupList", ClientGroupList[].class);
+				List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(Arrays.asList(clientGroup));
 				model.addAttribute("clientGroupList", clientGroupList);
-				
+
 				map = new LinkedMultiValueMap<>();
 				map.add("empId", empSes.getEmpId());
 				map.add("fromDate", sf.format(date));
@@ -1153,7 +1294,7 @@ public class HomeController<Task> {
 				List<ManagerListWithEmpIds> managerlist = new ArrayList<ManagerListWithEmpIds>(
 						Arrays.asList(managerListWithEmpIds));
 				model.addAttribute("managerListWithEmpIds", managerlist);
- 
+
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
 				model.addAttribute("date", dd.format(date) + " to " + dd.format(date));
 
@@ -1202,22 +1343,20 @@ public class HomeController<Task> {
 	}
 
 	@RequestMapping(value = "/getClientList", method = RequestMethod.GET)
-	public @ResponseBody List<ClientGroupList> getClientList(HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public @ResponseBody List<ClientGroupList> getClientList(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 
 		List<ClientGroupList> clientGroupList = new ArrayList<>();
 
 		try {
 
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
-			map.add("groupId",groupId);
-			ClientGroupList[] clientGroup  = Constants.getRestTemplate().postForObject(
-					Constants.url + "/getClinetListByGroupId",map,  ClientGroupList[].class);
-			 clientGroupList = new ArrayList<ClientGroupList>(
-					Arrays.asList(clientGroup));
-			 
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("groupId", groupId);
+			ClientGroupList[] clientGroup = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getClinetListByGroupId", map, ClientGroupList[].class);
+			clientGroupList = new ArrayList<ClientGroupList>(Arrays.asList(clientGroup));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1225,7 +1364,7 @@ public class HomeController<Task> {
 
 		return clientGroupList;
 	}
-	
+
 	@RequestMapping(value = "/searchManagerwiseCapacityBuilding", method = RequestMethod.GET)
 	public @ResponseBody List<ManagerListWithEmpIds> searchManagerwiseCapacityBuilding(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -1322,21 +1461,21 @@ public class HomeController<Task> {
 		try {
 			session = request.getSession();
 			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-			int empId = Integer.parseInt(request.getParameter("empId")); 
+			int empId = Integer.parseInt(request.getParameter("empId"));
 			String date = request.getParameter("fromDate");
 			String[] dates = date.split(" to ");
-			
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>(); 
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map = new LinkedMultiValueMap<>();
 			map.add("empId", empId);
 			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
 			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			map.add("userId", empSes.getEmpId());
 
-			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getEmployeeCapacityDetailForManagerDashboard", map, CapacityDetailByEmp[].class);
+			CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getEmployeeCapacityDetailForManagerDashboard", map, CapacityDetailByEmp[].class);
 			capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(Arrays.asList(capacityDetailByEmp));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1358,7 +1497,7 @@ public class HomeController<Task> {
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int clientId = Integer.parseInt(request.getParameter("clientId"));
-			
+
 			String firstDate = "01-" + monthyear[0] + "-" + monthyear[1];
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
