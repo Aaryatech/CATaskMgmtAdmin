@@ -253,10 +253,9 @@
 												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
 												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
 												<option value="4" ${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public Limited</option>
-												<option value="5" ${custHead. custAssesseeTypeId == 5 ? 'selected' : ''}>Trust</option>
-												<option value="6" ${custHead. custAssesseeTypeId == 6 ? 'selected' : ''}>AOP</option>
-												<option value="7" ${custHead. custAssesseeTypeId == 7 ? 'selected' : ''}>LA</option>
-												<option value="8" ${custHead. custAssesseeTypeId == 8 ? 'selected' : ''}>LLC</option>
+												<option value="5" ${custHead. custAssesseeTypeId == 5 ? 'selected' : ''}>HUF</option>
+												<option value="6" ${custHead. custAssesseeTypeId == 6 ? 'selected' : ''}>LLP</option>
+												<option value="7" ${custHead. custAssesseeTypeId == 7 ? 'selected' : ''}>Trust</option>
 											</select>
 											<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_assessee_type"
@@ -405,13 +404,19 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">File
-											Path : </label>
+											Path <span style="color: red">* </span>:  </label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control" value="${custHead.custFolderId}"
 												placeholder="Enter File Path" id="filePath" name="filePath"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										<div class="col-lg-3"></div>
+										
+										
+										
+										<div class="col-lg-3">
+										<span class="validation-invalid-label" id="error_filePath"
+												style="display: none;">Please enter file path.</span>
+										</div>
 									</div>
 
 
@@ -653,6 +658,19 @@
 												} else {
 													$("#error_dob").hide()
 												}
+												
+												
+												
+if (!$("#filePath").val()) {
+													
+													isError = true;
+
+													$("#error_filePath").show()
+
+												} else {
+													$("#error_filePath").hide()
+												}
+												
 												
 											if ($("#ownerPartner").val()==0 || !$("#ownerPartner").val()) {
 													
