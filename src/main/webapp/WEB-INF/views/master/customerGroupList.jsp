@@ -134,7 +134,14 @@
 								<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deleteCustGrp?custGrpId=${custGrpList.custGroupId}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></c:if></td>				
+								</a></c:if>
+								
+								<a href="${pageContext.request.contextPath}/getCustListByGrpId?custGrpId=${custGrpList.custGroupId}"
+									
+									title="List of Customer"><i class="icon-three-bars""
+										style="color: black;"></i>
+								</a>
+								</td>				
 
 							</tr>
 							</c:forEach>
