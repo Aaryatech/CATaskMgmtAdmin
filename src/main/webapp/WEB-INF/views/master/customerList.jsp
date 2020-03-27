@@ -76,7 +76,16 @@
 									class="breadcrumb-elements-item">
 										<button type="button" class="btn btn-primary">Add
 											Customer</button>
-								</a></c:if></td>
+								</a></c:if>
+								
+								<a
+									href="${pageContext.request.contextPath}/custExcel"
+									class="breadcrumb-elements-item">
+										<button type="button" class="btn btn-primary">Export Cust Excel
+											</button>
+								</a>
+								
+								</td>
 							</tr>
 						</table>
 					</div>
