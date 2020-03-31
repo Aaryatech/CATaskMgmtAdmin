@@ -34,7 +34,7 @@ public class EmailController {
 	public ModelAndView showAddLogEmail(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		ModelAndView mav = null;
-
+ 
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("showAddLogEmail", "showAddLogEmail", "1", "", "0", "0", newModuleList);
 		try {
