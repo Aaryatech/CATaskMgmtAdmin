@@ -235,7 +235,7 @@
 												style="display: none;">Please enter work date.</span>
 												
 											<span class="validation-invalid-label" id="error_end_date"
-												style="display: none;">work date must be smaller than start date.</span>
+												 >If you don't specify end date then tasks will be generated for current financial year.</span>
 										</div>
 
 									</div>

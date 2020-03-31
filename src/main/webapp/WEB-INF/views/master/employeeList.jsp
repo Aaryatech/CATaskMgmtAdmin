@@ -159,11 +159,34 @@
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
 								</a></c:if>
 								
-								<c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
+								<%-- <c:if test="${editAccess==0}"><a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
 									onClick="return confirm('Are you sure want to Chage Status');"
-									title="Active/Deactive"><i class="icon-cog5" style="color: black;"></i>
-								</a></c:if></td>
-
+									title="Active/Deactive"><i class="fas fa-toggle-off" style="color: black;"></i>
+								</a></c:if> --%>
+								
+								<c:if test="${editAccess==0}">
+								<c:choose>
+												<c:when test="${epmList.isActive==1}">
+												
+												<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
+									onClick="return confirm('Are you sure want to change status');"
+									title="Active/Deactive"><i class="fas fa-toggle-on" style="color: green;"></i>
+								</a>
+								
+								
+													
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath}/updateIsActive?empId=${epmList.exVar1}"
+									onClick="return confirm('Are you sure want to change status');"
+									title="Active/Deactive"><i class="fas fa-toggle-off" style="color: red;"></i>
+								</a>
+								
+												</c:otherwise>
+											</c:choose>
+											</c:if>
+											
+</td>
 							</tr>					
 							</c:forEach>
 						<%-- 	<tbody>

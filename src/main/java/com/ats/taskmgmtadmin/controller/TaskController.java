@@ -475,7 +475,7 @@ int periodicityId=0;
 			mav.addObject("actIntList", actIntList);
 			mav.addObject("custIdList", custIntList);
 			mav.addObject("servId", servId);
-
+			session.setAttribute("inactivePage", 1);
 //
 			try {
 
@@ -733,7 +733,12 @@ int periodicityId=0;
 			int stat = Integer.parseInt(request.getParameter("stat"));
 
 			HttpSession session1 = request.getSession();
-
+			int inactivePage=0;
+			try {
+			inactivePage =(int) session1.getAttribute("inactivePage");
+			}catch (Exception e) {
+				inactivePage=0;
+			}
 			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
@@ -760,7 +765,9 @@ int periodicityId=0;
 
 			redirect = "redirect:/manualTaskList";
 			// "redirect:/communication?taskId=" + taskId;
-
+if(inactivePage==1) {
+	redirect = "redirect:/inactiveTaskList";
+}
 		} catch (Exception e) {
 			System.err.println("Exce in updateTaskStatus " + e.getMessage());
 			e.printStackTrace();
@@ -887,7 +894,7 @@ int periodicityId=0;
 			try {
 			 mnghr1 = HoursConversion.convertHoursToMin(mnghr);
 			}catch (Exception e) {
-				
+				mnghr1="0";
 			}
 			String emphr1 = HoursConversion.convertHoursToMin(emphr);
 			// System.out.println("mnghr1" + mnghr1);

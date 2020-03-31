@@ -120,8 +120,8 @@ h5 {
 								<div class="col-lg-3">
 
 									<select data-placeholder="Select Employee" name="empId"
-										id="empId" class="form-control form-control-sm select"
-										data-container-css-class="select-sm" data-fouc>
+										id="empId"  class="form-control form-control-select2 select2-hidden-accessible"
+										data-fouc="" aria-hidden="true">
 										<!-- <option value="">Select Employee</option> -->
 										
 										<%-- <c:choose>

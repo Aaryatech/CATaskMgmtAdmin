@@ -178,8 +178,15 @@ h5 {
 						<div class="card-body">
 							<div class="form-group row">
 
-								<label class="col-form-label col-lg-2" for="startDate">Financial Year
-									2021-22</label>
+								<label class="col-form-label col-lg-2 u" style="font-style: italic;" for="startDate">Financial Year
+									${finYear.finYearName}</label>
+									
+										<div id="loader1" style="display: none;z-index:99999; padding-top: 30px;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: 250px; margin-right: auto">
+						</div>
 								<!-- <div class="col-lg-4">2021-22
 									<input type="text" class="form-control datepickerclass1"
 										name="workDate" id="workDate" placeholder="Task Work Date"
@@ -242,9 +249,8 @@ h5 {
 											<td>${dataList.custFirmName}&nbsp;&nbsp;</td>
 											
 											<td>
-											
 											<a href="#"
-											onclick="showEditTask(${dataList.mappingId},'${dataList.actvManBudgHr}','${dataList.actvEmpBudgHr}',${dataList.actvStatutoryDays},${dataList.actvBillingAmt})" title="Edit"><i
+											onclick="showEditTask(${dataList.mappingId},'${dataList.actvManBudgHr}','${dataList.actvEmpBudgHr}',${dataList.actvStatutoryDays},${dataList.actvBillingAmt},'${dataList.custFirmName}','${dataList.actiName}')" title="Edit"><i
 												class="icon-pencil7" style="color: red;"
 												data-toggle="modal" data-target="#modal_edit"></i>${dataList.actiName}</a></td>
 													<td><input type="checkbox"
@@ -282,14 +288,16 @@ h5 {
 					
 
 							<div class="modal-header bg-success">
-								<h5 class="modal-title">Edit Mapping</h5>
+								<h5 class="modal-title">Edit Mapping</h5> &nbsp;&nbsp;
+								<h6 style="color: brown"
+								 id="custName"> </h6> -- &nbsp;&nbsp;
+								<h6  style="color: brown" id="actiName"> </h6>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
 							<div class="modal-body">
 
 								<!-- <form action="submitUpdatedTask" method="post"> -->
-								<input type="hidden" id="taskId1" name="taskId1" value=0>
 								
 								<div class="form-group row">
 									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
@@ -297,7 +305,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control" data-mask="999:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr" 
+											name="edit_mngrtime" 
 											autocomplete="off">
 									</div>
 
@@ -308,7 +316,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" data-mask="999:99" class="form-control"
 											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-											 name="empBudHr"
+											 name="edit_emptime"
 											autocomplete="off">
 									</div>
 
@@ -342,9 +350,9 @@ h5 {
 
 										</div>
 									
-
+<input type="hidden" id="mappingId" name="mappingId" value="0">
 								 <div class="modal-footer">
-										<button type="button" class="btn bg-primary" onclick="submitResponse()">Save
+										<button type="button" id="editMapSaveButton" class="btn bg-primary" onclick="saveEditeMapping()">Save
 											Changes</button><button type="button" class="btn btn-link"
 											data-dismiss="modal">Close</button>
 										
@@ -356,11 +364,12 @@ h5 {
 					
 				</div>
 				<!-- /Task Edit Log modal -->
-				
+				<span class="validation-invalid-label" id="error_chk1"
+									style="display: none;">Please select some Activities.</span>
 					<div style="text-align: center;">
-								<input type="button" class="btn btn-primary" value="Generate Yearly Tasks"
+								<input type="button" class="btn btn-primary" value="Generate Tasks"
 									id="genYearlyTaskBtn"
-									style="align-content: center; width: 113px; margin-left: 40px;">
+									style="align-content: center; width: 130px; margin-left: 20px;">
 							</div>
 							<br/>
 </form>
@@ -382,13 +391,38 @@ h5 {
 	<!-- /page content -->
 	<script type="text/javascript">
 	
-	function showEditTask(mappingId,actvManBudgHr,actvEmpBudgHr,actvStatutoryDays,actvBillingAmt){
+	function showEditTask(mappingId,actvManBudgHr,actvEmpBudgHr,actvStatutoryDays,actvBillingAmt,custName,actiName){
 		//alert("mappingId"+mappingId);
 		document.getElementById("edit_emptime").value=actvEmpBudgHr;
 		document.getElementById("edit_mngrtime").value=actvManBudgHr;
 		document.getElementById("bilAmt").value=actvBillingAmt;
 		document.getElementById("due_Days").value=actvStatutoryDays;
+		document.getElementById("mappingId").value=mappingId;
+		//document.getElementById("custName").value=custName;
+		//document.getElementById("actiName").value=actiName;
+		document.getElementById("custName").innerHTML=custName;
+		document.getElementById("actiName").innerHTML=actiName;
+
 		
+	}
+	function saveEditeMapping(){
+		$("#loader1").show();
+	     $(':input[type="button"]').prop('disabled', true);
+
+	$.ajax({
+	       type: "POST",
+	            url: "${pageContext.request.contextPath}/saveEditeMapping",
+	            data: $("#submitGenTaskForm").serialize(),
+	            dataType: 'json',
+	    success: function(data){
+	    	//alert(data);
+	    	$("#loader1").hide();
+	    	window.location.reload(true);
+	    }
+	    }).done(function() {
+	    	$("#loader1").hide();
+	    	window.location.reload(true);
+	    });
 	}
 	</script>
 	<script type="text/javascript">
@@ -401,10 +435,12 @@ h5 {
 
 												var checked = $("#submitGenTaskForm input:checked").length > 0;
 												if (!checked) {
-													$("#error_chk").show()
+													$("#error_chk").show();
+													$("#error_chk1").show();
 													isError = true;
 												} else {
-													$("#error_chk").hide()
+													$("#error_chk").hide();
+													$("#error_chk1").hide();
 													isError = false;
 												}
 												//alert("checked" +checked);

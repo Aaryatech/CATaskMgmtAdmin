@@ -4,8 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+
+<script
+	src="${pageContext.request.contextPath}/resources/assets/js/jquery.popupoverlay.js"></script>
 
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/components_modals.js"></script>
@@ -100,6 +104,8 @@ h5 {
 	right: 1.25rem;
 	top: 1rem;
 }
+
+
 </style>
 </head>
 
@@ -269,12 +275,21 @@ h5 {
 				</div> -->
 
 				<!-- Remote source -->
-				<div id="modal_remote" class="modal" tabindex="-1">
-					<div class="modal-dialog modal-full">
-						<div class="modal-content">
+<!-- 				<div id="modal_remote" class="modal" tabindex="-1">
+ -->					
+     <div id="basic" class="well">
+ 
+<!--  <div class="modal-dialog modal-full">
+ -->		
+ 
+  <div class="">
+ 
+ 				<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Filter</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								      <button class="basic_close btn btn-default">Close</button>
+								
 							</div>
 
 							<div class="modal-body">
@@ -282,19 +297,19 @@ h5 {
 
 									<div class="form-group row">
 										<label class="col-form-label col-md-2" for="fromDate">Due
-											Date Range <span style="color: red">* </span>:
+											Date Range :
 										</label>
-										<div class="col-md-8">
+										<div class="col-md-10">
 											<input type="text" class="form-control daterange-basic_new"
 												id="fromDate" name="fromDate">
 										</div>
 									</div>
 
-									<div class="form-group row">
+									<div class="row">
 
 										<label class="col-form-label col-lg-2" for="service">
-											Select Service : </label>
-										<div class="col-lg-3">
+											Service : </label>
+										<div class="col-lg-4">
 											<select name="service" data-placeholder="Select Service"
 												id="service"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -310,8 +325,8 @@ h5 {
 
 
 										<label class="col-form-label col-lg-2" for="activity">
-											Select Activity : </label>
-										<div class="col-lg-3">
+											Activity : </label>
+										<div class="col-lg-4">
 											<select name="activity" data-placeholder="Select Activity"
 												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -324,8 +339,8 @@ h5 {
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-2" for="status">
-											Select Status : </label>
-										<div class="col-lg-3">
+											Status : </label>
+										<div class="col-lg-4">
 											<select name="sts" data-placeholder="Select Status"
 												id="stats"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -340,8 +355,8 @@ h5 {
 										</div>
 
 										<label class="col-form-label col-lg-2" for="customer">
-											Select Customer : </label>
-										<div class="col-lg-3">
+											Customer : </label>
+										<div class="col-lg-4">
 											<select name="custId" data-placeholder="Select Customer"
 												id="custId"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -359,8 +374,11 @@ h5 {
 							</div>
 
 							<div class="modal-footer">
-								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
-								<button type="submit" class="btn bg-primary" id="submtbtn"
+<!-- 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+ -->								
+       <button class="basic_close btn btn-default">Close</button>
+ 
+ <button type="submit" class="btn bg-primary" id="submtbtn"
 									onclick="dataFilter()">Search</button>
 							</div>
 						</div>
@@ -867,10 +885,12 @@ h5 {
 
 									<div class="pr-1 pt-1 fab-menu  fab-menu-absolute1 fab-menu-top-right1"
 										data-toggle="modal" data-target="#modal_remote">
-										<a title="Filter"
+										<!-- <a title="Filter"
 											class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
 											<i class="fab-icon-open icon-filter3"></i>
-										</a>
+										</a> -->
+										    <a class="initialism basic_open" href="#basic">Basic</a>
+										
 									</div>
 								</div>
 								<!-- /basic tables title -->
@@ -1004,6 +1024,11 @@ h5 {
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
 	
+	  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#basic').popup();
+    });
+    </script>
 	
 	<script type="text/javascript">
 var status;
@@ -1100,7 +1125,12 @@ function dataFilter(){
 					function(data) {
 						append(data);
 					});
-	 $("#modal_remote").modal("hide");
+	 //$("#basic").modal("hide");
+	// dataFilter()
+	      //$('#basic').popup();
+	
+	
+
 	// $("#modal_edit").modal("hide");
 	 
 }
@@ -1394,9 +1424,16 @@ function append(data){
  function completeAndDelLink(){
 	var taskId= document.getElementById("task_comp_id").value;
 	var delLink= document.getElementById("del_link").value;
-	
-	
-	
+	var linkOk=0;
+	var mob = /\//i;
+    if (mob.test($.trim(delLink)) == false) {
+alert("Please enter proper link");
+linkOk=0;
+    }else{
+    	linkOk=1;
+}
+	alert(linkOk)
+	if(linkOk==1)
 	$
 	.getJSON(
 			'${getDailyWorkLogCountForTask}',
@@ -1406,6 +1443,9 @@ function append(data){
 			},
 			function(data) {
 				//alert(JSON.stringify(data));
+				
+
+				
 				if(data==0){
 					alert("Please add entry in work log for the selected task")
 				}
@@ -1436,10 +1476,6 @@ function append(data){
 					
 				}//end of else one
 			});
-	
-	
-	
-	
 
  }
 	function setColor()
@@ -1969,7 +2005,7 @@ $('.datepickerclass1').daterangepicker({
 			//applyClass : 'bg-slate-600',
 			 autoApply:true,
 			 opens:'left',
-			 drops:'up', //up
+			 drops:'down', //up
 			cancelClass : 'btn-light',
 			locale : {
 				format : 'DD-MM-YYYY',

@@ -78,6 +78,8 @@
 										<a class="list-icons-item" data-action="collapse"></a>
 									</div>
 								</div> -->
+								
+								
 							</div>
 
 							<div class="card-body">
@@ -125,7 +127,7 @@
 										<label class="col-form-label col-lg-2" for="roleId">Select
 											Access Role <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-10">
+										<div class="col-lg-4">
 											<select name="roleId" data-placeholder="Select Employees"
 												id="roleId" class="form-control form-control-sm select"
 												aria-hidden="true" data-container-css-class="select-sm"
@@ -138,6 +140,17 @@
 											</select> <span class="validation-invalid-label" id="error_roleId"
 												style="display: none;">select access role.</span>
 										</div>
+										
+										<div class="col-lg-6" style="text-align: center;">
+										<input type="hidden" id="roleId" name="roleId" value="0">
+										<button type="submit" class="btn bg-blue ml-3 legitRipple"
+											id="submtbtn">
+											Submit <i class="icon-paperplane ml-2"></i>
+										</button>
+										<a href="${pageContext.request.contextPath}/showCreateRole"><button
+												type="button" class="btn btn-primary">Cancel</button></a>
+
+									</div>
 
 									</div>
 
@@ -156,26 +169,17 @@
 									</div> -->
 
 
-									<div class="col-md-12" style="text-align: center;">
-										<input type="hidden" id="roleId" name="roleId" value="0">
-										<button type="submit" class="btn bg-blue ml-3 legitRipple"
-											id="submtbtn">
-											Submit <i class="icon-paperplane ml-2"></i>
-										</button>
-										<a href="${pageContext.request.contextPath}/showCreateRole"><button
-												type="button" class="btn btn-primary">Cancel</button></a>
-
-									</div>
-									<br>
+									
 	<div class="col-lg-12" align="center">
 									<table
-										class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+										class="table datatable-scroller table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 										id="printtable1">
 										<thead>
 											<tr class="bg-blue">
 												<th width="7%">Sr. No.</th>
 												<th>Employee Name</th>
-												<th width="10%">Role Name</th>
+												<th>Employee Type</th>
+												<th width="10%">Current Role</th>
 
 											</tr>
 										</thead>
@@ -186,8 +190,10 @@
 												<tr>
 													<td style="text-align: center;"><c:out
 															value="${count.index+1}" /></td>
-													<td><c:out value="${empList.empName}" />&nbsp;<input type="checkbox"
-														name="empIds" id="empIds${empList.empId}" class="chk" value="${empList.empId}"></td>
+													<td><input type="checkbox"
+														name="empIds" id="empIds${empList.empId}" class="chk" value="${empList.empId}"> &nbsp;<c:out value="${empList.empName}" />&nbsp;</td>
+																					<td>${empList.empType==1 ? 'Admin': empList.empType==2 ? 'Partner' : empList.empType==3 ? 'Manager' : empList.empType==4 ? 'Team Leader' : empList.empType==5 ? 'Employee' : ''}</td> 
+													
 													<td><c:out value="${empList.exVar2}" /></td>
 												</tr>
 

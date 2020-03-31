@@ -326,7 +326,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="email">Email
-											<span style="color: red">* </span>:
+											<span style="color: red">* </span>: <span style="color: red" > This will be default username to login </span>
 										</label>
 										<div class="col-lg-6">
 										<input type="hidden" class="form-control"

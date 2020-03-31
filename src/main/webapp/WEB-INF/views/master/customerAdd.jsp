@@ -464,7 +464,9 @@
 
 
 									<div class="form-group row mb-0">
-										<div class="col-lg-10 ml-lg-auto">
+									<div class="col-lg-4 ml-lg-auto">
+									</div>
+										<div class="col-lg-4 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
 												id="submtbtn">
@@ -476,6 +478,8 @@
 													Cancel
 												</button></a>
 										</div>
+										<div class="col-lg-3 ml-lg-auto">
+									</div>
 									</div>
 								</form>
 								<p class="desc text-danger fontsize11">Notice : * Fields are

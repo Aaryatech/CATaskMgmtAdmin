@@ -1,5 +1,6 @@
 package com.ats.taskmgmtadmin.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -29,10 +31,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.ExceUtil;
+import com.ats.taskmgmtadmin.common.ExportToExcel;
+
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.common.FormValidation;
@@ -1449,7 +1455,7 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/customerList", method = RequestMethod.GET)
-	public ModelAndView clientListForm(Locale locale, Model model, HttpServletRequest request) {
+	public ModelAndView clientListForm(Locale locale, Model model, HttpServletRequest request,HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("master/customerList");
 		try {
@@ -1491,8 +1497,10 @@ public class MasterMVCController {
 				if (delete.isError() == false) {
 					// System.out.println(" delete Accessable ");
 					mav.addObject("deleteAccess", 0);
-
 				}
+				
+				
+				
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerList " + e.getMessage());
@@ -1582,6 +1590,112 @@ public class MasterMVCController {
 		return redirect;
 	}
 
+	
+	
+	//export to excel
+	@RequestMapping(value = "/custExcel", method = RequestMethod.GET)
+	public void custExcel(HttpServletRequest request, HttpServletResponse response) {
+	CustomerHeaderMaster[] custArr = Constants.getRestTemplate()
+			.getForObject(Constants.url + "/getCustListForExcel", CustomerHeaderMaster[].class);
+			List<CustomerHeaderMaster> custList = new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArr));
+	
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Customer Id");
+			rowData.add("Firm/Customer Name");
+			rowData.add("Owner Partner Id");
+			rowData.add("Owner Partner Name");
+			rowData.add("Group Id");
+			rowData.add("Group Name");
+			rowData.add("Assesse Name");
+			rowData.add("PAN No");
+			rowData.add("Email Id");
+			rowData.add("Phone No");
+			rowData.add("Address 1");
+			rowData.add("Address 2");
+			rowData.add("City");
+			rowData.add("Pincode");
+			
+			rowData.add("Business Nature");
+			rowData.add("Folder Id");
+			rowData.add("File No");
+			
+			rowData.add("DOB");
+			rowData.add("Aadhar No");
+			rowData.add("Is Active ?");
+			
+			
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+
+			for (int i = 0; i < custList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+
+				rowData.add("" + (i + 1));
+
+				rowData.add("" + custList.get(i).getCustId());
+				rowData.add("" + custList.get(i).getCustFirmName());
+				rowData.add("" + custList.get(i).getOwnerEmpId());
+				rowData.add("" + custList.get(i).getExVar2());//owner name
+
+				rowData.add("" + custList.get(i).getCustGroupId());
+				rowData.add("" + custList.get(i).getExVar1());//group name
+			    rowData.add("" + custList.get(i).getCustAssesseeName());
+				rowData.add("" + custList.get(i).getCustPanNo());
+				rowData.add("" + custList.get(i).getCustEmailId());
+				
+				 rowData.add("" + custList.get(i).getCustPhoneNo());
+					rowData.add("" + custList.get(i).getCustAddr1());
+					rowData.add("" + custList.get(i).getCustAddr2());
+					
+					rowData.add("" + custList.get(i).getCustCity());
+					rowData.add("" + custList.get(i).getCustPinCode());
+					rowData.add("" + custList.get(i).getCustBusinNatute());
+					rowData.add("" + custList.get(i).getCustFolderId());
+					rowData.add("" + custList.get(i).getCustFileNo());
+					
+					rowData.add("" + custList.get(i).getCustDob());
+					rowData.add("" + custList.get(i).getCustAadhar());
+					rowData.add("" + custList.get(i).getIsActive());
+
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+			}
+			XSSFWorkbook wb = null;
+			try {
+
+				// System.out.println("Excel List :" + exportToExcelList.toString());
+				String rep = "Customer Master";
+				System.err.println("rep  " + rep);
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+				// String excelName = (String) session.getAttribute("excelName");
+				wb = ExceUtil.createWorkbook(exportToExcelList, rep, " ",
+						"Export Time " + date + " ", "  ", 'D');
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				response.setHeader("Content-disposition",
+						"attachment; filename=" + rep + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					try {
+						wb.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+	}
 	@RequestMapping(value = "/editCust", method = RequestMethod.GET)
 	public ModelAndView editCust(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
@@ -2248,5 +2362,42 @@ public class MasterMVCController {
 		return count;
 
 	}
+	//27-03-2020
+//getCustListByGrpId
+	
+	@RequestMapping(value = "/getCustListByGrpId", method = RequestMethod.GET)
+	public ModelAndView getCustListByGrpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 
+		ModelAndView mav = null;
+		try {
+			mav = new ModelAndView("master/custListByGrpId");
+
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("customerList", "customerList", "1", "0", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav = new ModelAndView("accessDenied");
+
+			} else {
+				int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("custGrpId", custGrpId);
+				CustomerHeaderMaster[] custArray = Constants.getRestTemplate().postForObject(Constants.url + "/getCustomerByGroupId", map,
+						CustomerHeaderMaster[].class);
+				
+				List<CustomerHeaderMaster> custList=new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArray)); 
+				mav.addObject("custHeadList", custList);
+
+			}
+		} catch (Exception e) {
+			System.err.println("Exce in getCustListByGrpId " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+
+	
 }

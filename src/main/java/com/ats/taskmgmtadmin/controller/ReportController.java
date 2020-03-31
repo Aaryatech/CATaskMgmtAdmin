@@ -686,6 +686,8 @@ public class ReportController {
 
 	}
 
+	//Declined task report Sachin 28-03-2020
+
 	@RequestMapping(value = "/showInactiveTaskReportForManagerForm", method = RequestMethod.GET)
 	public String showInactiveTaskReportForManagerForm(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session, Model model) {
@@ -737,11 +739,13 @@ public class ReportController {
 
 		return mav;
 	}
+	
+	//Declined task report
 
 	@RequestMapping(value = "/showInactiveTaskRepForManager", method = RequestMethod.GET)
 	public void showInactiveTaskRep(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Inactive Task";
+		String reportName = "Declined Task";
 
 		try {
 			HttpSession session = request.getSession();

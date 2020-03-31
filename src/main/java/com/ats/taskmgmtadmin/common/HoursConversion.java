@@ -8,7 +8,12 @@ public class HoursConversion {
 		try {
 			int minutes=0;
 			String[] result = str.split(":");
-			int hours = Integer.parseInt(result[0]);
+			int hours=0;
+			try {
+			 hours = Integer.parseInt(result[0]);
+			}catch (Exception e) {
+				hours=0;
+			}
 			try {
 			 minutes = Integer.parseInt(result[1]);
 			}catch (Exception e) {
