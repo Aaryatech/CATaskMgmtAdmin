@@ -6,7 +6,13 @@
 <head>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
+<style>
 
+.btn{
+max-height: 38px !important;
+}
+
+</style>
 
 </head>
 
@@ -123,7 +129,7 @@
 								<label class="col-form-label col-lg-2" for="monthyear">Select
 									Date <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"
 										id="yearrange" name="yearrange" value="${yearrange}">
 								</div>
@@ -132,11 +138,11 @@
 								<label class="col-form-label col-lg-2" for="employee">
 									Employee <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 
 									<select data-placeholder="Select Employee" name="empId"
-										id="empId" class="form-control form-control-sm select"
-										data-container-css-class="select-sm" data-fouc>
+										id="empId" class="form-control form-control-select2 select2-hidden-accessible"
+												data-fouc="" aria-hidden="true" style="width: 100%;">
 										<option value="">Select Employee</option>
 										
 										<c:choose>
@@ -169,24 +175,25 @@
 								</div>
 
 
-							</div>
-							<div class="form-group row">
+							<!-- </div>
+							<div class="form-group row"> -->
 
-								<div class="col-lg-1"></div>
+								<!-- <div class="col-lg-1"></div> -->
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Search</button>
+<a href="${pageContext.request.contextPath}/showEmpAndMngPerformanceRep?fromDate=${fromDate}&toDate=${toDate}&emps=${emps}"><button
+										type="button" id="excel" class="btn bg-blue ml-3 legitRipple ">Excel
 
-								<div class="col-lg-1"></div>
-								<a
-									href="${pageContext.request.contextPath}/showEmpAndMngPerformanceRep?fromDate=${fromDate}&toDate=${toDate}&emps=${emps}"><button
-										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
+								<div class="col-lg-1"></div>
+								
 							</div>
 
 
 
 							<div class="table-responsive">
-								<table class="table" id="capTable">
+								<table 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+ id="capTable">
 									<thead>
 
 										<tr class="bg-blue">
@@ -213,9 +220,14 @@
 											
 											<td>${progList.budgetedCap}</td>
 											
-											<td><a
-												href="showMangPerfHeadListDetailForm?fromDate=${fromDate}&toDate=${toDate}&empId=${progList.empId}"
-												title="Task List"><i class="icon-list"
+											<td>
+											
+<a href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${progList.empId}&empType=${progList.empType}" title="View in Excel" target="_blank"><i
+										  id="excel"  class="far fa-file-excel mr-2 ml-2 fa-1x" style="color:green">
+									</i></a>&nbsp;
+											<a
+												href="showMangPerfHeadListDetailForm?fromDate=${fromDate}&toDate=${toDate}&empId=${progList.empId}&empType=${progList.empType}"
+												title="Task List" target="_blank"><i class="icon-list"
 													style="color: black;"></i> </a></td>
 
 

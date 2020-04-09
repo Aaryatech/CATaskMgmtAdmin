@@ -216,7 +216,7 @@
 													<tr>
 
 														<td></td>
-														<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${subModuleList.subModulName}</td>
+														<td><input type="checkbox"  onclick="row_level(1,${subModuleList.subModuleId},${subModuleList.moduleId})"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${subModuleList.subModulName}</td>
 														<td style="text-align: center;"><input
 															type="checkbox"
 															id="${subModuleList.subModuleId}view${subModuleList.moduleId}"
@@ -295,7 +295,6 @@
 	<script>
 			function checkSubmodule(moduleId) {
 				
-				 
 				$.getJSON('${getSubmoduleList}', {
 					moduleId : moduleId,
 					ajax : 'true',
@@ -383,6 +382,47 @@
 							  
 			}
 			
+			function row_level(type1,subModuleId,moduleId){
+					 if(document.getElementById(subModuleId+"view"+moduleId).checked == true){
+						 document.getElementById(subModuleId+"view"+moduleId).checked = false;
+
+						 document.getElementById(subModuleId+"view"+moduleId).value=1;
+						 
+					 }else{
+						 document.getElementById(subModuleId+"view"+moduleId).checked = true;
+						 document.getElementById(subModuleId+"view"+moduleId).value=0;
+
+					 }
+					
+					 if(document.getElementById(subModuleId+"add"+moduleId).checked == true){
+					 	document.getElementById(subModuleId+"add"+moduleId).value=1;
+					 	document.getElementById(subModuleId+"add"+moduleId).checked = false;
+					 }else{
+						 document.getElementById(subModuleId+"add"+moduleId).value=0;
+						 	document.getElementById(subModuleId+"add"+moduleId).checked = true;
+					 }
+					 if(document.getElementById(subModuleId+"edit"+moduleId).checked == true){
+						 document.getElementById(subModuleId+"edit"+moduleId).value=1;
+						 document.getElementById(subModuleId+"edit"+moduleId).checked = false;
+					 }else{
+						 
+						 document.getElementById(subModuleId+"edit"+moduleId).value=0;
+						 document.getElementById(subModuleId+"edit"+moduleId).checked = true;
+					 }
+					 
+					 
+					 if(document.getElementById(subModuleId+"delete"+moduleId).checked == true){
+						 
+						 document.getElementById(subModuleId+"delete"+moduleId).value=1;
+						 document.getElementById(subModuleId+"delete"+moduleId).checked = false;
+						 
+					 }else{
+						 
+						 document.getElementById(subModuleId+"delete"+moduleId).value=0;
+						 document.getElementById(subModuleId+"delete"+moduleId).checked = true;
+
+				 } 
+			}
 		</script>
 
 	<script>

@@ -573,8 +573,8 @@ public class AccessRightController {
 	@RequestMapping(value = "/showAssignRole", method = RequestMethod.GET)
 	public ModelAndView showAssignRloe(HttpServletRequest request, HttpServletResponse response) {
 
-		ModelAndView model = new ModelAndView("acc_right/assignRole");
-
+		ModelAndView model = new ModelAndView("acc_right/ass_role_test");
+//ass_role_test/assignRole
 		try {
 			model.addObject("title", "Assign Role");
 

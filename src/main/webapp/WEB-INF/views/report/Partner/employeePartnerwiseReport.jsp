@@ -66,7 +66,7 @@ h5 {
 
 
 
-				<style type="text/css">
+<!-- 				<style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -78,7 +78,7 @@ h5 {
 .datatable-header {
 	display: none;
 }
-</style>
+</style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Employee Partner Grid Report</h5>
@@ -90,15 +90,15 @@ h5 {
 							id="submitInsertActivity" method="get">
 
 							<div class="form-group row">
-								<label class="col-form-label col-lg-1" for="monthyear">Select
+								<label class="col-form-label col-lg-1" for="monthyear">
 									Date <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"
 										id="monthyear" name="monthyear" value="${fromDate}">
 								</div>
-								<div class="col-lg-1"></div>
-								<label class="col-form-label col-lg-2" for="partnerType">Select
+								<!-- <div class="col-lg-1"></div> -->
+								<label class="col-form-label col-lg-2" for="partnerType">
 									Parter Filter<span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-2">
@@ -119,14 +119,15 @@ h5 {
 
 									</select>
 								</div>
-								<div class="col-lg-1"></div>
-								<button type="submit" class="btn bg-blue ml-3 legitRipple"
+								<div class="col-lg-3">
+								<button type="submit" class="btn bg-blue ml-1 legitRipple"
 									id="submtbtn">Search</button>
-									<div class="col-lg-1"></div>
+								<!-- 	<div class="col-lg-1"></div> -->
 									<a
 									href="${pageContext.request.contextPath}/showEmployeePartnerGrid?fromDate=${fromDate}&partner=${partnerType}"><button
-										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
+										type="button" id="excel" class="btn bg-blue ml-1 legitRipple">Excel
 									</button></a>
+									</div>
 
 							</div>
 
@@ -139,7 +140,7 @@ h5 {
 							</div>
 						</form>
 						<div class="table-responsive">
-							<table class="table" id="capTable">
+							<table  class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1" id="capTable">
 								<thead>
 									<tr class="bg-blue">
 

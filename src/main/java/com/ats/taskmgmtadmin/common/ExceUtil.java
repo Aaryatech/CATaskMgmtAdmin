@@ -1,5 +1,6 @@
 package com.ats.taskmgmtadmin.common;
 
+import java.awt.Color;
 import java.io.IOException;
 
 
@@ -61,10 +62,10 @@ public class ExceUtil {
 	        style2.setWrapText(true);
 	        //style.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
 	        Font font = wb.createFont();
-	        font.setFontHeightInPoints((short)12);
+	        font.setFontHeightInPoints((short)18);
 	        font.setUnderline(HSSFFont.U_SINGLE);
 
-	        font.setFontName("Times Roman");
+	        font.setFontName("Calibri (body)");
 	       
 	        style2.setFont(font);
 	        Cell titleCell2 = titleRow2.createCell(0);
@@ -78,8 +79,15 @@ public class ExceUtil {
 		    style3.setAlignment(CellStyle.ALIGN_LEFT);
 		    style3.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		    
+		    font = wb.createFont();
+	        font.setFontHeightInPoints((short)14);
+
+	        font.setFontName("Calibri (body)");
+	        style3.setFont(font);
+	        style3.setWrapText(true);
+
 	        Row titleRow3 = sheet.createRow(2);
-	        titleRow3.setHeightInPoints(20);
+	        titleRow3.setHeightInPoints(30);
 	        titleRow3.setRowStyle(style3);
 	        
 	        Cell titleCell3 = titleRow3.createCell(0);
@@ -89,18 +97,30 @@ public class ExceUtil {
 	        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$3:$"+endChar+"$3"));
 	       
      
-         System.err.println("Excel size  " +exportToExcelList.size());
+       //  System.err.println("Excel size  " +exportToExcelList.size());
          CellStyle cellStyle=wb.createCellStyle();
+		
+		/*
+		 * cellStyle.setBorderBottom(CellStyle.BORDER_THIN); Font font1 =
+		 * wb.createFont(); font1.setFontHeightInPoints((short)12);
+		 * font1.setFontName("Calibri (body)");
+		 * 
+		 * cellStyle.setFont(font1);
+		 */
+		 
 		for (int rowIndex = 0; rowIndex < exportToExcelList.size(); rowIndex++) {
 			XSSFRow row = sheet.createRow(rowIndex+3);
 			for (int j = 0; j < exportToExcelList.get(rowIndex).getRowData().size(); j++) {
 
 				XSSFCell cell = row.createCell(j);
+	               //cell.setCellStyle(cellStyle);
 
 				//cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
 				
 				try 
 			       { 
+					//System.err.println("value ="+exportToExcelList.get(rowIndex).getRowData().get(j));
+					
 			           // checking valid integer using parseInt() method 
 			          int value=Integer.parseInt(exportToExcelList.get(rowIndex).getRowData().get(j)); 
 			           cell.setCellValue(value);
@@ -123,8 +143,11 @@ public class ExceUtil {
 			            } 
 			              
 			       } 
-				if ((rowIndex+3) == 3)
-		           cell.setCellStyle(createHeaderStyleNew(wb));  
+				if ((rowIndex+3) == 3) {
+		           cell.setCellStyle(createHeaderStyleNew(wb));
+				}else {
+					cell.setCellStyle(createHeaderStyleForDataRows(wb));
+				}
 			}
 			
 		}
@@ -141,7 +164,7 @@ public class ExceUtil {
 	        titleCell4.setCellValue(reportSummary);//Need Dynamic
 	      
 	        String s= "$A$"+cellNum+":$"+endChar+"$"+cellNum;
-	        sheet.addMergedRegion(CellRangeAddress.valueOf(s));
+	       // sheet.addMergedRegion(CellRangeAddress.valueOf(s));
 	       
 		return wb;
 	}
@@ -183,10 +206,9 @@ public class ExceUtil {
 	        style.setBorderTop(CellStyle.BORDER_THIN);
 	        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
 	        style.setDataFormat(1);
-	       
 	        org.apache.poi.ss.usermodel.Font font =workbook.createFont();
-	        font.setFontName("Times New Roman");
-	        font.setFontHeightInPoints((short)12);
+	        font.setFontName("Calibri (body)");
+	        font.setFontHeightInPoints((short)14);
 	       
 	        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 	        font.setBold(true);
@@ -196,4 +218,30 @@ public class ExceUtil {
 	        return style;
 	    }
 
-}
+	
+	public static XSSFCellStyle createHeaderStyleForDataRows(XSSFWorkbook workbook) {
+        XSSFCellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+       // style.setFillForegroundColor(new XSSFColor(new java.awt.Color(247, 161, 103)));
+        
+
+
+
+        style.setBorderRight(CellStyle.BORDER_THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(CellStyle.BORDER_THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderLeft(CellStyle.BORDER_THIN);
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(CellStyle.BORDER_THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+       // style.setDataFormat(1);
+        org.apache.poi.ss.usermodel.Font font =workbook.createFont();
+        font.setFontName("Calibri (body)");
+        font.setFontHeightInPoints((short)12);
+       
+        style.setFont(font);
+ 
+        return style;
+    }
+	}

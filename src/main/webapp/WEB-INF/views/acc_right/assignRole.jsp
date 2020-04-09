@@ -124,11 +124,12 @@
 									id="assignTask" method="post">
 
 									<div class="form-group row">
+									
 										<label class="col-form-label col-lg-2" for="roleId">Select
 											Access Role <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-4">
-											<select name="roleId" data-placeholder="Select Employees"
+										<div class="col-lg-2">
+											<select name="roleId" data-placeholder="Select Role"
 												id="roleId" class="form-control form-control-sm select"
 												aria-hidden="true" data-container-css-class="select-sm"
 												data-fouc>
@@ -141,7 +142,7 @@
 												style="display: none;">select access role.</span>
 										</div>
 										
-										<div class="col-lg-6" style="text-align: center;">
+										<div class="col-lg-4" style="text-align: center;">
 										<input type="hidden" id="roleId" name="roleId" value="0">
 										<button type="submit" class="btn bg-blue ml-3 legitRipple"
 											id="submtbtn">

@@ -73,6 +73,9 @@
 h5 {
 	margin-bottom: 0;
 }
+.btn{
+max-height: 38px !important;
+}
 </style>
 
 
@@ -82,7 +85,7 @@ h5 {
 
 
 
-				<style type="text/css">
+<!-- 				<style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -94,13 +97,15 @@ h5 {
 .datatable-header {
 	display: none;
 }
-</style>
+</style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Employee Manager Performance Detail
-							Report</h5>
+							Report -<c:if test="${empType==5}">
+							${perfList[0].employee}</c:if> <c:if test="${empType==3}">
+							${perfList[0].manager}</c:if> </h5>
 						<a
-							href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
+							href="${pageContext.request.contextPath}/showMangPerfHeadListDetail?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}&empType=${empType}"><button
 								type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 							</button></a>
 					</div>
@@ -121,10 +126,8 @@ h5 {
 
 
 						<div class="table-responsive">
-							<table class="table" id="capTable">
+							<table  class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"  id="capTable">
 								<thead>
-
-
 									<tr class="bg-blue">
 										<th>Sr.No.</th>
 										<th>Task Text</th>
@@ -134,13 +137,16 @@ h5 {
 										<th>Task/ Periodicity</th>
 										<th>Owner Partner</th>
 										<th>Execution Partner</th>
-										<th>Employee Name</th>
+										<c:if test="${empType==5}">
+										<th>Employee Name</th></c:if>
+										<c:if test="${empType==3}">
+										<th>Manager Name</th></c:if>
 										<th>TL Name</th>
 										<th>Due Date</th>
 										<th>Work Date</th>
 										<th>Status</th>
 										<th>Completion Date</th>
-										<th>Emp Budgeted Hrs</th>
+										<th>Budgeted Hrs</th>
 										<th>Emp hrs for selected period</th>
 										<th>Actual Till Date</th>
 										<th>Google Drive Link</th>
@@ -167,7 +173,12 @@ h5 {
 											<td>${cmpTaskList.periodicityName}</td>
 											<td>${cmpTaskList.ownerPartner}</td>
 											<td>${cmpTaskList.partner}</td>
+											<c:if test="${empType==5}">
 											<td>${cmpTaskList.employee}</td>
+											</c:if>
+												<c:if test="${empType==3}">
+											<td>${cmpTaskList.manager}</td>
+											</c:if>
 											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
 											<td>${cmpTaskList.taskEndDate}</td>
@@ -177,10 +188,17 @@ h5 {
 											<c:set var="compDate" value="${cmpTaskList.taskCompletionDate}"></c:set>
 											</c:if>
 											<td>${compDate}</td>
-											
+											<c:if test="${empType==5}">
 											<td>${cmpTaskList.empBudHr}</td>
 											<td>${cmpTaskList.empBetHrs}</td>
 											<td>${cmpTaskList.employeeHrs}</td>
+											</c:if>
+											
+											<c:if test="${empType==3}">
+											<td>${cmpTaskList.mngrBudHr}</td>
+											<td>${cmpTaskList.managerBetHrs}</td>
+											<td>${cmpTaskList.managerHrs}</td>
+											</c:if>
 											<td>${cmpTaskList.exVar1}</td>
 											
 											<%-- <td>${cmpTaskList.teamLeaderHrs}</td>

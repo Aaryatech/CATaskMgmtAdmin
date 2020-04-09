@@ -82,7 +82,7 @@ h5 {
 
 
 
-				<style type="text/css">
+				<!-- <style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -94,10 +94,10 @@ h5 {
 .datatable-header {
 	display: none;
 }
-</style>
+</style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Employee & Manager Performance Report</h5>
+						<h5 class="card-title">Employee & Manager Performance Report Detail</h5>
 
 					</div>
 					<div class="card-body">
@@ -109,7 +109,7 @@ h5 {
 								<label class="col-form-label col-lg-2" for="monthyear">Select
 									Date <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"
 										id="monthyear" name="monthyear"  value="${yearrange}">
 								</div>
@@ -117,7 +117,7 @@ h5 {
 								<label class="col-form-label col-lg-2" for="employee">
 									Employee <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 
 									<select data-placeholder="Select Employee" name="empId"
 										id="empId"  class="form-control form-control-select2 select2-hidden-accessible"
@@ -151,14 +151,14 @@ h5 {
 
 									</select>
 </div>
-								</div>
+								<!-- </div>
 
-									<div class="form-group row">
-									<div class="col-lg-1"></div>
+									<div class="form-group row"> -->
+									<!-- <div class="col-lg-1"></div> -->
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 										id="submtbtn">Search</button>
 	
-									<div class="col-lg-1"></div>
+									<!-- <div class="col-lg-1"></div> -->
 									<a
 										href="${pageContext.request.contextPath}/showEmpMngrPerfrmncRep?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
 											type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
@@ -180,10 +180,10 @@ h5 {
 							</div>
 						</form>
 
-
+<span style="color: green">This report for completed tasks between selected range and employee/manager contribution   </span>:
 
 						<div class="table-responsive">
-							<table class="table" id="capTable">
+							<table  class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"  id="capTable">
 								<thead>
 									<tr class="bg-blue">
 										<th>Sr.No.</th>
@@ -197,8 +197,8 @@ h5 {
 										<th>TL Name</th>
 										<th>Due Date</th>
 										<th>Completion Date</th>
-										<th>Employee Budgeted Hrs</th>
-										<th>Total Hrs Employee</th>
+										<th>Budgeted Hrs</th>
+										<th>Total Hrs</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -211,13 +211,18 @@ h5 {
 											<td>${cmpTaskList.custFirmName}</td>
 											<td>${cmpTaskList.servName}</td>
 											<td>${cmpTaskList.actiName}</td>
-											<td>${cmpTaskList.taskText} / ${cmpTaskList.periodicityName}</td>
+											<td>${cmpTaskList.periodicityName}</td>
 											<td>${cmpTaskList.partner}</td>
 											<td>${cmpTaskList.manager}</td>
 											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
-											<td>${cmpTaskList.taskEndDate}</td>
+											<td>${cmpTaskList.taskStartDate}</td>
+											<c:if test="${searchedEmpType==5}">
 											<td>${cmpTaskList.empBudHr}</td>
+											</c:if>
+											<c:if test="${searchedEmpType==3}">
+											<td>${cmpTaskList.mngrBudHr}</td>
+											</c:if>
 											<td>${cmpTaskList.workHours}</td>
 										</tr>
 									</c:forEach>

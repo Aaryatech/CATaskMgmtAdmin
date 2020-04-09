@@ -2,7 +2,6 @@ package com.ats.taskmgmtadmin.controller;
 
 import java.text.DateFormat;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +75,7 @@ public class TaskController {
 	String curDateTime = dateFormat.format(cal.getTime());
 	String redirect;
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
 	@RequestMapping(value = "/assignTask", method = RequestMethod.GET)
 	public ModelAndView assignTask(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
@@ -82,6 +83,8 @@ public class TaskController {
 
 		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
 		Info view = AccessControll.checkAccess("assignTask", "assignTask", "1", "0", "0", "0", newModuleList);
+		
+		 List<ServiceMaster> srvcMstrList = new ArrayList<>();
 		try {
 
 			if (view.isError() == true) {
@@ -90,30 +93,53 @@ public class TaskController {
 
 			} else {
 				mav = new ModelAndView("task/assigntask");
-				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
-				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
-				mav.addObject("serviceList", srvcMstrList);
 
-				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
-				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
-
-				mav.addObject("custList", custHeadList);
+				/*
+				 * ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+				 * .getForObject(Constants.url + "/getAllEnrolledServices",
+				 * ServiceMaster[].class); List<ServiceMaster> srvcMstrList = new
+				 * ArrayList<>(Arrays.asList(srvsMstr)); mav.addObject("serviceList",
+				 * srvcMstrList);
+				 */
+				/*
+				 * CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+				 * .getForObject(Constants.url + "/getAllCustomerInfo",
+				 * CustomerDetails[].class); List<CustomerDetails> custHeadList = new
+				 * ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+				 * 
+				 * mav.addObject("custList", custHeadList);
+				 */
 
 				String custId = "0";
 				String servId = "0";
-int periodicityId=0;
+				int periodicityId = 0;
 				if (request.getParameter("customer") != "" && request.getParameter("customer") != null) {
 					custId = request.getParameter("customer");
 					try {
-						periodicityId=Integer.parseInt(request.getParameter("periodicityId"));
-					}catch (Exception e) {
-						periodicityId=0;
+						periodicityId = Integer.parseInt(request.getParameter("periodicityId"));
+					} catch (Exception e) {
+						periodicityId = 0;
 					}
 				} else {
 					custId = "0";
 				}
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+				map.add("periodId", periodicityId);
+
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getCustByPeriodcityId",map, CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+				mav.addObject("custList", custHeadList);
+				
+				//if (periodicityId != 0) {
+					  map = new LinkedMultiValueMap<>();
+					map.add("periodcityId", periodicityId);
+					ServiceMaster[] srvsMstr = Constants.getRestTemplate().postForObject(Constants.url + "/getServicesByPeriodId",
+							map,ServiceMaster[].class);
+					srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+					mav.addObject("serviceList", srvcMstrList);
+				//}
 
 				if (request.getParameter("service") != "" && request.getParameter("service") != null) {
 					servId = request.getParameter("service");
@@ -124,7 +150,7 @@ int periodicityId=0;
 				mav.addObject("custId", custId);
 				mav.addObject("perdId", periodicityId);
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map = new LinkedMultiValueMap<>();
 				map.add("stat", 0);
 				map.add("servId", Integer.parseInt(servId));
 				map.add("custId", Integer.parseInt(custId));
@@ -143,7 +169,7 @@ int periodicityId=0;
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
-				
+
 				DevPeriodicityMaster[] priodArr = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllPeriodicityDurations", DevPeriodicityMaster[].class);
 				List<DevPeriodicityMaster> periodList = new ArrayList<DevPeriodicityMaster>(Arrays.asList(priodArr));
@@ -156,6 +182,32 @@ int periodicityId=0;
 		}
 
 		return mav;
+	}
+
+	// Sachin 31-03-2020 get Service and Cust  List by PeriodId
+	@RequestMapping(value = "/getServicesandCustByPeriodId", method = RequestMethod.GET)
+	public @ResponseBody DataTransfrerClass getServicesByPeriodId(HttpServletRequest request,
+			HttpServletResponse response) {
+		DataTransfrerClass dtc=new DataTransfrerClass();
+		
+		int periodicityId = Integer.parseInt(request.getParameter("periodcityId"));
+		List<ServiceMaster> serviceList = new ArrayList<ServiceMaster>();
+
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("periodcityId", periodicityId);
+		ServiceMaster[] holListArray = Constants.getRestTemplate()
+				.postForObject(Constants.url + "/getServicesByPeriodId", map, ServiceMaster[].class);
+		serviceList = new ArrayList<>(Arrays.asList(holListArray));
+		map = new LinkedMultiValueMap<>();
+		map.add("periodId", periodicityId);
+
+		CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+				.postForObject(Constants.url + "/getCustByPeriodcityId",map, CustomerDetails[].class);
+		List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+		dtc.setCustList(custHeadList);
+		dtc.setServList(serviceList);
+		return dtc;
 	}
 
 	/*
@@ -342,13 +394,13 @@ int periodicityId=0;
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/taskAssignmentUpdate", map,
 					Info.class);
-			
-			if (info.isError()) {			
-				session.setAttribute("errorMsg", "Unable to Assign Task");							
 
-			} else {			
+			if (info.isError()) {
+				session.setAttribute("errorMsg", "Unable to Assign Task");
+
+			} else {
 				session.setAttribute("successMsg", "Task Assigned Successfully");
-				
+
 			}
 
 			if (info.isError() == false) {
@@ -562,12 +614,11 @@ int periodicityId=0;
 				mav.addObject("epmList", epmList);
 				Task task = new Task();
 				mav.addObject("task", task);
-				
+
 				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 				int empType = emp.getEmpType();
 				mav.addObject("empType", empType);
-				
-				
+
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
 				e.printStackTrace();
@@ -660,7 +711,7 @@ int periodicityId=0;
 				EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 				int empType = emp.getEmpType();
 				mav.addObject("empType", empType);
-				
+
 			} catch (Exception e) {
 				System.err.println("Exce in addCustomerActMap " + e.getMessage());
 				e.printStackTrace();
@@ -733,11 +784,11 @@ int periodicityId=0;
 			int stat = Integer.parseInt(request.getParameter("stat"));
 
 			HttpSession session1 = request.getSession();
-			int inactivePage=0;
+			int inactivePage = 0;
 			try {
-			inactivePage =(int) session1.getAttribute("inactivePage");
-			}catch (Exception e) {
-				inactivePage=0;
+				inactivePage = (int) session1.getAttribute("inactivePage");
+			} catch (Exception e) {
+				inactivePage = 0;
 			}
 			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -752,7 +803,7 @@ int periodicityId=0;
 			Task task = Constants.getRestTemplate().postForObject(Constants.url + "/updateManualTaskByTaskId", map,
 					Task.class);
 			if (task != null) {
-				
+
 				if (stat == 1) {
 					FormValidation.updateTaskLog(TaskText.taskTex6, userId, taskId);
 				} else if (stat == 0) {
@@ -765,9 +816,9 @@ int periodicityId=0;
 
 			redirect = "redirect:/manualTaskList";
 			// "redirect:/communication?taskId=" + taskId;
-if(inactivePage==1) {
-	redirect = "redirect:/inactiveTaskList";
-}
+			if (inactivePage == 1) {
+				redirect = "redirect:/inactiveTaskList";
+			}
 		} catch (Exception e) {
 			System.err.println("Exce in updateTaskStatus " + e.getMessage());
 			e.printStackTrace();
@@ -878,9 +929,9 @@ if(inactivePage==1) {
 	 * 
 	 * }
 	 */
-	
-	//Sachin 29-12-2019
-	
+
+	// Sachin 29-12-2019
+
 	@RequestMapping(value = "/addManualTask", method = RequestMethod.POST)
 	public String submitUpdatedTask(Model model, HttpServletRequest request, HttpServletResponse response) {
 		String a = null;
@@ -890,17 +941,17 @@ if(inactivePage==1) {
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			String mnghr = request.getParameter("mgBudgetHr");
 			String emphr = request.getParameter("empBudgetHr");
-			String mnghr1=null;
+			String mnghr1 = null;
 			try {
-			 mnghr1 = HoursConversion.convertHoursToMin(mnghr);
-			}catch (Exception e) {
-				mnghr1="0";
+				mnghr1 = HoursConversion.convertHoursToMin(mnghr);
+			} catch (Exception e) {
+				mnghr1 = "0";
 			}
 			String emphr1 = HoursConversion.convertHoursToMin(emphr);
 			// System.out.println("mnghr1" + mnghr1);
 			// System.out.println("emphr1" + emphr1);
 			int userId = emp.getEmpId();
-			int userType=emp.getEmpType();
+			int userType = emp.getEmpType();
 			int taskType = Integer.parseInt(request.getParameter("taskType"));
 			CustmrActivityMap activityMapanual = new CustmrActivityMap();
 			StringBuilder sbEmp = new StringBuilder();
@@ -939,9 +990,10 @@ if(inactivePage==1) {
 							Info.class);
 
 					if (taskType == 1) {
-						if(userType!=5)
-						a = "redirect:/manualTaskList";
-						else a="redirect:/manualTaskAdd";
+						if (userType != 5)
+							a = "redirect:/manualTaskList";
+						else
+							a = "redirect:/manualTaskAdd";
 						if (temp != null) {
 							System.out.println("successMsg");
 							session.setAttribute("successMsg", "Manual Task Updated Successfully");
@@ -951,8 +1003,8 @@ if(inactivePage==1) {
 						}
 
 					} else {
-						if(userType!=5)
-						a = "redirect:/inactiveTaskList";
+						if (userType != 5)
+							a = "redirect:/inactiveTaskList";
 						else {
 							a = "redirect:/taskListForEmp";
 						}
@@ -964,13 +1016,13 @@ if(inactivePage==1) {
 
 			} else {
 				try {
-					if(userType!=5)
-					a = "redirect:/manualTaskList";
+					if (userType != 5)
+						a = "redirect:/manualTaskList";
 					else {
 						a = "redirect:/taskListForEmp";
 					}
 					System.out.println("in task add");
-					
+
 					/*
 					 * Task task=new Task();
 					 * task.setActvId(Integer.parseInt(request.getParameter("activity")));
@@ -992,14 +1044,13 @@ if(inactivePage==1) {
 					 * 
 					 * task.setUpdateUsername();
 					 */
-					
-					
+
 					activityMapanual.setMappingId(0);
 					activityMapanual.setActvEmpBudgHr(Integer.parseInt(emphr1));
 					activityMapanual.setActvStartDate(request.getParameter("statDate"));
 					activityMapanual.setActvEndDate(request.getParameter("endDate"));
-					
-					//activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
+
+					// activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
 					activityMapanual.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
 					activityMapanual.setCustId(Integer.parseInt(request.getParameter("customer")));
 					activityMapanual.setDelStatus(1);
@@ -1013,13 +1064,13 @@ if(inactivePage==1) {
 					activityMapanual.setActvId(Integer.parseInt(request.getParameter("activity")));
 					try {
 						activityMapanual.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
-					}catch (Exception e) {
+					} catch (Exception e) {
 						activityMapanual.setActvBillingAmt(0);
 					}
-					
+
 					try {
 						activityMapanual.setActvManBudgHr(Integer.parseInt(mnghr1));
-					}catch (Exception e) {
+					} catch (Exception e) {
 						activityMapanual.setActvManBudgHr(0);
 					}
 
@@ -1027,7 +1078,7 @@ if(inactivePage==1) {
 					Info map = Constants.getRestTemplate().postForObject(Constants.url + "/saveMannualTask",
 							activityMapanual, Info.class);
 
-					if (map.isError()==false) {
+					if (map.isError() == false) {
 						session.setAttribute("successMsg", "Manual Task Added Successfully");
 					} else {
 						session.setAttribute("errorMsg", "Failed to Add Manual Task");
@@ -1049,7 +1100,6 @@ if(inactivePage==1) {
 
 	}
 
-	
 	// ******************Home task list task edit*********************************
 
 	@RequestMapping(value = "/getTaskByTaskIdForEdit", method = RequestMethod.GET)
@@ -1156,7 +1206,7 @@ if(inactivePage==1) {
 			map.add("empId", items1);
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
-			
+
 			map.add("bilAmt", bilAmt);
 
 			res = Constants.getRestTemplate().postForObject(Constants.url + "/updateEditTsk", map, Info.class);
@@ -1353,10 +1403,10 @@ if(inactivePage==1) {
 
 				for (int i = 0; i < taskList.size(); i++) {
 
-					//taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
+					// taskList.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(taskList.get(i).getTaskId())));
 				}
 				mav.addObject("taskList", taskList);
-				 System.out.println("CompletedTakList***Sac" + taskList.toString());
+				System.out.println("CompletedTakList***Sac" + taskList.toString());
 			} catch (Exception e) {
 				System.err.println("Exce in CompletedTakList " + e.getMessage());
 				e.printStackTrace();
@@ -1366,41 +1416,41 @@ if(inactivePage==1) {
 		return mav;
 
 	}
-	
+
 	@RequestMapping(value = "/reopenTaskStatus", method = RequestMethod.GET)
 	public String reopenTaskStatus(HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			HttpSession session = request.getSession();
-			
+
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 
 			int userId = emp.getEmpId();
-			
+
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
-			logger.info("TaskId----------------"+taskId);
+			logger.info("TaskId----------------" + taskId);
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("taskId", taskId);
 			map.add("empId", userId);
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
-			
-			Info info = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/reopenTaskByTaskId", map, Info.class);
-			
-			if (info.isError()==false) {				
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/reopenTaskByTaskId", map,
+					Info.class);
+
+			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Task Reopened Successfully");
 			} else {
 				session.setAttribute("errorMsg", "Failed to Reopened Task");
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.err.println("Exce in reopenTaskStatus " + e.getMessage());
 			e.printStackTrace();
 		}
-		
+
 		return "redirect:/completedTaskList";
-		
+
 	}
-	
+
 	@RequestMapping(value = "/updateCompletedTaskStatus", method = RequestMethod.GET)
 	public String activeDeactiveService(HttpServletRequest request, HttpServletResponse response, Model model) {
 
@@ -1505,8 +1555,8 @@ if(inactivePage==1) {
 					FormValidation.updateTaskLog(TaskText.taskTex8, userId, Integer.parseInt(TaskId[i]));
 				}
 				session.setAttribute("successMsg", Constants.Sucessmsg);
-			}else {
-				
+			} else {
+
 				session.setAttribute("errorMsg", Constants.Failmsg);
 			}
 
@@ -1689,15 +1739,16 @@ if(inactivePage==1) {
 	/********************** Add Emp Hours2 **********************************/
 
 	@RequestMapping(value = "/addEmpHrs", method = RequestMethod.GET)
-	public String addEmpHrs(HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) {
+	public String addEmpHrs(HttpServletRequest request, HttpServletResponse response, Model model,
+			HttpSession session) {
 		String mav = null;
-		
+
 		session = request.getSession();
 		EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
-		
-		if(empSes.getEmpType()==1 ||empSes.getEmpType()==2) {
-		 mav = "task/addEmpWorkLog";
-		}else {
+
+		if (empSes.getEmpType() == 1 || empSes.getEmpType() == 2) {
+			mav = "task/addEmpWorkLog";
+		} else {
 			mav = "accessDenied";
 		}
 		try {
@@ -1770,7 +1821,7 @@ if(inactivePage==1) {
 
 			empWrkLogList = new ArrayList<>(Arrays.asList(empWrkLogArr));
 
-			 System.out.println("List Work log-----------"+empWrkLogList);
+			System.out.println("List Work log-----------" + empWrkLogList);
 		} catch (Exception e) {
 			System.err.println("Exception in  getEmpWorkHoursLogs : " + e.getMessage());
 			e.printStackTrace();
@@ -1846,7 +1897,7 @@ if(inactivePage==1) {
 
 			hrLog = Constants.getRestTemplate().postForObject(Constants.url + "/getWorkLogHrsById", map,
 					DailyWorkLog.class);
-			
+
 		} catch (Exception e) {
 			System.err.println("Exce in getDailyWorkLogById " + e.getMessage());
 		}
@@ -1921,25 +1972,23 @@ if(inactivePage==1) {
 			String edate = new String();
 			String edate1 = new String();
 			activityMap = new CustmrActivityMap();
-			if(request.getParameter("endDate")!="" && request.getParameter("endDate")!=null) {
+			if (request.getParameter("endDate") != "" && request.getParameter("endDate") != null) {
 				edate = DateConvertor.convertToYMD(request.getParameter("endDate"));
-				edate1=request.getParameter("endDate");
+				edate1 = request.getParameter("endDate");
 				activityMap.setActvEndDate(edate1);
 			} else {
-				FinancialYear srvsMstr = Constants.getRestTemplate()
-						.getForObject(Constants.url + "/getCurrentFinYear", FinancialYear.class);
-				edate=srvsMstr.getFinEndDate();
+				FinancialYear srvsMstr = Constants.getRestTemplate().getForObject(Constants.url + "/getCurrentFinYear",
+						FinancialYear.class);
+				edate = srvsMstr.getFinEndDate();
 				activityMap.setActvEndDate(DateConvertor.convertToDMY(edate));
 			}
-			
-		
 
 			activityMap.setMappingId(0);
 			activityMap.setActvBillingAmt(Integer.parseInt(request.getParameter("billAmt")));
 			activityMap.setActvEmpBudgHr(
 					Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("empBudgetHr"))));
 			activityMap.setActvStartDate(request.getParameter("startDate"));
-			
+
 			activityMap.setActvManBudgHr(
 					Integer.parseInt(HoursConversion.convertHoursToMin(request.getParameter("mgBudgetHr"))));
 			activityMap.setActvStatutoryDays(Integer.parseInt(request.getParameter("statutary_endDays")));
@@ -2036,7 +2085,7 @@ if(inactivePage==1) {
 				task.setTaskCode("NA");
 				task.setTaskEmpIds("0");
 				task.setTaskFyId(fin.getFinYearId());
-				 task.setTaskEndDate(task.getTaskStatutoryDueDate());
+				task.setTaskEndDate(task.getTaskStatutoryDueDate());
 				task.setTaskStatus(0);
 				task.setTaskSubline("NA");
 				task.setTaskText(String.valueOf(sb1));
@@ -2081,7 +2130,7 @@ if(inactivePage==1) {
 		HttpSession session = request.getSession();
 		EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 		String custId = null;
-		String redirect=null;
+		String redirect = null;
 		try {
 			TempTaskSave tsk = new TempTaskSave();
 			List<Task> taskFinalList = new ArrayList<Task>();
@@ -2093,7 +2142,7 @@ if(inactivePage==1) {
 
 				for (int j = 0; j < taskTempList.size(); j++) {
 					taskTempList.get(j).setExVar1("NA");
-					
+
 					if (Integer.parseInt(TaskId[i]) == taskTempList.get(j).getTaskId()) {
 
 						taskFinalList.add(taskTempList.get(j));
@@ -2109,16 +2158,16 @@ if(inactivePage==1) {
 			tsk.setTskList(taskFinalList);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/saveTaskRes", tsk, Info.class);
-			
-			if (info.isError()) {			
-				session.setAttribute("errorMsg", Constants.Failmsg);
-				redirect = "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);		
 
-			} else {			
+			if (info.isError()) {
+				session.setAttribute("errorMsg", Constants.Failmsg);
+				redirect = "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
+
+			} else {
 				session.setAttribute("successMsg", Constants.Sucessmsg);
-				redirect =  "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
+				redirect = "redirect:/customerActivityAddMap?custId=" + FormValidation.Encrypt(custId);
 			}
-			
+
 		} catch (Exception e) {
 			System.err.println("Exce in Saving Cust Login Detail " + e.getMessage());
 			e.printStackTrace();
@@ -2154,8 +2203,6 @@ if(inactivePage==1) {
 	}
 //**************************************************************************
 
-	
-
 	@RequestMapping(value = "/deleteActMapByDate", method = RequestMethod.GET)
 	public @ResponseBody Info deleteActMapByDate(HttpServletRequest request, HttpServletResponse response) {
 		Info info = new Info();
@@ -2187,5 +2234,5 @@ if(inactivePage==1) {
 		return info;
 
 	}
-	
+
 }

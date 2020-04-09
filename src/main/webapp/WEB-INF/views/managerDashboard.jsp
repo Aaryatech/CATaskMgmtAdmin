@@ -138,7 +138,7 @@ h5 {
 						</div>
 
 						<div class="form-group row">
-							<label class="col-form-label col-lg-2" for="membrId">Select
+							<label class="col-form-label col-lg-2" for="typeId">Select
 								Type <span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-3">
@@ -160,6 +160,7 @@ h5 {
 									onchange="getClientList(this.value)">
 
 									<option value="-1" selected>Select Group</option>
+									<option value="0" >All Group</option>
 
 									<c:forEach items="${clientGroupList}" var="clientGroupList">
 										<option value="${clientGroupList.id}">${clientGroupList.name}</option>
@@ -479,11 +480,11 @@ h5 {
 		//datepickermonth
 		// Single picker
 		$('.datepickermonth').daterangepicker({
-			singleDatePicker : true,
+			singleDatePicker : false,
 
 			showDropdowns : true,
 			locale : {
-				format : 'MM-YYYY'
+				format : 'DD-MM-YYYY'
 			}
 
 		});
@@ -706,7 +707,8 @@ h5 {
 		}
 		
 		function getClientList(groupId) {
-			   
+			var typeId = document.getElementById("typeId").value;
+
 				$
 						.getJSON(
 								'${getClientList}',
@@ -720,9 +722,11 @@ h5 {
 									 
 									html += '<option disabled value="-1">Select Client</option>'; 
 									var len = data.length;
-									
-									if(groupId>0 && len>0){
-										
+									//alert("groupId" +groupId + " len " +len )
+									//if(groupId>0 && len>0){
+										if(groupId==0 && len>0 && typeId==0){
+										html += '<option value="0" selected>All</option>'; 
+									}else if(groupId>0 && len>0){
 										html += '<option value="0" selected>All</option>'; 
 									}
 									for (var i = 0; i < len; i++) {

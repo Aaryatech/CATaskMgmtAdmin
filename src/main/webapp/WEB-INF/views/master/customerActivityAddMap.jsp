@@ -246,14 +246,17 @@
 										<label class="col-form-label col-lg-3" for="statutary_endDays" id="lable_statutary_endDays">
 											Statutory End Days <span style="color: red">* </span>:
 										</label>
-										<div class="col-lg-6">
+										<div class="col-lg-5">
 											<input type="text" class="form-control"
 												placeholder="Statutory End Days" id="statutary_endDays" name="statutary_endDays"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										<div class="col-lg-3">
+										<div class="col-lg-4">
 											<span class="validation-invalid-label" id="error_stat_endDays"
 												style="display: none;">Please enter statutory end days.</span>
+												<span class="validation-invalid-label" id="error_end_date1"
+												 >Statutory due date will be defined on the basis of statutory end days.</span>
+												
 										</div>
 
 									</div>

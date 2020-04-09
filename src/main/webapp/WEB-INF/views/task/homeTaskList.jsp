@@ -920,7 +920,7 @@ h5 {
 								<c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${taskList.custGroupName}</td>
+										<td>${taskList.custGroupName} ${taskList.taskId}</td>
 
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId}, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
@@ -1187,7 +1187,7 @@ function append(data){
 		'<td> M-'+data.taskList[i].mngrBudHr+' E-'+data.taskList[i].empBudHr+'</td>'+
 		'<td id="taskStatus'+data.taskList[i].taskId+'" style="color: '+data.taskList[i].statusColor+';font-weight: bold;">'+data.taskList[i].taskStatus+'</td>'+
 
-'<td class="container1"> <select onchange="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control ats_sel_status1 id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" ats_sel_status">'+sel_html+'</select></td>'+
+'<td class="container1"> <select onchange="updateStatus_new(this.value,'+data.taskList[i].taskId+')"  class="form-control ats_sel_status1" id="set_status'+data.taskList[i].taskId+'" data-id="'+data.taskList[i].taskStatus+'" >'+sel_html+'</select></td>'+
 		
 
 
@@ -1306,6 +1306,7 @@ function append(data){
 	
 	function submitResponse(){
 		//alert("flag ***"+flag);
+		//alert("Hiii");
 		var empBudHr = document.getElementById("edit_emptime").value;
 			var manBudHr = document.getElementById("edit_mngrtime").value;
 			var workDate=document.getElementById("workDate1").value ;//create this
@@ -1331,7 +1332,7 @@ function append(data){
  			else if (emp ==null || emp == "") {
 				valid = false;
  			}
-
+//alert(valid);
 			if(valid == true){
 				$("#loader1").show();
 				$.post('${submitUpdatedTask}', {
@@ -1363,7 +1364,11 @@ function append(data){
 	function updateStatus_new(statusId, taskId){
 	//alert(statusId+" "+taskId);
 	//alert(" In updateStatus_new +966");
+	//var x=  ($(this).attr("#data-id"));
+		//alert("In updateStatus_new "+taskId);
+
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
+      //alert("Selected status" +selectedStatus);
         var color =  $('#set_status'+taskId).val();
         if(statusId==9){
   		  $('#modal_form_inline').modal('show');
@@ -1432,7 +1437,7 @@ linkOk=0;
     }else{
     	linkOk=1;
 }
-	alert(linkOk)
+	//alert(linkOk)
 	if(linkOk==1)
 	$
 	.getJSON(

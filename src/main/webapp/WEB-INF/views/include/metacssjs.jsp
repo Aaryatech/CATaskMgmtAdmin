@@ -45,7 +45,11 @@
 <link
 	href="${pageContext.request.contextPath}/resources/assets/css/customecss.css"
 	rel="stylesheet" type="text/css">
-
+	
+	<%-- <link
+	href="${pageContext.request.contextPath}/resources/assets/css/moh/component-new.css"
+	rel="stylesheet" type="text/css">
+	 --%>
 
 <!-- /global stylesheets -->
 
@@ -178,7 +182,14 @@
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/extra_sweetalert.js"></script>
 
+<%-- <script
+	src="${pageContext.request.contextPath}/resources/assets/js/moh/jquery.stickyheader.js"></script>
 
+<script
+	src="${pageContext.request.contextPath}/resources/assets/js/moh/jquery.ba-throttle-debounce.min.js"></script>
+			
+
+ --%>
 
 
 

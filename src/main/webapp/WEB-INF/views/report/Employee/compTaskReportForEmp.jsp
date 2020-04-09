@@ -82,7 +82,7 @@ h5 {
 
 
 
-				<style type="text/css">
+				<!-- <style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -94,7 +94,7 @@ h5 {
 .datatable-header {
 	display: none;
 }
-</style>
+</style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Employee Task Completed Report</h5>
@@ -142,7 +142,7 @@ h5 {
 
 
 						<div class="table-responsive">
-							<table class="table" id="capTable">
+							<table class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1" id="capTable">
 								<thead>
 									<tr class="bg-blue">
 										<th>Sr.No.</th>

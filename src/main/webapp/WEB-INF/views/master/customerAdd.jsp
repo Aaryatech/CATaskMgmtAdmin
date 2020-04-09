@@ -9,12 +9,12 @@
 </head>
 
 <body onload="showDiv(${custHead.custType})">
-<c:url value="/checkUniquePan" var="checkUniquePan"></c:url>
+	<c:url value="/checkUniquePan" var="checkUniquePan"></c:url>
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
 
- 
+
 
 	<!-- Page content -->
 	<div class="page-content">
@@ -112,27 +112,31 @@
 									}
 								%>
 
-								<form action="${pageContext.request.contextPath}/addCustomerHeader"
+								<form
+									action="${pageContext.request.contextPath}/addCustomerHeader"
 									id="submitInsertClient" method="post">
 
-									<input type="hidden" value="${custHead.custId}" name="cust_head_id">
-									<input type="hidden" value="${custHead.isActive}" name="isActv">
-									
-									
+									<input type="hidden" value="${custHead.custId}"
+										name="cust_head_id"> <input type="hidden"
+										value="${custHead.isActive}" name="isActv">
+
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="custType">Customer
 											Type <span style="color: red">*</span>:
 										</label>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custType == 0 ? 'checked' : ''}
+											<label class="form-check-label"> <input type="radio"
+												${custHead.custType == 0 ? 'checked' : ''}
 												class="form-check-input" name="custType" id="custType"
-												 onclick="showDiv(this.value)" value="0"> Individual
+												onclick="showDiv(this.value)" value="0"> Individual
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custType == 1 ? 'checked' : ''}
-												class="form-check-input" name="custType" id="custType" onclick="showDiv(this.value)" value="1">Client
-												 Group
+											<label class="form-check-label"> <input type="radio"
+												${custHead.custType == 1 ? 'checked' : ''}
+												class="form-check-input" name="custType" id="custType"
+												onclick="showDiv(this.value)" value="1">Client Group
 											</label>
 										</div>
 									</div>
@@ -146,11 +150,12 @@
 												data-placeholder="Select Client Group" id="clientGrp"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
-												
-											<!-- 	<option value="1">Select</option> -->
+
+												<!-- 	<option value="1">Select</option> -->
 												<c:forEach items="${custGrpList}" var="custGrpList">
 													<c:choose>
-														<c:when test="${custGrpList.custGroupId==custHead.custGroupId}">
+														<c:when
+															test="${custGrpList.custGroupId==custHead.custGroupId}">
 															<option selected value="${custGrpList.custGroupId}">${custGrpList.custGroupName}</option>
 														</c:when>
 														<c:otherwise>
@@ -164,33 +169,36 @@
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
-									
-									
+
+
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="firmName">Firm
 											Name <span style="color: red">*</span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custFirmName}"
+											<input type="text" class="form-control"
+												value="${custHead.custFirmName}"
 												placeholder="Enter Firm Name" id="firmName" name="firmName"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										 <div class="col-lg-3">
+										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_firmName"
 												style="display: none;">Please enter firm name.</span>
 										</div>
 
 									</div>
-									
-									
+
+
 
 
 									<div class="form-group row">
 
 										<label class="col-form-label col-lg-3" for="assesseeName">Assessee
-											Name <span style="color: red">* </span>: </label>
+											Name <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custAssesseeName}"
+											<input type="text" class="form-control"
+												value="${custHead.custAssesseeName}"
 												placeholder="Enter Assessee Name" id="assesseeName"
 												name="assesseeName" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -207,30 +215,33 @@
 											No. <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control"  value="${custHead.custPanNo}"
+											<input type="text" class="form-control"
+												value="${custHead.custPanNo}"
 												placeholder="Enter Permanent Account Number (PAN)"
-												id="panNo" name="panNo" autocomplete="off" oninput="checkUnique(this.value)"
-												onchange="trim(this)" maxlength="10" style="text-transform: uppercase;">
+												id="panNo" name="panNo" autocomplete="off"
+												oninput="checkUnique(this.value)" onchange="trim(this)"
+												maxlength="10" style="text-transform: uppercase;">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_panNo"
-												style="display: none;">Please enter PAN No.</span>
-												
-												<span class="validation-invalid-label" id="error_exist_panNo"
-												style="display: none;">Customer with this PAN Already Exist</span>
-												
+												style="display: none;">Please enter PAN No.</span> <span
+												class="validation-invalid-label" id="error_exist_panNo"
+												style="display: none;">Customer with this PAN Already
+												Exist</span>
+
 										</div>
 									</div>
 
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="aadhar">Aadhar
-											Card No. :
-										</label>
+											Card No. : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custAadhar}"
-												placeholder="Enter Aadhar Card Number" id="aadhar" maxlength="12"
-												name="aadhar" autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${custHead.custAadhar}"
+												placeholder="Enter Aadhar Card Number" id="aadhar"
+												maxlength="12" name="aadhar" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<!-- <span class="validation-invalid-label" id="error_aadhar"
@@ -241,38 +252,65 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="assesseeType">
-											Type of Assessee <span style="color: red">* </span>: </label>
+											Type of Assessee <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-6">
 											<select name="assesseeType"
 												data-placeholder="Select Assessee Type" id="assesseeType"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-												<option value="0">Select Assessee Type</option>
-												<option value="1" ${custHead. custAssesseeTypeId == 1 ? 'selected' : ''}>Individual</option>
-												<option value="2" ${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership Firm</option>
-												<option value="3" ${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt Ltd</option>
-												<option value="4" ${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public Limited</option>
-												<option value="5" ${custHead. custAssesseeTypeId == 5 ? 'selected' : ''}>HUF</option>
-												<option value="6" ${custHead. custAssesseeTypeId == 6 ? 'selected' : ''}>LLP</option>
-												<option value="7" ${custHead. custAssesseeTypeId == 7 ? 'selected' : ''}>Trust</option>
+												<option  value="0">Select Assessee Type</option>
+
+												<c:forEach items="${assesseeTypeList}" var="assList">
+													<c:choose>
+														<c:when test="${assList.asseTypeId==custHead.custAssesseeTypeId}">
+															<option selected value="${assList.asseTypeId}">${assList.asseTypeName}</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${assList.asseTypeId}">${assList.asseTypeName}</option>
+														</c:otherwise>
+													</c:choose>
+
+												</c:forEach>
+
+
+												<%-- <option value="1"
+													${custHead. custAssesseeTypeId == 1 ? 'selected' : ''}>Individual</option>
+												<option value="2"
+													${custHead. custAssesseeTypeId == 2 ? 'selected' : ''}>Partnership
+													Firm</option>
+												<option value="3"
+													${custHead. custAssesseeTypeId == 3 ? 'selected' : ''}>Pvt
+													Ltd</option>
+												<option value="4"
+													${custHead. custAssesseeTypeId == 4 ? 'selected' : ''}>Public
+													Limited</option>
+												<option value="5"
+													${custHead. custAssesseeTypeId == 5 ? 'selected' : ''}>HUF</option>
+												<option value="6"
+													${custHead. custAssesseeTypeId == 6 ? 'selected' : ''}>LLP</option>
+												<option value="7"
+													${custHead. custAssesseeTypeId == 7 ? 'selected' : ''}>Trust</option> --%>
 											</select>
 											<div class="col-lg-3">
-											<span class="validation-invalid-label" id="error_assessee_type"
-												style="display: none;">Please enter Assessee type.</span>
-										</div>
+												<span class="validation-invalid-label"
+													id="error_assessee_type" style="display: none;">Please
+													enter Assessee type.</span>
+											</div>
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
-									
+
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="dob">Date
 											of Birth <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control datepickerclass" value="${custHead.custDob}"
-												name="dob" id="dob" placeholder="Date of Birth" >
+											<input type="text" class="form-control datepickerclass"
+												value="${custHead.custDob}" name="dob" id="dob"
+												placeholder="Date of Birth">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_dob"
@@ -286,9 +324,10 @@
 											Id <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custEmailId}"
-												placeholder="Enter Email Id" id="emailId" name="emailId"
-												autocomplete="off" oninput="trim(this)">
+											<input type="text" class="form-control"
+												value="${custHead.custEmailId}" placeholder="Enter Email Id"
+												id="emailId" name="emailId" autocomplete="off"
+												oninput="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_emailId"
@@ -302,9 +341,9 @@
 										</label>
 										<div class="col-lg-6">
 											<input type="text" class="form-control"
-												placeholder="Enter Phone Number (11 digit phone or 10 digit mobile no)" id="phone" name="phone"
-												autocomplete="off" value="${custHead.custPhoneNo}"
-												 maxlength="11">
+												placeholder="Enter Phone Number (11 digit phone or 10 digit mobile no)"
+												id="phone" name="phone" autocomplete="off"
+												value="${custHead.custPhoneNo}">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_phone"
@@ -317,9 +356,10 @@
 											1 <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custAddr1}"
-												placeholder="Enter Address" id="address1" name="address1"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${custHead.custAddr1}" placeholder="Enter Address"
+												id="address1" name="address1" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_address1"
@@ -331,9 +371,10 @@
 										<label class="col-form-label col-lg-3" for="address2">Address
 											2 : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custAddr2}"
-												placeholder="Enter Address" id="address2" name="address2"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${custHead.custAddr2}" placeholder="Enter Address"
+												id="address2" name="address2" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
@@ -343,9 +384,10 @@
 											<span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custCity}"
-												placeholder="Enter City" id="city" name="city"
-												autocomplete="off" onchange="trim(this)">
+											<input type="text" class="form-control"
+												value="${custHead.custCity}" placeholder="Enter City"
+												id="city" name="city" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_city"
@@ -359,9 +401,10 @@
 											code <span style="color: red">* </span>:
 										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custPinCode}"
-												placeholder="Enter Pin Code" id="pincode" name="pincode"
-												autocomplete="off" onchange="trim(this)" maxlength="6">
+											<input type="text" class="form-control"
+												value="${custHead.custPinCode}" placeholder="Enter Pin Code"
+												id="pincode" name="pincode" autocomplete="off"
+												onchange="trim(this)" maxlength="6">
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_pincode"
@@ -374,7 +417,8 @@
 										<label class="col-form-label col-lg-3" for="city">Nature
 											of Business : </label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custBusinNatute}"
+											<input type="text" class="form-control"
+												value="${custHead.custBusinNatute}"
 												placeholder="Enter Nature of Business" id="business"
 												name="business" autocomplete="off" onchange="trim(this)">
 										</div>
@@ -382,18 +426,20 @@
 									</div>
 
 
-									<div class="form-group row">
+									<div class="form-group row" style="display: none;">
 										<label class="col-form-label col-lg-3" for="salesType">DSC
 											<span style="color: red">* </span>:
 										</label>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custIsDscAvail == 1 ? 'checked' : ''}
+											<label class="form-check-label"> <input type="radio"
+												${custHead.custIsDscAvail == 1 ? 'checked' : ''}
 												class="form-check-input" name="dsc" id="dsc" checked
 												value="1"> Available
 											</label>
 										</div>
 										<div class="form-check form-check-inline">
-											<label class="form-check-label"> <input type="radio" ${custHead.custIsDscAvail == 0 ? 'checked' : ''}
+											<label class="form-check-label"> <input type="radio"
+												${custHead.custIsDscAvail == 0 ? 'checked' : ''}
 												class="form-check-input" name="dsc" id="dsc" value="0">
 												Not Available
 											</label>
@@ -404,17 +450,19 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">File
-											Path <span style="color: red">* </span>:  </label>
+											Path <span style="color: red">* </span>:
+										</label>
 										<div class="col-lg-6">
-											<input type="text" class="form-control" value="${custHead.custFolderId}"
+											<input type="text" class="form-control"
+												value="${custHead.custFolderId}"
 												placeholder="Enter File Path" id="filePath" name="filePath"
 												autocomplete="off" onchange="trim(this)">
 										</div>
-										
-										
-										
+
+
+
 										<div class="col-lg-3">
-										<span class="validation-invalid-label" id="error_filePath"
+											<span class="validation-invalid-label" id="error_filePath"
 												style="display: none;">Please enter file path.</span>
 										</div>
 									</div>
@@ -423,49 +471,50 @@
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">File
 											No. : </label>
-										<div class="col-lg-6"> 
-											<input type="text" class="form-control" value="${custHead.custFileNo}"
-												placeholder="Enter File No." id="fileNo" name="fileNo"
-												autocomplete="off" onchange="trim(this)">
+										<div class="col-lg-6">
+											<input type="text" class="form-control"
+												value="${custHead.custFileNo}" placeholder="Enter File No."
+												id="fileNo" name="fileNo" autocomplete="off"
+												onchange="trim(this)">
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="city">Owner
-											Partner <span style="color: red">*</span>:</label>
-										<div class="col-lg-6">	
+											Partner <span style="color: red">*</span>:
+										</label>
+										<div class="col-lg-6">
 											<select name="ownerPartner"
 												data-placeholder="Select Owner Partner" id="ownerPartner"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
-											<option value="0">Select Owner Partner</option> 
+												<option value="0">Select Owner Partner</option>
 												<c:forEach items="${epmList}" var="epmList">
-												 <c:choose>
+													<c:choose>
 														<c:when test="${epmList.empId==custHead.ownerEmpId}">
 															<option selected value="${epmList.empId}">${epmList.empName}</option>
 														</c:when>
 														<c:otherwise>
 															<option value="${epmList.empId}">${epmList.empName}</option>
 														</c:otherwise>
-													</c:choose> 
-													
+													</c:choose>
+
 												</c:forEach>
-												
+
 											</select>
 											<div class="col-lg-3">
 												<span class="validation-invalid-label" id="error_owner_part"
 													style="display: none;">Please select owner partner.</span>
-										</div>
+											</div>
 										</div>
 										<div class="col-lg-3"></div>
 									</div>
 
 
 									<div class="form-group row mb-0">
-									<div class="col-lg-4 ml-lg-auto">
-									</div>
+										<div class="col-lg-4 ml-lg-auto"></div>
 										<div class="col-lg-4 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="submit" class="btn bg-blue ml-3 legitRipple"
@@ -478,8 +527,7 @@
 													Cancel
 												</button></a>
 										</div>
-										<div class="col-lg-3 ml-lg-auto">
-									</div>
+										<div class="col-lg-3 ml-lg-auto"></div>
 									</div>
 								</form>
 								<p class="desc text-danger fontsize11">Notice : * Fields are
@@ -742,19 +790,22 @@ if (!$("#filePath").val()) {
 		}
 		function validateMobile(mobile) {
 			/* var mob = /^[0-9]{1}[0-9]{9}$/;
+			var mob2 = /^[0-9]{1}[0-9]{10}$/;
+			
+			if (mob.test($.trim(mobile)) == false ||mob2.test($.trim(mobile)) == false ) { */
+				//alert(mobile.length)
+				if (isNaN(mobile) || parseInt(mobile.length)<10) {
 
-			if (mob.test($.trim(mobile)) == false) {
-
-				//alert("Please enter a valid email address .");
+				//alert("Please enter a valid   .");
 				return false;
 
-			} */
+			} 
 			return true;
 
 		}
 
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function showDiv(typdId){
 	//alert("Id="+typdId);
 		if (typdId == 1) {
@@ -777,14 +828,32 @@ function showDiv(typdId){
 
 	<script type="text/javascript">
 		// Single picker
+		var start = moment().subtract(70, 'year');
+		var startDate = moment().subtract(30, 'year');
+		//alert(startDate)
+var custId=${custId};
+//alert("custId" +custId)
+if(parseInt(custId)>0){
+	//alert("IN")
+	startDate='${custHead.custDob}';
+	//alert(startDate)
+}
+    	var end =moment().subtract(1, 'days')
 		$('.datepickerclass').daterangepicker({
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
+			minDate: start,
+			maxDate: end,
+			startDate:startDate,
+			showDropdowns:true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
 		});
+		
+		
+		
 
 		//daterange-basic_new
 		// Basic initialization

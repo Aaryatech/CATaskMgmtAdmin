@@ -519,7 +519,7 @@ public class HomeController<Task> {
 			}
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-
+System.err.println("dashStat "+dashStat + "type "+type +"userId " +userId);
 			// dash
 
 			if (dashStat != 0 && type == 1) {
@@ -889,6 +889,8 @@ public class HomeController<Task> {
 			int taskId = Integer.parseInt(request.getParameter("taskId"));
 			System.out.println("status-------------now " + statusId + " " + taskId);
 			String statusText = request.getParameter("selectedStatus");
+			System.err.println("statusText" +statusText);
+			
 			MultiValueMap<String, Object> map = null;
 			map = new LinkedMultiValueMap<>();
 			map.add("taskId", taskId);
@@ -1502,17 +1504,23 @@ public class HomeController<Task> {
 			int typeId = Integer.parseInt(request.getParameter("typeId"));
 			int groupId = Integer.parseInt(request.getParameter("groupId"));
 			int clientId = Integer.parseInt(request.getParameter("clientId"));
+			String firstDate=request.getParameter("monthyear");
+			System.err.println();
+			String date = request.getParameter("monthyear");
+			System.err.println("date "+date);
 
-			String firstDate = "01-" + monthyear[0] + "-" + monthyear[1];
-			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-			SimpleDateFormat yy = new SimpleDateFormat("yyyy-MM-dd");
+			String[] dates = date.split(" - ");
 
-			Date date = sf.parse(firstDate);
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			calendar.add(Calendar.MONTH, 1);
-			calendar.set(Calendar.DAY_OF_MONTH, 1);
-			calendar.add(Calendar.DATE, -1);
+			
+			/*
+			 * String firstDate = "01-" + monthyear[0] + "-" + monthyear[1];
+			 * SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy"); SimpleDateFormat yy
+			 * = new SimpleDateFormat("yyyy-MM-dd");
+			 * 
+			 * Date date = sf.parse(firstDate); Calendar calendar = Calendar.getInstance();
+			 * calendar.setTime(date); calendar.add(Calendar.MONTH, 1);
+			 * calendar.set(Calendar.DAY_OF_MONTH, 1); calendar.add(Calendar.DATE, -1);
+			 */
 
 			String empIds = String.valueOf(empId);
 
@@ -1528,8 +1536,9 @@ public class HomeController<Task> {
 			map.add("typeId", typeId);
 			map.add("groupId", groupId);
 			map.add("clientId", clientId);
-			map.add("fromDate", DateConvertor.convertToYMD(firstDate));
-			map.add("toDate", yy.format(calendar.getTime()));
+			map.add("fromDate", DateConvertor.convertToYMD(dates[0]));
+			//map.add("toDate", yy.format(calendar.getTime()));
+			map.add("toDate", DateConvertor.convertToYMD(dates[1]));
 			System.out.println(map);
 			bugetedAmtAndRevenue = Constants.getRestTemplate().postForObject(
 					Constants.url + "/calculateBugetedAmtAndBugetedRevenue", map, BugetedAmtAndRevenue.class);

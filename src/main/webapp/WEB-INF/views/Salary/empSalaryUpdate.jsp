@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
-<body onload="getPrevMonthSalaryData()">
+<body>
 	<c:url value="/getPrevSalList" var="getPrevSalList"></c:url>
 
 	<!-- Main navbar -->
@@ -66,7 +66,8 @@
 						<div class="card">
 
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Employee Salary Update</h6>
+								<h6 class="card-title" id="headTitle">Employee Salary Update</h6>
+								
 							</div>
 							
 							 <%
@@ -114,13 +115,13 @@
 
 									<div class="form-group row">
 
-										<label class="col-form-label col-lg-2" for="month"
-											align="right"> Month <span style="color: red">*
+										<label class="col-form-label col-lg-1" for="month"
+											align="left"> Month <span style="color: red">*
 										</span>:
 										</label>
-										<div class="col-lg-3">
+										<div class="col-lg-2">
 											<select name="month" data-placeholder="Select Month"
-												id="month" onchange="getPrevMonthSalaryData()"
+												id="month"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
@@ -144,10 +145,10 @@
 											align="right">Financial Year<span style="color: red">*
 										</span>:
 										</label>
-										<div class="col-lg-3">
+										<div class="col-lg-2">
 											<select name="finYear"
 												data-placeholder="Select Financial Year" id="finYear"
-												onchange="getPrevMonthSalaryData()"
+												 
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 
@@ -168,11 +169,20 @@
 
 											</select>
 										</div>
-										<div class="col-lg-3">
+										
+<div class="col-lg-1">
+											<input type="button" onclick="getPrevMonthSalaryData()" class="btn bg-blue ml-3 legitRipple" value="Search">
+										</div>
+										<div class="col-lg-1"> &nbsp;
 											<span class="validation-invalid-label" id="error_fyList"
 												style="display: none;">Please Select Financial Year .</span>
 										</div>
-
+<div id="loader1" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="150px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
 									</div>
 
 									<table
@@ -264,10 +274,15 @@
 		}
 
 		function getPrevMonthSalaryData() {
-
+			$("#loader1").show();
 			var month = document.getElementById("month").value;
 			var finYear = document.getElementById("finYear").value;
-
+			var el = document.getElementById('month');
+			var text = el.options[el.selectedIndex].innerHTML;
+			
+			var el1 = document.getElementById('finYear');
+			var text1 = el1.options[el1.selectedIndex].innerHTML;
+			 document.getElementById("headTitle").innerHTML="Employee Salary Update " +text+" - " +text1
 			//alert(selectedValues);
 			$
 					.getJSON(
@@ -392,7 +407,7 @@
 									}
 
 								}
-
+								$("#loader1").hide();
 							});
 
 		}

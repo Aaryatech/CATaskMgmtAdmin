@@ -73,6 +73,9 @@
 h5 {
 	margin-bottom: 0;
 }
+.btn{
+max-height: 38px !important;
+}
 </style>
 
 
@@ -82,7 +85,7 @@ h5 {
 
 
 
-				<style type="text/css">
+				<!-- <style type="text/css">
 .datatable-footer {
 	display: none;
 }
@@ -94,7 +97,7 @@ h5 {
 .datatable-header {
 	display: none;
 }
-</style>
+</style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Manager Task Completed Report</h5>
@@ -109,23 +112,23 @@ h5 {
 								<label class="col-form-label col-lg-2" for="monthyear">Select
 									Date <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"
 										id="monthyear" name="monthyear" value="${yearrange}">
 								</div>
-								<div class="col-lg-1"></div>
+								<!-- <div class="col-lg-1"></div> -->
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Search</button>
 
-								<div class="col-lg-1"></div>
+								<!-- <div class="col-lg-1"></div> -->
 								<a
 									href="${pageContext.request.contextPath}/showCompletedTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
 										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
 
 							</div>
-							<div class="form-group row"></div>
-
+<!-- 							<div class="form-group row"></div>
+ -->
 
 							<input type="hidden" name="fromDate" id="fromDate"
 								value="${fromDate}"> <input type="hidden" name="toDate"
@@ -142,7 +145,7 @@ h5 {
 
 
 						<div class="table-responsive">
-							<table class="table" id="capTable">
+							<table class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1" id="capTable">
 								<thead>
 									<tr class="bg-blue">
 										<th>Sr.No.</th>
@@ -153,17 +156,19 @@ h5 {
 										<th>Task/ Periodicity</th>
 										<th>Owner Partner</th>
 										<th>Execution Partner</th>
-										<th>Employee Name</th>
-										<th>TL Name</th>
+										<th>Manager</th>
+<!-- 										<th>Employee Name</th>
+ -->										<th>TL Name</th>
 										<th>Due Date</th>
 										<th>Completion Date</th>
 										<th>Employee Budgeted Hrs</th>
-										<th>Total Hrs Employee</th>
-										<th>TL Total Hrs</th>
+										<!-- <th>Total Hrs Employee</th>
+										<th>TL Total Hrs</th> -->
 										<th>Manager Budgeted Hrs</th>
-										<th>Manager Total Hrs</th>
-										<th>Google Drive Link</th>
+<!-- 										<th>Manager Total Hrs</th>
+ -->										<th>Google Drive Link</th>
 
+	<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -179,16 +184,24 @@ h5 {
 											<td>${cmpTaskList.periodicityName}</td>
 											<td>${cmpTaskList.ownerPartner}</td>
 											<td>${cmpTaskList.partner}</td>
-											<td>${cmpTaskList.employee}</td>
-											<td>${cmpTaskList.teamLeader}</td>
+											<td>${cmpTaskList.manager}</td>
+<%-- 											<td>${cmpTaskList.employee}</td>
+ --%>											<td>${cmpTaskList.teamLeader}</td>
 											<td>${cmpTaskList.taskStatutoryDueDate}</td>
 											<td>${cmpTaskList.taskStartDate}</td>
 											<td>${cmpTaskList.empBudHr}</td>
-											<td>${cmpTaskList.employeeHrs}</td>
-											<td>${cmpTaskList.teamLeaderHrs}</td>
+											<%-- <td>${cmpTaskList.employeeHrs}</td>
+											<td>${cmpTaskList.teamLeaderHrs}</td> --%>
 											<td>${cmpTaskList.mngrBudHr}</td>
-											<td>${cmpTaskList.managerHrs}</td>
+											<%-- <td>${cmpTaskList.managerHrs}</td> --%>
 											<td>${cmpTaskList.exVar1}</td>
+											<td><a href="${pageContext.request.contextPath}/getTaskLogEmpInfoListByTaskId?firmName=${cmpTaskList.custFirmName}&actiName=${cmpTaskList.actiName}&taskId=${cmpTaskList.taskId}&driveLink=abc" title="View in Excel" target="_blank"><i
+										  id="excel"  class="far fa-file-excel mr-2 ml-2 fa-1x" style="color:green">
+									</i></a>&nbsp;<a
+												href="showTaskLogEmpInfoListByTaskId?firmName=${cmpTaskList.custFirmName}&actiName=${cmpTaskList.actiName}&taskId=${cmpTaskList.taskId}&driveLink=abc"
+												title="Work Log List" target="_blank"><i class="icon-list"
+													style="color: black;"></i> </a>
+											</td>
 
 										</tr>
 									</c:forEach>

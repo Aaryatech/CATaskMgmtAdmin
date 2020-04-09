@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,6 +49,7 @@ import com.ats.taskmgmtadmin.model.report.CompletedTaskReport;
 import com.ats.taskmgmtadmin.model.report.EmpAndMangPerfRepDetail;
 import com.ats.taskmgmtadmin.model.report.EmpAndMngPerformanceRep;
 import com.ats.taskmgmtadmin.model.report.InactiveTaskReport;
+import com.ats.taskmgmtadmin.model.report.TaskLogEmpInfo;
 import com.ats.taskmgmtadmin.model.report.TlTaskCompletReport;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.util.ItextPageEvent;
@@ -147,7 +149,7 @@ public class ReportController {
 				CompletedTaskReport[] resArray = Constants.getRestTemplate()
 						.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
 				List<CompletedTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
-				//System.out.println("cmpTaskList***" + cmpTaskList.toString());
+				// System.out.println("cmpTaskList***" + cmpTaskList.toString());
 				for (int i = 0; i < cmpTaskList.size(); i++) {
 					if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
 							&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
@@ -174,7 +176,6 @@ public class ReportController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/showCompletedTaskRep", method = RequestMethod.GET)
 	public void showStudentParticipatedNssNccReport(HttpServletRequest request, HttpServletResponse response) {
 
@@ -302,7 +303,7 @@ public class ReportController {
 		System.err.println("Hello");
 
 		try {
-			List<EmployeeMaster> epmList=new ArrayList<EmployeeMaster>();
+			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>();
 			mav = new ModelAndView("report/Manager/mangPerfHeadList");
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -319,19 +320,18 @@ public class ReportController {
 			map.add("empId", userId);
 			EmployeeMaster[] employee = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
-			 epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+			epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 			if (empId == 0) {
 
 				// System.out.println("emp are**********" + epmList.toString());
 				for (int i = 0; i < epmList.size(); i++) {
 					empIdList = empIdList + "," + epmList.get(i).getEmpId();
 				}
-				
 
 			} else {
-				
+
 				empIdList = String.valueOf(empId);
-				
+
 			}
 			mav.addObject("epmList", epmList);
 			mav.addObject("empId", empId);
@@ -345,7 +345,7 @@ public class ReportController {
 			}
 			if (yearrange != null) {
 				String[] fromDate = yearrange.split(" to ");
-			map = new LinkedMultiValueMap<String, Object>();
+				map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate[0]));
 				map.add("toDate", DateConvertor.convertToYMD(fromDate[1]));
@@ -353,7 +353,7 @@ public class ReportController {
 				EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 						Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 				List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-				System.err.println("progList 1"+progList);
+				System.err.println("progList 1" + progList);
 				mav.addObject("progList", progList);
 
 				/*
@@ -365,7 +365,7 @@ public class ReportController {
 				 * 
 				 * }
 				 */
-				System.err.println("progList 2"+progList);
+				System.err.println("progList 2" + progList);
 
 				mav.addObject("fromDate", fromDate[0]);
 				mav.addObject("toDate", fromDate[1]);
@@ -420,70 +420,66 @@ public class ReportController {
 			EmpAndMngPerformanceRep[] resArray = Constants.getRestTemplate().postForObject(
 					Constants.url + "getEmpAndMngPerformanceReportHead", map, EmpAndMngPerformanceRep[].class);
 			List<EmpAndMngPerformanceRep> progList = new ArrayList<>(Arrays.asList(resArray));
-		
 
-					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
-					ExportToExcel expoExcel = new ExportToExcel();
-					List<String> rowData = new ArrayList<String>();
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
 
-					rowData.add("Sr. No");
-					rowData.add("Employee Name");
-					rowData.add("No. of Tasks");
-					rowData.add("Budgeted Time");
-					rowData.add("Actual Time in Selected Period");
-					rowData.add("Actual Till Date");
-					rowData.add("Total Available Hrs");
+			rowData.add("Sr. No");
+			rowData.add("Employee Name");
+			rowData.add("No. of Tasks");
+			rowData.add("Budgeted Time");
+			rowData.add("Actual Time in Selected Period");
+			rowData.add("Actual Till Date");
+			rowData.add("Total Available Hrs");
 
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-					int cnt = 1;
-					for (int i = 0; i < progList.size(); i++) {
-						expoExcel = new ExportToExcel();
-						rowData = new ArrayList<String>();
-						cnt = cnt + i;
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < progList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
 
-						rowData.add("" + (i + 1));
-						rowData.add("" + progList.get(i).getEmpName());
-						rowData.add("" + progList.get(i).getTaskCount());
-						rowData.add("" + progList.get(i).getAllWork());
-						rowData.add("" + progList.get(i).getActWork());
-						rowData.add("" + progList.get(i).getExVar1());
+				rowData.add("" + (i + 1));
+				rowData.add("" + progList.get(i).getEmpName());
+				rowData.add("" + progList.get(i).getTaskCount());
+				rowData.add("" + progList.get(i).getAllWork());
+				rowData.add("" + progList.get(i).getActWork());
+				rowData.add("" + progList.get(i).getExVar1());
 
-						rowData.add("" + progList.get(i).getBudgetedCap());
+				rowData.add("" + progList.get(i).getBudgetedCap());
 				/*
 				 * float a = Float.parseFloat(progList.get(i).getActWork()); float b =
 				 * Float.parseFloat(progList.get(i).getBudgetedCap()); float c = b - a;
 				 * rowData.add("" + c);
 				 */
 
-						expoExcel.setRowData(rowData);
-						exportToExcelList.add(expoExcel);
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
 
-					}
+			}
 
-					XSSFWorkbook wb = null;
-					try {
+			XSSFWorkbook wb = null;
+			try {
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'G');
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'G');
 
-						ExceUtil.autoSizeColumns(wb, 3);
-						response.setContentType("application/vnd.ms-excel");
-						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
-						wb.write(response.getOutputStream());
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
 
-					} catch (IOException ioe) {
-						throw new RuntimeException("Error writing spreadsheet to output stream");
-					} finally {
-						if (wb != null) {
-							wb.close();
-						}
-					}
-
-		
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
 
 		} catch (Exception e) {
 
@@ -494,17 +490,15 @@ public class ReportController {
 
 	}
 
-	
-	
 	@RequestMapping(value = "/showMangPerfHeadListDetailForm", method = RequestMethod.GET)
-	public String showMangPerfHeadListDetailForm(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			Model model) {
+	public String showMangPerfHeadListDetailForm(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, Model model) {
 
 		String mav = new String();
 		try {
 
 			mav = "report/Manager/mangPerfDetailList";
-		
+
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
 
@@ -512,7 +506,9 @@ public class ReportController {
 			String toDate = request.getParameter("toDate");
 
 			String empId = request.getParameter("empId");
-			//System.out.println("prm are:::" + empId + fromDate + toDate);
+			// System.out.println("prm are:::" + empId + fromDate + toDate);
+
+			String empType = request.getParameter("empType");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -521,24 +517,25 @@ public class ReportController {
 			map.add("empId", empId);
 			map.add("status", 9);
 			EmpAndMangPerfRepDetail[] resArray = Constants.getRestTemplate().postForObject(
-					Constants.url + "getEmpAndMngPerformanceReportDetail", map, EmpAndMangPerfRepDetail[].class);
+					Constants.url + "getEmpAndMngPerformanceReportDetailSingleEmp", map,
+					EmpAndMangPerfRepDetail[].class);
 			List<EmpAndMangPerfRepDetail> perfList = new ArrayList<>(Arrays.asList(resArray));
-			
-			//System.out.println("perfList task**"+perfList.size());
-			System.out.println("perfList task**"+perfList.toString());
-			model.addAttribute("perfList",perfList);
+			// getEmpAndMngPerformanceReportDetail prev web service
+			// System.out.println("perfList task**"+perfList.size());
+			System.out.println("perfList task**" + perfList.toString());
+			model.addAttribute("perfList", perfList);
 			model.addAttribute("fromDate", fromDate);
 			model.addAttribute("toDate", toDate);
 			model.addAttribute("empId", empId);
-			
-			
+			model.addAttribute("empType", empType);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return mav;
 	}
- 
+
 	@RequestMapping(value = "/showMangPerfHeadListDetail", method = RequestMethod.GET)
 	public void showMangPerfHeadListDetail(HttpServletRequest request, HttpServletResponse response) {
 //
@@ -553,7 +550,8 @@ public class ReportController {
 			String toDate = request.getParameter("toDate");
 
 			String empId = request.getParameter("empId");
-		// System.out.println("prm are:::" + empId + fromDate + toDate);
+			// System.out.println("prm are:::" + empId + fromDate + toDate);
+			String empType = request.getParameter("empType");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
@@ -562,120 +560,142 @@ public class ReportController {
 			map.add("empId", empId);
 			map.add("status", 9);
 			EmpAndMangPerfRepDetail[] resArray = Constants.getRestTemplate().postForObject(
-					Constants.url + "getEmpAndMngPerformanceReportDetail", map, EmpAndMangPerfRepDetail[].class);
+					Constants.url + "getEmpAndMngPerformanceReportDetailSingleEmp", map,
+					EmpAndMangPerfRepDetail[].class);
 			List<EmpAndMangPerfRepDetail> progList = new ArrayList<>(Arrays.asList(resArray));
-			//System.out.println("perfList task**"+progList.size());
+			// System.out.println("perfList task**"+progList.size());
 
-			
-					List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			// getEmpAndMngPerformanceReportDetail prev web service
 
-					ExportToExcel expoExcel = new ExportToExcel();
-					List<String> rowData = new ArrayList<String>();
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
-					rowData.add("Sr. No");
-					rowData.add("Task Text");
-					rowData.add("Client Name");
-					rowData.add("Service");
-					rowData.add("Activity");
-					rowData.add("Task/ Periodicity");
-					rowData.add("Owner Partner");
-					rowData.add("Execution Partner");
-					rowData.add("Employee");
-					rowData.add("TL Name");
-					rowData.add("Due Date");
-					rowData.add("Work Date");
-					rowData.add("Status");
-					rowData.add("Completion Date");
-					rowData.add("Employee Budgeted Hrs");
-					//rowData.add("Total Hrs Employee");
-					//rowData.add("TL Total Hrs");
-					//rowData.add("Manager Budgeted Hrs");
-					//rowData.add("Manager Total Hrs");
-					//rowData.add("Total manager hrs for selected period");
-					rowData.add("Employee hrs for selected period");
-					//rowData.add("Total TL hrs for selected period");
-					rowData.add("Actual Till Date");
-					rowData.add("Google drive Link");
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
 
-					expoExcel.setRowData(rowData);
-					exportToExcelList.add(expoExcel);
-					int cnt = 1;
-					for (int i = 0; i < progList.size(); i++) {
-						expoExcel = new ExportToExcel();
-						rowData = new ArrayList<String>();
-						cnt = cnt + i;
+			rowData.add("Sr. No");
+			rowData.add("Task Text");
+			rowData.add("Client Name");
+			rowData.add("Service");
+			rowData.add("Activity");
+			rowData.add("Task/ Periodicity");
+			rowData.add("Owner Partner");
+			rowData.add("Execution Partner");
+			if (empType.equals("5"))
+				rowData.add("Employee");
+			else
+				rowData.add("Manager");
+			rowData.add("TL Name");
+			rowData.add("Due Date");
+			rowData.add("Work Date");
+			rowData.add("Status");
+			rowData.add("Completion Date");
+			rowData.add("Budgeted Hrs");
+			// rowData.add("Total Hrs Employee");
+			// rowData.add("TL Total Hrs");
+			// rowData.add("Manager Budgeted Hrs");
+			// rowData.add("Manager Total Hrs");
+			// rowData.add("Total manager hrs for selected period");
+			rowData.add("Employee hrs for selected period");
+			// rowData.add("Total TL hrs for selected period");
+			rowData.add("Actual Till Date");
+			rowData.add("Google drive Link");
 
-						rowData.add("" + (i + 1));
-						rowData.add("" + progList.get(i).getTaskText());
-						rowData.add("" + progList.get(i).getCustFirmName());
-						rowData.add("" + progList.get(i).getServName());
-						rowData.add("" + progList.get(i).getActiName());
-						rowData.add("" + progList.get(i).getPeriodicityName());
-						rowData.add("" + progList.get(i).getOwnerPartner());
-						rowData.add("" + progList.get(i).getPartner());
-						rowData.add("" + progList.get(i).getEmployee());
-						rowData.add("" + progList.get(i).getTeamLeader());
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < progList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
 
-						if (progList.get(i).getTaskStatutoryDueDate() != ""
-								&& progList.get(i).getTaskStatutoryDueDate() != null) {
-							//String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
-							rowData.add("" + progList.get(i).getTaskStatutoryDueDate() );
-						} else {
-							rowData.add("" + "-");
-						}
-						if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
-							//String[] splited2 = progList.get(i).getTaskEndDate().split("T");
-							rowData.add("" + progList.get(i).getTaskEndDate());
-						} else {
-							rowData.add("" + "-");
-						}
+				rowData.add("" + (i + 1));
+				rowData.add("" + progList.get(i).getTaskText());
+				rowData.add("" + progList.get(i).getCustFirmName());
+				rowData.add("" + progList.get(i).getServName());
+				rowData.add("" + progList.get(i).getActiName());
+				rowData.add("" + progList.get(i).getPeriodicityName());
+				rowData.add("" + progList.get(i).getOwnerPartner());
+				rowData.add("" + progList.get(i).getPartner());
+				if (empType.equals("5"))
+					rowData.add("" + progList.get(i).getEmployee());
+				else
+					rowData.add("" + progList.get(i).getManager());
 
-						rowData.add("" + progList.get(i).getStatusText());
-						
-						if (progList.get(i).getTaskCompletionDate() != ""
-								&& progList.get(i).getTaskCompletionDate() != null) {
-							//String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
-							rowData.add("" +progList.get(i).getTaskCompletionDate());
-						} else {
-							rowData.add("" + "-");
-						}
+				rowData.add("" + progList.get(i).getTeamLeader());
 
-						rowData.add("" + progList.get(i).getEmpBudHr());
-						//rowData.add("" + progList.get(i).getTeamLeaderHrs());
-						//rowData.add("" + progList.get(i).getMngrBudHr());
-						//rowData.add("" + progList.get(i).getManagerHrs());
-						//rowData.add("" + progList.get(i).getManagerBetHrs());
-						rowData.add("" + progList.get(i).getEmpBetHrs());//act bet sel date 
-						rowData.add("" + progList.get(i).getEmployeeHrs());//act till date
+				if (progList.get(i).getTaskStatutoryDueDate() != ""
+						&& progList.get(i).getTaskStatutoryDueDate() != null) {
+					// String[] splited1 = progList.get(i).getTaskStatutoryDueDate().split("T");
+					rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
+				} else {
+					rowData.add("" + "-");
+				}
+				if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
+					// String[] splited2 = progList.get(i).getTaskEndDate().split("T");
+					rowData.add("" + progList.get(i).getTaskEndDate());
+				} else {
+					rowData.add("" + "-");
+				}
 
-						//rowData.add("" + progList.get(i).getTlBetHrs());
-						rowData.add("" + progList.get(i).getExVar1());
+				rowData.add("" + progList.get(i).getStatusText());
 
-						expoExcel.setRowData(rowData);
-						exportToExcelList.add(expoExcel);
+				if (progList.get(i).getTaskCompletionDate() != "" && progList.get(i).getTaskCompletionDate() != null) {
+					// String[] splited3 = progList.get(i).getTaskCompletionDate().split("T");
+					rowData.add("" + progList.get(i).getTaskCompletionDate());
+				} else {
+					rowData.add("" + "-");
+				}
 
-					}
+				if (empType.equals("5")) {
+					rowData.add("" + progList.get(i).getEmpBudHr());
+					// rowData.add("" + progList.get(i).getTeamLeaderHrs());
+					// rowData.add("" + progList.get(i).getMngrBudHr());
+					// rowData.add("" + progList.get(i).getManagerHrs());
+					// rowData.add("" + progList.get(i).getManagerBetHrs());
+					rowData.add("" + progList.get(i).getEmpBetHrs());// act bet sel date
+					rowData.add("" + progList.get(i).getEmployeeHrs());// act till date
+				} else {
+					rowData.add("" + progList.get(i).getMngrBudHr());
+					// rowData.add("" + progList.get(i).getTeamLeaderHrs());
+					// rowData.add("" + progList.get(i).getMngrBudHr());
+					// rowData.add("" + progList.get(i).getManagerHrs());
+					// rowData.add("" + progList.get(i).getManagerBetHrs());
+					rowData.add("" + progList.get(i).getManagerBetHrs());// act bet sel date
+					rowData.add("" + progList.get(i).getManagerHrs());// act till date
+				}
 
-					XSSFWorkbook wb = null;
-					try {
+				// rowData.add("" + progList.get(i).getTlBetHrs());
+				rowData.add("" + progList.get(i).getExVar1());
 
-						wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-								"From Date:" + fromDate + "   To Date:" + toDate + "", "", 'W');
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
 
-						ExceUtil.autoSizeColumns(wb, 3);
-						response.setContentType("application/vnd.ms-excel");
-						String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-						response.setHeader("Content-disposition",
-								"attachment; filename=" + reportName + "-" + date + ".xlsx");
-						wb.write(response.getOutputStream());
+			}
+			String empName = null;
+			if (empType.equals("5"))
+				empName = progList.get(0).getEmployee();
+			else
+				empName = progList.get(0).getManager();
 
-					} catch (IOException ioe) {
-						throw new RuntimeException("Error writing spreadsheet to output stream");
-					} finally {
-						if (wb != null) {
-							wb.close();
-						}
-					}
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"From Date:" + fromDate + "   To Date:" + toDate + " - " + empName + " ", "", 'R');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
 
 		} catch (Exception e) {
 
@@ -686,7 +706,7 @@ public class ReportController {
 
 	}
 
-	//Declined task report Sachin 28-03-2020
+	// Declined task report Sachin 28-03-2020
 
 	@RequestMapping(value = "/showInactiveTaskReportForManagerForm", method = RequestMethod.GET)
 	public String showInactiveTaskReportForManagerForm(HttpServletRequest request, HttpServletResponse response,
@@ -710,7 +730,7 @@ public class ReportController {
 				map.add("fromDate1", DateConvertor.convertToYMD(fromDate[0]));
 				map.add("toDate1", DateConvertor.convertToYMD(fromDate[1]));
 				map.add("empIds", String.valueOf(userId));
-				map.add("status", 7);
+				map.add("status", 8);// changed to 8 from 7 as 8 is value in status master 7 is primary key
 				InactiveTaskReport[] resArray = Constants.getRestTemplate()
 						.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 				List<InactiveTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
@@ -739,8 +759,8 @@ public class ReportController {
 
 		return mav;
 	}
-	
-	//Declined task report
+
+	// Declined task report
 
 	@RequestMapping(value = "/showInactiveTaskRepForManager", method = RequestMethod.GET)
 	public void showInactiveTaskRep(HttpServletRequest request, HttpServletResponse response) {
@@ -759,11 +779,11 @@ public class ReportController {
 			map.add("fromDate1", DateConvertor.convertToYMD(fromDate));
 			map.add("toDate1", DateConvertor.convertToYMD(toDate));
 			map.add("empIds", String.valueOf(userId));
-			map.add("status", 7);
+			map.add("status", 8);
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-			//System.err.println("getInactiveTaskReport**" + progList.toString());
+			// System.err.println("getInactiveTaskReport**" + progList.toString());
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -807,10 +827,10 @@ public class ReportController {
 				rowData.add("" + progList.get(i).getPartner());
 				rowData.add("" + progList.get(i).getEmployee());
 				rowData.add("" + progList.get(i).getTeamLeader());
-				//String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
+				// String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
 				rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 				if (progList.get(i).getTaskEndDate() != "" && progList.get(i).getTaskEndDate() != null) {
-					//String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
+					// String[] splited1 = progList.get(i).getTaskEndDate().split(" ");
 					rowData.add("" + progList.get(i).getTaskEndDate());
 				} else {
 					rowData.add("" + "-");
@@ -832,7 +852,7 @@ public class ReportController {
 			try {
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-						"Manager Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
+						"Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
 						'R');
 
 				ExceUtil.autoSizeColumns(wb, 3);
@@ -912,7 +932,7 @@ public class ReportController {
 	@RequestMapping(value = "/showCompletedTaskRepForManager", method = RequestMethod.GET)
 	public void showCompletedTaskRepForManager(HttpServletRequest request, HttpServletResponse response) {
 
-		String reportName = "Completed Task(Manager)";
+		String reportName = "Completed Task (Manager)";
 
 		try {
 			HttpSession session = request.getSession();
@@ -930,7 +950,7 @@ public class ReportController {
 			InactiveTaskReport[] resArray = Constants.getRestTemplate()
 					.postForObject(Constants.url + "getInactiveTaskReport", map, InactiveTaskReport[].class);
 			List<InactiveTaskReport> progList = new ArrayList<>(Arrays.asList(resArray));
-			//System.err.println("getInactiveTaskReport**" + progList.toString());
+			// System.err.println("getInactiveTaskReport**" + progList.toString());
 
 			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
@@ -945,15 +965,16 @@ public class ReportController {
 			rowData.add("Task/ Periodicity");
 			rowData.add("Owner Partner");
 			rowData.add("Execution Partner");
-			rowData.add("Employee Name");
+			rowData.add("Manager");
+			//rowData.add("Employee Name");
 			rowData.add("TL Name");
 			rowData.add("Due Date");
 			rowData.add("Completion Date");
 			rowData.add("Employee Budgeted Hrs");
-			rowData.add("Total Hrs Employee");
+			//rowData.add("Total Hrs Employee");
 			rowData.add("TL Total Hrs");
 			rowData.add("Manager Budgeted Hrs");
-			rowData.add("Manager Total Hrs");
+			//rowData.add("Manager Total Hrs");
 			rowData.add("Google Drive Link");
 
 			expoExcel.setRowData(rowData);
@@ -972,22 +993,24 @@ public class ReportController {
 				rowData.add("" + progList.get(i).getPeriodicityName());
 				rowData.add("" + progList.get(i).getOwnerPartner());
 				rowData.add("" + progList.get(i).getPartner());
-				rowData.add("" + progList.get(i).getEmployee());
+				rowData.add("" + progList.get(i).getManager());
+
+				//rowData.add("" + progList.get(i).getEmployee());
 				rowData.add("" + progList.get(i).getTeamLeader());
-				//String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
-				rowData.add("" +  progList.get(i).getTaskStatutoryDueDate());
+				// String[] splited = progList.get(i).getTaskStatutoryDueDate().split(" ");
+				rowData.add("" + progList.get(i).getTaskStatutoryDueDate());
 				if (progList.get(i).getTaskStartDate() != "" && progList.get(i).getTaskStartDate() != null) {
-					//String[] splited1 = progList.get(i).getTaskStartDate().split(" ");
+					// String[] splited1 = progList.get(i).getTaskStartDate().split(" ");
 					rowData.add("" + progList.get(i).getTaskStartDate());
 				} else {
 					rowData.add("" + "-");
 				}
 				rowData.add("" + progList.get(i).getEmpBudHr());
-				rowData.add("" + progList.get(i).getEmployeeHrs());
+				//rowData.add("" + progList.get(i).getEmployeeHrs());
 				rowData.add("" + progList.get(i).getTeamLeaderHrs());
 				rowData.add("" + progList.get(i).getMngrBudHr());
 
-				rowData.add("" + progList.get(i).getManagerHrs());
+				//rowData.add("" + progList.get(i).getManagerHrs());
 				rowData.add("" + progList.get(i).getExVar1());
 
 				expoExcel.setRowData(rowData);
@@ -999,8 +1022,8 @@ public class ReportController {
 			try {
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-						"Manager Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
-						'R');
+						" Name:" + emp.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "", "",
+						'P');
 
 				ExceUtil.autoSizeColumns(wb, 3);
 				response.setContentType("application/vnd.ms-excel");
@@ -1023,6 +1046,141 @@ public class ReportController {
 
 		}
 
+	}
+	
+	//Competed Task Log info by Task Id 06-04-2020
+	
+	@RequestMapping(value = "/getTaskLogEmpInfoListByTaskId", method = RequestMethod.GET)
+	public void getTaskLogEmpInfoListByTaskId(HttpServletRequest request, HttpServletResponse response) {
+
+
+		try {
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+			
+			String firmName=request.getParameter("firmName");
+			String actiName=request.getParameter("actiName");
+			String taskId=request.getParameter("taskId");
+			String driveLink=request.getParameter("driveLink");
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("taskId", taskId);
+			TaskLogEmpInfo[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getTaskLogEmpInfoListByTaskId", map, TaskLogEmpInfo[].class);
+			List<TaskLogEmpInfo> taskLogList = new ArrayList<>(Arrays.asList(resArray));
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+			String reportName = "Completed Task Work Contribution -"+": " + taskLogList.get(0).getTaskText();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Employee Type");
+			rowData.add("Name of Employee/Manager");
+			rowData.add("Total Work Hours");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < taskLogList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+
+				rowData.add("" + (i + 1));
+				String empType=null;
+				if(taskLogList.get(i).getEmpType()==5) {
+					empType="Employee";
+				}else if(taskLogList.get(i).getEmpType()==3) {
+					empType="Manager";
+				}else {
+					empType="Team Leader";
+				}
+				rowData.add(empType);
+				rowData.add("" + taskLogList.get(i).getEmpName());
+				rowData.add("" + taskLogList.get(i).getWorkHrs());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"Customer:" + firmName + " Activity: " + actiName +"   Due date:" + taskLogList.get(0).getTaskStatutoryDueDate()+"-Completion Date:" + taskLogList.get(0).getTaskCompletionDate()  ,"",
+						'D');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in getTaskLogEmpInfoListByTaskId " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+	
+//Sachin 06-04-2020
+	@RequestMapping(value = "/showTaskLogEmpInfoListByTaskId", method = RequestMethod.GET)
+	public String showTaskLogEmpInfoListByTaskId(HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
+			String reportName = "Completed Task Employee Work Contribution";
+
+			String mav = new String();
+
+				mav = "report/Manager/compTaskLogInfo";
+		try {
+			HttpSession session = request.getSession();
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			String firmName=request.getParameter("firmName");
+			String actiName=request.getParameter("actiName");
+			String taskId=request.getParameter("taskId");
+			String driveLink=request.getParameter("driveLink");
+			
+			model.addAttribute("firmName", firmName);
+			model.addAttribute("actiName", actiName);
+			model.addAttribute("taskId", taskId);
+
+			
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("taskId", taskId);
+			TaskLogEmpInfo[] resArray = Constants.getRestTemplate()
+					.postForObject(Constants.url + "getTaskLogEmpInfoListByTaskId", map, TaskLogEmpInfo[].class);
+			List<TaskLogEmpInfo> taskLogList = new ArrayList<>(Arrays.asList(resArray));
+			model.addAttribute("taskLogList", taskLogList);
+
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		return mav;
 	}
 
 	@RequestMapping(value = "/showEmployeePartnerGrid", method = RequestMethod.GET)
@@ -1065,10 +1223,10 @@ public class ReportController {
 			ExportToExcel expoExcel = new ExportToExcel();
 			List<String> rowData = new ArrayList<String>();
 			char userLetter = 'F';
-			//char userLetter1 = 'Z';
-			//char userLetter2 = userLetter1++;
-			
-			//System.out.println("cahr is "+userLetter2);
+			// char userLetter1 = 'Z';
+			// char userLetter2 = userLetter1++;
+
+			// System.out.println("cahr is "+userLetter2);
 			rowData.add("Sr. No");
 			rowData.add("Name of Employee/ Manager/ TL");
 			rowData.add("Total Hrs");

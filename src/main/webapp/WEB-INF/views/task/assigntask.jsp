@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<style type="text/css">
+.dataTables_length{display:none !important;}
+</style>
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
@@ -12,8 +14,8 @@
 	<c:url value="/getCountofPartner" var="getCountofPartner"></c:url>
 
 	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
-
-
+		<c:url value="/getServicesandCustByPeriodId" var="getServicesandCustByPeriodId"></c:url>
+	
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- /main navbar -->
@@ -205,7 +207,7 @@
 								</label>
 								<div class="col-lg-2">
 									<select name="periodicityId" data-placeholder="Select Service"
-										id="periodicityId"
+										id="periodicityId" onchange="showServices()"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
 
@@ -249,10 +251,10 @@
 									</select>
 								</div>
 								
-								<label class="col-form-label col-lg-2" for="service">
+								<label class="col-form-label col-lg-1" for="customer">
 									Customer<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-4">
+								<div class="col-lg-3">
 									<select name="customer" data-placeholder="Select Customer"
 										id="customer"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -280,6 +282,14 @@
 									</select>
 								</div>
 								
+								<div class="col-lg-2">
+								<button type="submit" class="btn btn-primary"
+										id="submtbtn">
+										Search <!-- <i class="icon-paperplane ml-2"></i> -->
+									</button>
+								
+								</div>
+								
 
 							</div>
 
@@ -287,11 +297,13 @@
 							<div class="form-group row mb-0">
 								<div class="col-lg-12" align="center">
 									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
-									<button type="submit" class="btn bg-blue ml-3 legitRipple"
-										id="submtbtn">
-										Search <i class="icon-paperplane ml-2"></i>
-									</button>
-
+									
+<div id="loader1" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="150px" height="100px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
 								</div>
 							</div>
 						</div>
@@ -303,19 +315,19 @@
 						<div class="card-body">
 							<div class="form-group row">
 
-								<label class="col-form-label col-lg-2" for="startDate">Work
+								<label class="col-form-label col-lg-1" for="startDate">Work
 									Date: </label>
-								<div class="col-lg-4">
+								<div class="col-lg-2">
 									<input type="text" class="form-control datepickerclass1"
 										name="workDate" id="workDate" placeholder="Task Work Date"
 										autocomplete="off">
 								</div>
 
 
-								<label class="col-form-label col-lg-2" for="locId2">
+								<label class="col-form-label col-lg-1" for="locId2">
 									Employee <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-4">
+								<div class="col-lg-6">
 
 									<select multiple="multiple" data-placeholder="Select Employee"
 										name="empId2" id="empId2"
@@ -334,16 +346,20 @@
 												style="display: none;">Please Select a Partner (PT).</span>
 										
 								</div>
-							</div>
-<br>
-							<div style="text-align: center;">
+								<div class="col-lg-2">
 								<input type="button" class="btn btn-primary" value="Assign Task"
 									id="deleteId"
-									style="align-content: center; width: 113px; margin-left: 40px;">
+									>
 							</div>
+							</div>
+<br>
 							<br>
 							<span class="validation-invalid-label" id="error_chk"
 									style="display: none;">Please Select the Tasks.</span>
+									
+									<span
+												class="validation-valid-label"  
+												 > First check the tasks to assign and then select employees and assign</span>
 							<div class="table-responsive">
 
 								<table
@@ -415,6 +431,75 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
+	
+	function showServices() {
+		//alert("servId " +servId)
+		$("#loader1").show();
+     var periodcityId = $("#periodicityId").val();
+
+		if (periodcityId > 0) {
+
+			$
+					.getJSON(
+							'${getServicesandCustByPeriodId}',
+							{
+								periodcityId : periodcityId,
+								ajax : 'true',
+							},
+
+							function(data) {
+								var html="";
+								var p = "0";
+								html += '<option  value="'+p+'" selected>ALL</option>';
+								html += '</option>';
+
+								var temp = 0;
+
+								var len = data.servList.length;
+								if(len==0){
+									$("#loader1").hide();
+								}
+								for (var i = 0; i < len; i++) {												
+
+									html += '<option value="' + data.servList[i].servId + '">'
+											+ data.servList[i].servName
+											+ '</option>';	
+								}
+
+								 
+								$('#service').html(html);
+								$("#service").trigger("chosen:updated");
+
+								
+								//new
+								html="";
+								 p = "0";
+								html += '<option  value="'+p+'" selected>ALL</option>';
+								html += '</option>';
+
+							
+
+								 len = data.custList.length;
+								if(len==0){
+									$("#loader1").hide();
+								}
+								for (var i = 0; i < len; i++) {												
+
+									html += '<option value="' + data.custList[i].custId + '">'
+											+ data.custList[i].custFirmName
+											+ '</option>';	
+								}
+
+								 
+								$('#customer').html(html);
+								$("#customer").trigger("chosen:updated");
+
+								
+							});
+
+		}//end of if
+		$("#loader1").hide();
+	}
 	
 							$("#deleteId")
 									.click(function(){
@@ -516,8 +601,7 @@
 		
 				function() {
 					
-					//
-					$('#printtable_assignTask').dataTable({
+			/*  $('#printtable_assignTask').dataTable({
 					    "bPaginate": false,
 					  	dom: 'Bfrtip',
 					    buttons: [
@@ -526,8 +610,8 @@
 				            'csvHtml5',
 				            'pdfHtml5'
 				        ]
-					});
-					//
+					});  */
+					 
 					
 					//	$('#printtable').DataTable();
 			
@@ -537,7 +621,6 @@
 										.prop('checked', this.checked);
 								 
 							});
-					 
 				});
 	</script>
 	<script type="text/javascript">

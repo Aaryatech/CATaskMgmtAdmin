@@ -117,7 +117,10 @@
 											</c:when>
 											<c:otherwise>
 												<li
-													class="media content-divider justify-content-center text-muted mx-0 old">${communicationList.communText}&nbsp;${communicationList.updateDatetime}</li>
+													class="media content-divider justify-content-center text-muted mx-0 old">${communicationList.communText}&nbsp;${communicationList.updateDatetime}&nbsp; ${communicationList.empName}</li>
+	<%-- 												<div class="font-size-sm text-muted mt-2">
+																	${communicationList.empName}&nbsp;${communicationList.updateDatetime}
+																</div> --%>
 											</c:otherwise>
 										</c:choose>
 
@@ -156,8 +159,8 @@
 												<b><i class="icon-paperplane"></i></b>
 											</button></b>
 											
-											<b><i class="icon-bubbles10
-" title="Email This Line"></i></b><input type="checkbox" id="check_email" name="check_email">
+											<!-- <b><i class="icon-bubbles10
+" title="Email This Line"></i></b><input type="checkbox" id="check_email" name="check_email"> -->
 												
 											
 
@@ -436,7 +439,9 @@
 																	.html(
 																			data[i].communText
 																					+ '&nbsp;'
-																					+ data[i].updateDatetime));
+																					+ data[i].updateDatetime
+																					+ '&nbsp;'
+																					+ data[i].empName));
 										}
 
 									}

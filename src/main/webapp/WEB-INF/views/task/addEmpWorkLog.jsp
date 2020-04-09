@@ -132,7 +132,7 @@
 										</label>
 										<div class="col-xl-3">
 											<input type="text" class="form-control daterange-basic_new"
-												id="fromDate" name="fromDate" onchange="getWorkLog()">
+												id="fromDate" name="fromDate">
 										</div>
 									
 										<label class="col-form-label col-xl-1" for="custName">Customer
@@ -140,7 +140,7 @@
 										</label>
 										<div class="col-xl-3">
 											<select name="customer" data-placeholder="Select Customer"
-												id="customer" onchange="getWorkLog()"
+												id="customer"  
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 												<option value="0">Select Customer</option>
@@ -160,7 +160,7 @@
 											<select name="employee" data-placeholder="Select Employee"
 												id="employee" 
 												class="form-control form-control-select2 select2-hidden-accessible"
-												data-fouc="" aria-hidden="true" onchange="getWorkLog()">
+												data-fouc="" aria-hidden="true">
 												<option value="0">Select Employee</option>
 												<c:forEach items="${epmList}" var="epmList">
 
@@ -208,7 +208,7 @@
 										</label>
 										<div class="col-xl-3">
 											<select name="activity" data-placeholder="Select Activity"
-												id="activity" onchange="getWorkLog()"
+												id="activity"
 												class="form-control form-control-select2 select2-hidden-accessible"
 												data-fouc="" aria-hidden="true">
 											</select>
@@ -219,8 +219,18 @@
 												for corresponding activity.</span>
 										</div> -->
 
-									</div>
-
+									
+																			
+<div class="col-lg-1">
+											<input type="button" onclick="getWorkLog()" class="btn bg-blue ml-3 legitRipple" value="Search">
+										</div>
+<div id="loader1" style="display: none;">
+							<img
+								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+								width="100px" height="100px"
+								style="display: block; margin-left: auto; margin-right: auto">
+						</div>
+						</div>
 									
 
 									<%-- <div class="form-group row mb-0">
@@ -342,6 +352,7 @@
 
 		function getWorkLog() {
 			//alert("Hi")
+			$("#loader1").show();
 			var emp = $("#employee").val();
 			var service = $("#service").val();
 			var activity = $("#activity").val();
@@ -362,6 +373,9 @@
 			},
 
 			function(data) {
+				if(data.length==0){
+					$("#loader1").hide();
+				}
 				var dataTable = $('#worklogdatatable').DataTable();
 				dataTable.clear().draw();
 				var wrkDt=0;
@@ -393,6 +407,7 @@
 								v.workRemark,					
 								acButton
 							]).draw();
+					$("#loader1").hide();
 				});
 				$('.datepickerclass').daterangepicker({
 					singleDatePicker : true,

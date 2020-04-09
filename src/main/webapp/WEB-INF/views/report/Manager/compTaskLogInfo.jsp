@@ -100,48 +100,53 @@ max-height: 38px !important;
 </style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<!-- <h5 class="card-title">Manager Inactive Task Report</h5> -->
-						
-						<h5 class="card-title">Manager Declined Task Report</h5>
+						<h5 class="card-title">Manager Task Completed: Detail Work Log Report <b>${taskLogList[0].taskText}</b></h5>
 
 					</div>
 					<div class="card-body">
 						<form
-							action="${pageContext.request.contextPath}/showInactiveTaskReportForManagerForm"
+							action="#"
 							id="submitInsertActivity" method="get">
-							<div class="form-group row">
+							<%-- <div class="form-group row">
 
 								<label class="col-form-label col-lg-2" for="monthyear">Select
 									Date <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-2">
+								<div class="col-lg-3">
 									<input type="text" class="form-control daterange-basic_new"
 										id="monthyear" name="monthyear" value="${yearrange}">
 								</div>
-								<!-- <div class="col-lg-1"></div> -->
+								<div class="col-lg-1"></div>
 								<button type="submit" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn">Search</button>
 
-								<!-- <div class="col-lg-1"></div> -->
+								<div class="col-lg-1"></div>
 								<a
-									href="${pageContext.request.contextPath}/showInactiveTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
+									href="${pageContext.request.contextPath}/showCompletedTaskRepForManager?fromDate=${fromDate}&toDate=${toDate}"><button
 										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
 
-							</div>
-							<!-- <div class="form-group row"></div> -->
-
-
-							<input type="hidden" name="fromDate" id="fromDate"
-								value="${fromDate}"> <input type="hidden" name="toDate"
-								id="toDate" value="${toDate}">
-
-							<div id="loader" style="display: none;">
-								<img
-									src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
-									width="150px" height="150px"
-									style="display: block; margin-left: auto; margin-right: auto">
-							</div>
+							</div> --%>
+							<div class="form-group row">
+							<div class="col-lg-8">		
+							 <p> <b>Customer Name:</b> ${firmName} <b>Activity Name:</b> ${actiName}</p> 
+</div>
+<div class="col-lg-4">	
+<a
+									href="${pageContext.request.contextPath}/getTaskLogEmpInfoListByTaskId?firmName=${firmName}&actiName=${actiName}&taskId=${taskId}&driveLink=abc"><button
+										type="button" id="excel" class="btn bg-blue ml-1 legitRipple">Excel
+									</button></a>
+								
+							<input type="hidden" name="firmName" id="firmName"
+								value="${firmName}"> <input type="hidden" name="actiName"
+								id="actiName" value="${actiName}">
+								
+								<input type="hidden" name="taskId" id="taskId"
+								value="${taskId}"> <input type="hidden" name="driveLink"
+								id="driveLink" value="abc">
+									</div>
+								
+</div>
 						</form>
 
 
@@ -151,53 +156,30 @@ max-height: 38px !important;
 								<thead>
 									<tr class="bg-blue">
 										<th>Sr.No.</th>
-										<th>Task Text</th>
-										<th>Client Name</th>
-										<th>Service</th>
-										<th>Activity</th>
-										<th>Task/ Periodicity</th>
-										<th>Owner Partner</th>
-										<th>Execution Partner</th>
+										<th>Employee Type</th>
 										<th>Employee Name</th>
-										<th>TL Name</th>
-										<th>Due Date</th>
-										<th>Inactive Date</th>
-										<th>Employee Budgeted Hrs</th>
-										<th>Total Hrs Employee</th>
-										<th>TL Total Hrs</th>
-										<th>Manager Budgeted Hrs</th>
-										<th>Manager Total Hrs</th>
-										<th>Google Drive Link</th>
-
+										<th>Work Hours</th>
 									</tr>
 								</thead>
 								<tbody>
 
-									<c:forEach items="${cmpTaskList}" var="cmpTaskList"
+									<c:forEach items="${taskLogList}" var="taskLogList"
 										varStatus="count">
 										<tr>
 											<td>${count.index+1}</td>
-											<td>${cmpTaskList.taskText}</td>
-											<td>${cmpTaskList.custFirmName}</td>
-											<td>${cmpTaskList.servName}</td>
-											<td>${cmpTaskList.actiName}</td>
-											<td>${cmpTaskList.periodicityName}</td>
-											<td>${cmpTaskList.ownerPartner}</td>
-											<td>${cmpTaskList.partner}</td>
-											<td>${cmpTaskList.employee}</td>
-											<td>${cmpTaskList.teamLeader}</td>
-											<td>${cmpTaskList.taskStatutoryDueDate}</td>
-											<td>${cmpTaskList.taskEndDate}</td>
-											<td>${cmpTaskList.empBudHr}</td>
-											<td>${cmpTaskList.employeeHrs}</td>
-											<td>${cmpTaskList.teamLeaderHrs}</td>
-											<td>${cmpTaskList.mngrBudHr}</td>
-											<td>${cmpTaskList.managerHrs}</td>
-											<td>${cmpTaskList.exVar1}</td>
-
+											<c:if test="${taskLogList.empType==5}">
+												<td>Employee</td>
+											</c:if>
+											<c:if test="${taskLogList.empType==3}">
+												<td>Manager</td>
+											</c:if>
+											<c:if test="${taskLogList.empType==4}">
+												<td>Team Leader</td>
+											</c:if>
+											<td>${taskLogList.empName}</td>
+											<td>${taskLogList.workHrs}</td>
 										</tr>
 									</c:forEach>
-
 
 								</tbody>
 							</table>

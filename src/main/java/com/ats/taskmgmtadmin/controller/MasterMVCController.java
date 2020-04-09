@@ -46,6 +46,7 @@ import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.common.VpsImageUpload;
 import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.ActivityPeriodDetails;
+import com.ats.taskmgmtadmin.model.AssesseeTypeMaster;
 import com.ats.taskmgmtadmin.model.CustNameId;
 import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.CustomerGroupMaster;
@@ -1446,6 +1447,13 @@ public class MasterMVCController {
 
 				mav.addObject("title", "Add Customer");
 				mav.addObject("custId", 0);
+				
+				
+				AssesseeTypeMaster[] asseArray = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAssesseeTypeList", AssesseeTypeMaster[].class);
+				List<AssesseeTypeMaster> assesseeTypeList = new ArrayList<AssesseeTypeMaster>(Arrays.asList(asseArray));
+				mav.addObject("assesseeTypeList", assesseeTypeList);
+				
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
@@ -1728,7 +1736,7 @@ public class MasterMVCController {
 				List<FirmType> firmList = new ArrayList<FirmType>(Arrays.asList(firmArr));
 				mav.addObject("firmList", firmList);
 
-				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployees",
+				EmployeeMaster[] employee = Constants.getRestTemplate().getForObject(Constants.url + "/getEmployees",
 						EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 				mav.addObject("epmList", epmList);
@@ -1740,6 +1748,12 @@ public class MasterMVCController {
 
 				mav.addObject("title", "Edit Customer");
 				mav.addObject("custId", custId);
+				
+				AssesseeTypeMaster[] asseArray = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAssesseeTypeList", AssesseeTypeMaster[].class);
+				List<AssesseeTypeMaster> assesseeTypeList = new ArrayList<AssesseeTypeMaster>(Arrays.asList(asseArray));
+				mav.addObject("assesseeTypeList", assesseeTypeList);
+				
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());
@@ -1930,9 +1944,9 @@ public class MasterMVCController {
 			StatusMaster status = new StatusMaster();
 
 			status.setStatusMstId(statusId);
-			status.setStatusText(request.getParameter("statusText"));
+			status.setStatusText(request.getParameter("statusText").trim());
 			status.setStatusValue(maxStat);
-			status.setStatusDesc(request.getParameter("statusDesc"));
+			status.setStatusDesc(request.getParameter("statusDesc").trim());
 			status.setStatusColor("Green");
 			status.setIsEditable(1);
 			status.setTypeIds("0");
