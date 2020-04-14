@@ -121,9 +121,9 @@
 
 							<div class="form-group row">
 								<label class="col-form-label col-lg-1" for="service">
-									Service<span style="color: red">* </span> :
+									Service<span style="color: red">*</span> :
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<select name="service" data-placeholder="Select Service"
 										id="service"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -218,25 +218,8 @@
 									<span class="validation-invalid-label" id="error_cust"
 										style="display: none;"> Select customer </span>
 								</div>
-							</div>
-
-
-							<div class="form-group row">
-
-
-							
-
-							</div>
-
-
-
-
-							<input type="hidden" id="activity_id" name="activity_id"
-								value="${activity.actiId}">
-
-
-							<div class="form-group row mb-0">
-								<div class="col-lg-12" align="center">
+								
+								<div class="col-lg-2">
 									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 										id="submtbtn">
@@ -244,6 +227,29 @@
 									</button>
 
 								</div>
+							</div>
+
+
+							<!-- <div class="form-group row">
+
+							</div>
+
+ -->
+
+
+							<input type="hidden" id="activity_id" name="activity_id"
+								value="${activity.actiId}">
+
+
+							<div class="form-group row mb-0">
+								<!-- <div class="col-lg-12" align="center">
+										<button type="reset" class="btn btn-light legitRipple">Reset</button>
+									<button type="submit" class="btn bg-blue ml-3 legitRipple"
+										id="submtbtn">
+										Submit <i class="icon-paperplane ml-2"></i>
+									</button>
+
+								</div> -->
 							</div>
 
 						</form>

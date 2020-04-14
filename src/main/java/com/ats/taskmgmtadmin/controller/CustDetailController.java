@@ -214,12 +214,12 @@ public class CustDetailController {
 
 			HttpSession session = request.getSession();
 			if (custDetailSaveRes!=null) {			
-				session.setAttribute("successMsg", Constants.Sucessmsg);
+				session.setAttribute("successMsg","Customer Detail Saved Successfully");
 				redirect = "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));		
 
 			} else {			
 				
-				session.setAttribute("errorMsg", Constants.Failmsg);
+				session.setAttribute("errorMsg","Failed to Save Customer Detail");
 				redirect = "redirect:/customerDetailAdd?custId="+FormValidation.Encrypt(String.valueOf(custId));		
 			}
 			
@@ -322,11 +322,11 @@ public class CustDetailController {
 			
 			CustSignatoryMaster custDetailSaveRes = Constants.getRestTemplate().postForObject(Constants.url+"/saveCustSignatory", custSign, CustSignatoryMaster.class);
 			if (custDetailSaveRes!=null) {							
-				session.setAttribute("successMsg", Constants.Sucessmsg);
+				session.setAttribute("successMsg", "Customer Detail Saved Successfully");
 				redirect = "redirect:/customerDetailAdd?custId="+custId;			
 
 			} else {			
-				session.setAttribute("errorMsg", Constants.Failmsg);
+				session.setAttribute("errorMsg", "Failed to Save Customer Detail");
 				redirect = "redirect:/customerDetailAdd?custId="+custId;
 			}
 			

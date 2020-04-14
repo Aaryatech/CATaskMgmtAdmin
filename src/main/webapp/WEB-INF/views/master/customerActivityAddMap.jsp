@@ -234,11 +234,17 @@
 											<span class="validation-invalid-label" id="error_endDate"
 												style="display: none;">Please enter work date.</span>
 												
-											<span class="validation-invalid-label" id="error_end_date"
-												 >If you don't specify end date then tasks will be generated for current financial year.</span>
-										</div>
+											</div>
 
 									</div>
+									
+									<div class="form-group row">
+									<div class="col-lg-3"> </div>
+										<div class="col-lg-6"> 
+										<span class="validation-valid-label" id="error_end_date"
+												 >If you don't specify end date then tasks will be generated for current financial year.</span>
+										 </div>
+										 </div>
 
 
 
@@ -254,12 +260,20 @@
 										<div class="col-lg-4">
 											<span class="validation-invalid-label" id="error_stat_endDays"
 												style="display: none;">Please enter statutory end days.</span>
-												<span class="validation-invalid-label" id="error_end_date1"
+												<!-- <span class="validation-invalid-label" id="error_end_date1"
 												 >Statutory due date will be defined on the basis of statutory end days.</span>
-												
+												 -->
 										</div>
 
 									</div>
+									
+									<div class="form-group row">
+									<div class="col-lg-3"> </div>
+										<div class="col-lg-6"> 
+										<span class="validation-valid-label" id="error_end_date1"
+												 >Statutory due date will be defined on the basis of statutory end days.</span>
+												 </div>
+										 </div>
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="mgBudgetHr">Manager
@@ -289,7 +303,7 @@
 										</div>
 										<div class="col-lg-3">
 											<span class="validation-invalid-label" id="error_empBudgetHr"
-												style="display: none;">Please enter employee budget hours amount.</span>
+												style="display: none;">Please enter employee budget hours.</span>
 										</div>
 
 									</div>

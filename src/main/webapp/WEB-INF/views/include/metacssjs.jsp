@@ -177,10 +177,17 @@
 	// Export options - column selector
 </script>
 <!-- /theme JS files -->
-
+<script>
+$(document).ready(function() {
+			  setTimeout(function() {
+			    $(".close").trigger('click');
+			  }, 5000);
+			});
+</script>
 
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/extra_sweetalert.js"></script>
+
 
 <%-- <script
 	src="${pageContext.request.contextPath}/resources/assets/js/moh/jquery.stickyheader.js"></script>

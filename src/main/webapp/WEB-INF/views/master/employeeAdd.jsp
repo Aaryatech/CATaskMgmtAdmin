@@ -326,7 +326,7 @@
 
 									<div class="form-group row">
 										<label class="col-form-label col-lg-3" for="email">Email
-											<span style="color: red">* </span>: <span style="color: red" > This will be default username to login </span>
+											<span style="color: red"*> </span>:
 										</label>
 										<div class="col-lg-6">
 										<input type="hidden" class="form-control"
@@ -344,8 +344,13 @@
 												style="display: none;">Please enter email.</span>
 										</div>
 									</div>
-
 									<div class="form-group row">
+									<div class="col-lg-3"> </div>
+										<div class="col-lg-6"> 
+										 <span style="color:green;" > This will be default username to login </span>
+										 </div>
+										 </div>
+									<div class="form-group row" id="pass_div">
 										<label class="col-form-label col-lg-3" for="pwd">Password
 											<span style="color: red">* </span>:
 										</label>
@@ -441,6 +446,7 @@
  
  </script>
  
+
  
 	<script>
 		$('#empSal').on(
@@ -449,7 +455,9 @@
 					this.value = this.value.replace(/[^0-9.]/g, '').replace(
 							/(\..*)\./g, '$1');
 				});
-
+		 if(${isEdit==1}){
+			 $("#pass_div").hide();
+		 }
 		$(document).ready(function($) {
 
 			$("#submitInsertClient").submit(function(e) {

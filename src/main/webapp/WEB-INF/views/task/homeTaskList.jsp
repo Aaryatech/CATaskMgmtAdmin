@@ -613,6 +613,8 @@ h5 {
 
 							<div class="modal-header bg-success">
 								<h5 class="modal-title">Edit Task</h5>
+								<p id="ed_task_name" style="color:red;"></p>
+								<p id="ed_task_cust" style="color:brown;"></p>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -632,7 +634,7 @@ h5 {
 											autocomplete="off">
 											
 											<input type="hidden" readonly class="form-control datepickerclass"
-											onchange="submitResponse()"
+										 
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
 											
@@ -645,7 +647,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control" data-mask="999:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr" onchange="submitResponse()"
+											name="manBudHr"  
 											autocomplete="off">
 									</div>
 
@@ -660,8 +662,10 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" class="form-control" data-mask="999:99"
 											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr" onchange="submitResponse()"
+											name="manBudHr"  
 											autocomplete="off">
+											<span style="display: none;" class="validation-invalid-label" id="err_mHr"
+												>Please select manager budget hours</span>
 									</div>
 
 								</div>
@@ -677,7 +681,7 @@ h5 {
 									<div class="col-lg-6">
 										<input type="text" data-mask="999:99" class="form-control"
 											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-											onchange="submitResponse()" name="empBudHr"
+										  name="empBudHr"
 											autocomplete="off">
 									</div>
 
@@ -689,11 +693,14 @@ h5 {
 								<div class="form-group row">
 									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
 										Budgeted Hours : </label>
+										
 									<div class="col-lg-6">
 										<input type="text" data-mask="999:99" class="form-control"
 											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-											onchange="submitResponse()" name="empBudHr"
+											 name="empBudHr"
 											autocomplete="off">
+											<span style="display: none;" class="validation-invalid-label" id="err_eHr"
+												>Please select emp budget hours</span>
 									</div>
 
 								</div>
@@ -707,7 +714,7 @@ h5 {
 										Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											onchange="submitResponse()"
+										 
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
 									</div>
@@ -721,7 +728,7 @@ h5 {
 										Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											onchange="submitResponse()"
+										 
 											placeholder="Enter Statutory Due Date" id="dueDate"
 											name="dueDate" autocomplete="off">
 									</div>
@@ -736,7 +743,7 @@ h5 {
 									<label class="col-form-label col-lg-6">Work Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											placeholder="Enter Work Date" onchange="submitResponse()"
+											placeholder="Enter Work Date" 
 											id="workDate1" name="workDate" autocomplete="off">
 									</div>
 								</div>
@@ -750,11 +757,13 @@ h5 {
 											</label>
 											<div class="col-lg-6">
 												<select name="emp" data-placeholder="Select Activity"
-													onchange="submitResponse()" id="emp" multiple
+													  id="emp" multiple
 													disabled="disabled"
 													class="form-control form-control-select2 select2-hidden-accessible"
 													data-fouc="" aria-hidden="true">
 												</select>
+												
+												
 											</div>
 
 										</div>
@@ -769,10 +778,12 @@ h5 {
 											</label>
 											<div class="col-lg-6">
 												<select name="emp" data-placeholder="Select Employee"
-													onchange="submitResponse()" id="emp" multiple
+													  id="emp" multiple
 													class="form-control form-control-select2 select2-hidden-accessible"
 													data-fouc="" aria-hidden="true">
 												</select>
+												<span style="display: none;" class="validation-invalid-label" id="err_tTeam"
+												>Please select task team</span>
 											</div>
 
 										</div>
@@ -790,7 +801,7 @@ h5 {
 											</label>
 											<div class="col-lg-6">
 												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
-													onchange="submitResponse()" id="bilAmt"
+													  id="bilAmt"
 													readonly="readonly">
 												
 											</div>
@@ -807,7 +818,7 @@ h5 {
 											</label>
 											<div class="col-lg-6">
 												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
-													onchange="submitResponse()" id="bilAmt" value=""
+													  id="bilAmt" value=""
 													class="form-control">
 												
 											</div>
@@ -816,12 +827,12 @@ h5 {
 									</c:when>
 								</c:choose>
 
-								<!--  <div class="modal-footer">
-										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
+								 <div class="modal-footer">
+										<button type="button" class="btn bg-primary" onclick="submitResponse()">Save
 											Changes</button><button type="button" class="btn btn-link"
 											data-dismiss="modal">Close</button>
 										
-									</div> -->
+									</div>
 								<!-- </form> -->
 							</div>
 						</div>
@@ -889,7 +900,7 @@ h5 {
 											class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
 											<i class="fab-icon-open icon-filter3"></i>
 										</a> -->
-										    <a class="initialism basic_open" href="#basic">Basic</a>
+										    <a class="initialism basic_open" href="#basic">Filter</a>
 										
 									</div>
 								</div>
@@ -920,7 +931,7 @@ h5 {
 								<c:forEach items="${taskList}" var="taskList" varStatus="count">
 									<tr>
 										<td>${count.index+1}</td>
-										<td>${taskList.custGroupName} ${taskList.taskId}</td>
+										<td>${taskList.custGroupName}</td>
 
 										<td><a href="#"
 											onclick="showTaskLogs(${taskList.taskId}, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
@@ -962,7 +973,7 @@ h5 {
 											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}','${taskList.taskText}','${taskList.ownerPartner}','${taskList.taskStatus}')"
 											href="#" title="Chat/Update"><i class="icon-comments"
 												style="color: green;"></i></a> <a href="#"
-											onclick="showEditTask(${taskList.taskId})" title="Edit"><i
+											onclick="showEditTask(${taskList.taskId},'${taskList.taskText}','${taskList.custGroupName}')" title="Edit"><i
 												class="icon-pencil7" style="color: black;"
 												data-toggle="modal" data-target="#modal_edit"></i></a></td>
 									</tr>
@@ -1004,12 +1015,29 @@ h5 {
 									class="btn bg-primary ml-sm-2 mb-sm-0">
 									Save<i class="icon-plus22	"></i>
 								</button>
+								
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
 
+
+
+<div id="modal_form_inline1" class="modal fade" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="show_alert1"> 	<span id="show_alert" style="color:red;"
+												class="validation-invalid-label"  
+												 > </span> </h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
 
 			<!-- Footer -->
 			<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
@@ -1028,6 +1056,7 @@ h5 {
     $(document).ready(function () {
       $('#basic').popup();
     });
+    
     </script>
 	
 	<script type="text/javascript">
@@ -1176,9 +1205,12 @@ function append(data){
 	for (var i = 0; i < data.taskList.length; i++) {
 		
 		
-		
+		if(data.taskList[i].taskEndDate==null){
+			//alert("Null Date")
+			data.taskList[i].taskEndDate='';
+		}
 		var tr_data = '<tr> <td>'+(i+1)+'</td>'+
-		'<td>'+data.taskList[i].custGroupName+'</td>'+
+		'<td>'+data.taskList[i].custGroupName+' '+data.taskList[i].taskId+'</td>'+
 		'data-toggle="modal" data-target="#modal_small"'+
 		'<td  onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')"><a href="#" onclick="showTaskLogs('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\')">'+data.taskList[i].taskText+'</a></td>'+
 		'<td>'+data.taskList[i].taskEndDate+'</td>'+
@@ -1192,7 +1224,7 @@ function append(data){
 
 
 '<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\',\''+data.taskList[i].taskText+'\',\''+data.taskList[i].ownerPartner+'\',\''+data.taskList[i].taskStatus+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
-' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+','+data.taskList[i].taskText+','+data.taskList[i].custGroupName+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
 	
 
 		
@@ -1240,9 +1272,29 @@ function append(data){
 			$("#modalbody").html("");
 			}); 
 	}
-	function showEditTask(taskId) {
+	function showEditTask(taskId,taskName,custName) {
 		//alert("HI"+taskId);
 			//alert("jj");
+			$("#err_tTeam").hide();
+			$("#err_eHr").hide();
+			$("#err_mHr").hide();
+			
+			document.getElementById("edit_emptime").value=null;
+			document.getElementById("edit_mngrtime").value=null;
+				//alert("errordata"+data.task.taskEndDate);
+			document.getElementById("workDate1").value=null;
+			document.getElementById("dueDate").value=null;
+			
+			document.getElementById("taskId1").value=0;
+			document.getElementById("bilAmt").value=0;
+			$('#emp').html(null);
+			$("#emp").trigger("chosen:updated");
+			document.getElementById("ed_task_name").innerHTML="";
+			document.getElementById("ed_task_cust").innerHTML="";
+
+			document.getElementById("ed_task_name").innerHTML="Task: "+taskName;
+			document.getElementById("ed_task_cust").innerHTML="Cust: "+custName;
+
 			$
 					.getJSON(
 							'${getTaskByTaskIdForEdit}',
@@ -1289,15 +1341,9 @@ function append(data){
                                  }
 									
 								}
-
 								$('#emp').html(html);
-
 								$("#emp").trigger("chosen:updated");
-								
-								
-							
 						 });
-			
 		}
 	</script>
 
@@ -1320,17 +1366,31 @@ function append(data){
  		 var valid = true;
 			if (empBudHr == null || empBudHr == "") {
 				valid = false;
+				//alert("Ok")
+				$("#err_eHr").show()
+			} 
+			else{
+				$("#err_eHr").hide()
+			}
+			
+			 if (manBudHr == null || manBudHr == "") {
+				valid = false;
+				$("#err_mHr").show()
+ 			}else{
+ 				$("#err_mHr").hide();
+ 			}
 			 
-			} else if (manBudHr == null || manBudHr == "") {
-				valid = false;
- 			}else if (dueDate == null || dueDate == "") {
+			 if (dueDate == null || dueDate == "") {
 				valid = false;
  			}
- 			else if (taskId1 == 0 || taskId1 == "") {
+ 			if (taskId1 == 0 || taskId1 == "") {
 				valid = false;
  			}
- 			else if (emp ==null || emp == "") {
+ 			if (emp ==null || emp == "") {
 				valid = false;
+				$("#err_tTeam").show();
+ 			}else{
+ 				$("#err_tTeam").hide();
  			}
 //alert(valid);
 			if(valid == true){
@@ -1352,13 +1412,14 @@ function append(data){
 						getActiveHomeTasks();
 						//$('#modal_edit').modal('hide')
 						//alert("saved");
+						 $("#modal_edit").modal("hide");
 					} else {
 						//alert("not saved");
 					}
 
 				});
 			}
-		  
+			
 	}
 	
 	function updateStatus_new(statusId, taskId){
@@ -1432,7 +1493,10 @@ function append(data){
 	var linkOk=0;
 	var mob = /\//i;
     if (mob.test($.trim(delLink)) == false) {
-alert("Please enter proper link");
+//alert("Please enter proper link");
+  $('#modal_form_inline1').modal('show');
+  document.getElementById("show_alert").innerHTML="Please enter proper link";
+  //Please add work hours in Daily work log for this task before completing.
 linkOk=0;
     }else{
     	linkOk=1;
@@ -1452,14 +1516,17 @@ linkOk=0;
 
 				
 				if(data==0){
-					alert("Please add entry in work log for the selected task")
+			  		  $('#modal_form_inline1').modal('show');
+			  		  document.getElementById("show_alert").innerHTML="Please add work hours in Daily work log for this task before completing.";
+
+			  							//alert("Please add entry in work log for the selected task")
 				}
 				else{
 				if(delLink==null || delLink==""){
-					alert("Please provide deliverable link");
-				}else{
-					
+					//alert("Please provide deliverable link");
+			  		  document.getElementById("show_alert").innerHTML="Please provide deliverable link.";
 
+				}else{
 					$
 					.getJSON(
 							'${completeAndDeliverTask}',
@@ -1481,7 +1548,7 @@ linkOk=0;
 					
 				}//end of else one
 			});
-
+	document.getElementById("del_link").value="";
  }
 	function setColor()
 	{
@@ -2262,6 +2329,24 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
-
+<script type="text/javascript">
+$('#submtbtn').on('click', function() {
+	$.blockUI({ 
+	    message: '<i class="icon-spinner4 spinner"></i>',
+	    timeout: 5000, //unblock after 2 seconds
+	    overlayCSS: {
+	        backgroundColor: '#1b2024',
+	        opacity: 0.8,
+	        cursor: 'wait'
+	    },
+	    css: {
+	        border: 0,
+	        color: '#fff',
+	        padding: 0,
+	        backgroundColor: 'transparent'
+	    }
+	});
+});
+</script>
 </body>
 </html>

@@ -9,7 +9,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Task Management</title>
-
+<link rel="shortcut icon"
+	href="${pageContext.request.contextPath}/resources/global_assets/images/kppm.png"
+	type="image/x-icon" />
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -17,7 +19,34 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+register-show input[type="submit"] {
+    max-width: 150px;
+    width: 100%;
+    background: #444444;
+    color: #f9f9f9;
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    float:right;
+    cursor:pointer;
+}
 
+.register-show1{
+    max-width: 150px;
+    width: 100%;
+    background: #444444;
+    color: #f9f9f9;
+    border: none;
+    padding: 10px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    float:right;
+    cursor:pointer;
+}
+
+</style>
 
 </head>
 <body>
@@ -43,7 +72,7 @@
 
 		<div class="white-panel">
 			<div class="login-show">
-
+<div class="content">
 				<form method="post"
 					action="${pageContext.request.contextPath}/validateOTP">
 
@@ -58,25 +87,39 @@
 										%>
 										<input type="hidden" value="<%out.println(hashtext);%>"
 											name="token" id="token">
+												<div class="row">
 					<h2>Enter OTP</h2>
+					
+						<div class="col-md-8">
 					<input type="text" placeholder="Enter OTP" name="otp"
-						id="otp" style="border-radius: 5px"><br> <br> <input type="submit" value="Submit">
-						
-							<input type="hidden" value="${sessionScope.userEmail}" name="userEmail">
-								<a href="${pageContext.request.contextPath}/"><button
-										type="button">Cancel</button></a>
-						 
-							<c:if test="${errorPassMsg!=null}">
+						id="otp" style="border-radius: 5px">
+						<c:if test="${errorPassMsg!=null}">
 						<span style="color: red;">${errorPassMsg}</span>
 						<%
 									session.removeAttribute("errorPassMsg");
 								%>
 						 
 					</c:if>
+					
+					</div>
+					</div>
+					
+								<div class="row" style="display: inline-block;width: 100%;">
+								<div class="col-md-3" style="float: left;margin: 9px 0 0 0;">
+							<input type="hidden" value="${sessionScope.userEmail}" name="userEmail">
+								
+						 <input type="submit"   value="Submit">
+						 </div>
+						 <div class="col-md-3" style="float: left;">
+						 <a href="${pageContext.request.contextPath}/"><button
+									class="register-show1" style="float: left;"	type="button">Cancel</button></a>
+						</div>
+								</div>
 						
 					 
 
 				</form>
+				</div>
 			</div>
 					<span id="countdown" style="color: red; font-size: 12px;"></span>	
 

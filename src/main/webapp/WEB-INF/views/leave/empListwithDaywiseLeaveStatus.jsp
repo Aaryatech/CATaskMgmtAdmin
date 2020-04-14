@@ -75,7 +75,7 @@
 								<button type="button" class="close" data-dismiss="alert">
 									<span>×</span>
 								</button>
-								<span class="font-weight-semibold">Oh snap!</span>
+								<span class="font-weight-semibold"> </span>
 								<%
 									out.println(session.getAttribute("errorMsg"));
 								%>
@@ -93,7 +93,7 @@
 								<button type="button" class="close" data-dismiss="alert">
 									<span>×</span>
 								</button>
-								<span class="font-weight-semibold">Well done!</span>
+								<span class="font-weight-semibold"> </span>
 								<%
 									out.println(session.getAttribute("successMsg"));
 								%>

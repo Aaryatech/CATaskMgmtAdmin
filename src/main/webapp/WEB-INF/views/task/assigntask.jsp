@@ -7,11 +7,104 @@
 <style type="text/css">
 .dataTables_length{display:none !important;}
 </style>
+
+<style>
+.modal {
+	position: fixed !important;
+	bottom: 0 !important;
+	top: auto !important;
+	right: 0 !important;
+	left: auto !important;
+	margin: 0px !important;
+	/* width: auto !important;
+	height: auto !important; */
+	width: 600px;;
+	height: 700px;
+}
+/* .modal-body-one{padding: 0px;}
+.content-one {padding: 0.25rem 1.25rem;}
+.modal-header-one .close { color: inherit; position: absolute; right: 10px; 
+top: 10px; font-size: 26px; z-index: 10; background: #FFF; padding: 10px; 
+border-radius: 50%; display: inline-block; height: 40px; opacity: 1; 
+width: 40px; line-height: 0px; text-align: center;} */
+/* 
+.modal-body{padding: 0px !important;}
+.content {padding: 0.25rem 1.25rem !important;}
+.modal-header .close { color: inherit !important; position: absolute !important; right: 10px !important; 
+top: 10px !important; font-size: 26px !important; z-index: 10 !important; background: #FFF !important; padding: 10px !important; 
+border-radius: 50% !important; display: inline-block !important; height: 40px !important; opacity: 1 !important; 
+width: 40px; line-height: 0px !important; text-align: center !important;} */
+#modal_remote {
+	position: fixed !important;
+	bottom: 0 !important;
+	top: auto !important;
+	right: 0 !important;
+	left: auto !important;
+	margin: 0px !important;
+	width: 720px !important;
+	height: auto !important;
+}
+
+.modal-dialog {
+	padding-top: 80px !important;
+}
+
+.AnyTime-win {
+	height: 320px !important;
+	overflow-y: auto !important;
+	width: 300px;
+}
+
+.form-group {
+	margin-bottom: 0.25rem !important;
+}
+
+.datatable-scroller1 tbody {
+	overflow: auto;
+	height: 100px;
+}
+
+.datatable-scroller1 thead {
+	overflow: auto;
+	height: 100px;
+}
+
+.datatable-scroller1 th, .datatable-scroller1 td {
+	padding: 5px;
+	text-align: left;
+	width: 200px;
+}
+
+h5 {
+	margin-bottom: 0;
+}
+
+/* .datatable-footer {
+	display: none;
+} */
+
+/* .dataTables_length {
+	display: none;
+}
+ */
+.fab-menu-bottom-right, .fab-menu-top-right {
+	right: 1.25rem;
+	top: 1rem;
+}
+
+.AnyTime-win {
+	height: 320px !important;
+	overflow-y: auto !important;
+	width: 300px;
+}
+</style>
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 </head>
 
 <body onload="setDate()">
 	<c:url value="/getCountofPartner" var="getCountofPartner"></c:url>
+
+	<c:url value="/updateTaskAssignPage" var="updateTaskAssignPage"></c:url>
 
 	<c:url value="/getCountofManagers" var="getCountofManagers"></c:url>
 		<c:url value="/getServicesandCustByPeriodId" var="getServicesandCustByPeriodId"></c:url>
@@ -359,7 +452,7 @@
 									
 									<span
 												class="validation-valid-label"  
-												 > First check the tasks to assign and then select employees and assign</span>
+												 > First check the tasks to assign and then select employees and assign. To edit a task click on Activity name</span>
 							<div class="table-responsive">
 
 								<table
@@ -386,20 +479,18 @@
 										<tr>
 											<td>${count.index+1}</td>
 
-											<td>${taskList.taskText}&nbsp;&nbsp;</td>
+											<td>${taskList.taskText}&nbsp;&nbsp;${taskList.taskId}</td>
 											<td>${taskList.custFirmName}</td>
 											<td><input type="checkbox"
 												id="TaskId${taskList.taskId}" value="${taskList.taskId}"
 												name="TaskId" class="select_all"  ></td>
-											<td>${taskList.actiName}</td>
+											<td><a href="#" data-toggle="modal" data-target="#modal_edit"
+											onclick="showEditTask(${taskList.taskId},'${taskList.mngrBudHr}','${taskList.empBudHr}','${taskList.taskStatutoryDueDate}','${taskList.taskEndDate}','${taskList.taskSubline}','${taskList.custFirmName}','${taskList.actiName}')" title="Edit">${taskList.actiName}</a></td>
 											
 											<td>${taskList.finYearName}</td>
 											<td>${taskList.taskStatutoryDueDate}</td>
 											<td>${taskList.mngrBudHr}</td>
 											<td>${taskList.empBudHr}</td>
-
-
-
 										</tr>
 									</c:forEach>
 									</tbody>
@@ -416,6 +507,112 @@
 				</div>
 
 
+<div id="modal_edit" class="modal fade" tabindex="-1">
+				
+									<div class="modal-dialog">
+						<div class="modal-content">
+					
+
+							<div class="modal-header bg-success">
+								<h5 class="modal-title">Edit Task</h5> &nbsp;&nbsp;
+								<h6 style="color: brown"
+								 id="custName"> </h6> &nbsp;&nbsp; 
+								<h6  style="color: brown" id="actiName"> </h6>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+
+								<!-- <form action="submitUpdatedTask" method="post"> -->
+								<input type="hidden" id="taskId1" name="taskId1" value=0>
+								
+								
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control" data-mask="999:99"
+											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
+											name="manBudHr" 
+											autocomplete="off">
+											<span id="mHr" style="display: none; color:red;"
+												class="validation-valid-label"  
+												 > This field is required</span>
+									</div>
+
+								</div>
+								
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+										Budgeted Hours : </label>
+									<div class="col-lg-6">
+										<input type="text" data-mask="999:99" class="form-control"
+											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
+											  name="empBudHr"
+											autocomplete="off">
+											<span id="eHr" style="display: none; color:red;"
+												class="validation-valid-label"  
+												 > This field is required</span>
+											
+									</div>
+
+								</div>
+								<div class="form-group row">
+
+									<label class="col-form-label col-lg-6">Statutory Due
+										Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+										 
+											placeholder="Enter Statutory Due Date" id="dueDate"
+											name="dueDate" autocomplete="off">
+									</div>
+									<span id="dDate" style="display: none; color:red;"
+												class="validation-valid-label"  
+												 > This field is required</span>
+
+								</div>
+								
+								
+								<div class="form-group row">
+									<label class="col-form-label col-lg-6">Work Date : </label>
+									<div class="col-lg-6">
+										<input type="text" class="form-control datepickerclass"
+											placeholder="Enter Work Date" 
+											id="workDate1" name="workDate1" autocomplete="off">
+									</div>
+									
+								</div>
+								
+								<!--Add/Edit Billing Amount 11-01-2020 -->
+										<div class="form-group row">
+
+										<label class="col-form-label col-lg-6" for="bilAmt">
+												Billing Amount :
+											</label>
+											<div class="col-lg-6">
+												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
+													 id="bilAmt" value="" maxlength="7"
+													class="form-control">
+												
+											</div>
+											
+
+										</div>
+
+							</div>
+							
+							 <div class="modal-footer">
+										<button type="submit" class="btn bg-primary" onclick="submitResponse()">Save
+											Changes</button><button type="button" class="btn btn-link"
+											data-dismiss="modal">Close</button>
+										
+									</div>
+						</div>
+					</div>
+					
+				</div>
+				<!-- /Task Edit Log modal -->
 
 			</div>
 			<!-- /content area -->
@@ -431,6 +628,20 @@
 	</div>
 	<!-- /page content -->
 	<script type="text/javascript">
+	function showEditTask(taskId,mngHr,empHr,dueDate,workDate,billAmt,custName,actiName){
+		$("#loader1").show();
+		document.getElementById("edit_emptime").value=empHr;
+		document.getElementById("edit_mngrtime").value=mngHr;
+		document.getElementById("workDate1").value=workDate;
+		document.getElementById("dueDate").value=dueDate;
+		
+		document.getElementById("taskId1").value=taskId;
+		document.getElementById("bilAmt").value=billAmt;
+		document.getElementById("custName").innerHTML="Customer Name- "+custName;
+		document.getElementById("actiName").innerHTML="Activity Name- "+actiName;
+		//var table = $('#example').DataTable();
+		$("#loader1").hide();
+	}
 	
 	function showServices() {
 		//alert("servId " +servId)
@@ -679,6 +890,71 @@
 		});
 		
 		
+		$('#bilAmt').on('input', function() {
+			  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+			});
+		
+		
+		function submitResponse(){
+			var empBudHr = document.getElementById("edit_emptime").value;
+				var manBudHr = document.getElementById("edit_mngrtime").value;
+				var workDate=document.getElementById("workDate1").value ;//create this
+				var dueDate=document.getElementById("dueDate").value;//create this
+				var taskId1=document.getElementById("taskId1").value ;
+				var bilAmt=document.getElementById("bilAmt").value ;
+				
+	 		 var valid = true;
+				if (empBudHr == null || empBudHr == "") {
+					valid = false;
+					$("#eHr").show();
+					//alert("In")
+				} else {
+					$("#eHr").hide();
+				}
+				 
+				if (manBudHr == null || manBudHr == "") {
+					valid = false;
+					$("#mHr").show();
+				}
+					else {
+						$("#mHr").hide();
+					}
+	 			 if (dueDate == null || dueDate == "") {
+					valid = false;
+					$("#dDate").show();
+	 			}else{
+	 				$("#dDate").hide();
+	 			}
+	 			if (taskId1 == 0 || taskId1 == "") {
+					valid = false;
+	 			}
+	//alert(valid);
+				if(valid == true){
+					$("#loader1").show();
+					$.post('${updateTaskAssignPage}', {
+						empBudHr : empBudHr,
+						manBudHr : manBudHr,
+						workDate : workDate,
+						dueDate  : dueDate,
+						taskId1  : taskId1,
+						bilAmt   : bilAmt,
+						ajax : 'true',
+					},
+
+					function(data) {
+
+						if (data.error == false) {
+							$("#loader1").hide();
+							//$('#modal_edit').modal('hide')
+							//alert("saved");
+							window.location.reload()
+						} else {
+							$("#loader1").hide();
+						}
+
+					});
+				}
+		}
 		
 	</script>
 </body>

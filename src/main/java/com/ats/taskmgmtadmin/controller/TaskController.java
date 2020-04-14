@@ -966,7 +966,7 @@ public class TaskController {
 			int taskId = 0;
 
 			taskId = Integer.parseInt(request.getParameter("taskId"));
-
+String taskComment=request.getParameter("task_comment");
 			if (taskId != 0) {
 				try {
 					System.out.println("in task edit");
@@ -985,7 +985,8 @@ public class TaskController {
 					map.add("curDateTime", Constants.getCurDateTime());
 					map.add("statDate", request.getParameter("statDate"));
 					map.add("billAmt", request.getParameter("billAmt"));
-
+					
+					map.add("taskComment", taskComment.trim());
 					Info temp = Constants.getRestTemplate().postForObject(Constants.url + "/submitEditMannualTask", map,
 							Info.class);
 
@@ -1057,7 +1058,7 @@ public class TaskController {
 					activityMapanual.setExInt1(Integer.parseInt(request.getParameter("service")));
 					activityMapanual.setExInt2(0);
 					activityMapanual.setExVar1(items1);
-					activityMapanual.setExVar2("NA");
+					activityMapanual.setExVar2(taskComment.trim());
 					activityMapanual.setPeriodicityId(Integer.parseInt(request.getParameter("periodicityId")));
 					activityMapanual.setUpdateDatetime(Constants.getCurDateTime());
 					activityMapanual.setUpdateUsername(userId);
@@ -1220,6 +1221,67 @@ public class TaskController {
 
 	}
 
+	
+	
+	//Sachin 11-04-2020
+	@RequestMapping(value = "/updateTaskAssignPage", method = RequestMethod.POST)
+	public @ResponseBody Info updateTaskAssignPage(HttpServletRequest request, HttpServletResponse response) {
+		System.err.println("Hello sachin updateTaskAssignPage");
+		Info res = new Info();
+		try {
+
+			HttpSession session = request.getSession();
+			System.err.println("emp hii");
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+
+			int userId = emp.getEmpId();
+
+
+			String empHr = request.getParameter("empBudHr");
+			String mngHr = request.getParameter("manBudHr");
+			String mnghr1 = new String();
+			String emphr1 = new String();
+
+			mnghr1 = HoursConversion.convertHoursToMin(mngHr);
+			emphr1 = HoursConversion.convertHoursToMin(empHr);
+
+			String dueDate = request.getParameter("dueDate");
+			String workDate = request.getParameter("workDate");
+			String bilAmt = request.getParameter("bilAmt");
+
+			String taskId = request.getParameter("taskId1");
+			if (workDate != null && workDate != "") {
+				System.err.println("In if ");
+
+				workDate = DateConvertor.convertToYMD(workDate);
+			} else {
+				System.err.println("In else ");
+				workDate = "null";
+			}
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("taskId", taskId);
+			map.add("empHr", emphr1);
+			map.add("mngHr", mnghr1);
+			map.add("dueDate", DateConvertor.convertToYMD(dueDate));
+			map.add("workDate", workDate);
+			map.add("updateUserName", userId);
+			map.add("updateDateTime", Constants.getCurDateTime());
+
+			map.add("bilAmt", bilAmt);
+
+			res = Constants.getRestTemplate().postForObject(Constants.url + "/editTaskOnAssignPage", map, Info.class);
+
+		} catch (Exception e) {
+			System.err.println("Exce in addCustomerActMap " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return res;
+
+	}
+
+	
 	// *************************Forgot
 	// Pass***********************************************
 
@@ -2005,8 +2067,16 @@ public class TaskController {
 
 			// task generation work start
 			int totdays = 0;
+			//Sachin 10-04-2020
+			map = new LinkedMultiValueMap<>();
+			map.add("custHeadId", activityMap.getCustId());
 
+			CustomerHeaderMaster custHead = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
+			
+			//10-04-2020
 			Date date = Calendar.getInstance().getTime();
+			
 			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 			int perId = Integer.parseInt(request.getParameter("periodicityId"));
@@ -2083,7 +2153,7 @@ public class TaskController {
 				task.setMngrBudHr(HoursConversion.convertHoursToMin(request.getParameter("mgBudgetHr")));
 				task.setServId(actv.getServId());
 				task.setTaskCode("NA");
-				task.setTaskEmpIds("0");
+				task.setTaskEmpIds(custHead.getOwnerEmpId()+",");
 				task.setTaskFyId(fin.getFinYearId());
 				task.setTaskEndDate(task.getTaskStatutoryDueDate());
 				task.setTaskStatus(0);
@@ -2105,11 +2175,14 @@ public class TaskController {
 
 			// task generation work end
 
-			map = new LinkedMultiValueMap<>();
-			map.add("custHeadId", activityMap.getCustId());
-
-			CustomerHeaderMaster custHead = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getCustomerHeadById", map, CustomerHeaderMaster.class);
+			/*
+			 * map = new LinkedMultiValueMap<>(); map.add("custHeadId",
+			 * activityMap.getCustId());
+			 * 
+			 * CustomerHeaderMaster custHead = Constants.getRestTemplate()
+			 * .postForObject(Constants.url + "/getCustomerHeadById", map,
+			 * CustomerHeaderMaster.class);
+			 */
 			mav.addObject("custHead", custHead);
 			mav.addObject("custName", request.getParameter("custName"));
 

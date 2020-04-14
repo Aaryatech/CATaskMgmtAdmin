@@ -140,13 +140,13 @@ public class HolidayAndWicklyoffController {
 				Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", holiday, Holiday.class);
 
 				if (res.isError() == false) {
-					session.setAttribute("successMsg", "Record Inserted Successfully");
+					session.setAttribute("successMsg", "Holiday Saved Successfully");
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Save Holiday");
 				}
 
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Save Holiday");
 			}
 
 		} catch (Exception e) {
@@ -215,9 +215,9 @@ public class HolidayAndWicklyoffController {
 				Holiday res = Constants.getRestTemplate().postForObject(Constants.url + "/saveHoliday", editHoliday, Holiday.class);
 
 				if (res.isError() == false) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
+					session.setAttribute("successMsg", "Holiday Saved Successfully");
 				} else {
-					session.setAttribute("errorMsg", "Failed to Update Record");
+					session.setAttribute("errorMsg", "Failed to Save Holiday");
 				}
 
 			} else {
@@ -341,13 +341,13 @@ public class HolidayAndWicklyoffController {
 				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", save, WeeklyOff.class);
 
 				if (res != null) {
-					session.setAttribute("successMsg", "Record Inserted Successfully");
+					session.setAttribute("successMsg", "WeeklyOff Saved Successfully");
 				} else {
-					session.setAttribute("errorMsg", "Failed to Insert Record");
+					session.setAttribute("errorMsg", "Failed to Save WeeklyOff");
 				}
-
+				
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Save WeeklyOff");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -414,13 +414,19 @@ public class HolidayAndWicklyoffController {
 				WeeklyOff res = Constants.getRestTemplate().postForObject(Constants.url + "/saveWeeklyOff", editWeeklyOff, WeeklyOff.class);
 
 				if (res != null) {
-					session.setAttribute("successMsg", "Record Updated Successfully");
+					session.setAttribute("successMsg", "WeeklyOff Saved Successfully");
+
+					//session.setAttribute("successMsg", "Record Updated Successfully");
 				} else {
-					session.setAttribute("errorMsg", "Failed to Update Record");
+					//session.setAttribute("errorMsg", "Failed to Update Record");
+					session.setAttribute("errorMsg", "Failed to Save WeeklyOff");
+
 				}
 
 			} else {
-				session.setAttribute("errorMsg", "Failed to Update Record");
+				//session.setAttribute("errorMsg", "Failed to Update Record");
+				session.setAttribute("errorMsg", "Failed to Save WeeklyOff");
+
 			}
 
 		} catch (Exception e) {

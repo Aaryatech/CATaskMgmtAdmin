@@ -79,6 +79,8 @@
 								</a></td> --%>
 								
 								<td width="40%" align="right">
+									<span class="valid-label" style="color:green;">To delete Tasks of this customer</span>
+								
 								<a href="#" title="Delete Task by Date"><i class="icon-calendar52 mr-3 icon-2x" style="color: black;" data-toggle="modal" data-target="#modal_small"></i></a>
 								<!-- Small modal -->
 				<div id="modal_small" class="modal fade" tabindex="-1">
@@ -105,7 +107,7 @@
 								<button type="button" class="btn btn-link" data-dismiss="modal" id="btn1">Close</button>
 								<button type="button" class="btn bg-primary" onclick="getData()" id="btn2">Delete Tasks</button>
 							</div>
-							<p class="desc text-danger fontsize11" align="left">Notice : All tasks will be deleted, generated after selected date.</p>
+							<p class="desc text-danger fontsize11" align="left">Notice : All tasks will be deleted, who's due date is after selected date.</p>
 						</div>
 					</div>
 				</div>
@@ -129,7 +131,7 @@
 								<button type="button" class="close" data-dismiss="alert">
 									<span>×</span>
 								</button>
-								<span class="font-weight-semibold">Oh snap! Fail to deleted successfully</span>
+								<span class="font-weight-semibold"> Failed to delete</span>
 								
 							</div>
 						</div>
@@ -141,7 +143,7 @@
 								<button type="button" class="close" data-dismiss="alert">
 									<span>×</span>
 								</button>
-								<span class="font-weight-semibold">Well done! Task deleted successfully</span>
+								<span class="font-weight-semibold">Task deleted successfully</span>
 								
 							</div>
 						</div>
@@ -269,7 +271,7 @@ function getData() {
 					function(data) {
 						//alert("LogList:"+JSON.stringify(data));
 						
-						if(!data.isError){
+						if(!data.error){
 							$('#modal_small').modal('hide')							
 							showMsg();							
 						}else{
@@ -287,14 +289,14 @@ function getData() {
 function showMsg(){
 	setTimeout(function(){
 		$('#sucssmsg').fadeOut('fast');
-		}, 3000);
+		}, 1000);
 	 $("#sucssmsg").show();
 }
 
 function showFailMsg(){
 	setTimeout(function(){
 		$('#failmsg').fadeOut('fast');
-		}, 3000);
+		}, 1000);
 	 $("#failmsg").show();
 }
 

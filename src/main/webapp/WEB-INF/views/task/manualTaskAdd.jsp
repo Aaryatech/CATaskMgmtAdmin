@@ -393,6 +393,20 @@
 										</div>
 									</c:if>
 
+
+<div class="form-group row">
+											<label class="col-form-label col-lg-3" for="billAmt">Task Comment <span style="color: red">* </span>:
+											</label>
+											<div class="col-lg-6">
+												<textarea class="form-control" rows="3" cols="3" 
+													placeholder="Enter comment on task" id="task_comment"
+													name="task_comment" autocomplete="off"></textarea>
+											</div>
+
+										</div>
+						
+
+
 									<c:if test="${empType==5}">
 
 										<input type="hidden" id="billAmt" value="${task.billingAmt}"
@@ -402,7 +416,8 @@
 
 
 									<div class="form-group row mb-0">
-										<div class="col-lg-10 ml-lg-auto">
+									<div class="col-lg-4 ml-lg-auto"></div>
+										<div class="col-lg-8 ml-lg-auto">
 											<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 											<button type="button" name="btn-Submit" id="btn-Submit"
 												class="btn bg-blue ml-3 legitRipple">

@@ -34,7 +34,7 @@ import com.ats.taskmgmtadmin.acsrights.AccessRightModule;
 import com.ats.taskmgmtadmin.acsrights.AccessRightModuleList;
 import com.ats.taskmgmtadmin.acsrights.AssignRoleDetailList;
 import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
- import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.acsrights.SubModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
@@ -46,7 +46,6 @@ import com.google.gson.Gson;
 @Scope("session")
 public class AccessRightController {
 
-	
 	/*
 	 * <dependency> <groupId>com.google.code.gson</groupId>
 	 * <artifactId>gson</artifactId> <version>2.3.1</version> </dependency>
@@ -63,8 +62,6 @@ public class AccessRightController {
 	 * <artifactId>commons-fileupload</artifactId> <version>1.3.2</version>
 	 * </dependency>
 	 */
-	  
-	 
 
 	public AccessRightModuleList accessRightModuleList;
 	int isError = 0;
@@ -182,20 +179,21 @@ public class AccessRightController {
 
 		try {
 
-			
-			  HttpSession session = request.getSession(); 
-			  List<ModuleJson> newModuleList =  (List<ModuleJson>) session.getAttribute("newModuleList"); 
-			  Info info1 = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0",  "0", newModuleList);
-			
+			HttpSession session = request.getSession();
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info info1 = AccessControll.checkAccess("showRoleList", "showRoleList", "1", "0", "0", "0", newModuleList);
+
 			if (info1.isError() == false) {
-				CreatedRoleList createdRoleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllAccessRole",
-						CreatedRoleList.class);
+				CreatedRoleList createdRoleList = Constants.getRestTemplate()
+						.getForObject(Constants.url + "getAllAccessRole", CreatedRoleList.class);
 				System.out.println("Access List " + createdRoleList.toString());
 				model.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
 				model.addObject("title", "Roles List");
-				
-				Info add = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "1", "0", "0", newModuleList);
-				Info edit = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "1", "0", newModuleList);
+
+				Info add = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "1", "0", "0",
+						newModuleList);
+				Info edit = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "1", "0",
+						newModuleList);
 				Info delete = AccessControll.checkAccess("showRoleList", "showRoleList", "0", "0", "0", "1",
 						newModuleList);
 
@@ -226,7 +224,7 @@ public class AccessRightController {
 	@RequestMapping(value = "/deleteRole", method = RequestMethod.GET)
 	public String deleteFlavour(HttpServletRequest request, HttpServletResponse response) {
 
-		int roleId=Integer.parseInt(request.getParameter("accRole"));
+		int roleId = Integer.parseInt(request.getParameter("accRole"));
 		ModelAndView mav = new ModelAndView("accessRight/roleList");
 
 		RestTemplate restTemplate = new RestTemplate();
@@ -235,13 +233,13 @@ public class AccessRightController {
 
 		Info errorResponse = Constants.getRestTemplate().postForObject(Constants.url + "deleteRole", map, Info.class);
 		System.out.println(errorResponse.toString());
-		
-		HttpSession session = request.getSession();
-		if (errorResponse.isError()) {			
-			session.setAttribute("errorMsg", "Failed to Delete");
-			return "redirect:/showRoleList";			
 
-		} else {			
+		HttpSession session = request.getSession();
+		if (errorResponse.isError()) {
+			session.setAttribute("errorMsg", "Failed to Delete");
+			return "redirect:/showRoleList";
+
+		} else {
 			session.setAttribute("successMsg", "Deleted Successfully");
 			return "redirect:/showRoleList";
 		}
@@ -339,8 +337,8 @@ public class AccessRightController {
 	 * assignRoleDetailList.setDelStatus(0);
 	 * System.out.println("accessRightModule List " +
 	 * assignRoleDetailList.toString()); System.out.println("heare"); try { Info
-	 * info = Constants.getRestTemplate().postForObject(Constants.url + "saveAssignRole",
-	 * assignRoleDetailList, Info.class);
+	 * info = Constants.getRestTemplate().postForObject(Constants.url +
+	 * "saveAssignRole", assignRoleDetailList, Info.class);
 	 * 
 	 * if (info.isError() == false) { isError = 2; } else { isError = 1;
 	 * 
@@ -355,7 +353,7 @@ public class AccessRightController {
 		List<AccessRightModule> accessRightModule = accessRightModuleList.getAccessRightModuleList();
 
 		List<ModuleJson> moduleJsonList = new ArrayList<>();
-
+		HttpSession session = request.getSession();
 		try {
 
 			for (int i = 0; i < accessRightModule.size(); i++) {
@@ -464,7 +462,14 @@ public class AccessRightController {
 
 				assignRoleDetailList.setRoleName(roleName);
 				assignRoleDetailList.setDelStatus(0);
-				Info info = Constants.getRestTemplate().postForObject(Constants.url + "saveAssignRole", assignRoleDetailList, Info.class);
+				Info info = Constants.getRestTemplate().postForObject(Constants.url + "saveAssignRole",
+						assignRoleDetailList, Info.class);
+
+				if (info.isError() == false) {
+					session.setAttribute("successMsg", "Role Saved Successfully");
+				} else {
+					session.setAttribute("errorMsg", "Failed to Save Role");
+				}
 			}
 
 			System.out.println("saveAssignRole " + moduleJsonList);
@@ -491,8 +496,8 @@ public class AccessRightController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("roleId", roleId);
 
-			AssignRoleDetailList editRole = Constants.getRestTemplate().postForObject(Constants.url + "getRoleByRoleId", map,
-					AssignRoleDetailList.class);
+			AssignRoleDetailList editRole = Constants.getRestTemplate().postForObject(Constants.url + "getRoleByRoleId",
+					map, AssignRoleDetailList.class);
 			// System.out.println("Access List " + accessRightModuleList.toString());
 			// model.addObject("allModuleList",
 			// accessRightModuleList.getAccessRightModuleList());
@@ -588,23 +593,20 @@ public class AccessRightController {
 			 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,
 			 * Object>(); map.add("instituteId", userDetail.getExInt2());
 			 * 
-			 * UserList[] user = Constants.getRestTemplate().postForObject(Constants.url + "/getAllUserList", map,
-			 * UserList[].class); List<UserList> userList = new
+			 * UserList[] user = Constants.getRestTemplate().postForObject(Constants.url +
+			 * "/getAllUserList", map, UserList[].class); List<UserList> userList = new
 			 * ArrayList<>(Arrays.asList(user));
 			 */
 
-			
-			
-			EmployeeMaster[] empArray = Constants.getRestTemplate().getForObject(Constants.url + "/getAllEmployeesWithRoleName", 
-					EmployeeMaster[].class);
-			List<EmployeeMaster> empList = new
-					  ArrayList<>(Arrays.asList(empArray));
-			
-			CreatedRoleList createdRoleList = Constants.getRestTemplate().getForObject(Constants.url + "getAllAccessRole",
-					CreatedRoleList.class);
+			EmployeeMaster[] empArray = Constants.getRestTemplate()
+					.getForObject(Constants.url + "/getAllEmployeesWithRoleName", EmployeeMaster[].class);
+			List<EmployeeMaster> empList = new ArrayList<>(Arrays.asList(empArray));
+
+			CreatedRoleList createdRoleList = Constants.getRestTemplate()
+					.getForObject(Constants.url + "getAllAccessRole", CreatedRoleList.class);
 
 			// System.out.println("userList List " + userList.toString());
-			 model.addObject("empList", empList);
+			model.addObject("empList", empList);
 			model.addObject("createdRoleList", createdRoleList.getAssignRoleDetailList());
 
 		} catch (Exception e) {
@@ -615,19 +617,18 @@ public class AccessRightController {
 
 	@RequestMapping(value = "/submitAssignedRole", method = RequestMethod.POST)
 	public String submitAssignedRole(HttpServletRequest request, HttpServletResponse response) {
-
+		HttpSession session = request.getSession();
 		int roleId = Integer.parseInt(request.getParameter("roleId"));
 		String[] empIds = request.getParameterValues("empIds");
 
 		try {
-			
-			
+
 			StringBuilder sb = new StringBuilder();
 
 			for (int i = 0; i < empIds.length; i++) {
 				sb = sb.append(empIds[i] + ",");
 			}
-			
+
 			String empIdList = sb.toString();
 			empIdList = empIdList.substring(0, empIdList.length() - 1);
 
@@ -637,6 +638,11 @@ public class AccessRightController {
 			map.add("roleId", roleId);
 
 			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateRoleOfUser", map, Info.class);
+			if (info.isError() == false) {
+				session.setAttribute("successMsg", "Role Assigned Successfully");
+			} else {
+				session.setAttribute("errorMsg", "Failed Assign Role");
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -655,8 +661,8 @@ public class AccessRightController {
 		map.add("userId", userId);
 		ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
 		};
-		ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate().exchange(Constants.url + "getRoleJson", HttpMethod.POST,
-				new HttpEntity<>(map), typeRef);
+		ResponseEntity<List<ModuleJson>> responseEntity = Constants.getRestTemplate()
+				.exchange(Constants.url + "getRoleJson", HttpMethod.POST, new HttpEntity<>(map), typeRef);
 
 		List<ModuleJson> newModuleList = responseEntity.getBody();
 
@@ -743,7 +749,8 @@ public class AccessRightController {
 	 * User user = userResponse.getUser();
 	 * 
 	 * user.setUserPass(newPass); // insertUser Info info =
-	 * Constants.getRestTemplate().postForObject(Constants.url + "changeAdminUserPass", user, Info.class);
+	 * Constants.getRestTemplate().postForObject(Constants.url +
+	 * "changeAdminUserPass", user, Info.class);
 	 * 
 	 * System.err.println("Response of password change = " + info.toString());
 	 * 
@@ -760,8 +767,9 @@ public class AccessRightController {
 	 * response) {
 	 * 
 	 * ModelAndView model = new ModelAndView("user/userList"); try {
-	 * GetUserDetailList getUserDetailList = Constants.getRestTemplate().getForObject(Constants.url +
-	 * "getUserDetail", GetUserDetailList.class);
+	 * GetUserDetailList getUserDetailList =
+	 * Constants.getRestTemplate().getForObject(Constants.url + "getUserDetail",
+	 * GetUserDetailList.class);
 	 * 
 	 * getUserDetail = getUserDetailList.getUserDetail();
 	 * model.addObject("userList", getUserDetail);
@@ -821,10 +829,10 @@ public class AccessRightController {
 	 * 
 	 * editUser.setDeptId(deptId); editUser.setExInt1(userType);
 	 * editUser.setUserPass(upass); editUser.setUserId(user.getUserId()); Info info
-	 * = Constants.getRestTemplate().postForObject(Constants.url + "updateUser", editUser, Info.class);
-	 * System.err.println("Update User Response  " + info.toString());
-	 * System.err.println("Param for update " + upass + "dept Id " + deptId +
-	 * "userType  " + userType); } catch (Exception e) {
+	 * = Constants.getRestTemplate().postForObject(Constants.url + "updateUser",
+	 * editUser, Info.class); System.err.println("Update User Response  " +
+	 * info.toString()); System.err.println("Param for update " + upass + "dept Id "
+	 * + deptId + "userType  " + userType); } catch (Exception e) {
 	 * System.out.println("Ex in editUserProcess " + e.getMessage());
 	 * e.printStackTrace(); }
 	 * 
@@ -848,8 +856,8 @@ public class AccessRightController {
 	 * 
 	 * editUser.setUserId(user.getUserId()); editUser.setDelStatus(1);
 	 * 
-	 * Info info = Constants.getRestTemplate().postForObject(Constants.url + "updateUser", editUser,
-	 * Info.class);
+	 * Info info = Constants.getRestTemplate().postForObject(Constants.url +
+	 * "updateUser", editUser, Info.class);
 	 * 
 	 * System.err.println("Update/delete User Response  " + info.toString());
 	 * 
