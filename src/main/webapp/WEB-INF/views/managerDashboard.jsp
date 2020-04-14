@@ -128,7 +128,7 @@ h5 {
 							</div>
 							<div class="col-lg-1"></div>
 							<label class="col-form-label col-lg-2" for="monthyear">Select
-								Month <span style="color: red">* </span>:
+								Date <span style="color: red">* </span>:
 							</label>
 							<div class="col-lg-3">
 								<input type="text" class="form-control datepickermonth"
@@ -481,8 +481,9 @@ h5 {
 		// Single picker
 		$('.datepickermonth').daterangepicker({
 			singleDatePicker : false,
-
-			showDropdowns : true,
+			drops:'down',
+			opens:'left',
+			//showDropdowns : true,
 			locale : {
 				format : 'DD-MM-YYYY'
 			}
@@ -493,6 +494,7 @@ h5 {
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
+			drops:'left',
 			locale : {
 				format : 'DD-MM-YYYY'
 			}

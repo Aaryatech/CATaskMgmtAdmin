@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.FormValidation;
+import com.ats.taskmgmtadmin.common.TaskText;
 import com.ats.taskmgmtadmin.model.CalenderYear;
 import com.ats.taskmgmtadmin.model.EmpListWithDateList;
 import com.ats.taskmgmtadmin.model.EmpListWithDateWiseDetail;
@@ -227,13 +228,13 @@ public class LeaveController {
 						leaveSummary, LeaveApply.class);
 				
 				if(res!=null) {
-					session.setAttribute("successMsg", Constants.Sucessmsg);
+					session.setAttribute("successMsg", "Leave Applied Successfully");
 				}else {
-					session.setAttribute("errorMsg", Constants.Failmsg);
+					session.setAttribute("errorMsg", "Failed to Apply Leave");
 				}
 				
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Apply Leave");
 			}
 
 		} catch (Exception e) {
@@ -275,7 +276,7 @@ public class LeaveController {
 
 	@RequestMapping(value = "/deleteLeave", method = RequestMethod.GET)
 	public String deleteLeave(HttpServletRequest request, HttpServletResponse response, Model model) {
-
+HttpSession session=request.getSession();
 		String empId1 = request.getParameter("emp");
 		try {
 
@@ -284,6 +285,14 @@ public class LeaveController {
 			map.add("leaveId", leaveId);
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteLeaveApply", map, Info.class);
 
+			
+			if (res.isError() == false) {
+
+				session.setAttribute("successMsg", "Leave Deleted Successfullly");
+			} else {
+
+				session.setAttribute("errorMsg", "Failed to Delete Leave");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

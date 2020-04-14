@@ -1552,6 +1552,9 @@ public class MasterMVCController {
 			} catch (Exception e) {
 				cust.setCustGroupId(0);
 			}
+			if(custType==0) {
+				cust.setCustGroupId(0);
+			}
 			cust.setCustFirmName(request.getParameter("firmName"));
 			cust.setCustAssesseeTypeId(Integer.parseInt(request.getParameter("assesseeType")));
 			cust.setCustAssesseeName(request.getParameter("assesseeName"));

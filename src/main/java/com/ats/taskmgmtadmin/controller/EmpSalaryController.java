@@ -163,9 +163,9 @@ public class EmpSalaryController {
 					Info.class);
 			
 			if (info != null) {
-				session.setAttribute("successMsg", "Record Inserted Successfully");
+				session.setAttribute("successMsg", "Salary Saved Successfully");
 			} else {
-				session.setAttribute("errorMsg", "Failed to Insert Record");
+				session.setAttribute("errorMsg", "Failed to Save Salary");
 			}
 
 		} catch (Exception e) {

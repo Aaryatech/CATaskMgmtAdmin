@@ -262,7 +262,7 @@ h5 {
 									<button type="button" class="close" data-dismiss="alert">
 										<span>×</span>
 									</button>
-									<span class="font-weight-semibold">Oh snap!</span>
+									<span class="font-weight-semibold"> </span>
 									<%
 										out.println(session.getAttribute("errorMsg"));
 									%>
@@ -280,7 +280,7 @@ h5 {
 									<button type="button" class="close" data-dismiss="alert">
 										<span>×</span>
 									</button>
-									<span class="font-weight-semibold">Well Done!</span>
+									<span class="font-weight-semibold"></span>
 									<%
 										out.println(session.getAttribute("successMsg"));
 									%>

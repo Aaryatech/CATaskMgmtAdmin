@@ -73,7 +73,7 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">${title} new</h6>
+								<h6 class="card-title">${title}</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>
@@ -91,7 +91,7 @@
 									<button type="button" class="close" data-dismiss="alert">
 										<span>×</span>
 									</button>
-									<span class="font-weight-semibold">Oh snap!</span>
+									<span class="font-weight-semibold"></span>
 									<%
 										session.getAttribute("successMsg");
 									%>

@@ -396,7 +396,7 @@ public class TaskController {
 					Info.class);
 
 			if (info.isError()) {
-				session.setAttribute("errorMsg", "Unable to Assign Task");
+				session.setAttribute("errorMsg", "Failed to Assign Task");
 
 			} else {
 				session.setAttribute("successMsg", "Task Assigned Successfully");
@@ -778,7 +778,7 @@ public class TaskController {
 	public String updateManualTaskStatus(HttpServletRequest request, HttpServletResponse response) {
 		String redirect = null;
 		try {
-
+HttpSession session=request.getSession();
 			String base64encodedString = request.getParameter("taskId");
 			int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
 			int stat = Integer.parseInt(request.getParameter("stat"));
@@ -818,6 +818,14 @@ public class TaskController {
 			// "redirect:/communication?taskId=" + taskId;
 			if (inactivePage == 1) {
 				redirect = "redirect:/inactiveTaskList";
+			}
+			
+			if (task != null) {
+				System.out.println("successMsg");
+				session.setAttribute("successMsg", "Task Updated Successfully");
+			} else {
+				System.out.println("errorMsg");
+				session.setAttribute("errorMsg", "Failed to Update Task");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in updateTaskStatus " + e.getMessage());
@@ -1080,9 +1088,9 @@ String taskComment=request.getParameter("task_comment");
 							activityMapanual, Info.class);
 
 					if (map.isError() == false) {
-						session.setAttribute("successMsg", "Manual Task Added Successfully");
+						session.setAttribute("successMsg", "Manual Task Saved Successfully");
 					} else {
-						session.setAttribute("errorMsg", "Failed to Add Manual Task");
+						session.setAttribute("errorMsg", "Failed to Save Manual Task");
 					}
 
 				} catch (Exception e) {
@@ -1502,7 +1510,7 @@ String taskComment=request.getParameter("task_comment");
 			if (info.isError() == false) {
 				session.setAttribute("successMsg", "Task Reopened Successfully");
 			} else {
-				session.setAttribute("errorMsg", "Failed to Reopened Task");
+				session.setAttribute("errorMsg", "Failed to Reopen  Task");
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in reopenTaskStatus " + e.getMessage());
@@ -1616,10 +1624,10 @@ String taskComment=request.getParameter("task_comment");
 				for (int i = 0; i < TaskId.length; i++) {
 					FormValidation.updateTaskLog(TaskText.taskTex8, userId, Integer.parseInt(TaskId[i]));
 				}
-				session.setAttribute("successMsg", Constants.Sucessmsg);
+				session.setAttribute("successMsg", "Task Status Saved");
 			} else {
 
-				session.setAttribute("errorMsg", Constants.Failmsg);
+				session.setAttribute("errorMsg", "Failed to Save Task Status");
 			}
 
 		} catch (Exception e) {
