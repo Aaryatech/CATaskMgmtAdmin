@@ -1275,6 +1275,8 @@ function append(data){
 	function showEditTask(taskId,taskName,custName) {
 		//alert("HI"+taskId);
 			//alert("jj");
+			       // $("#modal_edit").remove();
+
 			$("#err_tTeam").hide();
 			$("#err_eHr").hide();
 			$("#err_mHr").hide();

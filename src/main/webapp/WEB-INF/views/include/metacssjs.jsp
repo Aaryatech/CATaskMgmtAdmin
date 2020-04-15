@@ -46,6 +46,8 @@
 	href="${pageContext.request.contextPath}/resources/assets/css/customecss.css"
 	rel="stylesheet" type="text/css">
 	
+	
+	
 	<%-- <link
 	href="${pageContext.request.contextPath}/resources/assets/css/moh/component-new.css"
 	rel="stylesheet" type="text/css">
@@ -172,6 +174,8 @@
 <!-- /theme JS files -->
 
 
+<script
+	src="${pageContext.request.contextPath}/resources/global_assets/js/plugins/notifications/bootbox.min.js"></script>
 
 <script>
 	// Export options - column selector

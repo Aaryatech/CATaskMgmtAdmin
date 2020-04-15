@@ -139,11 +139,17 @@
 													title="Edit"><i class="icon-pencil7"
 													style="color: black;"></i></a>
 											</c:if> <c:if test="${deleteAccess==0}">
-												<a
+												<%-- <a
 													href="${pageContext.request.contextPath}/deleteService?serviceId=${serviceList.servId}"
 													onClick="return confirm('Are you sure want to delete this record');"
 													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
+													style="color: black;"></i> </a> --%>
+													
+													<a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${serviceList.servId}" data-popup="tooltip"
+title="" data-original-title="Delete"><i class="icon-trash"
+													style="color: black;"></i></a>
 											</c:if> 
 											<c:if test="${editAccess==0}">
 											<c:choose>
@@ -162,27 +168,6 @@
 									</tr>
 								</c:forEach>
 								<tbody>
-
-
-									<%-- <c:forEach items="${compList}" var="compList" varStatus="count">
-									<tr>
-										<td>${count.index+1}</td>
-										<td>${compList.companyName}</td>
-										<td class="text-center"><c:if test="${editAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/editCompany?compId=${compList.exVar1}"
-													title="Edit"><i class="icon-pencil7"
-													style="color: black;"></i></a>
-											</c:if> <c:if test="${deleteAccess == 0}">
-												<a
-													href="${pageContext.request.contextPath}/deleteCompany?compId=${compList.exVar1}"
-													onClick="return confirm('Are you sure want to delete this record');"
-													title="Delete"><i class="icon-trash"
-													style="color: black;"></i> </a>
-											</c:if></td>
-									</tr>
-								</c:forEach> --%>
-
 								</tbody>
 
 							</table>
@@ -208,6 +193,36 @@
 
 	</div>
 	<!-- /page content -->
+<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+bootbox.confirm({
+title : 'Confirm ',
+message : 'Are you sure you want to delete selected records ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/deleteService?serviceId="
++ uuid;
+
+}
+}
+});
+});
+</Script>
 
 	<script type="text/javascript">
 		function editService(serviceId) {
