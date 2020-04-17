@@ -167,6 +167,8 @@ public class ReportController {
 				model.addAttribute("toDate", fromDate[1]);
 				model.addAttribute("yearrange", yearrange);
 
+			}else {
+				model.addAttribute("yearrange", DateConvertor.getFromToDate());
 			}
 
 		} catch (Exception e) {
@@ -341,7 +343,12 @@ public class ReportController {
 				yearrange = request.getParameter("yearrange");
 				mav.addObject("yearrange", yearrange);
 			} catch (Exception e) {
-				yearrange = null;
+				try {
+					mav.addObject("yearrange", DateConvertor.getFromToDate());
+				}catch (Exception e1) {
+					yearrange = null;
+				}
+				
 			}
 			if (yearrange != null) {
 				String[] fromDate = yearrange.split(" to ");
@@ -370,6 +377,9 @@ public class ReportController {
 				mav.addObject("fromDate", fromDate[0]);
 				mav.addObject("toDate", fromDate[1]);
 				mav.addObject("emps", empId);
+			}else {
+				mav.addObject("yearrange", DateConvertor.getFromToDate());
+
 			}
 		} catch (Exception e) {
 
@@ -751,6 +761,8 @@ public class ReportController {
 				model.addAttribute("toDate", fromDate[1]);
 				model.addAttribute("yearrange", yearrange);
 
+			}else {
+				model.addAttribute("yearrange", DateConvertor.getFromToDate());
 			}
 
 		} catch (Exception e) {
@@ -920,6 +932,10 @@ public class ReportController {
 				model.addAttribute("fromDate", fromDate[0]);
 				model.addAttribute("toDate", fromDate[1]);
 				model.addAttribute("yearrange", yearrange);
+			}else {
+				
+				model.addAttribute("yearrange",DateConvertor.getFromToDate());
+
 			}
 
 		} catch (Exception e) {

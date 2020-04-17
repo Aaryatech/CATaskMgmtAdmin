@@ -111,7 +111,7 @@ h5 {
 									Date <span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-3">
-									<input type="text" class="form-control daterange-basic_new"
+									<input type="text" value="${yearrange}" class="form-control daterange-basic_new"
 										id="monthyear" name="monthyear">
 								</div>
 								<div class="col-lg-1"></div>
@@ -183,6 +183,10 @@ h5 {
 										id="submtbtn1"
 										onclick="getProgReportNew('showClientwisetaskcostreport')">
 										Excel</button>
+								</div>
+									<div class="col-lg-3">
+								<span class="validation-invalid-label" id="error_msg" style="display: none;"></span>
+<span class="validation-invalid-label" id="error_msg1" style="display: none;"></span>
 								</div>
 
 							</div>
@@ -314,14 +318,23 @@ h5 {
 			} else {
 
 				if (groupId == -1) {
-					alert("Select Group");
+					//alert("Select Group");
+					
+					document.getElementById("error_msg1").innerHTML="Select Group";
+					$("#error_msg1").show();
 					flag = 0;
+				}else{
+					$("#error_msg1").hide();
 				}
 			}
 
 			if (clientId == -1 || clientId == "") {
-				alert("Select Client");
+				//alert("Select Client");
+				document.getElementById("error_msg").innerHTML="Select Client";
+				$("#error_msg").show();
 				flag = 0;
+			}else{
+				$("#error_msg").hide();
 			}
 
 			if (flag == 1) {

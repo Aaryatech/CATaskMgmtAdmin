@@ -167,10 +167,18 @@
 										style="color: black;"></i></a>
 										
 									
-										<c:if test="${deleteAccess==0}"><a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
+										<c:if test="${deleteAccess==0}"><%-- <a href="${pageContext.request.contextPath}/deletCust?custId=${custHeadList.exVar1}"
 									onClick="return confirm('Are you sure want to delete this record');"
 									title="Delete"><i class="icon-trash" style="color: black;"></i>
-								</a></c:if>
+								</a> --%>
+								
+								
+								  <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${custHeadList.exVar1}" data-popup="tooltip"
+title="" data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a>
+								
+								</c:if>
 								<c:choose>
 												<c:when test="${custHeadList.isActive==1}">
 													<c:if test="${editAccess==0}">
@@ -242,4 +250,35 @@
 	<!-- /page content -->
 
 </body>
+<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+bootbox.confirm({
+title : 'Confirm ',
+message : 'Are you sure you want to delete selected records ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/deletCust?custId="
++ uuid;
+
+}
+}
+});
+});
+</Script>
+
 </html>

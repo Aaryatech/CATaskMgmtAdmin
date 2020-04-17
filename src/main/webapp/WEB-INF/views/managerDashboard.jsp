@@ -182,11 +182,14 @@ h5 {
 									<option disabled value="-1">Select Client</option>
 								</select>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-2">
 								<button type="button" class="btn bg-blue ml-3 legitRipple"
 									id="submtbtn" onclick="getCostDetail()">Search</button>
 							</div>
-
+							<div class="col-lg-3">
+<span class="validation-invalid-label" id="error_msg" style="display: none;"></span>
+<span class="validation-invalid-label" id="error_msg1" style="display: none;"></span>
+</div>
 						</div>
 						<input type="hidden" id="emp_id" name="emp_id" value="${empId}">
 						<div id="loader" style="display: none;">
@@ -644,14 +647,22 @@ h5 {
 			}else{
 				
 				if(groupId==-1){
-					alert("Select Group");
+					//alert("Select Group");
+					document.getElementById("error_msg1").innerHTML="Select Group";
+					$("#error_msg1").show();
 					flag=0;
+				}else{
+					$("#error_msg1").hide();
 				}
 			}
 			 
 			if(clientId==-1 || clientId==""){
-				alert("Select Client");
+				//alert("Select Client");
+				document.getElementById("error_msg").innerHTML="Select Client";
+				$("#error_msg").show();
 				flag=0;
+			}else{
+				$("#error_msg").hide();
 			}
 			
 			if(flag==1){

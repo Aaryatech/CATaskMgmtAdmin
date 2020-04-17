@@ -515,9 +515,9 @@ h5 {
 
 							<div class="modal-header bg-success">
 								<h5 class="modal-title">Edit Task</h5> &nbsp;&nbsp;
-								<h6 style="color: brown"
+								<h6 style="color: white"
 								 id="custName"> </h6> &nbsp;&nbsp; 
-								<h6  style="color: brown" id="actiName"> </h6>
+								<h6  style="color: white" id="actiName"> </h6>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -812,7 +812,7 @@ h5 {
 		
 				function() {
 					
-			/*  $('#printtable_assignTask').dataTable({
+			 $('#printtable_assignTask').dataTable({
 					    "bPaginate": false,
 					  	dom: 'Bfrtip',
 					    buttons: [
@@ -821,7 +821,7 @@ h5 {
 				            'csvHtml5',
 				            'pdfHtml5'
 				        ]
-					});  */
+					});  
 					 
 					
 					//	$('#printtable').DataTable();

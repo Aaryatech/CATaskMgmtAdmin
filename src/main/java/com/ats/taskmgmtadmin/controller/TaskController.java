@@ -557,7 +557,7 @@ public class TaskController {
 				}
 
 			} catch (Exception e) {
-				System.err.println("Exce in addCustomerActMap " + e.getMessage());
+				System.err.println("Exce in show inactiveTaskList " + e.getMessage());
 				e.printStackTrace();
 			}
 
@@ -780,6 +780,7 @@ public class TaskController {
 		try {
 HttpSession session=request.getSession();
 			String base64encodedString = request.getParameter("taskId");
+			System.err.println(" base64encodedString taskId = "+base64encodedString);
 			int taskId = Integer.parseInt(FormValidation.DecodeKey(base64encodedString));
 			int stat = Integer.parseInt(request.getParameter("stat"));
 

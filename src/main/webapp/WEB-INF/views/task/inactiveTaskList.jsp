@@ -143,15 +143,15 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_periodicity"
 										style="display: none;"> Select Service</span>
-								</div>
+								</div> -->
 								
 									<label class="col-form-label col-lg-1" for="activity">
 									Activity <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<select name="activity" data-placeholder="Select Activity"
 										id="activity" multiple
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -161,15 +161,15 @@
 									</select>
 								</div>
 
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_activity"
 										style="display: none;"> Select Activity </span>
 
 								</div>
-								
-							</div>
+								 -->
+							<!-- </div>
 
-							<div class="form-group row">
+							<div class="form-group row"> -->
 								<label class="col-form-label col-lg-1" for="service">
 									Customer<span style="color: red">* </span> :
 								</label>
@@ -214,11 +214,11 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_cust"
 										style="display: none;"> Select customer </span>
 								</div>
-								
+								 -->
 								<div class="col-lg-2">
 									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
@@ -286,10 +286,21 @@
 									<td>${taskList.taskStatutoryDueDate}</td>
 								
 
-									<td><a
+									<td align="center"><%-- <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=2"
 										title="Activate Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a>&nbsp;
+											style="color: black;"></i></a> --%>
+											
+											
+											<a
+										href="javascript:void(0)" class="list-icons-item text-danger-600 bootbox_custom" 
+										data-uuid="${taskList.exVar1}" data-myval="2" data-popup="tooltip"
+title="" data-original-title="Activate Task"
+										title="Activate Task"><i class="icon-checkmark4 "
+											style="color: black;"></i></a>
+											
+											
+											&nbsp;
 											<%-- <c:if test="${editAccess == 0}">
 										<a
 										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=2"
@@ -323,6 +334,38 @@
 		<!-- /main content -->
 
 	</div>
+	<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+var myval = $(this).data("myval")
+//alert("uuid"+uuid);
+bootbox.confirm({
+title : 'Confirm ',
+message :'Are you sure you want to active selected record ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/updateManualTaskStatus?taskId="+uuid+"&stat="+myval;
+
+}
+}
+});
+});
+</Script>
+
 	<script type="text/javascript">
 		function getActivities(servId) {
 			

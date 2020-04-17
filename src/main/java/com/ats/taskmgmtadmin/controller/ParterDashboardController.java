@@ -51,7 +51,7 @@ public class ParterDashboardController {
 					.getForObject(Constants.url + "/getClientGroupList", ClientGroupList[].class);
 			List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(Arrays.asList(clientGroup));
 			model.addAttribute("clientGroupList", clientGroupList);
-
+			model.addAttribute("yearrange", DateConvertor.getFromToDate());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -313,7 +313,9 @@ public class ParterDashboardController {
 				model.addAttribute("fromDate",monthyear);
 				model.addAttribute("partnerType",partnerType);
 			}
-			
+			else {
+				model.addAttribute("fromDate", DateConvertor.getFromToDate());
+			}
 			
  
 		} catch (Exception e) {

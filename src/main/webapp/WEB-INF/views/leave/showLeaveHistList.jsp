@@ -152,11 +152,18 @@
 											</c:otherwise>
 										</c:choose>
 										<td>${list.leaveEmpReason}</td>
-										<td class="text-center"><a
+										<td class="text-center"><%-- <a
 											href="${pageContext.request.contextPath}/deleteLeave?emp=${empId1}&leaveId=${list.leaveId}"
 											onClick="return confirm('Are you sure want to delete this record');"
 											title="Delete"><i class="icon-trash"
-												style="color: black;"></i> </a></td>
+												style="color: black;"></i> </a> --%>
+												
+												  <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${empId1}" data-leaveid="${list.leaveId}" data-popup="tooltip"
+title="" data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a>
+												
+												</td>
 									</tr>
 								</c:forEach>
 
@@ -183,4 +190,35 @@
 	<!-- /page content -->
 
 </body>
+<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+var leaveId = $(this).data("leaveid")
+//alert(leaveId)
+bootbox.confirm({
+title : 'Confirm ',
+message : 'Are you sure you want to delete selected records ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/deleteLeave?emp="+uuid+"&leaveId="+leaveId;
+
+}
+}
+});
+});
+</Script>
 </html>

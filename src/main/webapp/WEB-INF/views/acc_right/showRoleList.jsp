@@ -148,11 +148,19 @@
 																				href="${pageContext.request.contextPath}/editAccessRole/${createdRoleList.roleId}"
 																				  data-original-title="Edit"><i class="icon-pencil7" style="color: black;"></i></a></c:if>
 																		
-																		 <%-- <c:if test="${deleteAccess==0}"> --%><a title="Delete" rel="tooltip"
+																		 <%-- <c:if test="${deleteAccess==0}"> --%><%-- <a title="Delete" rel="tooltip"
 																				data-color-class="detail"
 																				data-animate=" animated fadeIn "
 																				href="${pageContext.request.contextPath}/deleteRole?accRole=${createdRoleList.roleId}"
-																				  data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a><%-- </c:if> --%></td>
+																				  data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a> --%>
+																				  
+																				  <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${createdRoleList.roleId}" data-popup="tooltip"
+title="" data-original-title="Delete"><i class="icon-trash"
+													style="color: black;"></i></a>
+																				  
+																				  <%-- </c:if> --%></td>
 																		</tr>
 
 
@@ -219,6 +227,37 @@
 			</script>
 
 	
+	
+	<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+bootbox.confirm({
+title : 'Confirm ',
+message : 'Are you sure you want to delete selected records ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/deleteRole?accRole="
++ uuid;
+
+}
+}
+});
+});
+</Script>
 
 </body>
 </html>

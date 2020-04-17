@@ -122,7 +122,7 @@
 								<label class="col-form-label col-lg-1" for="service">
 									Service<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<select name="service" data-placeholder="Select Service"
 										id="service"
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -142,15 +142,15 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_periodicity"
 										style="display: none;"> Select Service</span>
-								</div>
+								</div> -->
 								
 									<label class="col-form-label col-lg-1" for="activity">
 									Activity <span style="color: red">* </span>:
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<select name="activity" data-placeholder="Select Activity"
 										id="activity" multiple
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -160,19 +160,19 @@
 									</select>
 								</div>
 
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_activity"
 										style="display: none;"> Select Activity </span>
 
-								</div>
+								</div> -->
 								
-							</div>
+							<!-- </div>
 
-							<div class="form-group row">
+							<div class="form-group row"> -->
 								<label class="col-form-label col-lg-1" for="service">
 									Customer<span style="color: red">* </span> :
 								</label>
-								<div class="col-lg-3">
+								<div class="col-lg-2">
 									<select name="customer" data-placeholder="Select Customer"
 										id="customer" 
 										class="form-control form-control-select2 select2-hidden-accessible"
@@ -206,16 +206,16 @@
 
 									</select>
 								</div>
-								<div class="col-lg-2">
+								<!-- <div class="col-lg-2">
 									<span class="validation-invalid-label" id="error_cust"
 										style="display: none;"> Select customer </span>
-								</div>
-							</div>
+								</div> -->
+							<!-- </div>
 							
 							
 							
-							<div class="form-group row mb-0">
-								<div class="col-lg-12" align="center">
+							<div class="form-group row mb-0"> -->
+								<div class="col-lg-2" align="center">
 									<!-- 	<button type="reset" class="btn btn-light legitRipple">Reset</button> -->
 									<button type="submit" class="btn bg-blue ml-3 legitRipple"
 										id="submtbtn">
@@ -227,10 +227,7 @@
 </form>
 
 							<div class="form-group row">
-
-
-							
-
+<span class="validation-valid-label"> Select tasks from table and status from Status option and submit.</span>
 							</div>
 
 
@@ -244,9 +241,9 @@
 						id="submitInsertEmpType" method="post">
 						
 						<div class="form-group row">
-										<label class="col-form-label col-lg-2" for="service">
-											Status : </label>
-										<div class="col-lg-4">
+										<label class="col-form-label col-lg-2" for="isStatus">
+											Select Status : </label>
+										<div class="col-lg-2">
 
 											<select name="isStatus" id="isStatus"
 												class="form-control form-control-select2 select2-hidden-accessible"
@@ -299,10 +296,15 @@
 									<td>${taskList.taskStatutoryDueDate}</td>
 									<td>${taskList.exInt2==1 ? 'Non Billable' : taskList.exInt2==2 ? 'Invoiced' : taskList.exInt2==3 ? '-' : ''}</td>
 	 
-	 								<td><a
+	 								<td><%-- <a
 										href="${pageContext.request.contextPath}/reopenTaskStatus?taskId=${taskList.taskId}"
 										title="Reopen Task"><i class="icon-checkmark2 mr-3 icon-2x"
-											style="color: black;"></i></a></td>
+											style="color: black;"></i></a> --%>
+											 <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${taskList.taskId}"  data-popup="tooltip"
+title="" data-original-title="Reopen Task"><i class="icon-checkmark2 mr-3 icon-2x" style="color: black;"></i></a>
+											</td>
 								<%-- 	<td><a
 										href="${pageContext.request.contextPath}/updateCompletedTaskStatus?taskId=${taskList.exVar1}"
 										title="Change Task Status"><i class="icon-cog5 "
@@ -417,4 +419,33 @@
 							});
 				});
 	</script>
+	<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+//alert("uuid"+uuid);
+bootbox.confirm({
+title : 'Confirm ',
+message :'Are you sure you want to Reopen selected record ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/reopenTaskStatus?taskId="+uuid;
+}
+}
+});
+});
+</Script>
 </html>

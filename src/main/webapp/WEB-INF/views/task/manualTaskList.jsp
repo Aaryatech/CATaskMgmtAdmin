@@ -144,13 +144,27 @@
  									<td>${taskList.taskStatutoryDueDate}</td>
 									
 
-									<td><a
+									<td><%-- <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=1"
 										title="Approve Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a> &nbsp; <a
+											style="color: black;"></i></a> --%>
+											
+											 <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${taskList.exVar1}" data-myval="1" data-popup="tooltip"
+title="" data-original-title="Approve Task"><i class="icon-checkmark4" style="color: black;"></i></a>
+											
+											 &nbsp; <%-- <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
 										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a> &nbsp;<c:if test="${editAccess == 0}"> <a
+											style="color: black;"></i></a> --%>
+											
+											 <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${taskList.exVar1}" data-myval="0" data-popup="tooltip"
+title="" data-original-title="Disapprove Task"><i class="icon-trash" style="color: black;"></i></a>
+											
+											 &nbsp;<c:if test="${editAccess == 0}"> <a
 										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
 										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
 											></i></a></c:if></td>
@@ -182,4 +196,41 @@
 	<!-- /page content -->
 
 </body>
+
+<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+var myval = $(this).data("myval")
+if(myval==0){
+	msg='Are you sure you want to delete selected record ?';
+}else{
+	msg='Are you sure you want to approve selected record ?';
+}
+//alert("uuid"+uuid);
+bootbox.confirm({
+title : 'Confirm ',
+message :msg,
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/updateManualTaskStatus?taskId="+uuid+"&stat="+myval;
+
+}
+}
+});
+});
+</Script>
 </html>

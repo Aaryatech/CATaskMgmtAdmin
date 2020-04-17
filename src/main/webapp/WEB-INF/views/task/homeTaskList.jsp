@@ -1224,7 +1224,7 @@ function append(data){
 
 
 '<td class="text-center"><a class="chatmodallink mr-2" href="#"  onclick="showChatBox(\''+data.taskList[i].exVar1+'\',\''+data.taskList[i].exVar2+'\',\''+data.taskList[i].taskText+'\',\''+data.taskList[i].ownerPartner+'\',\''+data.taskList[i].taskStatus+'\')" data-href="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" href1="${pageContext.request.contextPath}/communication?taskId='+data.taskList[i].exVar1+'&empId='+data.taskList[i].exVar2+'" title="Chat/Update"><i class="icon-comments" style="color: green;" ></i></a>'+
-' <a href="#" onclick="showEditTask('+data.taskList[i].taskId+','+data.taskList[i].taskText+','+data.taskList[i].custGroupName+')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
+' <a href="#"  onclick="showEditTask('+data.taskList[i].taskId+',\''+data.taskList[i].taskText+'\',\''+data.taskList[i].custGroupName+'\')" title="Edit"><i class="icon-pencil7" style="color: black;" data-toggle="modal" data-target="#modal_edit"></i></a></td>'+'</tr>';
 	
 
 		

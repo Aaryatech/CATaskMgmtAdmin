@@ -311,6 +311,14 @@ HttpSession session=request.getSession();
 			String toDate = request.getParameter("toDate");
 
 			if (fromDate != null && toDate != null) {
+				
+			}else {
+				String fdToDate=DateConvertor.getMonthsStartEnd();
+				
+				fromDate=fdToDate.split(" to ")[0];
+				toDate=	fdToDate.split(" to ")[1];
+				System.err.println("fd "+fromDate + "td " +toDate);
+			}
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
@@ -321,7 +329,7 @@ HttpSession session=request.getSession();
 				model.addAttribute("fromDate", fromDate);
 				model.addAttribute("toDate", toDate);
 
-			}
+			
 
 		} catch (Exception e) {
 
@@ -341,9 +349,16 @@ HttpSession session=request.getSession();
 			String fromDate = request.getParameter("fromDate");
 			//String toDate = request.getParameter("toDate");
 
-			String[] dates = fromDate.split(" to ");
+			String[] dates =null;// fromDate.split(" to ");
 			
 			if (fromDate != null) {
+				dates = fromDate.split(" to ");
+				model.addAttribute("fromDate", fromDate); 
+				
+			}else {
+				dates =DateConvertor.getMonthsStartEnd().split(" to ");
+				model.addAttribute("fromDate", DateConvertor.getMonthsStartEnd()); 
+			}
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 				map.add("fromDate", dates[0]);
@@ -351,9 +366,7 @@ HttpSession session=request.getSession();
 				EmpListWithDateList empListWithDateList = Constants.getRestTemplate()
 						.postForObject(Constants.url + "/daywiseLeaveHistoryofEmployee", map, EmpListWithDateList.class);
 				model.addAttribute("empListWithDateList", empListWithDateList);
-				model.addAttribute("fromDate", fromDate); 
 
-			}
 
 		} catch (Exception e) {
 

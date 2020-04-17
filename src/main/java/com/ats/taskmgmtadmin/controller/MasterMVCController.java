@@ -278,7 +278,7 @@ public class MasterMVCController {
 
 				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteService", map, Info.class);
 				if (del.isError()) {
-					session.setAttribute("errorMsg", "Failed to Delete Service");
+					session.setAttribute("errorMsg", "Failed to Delete");
 					redirect = "redirect:/serviceList";
 				} else {
 					session.setAttribute("successMsg", "Deleted Successfully");

@@ -85,8 +85,12 @@ public class TlCompletedGTaskReportMVCCntrl {
 			mav = "report/Employee/empMngrPerfmncReprt";
 			String yearrange = request.getParameter("monthyear");
 			System.out.println("yearrange***" + yearrange);
-			int empId = Integer.parseInt(request.getParameter("empId"));
-
+			int empId =0;
+			try {
+			 empId = Integer.parseInt(request.getParameter("empId"));
+			}catch (Exception e) {
+				empId=0;
+			}
 			if (yearrange != null) {
 				String[] fromDate = yearrange.split(" to ");
 				map = new LinkedMultiValueMap<String, Object>();
@@ -98,7 +102,7 @@ public class TlCompletedGTaskReportMVCCntrl {
 						.postForObject(Constants.url + "getCompletedTaskReport", map, CompletedTaskReport[].class);
 				List<CompletedTaskReport> cmpTaskList = new ArrayList<>(Arrays.asList(resArray));
 
-				System.out.println("cmpTaskList***" + cmpTaskList.toString());
+				System.out.println("cmpTaskList***" + cmpTaskList.size());
 				for (int i = 0; i < cmpTaskList.size(); i++) {
 					if (cmpTaskList.get(i).getTaskStatutoryDueDate() == " "
 							&& cmpTaskList.get(i).getTaskStatutoryDueDate() == null) {
@@ -117,6 +121,8 @@ public class TlCompletedGTaskReportMVCCntrl {
 				model.addAttribute("yearrange", yearrange);
 				model.addAttribute("empId", empId);
 
+			}else {
+				model.addAttribute("yearrange", DateConvertor.getFromToDate());
 			}
 
 		} catch (Exception e) {
@@ -305,6 +311,8 @@ public class TlCompletedGTaskReportMVCCntrl {
 				model.addAttribute("toDate", fromDate[1]);
 				model.addAttribute("yearrange", yearrange);
 
+			}else {
+				model.addAttribute("yearrange", DateConvertor.getFromToDate());
 			}
 
 		} catch (Exception e) {

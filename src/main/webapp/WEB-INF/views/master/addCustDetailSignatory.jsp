@@ -532,11 +532,20 @@
 													<td class="text-center"><a href="#"
 														onclick="showEdit(${custDetail.custDetailId})"
 														title="Edit"><i class="icon-pencil7"
-															style="color: black;"></i></a> <a
+															style="color: black;"></i></a> <%-- <a
 														href="${pageContext.request.contextPath}/deletCustDetail?custDetId=${custDetail.custDetailId}"
 														onClick="return confirm('Are you sure want to delete this record');"
 														title="Delete"><i class="icon-trash"
-															style="color: black;"></i> </a></td>
+															style="color: black;"></i> </a> --%>
+															
+															
+															  <a href="javascript:void(0)"
+class="list-icons-item text-danger-600 bootbox_custom"
+data-uuid="${custDetail.custDetailId}" data-popup="tooltip"
+title="" data-original-title="Delete"><i class="icon-trash" style="color: black;"></i></a>
+															
+															
+															</td>
 
 
 												</tr>
@@ -587,6 +596,37 @@ function hideAddForm(){
 
 
 </script>
+<script>
+// Custom bootbox dialog
+$('.bootbox_custom')
+.on(
+'click',
+function() {
+var uuid = $(this).data("uuid") // will return the number 123
+bootbox.confirm({
+title : 'Confirm ',
+message : 'Are you sure you want to delete selected records ?',
+buttons : {
+confirm : {
+label : 'Yes',
+className : 'btn-success'
+},
+cancel : {
+label : 'Cancel',
+className : 'btn-link'
+}
+},
+callback : function(result) {
+if (result) {
+location.href = "${pageContext.request.contextPath}/deletCustDetail?custDetId="
++ uuid;
+
+}
+}
+});
+});
+</Script>
+
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>

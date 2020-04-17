@@ -209,7 +209,7 @@ h5 {
 											<td>${count.index+1}</td>
 											<td>${cmpTaskList.taskText}</td>
 											<td>${cmpTaskList.custFirmName}</td>
-											<td>${cmpTaskList.servName}</td>
+											<td>${cmpTaskList.servName} ${cmpTaskList.taskId}</td>
 											<td>${cmpTaskList.actiName}</td>
 											<td>${cmpTaskList.periodicityName}</td>
 											<td>${cmpTaskList.partner}</td>

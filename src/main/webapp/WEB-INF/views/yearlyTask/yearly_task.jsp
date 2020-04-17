@@ -249,10 +249,8 @@ h5 {
 											<td>${dataList.custFirmName}&nbsp;&nbsp;</td>
 											
 											<td>
-											<a href="#"
-											onclick="showEditTask(${dataList.mappingId},'${dataList.actvManBudgHr}','${dataList.actvEmpBudgHr}',${dataList.actvStatutoryDays},${dataList.actvBillingAmt},'${dataList.custFirmName}','${dataList.actiName}')" title="Edit"><i
-												class="icon-pencil7" style="color: red;"
-												data-toggle="modal" data-target="#modal_edit"></i>${dataList.actiName}</a></td>
+											<a href="#" data-toggle="modal" data-target="#modal_edit"
+											onclick="showEditTask(${dataList.mappingId},'${dataList.actvManBudgHr}','${dataList.actvEmpBudgHr}',${dataList.actvStatutoryDays},${dataList.actvBillingAmt},'${dataList.custFirmName}','${dataList.actiName}')" title="Edit">${dataList.actiName}</a></td>
 													<td><input type="checkbox"
 												id="mapping${dataList.mappingId}" value="${dataList.mappingId}"
 												name="mappingId" class="select_all"  ></td>

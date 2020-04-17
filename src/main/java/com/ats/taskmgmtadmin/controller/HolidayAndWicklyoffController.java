@@ -160,6 +160,7 @@ public class HolidayAndWicklyoffController {
 	public String editHoliday(HttpServletRequest request, HttpServletResponse response, Model model) {
 
 		String mav = "leave/holiday_edit";
+		HttpSession session = request.getSession();
 
 		try {
 
@@ -169,10 +170,27 @@ public class HolidayAndWicklyoffController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("holidayId", holidayId);
 			editHoliday = Constants.getRestTemplate().postForObject(Constants.url + "/getHolidayById", map, Holiday.class);
-			model.addAttribute("editHoliday", editHoliday);
-			editHoliday.setHolidayFromdt(DateConvertor.convertToDMY(editHoliday.getHolidayFromdt()));
-			editHoliday.setHolidayTodt(DateConvertor.convertToDMY(editHoliday.getHolidayTodt()));
+			Date curDate=new Date();
+			Date holFdate=null;
+			DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+			holFdate=df.parse(editHoliday.getHolidayFromdt());
+			
+			System.err.println("curDate "+curDate +" holFdate " +holFdate);
+			
+			if(curDate.before(holFdate)) {
+				System.err.println("Allow to edit");
+				
+				model.addAttribute("editHoliday", editHoliday);
+				editHoliday.setHolidayFromdt(DateConvertor.convertToDMY(editHoliday.getHolidayFromdt()));
+				editHoliday.setHolidayTodt(DateConvertor.convertToDMY(editHoliday.getHolidayTodt()));
 
+
+			}else {
+				System.err.println("dont allow");
+				session.setAttribute("errorMsg", "The holiday period has been elapsed can not edit");
+
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
