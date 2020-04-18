@@ -76,7 +76,8 @@
 
 						<div class="card">
 							<div class="card-header header-elements-inline">
-								<h6 class="card-title">Add Employee Hours</h6>
+								<h6 class="card-title">Add Employee Hours &nbsp;<span class="validation-valid-label">Search employees previous work log data by work log date.(task status !Completed) On list, Action button Add new Hours or edit Existing </span>
+								</h6>
 								<!-- <div class="header-elements">
 									<div class="list-icons">
 										<a class="list-icons-item" data-action="collapse"></a>

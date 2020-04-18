@@ -76,6 +76,9 @@
 h5 {
 	margin-bottom: 0;
 }
+.btn{
+max-height: 38px !important;
+}
 </style>
 
 

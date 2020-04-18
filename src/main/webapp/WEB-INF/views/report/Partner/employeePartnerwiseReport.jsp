@@ -57,6 +57,9 @@
 h5 {
 	margin-bottom: 0;
 }
+.btn{
+max-height: 38px !important;
+}
 </style>
 
 
@@ -99,7 +102,7 @@ h5 {
 								</div>
 								<!-- <div class="col-lg-1"></div> -->
 								<label class="col-form-label col-lg-2" for="partnerType">
-									Parter Filter<span style="color: red">* </span>:
+									Partner Filter<span style="color: red">* </span>:
 								</label>
 								<div class="col-lg-2">
 									<select name="partnerType" id="partnerType"

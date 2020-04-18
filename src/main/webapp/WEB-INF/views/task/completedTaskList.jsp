@@ -228,6 +228,7 @@
 
 							<div class="form-group row">
 <span class="validation-valid-label"> Select tasks from table and status from Status option and submit.</span>
+&nbsp;<span class="validation-valid-label">By Reopening task its status will be changed to Allocated.</span>
 							</div>
 
 
