@@ -150,7 +150,7 @@ h5 {
 
 								<!-- <div class="col-lg-1"></div> -->
 								<a
-									href="${pageContext.request.contextPath}/showEmpMngrPerfrmncRep?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}"><button
+									href="${pageContext.request.contextPath}/getCompTaskVariationExcel?fromDate=${fromDate}&toDate=${toDate}&empId=${empId}&reportType=${reportType}"><button
 										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
 							</div>

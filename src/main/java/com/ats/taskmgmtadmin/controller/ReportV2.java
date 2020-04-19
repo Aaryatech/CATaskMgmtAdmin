@@ -254,5 +254,166 @@ public class ReportV2 {
 
 		return mav;
 	}
+	
+	
+	
+	@RequestMapping(value = "/getCompTaskVariationExcel", method = RequestMethod.GET)
+	public void getCompTaskVariationExcel(HttpServletRequest request, HttpServletResponse response) {
+		String reportName=null;
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+		int empId= Integer.parseInt(request.getParameter("empId"));
+		int reportType= Integer.parseInt(request.getParameter("reportType"));
+
+		String fromDate=request.getParameter("fromDate");
+		String toDate=request.getParameter("toDate");
+		map = new LinkedMultiValueMap<String, Object>();
+		map.add("empId", empId);
+		EmployeeMaster empData = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById",
+				map, EmployeeMaster.class);
+
+		System.err.println("para empId "+empId +"reportType" +reportType +"fromDate " +fromDate +"to date " +toDate);
+		map = new LinkedMultiValueMap<String, Object>();
+
+		if (reportType == 1) {
+			map.add("reportType", reportType);
+
+		} else {
+			map.add("reportType", empData.getEmpType());
+		}
+		map.add("fromDate",  fromDate);
+		map.add("toDate", toDate);
+		map.add("empIds", empId);
+
+		ComplTaskVarienceRep[] resArray = Constants.getRestTemplate().postForObject(
+				Constants.url + "getComplTaskVarienceReport", map, ComplTaskVarienceRep[].class);
+		taskReportList = new ArrayList<>(Arrays.asList(resArray));
+
+		
+
+		if (reportType == 1) {
+			reportName="Due Date Variance";
+
+		} else {
+			reportName= "Hours Variance";
+		}
+		
+		try {
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Task Text");
+			rowData.add("Client Name");
+			rowData.add("Service");
+			rowData.add("Activity");
+			rowData.add("Periodicity");
+			rowData.add("Owner Partner");
+			rowData.add("Execution Partner");
+			rowData.add("Employee Name");
+			rowData.add("TL Name");
+			rowData.add("Manager Name");
+		
+			if(reportType==1) {
+			rowData.add("Due Date");
+			rowData.add("Work Date");
+			rowData.add("Completion Date");
+			}
+
+			
+			if(reportType==2) {
+			rowData.add("Budgeted Hrs");
+			rowData.add("Actual Hrs");
+			}
+			
+			rowData.add("Variance");
+			rowData.add("Drive Link");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < taskReportList.size(); i++) {
+				
+				ComplTaskVarienceRep task=taskReportList.get(i);
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+
+				rowData.add("" + (i + 1));
+				rowData.add("" + task.getTaskText());
+				rowData.add("" + task.getCustFirmName());
+				rowData.add("" + task.getServName());
+				rowData.add("" + task.getActiName());
+				rowData.add("" + task.getPeriodicityName());
+				rowData.add("" + task.getOwnPartner());
+
+				rowData.add("" + task.getPartner());
+				rowData.add("" + empData.getEmpName());
+				rowData.add("" + task.getTeamLeader());
+				rowData.add("" + task.getManager());
+				
+				if(reportType==1) {
+					rowData.add("" + task.getTaskStatutoryDueDate());
+					rowData.add("" + task.getTaskWorkDate());
+					rowData.add("" + task.getTaskCompletionDate());
+				}else {
+					if(empData.getEmpType()==5) {
+					rowData.add("" + task.getEmpBudHr());
+				}else {
+					rowData.add("" + task.getMngrBudHr());
+				}
+					rowData.add("" + task.getWorkHours());
+				}
+				
+				if(reportType==1) {
+					rowData.add("" + task.getDateDiff());
+				}else {
+					if(empData.getEmpType()==5) {
+						
+						rowData.add("" + task.getEmpHrVariance());
+					}else {
+						rowData.add("" + task.getMngHrVariance());
+					}
+					
+				}
+				rowData.add("" + task.getDelLink());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"Emp Name:" + empData.getEmpName() + " From Date:" + fromDate + "   To Date:" + toDate + "",
+						"", 'M');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+		
+	}
 
 }
