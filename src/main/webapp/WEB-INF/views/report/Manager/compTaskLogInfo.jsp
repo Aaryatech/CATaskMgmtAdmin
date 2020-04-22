@@ -98,6 +98,46 @@ max-height: 38px !important;
 	display: none;
 }
 </style> -->
+
+
+<div id="modal_large" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 id="c_title"  class="modal-title"> </h5>
+						&nbsp;&nbsp;<h5 id="c_sub_title"  class="modal-title"> </h5>
+								
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+								<table
+							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+							id="custListTable">
+							<thead>
+							
+								<tr class="bg-blue">
+							 		<th width="10%">Sr.no</th>
+									<th>Log Date</th>
+									<th>Work Hours</th>
+									<!-- <th class="text-center" width="10%">Actions</th> -->
+								</tr>
+							</thead>
+							<tbody>
+							
+							
+							</tbody>
+							</table>
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Manager Task Completed: Detail Work Log Report <b>${taskLogList[0].taskText}</b></h5>
@@ -176,7 +216,14 @@ max-height: 38px !important;
 											<c:if test="${taskLogList.empType==4}">
 												<td>Team Leader</td>
 											</c:if>
-											<td>${taskLogList.empName}</td>
+											<td>
+											
+											<a data-toggle="modal" 
+											onclick="getLogListByTaskAndEmpId(${taskLogList.taskId},'${taskLogList.empId}','${taskLogList.empName}','${firmName}','${taskLogList.taskText}')" data-target="#modal_large" href="#"
+									title="Work Log Detail">
+								${taskLogList.empName}</a>
+											
+											</td>
 											<td>${taskLogList.workHrs}</td>
 										</tr>
 									</c:forEach>
@@ -208,6 +255,44 @@ max-height: 38px !important;
 	<!-- /page content -->
 
 	<script type="text/javascript">
+	
+	function getLogListByTaskAndEmpId(taskId,empId,empName,firmName,taskName){
+		
+		
+		document.getElementById("c_title").innerHTML ="Work Log Detail  For -"+empName;
+		document.getElementById("c_sub_title").innerHTML ="Customer -"+firmName + " Task -"+taskName;
+
+		//alert("Hi");
+//		$("#loader").show();
+		$
+				.getJSON(
+						'${getLogListByTaskAndEmpId}',
+						{
+							taskId : taskId,
+							empId : empId,
+							ajax : 'true',
+
+						},
+						function(data) {
+
+							var dataTable = $('#custListTable').DataTable();
+							dataTable.clear().draw();
+
+							$.each(data, function(i, v) {
+		  												
+							/* 	var acButton = '&nbsp;&nbsp;<a href="#" onclick="editWorkLog('+ v.exVar1+')"><i class="icon-pencil7" style="color: black;">'+
+								'</i>   &nbsp;&nbsp;<a href="#" )"><i class="icon-trash" style="color: black;""></i>';	 */
+								dataTable.row.add(
+										[ i + 1,
+										  v.workDate,
+										  v.workHours,
+										]).draw();
+							});});
+
+
+		
+	}
+	
 		function chkData() {
 			var x = document.getElementById("capTable").rows.length;
 			//alert(x);

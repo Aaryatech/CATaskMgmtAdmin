@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
@@ -51,6 +52,7 @@ import com.ats.taskmgmtadmin.model.report.EmpAndMngPerformanceRep;
 import com.ats.taskmgmtadmin.model.report.InactiveTaskReport;
 import com.ats.taskmgmtadmin.model.report.TaskLogEmpInfo;
 import com.ats.taskmgmtadmin.model.report.TlTaskCompletReport;
+import com.ats.taskmgmtadmin.model.report.WorkLogDetailReport;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
 import com.ats.taskmgmtadmin.util.ItextPageEvent;
 import com.itextpdf.text.BaseColor;
@@ -1197,6 +1199,26 @@ public class ReportController {
 			
 		}
 		return mav;
+	}
+	
+	//Sachin 22-04-2020 showing detail log of emp log in completed task report on popup
+	//getLogListByTaskAndEmpId
+	@RequestMapping(value = "/getLogListByTaskAndEmpId", method = RequestMethod.GET)
+	public @ResponseBody List<WorkLogDetailReport> getLogListByTaskAndEmpId(HttpServletRequest request, HttpServletResponse response) {
+
+		int empId = Integer.parseInt(request.getParameter("empId"));
+		int taskId = Integer.parseInt(request.getParameter("taskId"));
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+		map.add("empId", empId);
+		map.add("taskId", taskId);
+		WorkLogDetailReport[] logArray = Constants.getRestTemplate()
+				.postForObject(Constants.url + "/getTaskLogEmpInfoListByTaskId", map, WorkLogDetailReport[].class);
+		List<WorkLogDetailReport> logList = new ArrayList<>(Arrays.asList(logArray));
+
+		return logList;
+
+		
 	}
 
 	@RequestMapping(value = "/showEmployeePartnerGrid", method = RequestMethod.GET)
