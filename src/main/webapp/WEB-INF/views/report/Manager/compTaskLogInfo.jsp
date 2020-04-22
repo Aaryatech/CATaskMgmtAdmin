@@ -26,6 +26,9 @@
 	rel="stylesheet" type="text/css">
 
 <c:url var="getClientList" value="getClientList" />
+<c:url var="getLogListByTaskAndEmpIdServ" value="getLogListByTaskAndEmpId" />
+
+
 </head>
 
 <body onload="chkData()">
@@ -266,7 +269,7 @@ max-height: 38px !important;
 //		$("#loader").show();
 		$
 				.getJSON(
-						'${getLogListByTaskAndEmpId}',
+						'${getLogListByTaskAndEmpIdServ}',
 						{
 							taskId : taskId,
 							empId : empId,

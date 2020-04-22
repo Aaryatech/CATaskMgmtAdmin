@@ -214,7 +214,7 @@ h5 {
 												<td>${count.index+1}</td>
 												<td>${taskRep.taskText}</td>
 												<td>${taskRep.custFirmName}</td>
-												<td>${taskRep.servName} ${taskRep.taskId}</td>
+												<td>${taskRep.servName}</td>
 												<td>${taskRep.actiName}</td>
 												<td>${taskRep.periodicityName}</td>
 												<td>${taskRep.ownPartner}</td>

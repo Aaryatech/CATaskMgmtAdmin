@@ -1205,7 +1205,7 @@ public class ReportController {
 	//getLogListByTaskAndEmpId
 	@RequestMapping(value = "/getLogListByTaskAndEmpId", method = RequestMethod.GET)
 	public @ResponseBody List<WorkLogDetailReport> getLogListByTaskAndEmpId(HttpServletRequest request, HttpServletResponse response) {
-
+System.err.println("Hiiiii");
 		int empId = Integer.parseInt(request.getParameter("empId"));
 		int taskId = Integer.parseInt(request.getParameter("taskId"));
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
@@ -1213,7 +1213,7 @@ public class ReportController {
 		map.add("empId", empId);
 		map.add("taskId", taskId);
 		WorkLogDetailReport[] logArray = Constants.getRestTemplate()
-				.postForObject(Constants.url + "/getTaskLogEmpInfoListByTaskId", map, WorkLogDetailReport[].class);
+				.postForObject(Constants.url + "/getTaskLogDetailByTaskEmpId", map, WorkLogDetailReport[].class);
 		List<WorkLogDetailReport> logList = new ArrayList<>(Arrays.asList(logArray));
 
 		return logList;
