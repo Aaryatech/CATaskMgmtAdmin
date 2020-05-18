@@ -198,6 +198,7 @@ h5 {
 											    <th>Status</th>
 											</c:if>
 										<c:if test="${reportType==2}">
+										  <th>Work Log Date</th>
 											<th>Work Hour</th>
 										</c:if>
 									</tr>
@@ -218,6 +219,7 @@ h5 {
 												<td>${empData.empName}</td>
 												<td>${taskRep.teamLeader}</td>
 												<td>${taskRep.manager}</td>
+												<td>${taskRep.taskCompletionDate}</td>
 												<td>${taskRep.workHours}</td>
 												
 											</tr>

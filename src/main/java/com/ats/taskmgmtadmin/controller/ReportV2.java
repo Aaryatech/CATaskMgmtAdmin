@@ -433,22 +433,28 @@ public class ReportV2 {
 
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-			map = new LinkedMultiValueMap<String, Object>();
-			map.add("empId", userId);
-			EmployeeMaster[] employee = Constants.getRestTemplate()
-					.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
-			List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
-
-			model.addAttribute("epmList", epmList);
-
+				
+			
+			
 			System.err.println("report type= " + reportType);
 			mav = "report/v2/overDueOrWorkDiary"; // copy of empMngrPerfmncReprt.jsp
 
 			if (reportType == 1) {
 				reportTitle = "OverDue Tasks";
+				map = new LinkedMultiValueMap<String, Object>();
+				map.add("empId", userId);
+				EmployeeMaster[] employee = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllEmployeesByIds", map, EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
 
+				model.addAttribute("epmList", epmList);
 			} else {
 				reportTitle = "Employee Work Log Diary (History)";
+				
+				EmployeeMaster[] employee = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
+				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
+				model.addAttribute("epmList", epmList);
 			}
 			String yearrange = request.getParameter("monthyear");
 			if (yearrange != null) {
@@ -563,6 +569,7 @@ public class ReportV2 {
 			}
 
 			if (reportType == 2) {
+				rowData.add("Work Log Date");
 				rowData.add("Worked Hour");
 			}
 
@@ -595,6 +602,7 @@ public class ReportV2 {
 					rowData.add("" + task.getTaskWorkDate());
 					rowData.add("" + task.getStatusText());
 				} else {
+					rowData.add("" + task.getTaskCompletionDate());
 					rowData.add("" + task.getWorkHours());
 				}
 
@@ -606,7 +614,7 @@ public class ReportV2 {
 if(reportType==1) {
 	endChar='N';
 }else {
-	endChar='L';//12
+	endChar='M';//12
 }
 			XSSFWorkbook wb = null;
 			try {

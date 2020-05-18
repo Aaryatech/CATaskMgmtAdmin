@@ -231,8 +231,10 @@ h5 {
 											<th>Customer</th>
 											
 											<th>Activity</th>
+										
 											<th>ALL<input type="checkbox"  
 												name="selAll" id="selAll" /></th>
+													<th>Map Id</th>
 											<th>Service</th>
 											<th>Periodicity</th>
 											<th>Due Days</th>
@@ -246,7 +248,7 @@ h5 {
 											<td>${count.index+1}</td>
 <c:set var="pageNo" value="${pageNo+1}"></c:set>
 
-											<td>${dataList.custFirmName}&nbsp;&nbsp;</td>
+											<td>${dataList.custFirmName}</td>
 											
 											<td>
 											<a href="#" data-toggle="modal" data-target="#modal_edit"
@@ -254,6 +256,7 @@ h5 {
 													<td><input type="checkbox"
 												id="mapping${dataList.mappingId}" value="${dataList.mappingId}"
 												name="mappingId" class="select_all"  ></td>
+											<td>${dataList.mappingId}</td>
 												<td>${dataList.servName}</td>
 										
 											<td>${dataList.periodicityName}</td>

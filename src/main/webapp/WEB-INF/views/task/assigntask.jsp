@@ -850,6 +850,7 @@ h5 {
 			singleDatePicker : true,
 			selectMonths : true,
 			selectYears : true,
+			
 			locale : {
 				format : 'DD-MM-YYYY'
 			}

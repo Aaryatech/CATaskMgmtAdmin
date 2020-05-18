@@ -78,6 +78,7 @@ public class YearlyActController {
 				newModuleList);
 		try {
 
+			System.err.println("add "+add.toString());
 			if (add.isError() == true) {
 
 				mav = new ModelAndView("accessDenied");
