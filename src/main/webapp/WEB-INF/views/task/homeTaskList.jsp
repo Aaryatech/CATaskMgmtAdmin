@@ -1425,19 +1425,21 @@ function append(data){
 	}
 	
 	function updateStatus_new(statusId, taskId){
+		 $('#modal_form_inline').modal('hide');
+		 document.getElementById("del_link").value="";
 	//alert(statusId+" "+taskId);
 	//alert(" In updateStatus_new +966");
 	//var x=  ($(this).attr("#data-id"));
 		//alert("In updateStatus_new "+taskId);
-
+		//alert("In updateStatus_new statusId "+statusId);
         var selectedStatus = $("#set_status"+taskId+" option:selected").html();
-      //alert("Selected status" +selectedStatus);
+      alert("Selected status" +selectedStatus);
         var color =  $('#set_status'+taskId).val();
-        if(statusId==9){
+        if(parseInt(statusId) === 9){
   		  $('#modal_form_inline').modal('show');
   			document.getElementById("task_comp_id").value = taskId;		
   	  }else{
-  		
+  		//alert("JJJ")
         $("#loader1").show();
 		$
 				.getJSON(
@@ -1468,22 +1470,26 @@ function append(data){
 	$(document).ready(function(){
 	      // setColor();
 	      //set_status
+	       $('#modal_form_inline').modal('hide');
+		   document.getElementById("del_link").value="";
 	      $('.ats_sel_status').change(function(e){
 	    		//alert(" In ats_sel_status change +999");
 	    	  var id = $(this).data("id") // will return the number 123
-	    	 // alert("Id " +id);
-	    	  var value = $("#set_status"+id).val();
+	    	//alert("Id " +id);
+	    	  var value1 = $("#set_status"+id).val();
 	    	 // alert(value)
 	    	 var statusText = $("#set_status"+id+" option:selected").text();
-	    	  
+	    	  //alert("Ok")
 	    	 // alert("statusText " +statusText);
 	    	  //Sachin 26-11-2019
-	    	  if(value==9){
+	    	  if(parseInt(value1) === 9){
+	    		  //alert("Ok1")
 	    		  $('#modal_form_inline').modal('show');
 	    			document.getElementById("task_comp_id").value = id;	
 	    			document.getElementById("task_comp_text").value = id;	
 	    	  }else{
-	    		  updateStatus_new(value, id);
+	    		 // alert("Ok2")
+	    		  updateStatus_new(value1, id);
 	    	  }
 	    	 // 
 	    	  
