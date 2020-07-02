@@ -1807,6 +1807,60 @@ String taskComment=request.getParameter("task_comment");
 
 	}
 
+	
+	
+	
+	@RequestMapping(value = "/addEmpWorkHrsNew", method = RequestMethod.POST)
+	public @ResponseBody Info addEmpWorkHrsNew(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		Info info=new Info();
+		try {
+			session = request.getSession();
+			EmployeeMaster empSes = (EmployeeMaster) session.getAttribute("empLogin");
+
+			int logId = 0;
+			try {
+				logId = Integer.parseInt(request.getParameter("logId"));
+			} catch (Exception e) {
+				e.getMessage();
+			}
+
+			DailyWorkLog workLog = new DailyWorkLog();
+			String hrs = request.getParameter("workHour");
+			String mnghr1 = HoursConversion.convertHoursToMin(hrs);
+
+			workLog.setDelStatus(1);
+			workLog.setEmpId(Integer.parseInt(request.getParameter("empId")));
+			workLog.setExInt1(0);
+			workLog.setExInt2(0);
+			workLog.setExVar1("NA");
+			workLog.setExVar2("NA");
+			workLog.setTaskId(Integer.parseInt(request.getParameter("taskId")));
+			workLog.setUpdateDatetime(curDateTime);
+			workLog.setUpdateUsername(empSes.getEmpId());
+			workLog.setWorkDate(request.getParameter("workDate"));
+			workLog.setWorkHours(mnghr1);
+			workLog.setWorkLogId(logId);
+			workLog.setWorkRemark(request.getParameter("remark"));
+			// System.out.println("Logssss------"+workLog);
+			info = Constants.getRestTemplate().postForObject(Constants.url + "/addNewWorkLogNew", workLog,
+					Info.class);
+			System.err.println("info " +info.toString());
+
+
+		} catch (Exception e) {
+			
+			
+			info.setError(false);
+			info.setMsg("Failed to Add the Record .. Try Again");
+			System.err.println("Exce in newWorkLog " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return info;
+
+	}
+
 	/********************** Add Emp Hours2 **********************************/
 
 	@RequestMapping(value = "/addEmpHrs", method = RequestMethod.GET)
@@ -2316,5 +2370,12 @@ String taskComment=request.getParameter("task_comment");
 		return info;
 
 	}
+	
+	
+	
+	///*****************************************************
+	
+	
+	
 
 }
