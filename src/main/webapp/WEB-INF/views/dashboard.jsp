@@ -218,7 +218,7 @@ h5 {
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${capacityDetailByEmpList}"
+									<%-- <c:forEach items="${capacityDetailByEmpList}"
 										var="capacityDetailByEmpList" varStatus="count">
 										<c:if test="${capacityDetailByEmpList.empId==empId}">
 											<tr>
@@ -239,7 +239,7 @@ h5 {
 													</div></td>
 											</tr>
 										</c:if>
-									</c:forEach>
+									</c:forEach> --%>
 
 									<c:forEach items="${capacityDetailByEmpList}"
 										var="capacityDetailByEmpList" varStatus="count">

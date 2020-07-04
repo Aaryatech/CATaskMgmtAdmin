@@ -286,7 +286,7 @@ h5 {
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${managerListWithEmpIds}"
+									<%-- <c:forEach items="${managerListWithEmpIds}"
 										var="managerListWithEmpIds" varStatus="count">
 										<c:if test="${managerListWithEmpIds.ids.size()>0}">
 											<tr>
@@ -308,7 +308,7 @@ h5 {
 													</div></td>
 											</tr>
 										</c:if>
-									</c:forEach>
+									</c:forEach> --%>
 
 								</tbody>
 							</table>

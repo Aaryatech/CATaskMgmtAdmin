@@ -1292,15 +1292,16 @@ System.err.println("dashStat "+dashStat + "type "+type +"userId " +userId);
 				List<ClientGroupList> clientGroupList = new ArrayList<ClientGroupList>(Arrays.asList(clientGroup));
 				model.addAttribute("clientGroupList", clientGroupList);
 
-				map = new LinkedMultiValueMap<>();
-				map.add("empId", empSes.getEmpId());
-				map.add("fromDate", sf.format(date));
-				map.add("toDate", sf.format(date));
-				ManagerListWithEmpIds[] managerListWithEmpIds = Constants.getRestTemplate().postForObject(
-						Constants.url + "/getCapcityDetailForPartnerDashboard", map, ManagerListWithEmpIds[].class);
-				List<ManagerListWithEmpIds> managerlist = new ArrayList<ManagerListWithEmpIds>(
-						Arrays.asList(managerListWithEmpIds));
-				model.addAttribute("managerListWithEmpIds", managerlist);
+				/*
+				 * map = new LinkedMultiValueMap<>(); map.add("empId", empSes.getEmpId());
+				 * map.add("fromDate", sf.format(date)); map.add("toDate", sf.format(date));
+				 * ManagerListWithEmpIds[] managerListWithEmpIds =
+				 * Constants.getRestTemplate().postForObject( Constants.url +
+				 * "/getCapcityDetailForPartnerDashboard", map, ManagerListWithEmpIds[].class);
+				 * List<ManagerListWithEmpIds> managerlist = new
+				 * ArrayList<ManagerListWithEmpIds>( Arrays.asList(managerListWithEmpIds));
+				 * model.addAttribute("managerListWithEmpIds", managerlist);
+				 */
 
 				SimpleDateFormat dd = new SimpleDateFormat("dd-MM-yyyy");
 				model.addAttribute("date", dd.format(date) + " to " + dd.format(date));
@@ -1325,13 +1326,17 @@ System.err.println("dashStat "+dashStat + "type "+type +"userId " +userId);
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
 				map.add("empType", empSes.getEmpType());
-				CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getEmployeeCapacityDetail", map, CapacityDetailByEmp[].class);
-				List<CapacityDetailByEmp> capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
-						Arrays.asList(capacityDetailByEmp));
-
+				/*
+				 * CapacityDetailByEmp[] capacityDetailByEmp = Constants.getRestTemplate()
+				 * .postForObject(Constants.url + "/getEmployeeCapacityDetail", map,
+				 * CapacityDetailByEmp[].class); List<CapacityDetailByEmp>
+				 * capacityDetailByEmpList = new ArrayList<CapacityDetailByEmp>(
+				 * Arrays.asList(capacityDetailByEmp));
+				 * 
+				 * 
+				 * model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
+				 */
 				model.addAttribute("stswisetaskList", stswisetaskList);
-				model.addAttribute("capacityDetailByEmpList", capacityDetailByEmpList);
 				model.addAttribute("empId", empSes.getEmpId());
 				model.addAttribute("empSes", empSes);
 
