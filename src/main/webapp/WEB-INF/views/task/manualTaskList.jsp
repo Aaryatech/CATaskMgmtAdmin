@@ -68,16 +68,17 @@
 
 						<table width="100%">
 							<tr width="100%">
-								<td width="60%"><h5 class="card-title">Manual Task 
-									List</h5></td>
+								<td width="60%"><h5 class="card-title">Manual Task
+										List</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
 					</div>
 
+					
 					<div class="card-body">
 
-								<%
+						<%
 							if (session.getAttribute("errorMsg") != null) {
 						%>
 						<div
@@ -112,6 +113,9 @@
 							session.removeAttribute("successMsg");
 							}
 						%>
+					
+						<form action="${pageContext.request.contextPath}/approveMultipleManualTask"
+						id="approveMultipleManualTask" method="POST">
 						<table
 							class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
 							id="printtable1">
@@ -119,6 +123,7 @@
 
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
+									<th><input type="checkbox" name="selAll" id="selAll" /></th>
 									<th>Customer Name</th>
 									<th>Service Name</th>
 									<th>Task Text</th>
@@ -126,8 +131,8 @@
 									<th>Team</th>
 									<th>Work Date</th>
 									<th>Statutory Due Date</th>
-									
-									
+
+
 
 									<th class="text-center" width="10%">Actions</th>
 								</tr>
@@ -135,39 +140,44 @@
 							<c:forEach items="${taskList}" var="taskList" varStatus="count">
 								<tr>
 									<td>${count.index+1}</td>
+									<td><input type="checkbox" id="TaskId${taskList.taskId}"
+										value="${taskList.taskId}" name="TaskId" class="select_all"></td>
 									<td>${taskList.custFirmName}</td>
 									<td>${taskList.servName}</td>
 									<td>${taskList.taskText}</td>
 									<td>${taskList.periodicity_name}</td>
 									<td>${taskList.employees}</td>
 									<td>${taskList.taskEndDate}</td>
- 									<td>${taskList.taskStatutoryDueDate}</td>
-									
+									<td>${taskList.taskStatutoryDueDate}</td>
 
-									<td><%-- <a
+
+									<td>
+										<%-- <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=1"
 										title="Approve Task"><i class="icon-checkmark4 "
-											style="color: black;"></i></a> --%>
-											
-											 <a href="javascript:void(0)"
-class="list-icons-item text-danger-600 bootbox_custom"
-data-uuid="${taskList.exVar1}" data-myval="1" data-popup="tooltip"
-title="" data-original-title="Approve Task"><i class="icon-checkmark4" style="color: black;"></i></a>
-											
-											 &nbsp; <%-- <a
+											style="color: black;"></i></a> --%> <a
+										href="javascript:void(0)"
+										class="list-icons-item text-danger-600 bootbox_custom"
+										data-uuid="${taskList.exVar1}" data-myval="1"
+										data-popup="tooltip" title=""
+										data-original-title="Approve Task"><i
+											class="icon-checkmark4" style="color: black;"></i></a> &nbsp; <%-- <a
 										href="${pageContext.request.contextPath}/updateManualTaskStatus?taskId=${taskList.exVar1}&stat=0"
 										title="Disapprove Task"><i class="icon-cancel-square"
-											style="color: black;"></i></a> --%>
-											
-											 <a href="javascript:void(0)"
-class="list-icons-item text-danger-600 bootbox_custom"
-data-uuid="${taskList.exVar1}" data-myval="0" data-popup="tooltip"
-title="" data-original-title="Disapprove Task"><i class="icon-trash" style="color: black;"></i></a>
-											
-											 &nbsp;<c:if test="${editAccess == 0}"> <a
-										href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
-										title="Edit Task"><i 	class="icon-pencil7"  style="color: black;"
-											></i></a></c:if></td>
+											style="color: black;"></i></a> --%> <a
+										href="javascript:void(0)"
+										class="list-icons-item text-danger-600 bootbox_custom"
+										data-uuid="${taskList.exVar1}" data-myval="0"
+										data-popup="tooltip" title=""
+										data-original-title="Disapprove Task"><i
+											class="icon-trash" style="color: black;"></i></a> &nbsp;<c:if
+											test="${editAccess == 0}">
+											<a
+												href="${pageContext.request.contextPath}/editTask?taskId=${taskList.exVar1}&flag=1"
+												title="Edit Task"><i class="icon-pencil7"
+												style="color: black;"></i></a>
+										</c:if>
+									</td>
 
 								</tr>
 							</c:forEach>
@@ -176,7 +186,16 @@ title="" data-original-title="Disapprove Task"><i class="icon-trash" style="colo
 
 						</table>
 
+						<div class="form-group row">
+							<div class="col-lg-2">
+								<input type="submit" class="btn btn-primary" value="Approve Task"
+									id="approveId">
+							</div>
+						</div>
+
+</form>
 					</div>
+					
 
 				</div>
 				<!-- /highlighting rows and columns -->
@@ -198,39 +217,18 @@ title="" data-original-title="Disapprove Task"><i class="icon-trash" style="colo
 </body>
 
 <script>
-// Custom bootbox dialog
-$('.bootbox_custom')
-.on(
-'click',
-function() {
-var uuid = $(this).data("uuid") // will return the number 123
-var myval = $(this).data("myval")
-if(myval==0){
-	msg='Are you sure you want to delete selected record ?';
-}else{
-	msg='Are you sure you want to approve selected record ?';
-}
-//alert("uuid"+uuid);
-bootbox.confirm({
-title : 'Confirm ',
-message :msg,
-buttons : {
-confirm : {
-label : 'Yes',
-className : 'btn-success'
-},
-cancel : {
-label : 'Cancel',
-className : 'btn-link'
-}
-},
-callback : function(result) {
-if (result) {
-location.href = "${pageContext.request.contextPath}/updateManualTaskStatus?taskId="+uuid+"&stat="+myval;
-
-}
-}
-});
-});
+ 
+	
+	$(document).ready(
+			
+			function() { 
+		
+				$("#selAll").click(
+						function() {
+							$('#printtable1 tbody input[type="checkbox"]')
+									.prop('checked', this.checked);
+							 
+						});
+			});
 </Script>
 </html>

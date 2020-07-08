@@ -2375,7 +2375,46 @@ String taskComment=request.getParameter("task_comment");
 	
 	///*****************************************************
 	
-	
+	@RequestMapping(value = "/approveMultipleManualTask", method = RequestMethod.POST)
+	public  String approveMultipleManualTask(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			String[] TaskId = request.getParameterValues("TaskId");
+
+			StringBuilder sb = new StringBuilder();
+
+			for (int i = 0; i < TaskId.length; i++) {
+				sb = sb.append(TaskId[i] + ",");
+
+				System.out.println("task id are**" + TaskId[i]);
+
+			}
+
+			String items = sb.toString();
+
+			items = items.substring(0, items.length() - 1);
+			
+			HttpSession session1 = request.getSession();
+			 
+			EmployeeMaster emp = (EmployeeMaster) session1.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			map.add("taskIds", items);
+ 			map.add("userId", userId);
+			map.add("curDateTime", Constants.getCurDateTime());
+
+
+			Info info = Constants.getRestTemplate().postForObject(Constants.url + "/updateMultipleManualTaskByTaskId", map,
+					Info.class);
+			System.out.println("res=" + info);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/manualTaskList";
+	}
 	
 
 }

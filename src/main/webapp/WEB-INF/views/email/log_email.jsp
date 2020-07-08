@@ -96,7 +96,7 @@
 
 					<form
 						action="${pageContext.request.contextPath}/sendEmailWorkLog"
-						id="submitInsertAssignTask" method="post">
+						id="sendEmailWorkLog" method="post">
 						<div class="card-body">
 							<div class="form-group row">
 
@@ -143,10 +143,47 @@
 
 	</div>
 	<!-- /page content -->
+	
+	
+	<!-- confirmation pop-up script -->
+	
+	<script>
+		function submitForm1() {
+			$('#modal_scrollable').modal('hide');
+			document.getElementById("deleteId").disabled = true;
+			document.getElementById("sendEmailWorkLog").submit();
+		}
+	</script>
+		<div id="modal_scrollable" class="modal fade" data-backdrop="false"
+		tabindex="-1">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header pb-3">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body py-0">
+					<h5 class="modal-title">Are You Sure You Want To Send Mail </h5>
+					<br>
+				 
+				</div>
+
+				<div class="modal-footer pt-3">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn bg-primary" onclick="submitForm1()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- end confirmation pop-up script -->
 	<script type="text/javascript">
 	
 							$("#deleteId")
 									.click(function(){
+										//alert(1);
 												var isError = false;
 												
 												if (!$("#workDate").val()) {
@@ -160,8 +197,8 @@
 														.hide()
 											}
 												if(isError==false)
-													$("#submitInsertAssignTask").submit();
-												
+													//alert(2);
+													$('#modal_scrollable').modal('show');												
 						});
 	</script>
 
