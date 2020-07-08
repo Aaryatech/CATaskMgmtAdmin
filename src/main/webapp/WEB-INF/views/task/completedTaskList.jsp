@@ -7,7 +7,7 @@
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 
-
+ 
 </head>
 
 <body>
