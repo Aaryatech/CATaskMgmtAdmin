@@ -613,8 +613,8 @@ h5 {
 
 							<div class="modal-header bg-success">
 								<h5 class="modal-title">Edit Task</h5>
-								<p id="ed_task_name" style="color:red;"></p>
-								<p id="ed_task_cust" style="color:brown;"></p>
+								<p id="ed_task_name" style="color:white;"></p> &nbsp;&nbsp;
+								<p id="ed_task_cust" style="color:white;"></p>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -826,6 +826,12 @@ h5 {
 										</div>
 									</c:when>
 								</c:choose>
+								<div class="form-group row">
+								<input type="text" class="form-control text-capitalize" id="editTaskRemark" maxlength="100" placeholder="Enter Edit Task Remark">
+								<span style="display: none;" class="validation-invalid-label" id="editTaskRemark_err"
+												>Please Enter Edit Task Remark</span>
+								
+								</div>
 
 								 <div class="modal-footer">
 										<button type="button" class="btn bg-primary" onclick="submitResponse()">Save
@@ -1273,6 +1279,9 @@ function append(data){
 			}); 
 	}
 	function showEditTask(taskId,taskName,custName) {
+		document.getElementById("editTaskRemark").value="";
+		$("#editTaskRemark_err").hide();
+
 		//alert("HI"+taskId);
 			//alert("jj");
 			       // $("#modal_edit").remove();
@@ -1363,9 +1372,23 @@ function append(data){
 			//var emp=document.getElementById("emp").value ;
 			var emp=$("#emp").val();
 			var bilAmt=document.getElementById("bilAmt").value ;
+			var editTaskRemark=document.getElementById("editTaskRemark").value ;
+			alert("editTaskRemark " +editTaskRemark);
+			
 			//alert("Hi " +JSON.stringify(emp));
 			
  		 var valid = true;
+ 		 
+ 		 
+ 		if (editTaskRemark == null || editTaskRemark == "") {
+			valid = false;
+			//alert("Ok")
+			$("#editTaskRemark_err").show()
+		} 
+		else{
+			$("#editTaskRemark_err").hide()
+		}
+ 		
 			if (empBudHr == null || empBudHr == "") {
 				valid = false;
 				//alert("Ok")
@@ -1405,6 +1428,7 @@ function append(data){
 					taskId1  : taskId1,
 					emp      : JSON.stringify(emp),
 					bilAmt   : bilAmt,
+					editTaskRemark :editTaskRemark,
 					ajax : 'true',
 				},
 
