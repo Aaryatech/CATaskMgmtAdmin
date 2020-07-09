@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,17 +25,26 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.ats.taskmgmtadmin.acsrights.ModuleJson;
+import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
 import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.ExceUtil;
 import com.ats.taskmgmtadmin.common.ExportToExcel;
+import com.ats.taskmgmtadmin.model.ActivityMaster;
 import com.ats.taskmgmtadmin.model.CapacityDetailByEmp;
+import com.ats.taskmgmtadmin.model.CustomerDetails;
 import com.ats.taskmgmtadmin.model.EmployeeMaster;
+import com.ats.taskmgmtadmin.model.Info;
+import com.ats.taskmgmtadmin.model.ServiceMaster;
 import com.ats.taskmgmtadmin.model.report.ComplTaskVarienceRep;
 import com.ats.taskmgmtadmin.model.report.CompletedTaskReport;
 import com.ats.taskmgmtadmin.model.report.InactiveTaskReport;
 import com.ats.taskmgmtadmin.model.report.OverDueTaskReport;
+import com.ats.taskmgmtadmin.model.report.VarianceReportByManger;
+import com.ats.taskmgmtadmin.task.model.GetTaskList;
 
 @Controller
 @Scope("session")
@@ -383,11 +394,11 @@ public class ReportV2 {
 				exportToExcelList.add(expoExcel);
 
 			}
-			Character endChar=' ';
-			if(reportType==1) {
-				endChar='O';//15
-			}else {
-				endChar='N';//14
+			Character endChar = ' ';
+			if (reportType == 1) {
+				endChar = 'O';// 15
+			} else {
+				endChar = 'N';// 14
 			}
 
 			XSSFWorkbook wb = null;
@@ -433,9 +444,7 @@ public class ReportV2 {
 
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
-				
-			
-			
+
 			System.err.println("report type= " + reportType);
 			mav = "report/v2/overDueOrWorkDiary"; // copy of empMngrPerfmncReprt.jsp
 
@@ -450,7 +459,7 @@ public class ReportV2 {
 				model.addAttribute("epmList", epmList);
 			} else {
 				reportTitle = "Employee Work Log Diary (History)";
-				
+
 				EmployeeMaster[] employee = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAllEmployeesActiveInactive", EmployeeMaster[].class);
 				List<EmployeeMaster> epmList = new ArrayList<EmployeeMaster>(Arrays.asList(employee));
@@ -506,9 +515,7 @@ public class ReportV2 {
 		return mav;
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/getOvDueOrWorkLDiEmpFdTdExcel", method = RequestMethod.GET)
 	public void getOvDueOrWorkLDiEmpFdTdExcel(HttpServletRequest request, HttpServletResponse response) {
 		String reportName = null;
@@ -528,7 +535,7 @@ public class ReportV2 {
 				"para empId " + empId + "reportType" + reportType + "fromDate " + fromDate + "to date " + toDate);
 		map = new LinkedMultiValueMap<String, Object>();
 
-			map.add("reportType", reportType);
+		map.add("reportType", reportType);
 
 		map.add("fromDate", fromDate);
 		map.add("toDate", toDate);
@@ -573,7 +580,6 @@ public class ReportV2 {
 				rowData.add("Worked Hour");
 			}
 
-
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
 			int cnt = 1;
@@ -609,13 +615,13 @@ public class ReportV2 {
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
 			}
-			Character endChar=' ';
+			Character endChar = ' ';
 
-if(reportType==1) {
-	endChar='N';
-}else {
-	endChar='M';//12
-}
+			if (reportType == 1) {
+				endChar = 'N';
+			} else {
+				endChar = 'M';// 12
+			}
 			XSSFWorkbook wb = null;
 			try {
 
@@ -646,5 +652,239 @@ if(reportType==1) {
 
 	}
 
-	
+	////// *************************harsha***********************************************
+
+	@RequestMapping(value = "/showVarianceByManger", method = RequestMethod.GET)
+	public String completedTaskList(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		HttpSession session = request.getSession();
+
+		String mav = new String();
+
+		List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+		Info view = AccessControll.checkAccess("showVarianceByManger", "showVarianceByManger", "1", "0", "0", "0",
+				newModuleList);
+
+		if (view.isError() == true) {
+
+			mav = "accessDenied";
+
+		} else {
+
+			mav = "report/Manager/varianceByManager";
+			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
+			int userId = emp.getEmpId();
+			System.out.println("empType is " + emp.getEmpType());
+
+			try {
+
+				ServiceMaster[] srvsMstr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllEnrolledServices", ServiceMaster[].class);
+				List<ServiceMaster> srvcMstrList = new ArrayList<>(Arrays.asList(srvsMstr));
+				model.addAttribute("serviceList", srvcMstrList);
+
+				CustomerDetails[] custHeadArr = Constants.getRestTemplate()
+						.getForObject(Constants.url + "/getAllCustomerInfo", CustomerDetails[].class);
+				List<CustomerDetails> custHeadList = new ArrayList<CustomerDetails>(Arrays.asList(custHeadArr));
+
+				model.addAttribute("custList", custHeadList);
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				int servId = 0;
+				int actId = 0;
+				int mangId = 0;
+				int custId = 0;
+
+				try {
+					servId = Integer.parseInt(request.getParameter("service"));
+				} catch (Exception e) {
+
+					servId = 0;
+
+				}
+				try {
+					actId = Integer.parseInt(request.getParameter("activity"));
+				} catch (Exception e) {
+
+					actId = 0;
+
+				}
+				try {
+					mangId = Integer.parseInt(request.getParameter("mangId"));
+				} catch (Exception e) {
+
+					mangId = 0;
+
+				}
+
+				try {
+					custId = Integer.parseInt(request.getParameter("customer"));
+				} catch (Exception e) {
+
+					custId = 0;
+
+				}
+
+				map = new LinkedMultiValueMap<>();
+				map.add("serviceId", servId);
+
+				ActivityMaster[] activityArr = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getAllActivitesByServiceId", map, ActivityMaster[].class);
+				List<ActivityMaster> activityList = new ArrayList<>(Arrays.asList(activityArr));
+				model.addAttribute("activityList", activityList);
+				model.addAttribute("servId", servId);
+				model.addAttribute("actId", actId);
+				model.addAttribute("mangId", mangId);
+				model.addAttribute("custId", custId);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("roleId", 3);
+				EmployeeMaster[] holListArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getEmpByEmpTypeId", map, EmployeeMaster[].class);
+
+				List<EmployeeMaster> empList = new ArrayList<>(Arrays.asList(holListArray));
+				System.err.println("empList is " + empList.toString());
+
+				model.addAttribute("empList", empList);
+
+				map = new LinkedMultiValueMap<>();
+				map.add("custId", custId);
+				map.add("servId", servId);
+				map.add("actId", actId);
+				map.add("empId", mangId);
+				VarianceReportByManger[] repListArray = Constants.getRestTemplate().postForObject(
+						Constants.url + "/getVarianceReportByManagerReport", map, VarianceReportByManger[].class);
+
+				List<VarianceReportByManger> varianceList = new ArrayList<>(Arrays.asList(repListArray));
+				model.addAttribute("varianceList", varianceList);
+
+			} catch (Exception e) {
+				System.err.println("Exce in CompletedTakList " + e.getMessage());
+				e.printStackTrace();
+			}
+
+		}
+		return mav;
+
+	}
+
+	@RequestMapping(value = "/getVarianceByManagerExcel", method = RequestMethod.GET)
+	public void getVarianceByManagerExcel(HttpServletRequest request, HttpServletResponse response) {
+		String reportName = "Statutory Date Variance By Manager";
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			int custId = Integer.parseInt(request.getParameter("custId"));
+			int servId = Integer.parseInt(request.getParameter("servId"));
+			int actId = Integer.parseInt(request.getParameter("actId"));
+			System.err.println("------------------" + custId);
+
+			int mangId = Integer.parseInt(request.getParameter("mangId"));
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("empId", mangId);
+			EmployeeMaster empData = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
+					EmployeeMaster.class);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("custId", custId);
+			map.add("servId", servId);
+			map.add("actId", actId);
+			map.add("empId", mangId);
+			VarianceReportByManger[] repListArray = Constants.getRestTemplate().postForObject(
+					Constants.url + "/getVarianceReportByManagerReport", map, VarianceReportByManger[].class);
+
+			List<VarianceReportByManger> varianceList = new ArrayList<>(Arrays.asList(repListArray));
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Task Text");
+			rowData.add("Client Name");
+			rowData.add("Service");
+			rowData.add("Activity");
+			rowData.add("Periodicity");
+			rowData.add("Partner");
+			rowData.add("Employee Name");
+			rowData.add("TL Name");
+			rowData.add("Manager Name");
+			rowData.add("Work Date");
+			rowData.add("Completion Date");
+			rowData.add("Start Date");
+			rowData.add("Due Date");
+			rowData.add("Variance");
+			rowData.add("Drive Link");
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+			for (int i = 0; i < varianceList.size(); i++) {
+
+				VarianceReportByManger task = varianceList.get(i);
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+
+				rowData.add("" + (i + 1));
+				rowData.add("" + task.getTaskText());
+				rowData.add("" + task.getCustFirmName());
+				rowData.add("" + task.getServName());
+				rowData.add("" + task.getActiName());
+				rowData.add("" + task.getPeriodicityName());
+				rowData.add("" + task.getPartner());
+
+				rowData.add("" + task.getEmployee());
+				rowData.add("" + task.getTeamLeader());
+				rowData.add("" + task.getManager());
+
+				rowData.add("" + task.getTaskEndDate());
+
+				if (task.getCompletionDate() == null) {
+					rowData.add("" + "");
+				} else {
+					rowData.add("" + task.getCompletionDate());
+
+				}
+
+				rowData.add("" + task.getTaskStartDate());
+				rowData.add("" + task.getTaskStatutoryDueDate());
+				rowData.add("" + task.getVarianceDays());
+				rowData.add("" + task.getExVar1());
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+			}
+
+			XSSFWorkbook wb = null;
+			try {
+
+				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
+						"Manager Name:" + empData.getEmpName() + "", "", 'P');
+
+				ExceUtil.autoSizeColumns(wb, 3);
+				response.setContentType("application/vnd.ms-excel");
+				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+				wb.write(response.getOutputStream());
+
+			} catch (IOException ioe) {
+				throw new RuntimeException("Error writing spreadsheet to output stream");
+			} finally {
+				if (wb != null) {
+					wb.close();
+				}
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+
 }
