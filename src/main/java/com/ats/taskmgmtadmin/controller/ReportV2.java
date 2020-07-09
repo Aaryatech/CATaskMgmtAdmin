@@ -1,10 +1,12 @@
 package com.ats.taskmgmtadmin.controller;
 
 import java.io.IOException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,6 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -44,7 +53,11 @@ import com.ats.taskmgmtadmin.model.report.CompletedTaskReport;
 import com.ats.taskmgmtadmin.model.report.InactiveTaskReport;
 import com.ats.taskmgmtadmin.model.report.OverDueTaskReport;
 import com.ats.taskmgmtadmin.model.report.VarianceReportByManger;
+import com.ats.taskmgmtadmin.model.report.WorkLofForReport;
+import com.ats.taskmgmtadmin.model.report.WorkLogReportBetDates;
+import com.ats.taskmgmtadmin.model.report.WorkLogSub;
 import com.ats.taskmgmtadmin.task.model.GetTaskList;
+import com.itextpdf.text.Font;
 
 @Controller
 @Scope("session")
@@ -885,6 +898,188 @@ public class ReportV2 {
 
 		}
 
+	}
+
+	@RequestMapping(value = { "/show30DaysWorkLog" }, method = RequestMethod.GET)
+	public String show30DaysWorkLog(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			Model model) {
+
+		String mav = new String();
+		try {
+
+			mav = "report/30DaysWorkLog";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mav;
+	}
+
+	@RequestMapping(value = "/dateRangeLogReport", method = RequestMethod.GET)
+	public void daysLogReport(HttpServletRequest request, HttpServletResponse response) {
+		String reportName = "30 Days work Log";
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		try {
+
+			String range = request.getParameter("range");
+			String[] a = range.split("to");
+
+			map.add("startDate", a[0]);
+			map.add("endDate", a[1]);
+			WorkLogReportBetDates data = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getWorkDetBetDatesReport", map, WorkLogReportBetDates.class);
+
+			List<WorkLogSub> logList = data.getLogList();
+			List<EmployeeMaster> empList = data.getEmpList();
+			List<LocalDate> totalDates = data.getDateList();
+
+			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+			ExportToExcel expoExcel = new ExportToExcel();
+			List<String> rowData = new ArrayList<String>();
+
+			rowData.add("Sr. No");
+			rowData.add("Employee Name");
+			for (int j = 0; j < totalDates.size(); j++) {
+				rowData.add("" + totalDates.get(j));
+
+			}
+
+			expoExcel.setRowData(rowData);
+			exportToExcelList.add(expoExcel);
+			int cnt = 1;
+
+			for (int i = 0; i < empList.size(); i++) {
+				expoExcel = new ExportToExcel();
+				rowData = new ArrayList<String>();
+				cnt = cnt + i;
+				rowData.add("" + (i + 1));
+				rowData.add("" + empList.get(i).getEmpName());
+				
+				
+				for(int p=0;p<totalDates.size();p++) {
+					
+					int flag=0;
+					
+					String wkHrs=new String();
+					for (int k = 0; k< logList.size(); k++) {
+						String workDate=logList.get(k).getWorkDate();
+						if(totalDates.get(p).equals(workDate) && empList.get(i).getEmpId() ==logList.get(k).getEmpId()) {
+							wkHrs=logList.get(k).getWorkHours();
+							flag=1;
+							break;
+						}
+	 
+					}
+					if(flag==1) {
+						rowData.add("" + wkHrs);
+
+					}else {
+						rowData.add("-");
+					}
+				}
+			
+				
+				expoExcel.setRowData(rowData);
+
+				exportToExcelList.add(expoExcel);
+
+			}
+
+			HttpSession session = request.getSession();
+			session.setAttribute("exportExcelList", exportToExcelList);
+			session.setAttribute("excelName", reportName);
+		} catch (Exception e) {
+
+			System.err.println("Exce in showProgReport " + e.getMessage());
+			e.printStackTrace();
+
+		}
+
+	}
+
+	List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+	@RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
+
+	public void downloadSpreadsheet(HttpServletResponse response, HttpServletRequest request) throws Exception {
+		XSSFWorkbook wb = null;
+		HttpSession session = request.getSession();
+		try {
+
+			exportToExcelList = (List) session.getAttribute("exportExcelList");
+			System.out.println("Excel List :" + exportToExcelList.toString());
+
+			String excelName = (String) session.getAttribute("excelName");
+			wb = createWorkbook();
+
+			response.setContentType("application/vnd.ms-excel");
+			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			response.setHeader("Content-disposition", "attachment; filename=" + excelName + "-" + date + ".xlsx");
+			wb.write(response.getOutputStream());
+
+		} catch (IOException ioe) {
+			throw new RuntimeException("Error writing spreadsheet to output stream");
+		} finally {
+			if (wb != null) {
+				wb.close();
+			}
+		}
+		session.removeAttribute("exportExcelList");
+		System.out.println("Session List" + session.getAttribute("exportExcelList"));
+	}
+
+	private XSSFWorkbook createWorkbook() throws IOException {
+		XSSFWorkbook wb = new XSSFWorkbook();
+		XSSFSheet sheet = wb.createSheet("Sheet1");
+
+		/*
+		 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
+		 */
+
+		for (int rowIndex = 0; rowIndex < exportToExcelList.size(); rowIndex++) {
+			XSSFRow row = sheet.createRow(rowIndex);
+			for (int j = 0; j < exportToExcelList.get(rowIndex).getRowData().size(); j++) {
+
+				XSSFCell cell = row.createCell(j);
+
+				cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
+
+			}
+			if (rowIndex == 0)
+				row.setRowStyle(createHeaderStyle(wb));
+		}
+		return wb;
+	}
+
+	private XSSFCellStyle createHeaderStyle(XSSFWorkbook workbook) {
+		XSSFCellStyle style = workbook.createCellStyle();
+		style.setWrapText(true);
+		style.setFillForegroundColor(new XSSFColor(new java.awt.Color(53, 119, 192)));
+
+		// style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+		/*
+		 * style.setBorderRight(CellStyle.BORDER_THIN);
+		 * style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+		 * style.setBorderBottom(CellStyle.BORDER_THIN);
+		 * style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+		 * style.setBorderLeft(CellStyle.BORDER_THIN);
+		 * style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+		 * style.setBorderTop(CellStyle.BORDER_THIN);
+		 * style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+		 */
+		// style.setDataFormat(1);
+
+		XSSFFont font = workbook.createFont();
+		((org.apache.poi.ss.usermodel.Font) font).setFontName("Arial");
+		((org.apache.poi.ss.usermodel.Font) font).setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		((org.apache.poi.ss.usermodel.Font) font).setBold(true);
+		// font.setColor(HSSFColor.WHITE.index);
+		style.setFont((org.apache.poi.ss.usermodel.Font) font);
+
+		return style;
 	}
 
 }
