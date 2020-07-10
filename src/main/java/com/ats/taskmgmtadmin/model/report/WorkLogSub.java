@@ -1,18 +1,16 @@
 package com.ats.taskmgmtadmin.model.report;
 
  
+ 
+import java.util.List;
 
-
-public class WorkLogSub {
+ 
+ public class WorkLogSub {
 
  	private int empId;
 
- 
-	private String workDate;
+	private List<String> status;
 
-	private String workHours;
-
- 
 	public int getEmpId() {
 		return empId;
 	}
@@ -21,29 +19,12 @@ public class WorkLogSub {
 		this.empId = empId;
 	}
 
-	 
-
-	 
-	public String getWorkDate() {
-		return workDate;
+	public List<String> getStatus() {
+		return status;
 	}
 
-	public void setWorkDate(String workDate) {
-		this.workDate = workDate;
+	public void setStatus(List<String> status) {
+		this.status = status;
 	}
 
-	public String getWorkHours() {
-		return workHours;
-	}
-
-	public void setWorkHours(String workHours) {
-		this.workHours = workHours;
-	}
- 
-	@Override
-	public String toString() {
-		return "WorkLogSub [empId=" + empId + ", workDate=" + workDate + ", workHours=" + workHours +  "]";
-	}
- 
- 
 }

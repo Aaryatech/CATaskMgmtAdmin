@@ -41,36 +41,32 @@ public class ExportExcelController {
 	List<ExportToExcel> exportToExcelList1 = new ArrayList<ExportToExcel>();
 	List<ExportToExcel> exportToExcelList2 = new ArrayList<ExportToExcel>();
 
-	@RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
+	/*
+	 * @RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
+	 * 
+	 * public void downloadSpreadsheet(HttpServletResponse response,
+	 * HttpServletRequest request) throws Exception { XSSFWorkbook wb = null;
+	 * HttpSession session = request.getSession(); try {
+	 * 
+	 * exportToExcelList = (List) session.getAttribute("exportExcelList");
+	 * //System.out.println("Excel List :" + exportToExcelList.toString());
+	 * 
+	 * String excelName = (String) session.getAttribute("excelName"); wb =
+	 * createWorkbook();
+	 * 
+	 * response.setContentType("application/vnd.ms-excel"); String date = new
+	 * SimpleDateFormat("yyyy-MM-dd").format(new Date());
+	 * response.setHeader("Content-disposition", "attachment; filename=" + excelName
+	 * + "-" + date + ".xlsx"); wb.write(response.getOutputStream());
+	 * 
+	 * } catch (IOException ioe) { throw new
+	 * RuntimeException("Error writing spreadsheet to output stream"); } finally {
+	 * if (wb != null) { wb.close(); } } session.removeAttribute("exportExcelList");
+	 * //System.out.println("Session List" +
+	 * session.getAttribute("exportExcelList")); }
+	 */
 
-	public void downloadSpreadsheet(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		XSSFWorkbook wb = null;
-		HttpSession session = request.getSession();
-		try {
-
-			exportToExcelList = (List) session.getAttribute("exportExcelList");
-			//System.out.println("Excel List :" + exportToExcelList.toString());
-
-			String excelName = (String) session.getAttribute("excelName");
-			wb = createWorkbook();
-
-			response.setContentType("application/vnd.ms-excel");
-			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			response.setHeader("Content-disposition", "attachment; filename=" + excelName + "-" + date + ".xlsx");
-			wb.write(response.getOutputStream());
-
-		} catch (IOException ioe) {
-			throw new RuntimeException("Error writing spreadsheet to output stream");
-		} finally {
-			if (wb != null) {
-				wb.close();
-			}
-		}
-		session.removeAttribute("exportExcelList");
-		//System.out.println("Session List" + session.getAttribute("exportExcelList"));
-	}
-
-	private XSSFWorkbook createWorkbook() throws IOException {
+	public static XSSFWorkbook createWorkbook(List<ExportToExcel> exportToExcelList) throws IOException {
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Sheet1");
 
@@ -94,8 +90,7 @@ public class ExportExcelController {
 	}
 
 	@RequestMapping(value = "/exportToExcel1", method = RequestMethod.GET)
-
-	public void exportToExcel1(HttpServletResponse response, HttpServletRequest request) throws Exception {
+ 	public void exportToExcel1(HttpServletResponse response, HttpServletRequest request) throws Exception {
 		XSSFWorkbook wb = null;
 		HttpSession session = request.getSession();
 		try {
@@ -206,7 +201,7 @@ public class ExportExcelController {
 	 * }
 	 */
 
-	private XSSFCellStyle createHeaderStyle(XSSFWorkbook workbook) {
+	private static XSSFCellStyle createHeaderStyle(XSSFWorkbook workbook) {
 		XSSFCellStyle style = workbook.createCellStyle();
 		style.setWrapText(true);
 		style.setFillForegroundColor(new XSSFColor(new java.awt.Color(53, 119, 192)));
@@ -226,7 +221,7 @@ public class ExportExcelController {
 		// style.setDataFormat(1);
 
 		Font font = workbook.createFont();
-		font.setFontName("Arial");
+		font.setFontName("Calibri (body)");
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		font.setBold(true);
 		// font.setColor(HSSFColor.WHITE.index);

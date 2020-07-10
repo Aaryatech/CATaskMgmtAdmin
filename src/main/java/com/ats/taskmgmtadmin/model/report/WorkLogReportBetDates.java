@@ -11,8 +11,7 @@ public class WorkLogReportBetDates {
 	
 	List<EmployeeMaster> empList;
 	
-	List<LocalDate> dateList;
-	
+ 	
 	
 	List<WorkLogSub> logList;
 
@@ -27,16 +26,7 @@ public class WorkLogReportBetDates {
 	}
  
 
-	public List<LocalDate> getDateList() {
-		return dateList;
-	}
-
-
-	public void setDateList(List<LocalDate> dateList) {
-		this.dateList = dateList;
-	}
-
-
+	 
 	public List<WorkLogSub> getLogList() {
 		return logList;
 	}
@@ -49,12 +39,12 @@ public class WorkLogReportBetDates {
 
 	@Override
 	public String toString() {
-		return "WorkLogReportBetDates [empList=" + empList + ", dateList=" + dateList + ", logList=" + logList
-				+ ", getEmpList()=" + getEmpList() + ", getDateList()=" + getDateList() + ", getLogList()="
-				+ getLogList() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		return "WorkLogReportBetDates [empList=" + empList + ", logList=" + logList + ", getEmpList()=" + getEmpList()
+				+ ", getLogList()=" + getLogList() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
-	
+
+ 
 	
 	
 

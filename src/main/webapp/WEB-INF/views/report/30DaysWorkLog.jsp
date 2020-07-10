@@ -25,10 +25,9 @@
 	href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900"
 	rel="stylesheet" type="text/css">
 
-<c:url var="getClientList" value="getClientList" />
-</head>
+ </head>
 
-<body onload="chkData()">
+<body>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -73,8 +72,9 @@
 h5 {
 	margin-bottom: 0;
 }
-.btn{
-max-height: 38px !important;
+
+.btn {
+	max-height: 38px !important;
 }
 </style>
 
@@ -100,13 +100,13 @@ max-height: 38px !important;
 </style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Manager Task Completed Report</h5>
+						<h5 class="card-title">30 Days Work Log Report</h5>
 
 					</div>
 					<div class="card-body">
-						<form
-							action="${pageContext.request.contextPath}/showCompTaskReportFormanager"
-							id="submitInsertActivity" method="get">
+
+						<form method="post" id="reportForm">
+
 							<div class="form-group row">
 
 								<label class="col-form-label col-lg-2" for="monthyear">Select
@@ -114,20 +114,17 @@ max-height: 38px !important;
 								</label>
 								<div class="col-lg-2">
 									<input type="text" class="form-control daterange-basic_new"
-										id="monthyear" name="monthyear" >
+										id="range" name="range">
 								</div>
-							 
-								<a
-									href="${pageContext.request.contextPath}/dateRangeLogReport?range=${monthyear}"><button
-										type="button" id="excel" class="btn bg-blue ml-3 legitRipple">Excel
+
+								<a href="#"><button
+										onclick="getProgReport('dateRangeLogReport')" type="button"
+										id="excel" class="btn bg-blue ml-3 legitRipple">Excel
 									</button></a>
 
 							</div>
- 
 
-							<input type="hidden" name="fromDate" id="fromDate"
-								value="${fromDate}"> <input type="hidden" name="toDate"
-								id="toDate" value="${toDate}">
+
 
 							<div id="loader" style="display: none;">
 								<img
@@ -136,7 +133,7 @@ max-height: 38px !important;
 									style="display: block; margin-left: auto; margin-right: auto">
 							</div>
 						</form>
- 
+
 
 					</div>
 				</div>
@@ -158,17 +155,24 @@ max-height: 38px !important;
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
 
-	<script type="text/javascript">
-		function chkData() {
-			var x = document.getElementById("capTable").rows.length;
-			//alert(x);
-			if (x == 1) {
 
-				document.getElementById("excel").disabled = true;
-			}
+
+
+
+	<script type="text/javascript">
+		//use this function for all reports just get mapping form action name dynamically as like of prm from every report pdf,excel function	
+		function getProgReport(mapping) {
+			var error = false;
+
+			var form = document.getElementById("reportForm");
+
+			form.setAttribute("target", "_blank");
+			form.setAttribute("method", "get");
+			form.action = ("${pageContext.request.contextPath}/" + mapping + "/");
+			form.submit();
+
 		}
 	</script>
-
 
 
 	<script type="text/javascript">

@@ -314,6 +314,17 @@
 	<!-- /page content -->
 
 </body>
+
+	<script type="text/javascript">
+		function chkData() {
+			var x = document.getElementById("capTable").rows.length;
+			//alert(x);
+			if (x == 1) {
+
+				document.getElementById("excel").disabled = true;
+			}
+		}
+	</script>
 <script type="text/javascript">
 	function getActivities(servId) {
 
