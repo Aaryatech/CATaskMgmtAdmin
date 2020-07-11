@@ -929,7 +929,7 @@ public class ReportV2 {
 
 	@RequestMapping(value = "/dateRangeLogReport", method = RequestMethod.GET)
 	public void daysLogReport(HttpServletRequest request, HttpServletResponse response) {
-		String reportName = "30 Days work Log";
+		String reportName = "30Days work Log";
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		ExportToExcel expoExcel = new ExportToExcel();
 
@@ -1011,6 +1011,7 @@ public class ReportV2 {
 			wb = ExportExcelController.createWorkbook(exportToExcelList);
 
 			ExceUtil.autoSizeColumns(wb, 3);
+			System.err.println(reportName);
 			response.setContentType("application/vnd.ms-excel");
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");

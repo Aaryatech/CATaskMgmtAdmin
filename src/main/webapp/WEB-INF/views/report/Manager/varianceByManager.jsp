@@ -70,7 +70,7 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Statutory Date
-										Variance By Manage Report</h5></td>
+										Variance By Manager Report</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
