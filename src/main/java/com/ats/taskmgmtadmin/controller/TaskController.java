@@ -1196,6 +1196,8 @@ String taskComment=request.getParameter("task_comment");
 			String workDate = request.getParameter("workDate");
 			System.err.println("date " + workDate);
 			String bilAmt = request.getParameter("bilAmt");
+			
+			String editTaskRemark = request.getParameter("editTaskRemark");
 
 			String taskId = request.getParameter("taskId1");
 			if (workDate != null && workDate != "") {
@@ -1216,8 +1218,9 @@ String taskComment=request.getParameter("task_comment");
 			map.add("empId", items1);
 			map.add("updateUserName", userId);
 			map.add("updateDateTime", Constants.getCurDateTime());
-
 			map.add("bilAmt", bilAmt);
+			map.add("editTaskRemark", editTaskRemark);
+
 
 			res = Constants.getRestTemplate().postForObject(Constants.url + "/updateEditTsk", map, Info.class);
 

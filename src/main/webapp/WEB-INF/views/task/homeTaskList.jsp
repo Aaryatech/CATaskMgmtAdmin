@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.8.2.min.js"></script>
 
 <jsp:include page="/WEB-INF/views/include/metacssjs.jsp"></jsp:include>
 
@@ -15,12 +15,11 @@
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/components_modals.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/global_assets/js/demo_pages/datatables_basic.js"></script>
-	<style type="text/css">
-	.select2-search--dropdown.select2-search--hide{
+<style type="text/css">
+.select2-search--dropdown.select2-search--hide {
 	display: block;
-	}
-	
-	</style>
+}
+</style>
 <style>
 .modal {
 	position: fixed !important;
@@ -104,8 +103,6 @@ h5 {
 	right: 1.25rem;
 	top: 1rem;
 }
-
-
 </style>
 </head>
 
@@ -123,7 +120,8 @@ h5 {
 
 	<c:url value="/completeAndDeliverTask" var="completeAndDeliverTask"></c:url>
 
-<c:url value="/getDailyWorkLogCountForTask" var="getDailyWorkLogCountForTask"></c:url>
+	<c:url value="/getDailyWorkLogCountForTask"
+		var="getDailyWorkLogCountForTask"></c:url>
 
 	<!-- Main navbar -->
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
@@ -275,21 +273,21 @@ h5 {
 				</div> -->
 
 				<!-- Remote source -->
-<!-- 				<div id="modal_remote" class="modal" tabindex="-1">
- -->					
-     <div id="basic" class="well">
- 
-<!--  <div class="modal-dialog modal-full">
- -->		
- 
-  <div class="">
- 
- 				<div class="modal-content">
+				<!-- 				<div id="modal_remote" class="modal" tabindex="-1">
+ -->
+				<div id="basic" class="well">
+
+					<!--  <div class="modal-dialog modal-full">
+ -->
+
+					<div class="">
+
+						<div class="modal-content">
 							<div class="modal-header">
 								<h5 class="modal-title">Filter</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								      <button class="basic_close btn btn-default">Close</button>
-								
+								<button class="basic_close btn btn-default">Close</button>
+
 							</div>
 
 							<div class="modal-body">
@@ -297,8 +295,7 @@ h5 {
 
 									<div class="form-group row">
 										<label class="col-form-label col-md-2" for="fromDate">Due
-											Date Range :
-										</label>
+											Date Range : </label>
 										<div class="col-md-10">
 											<input type="text" class="form-control daterange-basic_new"
 												id="fromDate" name="fromDate">
@@ -374,11 +371,11 @@ h5 {
 							</div>
 
 							<div class="modal-footer">
-<!-- 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
- -->								
-       <button class="basic_close btn btn-default">Close</button>
- 
- <button type="submit" class="btn bg-primary" id="submtbtn"
+								<!-- 								<button type="submit" class="btn btn-link" data-dismiss="modal">Close</button>
+ -->
+								<button class="basic_close btn btn-default">Close</button>
+
+								<button type="submit" class="btn bg-primary" id="submtbtn"
 									onclick="dataFilter()">Search</button>
 							</div>
 						</div>
@@ -406,7 +403,8 @@ h5 {
 								<h5 class="modal-title">
 									<span id="taskText"></span>
 								</h5>
-								<button type="button" class="close" data-dismiss="modal" onclick="hideValidtn()">&times;</button>
+								<button type="button" class="close" data-dismiss="modal"
+									onclick="hideValidtn()">&times;</button>
 							</div>
 
 							<div class="modal-header" id="divElement">
@@ -613,8 +611,9 @@ h5 {
 
 							<div class="modal-header bg-success">
 								<h5 class="modal-title">Edit Task</h5>
-								<p id="ed_task_name" style="color:white;"></p> &nbsp;&nbsp;
-								<p id="ed_task_cust" style="color:white;"></p>
+								<p id="ed_task_name" style="color: white;"></p>
+								&nbsp;&nbsp;
+								<p id="ed_task_cust" style="color: white;"></p>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
@@ -623,222 +622,224 @@ h5 {
 								<!-- <form action="submitUpdatedTask" method="post"> -->
 								<input type="hidden" id="taskId1" name="taskId1" value=0>
 								<c:if test="${empType==5}">
-								<input type="hidden" readonly class="form-control" data-mask="999:99"
-											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr"
-											autocomplete="off">
-											
-											<input type="hidden" readonly data-mask="999:99" class="form-control"
-											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-											 name="empBudHr"
-											autocomplete="off">
-											
-											<input type="hidden" readonly class="form-control datepickerclass"
-										 
-											placeholder="Enter Statutory Due Date" id="dueDate"
-											name="dueDate" autocomplete="off">
-											
+									<input type="hidden" readonly class="form-control"
+										data-mask="999:99" placeholder="Enter Manager Budgeted Hours"
+										id="edit_mngrtime" name="manBudHr" autocomplete="off">
+
+									<input type="hidden" readonly data-mask="999:99"
+										class="form-control"
+										placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
+										name="empBudHr" autocomplete="off">
+
+									<input type="hidden" readonly
+										class="form-control datepickerclass"
+										placeholder="Enter Statutory Due Date" id="dueDate"
+										name="dueDate" autocomplete="off">
+
 								</c:if>
 								<c:choose>
-								<c:when test="${empType==5}">
-								<div class="form-group row" id="div1" style="display: none">
-									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
-										Budgeted Hours : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control" data-mask="999:99"
-											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr"  
-											autocomplete="off">
-									</div>
+									<c:when test="${empType==5}">
+										<div class="form-group row" id="div1" style="display: none">
+											<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+												Budgeted Hours : </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control" data-mask="999:99"
+													placeholder="Enter Manager Budgeted Hours"
+													id="edit_mngrtime" name="manBudHr" autocomplete="off">
+											</div>
 
-								</div>
-								</c:when>
-								
-								<c:otherwise>
-								
-								<div class="form-group row">
-									<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
-										Budgeted Hours : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control" data-mask="999:99"
-											placeholder="Enter Manager Budgeted Hours" id="edit_mngrtime"
-											name="manBudHr"  
-											autocomplete="off">
-											<span style="display: none;" class="validation-invalid-label" id="err_mHr"
-												>Please select manager budget hours</span>
-									</div>
+										</div>
+									</c:when>
 
-								</div>
-								
-								</c:otherwise>
+									<c:otherwise>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-6" for="ManBudgetedHrs">Manager
+												Budgeted Hours : </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control" data-mask="999:99"
+													placeholder="Enter Manager Budgeted Hours"
+													id="edit_mngrtime" name="manBudHr" autocomplete="off">
+												<span style="display: none;"
+													class="validation-invalid-label" id="err_mHr">Please
+													select manager budget hours</span>
+											</div>
+
+										</div>
+
+									</c:otherwise>
 								</c:choose>
 								<c:choose>
-								<c:when test="${empType==5}">
-								
-								<div class="form-group row" id="div2" style="display: none">
-									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
-										Budgeted Hours : </label>
-									<div class="col-lg-6">
-										<input type="text" data-mask="999:99" class="form-control"
-											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-										  name="empBudHr"
-											autocomplete="off">
-									</div>
+									<c:when test="${empType==5}">
 
-								</div>
-								</c:when>
-								
-								<c:otherwise>
-								
-								<div class="form-group row">
-									<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
-										Budgeted Hours : </label>
-										
-									<div class="col-lg-6">
-										<input type="text" data-mask="999:99" class="form-control"
-											placeholder="Enter Employee Budgeted Hours" id="edit_emptime"
-											 name="empBudHr"
-											autocomplete="off">
-											<span style="display: none;" class="validation-invalid-label" id="err_eHr"
-												>Please select emp budget hours</span>
-									</div>
+										<div class="form-group row" id="div2" style="display: none">
+											<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+												Budgeted Hours : </label>
+											<div class="col-lg-6">
+												<input type="text" data-mask="999:99" class="form-control"
+													placeholder="Enter Employee Budgeted Hours"
+													id="edit_emptime" name="empBudHr" autocomplete="off">
+											</div>
 
-								</div>
-								</c:otherwise>
+										</div>
+									</c:when>
+
+									<c:otherwise>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-6" for="EmpBudgetedHrs">Employee
+												Budgeted Hours : </label>
+
+											<div class="col-lg-6">
+												<input type="text" data-mask="999:99" class="form-control"
+													placeholder="Enter Employee Budgeted Hours"
+													id="edit_emptime" name="empBudHr" autocomplete="off">
+												<span style="display: none;"
+													class="validation-invalid-label" id="err_eHr">Please
+													select emp budget hours</span>
+											</div>
+
+										</div>
+									</c:otherwise>
 								</c:choose>
 								<c:choose>
-								<c:when test="${empType==5}">
+									<c:when test="${empType==5}">
 										<div class="form-group row" id="div3" style="display: none">
 
-									<label class="col-form-label col-lg-6">Statutory Due
-										Date : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass"
-										 
-											placeholder="Enter Statutory Due Date" id="dueDate"
-											name="dueDate" autocomplete="off">
-									</div>
+											<label class="col-form-label col-lg-6">Statutory Due
+												Date : </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control datepickerclass"
+													placeholder="Enter Statutory Due Date" id="dueDate"
+													name="dueDate" autocomplete="off">
+											</div>
 
-								</div>
-								</c:when>
-								<c:otherwise>
-								<div class="form-group row">
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="form-group row">
 
-									<label class="col-form-label col-lg-6">Statutory Due
-										Date : </label>
-									<div class="col-lg-6">
-										<input type="text" class="form-control datepickerclass"
-										 
-											placeholder="Enter Statutory Due Date" id="dueDate"
-											name="dueDate" autocomplete="off">
-									</div>
+											<label class="col-form-label col-lg-6">Statutory Due
+												Date : </label>
+											<div class="col-lg-6">
+												<input type="text" class="form-control datepickerclass"
+													placeholder="Enter Statutory Due Date" id="dueDate"
+													name="dueDate" autocomplete="off">
+											</div>
 
-								</div>
-								
-								</c:otherwise>
-							
+										</div>
+
+									</c:otherwise>
+
 								</c:choose>
-								
+
 								<div class="form-group row">
 									<label class="col-form-label col-lg-6">Work Date : </label>
 									<div class="col-lg-6">
 										<input type="text" class="form-control datepickerclass"
-											placeholder="Enter Work Date" 
-											id="workDate1" name="workDate" autocomplete="off">
+											placeholder="Enter Work Date" id="workDate1" name="workDate"
+											autocomplete="off">
 									</div>
 								</div>
 								<c:choose>
 									<c:when test="${empType==5}">
 
-										<div class="form-group row" style="display:none">
+										<div class="form-group row" style="display: none">
 
 											<label class="col-form-label col-lg-6" for="activity">
 												Employee <span style="color: red">* </span>:
 											</label>
 											<div class="col-lg-6">
 												<select name="emp" data-placeholder="Select Activity"
-													  id="emp" multiple
-													disabled="disabled"
+													id="emp" multiple disabled="disabled"
 													class="form-control form-control-select2 select2-hidden-accessible"
 													data-fouc="" aria-hidden="true">
 												</select>
-												
-												
+
+
 											</div>
 
 										</div>
 
 									</c:when>
-									
+
 									<c:when test="${empType!=5}">
 										<div class="form-group row">
 
 											<label class="col-form-label col-lg-6" for="emp">
-												Employee :
-											</label>
+												Employee : </label>
 											<div class="col-lg-6">
 												<select name="emp" data-placeholder="Select Employee"
-													  id="emp" multiple
+													id="emp" multiple
 													class="form-control form-control-select2 select2-hidden-accessible"
 													data-fouc="" aria-hidden="true">
-												</select>
-												<span style="display: none;" class="validation-invalid-label" id="err_tTeam"
-												>Please select task team</span>
+												</select> <span style="display: none;"
+													class="validation-invalid-label" id="err_tTeam">Please
+													select task team</span>
 											</div>
 
 										</div>
 									</c:when>
 								</c:choose>
-								
+
 								<!--Add/Edit Billing Amount 11-01-2020 -->
 								<c:choose>
 									<c:when test="${empType==5}">
 
-										<div class="form-group row" style="display:none">
+										<div class="form-group row" style="display: none">
 
 											<label class="col-form-label col-lg-6" for="bilAmt">
-												Billing Amount :
-											</label>
+												Billing Amount : </label>
 											<div class="col-lg-6">
-												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
-													  id="bilAmt"
+												<input type="text" name="bilAmt"
+													data-placeholder="Billing Amount" id="bilAmt"
 													readonly="readonly">
-												
+
 											</div>
 
 										</div>
 
 									</c:when>
-									
+
 									<c:when test="${empType!=5}">
 										<div class="form-group row">
 
-										<label class="col-form-label col-lg-6" for="bilAmt">
-												Billing Amount :
-											</label>
+											<label class="col-form-label col-lg-6" for="bilAmt">
+												Billing Amount : </label>
 											<div class="col-lg-6">
-												<input type="text" name="bilAmt" data-placeholder="Billing Amount"
-													  id="bilAmt" value=""
+												<input type="text" name="bilAmt"
+													data-placeholder="Billing Amount" id="bilAmt" value=""
 													class="form-control">
-												
+
 											</div>
 
 										</div>
 									</c:when>
 								</c:choose>
+
 								<div class="form-group row">
-								<input type="text" class="form-control text-capitalize" id="editTaskRemark" maxlength="100" placeholder="Enter Edit Task Remark">
-								<span style="display: none;" class="validation-invalid-label" id="editTaskRemark_err"
-												>Please Enter Edit Task Remark</span>
-								
+									<label class="col-form-label col-lg-6" for="billAmt">Task
+										Remark <span style="color: red">* </span>:
+									</label>
+									<div class="col-lg-6">
+										<textarea class="form-control" rows="3" cols="3"
+											placeholder="Enter Comment on Task Edit" id="editTaskRemark"
+											name="editTaskRemark" autocomplete="off"></textarea><span style="display: none;"
+													class="validation-invalid-label" id="editTaskRemark_err">Please
+													Enter Task Edit Remark</span>
+									</div>
+									
+									
+									
+
 								</div>
 
-								 <div class="modal-footer">
-										<button type="button" class="btn bg-primary" onclick="submitResponse()">Save
-											Changes</button><button type="button" class="btn btn-link"
-											data-dismiss="modal">Close</button>
-										
-									</div>
+								<div class="modal-footer">
+									<button type="button" class="btn bg-primary"
+										onclick="submitResponse()">Save Changes</button>
+									<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+								</div>
 								<!-- </form> -->
 							</div>
 						</div>
@@ -878,11 +879,11 @@ h5 {
 					</div> --%>
 
 					<div id="loader1" style="display: none;">
-							<img
-								src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
-								width="150px" height="150px"
-								style="display: block; margin-left: auto; margin-right: auto">
-						</div>
+						<img
+							src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+							width="150px" height="150px"
+							style="display: block; margin-left: auto; margin-right: auto">
+					</div>
 
 					<div class=table-responsive>
 						<!-- <input type="text" id="search" placeholder="Type to search"> -->
@@ -894,99 +895,102 @@ h5 {
 										aria-controls="work_log_table"> </label>
 								</div>
 							</div> -->
-							<div class="col-md-6">
-							</div>
-							<div class="col-md-6   "> 
+							<div class="col-md-6"></div>
+							<div class="col-md-6   ">
 								<!-- Basic tables title -->
-								<div class="  text-right" >
+								<div class="  text-right">
 
-									<div class="pr-1 pt-1 fab-menu  fab-menu-absolute1 fab-menu-top-right1"
+									<div
+										class="pr-1 pt-1 fab-menu  fab-menu-absolute1 fab-menu-top-right1"
 										data-toggle="modal" data-target="#modal_remote">
 										<!-- <a title="Filter"
 											class="fab-menu-btn btn bg-blue btn-float rounded-round btn-icon">
 											<i class="fab-icon-open icon-filter3"></i>
 										</a> -->
-										    <a class="initialism basic_open" href="#basic">Filter</a>
-										
+										<a class="initialism basic_open" href="#basic">Filter</a>
+
 									</div>
 								</div>
 								<!-- /basic tables title -->
 							</div>
 						</div>
-	<!-- <table
+						<!-- <table
 							class="table datatable-basic datatable-generated table-hover"
 							width="100%" id="task_info_table"> -->
-		<div class="table-responsive">
-						<table class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1" width="100%" id="task_info_table">
-							<thead>
-								<tr>
-									<th style="background-color: white;">Sr. No.</th>
-									<th style="background-color: white;">Customer</th>
-									<!-- 	<th style="background-color: white;">Service - Activity</th> -->
-									<th style="background-color: white;">Task Name</th>
-									<th style="background-color: white;">Work Date</th>
-									<th style="background-color: white;">Statutary Due Date</th>
-									<th style="background-color: white;">Task Team</th>
-									<th style="background-color: white;">Budget Hrs</th>
-									<th style="background-color: white;">Task Status</th>
-									<th style="background-color: white;">Change Status</th>
-									<th class="text-center" style="background-color: white;">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${taskList}" var="taskList" varStatus="count">
+						<div class="table-responsive">
+							<table
+								class="table table-bordered table-hover datatable-highlight1 datatable-button-html5-basic  datatable-button-print-columns1"
+								width="100%" id="task_info_table">
+								<thead>
 									<tr>
-										<td>${count.index+1}</td>
-										<td>${taskList.custGroupName}</td>
-
-										<td><a href="#"
-											onclick="showTaskLogs(${taskList.taskId}, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
-
-										<td>${taskList.taskEndDate}</td>
-										<td>${taskList.taskStatutoryDueDate}</td>
-										<td>${taskList.employees}</td>
-										<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
-
-										<td id="taskStatus${taskList.taskId}"
-											style="color: ${taskList.statusColor};font-weight: bold;">${taskList.taskStatus}</td>
-
-										<td align="center"><select name="set_status"
-											onClick1="updateStatus_new11(this.value, ${taskList.taskId })"
-											id="set_status${taskList.taskId}"
-											data-id="${taskList.taskId}"
-											class="form-control  ats_sel_status ">
-												<option selected disabled data-statusColor="black"
-													value="-1">Select Status</option>
-												<c:forEach items="${statusList}" var="statusList">
-
-													<c:choose>
-														<c:when
-															test="${statusList.statusText eq taskList.taskStatus}">
-															<option data-statusColor="${statusList.statusColor}"
-																value="${statusList.statusValue}" selected>${statusList.statusText}</option>
-														</c:when>
-														<c:otherwise>
-															<option data-statusColor="${statusList.statusColor}"
-																value="${statusList.statusValue}">${statusList.statusText}</option>
-														</c:otherwise>
-
-													</c:choose>
-
-												</c:forEach>
-										</select></td>
-
-										<td class="text-center"><a class="chatmodallink mr-2"
-											onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}','${taskList.taskText}','${taskList.ownerPartner}','${taskList.taskStatus}')"
-											href="#" title="Chat/Update"><i class="icon-comments"
-												style="color: green;"></i></a> <a href="#"
-											onclick="showEditTask(${taskList.taskId},'${taskList.taskText}','${taskList.custGroupName}')" title="Edit"><i
-												class="icon-pencil7" style="color: black;"
-												data-toggle="modal" data-target="#modal_edit"></i></a></td>
+										<th style="background-color: white;">Sr. No.</th>
+										<th style="background-color: white;">Customer</th>
+										<!-- 	<th style="background-color: white;">Service - Activity</th> -->
+										<th style="background-color: white;">Task Name</th>
+										<th style="background-color: white;">Work Date</th>
+										<th style="background-color: white;">Statutary Due Date</th>
+										<th style="background-color: white;">Task Team</th>
+										<th style="background-color: white;">Budget Hrs</th>
+										<th style="background-color: white;">Task Status</th>
+										<th style="background-color: white;">Change Status</th>
+										<th class="text-center" style="background-color: white;">Actions</th>
 									</tr>
-								</c:forEach>
+								</thead>
+								<tbody>
+									<c:forEach items="${taskList}" var="taskList" varStatus="count">
+										<tr>
+											<td>${count.index+1}</td>
+											<td>${taskList.custGroupName}</td>
 
-							</tbody>
-						</table>
+											<td><a href="#"
+												onclick="showTaskLogs(${taskList.taskId}, '${taskList.taskText}')">${taskList.taskText}(${taskList.periodicityName})</a></td>
+
+											<td>${taskList.taskEndDate}</td>
+											<td>${taskList.taskStatutoryDueDate}</td>
+											<td>${taskList.employees}</td>
+											<td>M-${taskList.mngrBudHr} E-${taskList.empBudHr}</td>
+
+											<td id="taskStatus${taskList.taskId}"
+												style="color: ${taskList.statusColor};font-weight: bold;">${taskList.taskStatus}</td>
+
+											<td align="center"><select name="set_status"
+												onClick1="updateStatus_new11(this.value, ${taskList.taskId })"
+												id="set_status${taskList.taskId}"
+												data-id="${taskList.taskId}"
+												class="form-control  ats_sel_status ">
+													<option selected disabled data-statusColor="black"
+														value="-1">Select Status</option>
+													<c:forEach items="${statusList}" var="statusList">
+
+														<c:choose>
+															<c:when
+																test="${statusList.statusText eq taskList.taskStatus}">
+																<option data-statusColor="${statusList.statusColor}"
+																	value="${statusList.statusValue}" selected>${statusList.statusText}</option>
+															</c:when>
+															<c:otherwise>
+																<option data-statusColor="${statusList.statusColor}"
+																	value="${statusList.statusValue}">${statusList.statusText}</option>
+															</c:otherwise>
+
+														</c:choose>
+
+													</c:forEach>
+											</select></td>
+
+											<td class="text-center"><a class="chatmodallink mr-2"
+												onclick="showChatBox('${taskList.exVar1}','${taskList.exVar2}','${taskList.taskText}','${taskList.ownerPartner}','${taskList.taskStatus}')"
+												href="#" title="Chat/Update"><i class="icon-comments"
+													style="color: green;"></i></a> <a href="#"
+												onclick="showEditTask(${taskList.taskId},'${taskList.taskText}','${taskList.custGroupName}')"
+												title="Edit"><i class="icon-pencil7"
+													style="color: black;" data-toggle="modal"
+													data-target="#modal_edit"></i></a></td>
+										</tr>
+									</c:forEach>
+
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -1021,7 +1025,7 @@ h5 {
 									class="btn bg-primary ml-sm-2 mb-sm-0">
 									Save<i class="icon-plus22	"></i>
 								</button>
-								
+
 							</div>
 						</form>
 					</div>
@@ -1030,17 +1034,18 @@ h5 {
 
 
 
-<div id="modal_form_inline1" class="modal fade" tabindex="-1">
+			<div id="modal_form_inline1" class="modal fade" tabindex="-1">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="show_alert1"> 	<span id="show_alert" style="color:red;"
-												class="validation-invalid-label"  
-												 > </span> </h5>
+							<h5 class="modal-title" id="show_alert1">
+								<span id="show_alert" style="color: red;"
+									class="validation-invalid-label"> </span>
+							</h5>
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 						</div>
 
-						
+
 					</div>
 				</div>
 			</div>
@@ -1057,14 +1062,14 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
-	
-	  <script type="text/javascript">
+
+	<script type="text/javascript">
     $(document).ready(function () {
       $('#basic').popup();
     });
     
     </script>
-	
+
 	<script type="text/javascript">
 var status;
 function getActiveHomeTasks() {
@@ -1373,7 +1378,7 @@ function append(data){
 			var emp=$("#emp").val();
 			var bilAmt=document.getElementById("bilAmt").value ;
 			var editTaskRemark=document.getElementById("editTaskRemark").value ;
-			alert("editTaskRemark " +editTaskRemark);
+			//alert("editTaskRemark " +editTaskRemark);
 			
 			//alert("Hi " +JSON.stringify(emp));
 			
@@ -2361,7 +2366,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
-<script type="text/javascript">
+	<script type="text/javascript">
 $('#submtbtn').on('click', function() {
 	$.blockUI({ 
 	    message: '<i class="icon-spinner4 spinner"></i>',
