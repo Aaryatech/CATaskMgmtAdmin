@@ -1008,13 +1008,12 @@ public class ReportV2 {
 
 			XSSFWorkbook wb = null;
 
-			wb = ExportExcelController.createWorkbook(exportToExcelList);
-
+			wb = ExceUtil.createWorkbookNew(exportToExcelList);
 			ExceUtil.autoSizeColumns(wb, 3);
 			System.err.println(reportName);
 			response.setContentType("application/vnd.ms-excel");
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			response.setHeader("Content-disposition", "attachment; filename=" + reportName + "-" + date + ".xlsx");
+			response.setHeader("Content-disposition", "attachment; filename="+"30DaysWorkLog"+"-" + date + ".xlsx");
 			wb.write(response.getOutputStream());
 
 		} catch (Exception e) {
@@ -1026,75 +1025,4 @@ public class ReportV2 {
 
 	}
 
-	/*
-	 * List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
-	 * 
-	 * @RequestMapping(value = "/exportToExcel", method = RequestMethod.GET)
-	 * 
-	 * public void downloadSpreadsheet(HttpServletResponse response,
-	 * HttpServletRequest request) throws Exception { XSSFWorkbook wb = null;
-	 * HttpSession session = request.getSession(); try {
-	 * 
-	 * exportToExcelList = (List) session.getAttribute("exportExcelList");
-	 * System.out.println("Excel List :" + exportToExcelList.toString());
-	 * 
-	 * String excelName = (String) session.getAttribute("excelName"); wb =
-	 * createWorkbook();
-	 * 
-	 * response.setContentType("application/vnd.ms-excel"); String date = new
-	 * SimpleDateFormat("yyyy-MM-dd").format(new Date());
-	 * response.setHeader("Content-disposition", "attachment; filename=" + excelName
-	 * + "-" + date + ".xlsx"); wb.write(response.getOutputStream());
-	 * 
-	 * } catch (IOException ioe) { throw new
-	 * RuntimeException("Error writing spreadsheet to output stream"); } finally {
-	 * if (wb != null) { wb.close(); } } session.removeAttribute("exportExcelList");
-	 * System.out.println("Session List" + session.getAttribute("exportExcelList"));
-	 * }
-	 * 
-	 * private XSSFWorkbook createWorkbook() throws IOException { XSSFWorkbook wb =
-	 * new XSSFWorkbook(); XSSFSheet sheet = wb.createSheet("Sheet1");
-	 * 
-	 * 
-	 * writeHeaders(wb, sheet); writeHeaders(wb, sheet); writeHeaders(wb, sheet);
-	 * 
-	 * 
-	 * for (int rowIndex = 0; rowIndex < exportToExcelList.size(); rowIndex++) {
-	 * XSSFRow row = sheet.createRow(rowIndex); for (int j = 0; j <
-	 * exportToExcelList.get(rowIndex).getRowData().size(); j++) {
-	 * 
-	 * XSSFCell cell = row.createCell(j);
-	 * 
-	 * cell.setCellValue(exportToExcelList.get(rowIndex).getRowData().get(j));
-	 * 
-	 * } if (rowIndex == 0) row.setRowStyle(createHeaderStyle(wb)); } return wb; }
-	 * 
-	 * private XSSFCellStyle createHeaderStyle(XSSFWorkbook workbook) {
-	 * XSSFCellStyle style = workbook.createCellStyle(); style.setWrapText(true);
-	 * style.setFillForegroundColor(new XSSFColor(new java.awt.Color(53, 119,
-	 * 192)));
-	 * 
-	 * // style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-	 * 
-	 * 
-	 * style.setBorderRight(CellStyle.BORDER_THIN);
-	 * style.setRightBorderColor(IndexedColors.BLACK.getIndex());
-	 * style.setBorderBottom(CellStyle.BORDER_THIN);
-	 * style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-	 * style.setBorderLeft(CellStyle.BORDER_THIN);
-	 * style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-	 * style.setBorderTop(CellStyle.BORDER_THIN);
-	 * style.setTopBorderColor(IndexedColors.BLACK.getIndex());
-	 * 
-	 * // style.setDataFormat(1);
-	 * 
-	 * XSSFFont font = workbook.createFont(); ((org.apache.poi.ss.usermodel.Font)
-	 * font).setFontName("Arial"); ((org.apache.poi.ss.usermodel.Font)
-	 * font).setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-	 * ((org.apache.poi.ss.usermodel.Font) font).setBold(true); //
-	 * font.setColor(HSSFColor.WHITE.index);
-	 * style.setFont((org.apache.poi.ss.usermodel.Font) font);
-	 * 
-	 * return style; }
-	 */
 }
