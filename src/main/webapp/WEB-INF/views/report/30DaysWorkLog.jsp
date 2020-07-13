@@ -100,7 +100,7 @@ h5 {
 </style> -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">30 Days Work Log Report</h5>
+						<h5 class="card-title">Datewise Work Log Report</h5>
 
 					</div>
 					<div class="card-body">

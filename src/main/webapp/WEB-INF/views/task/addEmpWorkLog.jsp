@@ -624,7 +624,22 @@
 							</div>
 
 
+						 
+
+						</div>
+						
+						<div class="form-group row">
+							<div class="form-group col-md-1">
+								<div id="loader2" style="display: none;">
+									<img
+										src='${pageContext.request.contextPath}/resources/assets/images/giphy.gif'
+										width="100px" height="100px"
+										style="display: block; margin-left: auto; margin-right: auto">
+								</div>
+							</div>
+
 							<div class="form-group row">
+
 								<div class="col-md-2">
 									<span class="validation-invalid-label" id="err_log"
 										style="display: none; width: 180px;"> Failed to Add the
@@ -669,7 +684,7 @@
 
 	<script type="text/javascript">
 		function addEmpHrs() {
-
+			$("#loader2").show();
 			var logId = $("#logId").val();
 			var taskId = $("#taskId").val();
 			var empId = $("#empId").val();
@@ -716,7 +731,7 @@
 									},
 
 									function(data) {
-
+										$("#loader1").hide();
 										//alert(JSON.stringify(data));
 
 										if (data.error == true) {
