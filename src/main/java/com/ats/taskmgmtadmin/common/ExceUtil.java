@@ -209,7 +209,7 @@ public class ExceUtil {
 	        org.apache.poi.ss.usermodel.Font font =workbook.createFont();
 	        font.setFontName("Calibri (body)");
 	        font.setFontHeightInPoints((short)14);
-	        style.setAlignment(CellStyle.ALIGN_CENTER);
+	       // style.setAlignment(CellStyle.ALIGN_CENTER);
 
 	        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 	        font.setBold(true);
@@ -238,7 +238,7 @@ public class ExceUtil {
         style.setBorderTop(CellStyle.BORDER_THIN);
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
         
-        style.setAlignment(CellStyle.ALIGN_RIGHT);
+       // style.setAlignment(CellStyle.ALIGN_RIGHT);
        // style.setDataFormat(1);
         org.apache.poi.ss.usermodel.Font font =workbook.createFont();
         font.setFontName("Calibri (body)");
@@ -253,6 +253,73 @@ public class ExceUtil {
 	
 	
 	//new 
+	
+	
+	public static XSSFCellStyle createHeaderStyleNew1(XSSFWorkbook workbook) {
+        XSSFCellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+       // style.setFillForegroundColor(new XSSFColor(new java.awt.Color(247, 161, 103)));
+        
+        style.setFillForegroundColor(IndexedColors.GOLD.getIndex());
+
+
+        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        style.setAlignment(CellStyle.ALIGN_CENTER);
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+
+        style.setBorderRight(CellStyle.BORDER_THIN);
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderBottom(CellStyle.BORDER_THIN);
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderLeft(CellStyle.BORDER_THIN);
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+        style.setBorderTop(CellStyle.BORDER_THIN);
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setDataFormat(1);
+        org.apache.poi.ss.usermodel.Font font =workbook.createFont();
+        font.setFontName("Calibri (body)");
+        font.setFontHeightInPoints((short)14);
+        style.setAlignment(CellStyle.ALIGN_CENTER);
+
+        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
+        font.setColor(HSSFColor.WHITE.index);
+        style.setFont(font);
+        
+ 
+        return style;
+    }
+
+
+public static XSSFCellStyle createHeaderStyleForDataRows1(XSSFWorkbook workbook) {
+    XSSFCellStyle style = workbook.createCellStyle();
+    style.setWrapText(true);
+   // style.setFillForegroundColor(new XSSFColor(new java.awt.Color(247, 161, 103)));
+    
+
+
+
+    style.setBorderRight(CellStyle.BORDER_THIN);
+    style.setRightBorderColor(IndexedColors.BLACK.getIndex());
+    style.setBorderBottom(CellStyle.BORDER_THIN);
+    style.setBottomBorderColor(IndexedColors.BLACK.getIndex());
+    style.setBorderLeft(CellStyle.BORDER_THIN);
+    style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
+    style.setBorderTop(CellStyle.BORDER_THIN);
+    style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+    
+    style.setAlignment(CellStyle.ALIGN_LEFT);
+   // style.setDataFormat(1);
+    org.apache.poi.ss.usermodel.Font font =workbook.createFont();
+    font.setFontName("Calibri (body)");
+    font.setFontHeightInPoints((short)12);
+   
+    style.setFont(font);
+
+    return style;
+}
+
+
 	
 	
 	public static XSSFWorkbook createWorkbookNew(List<ExportToExcel> exportToExcelList) throws IOException {
@@ -301,9 +368,9 @@ public class ExceUtil {
 			              
 			       } 
 				if ((rowIndex+3) == 3) {
-		           cell.setCellStyle(createHeaderStyleNew(wb));
+		           cell.setCellStyle(createHeaderStyleNew1(wb));
 				}else {
-					cell.setCellStyle(createHeaderStyleForDataRows(wb));
+					cell.setCellStyle(createHeaderStyleForDataRows1(wb));
 				}
 			}
 			
