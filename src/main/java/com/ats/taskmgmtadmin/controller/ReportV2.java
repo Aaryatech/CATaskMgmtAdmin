@@ -739,6 +739,7 @@ public class ReportV2 {
 					custId = 0;
 
 				}
+			//	System.err.println(custId);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("serviceId", servId);
@@ -772,6 +773,7 @@ public class ReportV2 {
 
 				List<VarianceReportByManger> varianceList = new ArrayList<>(Arrays.asList(repListArray));
 				model.addAttribute("varianceList", varianceList);
+				model.addAttribute("listSize",varianceList.size());
 
 			} catch (Exception e) {
 				System.err.println("Exce in CompletedTakList " + e.getMessage());
@@ -785,7 +787,7 @@ public class ReportV2 {
 
 	@RequestMapping(value = "/getVarianceByManagerExcel", method = RequestMethod.GET)
 	public void getVarianceByManagerExcel(HttpServletRequest request, HttpServletResponse response) {
-		String reportName = "Statutory Date Variance By Manager";
+		String reportName = "Statutory Date Variation By Manager";
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		try {
 
@@ -827,9 +829,9 @@ public class ReportV2 {
 			rowData.add("Manager Name");
 			rowData.add("Work Date");
 			rowData.add("Completion Date");
-			rowData.add("Start Date");
+			rowData.add("Original Due Date");
 			rowData.add("Due Date");
-			rowData.add("Variance");
+			rowData.add("Variation(Days)");
 			rowData.add("Drive Link");
 
 			expoExcel.setRowData(rowData);

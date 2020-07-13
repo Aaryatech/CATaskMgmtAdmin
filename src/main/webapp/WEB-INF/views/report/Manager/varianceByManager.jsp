@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body onload="chkData(${listSize})">
 	<c:url value="/getActivityByService" var="getActivityByService"></c:url>
 
 	<!-- Main navbar -->
@@ -70,7 +70,7 @@
 						<table width="100%">
 							<tr width="100%">
 								<td width="60%"><h5 class="card-title">Statutory Date
-										Variance By Manager Report</h5></td>
+										Variation By Manager Report</h5></td>
 								<td width="40%" align="right"></td>
 							</tr>
 						</table>
@@ -166,14 +166,14 @@
 										id="customer"
 										class="form-control form-control-select2 select2-hidden-accessible"
 										data-fouc="" aria-hidden="true">
-										<option value="0">Please Select</option>
+										<option value="0">Select Customer</option>
 
 										<c:if test="${custId==-1}">
-											<option selected value="0">All</option>
+											<option selected value="-1">All</option>
 
 										</c:if>
 										<c:if test="${custId!=-1}">
-											<option value="0">All</option>
+											<option value="-1">All</option>
 
 										</c:if>
 										<c:forEach items="${custList}" var="custList">
@@ -184,7 +184,7 @@
 															value="${custList.custFirmName}" /></option>
 												</c:when>
 												<c:otherwise>
-													<option  value="${custList.custId}"><c:out
+													<option value="${custList.custId}"><c:out
 															value="${custList.custFirmName}" /></option>
 
 												</c:otherwise>
@@ -197,7 +197,7 @@
 							</div>
 
 
-							
+
 							<div class="form-group row">
 								<label class="col-form-label col-lg-1" for="mangId">
 									Manager <span style="color: red">* </span> :
@@ -252,16 +252,19 @@
 									<th>Client Name</th>
 									<th>Service</th>
 									<th>Activity</th>
-									<th>Task/ Periodicity</th>
+									<th>Task/Periodicity</th>
 									<th>Owner Partner</th>
 									<th>Employee Name</th>
 									<th>TL Name</th>
 									<th>Manager Name</th>
 									<th>Work Date</th>
 									<th>Completion Date</th>
-									<th>Start Date</th>
+									<th>Original Due Date</th>
 									<th>Due Date</th>
-									<th>Variance</th>
+									<th>Variation(Days)</th>
+									<th>Status</th>
+
+
 									<th>Drive Link</th>
 
 									<!-- <th class="text-center" width="10%">Actions</th> -->
@@ -285,6 +288,7 @@
 									<td>${varianceList.taskStartDate}</td>
 									<td>${varianceList.taskStatutoryDueDate}</td>
 									<td>${varianceList.varianceDays}</td>
+									<td>${varianceList.tskStatus}</td>
 									<td>${varianceList.exVar1}</td>
 								</tr>
 							</c:forEach>
@@ -315,16 +319,16 @@
 
 </body>
 
-	<script type="text/javascript">
-		function chkData() {
-			var x = document.getElementById("capTable").rows.length;
-			//alert(x);
-			if (x == 1) {
+<script type="text/javascript">
+	function chkData(x) {
+		//var x = document.getElementById("printtable1").rows.length;
+		//alert(x);
+		if (x == 0) {
 
-				document.getElementById("excel").disabled = true;
-			}
+			document.getElementById("excel").disabled = true;
 		}
-	</script>
+	}
+</script>
 <script type="text/javascript">
 	function getActivities(servId) {
 
