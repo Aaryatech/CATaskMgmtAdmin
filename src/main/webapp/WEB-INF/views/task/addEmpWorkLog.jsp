@@ -409,7 +409,7 @@
 															+ v.taskText
 															+ '\','
 															+ v.exInt1
-															+ ')"><i class="icon-add" style="color: black;">'
+															+ ')"><i class="icon-add"  title="Add Task Hours"style="color: black;">'
 															+ '</i>   &nbsp;&nbsp;<a href="#" id="edButton'
 															+ v.taskId
 															+ '" onclick="editWorkLog('
@@ -418,7 +418,7 @@
 															+ v.taskText
 															+ '\','
 															+ v.exInt1
-															+ ')"><i class=" icon-pencil7" style="color: black;""></i>';
+															+ ')"><i class=" icon-pencil7" title="Edit Current Hours" style="color: black;""></i>';
 
 													if (v.workDate == '09-09-9999') {
 														wrkDt = '';
@@ -731,7 +731,7 @@
 									},
 
 									function(data) {
-										$("#loader1").hide();
+										$("#loader2").hide();
 										//alert(JSON.stringify(data));
 
 										if (data.error == true) {

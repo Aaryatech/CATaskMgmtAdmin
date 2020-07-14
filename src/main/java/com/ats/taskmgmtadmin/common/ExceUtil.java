@@ -326,7 +326,8 @@ public static XSSFCellStyle createHeaderStyleForDataRows1(XSSFWorkbook workbook)
 		 
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet sheet = wb.createSheet("Sheet1");
- 	
+		sheet.createFreezePane(0, 1);
+
          CellStyle cellStyle=wb.createCellStyle();
 		 
 		 

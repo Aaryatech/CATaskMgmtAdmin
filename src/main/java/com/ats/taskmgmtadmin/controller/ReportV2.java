@@ -931,7 +931,7 @@ public class ReportV2 {
 
 	@RequestMapping(value = "/dateRangeLogReport", method = RequestMethod.GET)
 	public void daysLogReport(HttpServletRequest request, HttpServletResponse response) {
-		String reportName = "Datewise Days work Log";
+		String reportName = "Datewise Work Log Report";
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 		ExportToExcel expoExcel = new ExportToExcel();
 
@@ -1011,6 +1011,10 @@ public class ReportV2 {
 			XSSFWorkbook wb = null;
 
 			wb = ExceUtil.createWorkbookNew(exportToExcelList);
+			/*
+			 * wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName, "Date Range:"
+			 * + range + "", "", 'Z');
+			 */
 			ExceUtil.autoSizeColumns(wb, 3);
 			System.err.println(reportName);
 			response.setContentType("application/vnd.ms-excel");
