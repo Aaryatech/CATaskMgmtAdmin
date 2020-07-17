@@ -248,23 +248,23 @@
 
 								<tr class="bg-blue">
 									<th width="10%">Sr.no</th>
+
 									<th>Task Text</th>
 									<th>Client Name</th>
 									<th>Service</th>
 									<th>Activity</th>
 									<th>Task/Periodicity</th>
-									<th>Owner Partner</th>
+									<th>Partner</th>
 									<th>Employee Name</th>
 									<th>TL Name</th>
 									<th>Manager Name</th>
 									<th>Work Date</th>
-									<th>Completion Date</th>
 									<th>Original Due Date</th>
 									<th>Due Date</th>
 									<th>Variation(Days)</th>
-									<th>Status</th>
-
-
+									<th>Employee Budgeted Hrs</th>
+									<th>Manager Budgeted Hrs</th>
+									<th>Task Status</th>
 									<th>Drive Link</th>
 
 									<!-- <th class="text-center" width="10%">Actions</th> -->
@@ -284,10 +284,11 @@
 									<td>${varianceList.teamLeader}</td>
 									<td>${varianceList.manager}</td>
 									<td>${varianceList.taskEndDate}</td>
-									<td>${varianceList.completionDate}</td>
 									<td>${varianceList.taskStartDate}</td>
 									<td>${varianceList.taskStatutoryDueDate}</td>
 									<td>${varianceList.varianceDays}</td>
+									<td>${varianceList.empBudHr}</td>
+									<td>${varianceList.mngrBudHr}</td>
 									<td>${varianceList.tskStatus}</td>
 									<td>${varianceList.exVar1}</td>
 								</tr>

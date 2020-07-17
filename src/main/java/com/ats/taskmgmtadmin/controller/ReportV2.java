@@ -739,7 +739,7 @@ public class ReportV2 {
 					custId = 0;
 
 				}
-			//	System.err.println(custId);
+				// System.err.println(custId);
 
 				map = new LinkedMultiValueMap<>();
 				map.add("serviceId", servId);
@@ -773,7 +773,7 @@ public class ReportV2 {
 
 				List<VarianceReportByManger> varianceList = new ArrayList<>(Arrays.asList(repListArray));
 				model.addAttribute("varianceList", varianceList);
-				model.addAttribute("listSize",varianceList.size());
+				model.addAttribute("listSize", varianceList.size());
 
 			} catch (Exception e) {
 				System.err.println("Exce in CompletedTakList " + e.getMessage());
@@ -828,10 +828,12 @@ public class ReportV2 {
 			rowData.add("TL Name");
 			rowData.add("Manager Name");
 			rowData.add("Work Date");
-			rowData.add("Completion Date");
 			rowData.add("Original Due Date");
 			rowData.add("Due Date");
 			rowData.add("Variation(Days)");
+			rowData.add("Employee Budgeted Hrs");
+			rowData.add("Manager Budgeted Hrs");
+			rowData.add("Task Status");
 			rowData.add("Drive Link");
 
 			expoExcel.setRowData(rowData);
@@ -851,24 +853,17 @@ public class ReportV2 {
 				rowData.add("" + task.getActiName());
 				rowData.add("" + task.getPeriodicityName());
 				rowData.add("" + task.getPartner());
-
 				rowData.add("" + task.getEmployee());
 				rowData.add("" + task.getTeamLeader());
 				rowData.add("" + task.getManager());
-
 				rowData.add("" + task.getTaskEndDate());
-
-				if (task.getCompletionDate() == null) {
-					rowData.add("" + "");
-				} else {
-					rowData.add("" + task.getCompletionDate());
-
-				}
-
 				rowData.add("" + task.getTaskStartDate());
 				rowData.add("" + task.getTaskStatutoryDueDate());
 				rowData.add("" + task.getVarianceDays());
-				rowData.add("" + task.getExVar1());
+				rowData.add("" + task.getEmpBudHr());
+ 				rowData.add("" + task.getMngrBudHr());
+ 				rowData.add("" + task.getTskStatus());
+ 				rowData.add("" + task.getExVar1());
 
 				expoExcel.setRowData(rowData);
 				exportToExcelList.add(expoExcel);
@@ -878,7 +873,7 @@ public class ReportV2 {
 			try {
 
 				wb = ExceUtil.createWorkbook(exportToExcelList, "", reportName,
-						"Manager Name:" + empData.getEmpName() + "", "", 'P');
+						"Manager Name:" + empData.getEmpName() + "", "", 'R');
 
 				ExceUtil.autoSizeColumns(wb, 3);
 				response.setContentType("application/vnd.ms-excel");
@@ -1019,7 +1014,8 @@ public class ReportV2 {
 			System.err.println(reportName);
 			response.setContentType("application/vnd.ms-excel");
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			response.setHeader("Content-disposition", "attachment; filename="+"DatewiseWorkLogReport"+"-" + date + ".xlsx");
+			response.setHeader("Content-disposition",
+					"attachment; filename=" + "DatewiseWorkLogReport" + "-" + date + ".xlsx");
 			wb.write(response.getOutputStream());
 
 		} catch (Exception e) {
