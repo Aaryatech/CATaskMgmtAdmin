@@ -31,11 +31,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import com.ats.taskmgmtadmin.acsrights.CreatedRoleList;
 import com.ats.taskmgmtadmin.acsrights.ModuleJson;
 import com.ats.taskmgmtadmin.common.AccessControll;
 import com.ats.taskmgmtadmin.common.Constants;
+import com.ats.taskmgmtadmin.common.DateConvertor;
 import com.ats.taskmgmtadmin.common.ExceUtil;
 import com.ats.taskmgmtadmin.common.ExportToExcel;
 
@@ -57,6 +57,7 @@ import com.ats.taskmgmtadmin.model.FirmType;
 import com.ats.taskmgmtadmin.model.GetActivityPeriodicity;
 import com.ats.taskmgmtadmin.model.Info;
 import com.ats.taskmgmtadmin.model.ServiceMaster;
+import com.ats.taskmgmtadmin.model.SetttingKeyValue;
 import com.ats.taskmgmtadmin.model.StatusMaster;
 import com.ats.taskmgmtadmin.task.model.Task;
 
@@ -150,7 +151,6 @@ public class MasterMVCController {
 
 		return mav;
 	}
-	
 
 	@RequestMapping(value = "/addService", method = RequestMethod.GET)
 	public String addService(HttpServletRequest request, HttpServletResponse response) {
@@ -184,9 +184,7 @@ public class MasterMVCController {
 			}
 			service.setServId(servcId);
 			service.setServName(request.getParameter("serviceName"));
-			
-			
-			
+
 			service.setServDesc(request.getParameter("serviceDesc"));
 			service.setDelStatus(1);
 			service.setUpdateDatetime(curDateTime);
@@ -504,7 +502,7 @@ public class MasterMVCController {
 				session.setAttribute("successMsg", "Activity Saved Successfully");
 				redirect = "redirect:/activity";
 			} else {
-				session.setAttribute("errorMsg", "Failed to Save Activity" );
+				session.setAttribute("errorMsg", "Failed to Save Activity");
 				redirect = "redirect:/activity";
 			}
 		} catch (Exception e) {
@@ -627,10 +625,10 @@ public class MasterMVCController {
 
 				Info del = Constants.getRestTemplate().postForObject(Constants.url + "/deleteActivity", map,
 						Info.class);
-				if(del.isError()==true)
-				session.setAttribute("errorMsg","Failed to Delete");
+				if (del.isError() == true)
+					session.setAttribute("errorMsg", "Failed to Delete");
 				else
-					session.setAttribute("successMsg","Deleted Successfully");
+					session.setAttribute("successMsg", "Deleted Successfully");
 
 				redirect = "redirect:/activity";
 			}
@@ -891,7 +889,7 @@ public class MasterMVCController {
 					employee.setDelStatus(1);
 					employee.setUpdateDatetime(curDateTime);
 					employee.setUpdateUsername(userId);
-				//	employee.setExInt2(0);
+					// employee.setExInt2(0);
 					employee.setExVar1("NA");
 					employee.setExVar2("NA");
 
@@ -906,7 +904,7 @@ public class MasterMVCController {
 						sess.setAttribute("errorMsg", "Failed to Save Employee");
 						redirect = "redirect:/employeeList";
 					}
-					
+
 				}
 			} else {
 				System.out.println("--------------New Record");
@@ -984,10 +982,10 @@ public class MasterMVCController {
 				if (empl != null) {
 					sess.setAttribute("successMsg", "Employee Saved Successfully");
 
-					//sess.setAttribute("successMsg", Constants.Sucessmsg);
+					// sess.setAttribute("successMsg", Constants.Sucessmsg);
 					redirect = "redirect:/employeeList";
 				} else {
-					//sess.setAttribute("errorMsg", Constants.Failmsg);
+					// sess.setAttribute("errorMsg", Constants.Failmsg);
 					sess.setAttribute("errorMsg", "Failed to Save Employee");
 
 					redirect = "redirect:/employeeList";
@@ -1451,13 +1449,12 @@ public class MasterMVCController {
 
 				mav.addObject("title", "Add Customer");
 				mav.addObject("custId", 0);
-				
-				
+
 				AssesseeTypeMaster[] asseArray = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAssesseeTypeList", AssesseeTypeMaster[].class);
 				List<AssesseeTypeMaster> assesseeTypeList = new ArrayList<AssesseeTypeMaster>(Arrays.asList(asseArray));
 				mav.addObject("assesseeTypeList", assesseeTypeList);
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerAdd " + e.getMessage());
@@ -1467,7 +1464,8 @@ public class MasterMVCController {
 	}
 
 	@RequestMapping(value = "/customerList", method = RequestMethod.GET)
-	public ModelAndView clientListForm(Locale locale, Model model, HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView clientListForm(Locale locale, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		ModelAndView mav = new ModelAndView("master/customerList");
 		try {
@@ -1510,9 +1508,7 @@ public class MasterMVCController {
 					// System.out.println(" delete Accessable ");
 					mav.addObject("deleteAccess", 0);
 				}
-				
-				
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in customerList " + e.getMessage());
@@ -1552,7 +1548,7 @@ public class MasterMVCController {
 			} catch (Exception e) {
 				cust.setCustGroupId(0);
 			}
-			if(custType==0) {
+			if (custType == 0) {
 				cust.setCustGroupId(0);
 			}
 			cust.setCustFirmName(request.getParameter("firmName"));
@@ -1604,112 +1600,107 @@ public class MasterMVCController {
 		return redirect;
 	}
 
-	
-	
-	//export to excel
+	// export to excel
 	@RequestMapping(value = "/custExcel", method = RequestMethod.GET)
 	public void custExcel(HttpServletRequest request, HttpServletResponse response) {
-	CustomerHeaderMaster[] custArr = Constants.getRestTemplate()
-			.getForObject(Constants.url + "/getCustListForExcel", CustomerHeaderMaster[].class);
-			List<CustomerHeaderMaster> custList = new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArr));
-	
-			List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+		CustomerHeaderMaster[] custArr = Constants.getRestTemplate()
+				.getForObject(Constants.url + "/getCustListForExcel", CustomerHeaderMaster[].class);
+		List<CustomerHeaderMaster> custList = new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArr));
 
-			ExportToExcel expoExcel = new ExportToExcel();
-			List<String> rowData = new ArrayList<String>();
+		List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
 
-			rowData.add("Sr. No");
-			rowData.add("Customer Id");
-			rowData.add("Firm/Customer Name");
-			rowData.add("Owner Partner Id");
-			rowData.add("Owner Partner Name");
-			rowData.add("Group Id");
-			rowData.add("Group Name");
-			rowData.add("Assesse Name");
-			rowData.add("PAN No");
-			rowData.add("Email Id");
-			rowData.add("Phone No");
-			rowData.add("Address 1");
-			rowData.add("Address 2");
-			rowData.add("City");
-			rowData.add("Pincode");
-			
-			rowData.add("Business Nature");
-			rowData.add("Folder Id");
-			rowData.add("File No");
-			
-			rowData.add("DOB");
-			rowData.add("Aadhar No");
-			rowData.add("Is Active ?");
-			
-			
+		ExportToExcel expoExcel = new ExportToExcel();
+		List<String> rowData = new ArrayList<String>();
+
+		rowData.add("Sr. No");
+		rowData.add("Customer Id");
+		rowData.add("Firm/Customer Name");
+		rowData.add("Owner Partner Id");
+		rowData.add("Owner Partner Name");
+		rowData.add("Group Id");
+		rowData.add("Group Name");
+		rowData.add("Assesse Name");
+		rowData.add("PAN No");
+		rowData.add("Email Id");
+		rowData.add("Phone No");
+		rowData.add("Address 1");
+		rowData.add("Address 2");
+		rowData.add("City");
+		rowData.add("Pincode");
+
+		rowData.add("Business Nature");
+		rowData.add("Folder Id");
+		rowData.add("File No");
+
+		rowData.add("DOB");
+		rowData.add("Aadhar No");
+		rowData.add("Is Active ?");
+
+		expoExcel.setRowData(rowData);
+		exportToExcelList.add(expoExcel);
+
+		for (int i = 0; i < custList.size(); i++) {
+			expoExcel = new ExportToExcel();
+			rowData = new ArrayList<String>();
+
+			rowData.add("" + (i + 1));
+
+			rowData.add("" + custList.get(i).getCustId());
+			rowData.add("" + custList.get(i).getCustFirmName());
+			rowData.add("" + custList.get(i).getOwnerEmpId());
+			rowData.add("" + custList.get(i).getExVar2());// owner name
+
+			rowData.add("" + custList.get(i).getCustGroupId());
+			rowData.add("" + custList.get(i).getExVar1());// group name
+			rowData.add("" + custList.get(i).getCustAssesseeName());
+			rowData.add("" + custList.get(i).getCustPanNo());
+			rowData.add("" + custList.get(i).getCustEmailId());
+
+			rowData.add("" + custList.get(i).getCustPhoneNo());
+			rowData.add("" + custList.get(i).getCustAddr1());
+			rowData.add("" + custList.get(i).getCustAddr2());
+
+			rowData.add("" + custList.get(i).getCustCity());
+			rowData.add("" + custList.get(i).getCustPinCode());
+			rowData.add("" + custList.get(i).getCustBusinNatute());
+			rowData.add("" + custList.get(i).getCustFolderId());
+			rowData.add("" + custList.get(i).getCustFileNo());
+
+			rowData.add("" + custList.get(i).getCustDob());
+			rowData.add("" + custList.get(i).getCustAadhar());
+			rowData.add("" + custList.get(i).getIsActive());
+
 			expoExcel.setRowData(rowData);
 			exportToExcelList.add(expoExcel);
+		}
+		XSSFWorkbook wb = null;
+		try {
 
-			for (int i = 0; i < custList.size(); i++) {
-				expoExcel = new ExportToExcel();
-				rowData = new ArrayList<String>();
+			// System.out.println("Excel List :" + exportToExcelList.toString());
+			String rep = "Customer Master";
+			System.err.println("rep  " + rep);
+			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-				rowData.add("" + (i + 1));
+			// String excelName = (String) session.getAttribute("excelName");
+			wb = ExceUtil.createWorkbook(exportToExcelList, rep, " ", "Export Time " + date + " ", "  ", 'D');
+			ExceUtil.autoSizeColumns(wb, 3);
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-disposition", "attachment; filename=" + rep + "-" + date + ".xlsx");
+			wb.write(response.getOutputStream());
 
-				rowData.add("" + custList.get(i).getCustId());
-				rowData.add("" + custList.get(i).getCustFirmName());
-				rowData.add("" + custList.get(i).getOwnerEmpId());
-				rowData.add("" + custList.get(i).getExVar2());//owner name
-
-				rowData.add("" + custList.get(i).getCustGroupId());
-				rowData.add("" + custList.get(i).getExVar1());//group name
-			    rowData.add("" + custList.get(i).getCustAssesseeName());
-				rowData.add("" + custList.get(i).getCustPanNo());
-				rowData.add("" + custList.get(i).getCustEmailId());
-				
-				 rowData.add("" + custList.get(i).getCustPhoneNo());
-					rowData.add("" + custList.get(i).getCustAddr1());
-					rowData.add("" + custList.get(i).getCustAddr2());
-					
-					rowData.add("" + custList.get(i).getCustCity());
-					rowData.add("" + custList.get(i).getCustPinCode());
-					rowData.add("" + custList.get(i).getCustBusinNatute());
-					rowData.add("" + custList.get(i).getCustFolderId());
-					rowData.add("" + custList.get(i).getCustFileNo());
-					
-					rowData.add("" + custList.get(i).getCustDob());
-					rowData.add("" + custList.get(i).getCustAadhar());
-					rowData.add("" + custList.get(i).getIsActive());
-
-
-				expoExcel.setRowData(rowData);
-				exportToExcelList.add(expoExcel);
-			}
-			XSSFWorkbook wb = null;
-			try {
-
-				// System.out.println("Excel List :" + exportToExcelList.toString());
-				String rep = "Customer Master";
-				System.err.println("rep  " + rep);
-				String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-				// String excelName = (String) session.getAttribute("excelName");
-				wb = ExceUtil.createWorkbook(exportToExcelList, rep, " ",
-						"Export Time " + date + " ", "  ", 'D');
-				ExceUtil.autoSizeColumns(wb, 3);
-				response.setContentType("application/vnd.ms-excel");
-				response.setHeader("Content-disposition",
-						"attachment; filename=" + rep + "-" + date + ".xlsx");
-				wb.write(response.getOutputStream());
-
-			} catch (IOException ioe) {
-				throw new RuntimeException("Error writing spreadsheet to output stream");
-			} finally {
-				if (wb != null) {
-					try {
-						wb.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		} catch (IOException ioe) {
+			throw new RuntimeException("Error writing spreadsheet to output stream");
+		} finally {
+			if (wb != null) {
+				try {
+					wb.close();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
+		}
 	}
+
 	@RequestMapping(value = "/editCust", method = RequestMethod.GET)
 	public ModelAndView editCust(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = null;
@@ -1754,12 +1745,12 @@ public class MasterMVCController {
 
 				mav.addObject("title", "Edit Customer");
 				mav.addObject("custId", custId);
-				
+
 				AssesseeTypeMaster[] asseArray = Constants.getRestTemplate()
 						.getForObject(Constants.url + "/getAssesseeTypeList", AssesseeTypeMaster[].class);
 				List<AssesseeTypeMaster> assesseeTypeList = new ArrayList<AssesseeTypeMaster>(Arrays.asList(asseArray));
 				mav.addObject("assesseeTypeList", assesseeTypeList);
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("Exce in editCust " + e.getMessage());
@@ -2159,7 +2150,7 @@ public class MasterMVCController {
 			Info updateIsActiveStatus = Constants.getRestTemplate()
 					.postForObject(Constants.url + "/updateCustomerIsActiveStatus", map, Info.class);
 			if (updateIsActiveStatus.isError()) {
-				session.setAttribute("errorMsg","Failed to Change Customer Status");
+				session.setAttribute("errorMsg", "Failed to Change Customer Status");
 				redirect = "redirect:/customerList";
 
 			} else {
@@ -2347,7 +2338,7 @@ public class MasterMVCController {
 			String delLink = request.getParameter("delLink");
 			String statusText = request.getParameter("selectedStatus");
 			System.err.println("statusText " + statusText);
-			
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			EmployeeMaster emp = (EmployeeMaster) session.getAttribute("empLogin");
 			int userId = emp.getEmpId();
@@ -2369,8 +2360,8 @@ public class MasterMVCController {
 			info = Constants.getRestTemplate().postForObject(Constants.url + "/updateStatusByTaskId", map, Info.class);
 			System.err.println(info.toString());
 			if (info != null) {
-				if(statusText==null) {
-					statusText="Completed";
+				if (statusText == null) {
+					statusText = "Completed";
 				}
 				FormValidation.updateTaskLog(TaskText.taskTex8 + "-" + statusText, userId, taskId);
 				count = 1;
@@ -2382,11 +2373,12 @@ public class MasterMVCController {
 		return count;
 
 	}
-	//27-03-2020
+	// 27-03-2020
 //getCustListByGrpId
-	
+
 	@RequestMapping(value = "/getCustListByGrpId", method = RequestMethod.GET)
-	public ModelAndView getCustListByGrpId(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public ModelAndView getCustListByGrpId(HttpServletRequest request, HttpServletResponse response,
+			HttpSession session) {
 
 		ModelAndView mav = null;
 		try {
@@ -2405,10 +2397,10 @@ public class MasterMVCController {
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("custGrpId", custGrpId);
-				CustomerHeaderMaster[] custArray = Constants.getRestTemplate().postForObject(Constants.url + "/getCustomerByGroupId", map,
-						CustomerHeaderMaster[].class);
-				
-				List<CustomerHeaderMaster> custList=new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArray)); 
+				CustomerHeaderMaster[] custArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getCustomerByGroupId", map, CustomerHeaderMaster[].class);
+
+				List<CustomerHeaderMaster> custList = new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArray));
 				mav.addObject("custHeadList", custList);
 
 			}
@@ -2419,10 +2411,10 @@ public class MasterMVCController {
 		return mav;
 	}
 
-	
 	@RequestMapping(value = "/getCustListByGrpIdAjax", method = RequestMethod.GET)
-	public @ResponseBody List<CustomerHeaderMaster> getCustListByGrpIdAjax(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		List<CustomerHeaderMaster> custList=null;
+	public @ResponseBody List<CustomerHeaderMaster> getCustListByGrpIdAjax(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		List<CustomerHeaderMaster> custList = null;
 		try {
 
 			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
@@ -2430,17 +2422,16 @@ public class MasterMVCController {
 
 			if (view.isError() == true) {
 
-
 			} else {
 				int custGrpId = Integer.parseInt(request.getParameter("custGrpId"));
 
 				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 				map.add("custGrpId", custGrpId);
-				CustomerHeaderMaster[] custArray = Constants.getRestTemplate().postForObject(Constants.url + "/getCustomerByGroupId", map,
-						CustomerHeaderMaster[].class);
-				
-				  custList=new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArray)); 
+				CustomerHeaderMaster[] custArray = Constants.getRestTemplate()
+						.postForObject(Constants.url + "/getCustomerByGroupId", map, CustomerHeaderMaster[].class);
+
+				custList = new ArrayList<CustomerHeaderMaster>(Arrays.asList(custArray));
 
 			}
 		} catch (Exception e) {
@@ -2450,5 +2441,96 @@ public class MasterMVCController {
 		return custList;
 	}
 
-	
+	// harsha 20 july2020
+
+	@RequestMapping(value = "/showStatSetting", method = RequestMethod.GET)
+	public String showStatSetting(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String mav = null;
+
+		 
+		HttpSession session = request.getSession();
+
+		try {
+			
+			
+			List<ModuleJson> newModuleList = (List<ModuleJson>) session.getAttribute("newModuleList");
+			Info view = AccessControll.checkAccess("showStatSetting", "showStatSetting", "1", "0", "0", "0", newModuleList);
+
+			if (view.isError() == true) {
+
+				mav ="accessDenied";
+
+			} else {
+				mav = "master/statutoryDaysSetting";
+			
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("key", "StatutoryDaysSet");
+
+			SetttingKeyValue settting1 = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+					map, SetttingKeyValue.class);
+ 			model.addAttribute("noDays", settting1.getIntValue());
+ 			
+			map = new LinkedMultiValueMap<>();
+			map.add("key", "ChangeStatLimit");
+
+			SetttingKeyValue settting3 = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+					map, SetttingKeyValue.class);
+ 			model.addAttribute("setType", settting3.getIntValue());
+
+
+			map = new LinkedMultiValueMap<>();
+			map.add("key", "StatutoryDateSet");
+ 			SetttingKeyValue settting2 = Constants.getRestTemplate().postForObject(Constants.url + "/getSettingByKey",
+					map, SetttingKeyValue.class);
+ 			model.addAttribute("statDate", DateConvertor.convertToDMY(settting2.getStringValue()));
+
+			}
+		 
+		} catch (Exception e) {
+			System.err.println("Exce in activity " + e.getMessage());
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	@RequestMapping(value = "/submitStatResponse", method = RequestMethod.POST)
+	public String submitStatResponse(HttpServletRequest request, HttpServletResponse response) {
+		session = request.getSession();
+		try {
+
+			int settingType = Integer.parseInt(request.getParameter("settingType"));
+			int noDays = 0;
+			String limitDate = new String();
+		/*	if (settingType == 1) {*/
+				noDays = Integer.parseInt(request.getParameter("noDays"));
+
+		/*	} else {*/
+				limitDate = request.getParameter("limitDate");
+
+			/* } */
+		//	System.err.println("");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("settingType", settingType);
+			map.add("limitDate",DateConvertor.convertToYMD(limitDate) );
+			map.add("noDays", noDays);
+
+			Info updateIsActiveStatus = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/updateSettingForStatDate", map, Info.class);
+			if (updateIsActiveStatus.isError()) {
+				session.setAttribute("errorMsg", "Failed to Change Customer Status");
+				redirect = "redirect:/showStatSetting";
+
+			} else {
+
+				redirect = "redirect:/showStatSetting";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return redirect;
+	}
+
 }
