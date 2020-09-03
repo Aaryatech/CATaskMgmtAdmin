@@ -226,13 +226,13 @@ public class LeaveController {
 
 				LeaveApply res = Constants.getRestTemplate().postForObject(Constants.url + "/saveLeaveApply",
 						leaveSummary, LeaveApply.class);
-				
-				if(res!=null) {
+
+				if (res != null) {
 					session.setAttribute("successMsg", "Leave Applied Successfully");
-				}else {
+				} else {
 					session.setAttribute("errorMsg", "Failed to Apply Leave");
 				}
-				
+
 			} else {
 				session.setAttribute("errorMsg", "Failed to Apply Leave");
 			}
@@ -252,6 +252,11 @@ public class LeaveController {
 		String mav = "leave/showLeaveHistList";
 
 		try {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			String todayDate= formatter.format(date);
+			System.err.println("date:" + todayDate);
+			model.addAttribute("todayDate", todayDate);
 			String empId1 = request.getParameter("empId");
 			int empId = Integer.parseInt(FormValidation.DecodeKey(empId1));
 
@@ -260,9 +265,15 @@ public class LeaveController {
 			LeaveDetail[] res = Constants.getRestTemplate().postForObject(Constants.url + "/getLeaveListByEmp", map,
 					LeaveDetail[].class);
 			List<LeaveDetail> list = new ArrayList<>(Arrays.asList(res));
+			System.err.println("leave list" + list.toString());
+			
+
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setExVar1(FormValidation.Encrypt(String.valueOf(list.get(i).getLeaveId())));
+			}
 
 			EmployeeMaster employee = Constants.getRestTemplate().postForObject(Constants.url + "/getEmployeeById", map,
-					EmployeeMaster.class);
+					EmployeeMaster.class); 
 			model.addAttribute("employee", employee);
 			model.addAttribute("list", list);
 			model.addAttribute("empId1", empId1);
@@ -276,7 +287,7 @@ public class LeaveController {
 
 	@RequestMapping(value = "/deleteLeave", method = RequestMethod.GET)
 	public String deleteLeave(HttpServletRequest request, HttpServletResponse response, Model model) {
-HttpSession session=request.getSession();
+		HttpSession session = request.getSession();
 		String empId1 = request.getParameter("emp");
 		try {
 
@@ -285,7 +296,6 @@ HttpSession session=request.getSession();
 			map.add("leaveId", leaveId);
 			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/deleteLeaveApply", map, Info.class);
 
-			
 			if (res.isError() == false) {
 
 				session.setAttribute("successMsg", "Leave Deleted Successfullly");
@@ -299,6 +309,43 @@ HttpSession session=request.getSession();
 
 		return "redirect:/showLeaveHistList?empId=" + empId1;
 	}
+	
+	
+	
+	 
+	
+	@RequestMapping(value = "/editLeave", method = RequestMethod.POST)
+	public String editLeave(HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		String empId1 = request.getParameter("empId");
+		try {
+
+			int leaveId = Integer.parseInt(request.getParameter("leaveId"));
+ 			String toDate = request.getParameter("toDate");
+ 			float noOfDays = Float.parseFloat(request.getParameter("noOfDays"));
+
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("leaveId", leaveId);
+			map.add("noOfDays", noOfDays);
+ 			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			Info res = Constants.getRestTemplate().postForObject(Constants.url + "/updateLeaveApply", map, Info.class);
+
+			if (res.isError() == false) {
+
+				session.setAttribute("successMsg", "Leave Updated Successfullly");
+			} else {
+
+				session.setAttribute("errorMsg", "Failed to Update Leave");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/showLeaveHistList?empId=" + FormValidation.Encrypt(String.valueOf(empId1));
+		
+	}
 
 	@RequestMapping(value = "/showLeaveHistListBetweenDate", method = RequestMethod.GET)
 	public String showLeaveHistListBetweenDate(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -311,25 +358,23 @@ HttpSession session=request.getSession();
 			String toDate = request.getParameter("toDate");
 
 			if (fromDate != null && toDate != null) {
-				
-			}else {
-				String fdToDate=DateConvertor.getMonthsStartEnd();
-				
-				fromDate=fdToDate.split(" to ")[0];
-				toDate=	fdToDate.split(" to ")[1];
-				System.err.println("fd "+fromDate + "td " +toDate);
+
+			} else {
+				String fdToDate = DateConvertor.getMonthsStartEnd();
+
+				fromDate = fdToDate.split(" to ")[0];
+				toDate = fdToDate.split(" to ")[1];
+				System.err.println("fd " + fromDate + "td " + toDate);
 			}
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-				map.add("toDate", DateConvertor.convertToYMD(toDate));
-				LeaveDetailWithFreeHours leaveDetailWithFreeHours = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/getTotalAvailableHours", map, LeaveDetailWithFreeHours.class);
-				model.addAttribute("leaveDetailWithFreeHours", leaveDetailWithFreeHours);
-				model.addAttribute("fromDate", fromDate);
-				model.addAttribute("toDate", toDate);
-
-			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			LeaveDetailWithFreeHours leaveDetailWithFreeHours = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/getTotalAvailableHours", map, LeaveDetailWithFreeHours.class);
+			model.addAttribute("leaveDetailWithFreeHours", leaveDetailWithFreeHours);
+			model.addAttribute("fromDate", fromDate);
+			model.addAttribute("toDate", toDate);
 
 		} catch (Exception e) {
 
@@ -347,26 +392,25 @@ HttpSession session=request.getSession();
 		try {
 
 			String fromDate = request.getParameter("fromDate");
-			//String toDate = request.getParameter("toDate");
+			// String toDate = request.getParameter("toDate");
 
-			String[] dates =null;// fromDate.split(" to ");
-			
+			String[] dates = null;// fromDate.split(" to ");
+
 			if (fromDate != null) {
 				dates = fromDate.split(" to ");
-				model.addAttribute("fromDate", fromDate); 
-				
-			}else {
-				dates =DateConvertor.getMonthsStartEnd().split(" to ");
-				model.addAttribute("fromDate", DateConvertor.getMonthsStartEnd()); 
+				model.addAttribute("fromDate", fromDate);
+
+			} else {
+				dates = DateConvertor.getMonthsStartEnd().split(" to ");
+				model.addAttribute("fromDate", DateConvertor.getMonthsStartEnd());
 			}
 
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-				map.add("fromDate", dates[0]);
-				map.add("toDate", dates[1]);
-				EmpListWithDateList empListWithDateList = Constants.getRestTemplate()
-						.postForObject(Constants.url + "/daywiseLeaveHistoryofEmployee", map, EmpListWithDateList.class);
-				model.addAttribute("empListWithDateList", empListWithDateList);
-
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", dates[0]);
+			map.add("toDate", dates[1]);
+			EmpListWithDateList empListWithDateList = Constants.getRestTemplate()
+					.postForObject(Constants.url + "/daywiseLeaveHistoryofEmployee", map, EmpListWithDateList.class);
+			model.addAttribute("empListWithDateList", empListWithDateList);
 
 		} catch (Exception e) {
 
