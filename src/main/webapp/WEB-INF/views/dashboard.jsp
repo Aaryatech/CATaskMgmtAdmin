@@ -339,8 +339,12 @@ h5 {
 												<td>${stswisetaskList.statusText}</td>
 												<td><c:choose>
 														<c:when test="${stswisetaskList.overdeu>0}">
-															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1&empId=${empId}">${stswisetaskList.overdeu}</a>
+															<%-- <a
+																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=1&empId=${empId}">${stswisetaskList.overdeu}</a> --%>
+
+															<a href="#"
+																onclick="showData('taskListForEmp','${stswisetaskList.statusValue}','1','${empId}')">${stswisetaskList.overdeu}</a>
+ 
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.overdeu}
@@ -348,8 +352,8 @@ h5 {
 													</c:choose></td>
 												<td><c:choose>
 														<c:when test="${stswisetaskList.duetoday>0}">
-															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=2&empId=${empId}">${stswisetaskList.duetoday}</a>
+															<a href="#"
+																onclick="showData('taskListForEmp','${stswisetaskList.statusValue}','2','${empId}')">${stswisetaskList.duetoday}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.duetoday}
@@ -357,8 +361,8 @@ h5 {
 													</c:choose></td>
 												<td><c:choose>
 														<c:when test="${stswisetaskList.week>0}">
-															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=3&empId=${empId}">${stswisetaskList.week}</a>
+															<a href="#"
+																onclick="showData('taskListForEmp','${stswisetaskList.statusValue}','3','${empId}')">${stswisetaskList.week}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.week}
@@ -366,8 +370,8 @@ h5 {
 													</c:choose></td>
 												<td><c:choose>
 														<c:when test="${stswisetaskList.month>0}">
-															<a
-																href="${pageContext.request.contextPath}/taskListForEmp?stat=${stswisetaskList.statusValue}&type=4&empId=${empId}">${stswisetaskList.month}</a>
+															<a href="#"
+																onclick="showData('taskListForEmp','${stswisetaskList.statusValue}','4','${empId}')">${stswisetaskList.month}</a>
 														</c:when>
 														<c:otherwise>
 																	${stswisetaskList.month}
@@ -406,6 +410,17 @@ h5 {
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/global_assets/js/common_js/validation.js"></script>
 	<!-- /page content -->
+
+	<script type="text/javascript">
+		function showData(text, value, type, empId) {
+
+			//	alert(11);
+
+			window.open("${pageContext.request.contextPath}/" + text + "?stat="
+					+ value + "&type=" + type + "&empId=" + empId);
+
+		}
+	</script>
 
 	<script type="text/javascript">
 		// Single picker
@@ -575,7 +590,8 @@ h5 {
 																+ per
 																+ '%">'
 																+ '<span>'
-																+ per.toFixed(2)
+																+ per
+																		.toFixed(2)
 																+ '% Complete</span> </div> </div>'
 
 														var tr_data = '<tr>'
@@ -613,7 +629,8 @@ h5 {
 																+ per
 																+ '%">'
 																+ '<span>'
-																+ per.toFixed(2)
+																+ per
+																		.toFixed(2)
 																+ '% Complete</span> </div> </div>'
 
 														var tr_data = '<tr>'
