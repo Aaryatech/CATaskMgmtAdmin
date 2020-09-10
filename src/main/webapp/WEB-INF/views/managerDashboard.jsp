@@ -732,12 +732,11 @@ h5 {
 		function disableGroupList() {
 			var typeId = document.getElementById("typeId").value;
 			
-			if(typeId==1){  
-				document.getElementById("groupId").disabled=true;
-				getClientList(0);
+			if(typeId==1){
+ 				document.getElementById("groupId").disabled=true;
+				getClientList(-1);
 			}else{
-				 
-				var groupId = document.getElementById("groupId").value; 
+ 				var groupId = document.getElementById("groupId").value; 
 				document.getElementById("groupId").disabled=false;
 				var html; 
 				html += '<option disabled value="0">Select Client</option>'; 
